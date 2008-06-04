@@ -1,0 +1,78 @@
+#WSidebar{
+	border-width:0px;
+	border-left-width:1px;
+	position:absolute;
+	right:0px;
+	top:0px;
+	height:100%;
+	display: block;
+	width:250px;
+	float:right;
+	z-index:5;
+	overflow: auto;
+}
+#WSidebar-head{
+	border-width:0px;
+	border-bottom-width: 1px;
+	position:fixed;
+	z-index:500;
+	width:251px;
+	padding: 0px;
+}
+#WSidebar-head select{
+	display:block;
+	width:245px;
+	font-size:14px;
+	display:block;
+	padding:3px;
+	margin:0px;
+	font-weight:bold;
+	border-width: 0px;
+}
+#WSidebar-body .thumbnail{
+	height:96px;
+	background: none;
+}
+#WSidebar-body {
+	margin-top: 42px;
+}
+#WSidebar-body input,
+#WSidebar-body select,
+#WSidebar-body textarea{
+	display:block;
+	width:250px;
+	margin:0px;
+	border-width: 0px;
+	border-bottom-width: 1px;
+}
+#WSidebar-body textarea{
+	height:150px;
+}
+#WSidebar-body .thumbnail img{
+	border-width: 1px;
+}
+#WSidebar-body .no-border img
+{
+	border-width:0px;
+}
+#WSidebar .hidden{
+	display:none;
+}
+#WSidebar-body strong{
+	display:block;
+	padding: 0px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	width:250px;
+	font-size: 12px;
+	border-width:0px;
+	border-top-width:1px;
+	border-bottom-width:1px;
+	font-weight:normal;
+}
+#WSidebar-body table{
+	font-size: 10px;
+	width:250px;
+	overflow: auto;
+	display: block;
+}

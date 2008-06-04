@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<bambus>
+	<name>pages</name>
+	<description>edit_pages</description>
+	<icon>page-editor</icon>
+	<version>0.14.20070820</version>
+	<priority>2.0</priority>
+	<purpose>edit_content</purpose>
+	<tabs>
+		<tab icon="action-back-up">migrate</tab>
+	</tabs>
+	<application>
+		<controller>controller.php</controller>
+		<interface name="migrate" src="manage.php" search="filter">
+			<task caption="migrate_to_new_editor" hotkey="s" icon="action-back-up" type="button" action="EditorSave()" />
+			<task type="spacer" />
+			<task type="button" hotkey="a" caption="select_all" icon="action-edit-select-all" action="selectItems(true);" />
+			<task type="button" hotkey="e" caption="select_none" icon="action-edit-select-none" action="selectItems(false);" />
+			<task type="spacer" />
+			<task type="button" hotkey="i" caption="icon_view" icon="action-view-large" action="viewMode('thumbnail');" />
+			<task type="button" hotkey="l" caption="list_view" icon="action-view-list" action="viewMode('listView');" />
+			<task type="button" hotkey="d" caption="detail_view" icon="action-view-details" action="viewMode('detailView');" />
+			<task type="spacer" />
+			<task type="button" hotkey="g" caption="groups" icon="action-view-grouped" action="toggleGroup();" />
+		</interface>
+	</application>
+</bambus>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<bambus>
+	<name>system_information</name>
+	<description>view_stats</description>
+	<icon>app-system-status</icon>
+	<version>0.10.20061011</version>
+	<priority>1.9</priority>
+	<purpose>system</purpose>
+	<tabs>
+		<tab icon="action-inform">system_information</tab>
+	</tabs>
+	<application>
+		<controller>controller.php</controller>
+		<interface name="system_information" src="info.php">
+			<task type="button" hotkey="R" caption="repair" icon="action-system-repair" action="repair_rights" mode="html" />
+		</interface>
+	</application>
+</bambus>

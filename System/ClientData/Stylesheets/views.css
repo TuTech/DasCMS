@@ -1,0 +1,108 @@
+.thumbnail{
+	position:relative;
+	top:0px;
+	left: 0px;
+	float: left;
+	width: 96px;
+	height: 118px;
+	overflow: hidden;
+	display:block;
+	font-size: 12px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	vertical-align:top;
+	text-align:center;
+}
+.thumbnail .manager_image{
+	border: 1px solid #888a85;
+	background:white;
+	padding:2px;
+}
+.thumbnail img{
+	padding:0px;
+	margin:0px;
+	display:block;
+	width:48px;
+	height:48px;
+	margin:24px;
+	overflow:hidden;
+	margin-top:2px;
+	margin-bottom:6px;
+}
+
+.detailView{
+	position:relative;
+	top:4px;
+	left: 0px;
+	border-bottom: 1px solid #babdb6;
+	background: #fff;
+	float: none;
+	clear:both;
+	display:block;
+	font-size: 12px;
+	margin-right: 10px;
+	margin-bottom: 5px;
+	white-space: nowrap;
+	vertical-align:top;
+	height:22px;
+}
+
+.detailView img{
+	padding:0px;
+	margin:0px;
+	margin-top:-4px;
+	display:inline;
+	margin-right:2px;
+	width:22px;
+	height:22px;
+	float:left;
+	overflow:hidden;
+}
+
+.listView{
+	position:relative;
+	top:4px;
+	left: 0px;
+	background: #fff;
+	float: left;
+	width: 350px;
+	height:22px;
+	display:block;
+	font-size: 12px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	white-space: nowrap;
+	vertical-align:top;
+}
+
+.listView img{
+	padding:0px;
+	margin:0px;
+	margin-top:-4px;
+	display:block;
+	float:left;
+	overflow:hidden;
+	margin-right:2px;
+	width:22px;
+	height:22px;
+	float:left;
+}
+
+.hiddenGroup{
+	clear:none;
+	display:none;
+	border-bottom: 0px;
+	color: #888a85;
+	font-size: 16px;
+	margin: 0px;
+}
+.group{
+	clear:both;
+	display:block;
+	border-bottom: 1px solid #babdb6;
+	background:#eeeeec;
+	color: #888a85;
+	font-size: 16px;
+	margin: 10px;
+	margin-left:0px;
+}

@@ -1,0 +1,63 @@
+/****Notifier****/
+
+#notifier h2{
+	color: #eeeeec;
+	text-align: center;
+	font-size: 11px;
+	margin-top:0px;
+	padding-top:0px;
+}
+#notifier{
+	position:absolute;
+	top:50%;
+	margin-top: -75px;
+	left:0px;
+	padding:0px;
+	max-height:150px;
+	width:100%;
+    z-index:3000;
+    background:#555753;
+    border-top: 1px solid #2e3436; 
+    border-bottom: 1px solid #2e3436; 
+}
+#notifications {
+	display:block;
+	padding-top:2px;
+	padding-bottom:2px;
+	border-top:1px solid #888a85;
+	border-bottom:1px solid #888a85;
+	max-height:138px;
+	overflow:auto;
+}
+#notifications div{
+    font-weight: bold;
+    padding:5px;
+    display:block;
+    text-align:left;
+    color:white;
+    text-align:center;
+    margin-top:3px;
+    margin-bottom:3px;
+    border-style: solid;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+}
+#notifications .alert{
+    border-color:  #a40000;
+    background: #cc0000;
+    color: white;
+}
+#notifications .message{
+    border-color: #4e9a06;
+    background: #73d216;
+    color:#fff;
+}
+#notifications .warning{
+    border-color: #ce5c00;
+    background: #f57900;
+}
+#notifications .information{
+	border-color: #204a87;
+	background: #3465a4;
+    color: #fff;
+}

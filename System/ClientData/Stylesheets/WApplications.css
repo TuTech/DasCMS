@@ -1,0 +1,71 @@
+@CHARSET "UTF-8";
+#WApplications{
+	border-top: 1px solid #eeeeec;
+	z-index:500000;
+	display:block;
+	
+	/*background: url(../../Images/iconbarbg_selected.png) 50% 50%;*/
+}
+#WApplications table, #WApplications tr, #WApplications td
+{
+height:50px;
+}
+#WApplications a:link span,
+#WApplications a:visited span
+{
+	display:none;
+}
+#WApplications a:link img,
+#WApplications a:visited img
+{
+	width: 24px;
+	height: 24px;
+}
+#WApplications a:hover img
+{
+	width: 32px;
+	height: 32px;
+	
+}
+#WApplications a:hover span.application-description
+{
+	position:absolute;
+	
+	border:1px solid black;	
+	display:block;
+	padding:2px;
+	font-size: 11px;
+	color: #eeeeec;
+}
+.application-description
+{
+	top:48px;
+	background: #2e3436;
+}
+
+#WApplications a.active img
+{
+	width: 48px;
+	height: 48px;
+}
+#WApplications a.active 
+{
+	background:  url(../../Images/shadow.png) 50% 100% no-repeat;
+	width: 56px;
+	height:54px;
+	display: block;
+}
+
+#WApplications td{
+	width:56px;
+	text-align:center;
+	vertical-align: middle;
+}
+#WApplications table, #WApplications tr
+{
+	vertical-align: middle;
+}
+#WApplications table{
+	padding-left:150px;
+	background: url(../../Images/boxfish.png) 10px 50% no-repeat;
+}

@@ -1,0 +1,10 @@
+#cssdefselector{
+	width:120px;
+}
+#csscolorselector{
+	width:120px;
+}
+.editortoolbar, #editorwrapper{
+	margin-right:255px;
+	display:block;
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<bambus>
+	<name>feed_manager</name>
+	<description>edit_and_manage_news_feeds_and_searches</description>
+	<icon>news</icon>
+	<version>0.16.20080317</version>
+	<priority>1.9</priority>
+	<purpose>content_access</purpose>
+	<tabs>
+		<tab icon="action-configure">configure</tab>
+	</tabs>
+	<application>
+		<controller>controller.php</controller>
+		<interface name="configure" src="edit.php">
+			<task caption="open" hotkey="o" icon="action-document-open" type="button" action="OBJ_ofd.toggle()" />
+			<task caption="save" hotkey="s" icon="action-document-save" type="button" action="EditorSave()" />
+			<task caption="save_and_rename" hotkey="S" icon="action-document-save-as" type="button" action="EditorSaveAs('fileNameInput')" />
+			<task type="spacer" />
+			<task type="button" caption="new" hotkey="N" icon="action-document-new" action="create" prompt="Name of feed?" mode="html" />
+			<task type="button" caption="delete" hotkey="X" icon="action-delete" action="delete" mode="html" confirm="do_you_really_want_to_delete_this_document" />
+		</interface>
+	</application>
+</bambus>

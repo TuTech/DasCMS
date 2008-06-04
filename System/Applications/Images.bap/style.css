@@ -1,0 +1,18 @@
+.thumbnail{
+	width: 96px;
+	height: 148px;
+	margin: 4px;
+	padding:1px;
+}
+.thumbnail .manager_image{
+	border: 1px solid #888a85;
+	background:white;
+}
+.thumbnail img{
+	padding:0px;
+	margin:0px;
+	display:block;
+	width:90px;
+	height:90px;
+}
+

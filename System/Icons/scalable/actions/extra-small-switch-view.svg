@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="16"
+   height="16"
+   id="svg2160"
+   sodipodi:version="0.32"
+   inkscape:version="0.45"
+   inkscape:export-filename="/home/lse/Desktop/ww.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90"
+   sodipodi:docbase="/home/lse/public_html/Bambus/System/Icons/scalable/actions"
+   sodipodi:docname="extra-small-switch-view.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.0"
+   sodipodi:modified="true">
+  <defs
+     id="defs2162">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient9404">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop9406" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop9408" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient9404"
+       id="linearGradient9410"
+       x1="7.3362327"
+       y1="-0.97056282"
+       x2="7.3362327"
+       y2="8.6685963"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient9404"
+       id="linearGradient9412"
+       x1="7.3362327"
+       y1="-0.97056282"
+       x2="7.3362327"
+       y2="16.883904"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="11.313708"
+     inkscape:cx="24"
+     inkscape:cy="7.1443001"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:grid-bbox="true"
+     inkscape:document-units="px"
+     inkscape:window-width="1272"
+     inkscape:window-height="949"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     width="16px"
+     height="16px"
+     showguides="true"
+     inkscape:guide-bbox="true" />
+  <metadata
+     id="metadata2165">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <text
+       xml:space="preserve"
+       style="font-size:14.12010765px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:DejaVu Sans"
+       x="7.5047007"
+       y="16.117966"
+       id="text2172"><tspan
+         sodipodi:role="line"
+         id="tspan2174"
+         x="7.5047007"
+         y="16.117966"
+         style="font-weight:bold;stroke:none;stroke-opacity:1;font-family:FreeMono">W</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:10.5187254px;font-style:normal;font-weight:normal;fill:#3465a4;fill-opacity:1;stroke:#204a87;stroke-width:0.99999976px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:DejaVu Sans"
+       x="0.18669793"
+       y="8.168191"
+       id="text2168"><tspan
+         sodipodi:role="line"
+         id="tspan2170"
+         x="0.18669793"
+         y="8.168191"
+         style="font-weight:bold;fill:#3465a4;stroke:#204a87;stroke-width:0.99999976;stroke-opacity:1">W</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:10.5187254px;font-style:normal;font-weight:normal;opacity:0.5;fill:#eeeeec;fill-opacity:1;stroke:#204a87;stroke-width:0.99999976px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:DejaVu Sans"
+       x="0.18669793"
+       y="8.168191"
+       id="text9392"><tspan
+         sodipodi:role="line"
+         id="tspan9394"
+         x="0.18669793"
+         y="8.168191"
+         style="font-weight:bold;fill:#eeeeec;stroke:#204a87;stroke-width:0.99999976;stroke-opacity:1">W</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:14.12010765px;font-style:normal;font-weight:normal;fill:url(#linearGradient9412);fill-opacity:1.0;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:DejaVu Sans;opacity:0.74666667"
+       x="7.5047007"
+       y="16.117966"
+       id="text9400"><tspan
+         sodipodi:role="line"
+         id="tspan9402"
+         x="7.5047007"
+         y="16.117966"
+         style="font-weight:bold;stroke:none;stroke-opacity:1;font-family:FreeMono;fill:url(#linearGradient9412);fill-opacity:1.0">W</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:10.5187254px;font-style:normal;font-weight:normal;opacity:0.74666667;fill:url(#linearGradient9410);fill-opacity:1.0;stroke:#204a87;stroke-width:0.99999976px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:DejaVu Sans"
+       x="0.18669793"
+       y="8.168191"
+       id="text9396"><tspan
+         sodipodi:role="line"
+         id="tspan9398"
+         x="0.18669793"
+         y="8.168191"
+         style="font-weight:bold;fill:url(#linearGradient9410);stroke:#204a87;stroke-width:0.99999976;stroke-opacity:1;fill-opacity:1.0">W</tspan></text>
+  </g>
+</svg>

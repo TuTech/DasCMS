@@ -1,0 +1,218 @@
+#content{
+    display:block;
+    padding: 10px;
+    padding-left:30px;
+    color: #555753;
+    width:600px;
+    float: left;
+    padding-top: 30px;
+    margin-bottom:50px;
+}
+.NListNavigation{
+    display:block;
+    width:200px;
+    float:right;
+    background: #053876;
+    padding:3px;
+    list-style:none;
+}
+.NListNavigation li{
+    background:#eeeeec;
+    margin:1px;
+    padding:3px;
+}
+.NavigationItemCount{
+    display:none;
+}
+#footer{
+    clear:both;
+    background: #053876 url(../images/remat_h2_bg.gif) 100% 1px no-repeat;
+    color: #ffffff;
+    font-size: 14px;
+    display:block;
+    margin: 0px;
+    padding:0px;
+    height: 33px;
+    padding-left:16px;
+    margin-bottom: 15px;
+    margin-top: 100px;
+}
+#Navigation-sagu{
+    float:left;
+    display:block;
+    width: 175px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right:20px;
+    padding-left:5px;
+    margin-bottom: 5px;
+    background: #eeeeec;
+    border: 1px solid #babdb6;
+    border-top: 33px solid #053876;
+    margin-top: 70px;
+}
+#topline{
+    display:block;
+    border:0px;
+    border-bottom:2px solid #ffffff;
+    padding-top:64px;
+}
+.clear{
+    clear:both;
+}
+h2{
+    margin-top: 30px;
+    background: #053876;
+    color: #ffffff;
+    font-size: 14px;
+    display:block;
+    margin: 0px;
+    padding:8px;
+    padding-left:16px;
+    margin-bottom: 15px;
+}
+h2 a:active,h2 a:link, h2 a:visited{
+    color: white;
+}
+h3{
+    margin-top: 10px;
+    font-size: 14px;
+    display:block;
+    width:100%;
+    margin: 0px;
+    padding:4px;
+    background: #eeeeec;
+}
+h3 a:active,h3 a:link, h3 a:visited{
+    color: #053876;
+    font-style:normal;
+}
+h3 a:visited{
+    color: #255896}
+/************************************/
+ #head{
+    width: 100%;
+    height:71px;
+    background: #053876 url("../images/remat-logo.gif") 15px 9px no-repeat;
+}
+#invisibleheader{
+    display:none;
+}
+#Navigation-sagu a:hover{
+    color: #2e3436;
+    text-decoration:none;
+}
+#Navigation-sagu a:link{
+    text-decoration:none;
+}
+#Navigation-sagu a:visited{
+    font-style:normal;
+    text-decoration:none;
+}
+#test a{
+    color: black;
+}
+#test div{
+    padding:4px;
+    margin-left:4px;
+    display:block;
+    width:160px;
+}
+.NavigationObject{
+    border: 1px solid #053876;
+    margin:2px;
+    margin-left:10px;
+}
+.ExpandedNavigationObject a{
+    border-left: 5px solid #d3d7cf;
+}
+.ExpandedNavigationObject a{
+    display:block;
+    margin-bottom:5px;
+}
+.ExpandedNavigationObject div a{
+    display:block;
+    margin-bottom:0px;
+}
+.NavigationObject a, .SelectedNavigationObject div a{
+    border-left: 0px solid #555753;
+    display:block;
+    padding:3px;
+    border-bottom: 1px solid #d3d7cf;
+    margin-bottom:10px;
+}
+.NavigationObject.NavigationObject a{
+    margin-left:10px;
+}
+.SelectedNavigationObject a{
+    border-left: 10px solid #053876;
+}
+.bodytext{
+    border-left: 20px solid #ffffff;
+}
+.MsoNormal{
+    border-left: 20px solid #ffffff;
+}
+.clear{
+    clear:both;
+}
+.selected a:link, .selected a:visited, .selected a:hover{
+    border-bottom: 1px solid #053876;
+    color: #053876;
+}
+.table_flip_0{
+}
+.table_flip_1{
+    background: #f3f9ec;
+}
+a:hover{
+    color: #053876;
+}
+a:link{
+    color: #555753;
+}
+a:visited{
+    color: #555753;
+    font-style:italic;
+}
+body{
+    background: #ffffff;
+    color: #2e3436;
+    margin: 0 0 10px;
+    text-align:left;
+    text-indent: 15;
+    padding: 0px;
+    font: 0.8em 'Lucida Grande', LucidaGrande, Lucida, Arial,Helvetica, sans-serif;
+    font-size: 12px;
+}
+h1{
+    color: #053876;
+    font-size: 20px;
+}
+p{
+    display:block;
+}
+table{
+    background: #ffffff;
+    width:100%;
+}
+td{
+    padding:2px;
+}
+th a:hover{
+    color: #053876;
+    text-decoration:underline;
+}
+th a:link{
+    color: black;
+    text-decoration:none;
+}
+th a:visited{
+    color: #555753;
+    text-decoration:none;
+}
+th{
+    border-bottom: 1px solid #053876;
+    background: #faf8e3;
+    padding:2px;
+}

@@ -1,0 +1,143 @@
+<html>
+<head>
+<title>Drag-and-Drop</title>
+<script type="text/javascript">
+<!-- gueltig fuer Netscape ab Version 6, Mozilla, Internet Explorer ab Version 4
+
+//Das Objekt, das gerade bewegt wird.
+var dragobjekt = null;
+var showelem = null;
+
+var blockJmp = 60;
+var positions = new Array();
+var layers = new Array();
+
+// Position, an der das Objekt angeklickt wurde.
+var dragx = 0;
+var dragy = 0;
+
+// Mausposition
+var posx = 0;
+var posy = 0;
+
+var mypos;
+
+function draginit() {
+ // Initialisierung der Überwachung der Events
+
+  document.onmousemove = drag;
+  document.onmouseup = dragstop;
+  showelem = document.getElementById("showelem");
+}
+
+
+function dragstart(element) {
+   //Wird aufgerufen, wenn ein Objekt bewegt werden soll.
+
+  dragobjekt = element;
+  showelem.style.display = 'block';
+  dragobjekt.style.opacity = 0.75;
+  dragobjekt.style.zIndex = 200;
+  dragx = posx - dragobjekt.offsetLeft;
+  dragy = posy - dragobjekt.offsetTop;
+  mypos =  parseInt(dragobjekt.style.top);
+  mypos = mypos/ blockJmp + 1;
+}
+
+function orderNum(num)
+{
+	num = Math.round(num/blockJmp)*blockJmp;
+	return num;
+}
+
+function dragstop() {
+    //Wird aufgerufen, wenn ein Objekt nicht mehr bewegt werden soll.
+    if(dragobjekt != null)
+    {
+	    dragobjekt.style.opacity = 1.0;
+		dragobjekt.style.zIndex = 1;
+	    dragobjekt.style.left = orderNum(Math.max(0,(posx - dragx))) + "px";
+	    dragobjekt.style.top = orderNum(Math.max(0,(posy - dragy))) + "px";
+	    var layer =orderNum(Math.max(0,(posx - dragx)))/blockJmp+1;
+	    var pos =orderNum(Math.max(0,(posy - dragy)))/blockJmp+1;
+	    positions[pos] = dragobjekt.id;
+	    dragobjekt.innerHTML = "Layer: "+layer+", Position: "+pos+"<br /><b>"+dragobjekt.id+"</b>";
+	    //dragobjekt.innerHTML = "X: "+dragobjekt.style.left+", Y:"+dragobjekt.style.top;
+	    showelem.style.display = 'none';
+	    dragobjekt=null;
+	    setIDs();
+    }
+}
+
+
+function drag(ereignis) {
+ 	 //Wird aufgerufen, wenn die Maus bewegt wird und bewegt bei Bedarf das Objekt.
+  	posx = document.all ? window.event.clientX : ereignis.pageX;
+  	posy = document.all ? window.event.clientY : ereignis.pageY;
+  	var left,maxLeft;
+  	if(dragobjekt != null) {
+    	dragobjekt.style.left = (Math.max(0,(posx - dragx))) + "px";
+    	dragobjekt.style.top = (Math.max(0,(posy - dragy))) + "px";
+    	dragobjekt.innerHTML = "X: "+posx+", Y:"+posy;
+    	
+    	//if(positons[mypos-1] != NULL)
+    	//{
+    	//	maxLeft = 100;
+    	//	maxLeft = pareseInt(document.getElementById(positions[mypos-1]).style.left);
+    	//	maxLeft += blockJmp;
+    	//}
+    	//else
+    	//{
+    	//	maxLeft = 0;
+    	//}
+    	//alert('foo');
+		left = orderNum(Math.max(0,(posx - dragx)));
+		//left = Math.min(left, maxLeft);
+    	showelem.style.left = left + "px";
+   	 	showelem.style.top = orderNum(Math.max(0,(posy - dragy))) + "px";
+  	}
+}
+function setIDs()
+{
+    var divs = document.getElementsByTagName('div');
+    var pos,layer;
+    positions = new Array();
+    layers = new Array();
+    for(var i = 0;i < divs.length;i++)
+    {	
+		if(divs[i].id != 'showelem' && divs[i].id != 'root' && divs[i].id != 'wrapper')
+		{
+		    pos = Math.min( (i+1) , (parseInt(divs[i].style.top) / blockJmp) + 1);
+		  	pos--;
+		    positions[pos] = divs[i].id;
+		    layer = parseInt(divs[i].style.left);
+		    layer = layer / blockJmp + 1;
+		    layers[pos] = layer;
+		}
+    }
+    document.getElementById('dump').innerHTML = '';
+    document.getElementById('reporter').innerHTML = '';
+    for(var x = 0; x < positions.length; x++)
+    {
+    	document.getElementById('dump').innerHTML += x+': '+positions[x]+'/'+layers[x]+'<br />';
+    	document.getElementById('reporter').innerHTML += '<li id="report_'+x+'">'+divs[i].id+'</li>';
+    	document.getElementById('report_'+x).style.marginLeft = (layers[x]*10)+'px';
+    }
+}
+//-->
+</script>
+</head>
+<body onload="draginit()">
+<div id="wrapper" style="position:absolute; border:1px solid black;top:10px;left:50px;width:700px;height:500px;display:block;overflow:auto;">
+	<div id="showelem" style="z-index:100;display:none;position:absolute;border:1px dashed #fc5700;opacity:0.5;top:0px;left:0px;margin:5px;height:40px;width:150px;background:#fcaf3e"> </div>
+	<div onmousedown="dragstart(this)" id="box0" style="z-index:1;position:absolute;border:1px dashed #2e3436;top:0px;left:0px;margin:5px;height:40px;width:150px;background:#dbdce4"> </div>
+	<div onmousedown="dragstart(this)" id="box1" style="z-index:1;position:absolute;border:1px dashed #2e3436;top:60px;left:0px;margin:5px;height:40px;width:150px;background:#dbdce4"> </div>
+	<div onmousedown="dragstart(this)" id="box2" style="z-index:1;position:absolute;border:1px dashed #2e3436;top:120px;left:0px;margin:5px;height:40px;width:150px;background:#dbdce4"> </div>
+	<div onmousedown="dragstart(this)" id="box3" style="z-index:1;position:absolute;border:1px dashed #2e3436;top:180px;left:0px;margin:5px;height:40px;width:150px;background:#dbdce4"> </div>
+	<div onmousedown="dragstart(this)" id="box4" style="z-index:1;position:absolute;border:1px dashed #2e3436;top:240px;left:0px;margin:5px;height:40px;width:150px;background:#babdb6"> </div>
+	<div onmousedown="dragstart(this)" id="box5" style="z-index:1;position:absolute;border:1px dashed #2e3436;top:300px;left:0px;margin:5px;height:40px;width:150px;background:#dbdce4"> </div>
+</div>
+<span id="reporter" style="position:absolute; border:1px solid black;top:520px;left:50px;width:240px;height:200px;display:block;overflow:auto;"></span>
+<span id="dump" style="position:absolute; border:1px solid black;top:520px;left:300px;width:240px;height:200px;display:block;overflow:auto;"></span>
+</body>
+</html>

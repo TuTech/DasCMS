@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<bambus>
+	<name>views</name>
+	<description>edit_configuration</description>
+	<icon>app-preferences-view</icon>
+	<version>0.10.20061011</version>
+	<priority>0.9</priority>
+	<purpose>system</purpose>
+	<tabs>
+		<tab icon="action-refresh">content_access</tab>
+	</tabs>
+	<application>
+		<controller>controller.php</controller>
+		<interface name="content_access" src="spore.php">
+			<task type="button" hotkey="s" caption="save" icon="action-document-save" action="EditorSave()" />
+			<task type="spacer" name="aliases" />
+			<task type="button" hotkey="R" caption="repair" icon="action-system-repair" action="rebuildAliasDB();" />
+		</interface>
+	</application>
+</bambus>
