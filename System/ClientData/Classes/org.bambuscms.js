@@ -30,7 +30,7 @@ org.bambuscms.executeLoadListeners = function()
 		{
 			org.bambuscms.onload[i]();
 		}
-		catch{/* ignore */}
+		catch(e){/* ignore */}
 	}
 }
 org.bambuscms.executeUnLoadListeners = function()
@@ -41,7 +41,7 @@ org.bambuscms.executeUnLoadListeners = function()
 		{
 			org.bambuscms.onunload[i]();
 		}
-		catch{/* ignore */}
+		catch(e){/* ignore */}
 	}
 }
 org.bambuscms.registerEvent = function()
