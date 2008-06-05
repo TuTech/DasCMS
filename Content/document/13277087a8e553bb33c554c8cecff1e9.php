@@ -1,1 +1,0 @@
-<?php /*BambusDocumentFile1*/ if(!class_exists("Bambus"))exit();?>Neues Dokument

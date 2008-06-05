@@ -1,2 +1,0 @@
-<?php exit(); ?>
-test test

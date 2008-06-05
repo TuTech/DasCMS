@@ -1,2 +1,0 @@
-<?php exit(); ?>
-a:11:{s:26:"HContentAccessEventHandler";i:1;s:27:"HContentChangedEventHandler";i:1;s:27:"HContentCreatedEventHandler";i:1;s:27:"HContentDeletedEventHandler";i:1;s:29:"HContentPublishedEventHandler";i:1;s:27:"HContentRevokedEventHandler";i:1;s:10:"IShareable";i:1;s:14:"ISidebarWidget";i:1;s:16:"ISupportsSidebar";i:1;s:18:"ITemplateSupporter";i:1;s:10:"IUseSQLite";i:1;}

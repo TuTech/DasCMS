@@ -1,2 +1,0 @@
-<?php exit(); ?>
-a:5:{s:32:"accd0638fd47b6be5c5702da6dee057b";s:10:"test fedxc";s:32:"91364a45a49ae0a9ea2f71baea363428";s:17:"test tagged items";s:32:"668e0bdb4d9a0e6bddd25c76910f26c6";s:8:"foo dogo";s:32:"ac51730ba27059494a96624bd6779347";s:3:"bar";s:32:"0078b62f785dfd1db489fa11dee1c982";s:3:"foo";}

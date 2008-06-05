@@ -1,2 +1,0 @@
-<?php exit(); ?>
-eurift test

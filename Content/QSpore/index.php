@@ -1,2 +1,0 @@
-<?php exit(); ?>
-a:3:{s:3:"foo";a:3:{i:0;b:0;i:1;s:45:"MPageManager:8a420d5558aa2fd2891f9ceef0d39251";i:2;s:0:"";}s:4:"page";a:3:{i:0;b:1;i:1;s:45:"MPageManager:3399d157be35743a3e49379ad264d7a2";i:2;s:45:"MPageManager:a3c0293188f82d9380ffc4165a73ebe3";}s:6:"fooish";a:3:{i:0;b:0;i:1;s:0:"";i:2;s:0:"";}}
