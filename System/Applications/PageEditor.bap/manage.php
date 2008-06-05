@@ -21,13 +21,12 @@ foreach($sorthelp as $id)
 {
 	$files[$id] = $documents[$id];
 }
-$itemTemplate = <<<TPL
-<a class="listView" name="{id}" title="{title}" id="{id}" href="javascript:selectImage('{id}');">
-    <img src="{icon}" title="{title}" class="{type}" id="img_{id}" alt="{bigIcon}" />
-    <input type="checkbox" name="select_{id}" id="select_{id}" />
+$itemTemplate = 
+"<a class=\"listView\" name=\"{id}\" title=\"{title}\" id=\"{id}\" href=\"javascript:selectImage('{id}');\">
+    <img src=\"{icon}\" title=\"{title}\" class=\"{type}\" id=\"img_{id}\" alt=\"{bigIcon}\" />
+    <input type=\"checkbox\" name=\"select_{id}\" id=\"select_{id}\" />
     {name}
-</a>
-TPL;
+</a>";
 $id = 0;
 $lastchar = '';
 foreach($files as $id => $name)

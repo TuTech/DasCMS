@@ -10,13 +10,11 @@ if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
 echo $Bambus->Gui->hiddenInput('action', 'delete');
 $files = $Bambus->FileSystem->getFiles('design',$allowed);
 ksort($files, SORT_STRING);
-$itemTemplate = <<<TPL
-<a class="listView" name="{id}" title="{title}" id="{id}" href="javascript:selectImage('{id}');">
-    <img src="{icon}" title="{title}" class="{type}" id="img_{id}" alt="{bigIcon}" />
-    <input type="checkbox" name="select_{id}" id="select_{id}" />
+$itemTemplate = "<a class=\"listView\" name=\"{id}\" title=\"{title}\" id=\"{id}\" href=\"javascript:selectImage('{id}');\">
+    <img src=\"{icon}\" title=\"{title}\" class=\"{type}\" id=\"img_{id}\" alt=\"{bigIcon}\" />
+    <input type=\"checkbox\" name=\"select_{id}\" id=\"select_{id}\" />
     {name}
-</a>
-TPL;
+</a>";
 $id = 0;
 $lastchar = '';
 foreach($files as $file){

@@ -7,12 +7,10 @@
 * Description: image upload form
 ************************************************/
 if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
-$itemTemplate = <<<TPL
-<div class="thumbnail">
-    <img src="{icon}" alt="{alt}" title="{name}" />
+$itemTemplate = "<div class=\"thumbnail\">
+    <img src=\"{icon}\" alt=\"{alt}\" title=\"{name}\" />
     {name}
-</div>
-TPL;
+</div>";
 $maxPost = $Bambus->returnBytes(ini_get('upload_max_filesize'));
 $freeSpace = disk_free_space($Bambus->pathTo('image'));
 echo $Bambus->Gui->userRequest(

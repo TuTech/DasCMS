@@ -11,13 +11,11 @@ echo $Bambus->Gui->beginForm(array(), 'documentform');
 echo $Bambus->Gui->hiddenInput('action', 'delete');
 $files = $Bambus->FileSystem->getFiles('download', array('php', 'cgi', 'php3', 'php4', 'php5', 'php6', 'asp', 'aspx', 'pl'), false);
 ksort($files, SORT_STRING);
-$itemTemplate = <<<TPL
-<a class="listView" name="{id}" title="{title}" id="{id}" href="javascript:selectImage('{id}');">
-    <img src="{icon}" title="{title}" id="img_{id}" alt="{bigIcon}" />
-    <input type="checkbox" name="select_{id}" id="select_{id}" />
+$itemTemplate = "<a class=\"listView\" name=\"{id}\" title=\"{title}\" id=\"{id}\" href=\"javascript:selectImage('{id}');\">
+    <img src=\"{icon}\" title=\"{title}\" id=\"img_{id}\" alt=\"{bigIcon}\" />
+    <input type=\"checkbox\" name=\"select_{id}\" id=\"select_{id}\" />
     {name}
-</a>
-TPL;
+</a>";
 $id = 0;
 $lastchar = '';
 foreach($files as $file){
