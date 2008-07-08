@@ -193,8 +193,6 @@ class MPageManager extends BContentManager implements IShareable
     {
     	if(!self::$initializedInstance)
     	{
-//    		self::$_index = SContentIndex::alloc()->init()->getIndex($this); 
-    		//DFileSystem::LoadData($this->StoragePath("index"));
     		self::$initializedInstance = true;
     	}
     	return $this;

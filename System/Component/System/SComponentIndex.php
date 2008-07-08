@@ -7,7 +7,7 @@
  * @since 28.04.2008
  * @license GNU General Public License 3
  */
-class SComponentIndex extends BSystem implements IUseSQLite
+class SComponentIndex extends BSystem implements IShareable 
 {
 	private static	$_components = array(
 //		'A' => 'AppController',
@@ -165,32 +165,19 @@ class SComponentIndex extends BSystem implements IUseSQLite
 		}
 		DFileSystem::SaveData($this->StoragePath('classes'), self::$_classIndex);
 		DFileSystem::SaveData($this->StoragePath('interfaces'), self::$_interfaceIndex);
+		$dbEngine = Configuration::alloc()->init()->get('db_engine');
+		
+		$managers = $this->ExtensionsOf("BContentManager");
+		$mangs = array();
+		foreach ($managers as $mngr) 
 		{
-			echo 'updating db';
-			//$DB = new SQLiteDatabase("./Content/DSQLite/bambus.sqlite.php", 0666, $err);
-			$DB = DSQLite::alloc()->init();
-			echo '.';
-			$managers = $this->ExtensionsOf("BContentManager");
-			echo '.';
-			$mangs = array();
-			echo '.<br />';
-			foreach ($managers as $mngr) 
-			{
-				$sql =  "INSERT OR IGNORE INTO Managers (manager) VALUES ('".sqlite_escape_string($mngr)."');";
-//				$mangs[] = $sql;
-				echo $sql;
-				echo $DB->queryExec($sql, $err) ? '<p>done</p>': '<p style="color:red">failed: '.$err.'</p>';
-			}
-			echo '.';
-			$sql = implode($mangs);
-			echo $sql;
-			//echo $DB->queryExec($sql, $err) ? 'done': 'failed: '.$err;
-			echo '<br />';
+			$mangs[] = array($mngr);
 		}
-		//		var_dump(self::$_classIndex);
-//		var_dump(self::$_interfaceIndex);
+
+		$DB = DSQL::alloc()->init();
+		$DB->insert('Managers',array('manager'),$mangs);
 	}
-	
+
 	/**
 	 * Find the direct parent of $class
 	 *

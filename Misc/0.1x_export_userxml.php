@@ -84,7 +84,7 @@ wl("_____\\\\______________________________\\\\_____");
 if($argc < 3  || $argc > 4 || !file_exists($argv[1]) || !is_dir($argv[1]))
 {
 	wl("usage:".$argv[0]." sourcedir targetformat [targetfile]".	
-		"\n    targetformats are: xml, (todo: json,wddx,sqlite)".
+		"\n    targetformats are: xml".
 		"\n    without targetfile output is dumped to stdout\n");
 	exit();
 }

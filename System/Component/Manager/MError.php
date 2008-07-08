@@ -9,48 +9,23 @@
  */
 class MError extends BContentManager implements IShareable 
 {
-	protected static $_errors = array(
-			 204 => 'No Content',
-			 301 => 'Moved Permanently',
-			 302 => 'Moved Temporarily',
-			 303 => 'See Other',
-			 400 => 'Bad Request',
-			 401 => 'Unauthorized',
-			 402 => 'Payment Required',
-			 403 => 'Forbidden',
-			 404 => 'Not Found',
-			 405 => 'Method Not Allowed',
-			 406 => 'Not Acceptable',
-			 408 => 'Request Time-Out',
-			 409 => 'Conflict',
-			 410 => 'Gone',
-			 412 => 'Precondition Failed',
-			 413 => 'Request Entity Too Large',
-			 414 => 'Request-URL Too Large',
-			 415 => 'Unsupported Media Type',
-			 501 => 'Not Implemented',
-			 503 => 'Out of Resources'
-			);
-	
 	public static function errdesc($code)
 	{
-		if(!array_key_exists($code, self::$_errors))
-		{
-			$code = 501;
-		}
-		return array($code => self::$_errors[$code]);
+		$code = SHTTPStatus::validate($code);
+		$code = $code == null ? 501 : $code; 
+		return array($code => SHTTPStatus::byCode($code, false));
 	}
 			
 	const UniqueTitles = true; 
 		
 	public function _get_Index()
 	{
-		return self::$_errors;
+		return SHTTPStatus::codes();
 	}
 	
 	public function _get_Items()
 	{
-		return count(self::$_errors);
+		return count(SHTTPStatus::codes());
 	}
 	
 	/**
@@ -77,7 +52,7 @@ class MError extends BContentManager implements IShareable
 	 */
 	public function Exists($id)
 	{
-		return array_key_exists($id,self::$_errors);
+		return SHTTPStatus::validate($id) != null;
 	}
 	
 	/**

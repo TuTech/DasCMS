@@ -7,11 +7,266 @@
  * @since 28.11.2007
  * @license GNU General Public License 3
  */
-class SAlias extends BSystem implements IShareable,IUseSQLite,
+class SAlias extends BSystem implements IShareable,
 			HContentChangedEventHandler, HContentCreatedEventHandler, HContentDeletedEventHandler,
 			HContentPublishedEventHandler 
-
 {	
+	
+	/**
+	 * Handle alias assignments
+	 * to be called by event handlers for content surveillance
+	 *
+	 * @param BContent $content
+	 */
+	public function updateAlias(BContent $content)
+	{
+		if($content->PubDate == 0)
+		{
+			return;
+		}
+		$manager = $content->getManagerName();
+		$nice = $this->prepareForURL($content);
+		
+		$DB = DSQL::alloc()->init();
+		try
+		{
+			$res = $DB->query("SELECT Aliases.alias AS alias, ContentIndex.managerContentID AS cid, ".
+					"Managers.manager AS manager FROM Aliases ".
+					"LEFT JOIN ContentIndex ON (Aliases.contentREL = ContentIndex.contentID) ".
+					"LEFT JOIN Managers ON (ContentIndex.managerREL = Managers.managerID) ".
+					"WHERE alias LIKE '".$DB->escape($nice)."'", DSQL::ASSOC);
+			$ergc = $res->getRowCount();
+			if($ergc > 0)
+			{
+				$res->seekRow($ergc-1);
+				$preverg = $res->fetch();
+			} 
+		}
+		catch(Exception $e)
+		{
+			$ergc = 0;
+		}
+		$lookup = null;
+		$newAlias = null;
+		if($ergc == 0 || ($preverg['manager'] == $manager && $preverg['cid'] == $content->Id))
+		{
+			$newAlias = $nice;
+			//update activate enforce
+		}
+		else
+		{
+			$numerified = substr($nice,0,58).'~'; //5-digit numbers possible
+			try
+			{
+				$res = $DB->query("SELECT Aliases.alias AS alias, ContentIndex.managerContentID AS cid, ".
+						"Managers.manager AS manager FROM Aliases ".
+						"LEFT JOIN ContentIndex ON (Aliases.contentREL = ContentIndex.contentID) ".
+						"LEFT JOIN Managers ON (ContentIndex.managerREL = Managers.managerID) ".
+						"WHERE alias LIKE '".$DB->escape($numerified)."%' ".
+						"AND manager LIKE '".$DB->escape($manager)."' ".
+						"AND cid LIKE '".$DB->escape($content->Id)."' ", DSQL::ASSOC);
+				$rows = $res->getRowCount();
+			}
+			catch(Exception $e)
+			{
+				$rows = 0;
+			}
+			
+			if($rows > 0)
+			{
+				//use existing numerified alias
+				$erg = $res->fetch();
+				$newAlias = $erg['alias'];
+			}
+			else
+			{
+				try
+				{
+					$res = $DB->query("SELECT alias FROM Aliases ".
+							"WHERE alias LIKE '".$DB->escape($numerified)."%' ORDER BY alias ASC", DSQL::ASSOC);
+								//create new numerified alias
+					$usedNumbers = array();
+					$offset = strlen($numerified);
+					//get all numbers
+					while($erg = $res->fetch())
+					{
+						$usedNumbers[substr($erg['alias'], $offset)] = '';
+					}
+					//find first unused
+					for ($i = 1; $i <= 4096; $i++)
+					{
+						 if(!array_key_exists($i, $usedNumbers))
+						 {
+						 	$newAlias = $numerified.$i;
+						 	break;
+						 }
+					}		
+				}
+				catch(Exception $e)
+				{
+					$newAlias = null;
+				}
+			}
+		}
+		if($newAlias != null)
+		{
+			$this->setActive($newAlias, $content);
+		}
+	}	
+	
+	public function removeAliases(BContent $content)
+	{
+		$manager = $content->getManagerName();
+		$DB = DSQL::alloc()->init();
+		$DB->beginTransaction();
+		try
+		{
+			$DB->queryExecute(
+				"DELETE FROM Aliases WHERE contentREL = ".
+				"(".
+					"SELECT ContentIndex.contentID FROM ContentIndex LEFT JOIN Managers ".
+						"ON (ContentIndex.managerREL = Managers.managerID) ".
+						"WHERE Managers.manager LIKE '".$DB->escape($manager)."' ".
+						"AND ContentIndex.managerContentID LIKE '".$DB->escape($content->Id)."'".
+				")");
+		}
+		catch (Exception $e)
+		{
+			$DB->rollback();
+			return false;
+		}
+		$DB->commit();
+		return true;
+	}
+	
+	public function rebuildAliases()
+	{
+		$DB = DSQL::alloc()->init();
+		$DB->beginTransaction();
+		try
+		{
+			$DB->queryExecute("DELETE FROM Aliases WHERE 1");
+			$res = $DB->query("SELECT contentID,title, pubDate FROM ContentIndex WHERE pubDate > 0", DSQL::NUM);
+			$values = array();
+			while($res->hasNext())
+			{
+				list($id, $title, $pubdate) = $res->fetch();
+				$values[] = array(
+					$this->getUnifiedAlias($title, $pubdate),
+					1,
+					$id
+				);
+			}
+			$DB->insert('Aliases', array('alias', 'active', 'contentREL'), $values);
+		}
+		catch (Exception $e)
+		{
+			$DB->rollback();
+			return;
+		}
+		$DB->commit();
+	}
+	
+	/**
+	 * Activate alias or create active alias for $content
+	 *
+	 * @param string $alias
+	 * @param BContent $content
+	 * @return boolean
+	 */
+	private function setActive($alias, BContent $content)
+	{
+		$DB = DSQL::alloc()->init();
+		$manager = $content->getManagerName();
+		$cid = $content->Id;
+		$DB->beginTransaction();
+		try
+		{
+			$DB->insertUnescaped(
+				'Aliases',
+				array('alias','contentREL'),
+				array(
+					"'".$DB->escape($alias)."'",
+					"(".
+						"SELECT ContentIndex.contentID FROM ContentIndex LEFT JOIN Managers ".
+							"ON (ContentIndex.managerREL = Managers.managerID) ".
+							"WHERE Managers.manager LIKE '".$DB->escape($manager)."' ".
+							"AND ContentIndex.managerContentID LIKE '".$DB->escape($cid)."' LIMIT 1".
+					")"
+				)
+			);
+	
+			$DB->queryExecute(
+				"UPDATE Aliases SET active = 0 WHERE aliasID IN (".
+					"SELECT Aliases.aliasID FROM Aliases ".
+						"LEFT JOIN ContentIndex ON (Aliases.contentREL = ContentIndex.contentID) ".
+						"LEFT JOIN Managers ON (ContentIndex.managerREL = Managers.managerID) ".
+						"WHERE Managers.manager LIKE '".$DB->escape($manager)."' ".
+						"AND ContentIndex.managerContentID LIKE '".$DB->escape($cid)."' ".
+				")"
+			);
+				
+			$DB->queryExecute(
+				"UPDATE Aliases SET active = 1 WHERE alias LIKE '".$DB->escape($alias)."'"
+			);
+		}
+		catch(Exception $e)
+		{
+			$DB->rollback();
+			return false;
+		}
+		$DB->commit();
+		return true;
+	}
+	
+	/**
+	 * Get content object by alias
+	 *
+	 * @param string $alias
+	 * @return BContent|null
+	 */
+	public static function resolve($alias, $toObject = true)
+	{
+		$DB = DSQL::alloc()->init();
+		$failed = true;
+		try
+		{
+			$res = $DB->query("SELECT Managers.manager,ContentIndex.managerContentID FROM Aliases ".
+					"LEFT JOIN ContentIndex ON (Aliases.contentREL = ContentIndex.contentID) ".
+					"LEFT JOIN Managers ON (ContentIndex.managerREL = Managers.managerID) ".
+					"WHERE Aliases.alias LIKE '".$DB->escape($alias)."'", DSQL::NUM);	
+			if($res->getRowCount() > 0) 
+			{
+				list($manager, $id) = $res->fetch();
+				$failed = false;
+			}
+		}
+		catch(Exception $e){/*handled in following if*/}
+		if($failed)
+		{
+			if(strpos($alias, ':') == false)
+			{
+				return null;
+			}
+			list($manager, $id) = explode(':', $alias);
+		}		
+		$sci = SComponentIndex::alloc()->init();
+		if($sci->IsExtension($manager, 'BContentManager'))
+		{
+			if($toObject)
+			{
+				$man = new $manager();
+				$man = $man->alloc()->init();
+				return $man->Open($id);
+			}
+			else
+			{
+				return $manager.':'.$id;
+			}
+		}
+		return null;
+	}
+	
 	/**
 	 * @param EContentChangedEvent $e
 	 */
@@ -44,10 +299,8 @@ class SAlias extends BSystem implements IShareable,IUseSQLite,
 		$this->updateAlias($e->Content);
 	}
 	
-	
 
-
-/**
+	/**
 	 * Generate unified alias from string
 	 * to be called by updateAlias()
 	 *
@@ -78,243 +331,6 @@ class SAlias extends BSystem implements IShareable,IUseSQLite,
 		
 		$title = preg_replace('/[^a-zA-Z0-9\._]+/i', '-',$title);
 		return substr($prefix.$title,0,64);
-	}
-	
-	/**
-	 * Handle alias assignments
-	 * to be called by event handlers for content surveillance
-	 *
-	 * @param BContent $content
-	 */
-	public function updateAlias(BContent $content)
-	{
-		if($content->PubDate == 0)
-		{
-			return;
-		}
-		$connection = DSQLite::alloc()->init();
-		$manager = $content->getManagerName();
-		$nice = $this->prepareForURL($content);
-		$sql = "SELECT Aliases.alias AS alias, ContentIndex.managerContentID AS cid, ".
-					"Managers.manager AS manager FROM Aliases ".
-					"LEFT JOIN ContentIndex ON (Aliases.contentREL = ContentIndex.contentID) ".
-					"LEFT JOIN Managers ON (ContentIndex.managerREL = Managers.managerID) ".
-					"WHERE alias LIKE '".sqlite_escape_string($nice)."'";
-		$res = $connection->query($sql, SQLITE_ASSOC);
-		$ergc = 0;
-		$preverg = array();
-		while($erg = $res->fetch())
-		{
-			$preverg = $erg;
-			$ergc++;
-		}
-		$lookup = null;
-		$newAlias = null;
-		if($ergc == 0 || ($preverg['manager'] == $manager && $preverg['cid'] == $content->Id))
-		{
-			$newAlias = $nice;
-			//update activate enforce
-		}
-		else
-		{
-			$numerified = substr($nice,0,58).'~'; //5-digit numbers possible
-			//find $numerified aliases for current content
-			$sql = "SELECT Aliases.alias AS alias, ContentIndex.managerContentID AS cid, ".
-						"Managers.manager AS manager FROM Aliases ".
-						"LEFT JOIN ContentIndex ON (Aliases.contentREL = ContentIndex.contentID) ".
-						"LEFT JOIN Managers ON (ContentIndex.managerREL = Managers.managerID) ".
-						"WHERE alias LIKE '".sqlite_escape_string($numerified)."%' ".
-						"AND manager LIKE '".sqlite_escape_string($manager)."' ".
-						"AND cid LIKE '".sqlite_escape_string($content->Id)."' ".
-						"ORDER BY alias ASC";
-			$res = $connection->query($sql, SQLITE_ASSOC);
-			if($res->numRows() > 0)
-			{
-				//use existing numerified alias
-				$erg = $res->fetch();
-				$newAlias = $erg['alias'];
-			}
-			else
-			{
-				//create new numerified alias
-				$sql = "SELECT alias FROM Aliases ".
-							"WHERE alias LIKE '".sqlite_escape_string($numerified)."%' ORDER BY alias ASC";
-				$res = $connection->query($sql, SQLITE_ASSOC);
-				$usedNumbers = array();
-				$offset = strlen($numerified);
-				//get all numbers
-				while($erg = $res->fetch())
-				{
-					$usedNumbers[substr($erg['alias'], $offset)] = '';
-				}
-				//find first unused
-				for ($i = 1; $i <= 4096; $i++)
-				{
-					 if(!array_key_exists($i, $usedNumbers))
-					 {
-					 	$newAlias = $numerified.$i;
-					 	break;
-					 }
-				}
-			}
-		}
-		if($newAlias != null)
-		{
-			$this->setActive($newAlias, $content);
-		}
-	}
-	
-	public function removeAliases(BContent $content)
-	{
-		$manager = $content->getManagerName();
-		$sql = "DELETE FROM Aliases WHERE contentREL = ".
-					"(".
-						"SELECT ContentIndex.contentID FROM ContentIndex LEFT JOIN Managers ".
-							"ON (ContentIndex.managerREL = Managers.managerID) ".
-							"WHERE Managers.manager LIKE '".sqlite_escape_string($manager)."' ".
-							"AND ContentIndex.managerContentID LIKE '".sqlite_escape_string($content->Id)."'".
-					")";
-		return DSQLite::alloc()->init()->queryExec($sql);
-	}
-	
-	public function rebuildAliases()
-	{
-		$connection = DSQLite::alloc()->init();
-		$connection->queryExec("BEGIN TRANSACTION");
-		$connection->queryExec("DELETE FROM Aliases WHERE 1");
-		$res = $connection->query("SELECT contentID,title, pubDate FROM ContentIndex WHERE pubDate > 0", SQLITE_NUM);
-		$newAliases = array();
-		$success = true;
-		while($erg = $res->fetch())
-		{
-			list($id, $title, $pubdate) = $erg;
-			$sql = "INSERT INTO Aliases (alias, active, contentREL) VALUES ('".
-					sqlite_escape_string($this->getUnifiedAlias($title, $pubdate))."','1','".
-					sqlite_escape_string($id).
-					"')";
-			echo '<!-- ', $sql, " --> \n\n";
-			$success = $connection->queryExec($sql, $err);
-			var_dump($success);
-			if(!$success)
-			{
-				$connection->queryExec("ROLLBACK");
-				SNotificationCenter::alloc()->init()->report('warning', $err);
-				break;
-			}
-		}
-		if($success)
-		{
-			$connection->queryExec("COMMIT");
-		}
-	}
-	
-	/**
-	 * Activate alias or create active alias for $content
-	 *
-	 * @param string $alias
-	 * @param BContent $content
-	 * @return boolean
-	 */
-	private function setActive($alias, BContent $content)
-	{
-		$connection = DSQLite::alloc()->init();
-		$manager = $content->getManagerName();
-		$cid = $content->Id;
-		$sql = array();
-		$sql[0] = 
-			"BEGIN TRANSACTION";
-		$sql[1] = 
-			"INSERT OR IGNORE INTO Aliases (alias, contentREL) ".
-				"VALUES (".
-					"'".sqlite_escape_string($alias)."', ".
-					"(".
-						"SELECT ContentIndex.contentID FROM ContentIndex LEFT JOIN Managers ".
-							"ON (ContentIndex.managerREL = Managers.managerID) ".
-							"WHERE Managers.manager LIKE '".sqlite_escape_string($manager)."' ".
-							"AND ContentIndex.managerContentID LIKE '".sqlite_escape_string($cid)."' LIMIT 1".
-					")".
-				")";
-		$sql[2] =
-			"UPDATE Aliases SET active = 0 WHERE aliasID IN (".
-					"SELECT Aliases.aliasID FROM Aliases ".
-						"LEFT JOIN ContentIndex ON (Aliases.contentREL = ContentIndex.contentID) ".
-						"LEFT JOIN Managers ON (ContentIndex.managerREL = Managers.managerID) ".
-						"WHERE Managers.manager LIKE '".sqlite_escape_string($manager)."' ".
-						"AND ContentIndex.managerContentID LIKE '".sqlite_escape_string($cid)."' ".
-				")";
-		$sql[3] =
-			"UPDATE Aliases SET active = 1 WHERE alias LIKE '".sqlite_escape_string($alias)."'"
-		;
-		$commit = "COMMIT";
-		$rollback = 'ROLLBACK';
-		$success = true;
-		$err = null;
-		foreach ($sql as $cmd) 
-		{
-			$exec = $connection->queryExec($cmd, $err);
-			if(!$exec)
-			{
-				$success = false;
-				break;
-			}
-		}
-		if($success)
-		{
-			$connection->queryExec($commit);
-		}
-		else
-		{
-			echo '<!-- SQLite error ',$err,'',$cmd,' -->';
-			SNotificationCenter::alloc()->init()->report('warning', $err);
-			$connection->queryExec($rollback);
-		}
-		return $success;
-	}
-	
-	
-	/*****************************brainstorm temp stuff*************************************/
-	
-	
-	/**
-	 * Get content object by alias
-	 *
-	 * @param string $alias
-	 * @return BContent|null
-	 */
-	public static function resolve($alias, $toObject = true)
-	{
-		$connection = DSQLite::alloc()->init();
-		$sql = "SELECT Managers.manager,ContentIndex.managerContentID FROM Aliases ".
-					"LEFT JOIN ContentIndex ON (Aliases.contentREL = ContentIndex.contentID) ".
-					"LEFT JOIN Managers ON (ContentIndex.managerREL = Managers.managerID) ".
-					"WHERE Aliases.alias LIKE '".sqlite_escape_string($alias)."'";
-		$res = $connection->query($sql, SQLITE_NUM);
-		if($res->numRows() > 0)
-		{
-			 list($manager, $id) = $res->fetch();
-		}
-		else
-		{
-			if(strpos($alias, ':') == false)
-				return null;
-			list($manager, $id) = explode(':', $alias);
-		}
-		
-		$sci = SComponentIndex::alloc()->init();
-		if($sci->IsExtension($manager, 'BContentManager'))
-		{
-			if($toObject)
-			{
-				$man = new $manager();
-				$man = $man->alloc()->init();
-				return $man->Open($id);
-			}
-			else
-			{
-				return $manager.':'.$id;
-			}
-		}
-		return null;
 	}
 	
 	public static function match($alias_a,$alias_b)

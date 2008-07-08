@@ -14,6 +14,9 @@ class Configuration extends Bambus implements IShareable
 	const Class_Name = 'Configuration';
 	public static $sharedInstance = NULL;
 	private static $initializedInstance = false;
+	/**
+	 * @return Configuration
+	 */
 	public static function alloc()
 	{
 		$class = self::Class_Name;
@@ -24,7 +27,10 @@ class Configuration extends Bambus implements IShareable
 		return self::$sharedInstance;
 	}
     
-    function init()
+	/**
+	 * @return Configuration
+	 */
+	function init()
     {
     	if(!self::$initializedInstance)
     	{
@@ -34,6 +40,7 @@ class Configuration extends Bambus implements IShareable
 
 			$this->FileSystem->init();
     	}
+    	return $this;
     }
 	//end IShareable
 

@@ -7,7 +7,7 @@
  * @since 05.03.2008
  * @license GNU General Public License 3
  */
-class STag extends BSystem implements IShareable, IUseSQLite,
+class STag extends BSystem implements IShareable, 
 	HContentChangedEventHandler, HContentCreatedEventHandler,
 	HContentDeletedEventHandler 
 {
@@ -38,14 +38,10 @@ class STag extends BSystem implements IShareable, IUseSQLite,
 	//IShareable
 	const Class_Name = 'STag';
 	/**
-	 * @var SContentIndex
+	 * @var STag
 	 */
 	public static $sharedInstance = NULL;
 	private static $initializedInstance = false;
-	/**
-	 * @var SQLiteDatabase
-	 */
-	private static $DB = null;
 	/**
 	 * @return STag
 	 */
@@ -55,7 +51,6 @@ class STag extends BSystem implements IShareable, IUseSQLite,
 		if(self::$sharedInstance == NULL && $class != NULL)
 		{
 			self::$sharedInstance = new $class();
-			self::$DB = DSQLite::alloc()->init();
 		}
 		return self::$sharedInstance;
 	}
@@ -99,76 +94,81 @@ class STag extends BSystem implements IShareable, IUseSQLite,
 		$nfc = NotificationCenter::alloc();
 		$nfc->init();
 		
-		self::$DB->queryExec("BEGIN TRANSACTION;");
-		//remove all rels to cid
-		$sql = sprintf("DELETE FROM relContentTags WHERE contentREL = "
-			."(SELECT contentID FROM ContentIndex WHERE managerContentID = '%s' ".
-			"and managerREL = (SELECT managerID from Managers WHERE manager LIKE '%s'))"
-			, sqlite_escape_string($contentID)
-			, sqlite_escape_string($managerId));
-		self::$DB->queryExec($sql, $err);
-		foreach ($tags as $tag) 
+		$DB = DSQL::alloc()->init();
+		$DB->beginTransaction();
+		try
 		{
-			//insert ignore tag
-			$sql = sprintf("INSERT OR IGNORE INTO Tags (tag)VALUES('%s')"
-				,sqlite_escape_string($tag));
-			self::$DB->queryExec($sql, $err);
-			$sql = sprintf("INSERT INTO relContentTags (contentREL, tagREL)VALUES(
-					(SELECT contentID FROM ContentIndex WHERE managerContentID = '%s' ".
-					"and managerREL = (SELECT managerID from Managers WHERE manager LIKE '%s')),
-					(SELECT tagID FROM Tags WHERE tag LIKE '%s')
-				)"
-				,sqlite_escape_string($contentID)
-				,sqlite_escape_string($managerId)
-				,sqlite_escape_string($tag)
-			);
-			self::$DB->queryExec($sql, $err);
+			$res = $DB->query(
+				"SELECT ContentIndex.contentID FROM ContentIndex LEFT JOIN Managers ON 
+					(ContentIndex.managerREL = Managers.managerID) WHERE 
+					ContentIndex.managerContentID = '".$DB->escape($contentID)."' 
+					and Managers.manager = '".$DB->escape($managerId)."' LIMIT 1",DSQL::NUM);
+			if($res->getRowCount() != 1)
+			{
+				throw new Exception('wrong number of content ids');
+			}
+			list($CID) = $res->fetch();
+			
+			//remove links
+			$DB->queryExecute("DELETE FROM relContentTags WHERE contentREL = %d".$DB->escape($CID));	
+			$tagval = array();
+			foreach ($tags as $tag) 
+			{
+				$tagval[] = array($tag);
+			}
+			
+			//dump tags in db
+			$DB->insert('Tags',array('tag'), $tagval, true);
+			
+			//FIXME ineffective sql
+			//link tags to content
+			foreach ($tags as $tag) 
+			{
+				$DB->insertUnescaped(
+					'relContentTags',
+					array('contentREL', 'tagREL'),
+					array(
+						$DB->escape($CID),
+						"(SELECT tagID FROM Tags WHERE tag = '".$DB->escape($tag)."' LIMIT 1)"
+					)
+				);
+			}
+			
 		}
-		self::$DB->queryExec("COMMIT;");// ? 'committed' : 'argh';
-		
+		catch(Exception $e)
+		{
+			$DB->rollback();
+			return false;
+		}
+		$DB->commit();
+		return true;
 	}
 	
 	private function getTags($managerId, $contentId)
 	{
-		$sql = sprintf("SELECT Tags.tag FROM Tags ".
-			"LEFT JOIN relContentTags ON (relContentTags.tagREL = Tags.tagID) ".
-			"LEFT JOIN ContentIndex ON (relContentTags.contentREL = ContentIndex.contentID) ".
-			"LEFT JOIN Managers ON (ContentIndex.managerREL = Managers.managerID) ".
-			"WHERE ContentIndex.managerContentID LIKE '%s' and Managers.manager LIKE '%s' ORDER BY Tags.tag;"
-			, sqlite_escape_string($contentId)
-			, sqlite_escape_string($managerId)
-		);
-		$tagres = self::$DB->query($sql);
-
+		$DB = DSQL::alloc()->init();
 		$tags = array();
-		while($tag = $tagres->fetch(SQLITE_NUM))
+		try
 		{
-			$tags[] = $tag[0];
+			$res = $DB->query(sprintf("SELECT Tags.tag FROM Tags ".
+				"LEFT JOIN relContentTags ON (relContentTags.tagREL = Tags.tagID) ".
+				"LEFT JOIN ContentIndex ON (relContentTags.contentREL = ContentIndex.contentID) ".
+				"LEFT JOIN Managers ON (ContentIndex.managerREL = Managers.managerID) ".
+				"WHERE ContentIndex.managerContentID LIKE '%s' and Managers.manager LIKE '%s' ORDER BY Tags.tag;"
+				, $DB->escape($contentId)
+				, $DB->escape($managerId)
+			), DSQL::ASSOC);
+			$res = $DB->query($sql);
+			while($tag = $res->fetch())
+			{
+				$tags[] = $tag[0];
+			}
+		}
+		catch(Exception $e)
+		{
 		}
 		return $tags;
 	}
-	
-//	private function resolveManager($manager)
-//	{
-//		if ($manager instanceof BContentManager ) 
-//		{
-//			$managerstr = get_class($manager);
-//		}
-//		else
-//		{
-//			$managerstr = $manager;
-//		}
-//		if(self::$_managers == null)
-//		{
-//			self::$_managers = array();
-//			$res = self::$DB->query("SELECT * FROM Managers WHERE 1;");
-//			while($arr = $res->fetch())
-//			{
-//				self::$_managers[$arr[1]] = $arr[0];
-//			}
-//		}
-//		return isset($_managers[$managerstr]) ? $_managers[$managerstr] : null;
-//	}
 	
 	/**
 	 * Assign tags to a content-element defined by its controller and its id

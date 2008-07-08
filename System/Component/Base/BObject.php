@@ -98,7 +98,7 @@ abstract class BObject
 	 * @param string $file
 	 * @return string file system path
 	 */
-	public function StoragePath($file = null)
+	public function StoragePath($file = null, $addSuffix = true)
 	{
 		$path = sprintf(
 			"./Content/%s/"
@@ -106,7 +106,7 @@ abstract class BObject
 		);
 		if($file != null)
 		{
-			$path .= $file.'.php';
+			$path .= ($addSuffix) ? $file.'.php' : $file;
 		}
 		return $path;
 	}
