@@ -37,6 +37,12 @@ class setup_MySQL implements runnable
 			$config[$own] = empty($config[$own]) ? null : $config[$own];
 		}
 			
+		//prefixes are not yet supported
+		if(!empty($config['prefix']))
+		{
+			throw new Exception('db_table_prefix is not supported in this version');
+		}
+		
 		if(empty($config['database']))
 		{
 			throw new Exception('database must not be empty');
