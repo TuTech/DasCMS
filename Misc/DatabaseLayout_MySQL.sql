@@ -65,12 +65,12 @@ CREATE  TABLE IF NOT EXISTS `Capricore_test`.`Contents` (
   `Languages_languageID` INT NULL ,
   `InternalDataTypes_internalDataTypeID` INT NULL ,
   PRIMARY KEY (`contentID`) ,
-  UNIQUE INDEX  (`objectID` ASC) ,
+  UNIQUE INDEX object_index (`objectID` ASC) ,
   INDEX managerContentID (`objectID` ASC) ,
-  INDEX fk_ContentIndex_Managers (`Managers_managerID` ASC) ,
+  INDEX fk_Contents_Managers (`Managers_managerID` ASC) ,
   INDEX fk_Contents_Languages (`Languages_languageID` ASC) ,
   INDEX fk_Contents_InternalDataTypes (`InternalDataTypes_internalDataTypeID` ASC) ,
-  CONSTRAINT `fk_ContentIndex_Managers`
+  CONSTRAINT `fk_Contents_Managers`
     FOREIGN KEY (`Managers_managerID` )
     REFERENCES `Capricore_test`.`Managers` (`managerID` )
     ON DELETE NO ACTION
@@ -90,6 +90,28 @@ DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_unicode_ci;
 
 
+DELIMITER //
+
+DROP TRIGGER IF EXISTS `Capricore_test`.`T_Contents_AfterInsert` //
+CREATE TRIGGER T_Contents_AfterInsert AFTER INSERT ON Contents
+FOR EACH ROW 
+BEGIN
+    SELECT SAlias_generate(NEW.contentID);
+    SELECT SContentIndex_updateChangeLog(NEW.contentID); 
+END;//
+
+
+DROP TRIGGER IF EXISTS `Capricore_test`.`T_Contents_AfterUpdate` //
+CREATE TRIGGER T_Contents_AfterUpdate AFTER UPDATE ON Contents
+FOR EACH ROW 
+BEGIN
+    SELECT SAlias_generate(NEW.contentID);
+    SELECT SContentIndex_updateChangeLog(NEW.contentID);
+END;//
+
+
+DELIMITER ;
+
 -- -----------------------------------------------------
 -- Table `Capricore_test`.`Persons`
 -- -----------------------------------------------------
@@ -97,11 +119,10 @@ DROP TABLE IF EXISTS `Capricore_test`.`Persons` ;
 
 CREATE  TABLE IF NOT EXISTS `Capricore_test`.`Persons` (
   `personID` INT NOT NULL AUTO_INCREMENT ,
-  `title` VARCHAR(45) NULL ,
-  `firstName` VARCHAR(30) NULL ,
-  `surname` VARCHAR(45) NULL ,
+  `name` VARCHAR(64) NULL ,
   `email` VARCHAR(64) NULL ,
-  PRIMARY KEY (`personID`) )
+  PRIMARY KEY (`personID`) ,
+  INDEX index (`name` ASC, `email` ASC) )
 ENGINE = MyISAM;
 
 
@@ -116,19 +137,19 @@ CREATE  TABLE IF NOT EXISTS `Capricore_test`.`Changes` (
   `size` INT NULL DEFAULT NULL ,
   `date` TIMESTAMP NOT NULL DEFAULT NOW() ,
   `changedBy` INT NOT NULL ,
-  `ContentIndex_contentID` INT NOT NULL ,
   `actions` VARCHAR(128) NULL ,
-  PRIMARY KEY (`changeID`, `ContentIndex_contentID`) ,
-  INDEX fk_Changes_ContentIndex (`ContentIndex_contentID` ASC) ,
+  `Contents_contentID` INT NOT NULL ,
+  PRIMARY KEY (`changeID`, `Contents_contentID`) ,
   INDEX fk_ChangedBy (`changedBy` ASC) ,
-  CONSTRAINT `fk_Changes_ContentIndex`
-    FOREIGN KEY (`ContentIndex_contentID` )
-    REFERENCES `Capricore_test`.`Contents` (`contentID` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+  INDEX fk_Changes_Contents (`Contents_contentID` ASC) ,
   CONSTRAINT `fk_ChangedBy`
     FOREIGN KEY (`changedBy` )
     REFERENCES `Capricore_test`.`Persons` (`personID` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Changes_Contents`
+    FOREIGN KEY (`Contents_contentID` )
+    REFERENCES `Capricore_test`.`Contents` (`contentID` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = MYISAM
@@ -161,12 +182,12 @@ CREATE  TABLE IF NOT EXISTS `Capricore_test`.`Aliases` (
   `aliasID` INT NOT NULL AUTO_INCREMENT ,
   `alias` VARCHAR(128) NOT NULL ,
   `active` INT NULL DEFAULT NULL ,
-  `ContentIndex_contentID` INT NULL ,
-  PRIMARY KEY (`aliasID`) ,
+  `Contents_contentID` INT NOT NULL ,
+  PRIMARY KEY (`aliasID`, `Contents_contentID`) ,
   UNIQUE INDEX  (`alias` ASC) ,
-  INDEX fk_Aliases_ContentIndex (`ContentIndex_contentID` ASC) ,
-  CONSTRAINT `fk_Aliases_ContentIndex`
-    FOREIGN KEY (`ContentIndex_contentID` )
+  INDEX fk_Aliases_Contents (`Contents_contentID` ASC) ,
+  CONSTRAINT `fk_Aliases_Contents`
+    FOREIGN KEY (`Contents_contentID` )
     REFERENCES `Capricore_test`.`Contents` (`contentID` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -211,25 +232,44 @@ ENGINE = MyISAM;
 
 
 -- -----------------------------------------------------
+-- Table `Capricore_test`.`Relations`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Capricore_test`.`Relations` ;
+
+CREATE  TABLE IF NOT EXISTS `Capricore_test`.`Relations` (
+  `relationID` INT NOT NULL AUTO_INCREMENT ,
+  `relation` VARCHAR(32) NOT NULL ,
+  PRIMARY KEY (`relationID`) )
+ENGINE = MyISAM;
+
+
+-- -----------------------------------------------------
 -- Table `Capricore_test`.`Contents_has_Contents`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `Capricore_test`.`Contents_has_Contents` ;
 
 CREATE  TABLE IF NOT EXISTS `Capricore_test`.`Contents_has_Contents` (
-  `Contents_contentID` INT NOT NULL ,
-  `relationType` SET('equals', 'references', 'depends', 'owns') NULL ,
-  `Contents_contentID1` INT NOT NULL ,
-  PRIMARY KEY (`Contents_contentID`, `Contents_contentID1`) ,
-  INDEX fk_Contents_has_Contents_Contents (`Contents_contentID` ASC) ,
-  INDEX fk_Contents_has_Contents_Contents1 (`Contents_contentID1` ASC) ,
-  CONSTRAINT `fk_Contents_has_Contents_Contents`
-    FOREIGN KEY (`Contents_contentID` )
+  `Contents_contentID_a` INT NOT NULL ,
+  `Relations_relationID` INT NOT NULL ,
+  `Contents_contentID_b` INT NOT NULL ,
+  PRIMARY KEY (`Contents_contentID_a`, `Contents_contentID_b`, `Relations_relationID`) ,
+  INDEX fk_Contents_has_Contents_Contents_a (`Contents_contentID_a` ASC) ,
+  INDEX fk_Contents_has_Contents_Contents_b (`Contents_contentID_b` ASC) ,
+  INDEX fk_Contents_has_Contents_Relations () ,
+  INDEX fk_Contents_has_Contents_Relation (`Relations_relationID` ASC) ,
+  CONSTRAINT `fk_Contents_has_Contents_Contents_a`
+    FOREIGN KEY (`Contents_contentID_a` )
     REFERENCES `Capricore_test`.`Contents` (`contentID` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Contents_has_Contents_Contents1`
-    FOREIGN KEY (`Contents_contentID1` )
+  CONSTRAINT `fk_Contents_has_Contents_Contents_b`
+    FOREIGN KEY (`Contents_contentID_b` )
     REFERENCES `Capricore_test`.`Contents` (`contentID` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Contents_has_Contents_Relation`
+    FOREIGN KEY (`Relations_relationID` )
+    REFERENCES `Capricore_test`.`Relations` (`relationID` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
@@ -295,45 +335,21 @@ ENGINE = InnoDB;
 
 
 DELIMITER //
-DROP function IF EXISTS `Capricore_test`.`Capricore_resolve` //
--- CMSID to ContentIndex.contentID ("Manager:managerContentID" -> INT)
-CREATE FUNCTION `Capricore_test`.`Capricore_resolve`(contentClassID VARCHAR(97)) RETURNS INT
-BEGIN
-    DECLARE ManagerStr VARCHAR(64);
-    DECLARE managerContentIDStr VARCHAR(32);
-    DECLARE pos, cid INT DEFAULT 0;
-    
-    SET pos = LOCATE(':', contentClassID);
-    IF(pos > 0) THEN 
-        SET ManagerStr = LEFT(contentClassID, pos-1);
-        SET managerContentIDStr = SUBSTR(contentClassID, pos+1);
-        
-        SELECT ContentIndex.contentID 
-            FROM ContentIndex 
-            LEFT JOIN Managers ON (ContentIndex.managerREL = Managers.managerID)
-            WHERE 
-                Managers.manager = ManagerStr
-                AND ContentIndex.managerContentID = managerContentIDStr
-            LIMIT 1
-            INTO cid;
-    END IF;
-    RETURN cid;
-END//
 DROP function IF EXISTS `Capricore_test`.`Capricore_desolve` //
--- ContentIndex.contentID to CMSID (INT -> "Manager:managerContentID")
-CREATE FUNCTION `Capricore_test`.`Capricore_desolve`(DBContentID INT) RETURNS VARCHAR(97)
+-- Contents.contentID to CMSID (INT -> "Manager:managerContentID")
+CREATE FUNCTION `Capricore_test`.`Capricore_desolve`(_db_cid INT) RETURNS VARCHAR(97)
 BEGIN
-    DECLARE ManagerStr VARCHAR(64);
-    DECLARE managerContentIDStr VARCHAR(32);
+    DECLARE _manager VARCHAR(64);
+    DECLARE _object VARCHAR(32);
     
-    SELECT ContentIndex.managerContentID, Managers.manager 
-        FROM ContentIndex 
-        LEFT JOIN Managers ON (ContentIndex.managerREL = Managers.managerID)
+    SELECT Contents.managerContentID, Managers.manager 
+        FROM Contents 
+        LEFT JOIN Managers ON (Contents.Managers_managerID = Managers.managerID)
         WHERE 
-            ContentIndex.contentID = DBContentID
+            Contents.contentID = _db_cid
         LIMIT 1
-        INTO managerContentIDStr, ManagerStr;
-    RETURN CONCAT(ManagerStr, ":", managerContentIDStr);
+        INTO _object, _manager;
+    RETURN CONCAT(_manager, ":", _object);
 END//
 DROP procedure IF EXISTS `Capricore_test`.`STag_clean` //
 CREATE PROCEDURE `Capricore_test`.`STag_clean`(IN contentClassID VARCHAR(97))
@@ -344,27 +360,6 @@ BEGIN
     IF(cid > 0) THEN 
         DELETE FROM relContentTags WHERE contentREL = cid;
     END IF;
-END;//
-DROP procedure IF EXISTS `Capricore_test`.`STag_link` //
-CREATE PROCEDURE `Capricore_test`.`STag_link`(IN contentClassID VARCHAR(97), IN tagsAsCSV TEXT)
-BEGIN
-    DECLARE tagStr VARCHAR(64);
-    DECLARE pos, cid INT;
-    
-    SELECT Capricore_resolve(contentClassID) INTO cid;
-    DELETE FROM relContentTags WHERE contentREL = cid;
-    
-    tagLoop: WHILE NOT (tagsAsCSV = "") DO
-        SET pos = LOCATE(',', tagsAsCSV);
-        IF(pos = 0) THEN
-            SET tagsAsCSV = "";
-        ELSE
-            SET tagStr = TRIM(LEFT(tagsAsCSV, pos-1));
-            SET tagsAsCSV = SUBSTR(tagsAsCSV, pos+1);
-            INSERT IGNORE INTO Tags (tag) VALUES (tagStr);
-            INSERT INTO relContentTags(contentREL, tagREL) VALUES ((SELECT tag FROM Tags WHERE tag = tagStr LIMIT 1), cid);
-        END IF;
-    END WHILE tagLoop;
 END;//
 DROP procedure IF EXISTS `Capricore_test`.`STag_getTags` //
 CREATE PROCEDURE `Capricore_test`.`STag_getTags`(IN contentClassID VARCHAR(97))
@@ -379,50 +374,213 @@ BEGIN
         ORDER BY Tags.tag;
 END;//
 DROP procedure IF EXISTS `Capricore_test`.`SAlias_reset` //
--- trigger update alias on contentindex.title change
- 
- -- trigger remove aliases if content deleted / link them to MError:404
- 
- -- equals
- 
- -- currentAlias
- 
+-- remove all entries from alias db and regenerate aliases for all ubloshed content items
 CREATE PROCEDURE `Capricore_test`.`SAlias_reset`() 
 BEGIN
- -- remove all entries from Aliases
- -- reset alias counter
- -- select all contents where pubDate > 0
- -- GenerateAlias(contentID)
+    DECLARE _cid INT;
+    DECLARE _object VARCHAR(32);
+    DECLARE _manager VARCHAR(64);
+    
+    DECLARE _ptr CURSOR FOR
+        SELECT Contents.contentID, Contents.objectID, Managers.manager
+            FROM Contents
+            LEFT JOIN Managers ON (Contents.Managers_managerID = Managers.managerID)
+            WHERE Contents.pubDate > 0;
+    
+    -- remove all entries from Aliases
+    DELETE FROM Aliases WHERE 1; 
+
+    OPEN _ptr;
+    -- GenerateAlias(contentID)
+    LOOP 
+        FETCH _ptr INTO _cid, _object, _manager;
+        SELECT SAlias_generate(_cid);
+    END LOOP;
 END;//
-DROP function IF EXISTS `Capricore_test`.`SAlias_Generate` //
-CREATE FUNCTION `Capricore_test`.`SAlias_Generate`(contentID INT) RETURNS INT 
+DROP function IF EXISTS `Capricore_test`.`SAlias_equals` //
+CREATE FUNCTION `Capricore_test`.`SAlias_equals`(_a VARCHAR(100), _b VARCHAR(100)) RETURNS INT
+BEGIN
+    DECLARE _aid, _bid INT;
+    
+    SELECT SAlias_resolveToDBCID(_a) INTO _aid;
+    SELECT SAlias_resolveToDBCID(_b) INTO _bid;
+    
+    IF (_aid = _bid) THEN
+        RETURN 1;
+    ELSE
+        RETURN 0;
+    END IF;
+
+END;//
+DROP procedure IF EXISTS `Capricore_test`.`STag_setTags` //
+CREATE PROCEDURE `Capricore_test`.`STag_setTags`(IN contentClassID VARCHAR(97), IN tagsAsCSV TEXT)
+BEGIN
+    DECLARE tagStr VARCHAR(64);
+    DECLARE pos, cid INT;
+    
+    SELECT Capricore_resolve(contentClassID) INTO cid;
+    DELETE FROM relContentTags WHERE contentREL = cid;
+    
+    WHILE NOT (tagsAsCSV = "") DO
+        SET pos = LOCATE(',', tagsAsCSV);
+        IF(pos = 0) THEN
+            SET tagsAsCSV = "";
+        ELSE
+            SET tagStr = TRIM(LEFT(tagsAsCSV, pos-1));
+            SET tagsAsCSV = SUBSTR(tagsAsCSV, pos+1);
+            INSERT IGNORE INTO Tags (tag) VALUES (tagStr);
+            INSERT INTO relContentTags(contentREL, tagREL) VALUES ((SELECT tag FROM Tags WHERE tag = tagStr LIMIT 1), cid);
+        END IF;
+    END WHILE;
+END;//
+DROP function IF EXISTS `Capricore_test`.`SAlias_currentAlias` //
+-- trigger update alias on Contents.title change
+ 
+-- trigger remove aliases if content deleted / link them to MError:404
+
+CREATE FUNCTION `Capricore_test`.`SAlias_currentAlias`(_db_cid INT) RETURNS VARCHAR(128)
+BEGIN
+    DECLARE _alias VARCHAR(128);
+
+    SELECT alias
+        FROM Aliases 
+            WHERE Contents_contentID = _db_cid
+            AND active = 1
+            LIMIT 1
+            INTO _alias;
+            
+    IF ISNULL(_alias) THEN
+       SELECT alias
+            FROM Aliases 
+                WHERE Contents_contentID = _db_cid
+                LIMIT 1
+                INTO _alias;
+    END IF;
+    RETURN _alias;
+END;//
+DROP function IF EXISTS `Capricore_test`.`SAlias_resolveToDBCID` //
+CREATE FUNCTION `Capricore_test`.`SAlias_resolveToDBCID`(_alias VARCHAR(128)) RETURNS INT
+BEGIN 
+    DECLARE ret INT DEFAULT 0;
+    SELECT Contents_contentID 
+        FROM Aliases 
+        WHERE alias = _alias
+        INTO ret;
+    
+    RETURN ret;
+END;//
+DROP function IF EXISTS `Capricore_test`.`SAlias_resolveToCMSCID` //
+CREATE FUNCTION `Capricore_test`.`SAlias_resolveToCMSCID`(_alias VARCHAR(128)) RETURNS VARCHAR(97)
+BEGIN 
+    RETURN Capricore_desolve(SAlias_resolveToDBCID(_alias));
+END;//
+DROP procedure IF EXISTS `Capricore_test`.`Capricore_publicContents` //
+-- Fetches public: manager, objectID, currentAlias, Title, pubDate
+CREATE PROCEDURE `Capricore_test`.`Capricore_publicContents`()
+BEGIN
+    CALL Capricore_contentsRangePtr(1,NOW());
+END;//
+DROP procedure IF EXISTS `Capricore_test`.`Capricore_allContents` //
+-- Fetches all: manager, objectID, currentAlias, Title, pubDate
+CREATE PROCEDURE `Capricore_test`.`Capricore_allContents`()
+BEGIN
+    CALL Capricore_contentsRangePtr(0,0);
+END;//
+DROP procedure IF EXISTS `Capricore_test`.`Capricore_registerManagers` //
+CREATE PROCEDURE `Capricore_test`.`Capricore_registerManagers`(IN _managersCSV TEXT)
+BEGIN
+    DECLARE _manager VARCHAR(64);
+    DECLARE _pos INT;
+    
+    WHILE NOT (_managersCSV = "") DO
+        SET _pos = LOCATE(',', _managersCSV);
+        IF(_pos = 0) THEN
+            SET _managersCSV = "";
+        ELSE
+            SET _manager = TRIM(LEFT(_managersCSV, pos-1));
+            SET _managersCSV = SUBSTR(_managersCSV, pos+1);
+            INSERT IGNORE INTO Managers (manager) VALUES (_manager);
+        END IF;
+    END WHILE;
+END;//
+DROP procedure IF EXISTS `Capricore_test`.`SContentIndex_simpleContentAttributes` //
+-- Fetches all: manager, objectID, currentAlias, Title, pubDate, createDate, modifyDate, 
+--              createdBy, modifiedBy, (? Tags), size, language, internalDataType
+CREATE PROCEDURE `Capricore_test`.`SContentIndex_simpleContentAttributes`(IN _db_cid INT, IN _public_only TINYINT) 
+BEGIN 
+
+END;//
+DROP procedure IF EXISTS `Capricore_test`.`SComponentIndex_listContents` //
+CREATE PROCEDURE `Capricore_test`.`SComponentIndex_listContents`(IN _offset INT, IN _items INT, IN _sortDirection TINYINT, 
+                                              IN _tagFilterCSV TEXT, IN _textFilter TEXT)
+BEGIN 
+
+END;//
+DROP procedure IF EXISTS `Capricore_test`.`Capricore_contentsRangePtr` //
+CREATE PROCEDURE `Capricore_test`.`Capricore_contentsRangePtr`(IN _startTimestamp INT, IN _endTimestamp INT)
+BEGIN 
+    SELECT Managers.manager, Contents.contentID, Aliases.alias, 
+            Contents.title, Contents.pubDate
+        FROM Contents
+        LEFT JOIN Managers ON (Contents.Managers_managerID = Managers.managerID)
+        LEFT JOIN Aliases ON (Aliases.Contents_contentID = Contents.contentID)
+        WHERE Contents.pubDate >= _startTimestamp
+        AND (Contents.pubDate <= _endTimestamp OR _endTimestamp = 0)
+        ORDER BY Contents.title;
+END;//
+DROP procedure IF EXISTS `Capricore_test`.`Capricore_setTablePrefix` //
+-- -------- set this ob db::init()
+CREATE PROCEDURE `Capricore_test`.`Capricore_setTablePrefix`(IN _prefix VARCHAR(10))
+BEGIN
+    SET @cpcr_tbl_prefix = _prefix; 
+END;//
+DROP function IF EXISTS `Capricore_test`.`SAlias_generate` //
+CREATE FUNCTION `Capricore_test`.`SAlias_generate`(contentID INT) RETURNS INT 
 BEGIN
     DECLARE DatePrefix CHAR(10);
     DECLARE PubDate, c_pubDate TIMESTAMP;
-    DECLARE AliasText VARCHAR(80);
-    DECLARE currentAlias VARCHAR(100);
+    DECLARE AliasText VARCHAR(100);
+    DECLARE currentAlias VARCHAR(128);
     DECLARE AliasSet INT DEFAULT 0;
     DECLARE AliasTried INT DEFAULT 0;
     DECLARE cid, foundMatches, currentAliasOwner INT;  
     DECLARE c_title VARCHAR(255);
-    
+    DECLARE _object VARCHAR(32);
+    DECLARE _manager VARCHAR(64);
+   
     -- get db id
     SELECT Capricore_resolve(contentID) INTO cid;
     
     -- remove active flag
     UPDATE Aliases 
         SET active = 0 
-        WHERE ContentIndex_contentID = cid;
+        WHERE Contents_contentID = cid;
     
     -- get title as ASCII and pubdate
-    SELECT CONVERT(title USING ascii), pubDate
-        FROM ContentIndex
-        WHERE contentID = cid
-        INTO c_title, c_pubDate;
+    SELECT Contents.title, Contents.pubDate, Managers.manager, Contents.objectID
+        FROM Contents
+        LEFT JOIN Managers ON (Contents.Managers_managerID = Managers.managerID)
+        WHERE Contents.contentID = cid
+        INTO c_title, c_pubDate, _manager, _object;
+    
+    -- create basic cms id alias if it is the first or whatever
+    INSERT IGNORE 
+        INTO Aliases (alias, active, Contents_contentID)
+        VALUES (CONCAT(_manager,':',_object), 0, cid);
+
+    
+    -- CONVERT(... USING ASCII)
+    
+    -- allow( a-zA-Z0-9.-_+*!$: )
+    
+    
+    
+    
+    
     
     -- truncate title if too long
-    IF(CHAR_LENGTH(c_title) > 84) THEN 
-        SET c_title = LEFT(c_title, 84);
+    IF(CHAR_LENGTH(c_title) > 100) THEN 
+        SET c_title = LEFT(c_title, 100);
     END IF;
     
     -- add a date prefix to the alias
@@ -439,14 +597,14 @@ BEGIN
         -- no! use it
         IF (foundMatches = 0) THEN
             INSERT INTO Aliases
-                (alias, active, ContentIndex_contentID)
+                (alias, active, Contents_contentID)
                 VALUES (c_title, 1, cid);
             SET AliasSet = 1;
         
         -- yes! 
         ELSE
             -- is it ours?
-            SELECT aliasID, ContentIndex_contentID
+            SELECT aliasID, Contents_contentID
                 FROM Aliases 
                 WHERE alias = c_title
                 INTO currentAlias, currentAliasOwner;
@@ -468,23 +626,94 @@ BEGIN
         END IF;
         
     END WHILE;
-  
+    RETURN AliasSet;
 END;//
-DROP function IF EXISTS `Capricore_test`.`SAlias_resolve_to_DB_CID` //
-CREATE FUNCTION `Capricore_test`.`SAlias_resolve_to_DB_CID`(_alias VARCHAR(100)) RETURNS INT
+DROP function IF EXISTS `Capricore_test`.`SContentIndex_isPublic` //
+-- move to capricore ns? 
+
+CREATE FUNCTION `Capricore_test`.`SContentIndex_isPublic`(_db_cid INT) RETURNS TINYINT
 BEGIN 
-    DECLARE ret INT DEFAULT 0;
-    SELECT ContentIndex_contentID 
-        FROM Aliases 
-        WHERE alias = _alias
-        INTO ret;
+    DECLARE _ts TIMESTAMP;
+    SELECT pubDate FROM Contents WHERE contentID = _db_cid INTO _ts;
     
-    RETURN ret;
+    RETURN IF (_ts > 0 AND _ts <= NOW(), 1, 0);
 END;//
-DROP function IF EXISTS `Capricore_test`.`SAlias_resolve_to_CMS_CID` //
-CREATE FUNCTION `Capricore_test`.`SAlias_resolve_to_CMS_CID`(_alias VARCHAR(100)) RETURNS VARCHAR(97)
+DROP function IF EXISTS `Capricore_test`.`Capricore_getTablePrefix` //
+CREATE FUNCTION `Capricore_test`.`Capricore_getTablePrefix`() RETURNS VARCHAR(10)
+BEGIN
+    RETURN IF (ISNULL(@cpcr_tbl_prefix), "", @cpcr_tbl_prefix);
+END;//
+DROP procedure IF EXISTS `Capricore_test`.`SContentIndex_specificContentsRangePtr` //
+CREATE PROCEDURE `Capricore_test`.`SContentIndex_specificContentsRangePtr`(IN _aliasCSV TEXT, IN _startTimestamp INT, IN _endTimestamp INT)
 BEGIN 
-    RETURN Capricore_desolve(SAlias_resolve_to_DB_CID(_alias));
+
+    -- todo 
+    
+    -- select where in split(, alias)
+    
+    -- SELECT Managers.manager, Contents.contentID, Aliases.alias, 
+    --         Contents.title, Contents.pubDate
+    --     FROM Contents
+    --     LEFT JOIN Managers ON (Contents.Managers_managerID = Managers.managerID)
+    --     LEFT JOIN Aliases ON (Aliases.Contents_contentID = Contents.contentID)
+    --     WHERE Contents.pubDate >= _startTimestamp
+    --     AND (Contents.pubDate <= _endTimestamp OR _endTimestamp = 0)
+    --     ORDER BY Contents.title;
+END;//
+DROP procedure IF EXISTS `Capricore_test`.`Capricore_setCurrentUser` //
+CREATE PROCEDURE `Capricore_test`.`Capricore_setCurrentUser`(IN _userName VARCHAR(64))
+BEGIN
+    SET @cpcr_curr_usr = _userName; 
+END;//
+DROP function IF EXISTS `Capricore_test`.`Capricore_getCurrentUser` //
+CREATE FUNCTION `Capricore_test`.`Capricore_getCurrentUser`() RETURNS VARCHAR(64)
+BEGIN
+    RETURN IF (ISNULL(@cpcr_curr_usr), "", @cpcr_curr_usr);
+END;//
+DROP procedure IF EXISTS `Capricore_test`.`BManager_createContent` //
+CREATE PROCEDURE `Capricore_test`.`BManager_createContent`()
+BEGIN END;//
+DROP procedure IF EXISTS `Capricore_test`.`BManager_updateContent` //
+CREATE PROCEDURE `Capricore_test`.`BManager_updateContent`()
+BEGIN END;//
+DROP procedure IF EXISTS `Capricore_test`.`BManager_deleteContent` //
+CREATE PROCEDURE `Capricore_test`.`BManager_deleteContent`()
+BEGIN END;//
+DROP function IF EXISTS `Capricore_test`.`Capricore_resolve` //
+-- CMSID to Contents.contentID ("Manager:managerContentID" -> INT)
+CREATE FUNCTION `Capricore_test`.`Capricore_resolve`(contentClassID VARCHAR(97)) RETURNS INT
+BEGIN
+    DECLARE _manager VARCHAR(64);
+    DECLARE _object VARCHAR(32);
+    DECLARE _pos, _cid INT DEFAULT 0;
+    
+    SET _pos = LOCATE(':', contentClassID);
+    IF(_pos > 0) THEN 
+        SET _manager = LEFT(contentClassID, pos-1);
+        SET _object = SUBSTR(contentClassID, pos+1);
+        
+        SELECT Contents.contentID 
+            FROM Contents 
+            LEFT JOIN Managers ON (Contents.Managers_managerID = Managers.managerID)
+            WHERE 
+                Managers.manager = _manager
+                AND Contents.managerContentID = _object
+            LIMIT 1
+            INTO _cid;
+    END IF;
+    RETURN _cid;
+END//
+DROP function IF EXISTS `Capricore_test`.`Capricore_getPersonID` //
+-- -----------------------
+
+CREATE FUNCTION `Capricore_test`.`Capricore_getPersonID`(_name VARCHAR(64), _email VARCHAR(64)) RETURNS INT
+BEGIN 
+
+END;//
+DROP function IF EXISTS `Capricore_test`.`SContentIndex_updateChangeLog` //
+CREATE FUNCTION `Capricore_test`.`SContentIndex_updateChangeLog`(_db_cid INT) RETURNS TINYINT 
+BEGIN 
+
 END;//
 
 DELIMITER ;
