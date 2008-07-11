@@ -14,7 +14,7 @@ CREATE  TABLE IF NOT EXISTS `Capricore_test`.`Managers` (
   `managerID` INT NOT NULL AUTO_INCREMENT ,
   `manager` VARCHAR(64) NOT NULL ,
   PRIMARY KEY (`managerID`) ,
-  UNIQUE INDEX  (`manager` ASC) )
+  UNIQUE INDEX UNIQUE_manager (`manager` ASC) )
 ENGINE = MYISAM
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_unicode_ci;
@@ -31,7 +31,8 @@ CREATE  TABLE IF NOT EXISTS `Capricore_test`.`Languages` (
   `language` VARCHAR(3) NULL ,
   `intlTitle` VARCHAR(64) NULL ,
   `localTitle` VARCHAR(64) NULL ,
-  PRIMARY KEY (`languageID`) )
+  PRIMARY KEY (`languageID`) ,
+  UNIQUE INDEX UNIQUE_language_country (`language` ASC, `country` ASC) )
 ENGINE = MyISAM;
 
 
@@ -43,7 +44,8 @@ DROP TABLE IF EXISTS `Capricore_test`.`InternalDataTypes` ;
 CREATE  TABLE IF NOT EXISTS `Capricore_test`.`InternalDataTypes` (
   `internalDataTypeID` INT NOT NULL AUTO_INCREMENT ,
   `dataType` VARCHAR(32) NULL ,
-  PRIMARY KEY (`internalDataTypeID`) )
+  PRIMARY KEY (`internalDataTypeID`) ,
+  UNIQUE INDEX UNIQUE_dataType (`dataType` ASC) )
 ENGINE = MyISAM;
 
 
@@ -65,8 +67,7 @@ CREATE  TABLE IF NOT EXISTS `Capricore_test`.`Contents` (
   `Languages_languageID` INT NULL ,
   `InternalDataTypes_internalDataTypeID` INT NULL ,
   PRIMARY KEY (`contentID`) ,
-  UNIQUE INDEX object_index (`objectID` ASC) ,
-  INDEX managerContentID (`objectID` ASC) ,
+  UNIQUE INDEX UNIQUE_manager_object (`Managers_managerID` ASC, `objectID` ASC) ,
   INDEX fk_Contents_Managers (`Managers_managerID` ASC) ,
   INDEX fk_Contents_Languages (`Languages_languageID` ASC) ,
   INDEX fk_Contents_InternalDataTypes (`InternalDataTypes_internalDataTypeID` ASC) ,
@@ -122,7 +123,7 @@ CREATE  TABLE IF NOT EXISTS `Capricore_test`.`Persons` (
   `name` VARCHAR(64) NULL ,
   `email` VARCHAR(64) NULL ,
   PRIMARY KEY (`personID`) ,
-  INDEX index (`name` ASC, `email` ASC) )
+  UNIQUE INDEX UNIQUE_name_email (`name` ASC, `email` ASC) )
 ENGINE = MyISAM;
 
 
@@ -227,51 +228,9 @@ DROP TABLE IF EXISTS `Capricore_test`.`Roles` ;
 CREATE  TABLE IF NOT EXISTS `Capricore_test`.`Roles` (
   `roleID` INT NOT NULL AUTO_INCREMENT ,
   `role` VARCHAR(45) NULL ,
-  PRIMARY KEY (`roleID`) )
+  PRIMARY KEY (`roleID`) ,
+  UNIQUE INDEX UNIQUE_role (`role` ASC) )
 ENGINE = MyISAM;
-
-
--- -----------------------------------------------------
--- Table `Capricore_test`.`Relations`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `Capricore_test`.`Relations` ;
-
-CREATE  TABLE IF NOT EXISTS `Capricore_test`.`Relations` (
-  `relationID` INT NOT NULL AUTO_INCREMENT ,
-  `relation` VARCHAR(32) NOT NULL ,
-  PRIMARY KEY (`relationID`) )
-ENGINE = MyISAM;
-
-
--- -----------------------------------------------------
--- Table `Capricore_test`.`Contents_has_Contents`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `Capricore_test`.`Contents_has_Contents` ;
-
-CREATE  TABLE IF NOT EXISTS `Capricore_test`.`Contents_has_Contents` (
-  `Contents_contentID_a` INT NOT NULL ,
-  `Relations_relationID` INT NOT NULL ,
-  `Contents_contentID_b` INT NOT NULL ,
-  PRIMARY KEY (`Contents_contentID_a`, `Contents_contentID_b`, `Relations_relationID`) ,
-  INDEX fk_Contents_has_Contents_Contents_a (`Contents_contentID_a` ASC) ,
-  INDEX fk_Contents_has_Contents_Contents_b (`Contents_contentID_b` ASC) ,
-  INDEX fk_Contents_has_Contents_Relations () ,
-  INDEX fk_Contents_has_Contents_Relation (`Relations_relationID` ASC) ,
-  CONSTRAINT `fk_Contents_has_Contents_Contents_a`
-    FOREIGN KEY (`Contents_contentID_a` )
-    REFERENCES `Capricore_test`.`Contents` (`contentID` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Contents_has_Contents_Contents_b`
-    FOREIGN KEY (`Contents_contentID_b` )
-    REFERENCES `Capricore_test`.`Contents` (`contentID` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Contents_has_Contents_Relation`
-    FOREIGN KEY (`Relations_relationID` )
-    REFERENCES `Capricore_test`.`Relations` (`relationID` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
 
 
 -- -----------------------------------------------------
@@ -290,6 +249,7 @@ CREATE  TABLE IF NOT EXISTS `Capricore_test`.`Users` (
   PRIMARY KEY (`userID`) ,
   INDEX fk_Users_Contents (`Contents_contentID` ASC) ,
   INDEX fk_Users_Persons (`Persons_personID` ASC) ,
+  UNIQUE INDEX UNIQUE_loginName (`loginName` ASC) ,
   CONSTRAINT `fk_Users_Contents`
     FOREIGN KEY (`Contents_contentID` )
     REFERENCES `Capricore_test`.`Contents` (`contentID` )
@@ -332,6 +292,50 @@ CREATE  TABLE IF NOT EXISTS `Capricore_test`.`Contents_has_Persons_with_Roles` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Capricore_test`.`Relations`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Capricore_test`.`Relations` ;
+
+CREATE  TABLE IF NOT EXISTS `Capricore_test`.`Relations` (
+  `relationID` INT NOT NULL AUTO_INCREMENT ,
+  `relation` VARCHAR(32) NOT NULL ,
+  PRIMARY KEY (`relationID`) ,
+  UNIQUE INDEX UNIQUE_relation (`relation` ASC) )
+ENGINE = MyISAM;
+
+
+-- -----------------------------------------------------
+-- Table `Capricore_test`.`Contents_has_Contents`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Capricore_test`.`Contents_has_Contents` ;
+
+CREATE  TABLE IF NOT EXISTS `Capricore_test`.`Contents_has_Contents` (
+  `Contents_contentID_a` INT NOT NULL ,
+  `Contents_contentID_b` INT NOT NULL ,
+  `Relations_relationID` INT NOT NULL ,
+  PRIMARY KEY (`Contents_contentID_a`, `Contents_contentID_b`, `Relations_relationID`) ,
+  INDEX fk_Contents_has_Contents_Contents (`Contents_contentID_a` ASC) ,
+  INDEX fk_Contents_has_Contents_Contents1 (`Contents_contentID_b` ASC) ,
+  INDEX fk_Contents_has_Contents_Relations (`Relations_relationID` ASC) ,
+  UNIQUE INDEX UNIQUE_cc_rels (`Contents_contentID_a` ASC, `Contents_contentID_b` ASC, `Relations_relationID` ASC) ,
+  CONSTRAINT `fk_Contents_has_Contents_Contents`
+    FOREIGN KEY (`Contents_contentID_a` )
+    REFERENCES `Capricore_test`.`Contents` (`contentID` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Contents_has_Contents_Contents1`
+    FOREIGN KEY (`Contents_contentID_b` )
+    REFERENCES `Capricore_test`.`Contents` (`contentID` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Contents_has_Contents_Relations`
+    FOREIGN KEY (`Relations_relationID` )
+    REFERENCES `Capricore_test`.`Relations` (`relationID` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
 
 
 DELIMITER //
