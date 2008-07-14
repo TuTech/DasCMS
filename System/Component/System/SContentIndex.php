@@ -46,94 +46,6 @@ class SContentIndex
     }
 	//end IShareable
 	
-	/*
-	 * @param string $query
-	 * @param boolean $needsAll
-	 * @param int $items
-	 * @param int $offset
-	 * @param string $ofManger
-	 * @param string $tagged
-	 * @return string
-	 * @throws Exception 
-	 * /
-	private function buildSQLForSearch($query, $needsAll, $items, $offset, $ofManger, $tagged)
-	{
-		//Define what we want
-		$sql = 	"SELECT ContentIndex.title AS Title, ContentIndex.pubDate AS PubDate, Managers.manager AS Manager,".
-				"ContentIndex.managerContentID AS ContentID, ContentIndex.summary AS Summary ".
-				"FROM ContentIndex LEFT JOIN Managers ".
-				"ON (ContentIndex.managerREL = Managers.managerID) ";  
-		//initialize tags
-		$tags = STag::parseTagStr($tagged);
-		$querystr = preg_replace("/[\\r\\n\\t,;\s]+/u", ";", $query);
-		$querywords = explode(';', $querystr);
-		$querywords = array_unique($querywords);
-		
-		//filter by manager
-		$sql .= ($ofManger == null) ? "WHERE 1 " : "WHERE Managers.manager LIKE '".sqlite_escape_string($ofManger)."' ";
-		$concat = $needsAll ? ' AND ' : ' OR ';
-		$qrys = array();
-		foreach ($querywords as $word) 
-		{
-			if(strlen($word) > 2)
-			{
-				$qrys[] = "ContentIndex.summary LIKE '%".sqlite_escape_string($word)."%'";
-			}
-		}
-		if(count($qrys) > 0)
-		{
-			$sql .= ' AND ('.implode($concat, $qrys).') ';
-		}
-		else
-		{
-			throw new Exception("query too unspecific");
-		}
-		//filter by tag
-		if(is_array($tags) && count($tags) > 0)
-		{
-			foreach ($tags as $tag) 
-			{
-				$sql .= "AND ContentIndex.contentID IN (SELECT relContentTags.contentREL FROM relContentTags LEFT JOIN Tags ON (Tags.tagID = relContentTags.tagREL) ".
-					"WHERE Tags.tag LIKE '".sqlite_escape_string($tag)."') ";
-			}
-		}
-		
-		//order 
-		$sql .= "ORDER BY ContentIndex.pubDate DESC ";
-		
-		//limit and number of items - no limit -> offset is useless
-		if(is_numeric($items) && $items > 0)
-		{
-			//offset,limit/limit
-			$sql .= ($offset > 0 && is_numeric($offset)) ? "LIMIT ".$offset.",".$items." " : "LIMIT ".$items." ";
-		}
-		return $sql;
-	}*/
-	
-	/*
-	 * Search in content index
-	 * @param string $query
-	 * @param boolean $needsAll
-	 * @param int $items
-	 * @param int $offset
-	 * @param string $ofManger
-	 * @param string $tagged
-	 * @return array
-	 * @throws Exception
-	 * /
-	public function search($query, $needsAll = true, $items = 0, $offset = 0, $ofManger = null, $tagged = "", $fetchAssoc = false)
-	{
-		$sql = $this->buildSQLForSearch($query, $needsAll, $items, $offset, $ofManger, $tagged);
-		$res = self::$DB->query($sql, $err);
-		$return = array();
-		while($data = $res->fetch($fetchAssoc ? SQLITE_ASSOC : SQLITE_NUM))
-		{
-			$return[] = $data;
-		}
-		return $return;
-	}*/
-	
-	//USED
 	public static function isPublic($managerClass,  $contentId, $checkPubDate = true)
 	{
 		//self::alloc()->init();
@@ -170,7 +82,6 @@ SQL;
 		}
 	}
 
-	//USED
 	public static function getContentInformationBulk(array $cmsids)
 	{
 		$DB = DSQL::alloc()->init();
@@ -229,7 +140,6 @@ SQL;
 		return $result;
 	}
 	
-	//USED
 	public static function getTitleAndAlias($manager, $contentId)
 	{
 		$DB = DSQL::alloc()->init();
@@ -289,7 +199,6 @@ SQL;
 		);
 	}	
 	
-	//USED
 	private function buildSQLForCount($ofManger, $tagged)
 	{
 		$DB = DSQL::alloc()->init();
@@ -330,7 +239,6 @@ SQL;
 		return $sql;
 	}
 	
-	//USED
 	private function buildSQLForList($items, $offset, $ofManger, $tagged, $latestFirst)
 	{
 		$DB = DSQL::alloc()->init();
@@ -384,7 +292,6 @@ SQL;
 		return $sql;
 	}
 	
-	//USED
 	public function getLatest($items = 0, $offset = 0, $ofManger = null, $tagged = "", $latestFirst = true, $fetchAssoc = false)
 	{
 		$sql = $this->buildSQLForList($items, $offset, $ofManger, $tagged, $latestFirst);
@@ -405,7 +312,6 @@ SQL;
 		return $return;
 	}
 	
-	//USED
 	public function countLatest($ofManger = null, $tagged = "")
 	{
 		$sql = $this->buildSQLForCount($ofManger, $tagged);
@@ -422,26 +328,12 @@ SQL;
 		return $count;
 	}
 	
-//FIXME continue here	
-//FIXME continue here	
-//FIXME continue here	
-//FIXME continue here	
-//FIXME continue here	
-//FIXME continue here	
-//FIXME continue here	
-//FIXME continue here	
-//FIXME continue here	
-//FIXME continue here	
-//FIXME continue here	
-
-	
 	/**
 	 * Insert manager into manager db if it does not exist and always return the db id
 	 *
 	 * @param string $manager
 	 * @return int
 	 */
-	//USED
 	private function getManagerId($manager)
 	{
 		$DB = DSQL::alloc()->init();
@@ -466,7 +358,6 @@ SQL;
 	 *
 	 * @param BContent $content
 	 */
-	//USED
 	private function updateIndex(BContent $content)
 	{
 		$DB = DSQL::alloc()->init();
@@ -532,7 +423,6 @@ SQL;
 		//@todo register event handlers in stag
 	}
 	
-	//USED
 	public function getMeta(BContent $content)
 	{
 		$DB = DSQL::alloc()->init();
@@ -604,7 +494,6 @@ SQL;
 		return $meta;
 	}
 	
-	//USED
 	public function getIndex(BContentManager $manager)
 	{
 		$DB = DSQL::alloc()->init();
@@ -642,7 +531,6 @@ SQL;
 	 *
 	 * @param BContent $content
 	 */
-	//USED
 	private function removeFromIndex(BContent $content)
 	{
 		$DB = DSQL::alloc()->init();

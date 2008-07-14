@@ -78,7 +78,7 @@ class setup_MySQL implements runnable
 			foreach ($Tables as $tbl) 
 			{
 				$this->reportSuccess($PREFIX.$tbl, 'Table',$DB,
-					$DB->query("DROP TABLE ".$PREFIX.$DB->real_escape_string($tbl)), 'Dropping');
+					$DB->query("DROP TABLE IF EXISTS ".$PREFIX.$DB->real_escape_string($tbl)), 'Dropping');
 			}
 		}	
 		$encoding = 'ENGINE = MYISAM CHARACTER SET utf8 COLLATE utf8_unicode_ci';

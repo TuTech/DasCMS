@@ -158,7 +158,6 @@ class STag extends BSystem implements IShareable,
 				, $DB->escape($contentId)
 				, $DB->escape($managerId)
 			), DSQL::ASSOC);
-			$res = $DB->query($sql);
 			while($tag = $res->fetch())
 			{
 				$tags[] = $tag[0];
