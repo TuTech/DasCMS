@@ -176,9 +176,9 @@ SQL;
 					$man = $man->alloc()->init();
 					$cnt = $man->Open($contentId);
 					
-					$Title = $cnt->Title; 
+					$Title = $cnt->Title; //FIXME
 					$Alias = $manager.':'.$contentId;
-					$PubDate = $cnt->PubDate;
+					$PubDate = $cnt->PubDate;//FIXME
 				}
 				else
 				{
@@ -379,7 +379,7 @@ SELECT COUNT(managerContentID)
 	AND managerREL = $e_managerID
 SQL;
 			$res = $DB->query($sql, DSQL::ASSOC);
-			$dat = $result->fetch();
+			$dat = $res->fetch();
 			if(is_array($dat) && $dat[0] == 0)
 			{
 				$DB->insert(
@@ -418,9 +418,6 @@ SQL;
 		catch(Exception $e)
 		{
 		}
-		//@todo register event handler in salias
-		//SAlias::alloc()->init()->updateAlias($content);
-		//@todo register event handlers in stag
 	}
 	
 	public function getMeta(BContent $content)
