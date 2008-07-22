@@ -93,9 +93,10 @@ abstract class DSQL extends BDriver implements IShareable
 			$block = array();
 			foreach ($valueBlock as $value) 
 			{
-				$block[] = $this->escape($value);
+				
+				$block[] = is_int($value) ? $value :  "'".$this->escape($value)."'";
 			}
-			$escapedValues[] = "'".$block."'";
+			$escapedValues[] = $block;
 		}
 		return $this->insertUnescaped($into,$escapedNames, $escapedValues);
 	}

@@ -93,7 +93,7 @@ class DSQL_MySQL extends DSQL
 	public function insertUnescaped($into, array $names, array $values, $ignore = false)
 	{
 		//sanity check
-		if(count($values) == 0 || count($names) == 0 )
+		if(count($values) == 0 || count($names) == 0)
 		{
 			return true;
 		}		
@@ -110,7 +110,7 @@ class DSQL_MySQL extends DSQL
 			"INSERT %sINTO %s (%s) VALUES ",
 			$ignore ? 'IGNORE ' : '',
 			$into,
-			implode(')(', $names)
+			implode(', ', $names)
 		);
 
 		//build sql body
@@ -119,9 +119,9 @@ class DSQL_MySQL extends DSQL
 		{
 			if(count($valueBlock) != $expected)
 			{
-				throw new Exception('number of values and number of names are different');
+				throw new Exception(sprintf('number of values (%d) and number of names (%d) are different', count($values), count($names)));
 			}
-			$parts[] = '('.implode(', ', $value).')';
+			$parts[] = '('.implode(', ', $valueBlock).')';
 		}
 		$sql .= implode(', ', $parts);
 		return $this->queryExecute($sql);

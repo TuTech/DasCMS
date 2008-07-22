@@ -181,10 +181,6 @@ class CPage extends BContent implements ISupportsSidebar
 				? new EContentRevokedEvent($this, $this)
 				: new EContentPublishedEvent($this, $this);
 		}
-		
-		
-
-
 	}
 	
 	private function createSummary($of)

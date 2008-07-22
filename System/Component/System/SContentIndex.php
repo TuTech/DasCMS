@@ -385,9 +385,8 @@ SQL;
 				$DB->insert(
 					'ContentIndex',
 					array('managerREL', 'managerContentID', 'title', 'pubDate', 'summary'),
-					array($managerID, $contentID, $content->Title, $content->PubDate, 
-							mb_substr(preg_replace("/[\\s]+/u"," ",$content->Text),0,1024, 'UTF-8'))
-				);
+					array(intval($managerID), $contentID, $content->Title, intval($content->PubDate), 
+							mb_substr(preg_replace("/[\\s]+/u"," ",$content->Text),0,1024, 'UTF-8')));
 			}
 			else
 			{
@@ -417,6 +416,7 @@ SQL;
 		}
 		catch(Exception $e)
 		{
+			echo "<!-- EX: ".$e->getCode()." ".$e->getMessage()." -- ".$e->getFile()."@".$e->getLine()." ".$e->getTraceAsString()." --> ";
 		}
 	}
 	
@@ -518,6 +518,7 @@ SQL;
 		}
 		catch (Exception $e)
 		{
+			echo $e->getMessage();
 			$index = array();
 		}
 		return $index;
