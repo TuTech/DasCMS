@@ -41,6 +41,7 @@ class SAlias extends BSystem implements IShareable,
 				$res->seekRow($ergc-1);
 				$preverg = $res->fetch();
 			} 
+			$res->free();
 		}
 		catch(Exception $e)
 		{
@@ -66,6 +67,7 @@ class SAlias extends BSystem implements IShareable,
 						"AND manager LIKE '".$DB->escape($manager)."' ".
 						"AND cid LIKE '".$DB->escape($content->Id)."' ", DSQL::ASSOC);
 				$rows = $res->getRowCount();
+				$res->free();
 			}
 			catch(Exception $e)
 			{
@@ -100,7 +102,8 @@ class SAlias extends BSystem implements IShareable,
 						 	$newAlias = $numerified.$i;
 						 	break;
 						 }
-					}		
+					}	
+					$res->free();	
 				}
 				catch(Exception $e)
 				{
@@ -157,6 +160,7 @@ class SAlias extends BSystem implements IShareable,
 					$id
 				);
 			}
+			$res->free();
 			$DB->insert('Aliases', array('alias', 'active', 'contentREL'), $values);
 		}
 		catch (Exception $e)
@@ -240,6 +244,7 @@ class SAlias extends BSystem implements IShareable,
 				list($manager, $id) = $res->fetch();
 				$failed = false;
 			}
+			$res->free();
 		}
 		catch(Exception $e){/*handled in following if*/}
 		if($failed)

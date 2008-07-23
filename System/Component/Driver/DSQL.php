@@ -44,7 +44,7 @@ abstract class DSQL extends BDriver implements IShareable
 	 */
 	public function init()
 	{
-		throw new XDatabaseException('That\'s not gone well!',0);
+		throw new XDatabaseException("That's not gone well!",0);
 	}
 	
 	/**

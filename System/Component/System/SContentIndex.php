@@ -73,8 +73,12 @@ SELECT
 				AND ContentIndex.pubDate <= $now
 			)
 		)
+	LIMIT 1
 SQL;
-			return $DB->queryExecute($sql) != 0;
+			$res = $DB->query($sql);
+			list($pd) = $res->fetch();
+			$res->free();
+			return $pd != 0;
 		}
 		catch(Exception $e)
 		{
@@ -131,6 +135,7 @@ SQL;
 						'PubDate' => $erg['PubDate']
 					);
 				}
+				$res->free();
 			}
 			catch(Exception $e)
 			{
@@ -166,16 +171,21 @@ SQL;
 			if($res->getRowCount() > 0)
 			{
 				list($Title, $Alias, $PubDate) = $res->fetch();
+				$res->free();
 			}
 			else
 			{
+				$res->free();
 				$sci = SComponentIndex::alloc()->init();
+				$cnt = false;
 				if($sci->IsExtension($manager, 'BContentManager'))
 				{
 					$man = new $manager();
 					$man = $man->alloc()->init();
 					$cnt = $man->Open($contentId);
-					
+				}
+				if($cnt && $cnt instanceof BContent)
+				{
 					$Title = $cnt->Title; //FIXME
 					$Alias = $manager.':'.$contentId;
 					$PubDate = $cnt->PubDate;//FIXME
@@ -304,6 +314,7 @@ SQL;
 			{
 				$return[] = $res->fetch($fetchAssoc);
 			}
+			$res->free();
 		}
 		catch(Exception $e)
 		{
@@ -320,6 +331,7 @@ SQL;
 		{
 			$res = $DB->query($sql, DSQL::NUM);
 			list($count) = $res->fetch(SQLITE_NUM);
+			$res->free();
 		}
 		catch(Exception $e)
 		{
@@ -346,6 +358,7 @@ SELECT managerID
 SQL;
 		$res = $DB->query($sql, DSQL::NUM);
 		list($erg) = $res->fetch();
+		$res->free();
 		if(!$erg)
 		{
 			throw new XDatabaseException('Manager not found');
@@ -380,6 +393,7 @@ SELECT COUNT(managerContentID)
 SQL;
 			$res = $DB->query($sql, DSQL::ASSOC);
 			$dat = $res->fetch();
+			$res->free();
 			if(is_array($dat) && $dat[0] == 0)
 			{
 				$DB->insert(
@@ -403,14 +417,14 @@ SQL;
 				$res = $DB->queryExecute($sql);
 			}
 			$DB->insertUnescaped(
-					'ContentIndex',
+					'Changes',
 					array('contentREL', 'title', 'size', 'changeDate', 'username'),
 					array(
 						"(SELECT contentID FROM ContentIndex WHERE managerContentID = '$e_contentID' AND managerREL = $e_managerID)",
-						$e_title,
+						"'".$e_title."'",
 						$DB->escape(isset($content->Size) ? intval($content->Size) : 0),
 						$DB->escape(time()),
-						$DB->escape(BAMBUS_USER)
+						"'".$DB->escape(BAMBUS_USER)."'"
 					)
 				);
 		}
@@ -447,10 +461,12 @@ SQL;
 			$res = $DB->query($sql, DSQL::NUM);
 			if($res->getRowCount() != 1)
 			{
+				$res->free();
 				throw new Exception('no data');
 			}
 			list($meta['Title'], $meta['PubDate'], $dbid) = $res->fetch();
 			$dbid = $DB->escape(intval($dbid));
+			$res->free();
 			$sql = <<<SQL
 SELECT 
 		size, 
@@ -479,10 +495,12 @@ SQL;
 			$res = $DB->query($sql, DSQL::NUM);
 			if($res->getRowCount() != 2)
 			{
+				$res->free();
 				throw new Exception('no data');
 			}
 			list($meta['Size'], $meta['CreateDate'], $meta['CreatedBy']) = $res->fetch();
 			list($meta['Size'], $meta['ModifyDate'], $meta['ModifiedBy']) = $res->fetch();
+			$res->free();
 		}
 		catch (Exception $e)
 		{
@@ -515,6 +533,7 @@ SQL;
 			{
 				$index[$arr[0]] = $arr[1];
 			}
+			$res->free();
 		}
 		catch (Exception $e)
 		{

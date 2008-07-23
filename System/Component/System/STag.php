@@ -105,10 +105,11 @@ class STag extends BSystem implements IShareable,
 					and Managers.manager = '".$DB->escape($managerId)."' LIMIT 1",DSQL::NUM);
 			if($res->getRowCount() != 1)
 			{
+				$res->free();
 				throw new Exception('wrong number of content ids');
 			}
 			list($CID) = $res->fetch();
-			
+			$res->free();
 			//remove links
 			$DB->queryExecute("DELETE FROM relContentTags WHERE contentREL = %d".$DB->escape($CID));	
 			$tagval = array();
@@ -162,6 +163,7 @@ class STag extends BSystem implements IShareable,
 			{
 				$tags[] = $tag[0];
 			}
+			$res->free();
 		}
 		catch(Exception $e)
 		{

@@ -23,6 +23,7 @@ class DSQLResult_MySQL extends DSQLResult
 	 */
 	public function fetch()
 	{
+		$this->checkResult();
 		$this->row++;
 		return $this->result->fetch_array();
 	}
@@ -33,6 +34,7 @@ class DSQLResult_MySQL extends DSQLResult
 	 */
 	public function fetchObject()
 	{
+		$this->checkResult();
 		$this->row++;
 		return $this->result->fetch_object();
 	}
@@ -43,6 +45,7 @@ class DSQLResult_MySQL extends DSQLResult
 	 */
 	public function getRowCount()
 	{
+		$this->checkResult();
 		return $this->result->num_rows;
 	}
 	
@@ -52,6 +55,7 @@ class DSQLResult_MySQL extends DSQLResult
 	 */
 	public function getFieldCount()
 	{
+		$this->checkResult();
 		return $this->result->field_count;
 	}
 	
@@ -61,6 +65,7 @@ class DSQLResult_MySQL extends DSQLResult
 	 */
 	public function getCurrentRow()
 	{
+		$this->checkResult();
 		return $this->row;
 	}
 	
@@ -71,6 +76,7 @@ class DSQLResult_MySQL extends DSQLResult
 	 */
 	public function fieldName($no)
 	{
+		$this->checkResult();
 		$meta = $this->result->fetch_field_direct($no);
 		return $meta['name'];
 	}
@@ -82,6 +88,7 @@ class DSQLResult_MySQL extends DSQLResult
 	 */
 	public function seekRow($to)
 	{
+		$this->checkResult();
 		$succ = $this->result->data_seek($to);
 		if($succ)
 		{
@@ -97,12 +104,33 @@ class DSQLResult_MySQL extends DSQLResult
 	 */
 	public function hasNext()
 	{
+		$this->checkResult();
 		return $this->row < $this->result->num_rows;
+	}
+	
+	private function checkResult()
+	{
+		if($this->result === null)
+		{
+			throw new XDatabaseException('you can not use a result after calling free()');
+		}
+	}
+	
+	public function free()
+	{
+		if($this->result != null && is_object($this->result))
+		{
+			$this->result->free();
+			$this->result = null;
+		}
 	}
 	
 	public function __destruct()
 	{
-		$this->result->free();
+		if($this->result != null && is_object($this->result))
+		{
+			$this->result->free();
+		}
 	}
 }
 ?>

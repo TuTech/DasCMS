@@ -51,5 +51,10 @@ abstract class DSQLResult
 	 * @return boolean
 	 */
 	abstract public function hasNext();
+		
+	/**
+	 * frees result after use
+	 */
+	public function free(){}
 }
 ?>

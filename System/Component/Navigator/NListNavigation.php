@@ -61,7 +61,8 @@ class NListNavigation extends BNavigation implements IShareable
 				$html .= "</li>\n";
 			}
 			$html .= '</ul>';
-			}
+			$res->free();
+		}
 		catch(Exception $e)
 		{
 			$html = '';

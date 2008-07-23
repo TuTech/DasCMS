@@ -124,7 +124,7 @@ class DSQL_MySQL extends DSQL
 			$parts[] = '('.implode(', ', $valueBlock).')';
 		}
 		$sql .= implode(', ', $parts);
-		return $this->queryExecute($sql);
+		return $this->queryExecute($sql);//FIXME
 	}
 	
 	
@@ -194,12 +194,17 @@ class DSQL_MySQL extends DSQL
      */
     public function queryExecute($string)
     {
-    	$succ = self::$DB->query($string);
-    	if(!$succ)
+    	$res = self::$DB->query($string);
+    	if(self::$DB->errno != 0)
     	{
     		throw new XDatabaseException(self::$DB->error, self::$DB->errno);
     	}
-    	$result = self::$DB->affected_rows;
+    	$succ = self::$DB->affected_rows;
+    	if(is_object($res))
+    	{
+    		$res->free();
+    	}
+    	return $succ;
     }
        
     /**
@@ -207,10 +212,15 @@ class DSQL_MySQL extends DSQL
      */
     public function query($string, $mode = null)
     {
-    	$res = ($mode) 
-    		? (self::$DB->query($string, $this->translateMode($mode)))
-    		: (self::$DB->query($string));
-    	if(!$res)
+    	if ($mode != null) 
+    	{
+    		$res = self::$DB->query($string, $this->translateMode($mode));
+    	}
+    	else
+    	{
+    		$res = self::$DB->query($string);
+    	}
+    	if(self::$DB->errno != 0)
     	{
     		throw new XDatabaseException(self::$DB->error, self::$DB->errno);
     	}

@@ -86,6 +86,7 @@ class WContentLookup extends BWidget implements ISidebarWidget
 								htmlentities($ttl, ENT_QUOTES, 'UTF-8')
 						.'</option>';
 			}
+			$res->free();
 			if($lastMan != null)  $html .= '</optgroup>';
 			
 			$html .= '</select>';
