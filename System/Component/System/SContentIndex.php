@@ -77,8 +77,9 @@ SELECT
 SQL;
 			$res = $DB->query($sql);
 			list($pd) = $res->fetch();
+			$rows = $res->getRowCount();
 			$res->free();
-			return $pd != 0;
+			return ($checkPubDate) ? ($pd != 0) : ($rows > 0);
 		}
 		catch(Exception $e)
 		{
