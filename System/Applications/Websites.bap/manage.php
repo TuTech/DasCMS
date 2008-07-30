@@ -16,6 +16,7 @@ $itemTemplate = "<a class=\"listView\" name=\"{id}\" title=\"{title}\" id=\"{id}
     {name}
 </a>";
 $id = 0;
+$SCI = SContentIndex::alloc()->init();
 $lastchar = '';
 foreach($files as $id => $file){
 	$fchar = strtoupper(substr($file,0,1));
@@ -24,7 +25,8 @@ foreach($files as $id => $file){
 		$lastchar = $fchar;
 		printf('<span class="hiddenGroup">%s</span>', $fchar);
 	}
-    $suffix = 'website';
+   list($dbtitle, $dbalias) = array_values($SCI->getTitleAndAlias(get_class($mp),$id));
+	$suffix = 'website';
     $icon = (file_exists($Bambus->Gui->iconPath($suffix, $suffix, 'mimetype', 'small'))) ? $suffix : 'file';
     $bigIcon = (file_exists($Bambus->Gui->iconPath($suffix, $suffix, 'mimetype', 'large'))) ? $suffix : 'file';
     $output = array('realname'  => htmlentities($file),
@@ -33,7 +35,7 @@ foreach($files as $id => $file){
         'linktarget' => '_blank',
         'id' => $id,
         'link' => '#'.$id,
-        'title' => htmlentities($file,ENT_QUOTES, 'utf-8'),
+        'title' => htmlentities($dbalias,ENT_QUOTES, 'utf-8'),
         'name' => wordwrap(htmlentities($file,ENT_QUOTES, 'utf-8'),8,"<wbr />",true),
     );
     echo $Bambus->Template->parse($itemTemplate, $output, 'string');

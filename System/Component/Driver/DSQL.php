@@ -76,6 +76,10 @@ abstract class DSQL extends BDriver implements IShareable
 	 */
 	public function insert($into, array $names, array $values, $ignore = false)
 	{
+		if(count($values) == 0)
+		{
+			throw new Exception('no data given to insert');
+		}
 		$into = $this->escape($into);
 		$escapedNames = array();
 		foreach ($names as $name) 
@@ -93,7 +97,6 @@ abstract class DSQL extends BDriver implements IShareable
 			$block = array();
 			foreach ($valueBlock as $value) 
 			{
-				
 				$block[] = is_int($value) ? $value :  "'".$this->escape($value)."'";
 			}
 			$escapedValues[] = $block;

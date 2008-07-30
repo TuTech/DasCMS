@@ -12,22 +12,18 @@ function $(id)
 }
 function WCLFilter()
 {
+var filterStr
 	if($('WContentLookupFilter') && $('WContentLookup'))
 	{
 	
-		var filterStr = $('WContentLookupFilter').value;
+		filterStr = $('WContentLookupFilter').value;
 		var elements = $('WContentLookup').getElementsByTagName('option');
 		var str;
-		//	for(var i = 0; i < elements.length; i++)
-		//	{
-		//		elements[i].style.display = 'none';
-		//	}
-
-			for(var i = 0; i < elements.length; i++)
-			{
-				str = elements[i].text;
-				elements[i].style.display = (str.indexOf(filterStr) > -1) ? 'block' : 'none';
-			}
+		for(var i = 0; i < elements.length; i++)
+		{
+			str = elements[i].text;
+			elements[i].style.display = (str.indexOf(filterStr) > -1) ? 'block' : 'none';
+		}
 	}
 }
 

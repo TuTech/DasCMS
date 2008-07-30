@@ -96,13 +96,17 @@ class STag extends BSystem implements IShareable,
 		
 		$DB = DSQL::alloc()->init();
 		$DB->beginTransaction();
+		$ptok = SProfiler::profile(__FILE__, __LINE__, 'updating tags to '.implode(', ', $tags));
 		try
 		{
 			$res = $DB->query(
-				"SELECT ContentIndex.contentID FROM ContentIndex LEFT JOIN Managers ON 
-					(ContentIndex.managerREL = Managers.managerID) WHERE 
-					ContentIndex.managerContentID = '".$DB->escape($contentID)."' 
-					and Managers.manager = '".$DB->escape($managerId)."' LIMIT 1",DSQL::NUM);
+"SELECT ContentIndex.contentID 
+    FROM ContentIndex LEFT JOIN Managers
+	ON (ContentIndex.managerREL = Managers.managerID) 
+	WHERE 
+		ContentIndex.managerContentID = '".$DB->escape($contentID)."' 
+		AND Managers.manager = '".$DB->escape($managerId)."' 
+	LIMIT 1",DSQL::NUM);
 			if($res->getRowCount() != 1)
 			{
 				$res->free();
@@ -111,7 +115,7 @@ class STag extends BSystem implements IShareable,
 			list($CID) = $res->fetch();
 			$res->free();
 			//remove links
-			$DB->queryExecute("DELETE FROM relContentTags WHERE contentREL = %d".$DB->escape($CID));	
+			$DB->queryExecute("DELETE FROM relContentTags WHERE contentREL = ".$DB->escape($CID));	
 			$tagval = array();
 			foreach ($tags as $tag) 
 			{
@@ -119,8 +123,10 @@ class STag extends BSystem implements IShareable,
 			}
 			
 			//dump tags in db
-			$DB->insert('Tags',array('tag'), $tagval, true);
-			
+			if(count($tagval) > 0)
+			{
+				$DB->insert('Tags',array('tag'), $tagval, true);
+			}			
 			//FIXME ineffective sql
 			//link tags to content
 			foreach ($tags as $tag) 
@@ -138,10 +144,14 @@ class STag extends BSystem implements IShareable,
 		}
 		catch(Exception $e)
 		{
+			echo $e->getMessage();
+			echo $e->getTraceAsString();
 			$DB->rollback();
+			SProfiler::finish($ptok);
 			return false;
 		}
 		$DB->commit();
+		SProfiler::finish($ptok);
 		return true;
 	}
 	

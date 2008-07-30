@@ -92,6 +92,7 @@ class DSQL_MySQL extends DSQL
 	 */
 	public function insertUnescaped($into, array $names, array $values, $ignore = false)
 	{
+		
 		//sanity check
 		if(count($values) == 0 || count($names) == 0)
 		{
@@ -117,11 +118,19 @@ class DSQL_MySQL extends DSQL
 		$parts = array();
 		foreach ($values as $valueBlock) 
 		{
+			if(count($valueBlock) == 0)
+			{
+				continue;
+			}
 			if(count($valueBlock) != $expected)
 			{
-				throw new Exception(sprintf('number of values (%d) and number of names (%d) are different', count($values), count($names)));
+				throw new Exception(sprintf('number of values (%d) and number of names (%d) are different [%s] / [%s]', count($valueBlock), count($names), implode(', ', $valueBlock), implode(', ', $names)));
 			}
 			$parts[] = '('.implode(', ', $valueBlock).')';
+		}
+		if(count($parts) == 0)
+		{
+			throw new Exception('no data given');
 		}
 		$sql .= implode(', ', $parts);
 		return $this->queryExecute($sql);//FIXME
@@ -194,6 +203,7 @@ class DSQL_MySQL extends DSQL
      */
     public function queryExecute($string)
     {
+    	$ptok = SProfiler::profile(__FILE__, __LINE__, $string);
     	$res = self::$DB->query($string);
     	if(self::$DB->errno != 0)
     	{
@@ -204,6 +214,7 @@ class DSQL_MySQL extends DSQL
     	{
     		$res->free();
     	}
+    	SProfiler::finish($ptok);
     	return $succ;
     }
        
@@ -212,6 +223,7 @@ class DSQL_MySQL extends DSQL
      */
     public function query($string, $mode = null)
     {
+    	$ptok = SProfiler::profile(__FILE__, __LINE__, $string);
     	if ($mode != null) 
     	{
     		$res = self::$DB->query($string, $this->translateMode($mode));
@@ -224,6 +236,7 @@ class DSQL_MySQL extends DSQL
     	{
     		throw new XDatabaseException(self::$DB->error, self::$DB->errno);
     	}
+    	SProfiler::finish($ptok);
     	return new DSQLResult_MySQL(self::$DB, $res);
     }
 }

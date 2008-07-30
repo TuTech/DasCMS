@@ -124,8 +124,9 @@ SELECT DISTINCT
 	LEFT JOIN Managers 
 		ON (ContentIndex.managerREL = Managers.managerID) 
 	WHERE 
-		Aliases.active = 1 
 		AND ($condition)
+    ORDER BY Aliases.active DESC
+    LIMIT 1
 SQL;
 				$res = $DB->query($sql, DSQL::ASSOC);
 				while ($erg = $res->fetch())
@@ -166,7 +167,8 @@ SELECT
 	WHERE 
 		ContentIndex.managerContentId LIKE '$e_contentId' 
 		AND Managers.manager LIKE '$e_manager'
-		AND Aliases.active = 1
+	ORDER BY Aliases.active DESC
+    LIMIT 1
 SQL;
 			$res = $DB->query($sql, DSQL::NUM);
 			if($res->getRowCount() > 0)
@@ -469,38 +471,48 @@ SQL;
 			$dbid = $DB->escape(intval($dbid));
 			$res->free();
 			$sql = <<<SQL
+
 SELECT 
-		size, 
-		changeDate, 
-		username 
-	FROM Changes 
-	WHERE 
-		(
-			changeDate = (
-				SELECT changeDate 
-					FROM Changes 
-					WHERE contentREL=$dbid
-					ORDER BY changeDate ASC 
-					LIMIT 1
-			) 
-			OR changeDate = (
-				SELECT changeDate 
-					FROM Changes 
-					WHERE contentREL=$dbid
-					ORDER BY changeDate DESC 
-					LIMIT 1
-			)
-		) 
-		AND contentREL=$dbid
+    (SELECT size FROM Changes WHERE contentREL=$dbid ORDER BY changeDate DESC LIMIT 1) AS size,
+    (SELECT changeDate FROM Changes WHERE contentREL=$dbid ORDER BY changeDate DESC LIMIT 1) AS Modified,
+    (SELECT username FROM Changes WHERE contentREL=$dbid ORDER BY changeDate DESC LIMIT 1) AS Modifier,
+    (SELECT changeDate FROM Changes WHERE contentREL=$dbid ORDER BY changeDate ASC LIMIT 1) AS Created,
+    (SELECT username FROM Changes WHERE contentREL=$dbid ORDER BY changeDate ASC LIMIT 1) AS Creator
 SQL;
+//
+//SELECT 
+//		size, 
+//		changeDate, 
+//		username 
+//	FROM Changes 
+//	WHERE 
+//		(
+//			changeDate = (
+//				SELECT changeDate 
+//					FROM Changes 
+//					WHERE contentREL=$dbid
+//					ORDER BY changeDate ASC 
+//					LIMIT 1
+//			) 
+//			OR changeDate = (
+//				SELECT changeDate 
+//					FROM Changes 
+//					WHERE contentREL=$dbid
+//					ORDER BY changeDate DESC 
+//					LIMIT 1
+//			)
+//		) 
+//		AND contentREL=$dbid
+//SQL;
 			$res = $DB->query($sql, DSQL::NUM);
-			if($res->getRowCount() != 2)
-			{
-				$res->free();
-				throw new Exception('no data');
-			}
-			list($meta['Size'], $meta['CreateDate'], $meta['CreatedBy']) = $res->fetch();
-			list($meta['Size'], $meta['ModifyDate'], $meta['ModifiedBy']) = $res->fetch();
+//			if($res->getRowCount() != 2)
+//			{
+//				$res->free();
+//				throw new Exception('no data');
+//			}
+//			list($meta['Size'], $meta['CreateDate'], $meta['CreatedBy']) = $res->fetch();
+//			list($meta['Size'], $meta['ModifyDate'], $meta['ModifiedBy']) = $res->fetch();
+            list($meta['Size'], $meta['ModifyDate'], $meta['ModifiedBy'], $meta['CreateDate'], $meta['CreatedBy']) = $res->fetch();
 			$res->free();
 		}
 		catch (Exception $e)
