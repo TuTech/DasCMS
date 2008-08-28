@@ -13,8 +13,8 @@ if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
 if(BAMBUS_GRP_EDIT && $FileOpened)
 {
 	printf('<h2>%s: %s</h2>'
-		,$Bambus->Translation->treturn((BAMBUS_APPLICATION_TAB == 'edit_templates') ? 'template' : 'stylesheet')
-		, htmlspecialchars($FileName, ENT_QUOTES, 'utf-8'));
+		,SLocalization::get((BAMBUS_APPLICATION_TAB == 'edit_templates') ? 'template' : 'stylesheet')
+		,htmlspecialchars($FileName, ENT_QUOTES, 'utf-8'));
 		
 	if(BAMBUS_GRP_RENAME && !in_array($File,array('default.css','header.tpl','footer.tpl','body.tpl')))
 	{
@@ -27,13 +27,11 @@ if(BAMBUS_GRP_EDIT && $FileOpened)
 	echo $Bambus->Gui->beginEditorWrapper();
 	echo $Bambus->Gui->editorTextarea(utf8_encode($fileContent));
 	echo $Bambus->Gui->endEditorWrapper();
-	echo $Bambus->Gui->beginScript();
-	echo 'initeditor();';
-	echo $Bambus->Gui->endScript();
+	echo new WScript('initeditor();');
 }
 elseif(!$FileOpened)
 {
-	echo $Bambus->Gui->script('BCMSRunFX[BCMSRunFX.length] = function(){OBJ_ofd.show()};');
+	echo new WScript('BCMSRunFX[BCMSRunFX.length] = function(){OBJ_ofd.show()};');
 }
 	echo '</form>';
 ?>

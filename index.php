@@ -56,11 +56,11 @@ define('BAMBUS_GRP_PHP', $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'PHP')
 define('BAMBUS_PRIMARY_GROUP', $Bambus->UsersAndGroups->getPrimaryGroup(BAMBUS_USER));
 
 //set sometemplate keys
-$Bambus->Template->setEnv('meta_keywords',$BambusConfigClass->get('meta_keywords'));
-$Bambus->Template->setEnv('bambus_version', BAMBUS_VERSION);
-$Bambus->Template->setEnv('rssfeeds', '');
-$Bambus->Template->setEnv('bambus_my_uri', $Bambus->Linker->myFormURL());
-$Bambus->Template->setEnv('logout_href', $Bambus->Linker->createQueryString(array('_destroy_session' => '1')));
+WTemplate::globalSet('meta_keywords',$BambusConfigClass->get('meta_keywords'));
+WTemplate::globalSet('bambus_version', BAMBUS_VERSION);
+WTemplate::globalSet('rssfeeds', '');
+WTemplate::globalSet('bambus_my_uri', $Bambus->Linker->myFormURL());
+WTemplate::globalSet('logout_href', $Bambus->Linker->createQueryString(array('_destroy_session' => '1')));
 
 //any stylesheets assigned to this document?
 $stylesheetLinks = '<link rel="stylesheet" href="./Content/stylesheets/default.css" type="text/css" media="all" />';
@@ -72,14 +72,7 @@ if(!empty($stylesheets)){
         if(!empty($style['ieopts'])) $stylesheetLinks .= "\n<![endif]-->\n";
     }
 }
-$Bambus->Template->setEnv('stylesheets', $stylesheetLinks);
-
-//////////////////////////////////////////////////
-//display requested content
-//////////////////////////////////////////////////
-
-
-
+WTemplate::globalSet('stylesheets', $stylesheetLinks);
 
 
 //////////////////////////////
@@ -92,7 +85,6 @@ if(count($spores) > 0)
 	$Parser = Parser::alloc();
 	$Parser->init();
 	$Spore = new QSpore($spores[0]);
-//	echo 'opening spore: '.$spores[0];
 	$content = $Spore->getContent();
 	if($content != null && $content instanceof BContent)
 	{
@@ -104,63 +96,4 @@ if(count($spores) > 0)
 	}
 	echo $Parser->Parse(implode('', file('Content/templates/page.tpl')), $content);
 }
-
-
-
-/*
-
-
-//TODO: find better solution
-//to invoke the linked navigations parse the body to /dev/null first
-$Bambus->Template->parse('header',$BambusConfig);
-$Bambus->Template->parse('body',$BambusConfig);
-$Bambus->Template->parse('footer',$BambusConfig);
-$title = implode(', ',$Bambus->Navigations->getTitles());
-$Bambus->Template->setEnv('title', $title);
-
-
-echo $Bambus->Template->parse('header',$BambusConfig);
-echo $Bambus->Template->parse('body',$BambusConfig);
-
-if(!$Bambus->Navigations->needLogin())
-{
-	//no auth needed or auth ok
-    $contents = $Bambus->Navigations->getContentList();
-    foreach($contents as $content){
-    	if(!$Bambus->Navigations->contentFetched($content))
-    	{
-		    if(!$Bambus->Navigations->isProgram($content))
-		    {
-		    	echo $Bambus->Navigations->getContent($content);
-		    }
-		    else
-		    {
-		    	$Pages = Pages::alloc();
-		    	$Pages->init();
-		    	$PageID = $Bambus->Navigations->getContent($content);
-		    	if($Pages->exists($PageID))
-		    	{
-			    	include($Bambus->pathTo('document').$Pages->{$PageID}->FileName);
-		    	}
-		    }
-    	}
-    }
-}
-else
-{
-    if(!empty($triedToLogin)){
-		//timeout for failed logins
-    	sleep(10);
-    	//TODO: find users language by browser identification
-    	$Bambus->using("Translation");
-    	$message =  $Bambus->Translation->sayThis("sorry_wrong_username_or_password", 'de');
-	}
-    $templateLocation = (file_exists($Bambus->pathTo("template")."bambus_login.tpl")) ? "content" : "system";
-//    if(!empty($BambusConfig['404redirect']))
-//    	$Bambus->setMode('post_form');
-    echo @$Bambus->Template->parse('bambus_login', array('bambus_cms_message' => $message), $templateLocation);
-//	$Bambus->setMode('site');
-}
-echo $Bambus->Template->parse('footer',$BambusConfig,'content');
-*/
 ?>

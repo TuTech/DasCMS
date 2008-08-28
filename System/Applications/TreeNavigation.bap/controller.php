@@ -159,52 +159,8 @@ if(count($navigations) > 0)
 	OBJ_ofd = new CLASS_OpenFileDialog();
 	OBJ_ofd.self = 'OBJ_ofd';
 	OBJ_ofd.openIcon = '<?php echo $Bambus->Gui->iconPath('open', 'open', 'action', 'small'); ?>';
-	OBJ_ofd.openTranslation = '<?php echo utf8_encode(html_entity_decode($Bambus->Translation->open)); ?>';
+	OBJ_ofd.openTranslation = '<?php SLocalization::out('open'); ?>';
 	OBJ_ofd.closeIcon = '<?php echo $Bambus->Gui->iconPath('delete', 'delete', 'action', 'small'); ?>';
 	OBJ_ofd.statusText = '';
 	OBJ_ofd.statusAnimation = '<?php echo $Bambus->Gui->iconPath('loading', 'loading', 'animation', 'extra-small'); ?>';
 </script>
-<?php
-////////////////////
-
-//if(!empty($post['posted']))
-//{
-//	foreach ($post as $key => $value) 
-//	{
-//		if(substr($key,0,5) == 'spore')
-//		{
-//			$spore = substr($key,6);
-//			$delete = !empty($post[$key]);
-//			
-//			if($delete)
-//			{
-//				QSpore::remove($spore);
-//			}
-//			else
-//			{
-//				QSpore::set(
-//					$spore, 
-//					!empty($post['actv_'.$spore]), 
-//					getData('init_'.$spore, $_POST), 
-//					getData('err_'.$spore, $_POST)
-//				);
-//			}
-//		}
-//	}
-//	if(!empty($post['new_spore']) && !QSpore::exists($post['new_spore']))
-//	{
-//		try{
-//			QSpore::set(
-//				$post['new_spore'], 
-//				!empty($post['new_actv']), 
-//				getData('new_init', $_POST), 
-//				getData('new_err', $_POST)
-//			);
-//		}
-//		catch(Exception $e){
-//			//@todo notify  could not set blah
-//		}
-//	}
-//	QSpore::Save();
-//}
-?>

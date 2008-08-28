@@ -122,8 +122,6 @@ class NotificationCenter extends Bambus implements IShareable
 	
 	function notifyUser()
 	{
-		$TR = Translation::alloc();
-		$TR->init();
 		$n = &$this->notifications;
 		$nhtml = &$this->notificationHTML;
 		$types = array_keys($n);
@@ -149,8 +147,8 @@ class NotificationCenter extends Bambus implements IShareable
 							$nhtml
 							,$type
 							,($count > 1) 
-								? sprintf('(%d) %s', $count, $TR->sayThis($notificationName))
-								: sprintf('%s', $TR->sayThis($notificationName))
+								? sprintf('(%d) %s', $count, SLocalization::get($notificationName))
+								: sprintf('%s', SLocalization::get($notificationName))
 					);
 			}
 		}

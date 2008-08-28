@@ -124,7 +124,7 @@ if($FeedManager->Items > 0)
 	$channelIds = array_keys($channels);
 	echo "\n<div id=\"OFD_Definition\">\n" .
 			"<span id=\"OFD_Categories\">\n" .
-				"<span>".$Bambus->Translation->news_channel."</span>\n" .
+				"<span>".SLocalization::get('news_channel')."</span>\n" .
 			"</span>\n" .
 			"<span id=\"OFD_Items\">";
 
@@ -141,8 +141,8 @@ if($FeedManager->Items > 0)
 			,$Bambus->Linker->createQueryString(array('edit' => $item))
 			,htmlspecialchars($name)
 			,$Bambus->Gui->iconPath('news-channel', '', 'mimetype','medium')
-			,($item === 0) ? $Bambus->Translation->provides_all_published_objects : ' '
-			,$Bambus->Translation->news_channel
+			,($item === 0) ? SLocalization::get('provides_all_published_objects') : ' '
+			,SLocalization::get('news_channel')
 		);
 	}
 	echo "</span>\n</div>\n";
@@ -158,7 +158,7 @@ if($channel != null)
 	OBJ_ofd = new CLASS_OpenFileDialog();
 	OBJ_ofd.self = 'OBJ_ofd';
 	OBJ_ofd.openIcon = '<?php echo $Bambus->Gui->iconPath('open', 'open', 'action', 'small'); ?>';
-	OBJ_ofd.openTranslation = '<?php echo utf8_encode(html_entity_decode($Bambus->Translation->open)); ?>';
+	OBJ_ofd.openTranslation = '<?php SLocalization::out('open'); ?>';
 	OBJ_ofd.closeIcon = '<?php echo $Bambus->Gui->iconPath('delete', 'delete', 'action', 'small'); ?>';
 	OBJ_ofd.statusText = '';
 	OBJ_ofd.statusAnimation = '<?php echo $Bambus->Gui->iconPath('loading', 'loading', 'animation', 'extra-small'); ?>';

@@ -38,8 +38,10 @@ foreach($files as $file){
         'title' => htmlentities($file),
         'name' => wordwrap(htmlentities($file),1,"<wbr />",true),
     );
-    echo $Bambus->Template->parse($itemTemplate, $output, 'string');
+    $tpl = new WTemplate($itemTemplate, WTemplate::STRING);
+    $tpl->setEnvornment($output);
+    $tpl->render();
 }
 echo $Bambus->Gui->endForm();
-echo $Bambus->Gui->script('hideInputs();');
+echo new WScript('hideInputs();');
 ?>

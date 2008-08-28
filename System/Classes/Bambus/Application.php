@@ -31,12 +31,10 @@ class Application extends Bambus implements IShareable
     		if(defined('BAMBUS_DEBUG'))printf("\n<!--[%s init]-->\n", self::Class_Name);
 	    	self::$initializedInstance = true;
 	    	$this->Gui = Gui::alloc();
-	    	$this->Translation = Translation::alloc();
 	    	$this->FileSystem = FileSystem::alloc();
 	    	$this->Linker = Linker::alloc();
 
 	    	$this->Gui->init();
-	    	$this->Translation->init();
 	    	$this->FileSystem->init();
 	    	$this->Linker->init();
     	}
@@ -137,23 +135,6 @@ class Application extends Bambus implements IShareable
 		return false;
 	}
 
-	function generateTabBar()
-	{
-		$tabs = $this->getXMLPathValueAndAttributes('bambus/tabs/tab');
-    	if(!isset($tabs[0]))
-    	{//no tabs in xml
-    		//create default "edit"-tab
-    		$tabs[0] = array('edit', array('icon' => 'edit'));
-    	}
-    	$barCompatibleTabs = array();
-    	foreach($tabs as $tab)
-    	{
-    		$barCompatibleTabs[$tab[0]] = array($tab[1]['icon'], $this->Translation->sayThis($tab[0]));
-    	}
-    	$this->Gui->iconBar($barCompatibleTabs);
-	 	return '';//
-	}
-	
 	function generateTaskBar()
 	{//TASK- not Tab-Bar
 		$get = &$this->get;
@@ -161,7 +142,6 @@ class Application extends Bambus implements IShareable
 		$applicationNode = $this->getXMLNodeByPathAndAttribute('bambus/application/interface', 'name', $this->tab);
 		if(!empty($applicationNode[0]))
 		{
-			$html .= $this->generateTabBar();
 			if(!empty($applicationNode[1]['search']))
 			{
 				$html .= $this->Gui->search($applicationNode[1]['search']);
@@ -177,7 +157,7 @@ class Application extends Bambus implements IShareable
 				switch($task['type'])
 				{
 					case('spacer'):
-						$panelName = isset($task['name']) ?  $this->Translation->sayThis($task['name']) : '';
+						$panelName = isset($task['name']) ?  SLocalization::get($task['name']) : '';
 						if(!$closed)
 						{
 							$CommandBar .= '</tr></table>';
@@ -197,7 +177,7 @@ class Application extends Bambus implements IShareable
 							$action = $task['action'];
 							if(!empty($task['confirm']))
 							{
-								$action = sprintf("if(confirm('%s')){%s}", utf8_encode(html_entity_decode($this->Translation->sayThis($task['confirm']))), $action);
+								$action = sprintf("if(confirm('%s')){%s}", utf8_encode(html_entity_decode(SLocalization::get($task['confirm']))), $action);
 							}
 						}
 						else
@@ -205,7 +185,7 @@ class Application extends Bambus implements IShareable
 							$action = '';
 							if(!empty($task['confirm']))
 							{
-								$action = sprintf("if(confirm('%s'))", utf8_encode(html_entity_decode($this->Translation->sayThis($task['confirm']))));
+								$action = sprintf("if(confirm('%s'))", utf8_encode(html_entity_decode(SLocalization::get($task['confirm']))));
 							}
 							$prompt = '';
 							if(!empty($task['prompt']))
@@ -214,7 +194,7 @@ class Application extends Bambus implements IShareable
 							}
 							$action .= sprintf("{top.location = '%s'%s;}", addslashes(parent::createQueryString(array('_action' => $task['action']))), $prompt);
 						}
-						$html .= $this->Gui->taskButton($action, $doJS, $task['icon'], $this->Translation->sayThis($task['caption']),$hotkey);
+						$html .= $this->Gui->taskButton($action, $doJS, $task['icon'], SLocalization::get($task['caption']),$hotkey);
 						if($closed)
 						{
 							$CommandBar .= sprintf(
@@ -226,9 +206,9 @@ class Application extends Bambus implements IShareable
 						}						
 						$CommandBar .= sprintf(
 							'<td><a class="CommandBarPanelItem" title="%s" href="javascript:%s">%s</a></td>'
-							,$this->Translation->sayThis($task['caption'])
+							,SLocalization::get($task['caption'])
 							,$action
-							,$this->Gui->icon($task['icon'],$this->Translation->sayThis($task['caption']), false, 'small')
+							,$this->Gui->icon($task['icon'],SLocalization::get($task['caption']), false, 'small')
 						);
 						break;
 				}

@@ -432,7 +432,7 @@ if(empty($get['tab']) || strpos($get['tab'],'manage_')===false)
 	}
 	else
 	{
-		$EditingObject = sprintf('%s.%s', $victim, (($Bambus->UsersAndGroups->isMemberOf($victim, 'Administrator')) ? $Bambus->Translation->sayThis('administrator') : 'user'));
+		$EditingObject = sprintf('%s.%s', $victim, (($Bambus->UsersAndGroups->isMemberOf($victim, 'Administrator')) ? SLocalization::get('administrator') : 'user'));
 	}
 }
 ?>
@@ -441,7 +441,7 @@ if(empty($get['tab']) || strpos($get['tab'],'manage_')===false)
 	OBJ_ofd = new CLASS_OpenFileDialog();
 	OBJ_ofd.self = 'OBJ_ofd';
 	OBJ_ofd.openIcon = '<?php echo $Bambus->Gui->iconPath('open', 'open', 'action', 'small'); ?>';
-	OBJ_ofd.openTranslation = '<?php echo utf8_encode(html_entity_decode($Bambus->Translation->open)); ?>';
+	OBJ_ofd.openTranslation = '<?php SLocalization::out('open'); ?>';
 	OBJ_ofd.closeIcon = '<?php echo $Bambus->Gui->iconPath('delete', 'delete', 'action', 'small'); ?>';
 	OBJ_ofd.statusText = '';
 	OBJ_ofd.statusAnimation = '<?php echo $Bambus->Gui->iconPath('loading', 'loading', 'animation', 'extra-small'); ?>';

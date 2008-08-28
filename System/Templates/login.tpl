@@ -1,3 +1,4 @@
+<div class="editortoolbar">
 	<form method="post" action="{bambus_my_uri}" onsubmit="document.getElementById('waitani').style.display = 'block';">
 		<div class="text">{translate:username}:</div>
 		<input type="text" class="textinput" name="username" />
@@ -9,3 +10,4 @@
 		<input type="submit" class="submitinput" onclick="disableInputs();this.style.display = 'none';" value="{translate:login}" />
 		<br class="clear" />
 	</form>
+</div>

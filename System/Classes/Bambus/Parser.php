@@ -94,33 +94,16 @@ if($dbg)				printf('<p>found %s at %d</p>', $found, $foundAt);
 				$utf8_string = str_replace('{'.$command.'}', $result, $utf8_string);
 				
 			}			
-//			var_dump($expressions);
-//			echo  '<pre><b>$commands</b><br />';
-//			print_r($commands);
-//			echo  '</pre>';
-//			
-//			echo  '<pre><b>$expressions</b><br />';
-//			print_r($expressions);
-//			print_r($expression_depth);
-//			echo  '</pre>';
-			
-			
-			//go through all pairs and check if they include {
-			//if they do skip them and go on parsing the rest
-			
-			//come back later and fullfill them
 		}
 		return $utf8_string; 
 	}
 
 	private function exec_cmd($string, $Object = NULL)
 	{
-//		echo '<strong>',$string, '->',$Object,'</strong><br />';
-//echo '<h1>fooing: '.$string.'</h1>';
 		$SCI = SComponentIndex::alloc()->init();
-$BCMSString = null;
-$Linker = null;
-$CFG = null;
+		$BCMSString = null;
+		$Linker = null;
+		$CFG = null;
 		//if($Object != NULL)
 		{
 			if(strpos($string, ':')!= false)

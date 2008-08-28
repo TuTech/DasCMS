@@ -62,7 +62,6 @@ function __autoload($class)
 		'M' => 'Manager',
 		'N' => 'Navigator',
 		'Q' => 'Query',
-		'R' => 'RenderingEngine',
 		'S' => 'System',
 		'W' => 'Widget',
 		'X' => 'Exception'

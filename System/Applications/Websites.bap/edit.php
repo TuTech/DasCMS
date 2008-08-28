@@ -24,13 +24,11 @@ if(BAMBUS_GRP_EDIT && isset($Page) && $Page instanceof CPage)
 	echo $Bambus->Gui->beginEditorWrapper();
 	echo $Bambus->Gui->editorTextarea($Page->Content);
 	echo $Bambus->Gui->endEditorWrapper();
-	echo $Bambus->Gui->beginScript();
-	echo 'initeditor();';
-	echo $Bambus->Gui->endScript();
+	echo new WScript('initeditor();');
 }
 else
 {
-	echo $Bambus->Gui->script('BCMSRunFX[BCMSRunFX.length] = function(){OBJ_ofd.show()};');
+	echo new WScript('BCMSRunFX[BCMSRunFX.length] = function(){OBJ_ofd.show()};');
 }
 echo '</form></div>';
 ?>

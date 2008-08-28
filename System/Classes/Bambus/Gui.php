@@ -80,58 +80,7 @@ class Gui extends Bambus implements IShareable
 	}
 
 	
-	//object title//
 	
-	function objectTitle($name, $descriptionOrDescriptions = false)
-	{
-		$p = '';
-		if($descriptionOrDescriptions)
-		{
-			$descriptions = $this->isAnArray($descriptionOrDescriptions);
-			foreach($descriptions as $description)
-			{
-				$p .= $this->createElement('p', $description);
-			}
-		}
-		$h2  = $this->createElement('h3', $name);
-		return $this->createElement('div', $h2.$p, array('id' => "objectInformation"));
-	}
-	
-	//small notifier//
-	
-	function applicationNotifier()
-	{
-		return $this->createElement('span', '', array('id' => "js_message", 'class' => "small_message"));
-	}
-	
-	//line number container//
-	
- 	function lineNumberDisplay()
-	{
-		return $this->createElement('div', '&nbsp;', array('id' => "linenr"));
-	}
-	
-	//editor actions//
-	
-	function beginDisabledWYSIWYGActions()
-	{
-		return "<div id=\"disabledWYSIWYGActions\">\n";
-	}
-	
-	function endDisabledWYSIWYGActions()
-	{
-		return "</div>\n";
-	}
-	
-	function beginEnabledWYSIWYGActions()
-	{
-		return "<div id=\"enabledWYSIWYGActions\">\n";
-	}
-	
-	function endEnabledWYSIWYGActions()
-	{
-		return "</div>\n";
-	}
 	
 	//editor wrapper//
 	
@@ -147,7 +96,7 @@ class Gui extends Bambus implements IShareable
 	
 	//search input//
 	
-	function search($function)
+	function search($function)//used: Application
 	{
 		$image ='';
 		$isSafari = false;
@@ -160,21 +109,8 @@ class Gui extends Bambus implements IShareable
 		return $this->createElement('div', $input.$image, array('id' => "searchFieldBox"));
 	}
 		
-	function applicationTitle($ApplicationTitle, $EditingObject = '')
-	{
-		if(empty($EditingObject))
-		{
-			$html = sprintf("<h2>%s %s</h2>", BAMBUS_APPLICATION_ICON, htmlentities($ApplicationTitle));
-		}
-		else
-		{
-			$html = sprintf("<h2>%s %s: \"%s\"</h2>", BAMBUS_APPLICATION_ICON, htmlentities($ApplicationTitle), htmlentities($EditingObject));
-		} 
-		return '';//$html;
-	}
-	//tab bar with big icons//
 	
-	function iconPath($name, $title = '', $type = false, $size = 'small')
+	function iconPath($name, $title = '', $type = false, $size = 'small')//used
 	{
 		//lookup tango icon structure
 		//- seperated specifyer
@@ -343,112 +279,7 @@ class Gui extends Bambus implements IShareable
 		
 		return "\n</span>";
 	}
-	function applicationSelector($applications)
-	{
-		$html = "\n<div id=\"BCMSSwitchOptApp\"><div class=\"side-scroll-body\">";
-		$i = 0;
-		$ctab = isset($_GET['tab'])
-			?(get_magic_quotes_gpc() ? stripslashes($_GET['tab']) : $_GET['tab'])
-			: '';
-		$tr = Translation::alloc();
-		$tr->init();
-        foreach($applications as $identifier => $infos)
-        {
-        	$tabs = '';
-            foreach ($infos['tabs'] as $tab => $icon) 
-        	{
-        		$activeTab = $ctab == $tab && $identifier == BAMBUS_APPLICATION;
-        		$tabs .= sprintf(
-        			'<a class="%sapplication_tab"  href="%s">%s%s<br class="clear" /></a>'
-        			,$activeTab ? 'active ' : ''
-        			,$this->createQueryString(array('editor' => $infos['item'], 'tab' => $tab),true)
-        			,$this->icon($icon,'',null,$activeTab ? 'small' : 'extra-small', $activeTab)
-        			,$tr->treturn($tab)
-        		);
-        	}
-        	$html .= sprintf(
-				"\t<div class=\"%sbambus_type_application\">".
-//					"%s\n\t\t".
-					"<h2 class=\"ApplicationTitle\">%s%s</h2>\n\t\t".
-        			"%s".
-					"</div>\n"
-				,$identifier == BAMBUS_APPLICATION ? 'active ' : ''
-				,$this->icon($infos['icon'],$tr->treturn($infos['desc']),'app','small', $identifier == BAMBUS_APPLICATION)
-				,$tr->treturn($infos['name'])
-				,$tabs
- 			);
-            $i++;
-        }
-        $html .= "\n</div>\n</div>";
-		return $html;
-	}
-	
-	function tabSelector($tabs)
-	{
-		return '';
-//		$html = "\n<div id=\"BCMSSwitchOptTab\">";
-//		$i = 0;
-//		$tr = Translation::alloc();
-//		$tr->init();
-//        foreach($tabs as $identifier => $infos)
-//        {
-//         	$html .= '';sprintf(
-//				"\t<a class=\"%s\" href=\"%s\">%s\n\t\t" .
-//					"<span class=\"ApplicationTitle\">%s</span>\n\t\t" .
-//					"<span class=\"ApplicationDescription\">%s</span>\n\t" .
-//				"</a>\n"
-//				,$identifier == BAMBUS_APPLICATION_TAB ? 'active ' : ''
-//				,$this->createQueryString(array('tab' => $identifier))
-//				,$this->icon($infos[0],'',false,'large')
-//				,$tr->treturn($infos[1])
-//				,''
-// 			);
-//            $i++;
-//        }       
-//		$html .= "\n</div>";
-//		return $html;
-	}
-	
-    function iconBar($tabs = array(),$tabname = 'tab')
-    {
-     
-     return '';
-//     
-//        $get = &$this->get;
-//        if(count($tabs) > 0)
-//        {
-//            $keys = array_keys($tabs);
-//            $span = '';
-//            $i = 1;
-//            foreach($tabs as $identifier => $caption)
-//            {
-//            	//tab empty or wrong -> set to first item
-//                if(empty($get[$tabname]) || !in_array($get[$tabname], $keys))
-//                {
-//                    $get[$tabname] = $keys[0];
-//                }
-//                $image = $this->icon($caption[0],$caption[1], false, 'medium');
-//                if($get[$tabname] = $keys[$i])
-//                {
-//                	define('BAMBUS_APPLICATION_TAB_ICON', $this->iconPath($caption[0],$caption[1], false, 'small'));
-//                	define('BAMBUS_APPLICATION_TAB_TITLE', $caption[1]);
-//                	
-//                }
-//                $accesskeyinfo = $this->createElement('span','^'.$i, array('class' => "accesskeyinfo"));
-//                $link = $this->createElement('a', $accesskeyinfo.$image, array('accesskey' => $i, 'href' => $this->Linker->createQueryString(array($tabname => $identifier))));
-//                $span .= $this->createElement('span',$link, array('class' => (($get[$tabname] === $identifier) ? 'Selected' : '')."TabItem"));
-//                $i++;
-//            }
-//            
-//        }
-//        if(!defined('BAMBUS_APPLICATION_TAB_ICON'))
-//        {
-//        	define('BAMBUS_APPLICATION_TAB_ICON', '');
-//        	define('BAMBUS_APPLICATION_TAB_TITLE', '');
-//        }
-//        return $this->createElement('div', $span, array('id' => "iconbar", 'class' => 'noaccesskeys'));
-    }
-    
+
     function beginMultipartForm($_get_values = array(), $id = '')
     {
         if(!is_array($_get_values))$_get_values = array();
@@ -470,24 +301,6 @@ class Gui extends Bambus implements IShareable
 		return $this->createElement('div', '', array('class' => "taskspacer"));
     }
     
-    function beginTaskObject()
-    {
-    	return "<div class=\"taskitem\">\n";	
-    }
-    
-    function endTaskObject()
-    {
-    	return "</div>\n";	
-    }
-    
-    function userRequest($icon, $requestmessage, $system = true)
-    {
-    	if(substr($icon, -4, 1) == '.') $icon = substr($icon, 0, -4);
-    	$image = $this->icon($icon, '', 'mimetype','medium', $system);
-		$br = $this->createElement('br', false, array('class' => "clear"));
-		$image = $this->createElement('span', $image, array('style' => "float:left;padding:4px;padding-top:0px;"));
-    	return $this->createElement('div', $image.$requestmessage.$br, array('class' => "userrequest"));
-    }
     var $hotKeys = array();
     function taskButton($Action, $IsJSAction, $icon, $Caption, $hotkey = '')
     {
@@ -571,21 +384,6 @@ class Gui extends Bambus implements IShareable
         return "</div>\n</div>\n";
     }
     
-    function beginScript()
-    {
-        return "<script type= \"text/javascript\">\n";
-    }
-    
-    function endScript()
-    {
-        return "</script>\n";
-    }
-    
-    function script($jsCommands)
-    {
-    	return $this->beginScript().$jsCommands.$this->endScript();
-    }
-    
     function beginEditor()
     {
         return "<div id=\"editor\">\n";
@@ -610,47 +408,6 @@ class Gui extends Bambus implements IShareable
         $out .= "</textarea>\n";
         return $out;
     }
-    
-    function beginNavigator()
-    {
-        return "<div id=\"sidebar\">\n";
-    }
-    
-    function endNavigator()
-    {
-        return "</div>\n";
-    }
-    
-    function beginCategorySelector()
-    {
-    	return "<div id=\"categorySelector\">\n";
-    }
-    
-    function endCategorySelector()
-    {
-    	return "</div>\n";
-    }
-    
-    function beginToolbar()
-    {
-        return "<div class=\"editortoolbar\">\n";
-    }
-    
-    function endToolbar()
-    {
-        return "</div>\n";
-    }
-    
-    function beginBox($class = 'tabbox')
-    {
-        return "<div class=\"".$class."\">\n";
-    }
-    
-    function endBox()
-    {
-        return "</div>\n";
-    }
-    
     function verticalSpace()
     {
         return "<br class=\"clear\"/>";
@@ -742,28 +499,6 @@ class Gui extends Bambus implements IShareable
             $header .= "</tr>\n";
         }
         return $header;
-    }
-    
-    function beginDocumentSelector($title)
-    {
-         return "<div class=\"documentSelector\">\n<b>".$title."</b>\n";
-    }
-    
-    function documentSelectorItem($item, $selected, $title)
-    {
-        return sprintf(
-        		'<div class="%swebdoc"><a href="%s"><img alt="" src="%s%s.png" />%s</a><br class="clear"/></div>',
-        		(($selected)? 'selected_' : ''),
-        		$this->Linker->createQueryString(array('edit' => $item)),
-        		parent::pathTo('systemMediumMimeImage'),
-        		parent::suffix($item),
-        		$title
-        	);
-    }
-    
-    function endDocumentSelector()
-    {
-        return "</div>\n";
     }
 }
 ?>

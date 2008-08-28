@@ -23,9 +23,9 @@ if($edit != null)
 	
 	<div id="objectInspectorActiveFullBox">
 		<h2><?php echo htmlspecialchars($edit,ENT_QUOTES, 'utf-8'); ?></h2>
-		<h3><?php echo $Bambus->Translation->set_target_view; ?></h3>
+		<h3><?php SLocalization::out('set_target_view'); ?></h3>
 		<select name="set_spore">
-			<option value=""><?php echo $Bambus->Translation->dont_change; ?></option>
+			<option value=""><?php SLocalization::out('dont_change'); ?></option>
 		<?php
 		$spores = QSpore::activeSpores();
 		foreach ($spores as $spore) 
@@ -35,7 +35,7 @@ if($edit != null)
 		
 			?>
 		</select>
-		<h3><?php echo $Bambus->Translation->edit_navigation_layout; ?></h3>
+		<h3><?php SLocalization::out('edit_navigation_layout'); ?></h3>
 		<div id="navigationLayout">
 			<div id="1">
 				<input type="hidden" name="1_fc" id="1_fc" value="" />
@@ -92,11 +92,11 @@ if($edit != null)
 }
 elseif(count($navigations) > 0)
 {
-	echo $Bambus->Gui->script('BCMSRunFX[BCMSRunFX.length] = function(){OBJ_ofd.show()};');
+	echo new WScript('BCMSRunFX[BCMSRunFX.length] = function(){OBJ_ofd.show()};');
 }
 else
 {
-	echo '<h3>', $Bambus->Translation->please_create_a_new_navigation, '</h3>';
+	echo '<h3>', SLocalization::out('please_create_a_new_navigation'), '</h3>';
 }
 
 if(BAMBUS_GRP_EDIT)

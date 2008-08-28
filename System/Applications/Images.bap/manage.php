@@ -47,8 +47,10 @@ foreach($files as $file){
         'name' => str_replace(chr(11), ' ', wordwrap(htmlentities(str_replace(' ', chr(11), $fileName)),6,"<wbr />",true)),
         'type' => 'manager_image'
     );
-    echo $Bambus->Template->parse($itemTemplate, $output, 'string');
+    $tpl = new WTemplate($itemTemplate, WTemplate::STRING);
+    $tpl->setEnvornment($output);
+    $tpl->render();
 }
 echo $Bambus->Gui->endForm();
-echo $Bambus->Gui->script('hideInputs();');
+echo new WScript('hideInputs();');
 ?>

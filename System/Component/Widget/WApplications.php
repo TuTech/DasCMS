@@ -54,12 +54,9 @@ class WApplications extends BWidget
 	{
 		$html = '<div id="'.get_class($this)."\"><table>\n<tr>";
 		asort($this->apps, SORT_LOCALE_STRING);
-		//@todo remove old
-		$tr = Translation::alloc();
-		$tr->init();
 		foreach ($this->apps as $app => $meta) 
 		{
-			$name = htmlentities($tr->treturn($meta['name']), ENT_QUOTES, 'UTF-8');
+			$name = htmlentities(SLocalization::get($meta['name']), ENT_QUOTES, 'UTF-8');
 			$html .= sprintf(
 				"\t<td><a href=\"Management/?editor=%s&amp;tab=%s\" class=\"application%s\">\n".
 					"\t\t<img src=\"%s\" alt=\"%s\" title=\"%s\"/>\n".
@@ -73,7 +70,7 @@ class WApplications extends BWidget
 				,$name
 				,$name
 				,$name
-				,$tr->treturn($meta['desc'])
+				,SLocalization::get($meta['desc'])
 			
 			);
 		}

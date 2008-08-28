@@ -11,6 +11,8 @@ class SEnviornment extends BSystem
 {
 	const SYSTEM_STYLESHEETS = './System/ClientData/Stylesheets/';
 	const SYSTEM_SCRIPTS = './System/ClientData/Scripts/';
-	const SYSTEM_ICONS = './System/Icons/tango/';
+    const SYSTEM_ICONS = './System/Icons/tango/';
+    const SYSTEM_TEMPLATES = './System/Templates/';
+    const CONTENT_TEMPLATES = './Content/templates/';
 }
 ?>

@@ -91,9 +91,6 @@ class STag extends BSystem implements IShareable,
 	private function setTags($managerId, $contentID, $tagstring)
 	{
 		$tags = self::parseTagStr($tagstring);
-		$nfc = NotificationCenter::alloc();
-		$nfc->init();
-		
 		$DB = DSQL::alloc()->init();
 		$DB->beginTransaction();
 		$ptok = SProfiler::profile(__FILE__, __LINE__, 'updating tags to '.implode(', ', $tags));

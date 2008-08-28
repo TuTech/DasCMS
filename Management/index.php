@@ -57,20 +57,9 @@ $Bambus = new Bambus();
 
 list($get, $post, $session, $uploadfiles) = $Bambus->initialize($_GET,$_POST,$_SESSION,$_FILES);
 
-//create env 
-$languageOptions = $Bambus->Translation->getAllLanguages(true);
-if(count($languageOptions) == 1)
-{
-	$languageOptions = array_keys($Bambus->Translation->getAllLanguages());
-	$languageOptions = '<input type="hidden" name="language" value="'.$languageOptions[0].'" />';
-}
-elseif(count($languageOptions) >= 2)
-{
-	$languageOptions = '<select name="language">'.implode('',$languageOptions).'</select>';
-}
-$Bambus->Template->setEnv('logotext', BAMBUS_VERSION);
-$Bambus->Template->setEnv('bambusLanguageSelect', $languageOptions);
-$Bambus->Template->setEnv('bambus_my_uri', $Bambus->Linker->createQueryString(array(), true));
+
+WTemplate::globalSet('logotext', BAMBUS_VERSION);
+WTemplate::globalSet('bambus_my_uri', $Bambus->Linker->createQueryString(array(), true));
 
 
 /////////////////////////////////////
@@ -94,8 +83,7 @@ WHeader::setBase($Bambus->Linker->myBase());
 
 WHeader::setTitle('BoxFish');
 WHeader::meta('license', 'GNU General Public License/GPL 2 or newer');
-$Bambus->Template->setEnv('Header', new WHeader());
-
+WTemplate::globalSet('Header', new WHeader());
 if($Bambus->UsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($Bambus->UsersAndGroups->isMemberOf($bambus_user, 'CMS') || $Bambus->UsersAndGroups->isMemberOf($bambus_user, 'Administrator'))) //login ok?
 {
 	if(!empty($_POST['bambus_cms_login']))
@@ -124,16 +112,14 @@ if($Bambus->UsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($Bam
  	//2nd: load application
     if(BAMBUS_APPLICATION == '')
 	{
-		$Bambus->Template->addToEnv('TaskBar','');
-	    $config = $Bambus->Template->exportEnv();
+		WTemplate::globalSet('TaskBar','');
 		define('BAMBUS_CURRENT_OBJECT', '');
-    	echo $Bambus->Template->parse('header', $config, 'system');
-		 $Bambus->Gui->selectorBox();
-		 $Bambus->Gui->applicationSelector($applications);
-	 	 $Bambus->Gui->endSelectorBox();
+		$headTpl = new WTemplate('header', WTemplate::SYSTEM);
+    	$headTpl->render();
 		echo $Bambus->Gui->beginApplication();
 		echo $Bambus->Gui->endApplication();
-    	echo $Bambus->Template->parse('footer', $config, 'system');
+        $footerTpl = new WTemplate('footer', WTemplate::SYSTEM);
+        $footerfooterTpl->render();
 	}    
     else
     {
@@ -157,14 +143,12 @@ if($Bambus->UsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($Bam
 	    
 	    
 	    //load additional translations from the application
-	    $Bambus->Translation->loadApplicationTranslation();
 	    
 	    
 	    
 	    
 	    
 	    //export the config into an array
-	    $config = $Bambus->Template->exportEnv();
 		$Bambus->using('Application');    
     	//load application class
 
@@ -179,20 +163,9 @@ if($Bambus->UsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($Bam
     		$Bambus->Application->loadVars($get, $post, $session, $uploadfiles);
     	}
 		define('BAMBUS_CURRENT_OBJECT', $EditingObject);
-		$Bambus->Template->addToEnv('TaskBar',$Bambus->Application->generateTaskBar());
-    	echo $Bambus->Template->parse('header', $config, 'system');
-		
-			//3rd: path control
-		 $Bambus->Gui->selectorBox();
-		 $Bambus->Gui->applicationSelector($applications);
-	    if(BAMBUS_APPLICATION != '')
-	    {
-	    	 $Bambus->Gui->tabSelector($tabs);
-	    }    	
-	 	 $Bambus->Gui->endSelectorBox();
-		
-		
-		
+		WTemplate::globalSet('TaskBar',$Bambus->Application->generateTaskBar());
+    	$headTpl = new WTemplate('header', WTemplate::SYSTEM);
+        $headTpl->render();
 		echo $ob;
 		echo $Bambus->Gui->beginApplication();
     	$erg = $Bambus->Application->run();
@@ -205,14 +178,15 @@ if($Bambus->UsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($Bam
 			}
     	}
 		echo $Bambus->Gui->endApplication();
-    	echo $Bambus->Template->parse('footer', $config, 'system');
+    	$footerTpl = new WTemplate('footer', WTemplate::SYSTEM);
+        $footerTpl->render();
     }
 }else{
     //Show Login
  
-    $Bambus->Template->setEnv('appNavigator', '');
-    $Bambus->Template->addToEnv('TaskBar','');
-    define('BAMBUS_APPLICATION_TITLE', $Bambus->Translation->login);
+    WTemplate::globalSet('appNavigator', '');
+    WTemplate::globalSet('TaskBar','');
+    define('BAMBUS_APPLICATION_TITLE', SLocalization::get('login'));
     define('BAMBUS_APPLICATION_ICON', $Bambus->Gui->iconPath('login','','action','small'));
 	define('BAMBUS_CURRENT_OBJECT', '');
 	define('BAMBUS_USER', '');
@@ -220,18 +194,18 @@ if($Bambus->UsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($Bam
     $Bambus->selectApplicationFromPool(array());
 
 	WHeader::useStylesheet('specialPurpose.login.css');
-	//$Bambus->Template->setEnv('Header', strval(new WHeader()));
     if(!empty($_POST['bambus_cms_login']))
     {
         sleep(10);
         SNotificationCenter::alloc()->init()->report('warning', 'wrong_username_or_password');
     }
-    echo $Bambus->Template->parse('header',array(),'system');
+    $headTpl = new WTemplate('header', WTemplate::SYSTEM);
+    $headTpl->render();
     echo $Bambus->Gui->beginApplication();
-    echo $Bambus->Gui->beginToolbar();
-    echo $Bambus->Template->parse('login',array(),'system');
-    echo $Bambus->Gui->endToolbar();
+    $loginTpl = new WTemplate('login', WTemplate::SYSTEM);
+    $loginTpl->render();
     echo $Bambus->Gui->endApplication();
-    echo $Bambus->Template->parse('footer',array(),'system');
+    $footerTpl = new WTemplate('footer', WTemplate::SYSTEM);
+    $footerTpl->render();
 }
 ?>

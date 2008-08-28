@@ -71,12 +71,12 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 	if(BAMBUS_GRP_CREATE && !empty($get['_action']) && $get['_action'] == 'create')
 	{
 		$i = 0;
-		while(file_exists($Bambus->pathTo('css').$Bambus->Translation->sayThis('new').'-'.++$i.'.css'))
+		while(file_exists($Bambus->pathTo('css').SLocalization::get('new').'-'.++$i.'.css'))
 			;
-		$File = $Bambus->Translation->sayThis('new').'-'.$i.'.css';
-		$fileContent = '/* '.$Bambus->Translation->sayThis('new_css_file').' */';
+		$File = SLocalization::get('new').'-'.$i.'.css';
+		$fileContent = '/* '.SLocalization::get('new_css_file').' */';
 		$Bambus->FileSystem->write($Bambus->pathTo('css').$File, $fileContent);
-		$FileName = $Bambus->Translation->sayThis('new').'-'.$i;
+		$FileName = SLocalization::get('new').'-'.$i;
 		$allowEdit = false;
 		$FileOpened = true;
 	}
@@ -86,18 +86,11 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 		if($allowEdit && !empty($get['edit']) && in_array($get['edit'], $Files))
 		{
 			$File = $get['edit'];
-			$FileName = ($File == 'default.css') ? $Bambus->Translation->sayThis('default.css') : htmlentities(substr($File, 0, -4));
+			$FileName = ($File == 'default.css') ? SLocalization::get('default.css') : htmlentities(substr($File, 0, -4));
 			$allowEdit = true;
 			$fileContent = $Bambus->FileSystem->read($Bambus->pathTo('css').$File);
 			$FileOpened = true;
 		}
-//		elseif($allowEdit)
-//		{
-//			$File = 'default.css';
-//			$FileName = $Bambus->Translation->sayThis('default.css');
-//			$allowEdit = false;
-//			$fileContent = $Bambus->FileSystem->read($Bambus->pathTo('css').$File);
-//		}
 		
 		////////
 		//save//
@@ -156,10 +149,6 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 			unlink($Bambus->pathTo('css').$File);
 		    SNotificationCenter::alloc()->init()->report('message', 'file_deleted');
 			$FileOpened = false;
-			//set new doc    	
-//			$File = 'default.css';
-//			$FileName = $Bambus->Translation->sayThis('default.css');
-//			$fileContent = $Bambus->FileSystem->read($Bambus->pathTo('css').$File);
 		}
 		elseif(BAMBUS_GRP_DELETE && !empty($get['_action']) && $get['_action'] == 'delete' && $File == 'default.css')
 		{
@@ -183,7 +172,7 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 	}	
 	if(count($Files) > 0 && (empty($get['tab']) || $get['tab'] == 'edit_css'))
 	{
-		$EditingObject = ($File == 'default.css') ? $Bambus->Translation->sayThis('default.css').'.css' : $File;	
+		$EditingObject = ($File == 'default.css') ? SLocalization::get('default.css').'.css' : $File;	
 	}
 
 }
@@ -204,12 +193,12 @@ elseif(BAMBUS_APPLICATION_TAB == 'edit_templates')
 	if(BAMBUS_GRP_CREATE && !empty($get['_action']) && $get['_action'] == 'create')
 	{
 		$i = 0;
-		while(file_exists($Path.$Bambus->Translation->sayThis('new').'-'.++$i.$Suffix))
+		while(file_exists($Path.SLocalization::get('new').'-'.++$i.$Suffix))
 			;
-		$File = $Bambus->Translation->sayThis('new').'-'.$i.$Suffix;
-		$fileContent = '<!-- '.$Bambus->Translation->sayThis('new_template').' -->';
+		$File = SLocalization::get('new').'-'.$i.$Suffix;
+		$fileContent = '<!-- '.SLocalization::get('new_template').' -->';
 		$Bambus->FileSystem->write($Path.$File, $fileContent);
-		$FileName = $Bambus->Translation->sayThis('new').'-'.$i;
+		$FileName = SLocalization::get('new').'-'.$i;
 		$allowEdit = false;
 		$FileOpened = true;
 	}
@@ -219,18 +208,11 @@ elseif(BAMBUS_APPLICATION_TAB == 'edit_templates')
 		if($allowEdit && !empty($get['edit']) && in_array($get['edit'], $Files))
 		{
 			$File = $get['edit'];
-			$FileName = (in_array($File, $doNotDelete)) ? $Bambus->Translation->sayThis($File) : htmlentities(substr($File, 0, -4));
+			$FileName = (in_array($File, $doNotDelete)) ? SLocalization::get($File) : htmlentities(substr($File, 0, -4));
 			$allowEdit = true;
 			$FileOpened = true;
 			$fileContent = $Bambus->FileSystem->read($Path.$File);
 		}
-//		elseif($allowEdit)
-//		{
-//			$File = $DefaultFile;
-//			$FileName = $Bambus->Translation->sayThis($File);
-//			$allowEdit = false;
-//			$fileContent = $Bambus->FileSystem->read($Path.$File);
-//		}
 		
 		////////
 		//save//
@@ -266,10 +248,6 @@ elseif(BAMBUS_APPLICATION_TAB == 'edit_templates')
 			unlink($Path.$File);
 		    SNotificationCenter::alloc()->init()->report('message', 'file_deleted');
 			$FileOpened = false;
-			//set new doc    	
-//			$File = $DefaultFile;
-//			$FileName = $Bambus->Translation->sayThis($File);
-//			$fileContent = $Bambus->FileSystem->read($Path.$File);
 		}
 		elseif(BAMBUS_GRP_DELETE && !empty($get['_action']) && $get['_action'] == 'delete' && in_array($File, $doNotDelete))
 		{
@@ -331,43 +309,20 @@ if(BAMBUS_APPLICATION_TAB != 'manage')
 				'<span title="category">%s</span>' ."\n".
 			"</a>\n"
 			,$Bambus->Linker->createQueryString(array('edit' => $item,'tab' => 'edit_'.($type == 'css' ? 'css':'templates')))
-			,($item == 'default.css') ? $Bambus->Translation->sayThis('default.css') : htmlentities(substr($item, 0, -4))
+			,($item == 'default.css') ? SLocalization::get('default.css') : htmlentities(substr($item, 0, -4))
 			,$Bambus->Gui->iconPath($type == 'css' ? 'stylesheet':'template', '', 'mimetype','medium')
 			,$Bambus->formatSize(filesize($Bambus->pathTo($type == 'css' ? 'css':'template').$item))
 			,strtoupper($type)
 		);
 	}
 	echo "</span>\n</div>\n";
-//		echo "\n<div id=\"OFD_Definition\">\n" .
-//			"<span id=\"OFD_Categories\">\n" .
-//				"<span>TPL</span>\n" .
-//			"</span>\n" .
-//			"<span id=\"OFD_Items\">";
-//		$Files = $Bambus->FileSystem->getFiles('template', array('tpl'));
-//		asort($Files, SORT_STRING);
-//		foreach($Files as $item)
-//		{
-//			printf(
-//				'<a href="%s">' ."\n\t".
-//					'<span title="title">%s</span>' ."\n\t".
-//					'<span title="icon">%s</span>' ."\n\t".
-//					'<span title="description">%s</span>' ."\n\t".
-//					'<span title="category">TPL</span>' ."\n".
-//				"</a>\n"
-//				,$Bambus->Linker->createQueryString(array('edit' => $item))
-//				,htmlentities(substr($item, 0, -4))
-//				,$Bambus->Gui->iconPath('template', '', 'mimetype','medium')
-//				,$Bambus->formatSize(filesize($Bambus->pathTo('template').$item))
-//			);
-//		}
-//		echo "</span>\n</div>\n";
 ?>
 <script language="JavaScript" type="text/javascript">
 	var OBJ_ofd;
 	OBJ_ofd = new CLASS_OpenFileDialog();
 	OBJ_ofd.self = 'OBJ_ofd';
 	OBJ_ofd.openIcon = '<?php echo $Bambus->Gui->iconPath('open', 'open', 'action', 'small'); ?>';
-	OBJ_ofd.openTranslation = '<?php echo utf8_encode(html_entity_decode($Bambus->Translation->open)); ?>';
+	OBJ_ofd.openTranslation = '<?php SLocalization::out('open'); ?>';
 	OBJ_ofd.closeIcon = '<?php echo $Bambus->Gui->iconPath('delete', 'delete', 'action', 'small'); ?>';
 	OBJ_ofd.statusText = '';
 	OBJ_ofd.statusAnimation = '<?php echo $Bambus->Gui->iconPath('loading', 'loading', 'animation', 'extra-small'); ?>';

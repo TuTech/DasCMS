@@ -20,7 +20,6 @@ class SComponentIndex extends BSystem implements IShareable
 		'M' => 'Manager',
 		'N' => 'Navigator',
 		'Q' => 'Query',
-		'R' => 'RenderingEngine',
 		'S' => 'System',
 		'W' => 'Widget',
 		'X' => 'Exception'

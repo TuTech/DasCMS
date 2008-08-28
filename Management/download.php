@@ -7,7 +7,6 @@
 * Description: 
 ************************************************/
 define('BAMBUS_ACCESS_TYPE', 'management');
-define('BAMBUS_CMS_DEFAULT_LANGUAGE', 'de');
 chdir('..');
 require_once('./System/Classes/Bambus.php');
 setlocale (LC_ALL, 'de_DE');

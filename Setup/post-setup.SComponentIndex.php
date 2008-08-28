@@ -43,7 +43,6 @@ class post_setup_SComponentIndex implements runnable
 		'M' => 'Manager',
 		'N' => 'Navigator',
 		'Q' => 'Query',
-		'R' => 'RenderingEngine',
 		'S' => 'System',
 		'W' => 'Widget',
 		'X' => 'Exception'

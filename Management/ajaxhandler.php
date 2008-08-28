@@ -10,7 +10,6 @@ header('Content-Type: text/html; charset=utf-8');
 setlocale (LC_ALL, 'de_DE');
 //load the mighty bambus
 define('BAMBUS_ACCESS_TYPE', 'management');
-define('BAMBUS_CMS_DEFAULT_LANGUAGE', 'de');
 chdir('..');
 require_once('./System/Classes/Bambus.php');
 $Bambus = new Bambus();
@@ -49,9 +48,7 @@ if($Bambus->UsersAndGroups->isValidUser($bambus_user, $bambus_password)
 	define('BAMBUS_PRIMARY_GROUP', $Bambus->UsersAndGroups->getPrimaryGroup(BAMBUS_USER));
     
     //build the shiny bambus menu-bar and check the editor permissions
-    $Bambus->Template->setEnv('appNavigator', $Bambus->applicationNavigator());
 	define('BAMBUS_APPLICATION_DIRECTORY',  $Bambus->pathTo('systemApplication').BAMBUS_APPLICATION.'/');
-    $config = $Bambus->Template->exportEnv();
     
     //load the desired editor helper
     if(file_exists($Bambus->pathTo('systemApplication').basename($get['editor']).'/Ajax.php'))

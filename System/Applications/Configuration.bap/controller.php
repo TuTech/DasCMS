@@ -90,8 +90,8 @@ function pdirlist_r($dir = './', $indent = 0){
     global $out,$Bambus,$_GET;
     $files = array();
     $dirs = array();
-    $yes = $Bambus->Translation->sayThis('yes');
-    $no = $Bambus->Translation->sayThis('no');
+    $yes = SLocalization::get('yes');
+    $no = SLocalization::get('no');
     if(file_exists($dir)){
         if(is_readable($dir)){
             $Bambus->FileSystem->changeDir($dir, false);
@@ -110,7 +110,7 @@ function pdirlist_r($dir = './', $indent = 0){
             closedir($Directory);
             $indent = $indent + 20;
         }else{
-            $out[] =  '<div class="listeddir"><img src="'.$Bambus->pathTo('systemImage').'dir.png" alt="" />'.htmlentities($dir).' <span class="notreadable">'.$Bambus->Translation->sayThis('not_readable').'</span></div>';
+            $out[] =  '<div class="listeddir"><img src="'.$Bambus->pathTo('systemImage').'dir.png" alt="" />'.htmlentities($dir).' <span class="notreadable">'.SLocalization::get('not_readable').'</span></div>';
             $indent = $indent + 20;                
         }
         if ($files != array())

@@ -3,14 +3,14 @@ $info = array(); //array('size' => 0,'lines' => 0,'chars' => 0,'files' => 0,'fol
 dirlist_r('./');
 $Bambus->FileSystem->returnToRootDir();
 ?>
-<h3><?php echo $Bambus->Translation->sayThis('system');?></h3>
+<h3><?php SLocalization::out('system');?></h3>
 <table cellspacing="0" class="borderedtable full">
 <tr>
-	<th><?php echo $Bambus->Translation->sayThis('type');?></th>
-	<th><?php echo $Bambus->Translation->sayThis('number_of_items');?></th>
-	<th><?php echo $Bambus->Translation->sayThis('lines');?></th>
-	<th><?php echo $Bambus->Translation->sayThis('size');?></th>
-	<th><?php echo $Bambus->Translation->sayThis('chars_per_line');?></th>
+	<th><?php SLocalization::out('type');?></th>
+	<th><?php SLocalization::out('number_of_items');?></th>
+	<th><?php SLocalization::out('lines');?></th>
+	<th><?php SLocalization::out('size');?></th>
+	<th><?php SLocalization::out('chars_per_line');?></th>
 </tr>
 <?php
 foreach(
@@ -27,7 +27,7 @@ foreach(
 {
 	printf(
 		'<tr><th class="left_th">%s</th><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>'
-		,$Bambus->Translation->sayThis($linekeys[0])								//title
+		,SLocalization::get($linekeys[0])								//title
 		,empty($info[$linekeys[0]]) ? '' : $info[$linekeys[0]]						//number
 		,empty($info[$linekeys[1]]) ? '' : $info[$linekeys[1]]						//lines
 		,empty($info[$linekeys[2]]) ? '' : $Bambus->formatSize($info[$linekeys[2]])	//size
@@ -40,11 +40,11 @@ foreach(
 ?>
 </table>
 <br />
-<h3><?php echo $Bambus->Translation->sayThis('enviornment');?></h3>
+<h3><?php SLocalization::out('enviornment');?></h3>
 <table cellspacing="0" class="borderedtable full">
 <tr>
-	<th><?php echo $Bambus->Translation->sayThis('software');?></th>
-	<th><?php echo $Bambus->Translation->sayThis('version');?></th>
+	<th><?php SLocalization::out('software');?></th>
+	<th><?php SLocalization::out('version');?></th>
 </tr>
 <tr>
 	<th class="left_th">PHP</th>
@@ -52,7 +52,7 @@ foreach(
 </tr>
 </table>
 <br />
-<h3><?php echo $Bambus->Translation->sayThis('file_permission');?></h3>
+<h3><?php SLocalization::out('file_permission');?></h3>
 <?php
 if(!empty($_GET['_action']) && $_GET['_action'] == 'repair_rights')
 {
@@ -68,11 +68,11 @@ else
 	echo $Bambus->Gui->beginTable();
 	echo $Bambus->Gui->tableHeader(
 		array(
-			$Bambus->Translation->sayThis('file'), 
-			$Bambus->Translation->sayThis('readable'), 
-			$Bambus->Translation->sayThis('writeable'), 
-			$Bambus->Translation->sayThis('file_permissions'),
-			$Bambus->Translation->sayThis('path')
+			SLocalization::get('file'), 
+			SLocalization::get('readable'), 
+			SLocalization::get('writeable'), 
+			SLocalization::get('file_permissions'),
+			SLocalization::get('path')
 		)
 	);	
 	echo implode("\n", $out);

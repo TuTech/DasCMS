@@ -101,9 +101,9 @@ $values = array(
 foreach($values as $title => $settings)
 {
 	$flip = 2;
-	printf('<h3>%s</h3>', $Bambus->Translation->sayThis($title));
+	printf('<h3>%s</h3>', SLocalization::get($title));
 	echo '<table cellspacing="0" class="borderedtable full">';
-	printf('<tr><th>%s</th><th>%s</th><th>%s</th></tr>', $Bambus->Translation->sayThis('description'), $Bambus->Translation->sayThis('value'), $Bambus->Translation->sayThis("configuration_keys"));
+	printf('<tr><th>%s</th><th>%s</th><th>%s</th></tr>', SLocalization::get('description'), SLocalization::get('value'), SLocalization::get("configuration_keys"));
 	
 	foreach($settings as $name => $options)
 	{
@@ -120,28 +120,28 @@ foreach($values as $title => $settings)
 		}
 		elseif($options[1] == 'password')
 		{
-			$input = sprintf('<input class="fullinput" type="password" size="40" name="db_password" value="%s" /><br /><input type="checkbox" name="chdbpasswd" />%s', (trim($Bambus->Configuration->get('db_password')) != '') ? '#######' : '' , $Bambus->Translation->sayThis('change_db_password'));
+			$input = sprintf('<input class="fullinput" type="password" size="40" name="db_password" value="%s" /><br /><input type="checkbox" name="chdbpasswd" />%s', (trim($Bambus->Configuration->get('db_password')) != '') ? '#######' : '' , SLocalization::get('change_db_password'));
 		}
-		printf('<tr class="flip_%s"><th scope="row"><label for="%s">%s</label></th><td>%s</td><td class="tdx100">%s</td></tr>', $flip, $options[0], $Bambus->Translation->sayThis($name), $input,  (!empty($options[2])) ? '' : '{'.$options[0].'}');
+		printf('<tr class="flip_%s"><th scope="row"><label for="%s">%s</label></th><td>%s</td><td class="tdx100">%s</td></tr>', $flip, $options[0], SLocalization::get($name), $input,  (!empty($options[2])) ? '' : '{'.$options[0].'}');
 	}
 	echo '</table><br />';
 
 }
-printf('<h3>%s</h3>', $Bambus->Translation->sayThis('cache'));
+printf('<h3>%s</h3>', SLocalization::get('cache'));
 ?>
 <table cellspacing="0" class="borderedtable full">
     <tr>
         <th colspan="3">
-            <?php echo $Bambus->Translation->sayThis("bambus_cache");?>
+            <?php SLocalization::out("bambus_cache");?>
         </th>
     </tr>
     <tr class="flip_1">
-        <th scope="row"><?php echo $Bambus->Translation->sayThis("cache_size");?>:</th>
+        <th scope="row"><?php SLocalization::out("cache_size");?>:</th>
             <td colspan="2"><?php echo htmlentities(cacheSize());?>
         </td>
     </tr>
     <tr class="flip_2">
-        <th scope="row"><?php echo $Bambus->Translation->sayThis("clear_cache");?>:</th>
+        <th scope="row"><?php SLocalization::out("clear_cache");?>:</th>
             <td colspan="2"><input type="checkbox" name="_clear_cache" /> 
         </td>
     </tr>

@@ -5,7 +5,6 @@
 * Copyright:   Lutz Selke/TuTech Innovation GmbH 
 * Description: Image Administration Thumbnail creator
 ************************************************/
-define('BAMBUS_CMS_DEFAULT_LANGUAGE', 'de');
 session_start();
 define('BAMBUS_ACCESS_TYPE', 'management');
 chdir('..');

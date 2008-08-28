@@ -24,7 +24,7 @@ foreach($files as $file){
 		$lastchar = $fchar;
 		printf('<span class="hiddenGroup">%s</span>', $fchar);
 	}
-	$fileName = ($file == 'default.css') ? $Bambus->Translation->sayThis('default.css').'.css' : $file;
+	$fileName = ($file == 'default.css') ? SLocalization::get('default.css').'.css' : $file;
     $id = md5($file);
     $suffix = $Bambus->suffix($file);
     $isImage = ($suffix != 'css' && $suffix != 'gpl');
@@ -45,8 +45,10 @@ foreach($files as $file){
         'name' => str_replace(chr(11), ' ', wordwrap(htmlentities(str_replace(' ', chr(11), $fileName)),12,"<wbr />",true)),
         'type' => $isImage ? 'manager_image' : 'manager_file'
     );
-    echo $Bambus->Template->parse($itemTemplate, $output, 'string');
+    $tpl = new WTemplate($itemTemplate, WTemplate::STRING);
+    $tpl->setEnvornment($output);
+    $tpl->render();
 }
 echo $Bambus->Gui->endForm();
-echo $Bambus->Gui->script('hideInputs();');
+echo new WScript('hideInputs();');
 ?>

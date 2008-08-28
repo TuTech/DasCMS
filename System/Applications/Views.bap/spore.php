@@ -17,20 +17,20 @@ if(BAMBUS_GRP_EDIT)
 }
 ?>
 <div id="objectInspectorActiveFullBox">
-<h3><?php echo $Bambus->Translation->create_new_view; ?></h3>
+<h3><?php SLocalization::out('create_new_view'); ?></h3>
 <table id="spores" cellspacing="0" class="borderedtable full">
 	<tr>
 		<th class="td20">
-			<?php echo $Bambus->Translation->access_var; ?>
+			<?php SLocalization::out('access_var'); ?>
 		</th>
 		<th class="tdicon">
-			<?php echo $Bambus->Translation->active; ?>
+			<?php SLocalization::out('active'); ?>
 		</th>
 		<th colspan="1">
-			<?php echo $Bambus->Translation->default_content; ?>
+			<?php SLocalization::out('default_content'); ?>
 		</th>
 		<th colspan="1">
-			<?php echo $Bambus->Translation->error_content; ?>
+			<?php SLocalization::out('error_content'); ?>
 		</th>
 	</tr>
 	<tr class="flip_1" valign="top">
@@ -61,16 +61,16 @@ $sporeData = QSpore::getSpores();
 $spores = array_keys($sporeData);
 if(count($spores) > 0)
 {
-	echo '<h3>',$Bambus->Translation->current_views, '</h3>'
+	echo '<h3>',SLocalization::get('current_views'), '</h3>'
 		,'<table id="spores" cellspacing="0" class="borderedtable full">'
 		,'<tr><th class="td20">'
-			,$Bambus->Translation->access_var
+			,SLocalization::get('access_var')
 		,'</th><th class="tdicon">'
-			,$Bambus->Translation->active
+			,SLocalization::get('active')
 		,'</th><th>'
-			,$Bambus->Translation->default_content
+			,SLocalization::get('default_content')
 		,'</th><th>'
-			,$Bambus->Translation->error_content
+			,SLocalization::get('error_content')
 		,'</th></tr>'
 		; 
 
@@ -144,7 +144,7 @@ if(count($spores) > 0)
 }
 else
 {
-	echo '<h3>', $Bambus->Translation->sayThis('please_add_at_least_one_-_you_need_them_for_viewing_any_content,_really'),'</h3>';
+	echo '<h3>', SLocalization::get('please_add_at_least_one_-_you_need_them_for_viewing_any_content,_really'),'</h3>';
 }
 ?>
 </div>

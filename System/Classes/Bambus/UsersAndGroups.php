@@ -74,19 +74,32 @@ class UsersAndGroups extends Bambus implements IShareable
 		//load the config files for:
         //Users
         $this->userlistfile = parent::pathToFile('userList');
-		$this->userlist = $this->FileSystem->readData($this->userlistfile);
-		if($this->userlist === false)
-		{
-			$this->userlist = array();
-		}
+		$this->userlist = $this->readData($this->userlistfile);
 		//Groups
         $this->grouplistfile = parent::pathToFile('groupList');
-		$this->grouplist = $this->FileSystem->readData($this->grouplistfile);
-		if($this->grouplist === false)
-		{
-			$this->grouplist = array();
-		}
+		$this->grouplist = $this->readData($this->grouplistfile);
 	}
+	
+   function readData($file)
+    {
+    	$ret = array();
+        if(file_exists($file) && is_readable($file))
+        {
+            $data = file($file);
+            if(count($data) >= 2)
+            {
+                unset($data[0]);
+                $dataString = implode('',$data);
+                $data = @unserialize($dataString);
+                if(!empty($data))
+                {
+                    $ret = $data;
+                }
+            }
+        }
+        return $ret;
+    }    
+    
 
 	function ucsort(&$array)
 	{

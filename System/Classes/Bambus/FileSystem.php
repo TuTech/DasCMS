@@ -30,9 +30,6 @@ class FileSystem extends Bambus implements IShareable
     	{
     		if(defined('BAMBUS_DEBUG'))printf("\n<!--[%s init]-->\n", self::Class_Name);
 	    	self::$initializedInstance = true;
-			$this->NotificationCenter = NotificationCenter::alloc();
-
-			$this->NotificationCenter->init();
     	}
     }
 	//end IShareable
@@ -40,7 +37,6 @@ class FileSystem extends Bambus implements IShareable
 	var $dataHeader = "<?php /* Bambus Data File */ header(\"HTTP/1.0 404 Not Found\"); exit(); ?>\n";
 	var $rootDir = '';
 	var $cache = array();
-	var $NotificationCenter;
 	
 	function __construct()
 	{
@@ -140,35 +136,6 @@ class FileSystem extends Bambus implements IShareable
 		return $files;
 	}
 	
-	function queryPath($path, $prefix, $addFullPath = false)
-	{
-		/*
-		<documentation>
-			$useOrUseNot == true: list files whith suffix part of $types
-			$useOrUseNot == false: list files whith suffix NOT part of $types
-		</documentation>
-		*/
-		$this->changeDir($path);
-		$files = array();
-		$handle = openDir('.');
-		$i=0;
-		while($item = readdir($handle))
-		{
-			while(is_link($item))
-				$item = readlink($item);
-			if(is_dir($item))
-				continue;
-			$i++;
-			if(substr($item,0,strlen($prefix)) == $prefix)
-			{
-				$files[strtoupper($item).md5($i)] = ($addFullPath) ? $this->pathTo($path).$item : $item;
-			}
-		}
-		asort($files, SORT_STRING);
-		closedir($handle);
-		$this->returnToRootDir();
-		return $files;
-	}
 	
 	/////////////////////////
 	//get content of a file//
@@ -200,31 +167,6 @@ class FileSystem extends Bambus implements IShareable
     	}
     }
 	
-    function readLine($file, $line)
-    {
-    	if(file_exists($file) && is_readable($file) && is_numeric($line))
-    	{
-			$lines = file($file);
-			if(isset($lines[$line]))
-			{
-	        	return $lines[$line];
-			}
-    	}
-		return '';
-    }
-        
-    ///////////////////////////
-    //advanced write function//
-    ///////////////////////////
-    /*$tmpfname = tempnam("/tmp", "FOO");
-
-$handle = fopen($tmpfname, "w");
-fwrite($handle, "writing to tempfile");
-fclose($handle);
-
-// do here something
-
-unlink($tmpfname);*/
     function write($file, $data = '', $mode = 'w+', $rights = 0666, $cached = true)
     {
     	$success = false;
@@ -245,7 +187,7 @@ unlink($tmpfname);*/
 				if($tried == 255)
 				{
 					//could not open file
-					$this->NotificationCenter->report('alert', 'file_write_locked', array('file' => realpath($file)));
+					SNotificationCenter::alloc()->init()->report('alert', 'file_write_locked', array('file' => realpath($file)));
 					return false; 
 				}
     		}
@@ -273,7 +215,7 @@ unlink($tmpfname);*/
     	}
     	else
     	{
-    		$this->NotificationCenter->report('alert', 'file_or_directory_locked', array('file' => getcwd().'/'.($file)));
+    		SNotificationCenter::alloc()->init()->report('alert', 'file_or_directory_locked', array('file' => getcwd().'/'.($file)));
     	}
     	return $success;
     }
@@ -283,37 +225,6 @@ unlink($tmpfname);*/
     	return $this->write($file, $line."\n", 'a+');
     }
     
-    /////////////
-    //read data//
-    /////////////
-
-	function readData($file, $cached = false)
-	{
-		if(file_exists($file) && is_readable($file))
-    	{
-    		if($cached && isset($this->cache[$file]))
-    		{
-    			$data = $this->cache[$file];
-    		}
-    		else
-	    	{	
-	    		$data = file($file);
-	    	}
-    		if(count($data) >= 2 /* && trim($data[0]) == trim($this->dataHeader)*/)
-    		{
-    			unset($data[0]);
-    			$dataString = implode('',$data);
-    			$data = unserialize($dataString);
-    			if($data === false)
-    			{
-    				return -1;
-    			}
-	        	return $data;
-    		}
-    	}
-    	return false;
-	}    
-	
 	//////////////
 	//write data//
 	//////////////

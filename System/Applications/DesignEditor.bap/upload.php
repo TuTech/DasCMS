@@ -7,28 +7,26 @@
 * Description: image upload form
 ************************************************/
 if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
-$itemTemplate = "<div class=\"thumbnail\">
-    <img src=\"{icon}\" alt=\"{alt}\" title=\"{name}\" />
-    {name}
-</div>";
 $maxPost = $Bambus->returnBytes(ini_get('upload_max_filesize'));
 $freeSpace = disk_free_space($Bambus->pathTo('image'));
-echo $Bambus->Gui->userRequest(
-	'css.png'
-	,$Bambus->Translation->sayThis('supported_file_types').': '.implode(', ', $allowed)
-		.'<br />'.$Bambus->Translation->sayThis('maximum_upload_size').': '.$Bambus->formatSize($maxPost)
-		.'<br />'.$Bambus->Translation->sayThis('free_disk_space').': '.$Bambus->formatSize($freeSpace)
-	);
+$requestmessage = SLocalization::get('supported_file_types').': '.implode(', ', $allowed)
+		.'<br />'.SLocalization::get('maximum_upload_size').': '.$Bambus->formatSize($maxPost)
+		.'<br />'.SLocalization::get('free_disk_space').': '.$Bambus->formatSize($freeSpace);
+        $image = $this->icon('css', '', 'mimetype','medium', $system);
+echo '<div class=""><span style="float:left;padding:4px;padding-top:0px;">'.$image.'</span>'.$requestmessage.'<br class="clear" /></div>';
+	
+	
+	
 echo $Bambus->Gui->beginMultipartForm(array(), 'documentform');
 printf('<input type="hidden" name="MAX_FILE_SIZE" value="%s">', ($maxPost > 0) ? $maxPost : 1000000000);
 echo $Bambus->Gui->beginTable("uploadform");
 ?>
     <tr>
-    	<th colspan="2"><?php echo $Bambus->Translation->sayThis('settings');?></th>
+    	<th colspan="2"><?php SLocalization::out('settings');?></th>
     </tr>
     <tr valign="middle">
     	<th class="left_th">
-    		<?php echo $Bambus->Translation->sayThis('file');?>
+    		<?php SLocalization::out('file');?>
     	</th>
         <td>
             <input name="bambus_image_file" type="file" />
@@ -36,7 +34,7 @@ echo $Bambus->Gui->beginTable("uploadform");
     </tr>    
     <tr valign="middle">
     	<th class="left_th">
-    		<?php echo $Bambus->Translation->sayThis('allow_overwrite');?>
+    		<?php SLocalization::out('allow_overwrite');?>
     	</th>
         <td>
             <input name="bambus_overwrite_image_file" type="checkbox" />
@@ -47,7 +45,7 @@ if($succesfullUpload != false)
 {
 	printf(
 		'<tr><th class="left_th">%s</th><td><div class="thumbnail"><img src="%s" alt="" title="%s" />%s</div></td></tr>'
-		,$Bambus->Translation->sayThis('recently_uploaded_file')
+		,SLocalization::get('recently_uploaded_file')
 		,(($uploadIsImage) 
 			//preview image
 			//? 'thumbnail.php'.$Bambus->Linker->createQueryString(array('render' => $succesfullUpload, 'path' => 'design'))
@@ -70,7 +68,7 @@ echo $Bambus->Gui->beginTable("uploadstatus", 'hide');
             <img src="<?php echo $Bambus->Gui->iconPath('loading', 'uploading', 'animation','extra-small');?>" alt="" />
         </td>
         <td>
-            <?php echo $Bambus->Translation->sayThis('uploading');?>
+            <?php SLocalization::out('uploading');?>
         </td>
     </tr>
 <?php

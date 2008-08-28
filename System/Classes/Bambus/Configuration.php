@@ -47,7 +47,6 @@ class Configuration extends Bambus implements IShareable
     private $configuration;
 
 	public $FileSystem = NULL;
-	public $NotificationCenter = NULL;
 
 	public function __construct()
 	{
@@ -110,9 +109,8 @@ class Configuration extends Bambus implements IShareable
     //save changed config
     public function save()
     {
-		$this->NotificationCenter = NotificationCenter::alloc();
+    	SNotificationCenter::alloc()->init()->report('message', 'configuration_saved');
         $file = parent::pathToFile('configuration');
-        $this->NotificationCenter->report('message', 'configuration_saved', array());
         return $this->FileSystem->writeData($file, $this->configuration);
     }
 }

@@ -82,10 +82,7 @@ class BCMSString extends Bambus implements IShareable
 	
 	function translateCallBack($string)
 	{
-		$TR = Translation::alloc();
-		$TR->init();
-		
-		return $TR->sayThis($string);
+		return SLocalization::get($string);
 	}
 	
 	function pathToCallBack($path)

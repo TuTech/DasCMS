@@ -39,7 +39,6 @@ class Template extends Bambus implements IShareable
     }
 	//end IShareable
 
-    var $Translation;
     var $env = array();
     
     function __construct()

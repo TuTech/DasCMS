@@ -28,7 +28,6 @@ function __autoload($className)
 			'M' => 'Manager',
 			'N' => 'Navigator',
 			'Q' => 'Query',
-			'R' => 'RenderingEngine',
 			'S' => 'System',
 			'W' => 'Widget',
 			'X' => 'Exception'
@@ -54,12 +53,11 @@ function __autoload($className)
 		{
 			include_once($file);
 		}
-		elseif(class_exists('NotificationCenter', false))
+		else
 		{
-			$NFC = NotificationCenter::alloc();
-			$NFC->init();
-			$NFC->report('alert', 'could_not_load_class '.$className, array('class' => $className, 'file' => $file));
+			SNotificationCenter::alloc()->init()->report('alert', 'could_not_load_class'.$className);
 		}
+		
 	}
 }
 /**
@@ -83,10 +81,8 @@ class Bambus extends BObject
     //public
     var $Template,
     	$Gui,
-    	$Translation,
     	$Configuration,
     	$FileSystem,
-    	$NotificationCenter,
     	$UsersAndGroups;
 
 	//include all class-root-level classes
@@ -161,8 +157,7 @@ class Bambus extends BObject
 	
     //private
     protected $autoloadClasses = array(
-		'NotificationCenter'
-		,'BCMSString'
+		'BCMSString'
 		,'FileSystem'
 		,'Configuration'
 		,'Template'
@@ -172,7 +167,6 @@ class Bambus extends BObject
 	
 	protected $managementAutoloadClasses = array(
 		'Gui'
-		,'Translation'
 		
 	);
 	
@@ -224,7 +218,6 @@ class Bambus extends BObject
             'system' => 				'./System/',
             'systemApplication' => 		'./System/Applications/',
             'systemInterface' => 		'./System/Interfaces/',
-            'translation' => 			'./System/Resource/Translation/',
             'systemTemplate' => 		'./System/Templates/',
             'systemImage' => 			'./System/Images/',
             'systemSmallMimeImage' => 	'./System/Icons/22x22/mimetypes/',
@@ -244,8 +237,6 @@ class Bambus extends BObject
             'log' => 					'./Content/logs/<file>.log',
 			'accessLog' => 				'./Content/logs/access.log',
             'changeLog' => 				'./Content/logs/change.log',
-            'translation' => 			'./System/Resource/Translation/<file>.translation',
-            'translationIndex' => 		'./System/Resource/Translation/index.php',
             'systemTemplate' => 		'./System/Templates/<file>.tpl'
         );
     	if(!defined('BAMBUS_VERSION'))
@@ -269,8 +260,6 @@ class Bambus extends BObject
 	        if(!defined('BAMBUS_CMS_ROOT'))
 	            define ('BAMBUS_CMS_ROOT', getcwd());
 	
-	        if(!defined('BAMBUS_CMS_DEFAULT_LANGUAGE'))
-	            define ('BAMBUS_CMS_DEFAULT_LANGUAGE', 'de');
 	
 			//TODO: set by config
 			setlocale (LC_ALL, 'de_DE');
@@ -461,11 +450,6 @@ class Bambus extends BObject
 	            	$files[$key] = stripslashes($value);
 	        }
         }
-        if(!defined('BAMBUS_CMS_DEFAULT_LANGUAGE'))
-		{
-			$lang = (isset($session['language'])) ?  $session['language'] : 'de';
-            define ('BAMBUS_CMS_DEFAULT_LANGUAGE', $lang);
-		}
         $this->get = &$get;
         $this->post = &$post;
         $this->session = &$session;
@@ -632,8 +616,8 @@ class Bambus extends BObject
          	define('BAMBUS_APPLICATION', 			$get['editor']);
 			define('BAMBUS_APPLICATION_DIRECTORY',  $this->pathTo('systemApplication').BAMBUS_APPLICATION.'/');
      		define('BAMBUS_APPLICATION_ICON', 		$this->Gui->iconPath($pool[$get['editor']]['icon'],'','app','small'));
-    		define('BAMBUS_APPLICATION_TITLE', 		$this->Translation->sayThis($pool[$get['editor']]['name']));
-    		define('BAMBUS_APPLICATION_DESCRIPTION',$this->Translation->sayThis($pool[$get['editor']]['desc']));
+    		define('BAMBUS_APPLICATION_TITLE', 		SLocalization::get($pool[$get['editor']]['name']));
+    		define('BAMBUS_APPLICATION_DESCRIPTION',SLocalization::get($pool[$get['editor']]['desc']));
 
  			$this->using('Application');
  			$tabs = $this->Application->getXMLPathValueAndAttributes('bambus/tabs/tab');
@@ -644,14 +628,14 @@ class Bambus extends BObject
 	    	$activeTab = $tabs[0];
 	    	foreach($tabs as $tab)
 	    	{
-	    		$barCompatibleTabs[$tab[0]] = array($tab[1]['icon'], $this->Translation->sayThis($tab[0]));
+	    		$barCompatibleTabs[$tab[0]] = array($tab[1]['icon'], SLocalization::get($tab[0]));
 	    		if(!empty($get['tab']) && $tab[0] == $get['tab'])
 	    			$activeTab = $tab;
 	    	}     
 
         	define('BAMBUS_APPLICATION_TAB', 		$activeTab[0]);
         	define('BAMBUS_APPLICATION_TAB_ICON', 	$this->Gui->iconPath($activeTab[1]['icon'],'','','small'));
-        	define('BAMBUS_APPLICATION_TAB_TITLE', 	$this->Translation->sayThis($activeTab[0]));
+        	define('BAMBUS_APPLICATION_TAB_TITLE', 	SLocalization::get($activeTab[0]));
         }
 		else
 		{
@@ -696,7 +680,7 @@ class Bambus extends BObject
             {
                 $i++;
                 list($name, $description, $icon, $pri, $version, $purpose) = $this->getBambusApplicationDescription($item.'/Application.xml');
-                $caption = $this->Translation->sayThis($name);
+                $caption = SLocalization::get($name);
                 $available[$caption.'_'.$i] = array('purpose' => $purpose, 'item' => $item,'name' => $name,'desc' => $description,'icon' => $icon, 'type' => 'application');
             }        
         }
@@ -752,8 +736,8 @@ class Bambus extends BObject
      	define('BAMBUS_APPLICATION_AUTOSELECT', $appas);
      	define('BAMBUS_APPLICATION', $appas ? '' : $editor);
      	define('BAMBUS_APPLICATION_ICON', $appas ? '' : $smallicon);
-    	define('BAMBUS_APPLICATION_TITLE', $appas ? '' : $this->Translation->sayThis($appinfo[$editor]['name']));
-    	define('BAMBUS_APPLICATION_DESCRIPTION', $appas ? '' : $this->Translation->sayThis($appinfo[$editor]['desc']));
+    	define('BAMBUS_APPLICATION_TITLE', $appas ? '' : SLocalization::get($appinfo[$editor]['name']));
+    	define('BAMBUS_APPLICATION_DESCRIPTION', $appas ? '' : SLocalization::get($appinfo[$editor]['desc']));
         $outputString = '';
         foreach($accessable as $app)
         {
@@ -767,10 +751,10 @@ class Bambus extends BObject
 						,$appinfo[$app]['type']
 						,$this->createQueryString(array('editor' => $appinfo[$app]['item']),true)
 						,$micon
-						,$this->Translation->sayThis($appinfo[$app]['name'])
-						,$this->Translation->sayThis($appinfo[$app]['desc'])
+						,SLocalization::get($appinfo[$app]['name'])
+						,SLocalization::get($appinfo[$app]['desc'])
             		);
-            $micon = $this->Gui->icon($appinfo[$app]['icon'],$this->Translation->sayThis($appinfo[$app]['desc'],'app','large'));
+            $micon = $this->Gui->icon($appinfo[$app]['icon'],SLocalization::get($appinfo[$app]['desc'],'app','large'));
         	$tabs = '';
             foreach ($appinfo[$app]['tabs'] as $tab => $icon) 
         	{
@@ -790,7 +774,7 @@ class Bambus extends BObject
 						,!$appas && $app ==  $editor ? 'active ' : ''
 //						,$this->createQueryString(array('editor' => $appinfo[$app]['item']),true)
 						,$micon
-						,$this->Translation->sayThis($appinfo[$app]['name'])
+						,SLocalization::get($appinfo[$app]['name'])
 						,$tabs
             		);
         }

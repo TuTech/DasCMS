@@ -22,21 +22,21 @@ if(BAMBUS_GRP_CREATE)
 	echo $Bambus->Gui->hiddenInput('mode','usr', 'addmode');
 	echo $Bambus->Gui->hiddenInput('action','create_new_user', 'actionInput');
 	echo $Bambus->Gui->beginTable('add_user_table');
-	printf('<tr><th colspan="2">%s</th></tr>', $Bambus->Translation->sayThis('new_user'));
-	printf('<tr><th class="tdx180">%s *</th><td>%s</td></tr>', $Bambus->Translation->sayThis('username'), '<input type="text" name="new_user_name" value="" class="fullinput" />');
-	printf('<tr><th class="tdx180">%s *</th><td>%s</td></tr>', $Bambus->Translation->sayThis('password'), '<input type="password" name="new_user_password" value="" class="fullinput" />');
-	printf('<tr><th class="tdx180">%s *</th><td>%s</td></tr>', $Bambus->Translation->sayThis('retype_password'), '<input type="password" name="new_user_password_check" value="" class="fullinput" />');
-	printf('<tr><th class="tdx180">%s</th><td>%s</td></tr>', $Bambus->Translation->sayThis('name_and_surname'), '<input type="text" name="new_user_name_and_surname" value="" class="fullinput" />');
-	printf('<tr><th class="tdx180">%s</th><td>%s</td></tr>', $Bambus->Translation->sayThis('email'), '<input type="text" name="new_user_email" value="" class="fullinput" />');
-	printf('<tr><th colspan="2"><input type="submit" value="%s" class="submitinput" /></th></tr>', $Bambus->Translation->sayThis('create'));
+	printf('<tr><th colspan="2">%s</th></tr>', SLocalization::get('new_user'));
+	printf('<tr><th class="tdx180">%s *</th><td>%s</td></tr>', SLocalization::get('username'), '<input type="text" name="new_user_name" value="" class="fullinput" />');
+	printf('<tr><th class="tdx180">%s *</th><td>%s</td></tr>', SLocalization::get('password'), '<input type="password" name="new_user_password" value="" class="fullinput" />');
+	printf('<tr><th class="tdx180">%s *</th><td>%s</td></tr>', SLocalization::get('retype_password'), '<input type="password" name="new_user_password_check" value="" class="fullinput" />');
+	printf('<tr><th class="tdx180">%s</th><td>%s</td></tr>', SLocalization::get('name_and_surname'), '<input type="text" name="new_user_name_and_surname" value="" class="fullinput" />');
+	printf('<tr><th class="tdx180">%s</th><td>%s</td></tr>', SLocalization::get('email'), '<input type="text" name="new_user_email" value="" class="fullinput" />');
+	printf('<tr><th colspan="2"><input type="submit" value="%s" class="submitinput" /></th></tr>', SLocalization::get('create'));
 	echo $Bambus->Gui->endTable();
 
 	echo $Bambus->Gui->beginTable('add_group_table', 'hide');
-	printf('<tr><th colspan="2">%s</th></tr>', $Bambus->Translation->sayThis('new_group'));
-	printf('<tr><th class="tdx180">%s</th><td>%s</td></tr>', $Bambus->Translation->sayThis('name'), '<input type="text" name="new_group_name" value="" class="fullinput" />');
+	printf('<tr><th colspan="2">%s</th></tr>', SLocalization::get('new_group'));
+	printf('<tr><th class="tdx180">%s</th><td>%s</td></tr>', SLocalization::get('name'), '<input type="text" name="new_group_name" value="" class="fullinput" />');
 	echo $Bambus->Gui->hiddenInput('cptg_new_group_name','edit', 'gcptg');
-	printf('<tr><th class="tdx180">%s</th><td>%s</td></tr>', $Bambus->Translation->sayThis('description'), '<textarea name="new_group_description" rows="4" cols="40" class="smalleditarea"></textarea>');
-	printf('<tr><th colspan="2"><input type="submit" value="%s" class="submitinput" /></th></tr>', $Bambus->Translation->sayThis('create'));
+	printf('<tr><th class="tdx180">%s</th><td>%s</td></tr>', SLocalization::get('description'), '<textarea name="new_group_description" rows="4" cols="40" class="smalleditarea"></textarea>');
+	printf('<tr><th colspan="2"><input type="submit" value="%s" class="submitinput" /></th></tr>', SLocalization::get('create'));
 	echo $Bambus->Gui->endTable();
 	printf("</td></tr>");
 	print('</table>');
@@ -64,19 +64,19 @@ if($edit_mode == 'usr')
 		$noEditRow = "<tr class=\"flip_%d\"><th class=\"left_th\">%s</th><td>%s</td></tr>\n";
 	echo $Bambus->Gui->beginTable();
 	
-	printf("<tr><th colspan=\"2\">%s</th></tr>\n", $Bambus->Translation->sayThis(($allowEdit) ? 'edit_user_profile' : 'view_user_profile'));
+	printf("<tr><th colspan=\"2\">%s</th></tr>\n", SLocalization::get(($allowEdit) ? 'edit_user_profile' : 'view_user_profile'));
 	//user name
 	printf(
 			$noEditRow
 			,1
-			,$Bambus->Translation->sayThis('username')
+			,SLocalization::get('username')
 			,htmlentities($victim)
 		);
 	//real name of the user
 	printf(
 			$row
 			,2
-			,$Bambus->Translation->sayThis('name')
+			,SLocalization::get('name')
 			,htmlentities($Bambus->UsersAndGroups->getRealName($victim))
 			,'realName'
 			,'fullinput'
@@ -86,7 +86,7 @@ if($edit_mode == 'usr')
 	printf(
 			$row
 			,1
-			,$Bambus->Translation->sayThis('email')
+			,SLocalization::get('email')
 			,htmlentities($Bambus->UsersAndGroups->getEmail($victim))
 			,'email'
 			,'fullinput'
@@ -96,7 +96,7 @@ if($edit_mode == 'usr')
 	printf(
 			$row
 			,2
-			,$Bambus->Translation->sayThis('company')
+			,SLocalization::get('company')
 			,htmlentities($Bambus->UsersAndGroups->getUserAttribute($victim, 'company'))
 			,'att_company'
 			,'fullinput'
@@ -109,11 +109,11 @@ if($edit_mode == 'usr')
 			/////////
 			//admin//
 			/////////
-			printf("<tr><th colspan=\"2\">%s</th></tr>\n", $Bambus->Translation->sayThis('set_password'));
+			printf("<tr><th colspan=\"2\">%s</th></tr>\n", SLocalization::get('set_password'));
 			printf(
 					"<tr class=\"flip_%d\"><th class=\"left_th\">%s</th><td><input value=\"\" name=\"%s\" class=\"%s\" type=\"%s\" /></td></tr>\n"
 					,1
-					,$Bambus->Translation->sayThis('set_new_password')
+					,SLocalization::get('set_new_password')
 					,'adm_set_password'
 					,'fullinput'
 					,'password'
@@ -121,24 +121,24 @@ if($edit_mode == 'usr')
 			printf(
 					"<tr class=\"flip_%d\"><th class=\"left_th\">%s</th><td><input value=\"\" name=\"%s\" class=\"%s\" type=\"%s\" /></td></tr>\n"
 					,2
-					,$Bambus->Translation->sayThis('confirm_new_password')
+					,SLocalization::get('confirm_new_password')
 					,'adm_set_password_confirm'
 					,'fullinput'
 					,'password'
 				);
-			printf("<tr><th colspan=\"2\">%s</th></tr>\n", $Bambus->Translation->sayThis('login_information'));
+			printf("<tr><th colspan=\"2\">%s</th></tr>\n", SLocalization::get('login_information'));
 			$lastManagementLogin = $Bambus->UsersAndGroups->getUserAttribute($victim, 'last_management_login');
 			$managementLoginCount = $Bambus->UsersAndGroups->getUserAttribute($victim, 'management_login_count');
 			printf(
 					$noEditRow
 					,2
-					,$Bambus->Translation->sayThis('last_management_login')
-					,(empty($lastManagementLogin)) ? $Bambus->Translation->sayThis('this_user_has_not_logged_in_yet') : date('r', $lastManagementLogin)
+					,SLocalization::get('last_management_login')
+					,(empty($lastManagementLogin)) ? SLocalization::get('this_user_has_not_logged_in_yet') : date('r', $lastManagementLogin)
 				);
 			printf(
 					$noEditRow
 					,1
-					,$Bambus->Translation->sayThis('number_of_management_logins')
+					,SLocalization::get('number_of_management_logins')
 					,(empty($lastManagementLogin)) ? 0 : htmlentities($managementLoginCount)
 				);
 		}
@@ -147,12 +147,12 @@ if($edit_mode == 'usr')
 			//////////////////////////////
 			//user edits his own profile//
 			//////////////////////////////
-			printf("<tr><th colspan=\"2\">%s</th></tr>\n", $Bambus->Translation->sayThis('change_my_password'));
+			printf("<tr><th colspan=\"2\">%s</th></tr>\n", SLocalization::get('change_my_password'));
 			
 			printf(
 					"<tr class=\"flip_%d\"><th class=\"left_th\">%s</th><td><input value=\"\" name=\"%s\" class=\"%s\" type=\"%s\" /></td></tr>\n"
 					,1
-					,$Bambus->Translation->sayThis('old_password')
+					,SLocalization::get('old_password')
 					,'change_password_from_old'
 					,'fullinput'
 					,'password'
@@ -160,7 +160,7 @@ if($edit_mode == 'usr')
 			printf(
 					"<tr class=\"flip_%d\"><th class=\"left_th\">%s</th><td><input value=\"\" name=\"%s\" class=\"%s\" type=\"%s\" /></td></tr>\n"
 					,2
-					,$Bambus->Translation->sayThis('new_password')
+					,SLocalization::get('new_password')
 					,'change_password_to_new'
 					,'fullinput'
 					,'password'
@@ -168,7 +168,7 @@ if($edit_mode == 'usr')
 			printf(
 					"<tr class=\"flip_%d\"><th class=\"left_th\">%s</th><td><input value=\"\" name=\"%s\" class=\"%s\" type=\"%s\" /></td></tr>\n"
 					,1
-					,$Bambus->Translation->sayThis('confirm_new_password')
+					,SLocalization::get('confirm_new_password')
 					,'change_password_confirm'
 					,'fullinput'
 					,'password'
@@ -193,14 +193,14 @@ else
 ROW;
 
 	echo $Bambus->Gui->beginTable();
-	echo $Bambus->Gui->tableHeader(array($Bambus->Translation->sayThis('description')));
+	echo $Bambus->Gui->tableHeader(array(SLocalization::get('description')));
 	echo $Bambus->Gui->beginTableRow();
 	echo htmlentities($Bambus->UsersAndGroups->getGroupDescription($victim));
 	echo $Bambus->Gui->endTableRow();
 	echo $Bambus->Gui->endTable();
 	echo $Bambus->Gui->verticalSpace();
 	echo $Bambus->Gui->beginTable();
-	echo $Bambus->Gui->tableHeader(array($Bambus->Translation->sayThis('assigned_users')));
+	echo $Bambus->Gui->tableHeader(array(SLocalization::get('assigned_users')));
 	echo $Bambus->Gui->beginTableRow();
 	
 	$assignedUsers = $Bambus->UsersAndGroups->listUsersOfGroup($victim);
@@ -246,7 +246,7 @@ ksort($available);
 $editor_arr = array();
 foreach($available as $foo){
 	list($editor, $name, $description, $icon, $type) = array_values($foo);
-	$editor_arr[$editor] = $Bambus->Translation->sayThis($name);
+	$editor_arr[$editor] = SLocalization::get($name);
 }
 asort($editor_arr);
 $flip = 2;
@@ -264,14 +264,14 @@ if($edit_mode == 'grp')
 ROW;
 
 	echo $Bambus->Gui->beginTable();
-	echo $Bambus->Gui->tableHeader(array($Bambus->Translation->sayThis('description')));
+	echo $Bambus->Gui->tableHeader(array(SLocalization::get('description')));
 	echo $Bambus->Gui->beginTableRow();
 	echo htmlentities($Bambus->UsersAndGroups->getGroupDescription($victim));
 	echo $Bambus->Gui->endTableRow();
 	echo $Bambus->Gui->endTable();
 	echo $Bambus->Gui->verticalSpace();
 	echo $Bambus->Gui->beginTable();
-	echo $Bambus->Gui->tableHeader(array($Bambus->Translation->sayThis('assigned_users')));
+	echo $Bambus->Gui->tableHeader(array(SLocalization::get('assigned_users')));
 	echo $Bambus->Gui->beginTableRow();
 	
 	$assignedUsers = $Bambus->UsersAndGroups->listUsersOfGroup($victim);
@@ -296,7 +296,7 @@ else
 {
 	echo $Bambus->Gui->verticalSpace();
 	echo $Bambus->Gui->beginTable();
-	printf('<tr><th></th><th colspan="2">%s</th></tr>', $Bambus->Translation->sayThis('editor_permissions'));
+	printf('<tr><th></th><th colspan="2">%s</th></tr>', SLocalization::get('editor_permissions'));
 	$line = <<<EOX
 			<tr class="flip_%s">
 				<th class="tdicon">
@@ -341,8 +341,8 @@ EOX;
 	        		$id,
 	        		$id,
 	        		$Bambus->Gui->icon($editor['icon'],'','app'),
-	        		$Bambus->Translation->sayThis($editor['name']),
-	        		$Bambus->Translation->sayThis($editor['desc']),
+	        		SLocalization::get($editor['name']),
+	        		SLocalization::get($editor['desc']),
 	        		''
 	        	);
 	    }
