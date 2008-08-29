@@ -144,8 +144,8 @@ class WTemplate extends BWidget
         foreach($data as $key => $value)
         {
         	$value = mb_convert_encoding(strval($value), "UTF-8", "auto");
-            $string = str_replace('{{'.$function.'}}', htmlentities($value, ENT_QUOTES, 'UTF-8'), $string);
-            $string = str_replace('{'.$function.'}', $value, $string);
+            $string = str_replace('{{'.$key.'}}', htmlentities($value, ENT_QUOTES, 'UTF-8'), $string);
+            $string = str_replace('{'.$key.'}', $value, $string);
         }
         return $string;
     }
