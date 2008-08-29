@@ -334,17 +334,6 @@ class Gui extends Bambus implements IShareable
     function endTaskBar()
     {
     	$out = "<br class=\"clear\" /></div>\n";
-        if($this->hotKeys != array())
-        {
-//        	$out .= $this->beginScript();
-//        	foreach($this->hotKeys as $hk => $fx)
-//        	{
-//        		$keyCode = ord($hk);
-//        		if($fx[1])//is js link
-//					$out .= sprintf("addHotKeyListener(%d, \"%s\");\n", $keyCode, $fx[0]);
-//        	}
-//        	$out .= $this->endScript();
-        }
         return $out;
         
     }

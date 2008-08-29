@@ -84,7 +84,7 @@ class SNotificationCenter extends BSystem implements IShareable
 	{
 		$NFC = NotificationCenter::alloc();
         $NFC->init();
-        $NFC->notifier();
+        return $NFC->notifier();
 	}
 }
 ?>

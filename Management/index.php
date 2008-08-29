@@ -206,6 +206,11 @@ if($Bambus->UsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($Bam
     $headTpl->render();
     echo $Bambus->Gui->beginApplication();
     $loginTpl = new WTemplate('login', WTemplate::SYSTEM);
+    $loginTpl->setEnvornment(array(
+        'translate:username' => SLocalization::get('username'),
+        'translate:password' => SLocalization::get('password'),
+        'translate:login' => SLocalization::get('login')
+    ));
     $loginTpl->render();
     echo $Bambus->Gui->endApplication();
     $footerTpl = new WTemplate('footer', WTemplate::SYSTEM);
