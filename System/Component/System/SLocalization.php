@@ -40,13 +40,13 @@ class SLocalization extends BSystem
     private static function loadLanguage()
     {
         self::$currentLang = self::determineLanguage();
-        $file = 'System/Resource/Translation/'.$language.'.strings';
+        $file = 'System/Resource/Translation/'.self::$currentLang.'.strings';
         mb_internal_encoding("UTF-8");
+        self::$translations = array();
         if(file_exists($file))
         {
         	//FIXME implement lang file loading
         	//load
-            self::$currentLang = array();
             $data = file($file);
             foreach ($data as $line) 
             {
@@ -62,7 +62,6 @@ class SLocalization extends BSystem
         else
         {
         	self::$currentLang = 'NU_LL';
-        	self::$currentLang = array();
         }
     }
 
@@ -81,7 +80,7 @@ class SLocalization extends BSystem
         {
             throw new XArgumentException('too many subjects for a translation',10);
         }
-		if(array_key_exists($key,self::$translations))
+		if(array_key_exists($key, self::$translations))
 		{
 			$message = self::$translations[$key];
 			for ($i = 0; $i < count($subjects); $i++)

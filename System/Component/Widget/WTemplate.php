@@ -136,9 +136,14 @@ class WTemplate extends BWidget
     public function render()
     {
     	$string = $this->getTemplateString();
+    	$data = self::$globalEnviornment;
         foreach($this->enviornment as $key => $value)
         {
-            $value = mb_convert_encoding(strval($value), "UTF-8", "auto");
+        	$data[$key] = $value;
+        }
+        foreach($data as $key => $value)
+        {
+        	$value = mb_convert_encoding(strval($value), "UTF-8", "auto");
             $string = str_replace('{{'.$function.'}}', htmlentities($value, ENT_QUOTES, 'UTF-8'), $string);
             $string = str_replace('{'.$function.'}', $value, $string);
         }
