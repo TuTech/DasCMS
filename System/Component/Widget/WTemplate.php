@@ -30,25 +30,25 @@ class WTemplate extends BWidget
         $this->template = $target;
         if($scope != null)
         {
-        	$this->setScope($scope);
+            $this->setScope($scope);
         }
     }
 
     public function setScope($scope)
     {
-    	if(in_array($scope, array(self::AUTO, self::SYSTEM, self::CONTENT, self::STRING)))
-    	{
-    		$this->scope = $scope;
-    	}
-    	else
-    	{
-    		throw new XUndefinedIndexException($scope);
-    	}
+        if(in_array($scope, array(self::AUTO, self::SYSTEM, self::CONTENT, self::STRING)))
+        {
+            $this->scope = $scope;
+        }
+        else
+        {
+            throw new XUndefinedIndexException($scope);
+        }
     }
 
     public static function globalGet($key)
     {
-    	if(!array_key_exists($key, self::$globalEnviornment))
+        if(!array_key_exists($key, self::$globalEnviornment))
         {
             throw new XUndefinedIndexException($key, 404);
         }
@@ -62,26 +62,26 @@ class WTemplate extends BWidget
     
     public function get($key)
     {
-    	if(!array_key_exists($key, $this->enviornment))
-    	{
-    		throw new XUndefinedIndexException($key, 404);
-    	}
-    	return $this->enviornment[$key];
+        if(!array_key_exists($key, $this->enviornment))
+        {
+            throw new XUndefinedIndexException($key, 404);
+        }
+        return $this->enviornment[$key];
     }
     
     public function set($key, $value)
     {
-    	$this->enviornment[strval($key)] = $value;
+        $this->enviornment[strval($key)] = $value;
     }
     
     public function setEnvornment(array $env)
     {
-    	$this->enviornment = $env;
+        $this->enviornment = $env;
     }
     
     public function getEnvornment()
     {
-    	return $this->enviornment;
+        return $this->enviornment;
     }
     
     /**
@@ -98,20 +98,20 @@ class WTemplate extends BWidget
     
     private function getTemplateString()
     {
-    	$cpath = SEnviornment::CONTENT_TEMPLATES.basename($this->template);
-    	$spath = SEnviornment::SYSTEM_TEMPLATES.basename($this->template);
-    	$dat = '';
-    	switch ($this->scope) 
-    	{
+        $cpath = SEnviornment::CONTENT_TEMPLATES.basename($this->template).'.tpl';
+        $spath = SEnviornment::SYSTEM_TEMPLATES.basename($this->template).'.tpl';
+        $dat = '';
+        switch ($this->scope) 
+        {
             case self::STRING:
                 $dat =  $this->template;
                 break;
             case self::AUTO:
-            	if(file_exists($cpath))
-            	{
-            		$dat = implode(file($cpath));
-            	}
-            	elseif(file_exists($spath))
+                if(file_exists($cpath))
+                {
+                    $dat = implode(file($cpath));
+                }
+                elseif(file_exists($spath))
                 {
                     $dat = implode(file($spath));
                 }
@@ -125,29 +125,29 @@ class WTemplate extends BWidget
             case self::SYSTEM:
                 if(file_exists($spath))
                 {
-                    $dat = implode(file($cpath));
+                    $dat = implode(file($spath));
                 }  
                 break;  
             default:break;       
-    	}
-    	return $dat;
+        }
+        return $dat;
     }
     
     public function render()
     {
-    	$string = $this->getTemplateString();
-    	$data = self::$globalEnviornment;
+        $string = $this->getTemplateString();
+        $data = self::$globalEnviornment;
         foreach($this->enviornment as $key => $value)
         {
-        	$data[$key] = $value;
+            $data[$key] = $value;
         }
         foreach($data as $key => $value)
         {
-        	$value = mb_convert_encoding(strval($value), "UTF-8", "auto");
+            $value = mb_convert_encoding(strval($value), "UTF-8", "auto");
             $string = str_replace('{{'.$key.'}}', htmlentities($value, ENT_QUOTES, 'UTF-8'), $string);
             $string = str_replace('{'.$key.'}', $value, $string);
         }
-        return $string;
+        echo $string;
     }
     
     public function run()

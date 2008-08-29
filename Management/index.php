@@ -59,6 +59,8 @@ list($get, $post, $session, $uploadfiles) = $Bambus->initialize($_GET,$_POST,$_S
 
 
 WTemplate::globalSet('logotext', BAMBUS_VERSION);
+WTemplate::globalSet('WApplications', '');
+WTemplate::globalSet('SNotificationCenter', SNotificationCenter::alloc()->init());
 WTemplate::globalSet('bambus_my_uri', $Bambus->Linker->createQueryString(array(), true));
 
 
@@ -108,6 +110,7 @@ if($Bambus->UsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($Bam
     //1st: validate application
     $applications = $Bambus->getAvailableApplications();
     $tabs = $Bambus->selectApplicationFromPool($applications);
+    WTemplate::globalSet('WApplications',  new WApplications(''));
     
  	//2nd: load application
     if(BAMBUS_APPLICATION == '')
@@ -119,7 +122,7 @@ if($Bambus->UsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($Bam
 		echo $Bambus->Gui->beginApplication();
 		echo $Bambus->Gui->endApplication();
         $footerTpl = new WTemplate('footer', WTemplate::SYSTEM);
-        $footerfooterTpl->render();
+        $footerTpl->render();
 	}    
     else
     {

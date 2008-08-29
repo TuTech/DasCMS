@@ -1,4 +1,4 @@
-		{NotificationCenter:notifier}
+		{SNotificationCenter}
         <br class="clear" />
 		<div id="stats">
 			Build: {cms:runtime}sec<br />
