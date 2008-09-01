@@ -65,8 +65,8 @@ if($out == array())
 }
 else
 {
-	echo $Bambus->Gui->beginTable();
-	echo $Bambus->Gui->tableHeader(
+	echo LGui::beginTable();
+	echo LGui::tableHeader(
 		array(
 			SLocalization::get('file'), 
 			SLocalization::get('readable'), 
@@ -76,7 +76,7 @@ else
 		)
 	);	
 	echo implode("\n", $out);
-	echo $Bambus->Gui->endTable();
+	echo LGui::endTable();
 }
 
 ?>

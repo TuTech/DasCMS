@@ -24,9 +24,9 @@ if(BAMBUS_GRP_EDIT && $FileOpened)
 	//css editor//
 	//////////////
 	
-	echo $Bambus->Gui->beginEditorWrapper();
-	echo $Bambus->Gui->editorTextarea(utf8_encode($fileContent));
-	echo $Bambus->Gui->endEditorWrapper();
+	echo LGui::beginEditorWrapper();
+	echo LGui::editorTextarea(utf8_encode($fileContent));
+	echo LGui::endEditorWrapper();
 	echo new WScript('initeditor();');
 }
 elseif(!$FileOpened)

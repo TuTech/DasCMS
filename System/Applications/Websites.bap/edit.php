@@ -21,9 +21,9 @@ if(BAMBUS_GRP_EDIT && isset($Page) && $Page instanceof CPage)
 	//////////////
 	//css editor//
 	//////////////
-	echo $Bambus->Gui->beginEditorWrapper();
-	echo $Bambus->Gui->editorTextarea($Page->Content);
-	echo $Bambus->Gui->endEditorWrapper();
+	echo LGui::beginEditorWrapper();
+	echo LGui::editorTextarea($Page->Content);
+	echo LGui::endEditorWrapper();
 	echo new WScript('initeditor();');
 }
 else

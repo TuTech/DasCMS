@@ -30,11 +30,9 @@ class Application extends Bambus implements IShareable
     	{
     		if(defined('BAMBUS_DEBUG'))printf("\n<!--[%s init]-->\n", self::Class_Name);
 	    	self::$initializedInstance = true;
-	    	$this->Gui = Gui::alloc();
 	    	$this->FileSystem = FileSystem::alloc();
 	    	$this->Linker = Linker::alloc();
 
-	    	$this->Gui->init();
 	    	$this->FileSystem->init();
 	    	$this->Linker->init();
     	}
@@ -43,7 +41,7 @@ class Application extends Bambus implements IShareable
     
     
     
-    var $name, $bad, $xml, $applicationDirectory, $Gui, $interfaceXML;
+    var $name, $bad, $xml, $applicationDirectory, $interfaceXML;
     var $initialized = false;
     var $tab = '';  
     
@@ -144,10 +142,10 @@ class Application extends Bambus implements IShareable
 		{
 			if(!empty($applicationNode[1]['search']))
 			{
-				$html .= $this->Gui->search($applicationNode[1]['search']);
+				$html .= LGui::search($applicationNode[1]['search']);
 			}
 			$tasks = $this->getSCTagValues('task', $applicationNode[0]);
-			$html .= $this->Gui->beginTaskBar();
+			$html .= LGui::beginTaskBar();
 			$first = true;
 			$closed = true;
 			$panelName = '';
@@ -163,11 +161,11 @@ class Application extends Bambus implements IShareable
 							$CommandBar .= '</tr></table>';
 							$closed = true;
 						}
-						$html .= $this->Gui->taskSpacer();
+						$html .= LGui::taskSpacer();
 						break;
 					case('item'):
 						
-						$html .= $this->Gui->taskSpacer();
+						$html .= LGui::taskSpacer();
 						break;
 					case('button'):
 						$doJS = (empty($task['mode']) || strtolower($task['mode']) == 'javascript');
@@ -194,7 +192,7 @@ class Application extends Bambus implements IShareable
 							}
 							$action .= sprintf("{top.location = '%s'%s;}", addslashes(parent::createQueryString(array('_action' => $task['action']))), $prompt);
 						}
-						$html .= $this->Gui->taskButton($action, $doJS, $task['icon'], SLocalization::get($task['caption']),$hotkey);
+						$html .= LGui::taskButton($action, $doJS, $task['icon'], SLocalization::get($task['caption']),$hotkey);
 						if($closed)
 						{
 							$CommandBar .= sprintf(
@@ -219,7 +217,7 @@ class Application extends Bambus implements IShareable
 				$CommandBar .= '</tr></table>';
 			}
 			$CommandBar .= '<br class="CommandBarTerminator" /></div>';
-			$html .= $this->Gui->endTaskBar();
+			$html .= LGui::endTaskBar();
 		}
 		return $CommandBar;
 	}

@@ -7,7 +7,7 @@
 * Description: 
 ************************************************/
 if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
-echo $Bambus->Gui->hiddenInput('action', 'delete');
+echo LGui::hiddenInput('action', 'delete');
 $files = $mp->Index;
 ksort($files, SORT_STRING);
 $itemTemplate = "<a class=\"listView\" name=\"{id}\" title=\"{title}\" id=\"{id}\" href=\"javascript:selectImage('{id}');\">
@@ -42,6 +42,6 @@ foreach($files as $id => $file){
     $tpl->setEnvornment($output);
     $tpl->render();
 }
-echo $Bambus->Gui->endForm();
+echo LGui::endForm();
 echo new WScript('hideInputs();');
 ?>

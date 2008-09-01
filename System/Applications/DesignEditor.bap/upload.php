@@ -17,9 +17,9 @@ echo '<div class=""><span style="float:left;padding:4px;padding-top:0px;">'.$ima
 	
 	
 	
-echo $Bambus->Gui->beginMultipartForm(array(), 'documentform');
+echo LGui::beginMultipartForm(array(), 'documentform');
 printf('<input type="hidden" name="MAX_FILE_SIZE" value="%s">', ($maxPost > 0) ? $maxPost : 1000000000);
-echo $Bambus->Gui->beginTable("uploadform");
+echo LGui::beginTable("uploadform");
 ?>
     <tr>
     	<th colspan="2"><?php SLocalization::out('settings');?></th>
@@ -60,8 +60,8 @@ if($succesfullUpload != false)
 }
   
 
-echo $Bambus->Gui->endTable();
-echo $Bambus->Gui->beginTable("uploadstatus", 'hide');
+echo LGui::endTable();
+echo LGui::beginTable("uploadstatus", 'hide');
 ?>
     <tr valign="middle">
         <td>
@@ -72,7 +72,7 @@ echo $Bambus->Gui->beginTable("uploadstatus", 'hide');
         </td>
     </tr>
 <?php
-echo $Bambus->Gui->endTable();
-echo $Bambus->Gui->endMultipartForm();
+echo LGui::endTable();
+echo LGui::endMultipartForm();
 
 ?>

@@ -122,8 +122,8 @@ if($Bambus->UsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($Bam
 		define('BAMBUS_CURRENT_OBJECT', '');
 		$headTpl = new WTemplate('header', WTemplate::SYSTEM);
     	$headTpl->render();
-		echo $Bambus->Gui->beginApplication();
-		echo $Bambus->Gui->endApplication();
+		echo LGui::beginApplication();
+		echo LGui::endApplication();
         $footerTpl = new WTemplate('footer', WTemplate::SYSTEM);
         $footerTpl->render();
 	}    
@@ -173,7 +173,7 @@ if($Bambus->UsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($Bam
     	$headTpl = new WTemplate('header', WTemplate::SYSTEM);
         $headTpl->render();
 		echo $ob;
-		echo $Bambus->Gui->beginApplication();
+		echo LGui::beginApplication();
     	$erg = $Bambus->Application->run();
     	if($erg !== true)
     	{
@@ -183,7 +183,7 @@ if($Bambus->UsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($Bam
 				SNotificationCenter::alloc()->init()->report('alert', 'invalid_application');
 			}
     	}
-		echo $Bambus->Gui->endApplication();
+		echo LGui::endApplication();
     	$footerTpl = new WTemplate('footer', WTemplate::SYSTEM);
         $footerTpl->render();
     }
@@ -207,7 +207,7 @@ if($Bambus->UsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($Bam
     }
     $headTpl = new WTemplate('header', WTemplate::SYSTEM);
     $headTpl->render();
-    echo $Bambus->Gui->beginApplication();
+    echo LGui::beginApplication();
     $loginTpl = new WTemplate('login', WTemplate::SYSTEM);
     $loginTpl->setEnvornment(array(
         'translate:username' => SLocalization::get('username'),
@@ -215,7 +215,7 @@ if($Bambus->UsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($Bam
         'translate:login' => SLocalization::get('login')
     ));
     $loginTpl->render();
-    echo $Bambus->Gui->endApplication();
+    echo LGui::endApplication();
     $footerTpl = new WTemplate('footer', WTemplate::SYSTEM);
     $footerTpl->render();
 }

@@ -7,8 +7,8 @@
 * Description: 
 ************************************************/
 if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
-echo $Bambus->Gui->beginForm(array(), 'documentform');
-echo $Bambus->Gui->hiddenInput('action', 'delete');
+echo LGui::beginForm(array(), 'documentform');
+echo LGui::hiddenInput('action', 'delete');
 $files = DFileSystem::FilesOf($Bambus->pathTo('download'), '/\.(?!(php[0-9]?|aspx?|pl|phtml|cgi))$/i');
 
 ksort($files, SORT_STRING);
@@ -43,6 +43,6 @@ foreach($files as $file){
     $tpl->setEnvornment($output);
     $tpl->render();
 }
-echo $Bambus->Gui->endForm();
+echo LGui::endForm();
 echo new WScript('hideInputs();');
 ?>

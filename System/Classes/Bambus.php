@@ -81,7 +81,6 @@ class Bambus extends BObject
 
     //public
     var $Template,
-    	$Gui,
     	$Configuration,
     	$FileSystem,
     	$UsersAndGroups;
@@ -167,8 +166,6 @@ class Bambus extends BObject
 	);
 	
 	protected $managementAutoloadClasses = array(
-		'Gui'
-		
 	);
 	
     public $loadedClasses = array();

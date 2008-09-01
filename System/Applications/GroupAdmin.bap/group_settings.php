@@ -14,14 +14,14 @@ if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
 //TODO: rewrite
 if(BAMBUS_GRP_CREATE)
 {
-	echo $Bambus->Gui->beginForm();
+	echo LGui::beginForm();
 	printf('<table id="addBox" class="hide" border="0" cellspacing="0" cellpadding="0">');
 	printf("<tr valign=\"top\"><td class=\"addWrapper\"><a id=\"addUserLink\" class=\"activeAddButton\" href=\"javascript:addUser()\"><img src=\"%s\" alt=\"\" /></a><br /><a id=\"addGroupLink\" class=\"inactiveAddButton\" href=\"javascript:addGroup()\"><img src=\"%s\" alt=\"\" /></a></td><td>", WIcon::pathFor('user', 'mimetype', WIcon::MEDIUM), WIcon::pathFor('group', 'mimetype', WIcon::MEDIUM));
-	echo $Bambus->Gui->hiddenInput('cptg_mode','mode');
-	echo $Bambus->Gui->hiddenInput('cptg_new_user_name','edit', 'ucptg');
-	echo $Bambus->Gui->hiddenInput('mode','usr', 'addmode');
-	echo $Bambus->Gui->hiddenInput('action','create_new_user', 'actionInput');
-	echo $Bambus->Gui->beginTable('add_user_table');
+	echo LGui::hiddenInput('cptg_mode','mode');
+	echo LGui::hiddenInput('cptg_new_user_name','edit', 'ucptg');
+	echo LGui::hiddenInput('mode','usr', 'addmode');
+	echo LGui::hiddenInput('action','create_new_user', 'actionInput');
+	echo LGui::beginTable('add_user_table');
 	printf('<tr><th colspan="2">%s</th></tr>', SLocalization::get('new_user'));
 	printf('<tr><th class="tdx180">%s *</th><td>%s</td></tr>', SLocalization::get('username'), '<input type="text" name="new_user_name" value="" class="fullinput" />');
 	printf('<tr><th class="tdx180">%s *</th><td>%s</td></tr>', SLocalization::get('password'), '<input type="password" name="new_user_password" value="" class="fullinput" />');
@@ -29,22 +29,22 @@ if(BAMBUS_GRP_CREATE)
 	printf('<tr><th class="tdx180">%s</th><td>%s</td></tr>', SLocalization::get('name_and_surname'), '<input type="text" name="new_user_name_and_surname" value="" class="fullinput" />');
 	printf('<tr><th class="tdx180">%s</th><td>%s</td></tr>', SLocalization::get('email'), '<input type="text" name="new_user_email" value="" class="fullinput" />');
 	printf('<tr><th colspan="2"><input type="submit" value="%s" class="submitinput" /></th></tr>', SLocalization::get('create'));
-	echo $Bambus->Gui->endTable();
+	echo LGui::endTable();
 
-	echo $Bambus->Gui->beginTable('add_group_table', 'hide');
+	echo LGui::beginTable('add_group_table', 'hide');
 	printf('<tr><th colspan="2">%s</th></tr>', SLocalization::get('new_group'));
 	printf('<tr><th class="tdx180">%s</th><td>%s</td></tr>', SLocalization::get('name'), '<input type="text" name="new_group_name" value="" class="fullinput" />');
-	echo $Bambus->Gui->hiddenInput('cptg_new_group_name','edit', 'gcptg');
+	echo LGui::hiddenInput('cptg_new_group_name','edit', 'gcptg');
 	printf('<tr><th class="tdx180">%s</th><td>%s</td></tr>', SLocalization::get('description'), '<textarea name="new_group_description" rows="4" cols="40" class="smalleditarea"></textarea>');
 	printf('<tr><th colspan="2"><input type="submit" value="%s" class="submitinput" /></th></tr>', SLocalization::get('create'));
-	echo $Bambus->Gui->endTable();
+	echo LGui::endTable();
 	printf("</td></tr>");
 	print('</table>');
-	echo $Bambus->Gui->endForm();
+	echo LGui::endForm();
 }
 if(BAMBUS_GRP_EDIT)
 {
-	echo $Bambus->Gui->beginForm(array('edit' => $victim), 'documentform');
+	echo LGui::beginForm(array('edit' => $victim), 'documentform');
 	printf('<h2>%s: %s</h2>'
 		,SLocalization::get(($edit_mode == 'usr') ? 'user' : 'group')
 		, htmlspecialchars($victim, ENT_QUOTES, 'utf-8'));
@@ -56,9 +56,9 @@ if($edit_mode == 'usr')
     //editor permissions//
     //////////////////////
     
-    echo $Bambus->Gui->verticalSpace();
-    echo $Bambus->Gui->hiddenInput('action', 'save_assignment_of_groups');
-    echo $Bambus->Gui->beginTable();
+    echo LGui::verticalSpace();
+    echo LGui::hiddenInput('action', 'save_assignment_of_groups');
+    echo LGui::beginTable();
     printf('<tr><th class="tdicon">&nbsp;</th><th>%s</th></tr>',SLocalization::get('assignment_of_groups'));
 	$id = 1;
 	$flip = 2;
@@ -87,15 +87,15 @@ if($edit_mode == 'usr')
 	{
 		printf('<tr><th class="tdicon"></th><td>%s</td></tr>',SLocalization::get('no_userdefined_groups'));
 	}
-	echo $Bambus->Gui->endTable();
-	echo $Bambus->Gui->verticalSpace();
+	echo LGui::endTable();
+	echo LGui::verticalSpace();
 	$usergroups = $Bambus->UsersAndGroups->listGroupsOfUser($victim);
 	
 	/////////////////
 	//primary group//
 	/////////////////
 	
-	echo $Bambus->Gui->beginTable();
+	echo LGui::beginTable();
 	printf('<tr><th>%s</th></tr><tr><td><select class="selectinput" name="primary_group">', SLocalization::get('primary_group'));
 	$grparray = array('' => SLocalization::get('none'));
 	$selected = '';
@@ -115,14 +115,14 @@ if($edit_mode == 'usr')
 		printf('<option value="%s"%s>%s</option>', $grpkey, (($selected == $grpkey) ? ' selected="selected"': ''), $grparray[$grpkey]);
 	}
 	print('</select></td></tr>');
-	echo $Bambus->Gui->endTable();
-	echo $Bambus->Gui->verticalSpace();
+	echo LGui::endTable();
+	echo LGui::verticalSpace();
 	
 	///////////////////
 	//assigned groups//
 	///////////////////
 	
-	echo $Bambus->Gui->beginTable();
+	echo LGui::beginTable();
 	printf('<tr><th class="tdicon">&nbsp;</th><th>%s</th></tr>',SLocalization::get('assignment_of_system_groups'));
 	$id = 1;
 	foreach($Bambus->UsersAndGroups->listSystemGroups() as $sysgroup)
@@ -156,7 +156,7 @@ if($edit_mode == 'usr')
 				printf('<tr><th class="tdicon"><input type="checkbox" disabled="disabled" %s /></th><td class="flip_%s"><img src="%s" alt="" /> %s</td></tr>', (($Bambus->UsersAndGroups->isMemberOf($victim, $sysgroup)) ? 'checked="checked" ' : ''), $flip, WIcon::pathFor('system-group', 'mimetype'),htmlentities($sysgroup).$desc);
 		}
 	}
-	echo $Bambus->Gui->endTable();
+	echo LGui::endTable();
 
 }
 else
@@ -172,16 +172,16 @@ else
 
 ROW;
 
-	echo $Bambus->Gui->beginTable();
-	echo $Bambus->Gui->tableHeader(array(SLocalization::get('description')));
-	echo $Bambus->Gui->beginTableRow();
+	echo LGui::beginTable();
+	echo LGui::tableHeader(array(SLocalization::get('description')));
+	echo LGui::beginTableRow();
 	echo htmlentities($Bambus->UsersAndGroups->getGroupDescription($victim));
-	echo $Bambus->Gui->endTableRow();
-	echo $Bambus->Gui->endTable();
-	echo $Bambus->Gui->verticalSpace();
-	echo $Bambus->Gui->beginTable();
-	echo $Bambus->Gui->tableHeader(array(SLocalization::get('assigned_users')));
-	echo $Bambus->Gui->beginTableRow();
+	echo LGui::endTableRow();
+	echo LGui::endTable();
+	echo LGui::verticalSpace();
+	echo LGui::beginTable();
+	echo LGui::tableHeader(array(SLocalization::get('assigned_users')));
+	echo LGui::beginTableRow();
 	
 	$assignedUsers = $Bambus->UsersAndGroups->listUsersOfGroup($victim);
 	sort($assignedUsers, SORT_STRING);
@@ -198,8 +198,8 @@ ROW;
 	}
 	
 	echo '<br class="clear" />';
-	echo $Bambus->Gui->endTableRow();
-	echo $Bambus->Gui->endTable();
+	echo LGui::endTableRow();
+	echo LGui::endTable();
 	
 }
 
@@ -211,6 +211,6 @@ if(BAMBUS_GRP_EDIT)
 }
 if(BAMBUS_GRP_EDIT)
 {
-    echo $Bambus->Gui->endForm();
+    echo LGui::endForm();
 }
 ?>

@@ -108,12 +108,6 @@ class FileSystem extends Bambus implements IShareable
    	
 	function getFiles($dir, $types, $useOrUseNot = true, $addFullPath = false)
 	{
-		/*
-		<documentation>
-			$useOrUseNot == true: list files whith suffix part of $types
-			$useOrUseNot == false: list files whith suffix NOT part of $types
-		</documentation>
-		*/
 		$types = parent::isAnArray($types);
 		$this->changeDir($dir);
 		$files = array();
