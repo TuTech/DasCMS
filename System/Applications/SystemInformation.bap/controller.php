@@ -15,9 +15,9 @@ function dirlist_r($dir = './', $indent = 0){
     	if(!isset($info[$key]))$info[$key] = 0;
     $files = array();
     $dirs = array();
-    $Bambus->FileSystem->changeDir('system');
+    chdir($Bambus->pathTo('system'));
     if(is_dir($dir)){
-        if(@$Bambus->FileSystem->changeDir($dir, false))
+        if(@chdir($dir))
         {
             $Directory = opendir ('./');
             while ($item = readdir ($Directory)) 
@@ -44,7 +44,7 @@ function dirlist_r($dir = './', $indent = 0){
             closedir($Directory);
             
         }
-        $Bambus->FileSystem->returnToRootDir();
+        chdir(constant('BAMBUS_CMS_ROOTDIR'));
         if($dirs != array())
         {   
             foreach($dirs as $direc)
@@ -63,21 +63,23 @@ function pdirlist_r($dir = './', $indent = 0){
     $no = SLocalization::get('no');
     if(file_exists($dir)){
         if(is_readable($dir)){
-            $Bambus->FileSystem->changeDir($dir, false);
-            $Directory = opendir ('./');
-            while ($item = readdir ($Directory)) 
+            if(@chdir($dir))
             {
-                if(is_file($item))// && (substr($item,0,1) != '.')
+                $Directory = opendir ('./');
+                while ($item = readdir ($Directory)) 
                 {
-                    $files[] = $item;
+                    if(is_file($item))// && (substr($item,0,1) != '.')
+                    {
+                        $files[] = $item;
+                    }
+                    elseif(is_dir($item) && (substr($item,0,1) != '.'))
+                    {
+                        $dirs[] = $item;
+                    }
                 }
-                elseif(is_dir($item) && (substr($item,0,1) != '.'))
-                {
-                    $dirs[] = $item;
-                }
+                closedir($Directory);
+                $indent = $indent + 20;
             }
-            closedir($Directory);
-            $indent = $indent + 20;
         }else{
             $out[] =  '<div class="listeddir"><img src="'.$Bambus->pathTo('systemImage').'dir.png" alt="" />'.htmlentities($dir).' <span class="notreadable">'.SLocalization::get('not_readable').'</span></div>';
             $indent = $indent + 20;                
@@ -112,7 +114,7 @@ function pdirlist_r($dir = './', $indent = 0){
             }
             
         }
-        $Bambus->FileSystem->returnToRootDir();
+        chdir(constant('BAMBUS_CMS_ROOTDIR'));
         if($dirs != array())
         {
             foreach($dirs as $direc)

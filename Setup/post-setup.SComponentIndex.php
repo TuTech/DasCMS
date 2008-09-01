@@ -40,6 +40,7 @@ class post_setup_SComponentIndex implements runnable
 		'E' => 'Event',
 		'H' => 'EventHandler',
 		'I' => 'Interface',
+        'L' => 'Legacy',
 		'M' => 'Manager',
 		'N' => 'Navigator',
 		'Q' => 'Query',

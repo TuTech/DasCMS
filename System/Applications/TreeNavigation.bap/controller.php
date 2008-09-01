@@ -146,7 +146,7 @@ if(count($navigations) > 0)
 			"</a>\n"
 			,$Bambus->Linker->createQueryString(array('edit' => $item))
 			,htmlspecialchars($item, ENT_QUOTES, 'UTF-8')
-			,$Bambus->Gui->iconPath('navigation', '', 'mimetype','medium')
+			,WIcon::pathFor('navigation', 'mimetype',WIcon::MEDIUM)
 			,' '
 			,'Content-navigation'
 		);
@@ -158,9 +158,9 @@ if(count($navigations) > 0)
 	var OBJ_ofd;
 	OBJ_ofd = new CLASS_OpenFileDialog();
 	OBJ_ofd.self = 'OBJ_ofd';
-	OBJ_ofd.openIcon = '<?php echo $Bambus->Gui->iconPath('open', 'open', 'action', 'small'); ?>';
+	OBJ_ofd.openIcon = '<?php echo WIcon::pathFor('open') ?>';
 	OBJ_ofd.openTranslation = '<?php SLocalization::out('open'); ?>';
-	OBJ_ofd.closeIcon = '<?php echo $Bambus->Gui->iconPath('delete', 'delete', 'action', 'small'); ?>';
+	OBJ_ofd.closeIcon = '<?php echo WIcon::pathFor('delete') ?>';
 	OBJ_ofd.statusText = '';
-	OBJ_ofd.statusAnimation = '<?php echo $Bambus->Gui->iconPath('loading', 'loading', 'animation', 'extra-small'); ?>';
+	OBJ_ofd.statusAnimation = '<?php echo  WIcon::pathFor('loading', 'animation', WIcon::EXTRA_SMALL);  ?>';
 </script>

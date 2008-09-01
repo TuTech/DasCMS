@@ -51,9 +51,9 @@ if($succesfullUpload != false)
 			//? 'thumbnail.php'.$Bambus->Linker->createQueryString(array('render' => $succesfullUpload, 'path' => 'design'))
 			? html_entity_decode($Bambus->Linker->createQueryString(array('render' => $succesfullUpload, 'path' => 'design'),false,'thumbnail.php'))
 			//file icon
-			: (file_exists($Bambus->Gui->iconPath($suffix, $suffix, 'mimetype','large')))
-				? $Bambus->Gui->iconPath($suffix, $suffix, 'mimetype','large')
-				: $Bambus->Gui->iconPath('file', 'file', 'mimetype','large')
+			: (file_exists(WIcon::pathFor($suffix, 'mimetype',WIcon::LARGE)))
+				? WIcon::pathFor($suffix, 'mimetype',WIcon::LARGE)
+				: WIcon::pathFor('file', 'mimetype',WIcon::LARGE)
 		)
 		,htmlentities($succesfullUpload)
 		,htmlentities($succesfullUpload));
@@ -65,7 +65,7 @@ echo $Bambus->Gui->beginTable("uploadstatus", 'hide');
 ?>
     <tr valign="middle">
         <td>
-            <img src="<?php echo $Bambus->Gui->iconPath('loading', 'uploading', 'animation','extra-small');?>" alt="" />
+            <img src="<?php echo WIcon::pathFor('loading', 'animation',WIcon::EXTRA_SMALL);?>" alt="" />
         </td>
         <td>
             <?php SLocalization::out('uploading');?>

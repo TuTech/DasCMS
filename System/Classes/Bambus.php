@@ -25,6 +25,7 @@ function __autoload($className)
 			'E' => 'Event',
 			'H' => 'EventHandler',
 			'I' => 'Interface',
+            'L' => 'Legacy',
 			'M' => 'Manager',
 			'N' => 'Navigator',
 			'Q' => 'Query',
@@ -615,7 +616,7 @@ class Bambus extends BObject
         {
          	define('BAMBUS_APPLICATION', 			$get['editor']);
 			define('BAMBUS_APPLICATION_DIRECTORY',  $this->pathTo('systemApplication').BAMBUS_APPLICATION.'/');
-     		define('BAMBUS_APPLICATION_ICON', 		$this->Gui->iconPath($pool[$get['editor']]['icon'],'','app','small'));
+     		define('BAMBUS_APPLICATION_ICON', 		WIcon::pathFor($pool[$get['editor']]['icon'],'app'));
     		define('BAMBUS_APPLICATION_TITLE', 		SLocalization::get($pool[$get['editor']]['name']));
     		define('BAMBUS_APPLICATION_DESCRIPTION',SLocalization::get($pool[$get['editor']]['desc']));
 
@@ -634,7 +635,7 @@ class Bambus extends BObject
 	    	}     
 
         	define('BAMBUS_APPLICATION_TAB', 		$activeTab[0]);
-        	define('BAMBUS_APPLICATION_TAB_ICON', 	$this->Gui->iconPath($activeTab[1]['icon'],'','','small'));
+        	define('BAMBUS_APPLICATION_TAB_ICON', 	WIcon::pathFor($activeTab[1]['icon']));
         	define('BAMBUS_APPLICATION_TAB_TITLE', 	SLocalization::get($activeTab[0]));
         }
 		else
@@ -732,7 +733,7 @@ class Bambus extends BObject
          	$appas = true;
         }
         if(!$appas)
-	        $smallicon = $this->Gui->iconPath($appinfo[$editor]['icon'],'','app','small');
+	        $smallicon = WIcon::pathFor($appinfo[$editor]['icon']);
      	define('BAMBUS_APPLICATION_AUTOSELECT', $appas);
      	define('BAMBUS_APPLICATION', $appas ? '' : $editor);
      	define('BAMBUS_APPLICATION_ICON', $appas ? '' : $smallicon);
@@ -741,7 +742,7 @@ class Bambus extends BObject
         $outputString = '';
         foreach($accessable as $app)
         {
-         	$micon = $this->Gui->icon($appinfo[$app]['icon'],'','app','large');
+         	$micon = new WIcon($appinfo[$app]['icon'], '', WIcon::LARGE, 'app');
         	$outputString .= sprintf(
 						"\t<a class=\"%sbambus_type_%s\" href=\"%s\">%s\n\t\t".
 							"<span class=\"ApplicationTitle\">%s</span>\n\t\t".
@@ -754,15 +755,15 @@ class Bambus extends BObject
 						,SLocalization::get($appinfo[$app]['name'])
 						,SLocalization::get($appinfo[$app]['desc'])
             		);
-            $micon = $this->Gui->icon($appinfo[$app]['icon'],SLocalization::get($appinfo[$app]['desc'],'app','large'));
-        	$tabs = '';
+            $micon = new WIcon($appinfo[$app]['icon'], SLocalization::get($appinfo[$app]['desc']), WIcon::LARGE, 'app'); 
+            $tabs = '';
             foreach ($appinfo[$app]['tabs'] as $tab => $icon) 
         	{
         		$tabs .= sprintf(
         			'<a class="%sapplication_tab"  href=\"%s\">%s%s</a>'
         			,$_GET['tab'] == $tab
         			,$this->createQueryString(array('editor' => $appinfo[$app]['item'], 'tab' => $tab),true)
-        			,$this->Gui->icon($icon,'','action','extra-small')
+        			,new WIcon($icon, '', WIcon::EXTRA_SMALL)
         		);
         	}
             $outputString .= sprintf(

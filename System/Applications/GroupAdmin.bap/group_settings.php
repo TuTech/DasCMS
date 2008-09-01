@@ -16,7 +16,7 @@ if(BAMBUS_GRP_CREATE)
 {
 	echo $Bambus->Gui->beginForm();
 	printf('<table id="addBox" class="hide" border="0" cellspacing="0" cellpadding="0">');
-	printf("<tr valign=\"top\"><td class=\"addWrapper\"><a id=\"addUserLink\" class=\"activeAddButton\" href=\"javascript:addUser()\"><img src=\"%s\" alt=\"\" /></a><br /><a id=\"addGroupLink\" class=\"inactiveAddButton\" href=\"javascript:addGroup()\"><img src=\"%s\" alt=\"\" /></a></td><td>", $Bambus->Gui->iconPath('user', 'user', 'mimetype', 'medium'), $Bambus->Gui->iconPath('group', 'group', 'mimetype', 'medium'));
+	printf("<tr valign=\"top\"><td class=\"addWrapper\"><a id=\"addUserLink\" class=\"activeAddButton\" href=\"javascript:addUser()\"><img src=\"%s\" alt=\"\" /></a><br /><a id=\"addGroupLink\" class=\"inactiveAddButton\" href=\"javascript:addGroup()\"><img src=\"%s\" alt=\"\" /></a></td><td>", WIcon::pathFor('user', 'mimetype', WIcon::MEDIUM), WIcon::pathFor('group', 'mimetype', WIcon::MEDIUM));
 	echo $Bambus->Gui->hiddenInput('cptg_mode','mode');
 	echo $Bambus->Gui->hiddenInput('cptg_new_user_name','edit', 'ucptg');
 	echo $Bambus->Gui->hiddenInput('mode','usr', 'addmode');
@@ -77,7 +77,7 @@ if($edit_mode == 'usr')
 				,(($Bambus->UsersAndGroups->isMemberOf($victim, $group)) ? 'checked="checked" ' : '')
 				,$flip
 				,$id
-				,$Bambus->Gui->iconPath('group', 'group', 'mimetype', 'small')
+				,WIcon::pathFor('group', 'mimetype')
 				,htmlentities($group).$desc
 			);
 			$id++;
@@ -141,19 +141,19 @@ if($edit_mode == 'usr')
 							.(($Bambus->UsersAndGroups->isMemberOf($victim, $sysgroup)) ? 'checked="checked" ' : '')
 						,$flip
 						,$id
-						,$Bambus->Gui->iconPath('system-group', 'system-group', 'mimetype', 'small')
+						,WIcon::pathFor('system-group', 'mimetype')
 						,htmlentities($sysgroup).$desc
 				);
 				$id++;
 			}
 			else
 			{
-				printf('<tr><th class="tdicon"><input id="sysgroup_admin" type="checkbox" name="join_group_%s" %s onchange="checkothers(this.checked);" /></th><td class="flip_%s"><label for="sysgroup_admin"><img src="%s" alt="" /> %s</label></td></tr>', md5($sysgroup), (($Bambus->UsersAndGroups->isMemberOf($victim, $sysgroup)) ? 'checked="checked" ' : ''), $flip, $Bambus->Gui->iconPath('system-group', 'system-group', 'mimetype', 'small'), htmlentities($sysgroup).$desc);
+				printf('<tr><th class="tdicon"><input id="sysgroup_admin" type="checkbox" name="join_group_%s" %s onchange="checkothers(this.checked);" /></th><td class="flip_%s"><label for="sysgroup_admin"><img src="%s" alt="" /> %s</label></td></tr>', md5($sysgroup), (($Bambus->UsersAndGroups->isMemberOf($victim, $sysgroup)) ? 'checked="checked" ' : ''), $flip, WIcon::pathFor('system-group', 'mimetype'), htmlentities($sysgroup).$desc);
 			}
 		}
 		else
 		{
-				printf('<tr><th class="tdicon"><input type="checkbox" disabled="disabled" %s /></th><td class="flip_%s"><img src="%s" alt="" /> %s</td></tr>', (($Bambus->UsersAndGroups->isMemberOf($victim, $sysgroup)) ? 'checked="checked" ' : ''), $flip, $Bambus->Gui->iconPath('system-group', 'system-group', 'mimetype', 'small'),htmlentities($sysgroup).$desc);
+				printf('<tr><th class="tdicon"><input type="checkbox" disabled="disabled" %s /></th><td class="flip_%s"><img src="%s" alt="" /> %s</td></tr>', (($Bambus->UsersAndGroups->isMemberOf($victim, $sysgroup)) ? 'checked="checked" ' : ''), $flip, WIcon::pathFor('system-group', 'mimetype'),htmlentities($sysgroup).$desc);
 		}
 	}
 	echo $Bambus->Gui->endTable();

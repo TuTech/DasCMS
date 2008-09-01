@@ -16,7 +16,7 @@ if(BAMBUS_GRP_CREATE)
 {
 	echo $Bambus->Gui->beginForm();
 	printf('<table id="addBox" class="hide" border="0" cellspacing="0" cellpadding="0">');
-	printf("<tr valign=\"top\"><td class=\"addWrapper\"><a id=\"addUserLink\" class=\"activeAddButton\" href=\"javascript:addUser()\"><img src=\"%s\" alt=\"\" /></a><br /><a id=\"addGroupLink\" class=\"inactiveAddButton\" href=\"javascript:addGroup()\"><img src=\"%s\" alt=\"\" /></a></td><td>", $Bambus->Gui->iconPath('user', 'user', 'mimetype', 'medium'), $Bambus->Gui->iconPath('group', 'group', 'mimetype', 'medium'));
+	printf("<tr valign=\"top\"><td class=\"addWrapper\"><a id=\"addUserLink\" class=\"activeAddButton\" href=\"javascript:addUser()\"><img src=\"%s\" alt=\"\" /></a><br /><a id=\"addGroupLink\" class=\"inactiveAddButton\" href=\"javascript:addGroup()\"><img src=\"%s\" alt=\"\" /></a></td><td>", WIcon::pathFor('user', 'mimetype', WIcon::MEDIUM), WIcon::pathFor('group', 'mimetype', WIcon::MEDIUM));
 	echo $Bambus->Gui->hiddenInput('cptg_mode','mode');
 	echo $Bambus->Gui->hiddenInput('cptg_new_user_name','edit', 'ucptg');
 	echo $Bambus->Gui->hiddenInput('mode','usr', 'addmode');

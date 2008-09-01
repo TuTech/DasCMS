@@ -1,7 +1,7 @@
 <?php
 $info = array(); //array('size' => 0,'lines' => 0,'chars' => 0,'files' => 0,'folders' => 0,'scripts' => 0);
 dirlist_r('./');
-$Bambus->FileSystem->returnToRootDir();
+chdir(constant('BAMBUS_CMS_ROOTDIR'));
 ?>
 <h3><?php SLocalization::out('system');?></h3>
 <table cellspacing="0" class="borderedtable full">

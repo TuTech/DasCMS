@@ -75,25 +75,9 @@ class Template extends Bambus implements IShareable
         return $this->env;
     }
     
-    function parseObject($template, $Object, $type = 'content')
-    {
-        if($type == 'content')
-        {
-            $template = $this->FileSystem->read(parent::pathToFile('template',$template));
-        }
-        elseif($type == 'system')
-        {
-            $template = $this->FileSystem->read(parent::pathToFile('systemTemplate',$template));
-        }
-    	$P = Parser::alloc();
-    	$P->init();
-    	return $P->parse($template, $Object);
-    }
     
     function parse($template, $vars, $type = 'content')
     {
-//		$pstart = microtime(true);
-//		printf("\n\n<!-- begin parsing of \"%s\"-->", $template);
 		$templatefile = $template;
         $env = $this->env;
         foreach(array_keys($vars) as $key)
@@ -109,8 +93,6 @@ class Template extends Bambus implements IShareable
             $template = $this->FileSystem->read(parent::pathToFile('systemTemplate',$template));
         }
         $res = ($this->BCMSString->bsprintv($template, $env));
-//		$pstop = microtime(true);
-//		printf("\n<!-- end parsing of \"%s\" after %fsec-->\n\n", $templatefile, $pstop-$pstart);
 		
 		return $res;
     }

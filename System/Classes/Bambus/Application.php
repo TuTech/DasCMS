@@ -208,7 +208,7 @@ class Application extends Bambus implements IShareable
 							'<td><a class="CommandBarPanelItem" title="%s" href="javascript:%s">%s</a></td>'
 							,SLocalization::get($task['caption'])
 							,$action
-							,$this->Gui->icon($task['icon'],SLocalization::get($task['caption']), false, 'small')
+							,new WIcon($task['icon'], SLocalization::get($task['caption']))
 						);
 						break;
 				}

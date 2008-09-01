@@ -128,9 +128,7 @@ class BCMSString extends Bambus implements IShareable
 			case 'currentobject':	return BAMBUS_CURRENT_OBJECT;
 			case 'currentobjecttitle':return substr(BAMBUS_CURRENT_OBJECT,0,strlen($this->suffix(BAMBUS_CURRENT_OBJECT))*-1-1);
 			case 'currentobjecticon':
-				$Gui = Gui::alloc();
-				$Gui->init();
-				return $Gui->iconPath($this->suffix(BAMBUS_CURRENT_OBJECT),'','mimetype','small');
+				return WIcon::pathFor($this->suffix(BAMBUS_CURRENT_OBJECT),'mimetype');
 			default: 				return '';
 		}
 	}

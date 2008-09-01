@@ -27,11 +27,11 @@ foreach($files as $id => $file){
 	}
    list($dbtitle, $dbalias) = array_values($SCI->getTitleAndAlias(get_class($mp),$id));
 	$suffix = 'website';
-    $icon = (file_exists($Bambus->Gui->iconPath($suffix, $suffix, 'mimetype', 'small'))) ? $suffix : 'file';
-    $bigIcon = (file_exists($Bambus->Gui->iconPath($suffix, $suffix, 'mimetype', 'large'))) ? $suffix : 'file';
+    $icon = (file_exists(WIcon::pathFor($suffix, 'mimetype'))) ? $suffix : 'file';
+    $bigIcon = (file_exists(WIcon::pathFor($suffix, 'mimetype', WIcon::LARGE))) ? $suffix : 'file';
     $output = array('realname'  => htmlentities($file),
-        'icon' => 	$Bambus->Gui->iconPath($icon, $suffix, 'mimetype', 'small'),
-        'bigIcon' =>$Bambus->Gui->iconPath($bigIcon, $suffix, 'mimetype', 'large'),
+        'icon' => 	WIcon::pathFor($icon, 'mimetype'),
+        'bigIcon' =>WIcon::pathFor($bigIcon, 'mimetype', WIcon::LARGE),
         'linktarget' => '_blank',
         'id' => $id,
         'link' => '#'.$id,

@@ -259,7 +259,7 @@ if(!empty($post['action']))
 	if($post['action'] == 'save_editor_permissions' && BAMBUS_GRP_EDIT && $victim != BAMBUS_USER)
 	{
 		//list the applications
-	    $Bambus->FileSystem->changeDir('systemApplication');
+	    chdir($Bambus->pathTo('systemApplication'));
 	    $Dir = opendir ('./'); 
 	    $items = array();
 	    while ($item = readdir ($Dir)) {
@@ -270,7 +270,7 @@ if(!empty($post['action']))
 	        }
 	    }
 	    closedir($Dir);
-		$Bambus->FileSystem->returnToRootDir();
+		chdir(constant('BAMBUS_CMS_ROOTDIR'));
 	    $grantPermission = array();
 	    $rejectPermission = array();
 	    foreach($items as $item)
@@ -397,7 +397,7 @@ if(count($users) > 0 || count($groups) > 0)
 			"</a>\n"
 			,$Bambus->Linker->createQueryString(array('edit' => $item,'mode' => 'grp'))
 			,htmlentities($item, ENT_QUOTES)
-			,$Bambus->Gui->iconPath('group', '', 'mimetype','medium')
+			,WIcon::pathFor('group', 'mimetype',WIcon::MEDIUM)
 			,' '
 			,'Group'
 		);
@@ -416,7 +416,7 @@ if(count($users) > 0 || count($groups) > 0)
 			"</a>\n"
 			,$Bambus->Linker->createQueryString(array('edit' => $item,'mode' => 'usr'))
 			,htmlentities($item, ENT_QUOTES)
-			,$Bambus->Gui->iconPath(($admin ? 'administrator' : 'user'), '', 'mimetype','medium')
+			,WIcon::pathFor(($admin ? 'administrator' : 'user'), 'mimetype',WIcon::MEDIUM)
 			,$realname.' '
 			,$admin ? 'Administrator' : 'User'
 		);
@@ -440,9 +440,9 @@ if(empty($get['tab']) || strpos($get['tab'],'manage_')===false)
 	var OBJ_ofd;
 	OBJ_ofd = new CLASS_OpenFileDialog();
 	OBJ_ofd.self = 'OBJ_ofd';
-	OBJ_ofd.openIcon = '<?php echo $Bambus->Gui->iconPath('open', 'open', 'action', 'small'); ?>';
+	OBJ_ofd.openIcon = '<?php echo WIcon::pathFor('open') ?>';
 	OBJ_ofd.openTranslation = '<?php SLocalization::out('open'); ?>';
-	OBJ_ofd.closeIcon = '<?php echo $Bambus->Gui->iconPath('delete', 'delete', 'action', 'small'); ?>';
+	OBJ_ofd.closeIcon = '<?php echo WIcon::pathFor('delete') ?>';
 	OBJ_ofd.statusText = '';
-	OBJ_ofd.statusAnimation = '<?php echo $Bambus->Gui->iconPath('loading', 'loading', 'animation', 'extra-small'); ?>';
+	OBJ_ofd.statusAnimation = '<?php echo  WIcon::pathFor('loading', 'animation', WIcon::EXTRA_SMALL);  ?>';
 </script>

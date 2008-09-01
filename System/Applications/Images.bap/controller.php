@@ -9,7 +9,7 @@
 if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
 $allowEdit = true;
 $allowed = array('jpeg','jpg','png','gif','svg','mng','eps','ps','tif','tiff','psd','ai','pcx','wmf');
-$Files = $Bambus->FileSystem->getFiles('image', $allowed);
+$Files = DFileSystem::FilesOf($Bambus->pathTo('image'), '/\.('.implode('|', $allowed).')/i');
 
 //////////
 //upload//
@@ -67,8 +67,7 @@ if(count($Files) > 0)
 	//////////////////
 	if(!empty($post['action']) && $post['action'] == 'delete' && BAMBUS_GRP_DELETE)
 	{
-		$files = $Bambus->FileSystem->getFiles('image', $allowed);
-		foreach($files as $file)
+		foreach($Files as $file)
 		{
 			if(!empty($post['select_'.md5($file)]))
 			{

@@ -236,41 +236,61 @@ class DFileSystem extends BDriver
 		return $suc;
 	} 
 	
-	/**
-	 * Read raw data from file
-	 *
-	 * @param string $dataFile
-	 * @return string
-	 * @throws XFileNotFoundException
-	 * @throws XFileLockedException
-	 */
-	public static function Load($dataFile)
-	{
-		$bin = '';
-		$fp = null;
-		if(!file_exists($dataFile))
-		{
-			throw new XFileNotFoundException('open failed',$dataFile);
-		}
-		
-		
-		//FIXME FOPEN etc works? (was r+)
-		$fp = @fopen($dataFile,'r');
-		if(!$fp)
-		{
-			throw new XFileLockedException('open failed ',$dataFile);
-		}
-		
-		self::lock($fp);
-		if(filesize($dataFile) > 0)
-		{
-			$bin = fread($fp, filesize($dataFile));
-			$pos = (strpos($bin, "\n") === false) ? 0 : strpos($bin, "\n")+1;
-			$bin = substr($bin, $pos);
-		}
-		self::close($fp);
-		return $bin;
-	} 
+    /**
+     * Read raw data from file
+     *
+     * @param string $dataFile
+     * @return string
+     * @throws XFileNotFoundException
+     * @throws XFileLockedException
+     */
+    public static function Load($dataFile)
+    {
+        $bin = '';
+        $fp = null;
+        if(!file_exists($dataFile))
+        {
+            throw new XFileNotFoundException('open failed',$dataFile);
+        }
+        
+        $fp = @fopen($dataFile,'r');
+        if(!$fp)
+        {
+            throw new XFileLockedException('open failed ',$dataFile);
+        }
+        
+        self::lock($fp);
+        if(filesize($dataFile) > 0)
+        {
+            $bin = fread($fp, filesize($dataFile));
+            $pos = (strpos($bin, "\n") === false) ? 0 : strpos($bin, "\n")+1;
+            $bin = substr($bin, $pos);
+        }
+        self::close($fp);
+        return $bin;
+    } 
+    
+   /**
+     * append data to the end of a file 
+     *
+     * @param string $dataFile
+     * @return string
+     * @throws XFileLockedException
+     */
+    public static function Append($dataFile, $data)
+    {
+        $fp = @fopen($dataFile,'a+');
+        if(!$fp)
+        {
+            throw new XFileLockedException('open failed ',$dataFile);
+        }
+        
+        self::lock($fp);
+        fwrite($fp, $data);
+        self::close($fp);
+    } 
+    
+    
 	/**
 	 * List files in $dir
 	 * $match can be a regexp for file names

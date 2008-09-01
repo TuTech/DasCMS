@@ -11,8 +11,6 @@ abstract class BWidget extends BObject
 {
 	protected static $CurrentWidgetID = 0;
 	
-	abstract public function __construct($target);
-	
 	/**
 	 * return rendered html
 	 *

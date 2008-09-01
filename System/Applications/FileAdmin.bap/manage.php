@@ -9,7 +9,8 @@
 if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
 echo $Bambus->Gui->beginForm(array(), 'documentform');
 echo $Bambus->Gui->hiddenInput('action', 'delete');
-$files = $Bambus->FileSystem->getFiles('download', array('php', 'cgi', 'php3', 'php4', 'php5', 'php6', 'asp', 'aspx', 'pl'), false);
+$files = DFileSystem::FilesOf($Bambus->pathTo('download'), '/\.(?!(php[0-9]?|aspx?|pl|phtml|cgi))$/i');
+
 ksort($files, SORT_STRING);
 $itemTemplate = "<a class=\"listView\" name=\"{id}\" title=\"{title}\" id=\"{id}\" href=\"javascript:selectImage('{id}');\">
     <img src=\"{icon}\" title=\"{title}\" id=\"img_{id}\" alt=\"{bigIcon}\" />
@@ -27,11 +28,11 @@ foreach($files as $file){
 	}
     $id = md5($file);
     $suffix = $Bambus->suffix($file);
-    $icon = (file_exists($Bambus->Gui->iconPath($suffix, $suffix, 'mimetype', 'small'))) ? $suffix : 'file';
-    $bigIcon = (file_exists($Bambus->Gui->iconPath($suffix, $suffix, 'mimetype', 'large'))) ? $suffix : 'file';
+    $icon = (file_exists(WIcon::pathFor($suffix, 'mimetype'))) ? $suffix : 'file';
+    $bigIcon = (file_exists(WIcon::pathFor($suffix, 'mimetype', WIcon::LARGE))) ? $suffix : 'file';
     $output = array('realname'  => htmlentities($file),
-        'icon' => 	$Bambus->Gui->iconPath($icon, $suffix, 'mimetype', 'small'),
-        'bigIcon' =>$Bambus->Gui->iconPath($bigIcon, $suffix, 'mimetype', 'large'),
+        'icon' => 	WIcon::pathFor($icon, 'mimetype'),
+        'bigIcon' =>WIcon::pathFor($bigIcon, 'mimetype', WIcon::LARGE),
         'linktarget' => '_blank',
         'id' => $id,
         'link' => '#'.$id,

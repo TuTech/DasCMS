@@ -86,7 +86,7 @@ foreach($Files as $id => $name)
 		"</a>\n"
 		,$Bambus->Linker->createQueryString(array('edit' => $id))
 		,htmlentities($name, ENT_QUOTES, 'utf-8')
-		,$Bambus->Gui->iconPath('website', '', 'mimetype','medium')
+		,WIcon::pathFor('website', 'mimetype',WIcon::MEDIUM)
 		,' '
 	);
 }
@@ -120,9 +120,9 @@ if(BAMBUS_APPLICATION_TAB != 'manage' && isset($Page))
 	var OBJ_ofd;
 	OBJ_ofd = new CLASS_OpenFileDialog();
 	OBJ_ofd.self = 'OBJ_ofd';
-	OBJ_ofd.openIcon = '<?php echo $Bambus->Gui->iconPath('open', 'open', 'action', 'small'); ?>';
+	OBJ_ofd.openIcon = '<?php echo WIcon::pathFor('open'); ?>';
 	OBJ_ofd.openTranslation = '<?php SLocalization::out('open'); ?>';
-	OBJ_ofd.closeIcon = '<?php echo $Bambus->Gui->iconPath('delete', 'delete', 'action', 'small'); ?>';
+	OBJ_ofd.closeIcon = '<?php echo WIcon::pathFor('delete'); ?>';
 	OBJ_ofd.statusText = '';
-	OBJ_ofd.statusAnimation = '<?php echo $Bambus->Gui->iconPath('loading', 'loading', 'animation', 'extra-small'); ?>';
+	OBJ_ofd.statusAnimation = '<?php echo  WIcon::pathFor('loading', 'animation', WIcon::EXTRA_SMALL); ?>';
 </script>

@@ -17,6 +17,7 @@ class SComponentIndex extends BSystem implements IShareable
 		'E' => 'Event',
 		'H' => 'EventHandler',
 		'I' => 'Interface',
+        'L' => 'Legacy',
 		'M' => 'Manager',
 		'N' => 'Navigator',
 		'Q' => 'Query',

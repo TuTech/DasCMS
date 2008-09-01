@@ -68,18 +68,21 @@ WTemplate::globalSet('bambus_my_uri', $Bambus->Linker->createQueryString(array()
 //load all related js and css files//
 /////////////////////////////////////
 
-$styles = $Bambus->FileSystem->getFiles('systemClientDataStylesheet', 'css', true, true);
+$path = $Bambus->pathTo('systemClientDataStylesheet');
+$files = DFileSystem::FilesOf($path, '/\.css$/i');
 foreach ($styles as $css) 
 {
 	if(substr($css,-24) == 'specialPurpose.login.css')
 		continue;
-	WHeader::useStylesheet($css);
+	WHeader::useStylesheet($path.$css);
 }
-$scripts = $Bambus->FileSystem->getFiles('systemClientDataScript', 'js', true, true);
+$path = $Bambus->pathTo('systemClientDataScript');
+//$scripts = $Bam bus->File System->get Files('systemClientDataScript', 'js', true, true);
+$scripts = DFileSystem::FilesOf($path, '/\.js$/i');
 sort($scripts);//UC first
 foreach ($scripts as $script) 
 {
-	WHeader::useScript($script);
+	WHeader::useScript($path.$script);
 }
 WHeader::setBase($Bambus->Linker->myBase());
 
@@ -190,7 +193,7 @@ if($Bambus->UsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($Bam
     WTemplate::globalSet('appNavigator', '');
     WTemplate::globalSet('TaskBar','');
     define('BAMBUS_APPLICATION_TITLE', SLocalization::get('login'));
-    define('BAMBUS_APPLICATION_ICON', $Bambus->Gui->iconPath('login','','action','small'));
+    define('BAMBUS_APPLICATION_ICON', WIcon::pathFor('login'));
 	define('BAMBUS_CURRENT_OBJECT', '');
 	define('BAMBUS_USER', '');
 	

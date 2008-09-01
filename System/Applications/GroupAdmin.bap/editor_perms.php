@@ -15,7 +15,7 @@ if(BAMBUS_GRP_CREATE)
 {
 	echo $Bambus->Gui->beginForm();
 	printf('<table id="addBox" class="hide" border="0" cellspacing="0" cellpadding="0">');
-	printf("<tr valign=\"top\"><td class=\"addWrapper\"><a id=\"addUserLink\" class=\"activeAddButton\" href=\"javascript:addUser()\"><img src=\"%s\" alt=\"\" /></a><br /><a id=\"addGroupLink\" class=\"inactiveAddButton\" href=\"javascript:addGroup()\"><img src=\"%s\" alt=\"\" /></a></td><td>", $Bambus->Gui->iconPath('user', 'user', 'mimetype', 'medium'), $Bambus->Gui->iconPath('group', 'group', 'mimetype', 'medium'));
+	printf("<tr valign=\"top\"><td class=\"addWrapper\"><a id=\"addUserLink\" class=\"activeAddButton\" href=\"javascript:addUser()\"><img src=\"%s\" alt=\"\" /></a><br /><a id=\"addGroupLink\" class=\"inactiveAddButton\" href=\"javascript:addGroup()\"><img src=\"%s\" alt=\"\" /></a></td><td>", WIcon::pathFor('user', 'mimetype', WIcon::MEDIUM), WIcon::pathFor('group', 'mimetype', WIcon::MEDIUM));
 	echo $Bambus->Gui->hiddenInput('cptg_mode','mode');
 	echo $Bambus->Gui->hiddenInput('cptg_new_user_name','edit', 'ucptg');
 	echo $Bambus->Gui->hiddenInput('mode','usr', 'addmode');
@@ -62,7 +62,7 @@ if(BAMBUS_GRP_EDIT)
 		, htmlspecialchars($victim, ENT_QUOTES, 'utf-8'));
 
 $myDir = getcwd();//nice place... remember it
-$Bambus->FileSystem->changeDir('systemApplication');
+chdir($Bambus->pathTo('systemApplication'));
 $Dir = opendir ('./'); 
 $items = array();
 $i = 0;
@@ -77,7 +77,7 @@ while ($item = readdir ($Dir))
     }  
 }
 closedir($Dir);
-$Bambus->FileSystem->returnToRootDir();
+chdir(constant('BAMBUS_CMS_ROOTDIR'));
 ksort($available);
 $editor_arr = array();
 foreach($available as $foo){
@@ -176,7 +176,7 @@ EOX;
 	        		$id,
 	        		$id,
 	        		$id,
-	        		$Bambus->Gui->icon($editor['icon'],'','app'),
+	        		new WIcon($editor['icon'], '', null, 'app'),
 	        		SLocalization::get($editor['name']),
 	        		SLocalization::get($editor['desc']),
 	        		''

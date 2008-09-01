@@ -29,15 +29,18 @@ if($Bambus->UsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($Bam
 		{
 			case 'image':
 				$path = $Bambus->pathTo('image');
-				$files = $Bambus->FileSystem->getFiles('image', array('jpeg','jpg','png','gif','svg','mng','eps','ps','tif','tiff','psd','ai','pcx','wmf'));
+				$files = DFileSystem::FilesOf($path, '/\.(jpe?g|png|gif|svg|mng|e?ps|tiff?|psd|ai|pcx|wmf)$/i');
+				//$files = $Bam bus->File System->get Files('image', array('jpeg','jpg','png','gif','svg','mng','eps','ps','tif','tiff','psd','ai','pcx','wmf'));
 				break;
 			case 'download':
 				$path = $Bambus->pathTo('download');
-				$files = $Bambus->FileSystem->getFiles('download', array('php', 'cgi', 'php3', 'php4', 'php5', 'php6', 'asp', 'aspx', 'pl'), false);
+				//$files = $Bam bus->File System->get Files('download', array('php', 'cgi', 'php3', 'php4', 'php5', 'php6', 'asp', 'aspx', 'pl'), false);
+				$files = DFileSystem::FilesOf($path, '/\.(?!(php[0-9]?|aspx?|pl|phtml|cgi))$/i');
 				break;
 			case 'design':
 				$path = $Bambus->pathTo('design');
-				$files = $Bambus->FileSystem->getFiles('design', array('css', 'gpl', 'jpeg','jpg','png','gif','svg','mng','eps','ps','tif','tiff','psd','ai','pcx','wmf'));
+				//$files = $Bam bus->File System->get Files('design', array('css', 'gpl', 'jpeg','jpg','png','gif','svg','mng','eps','ps','tif','tiff','psd','ai','pcx','wmf'));
+				$files = DFileSystem::FilesOf($path, '/\.(css|gpl|jpe?g|png|gif|svg|mng|e?ps|tiff?|psd|ai|pcx|wmf)$/i');
 				break;
 			case 'application':
 				//FIXME: application permission check
@@ -57,10 +60,10 @@ if($Bambus->UsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($Bam
 		{
 			if($get['file'] == md5($file))
 			{
-                $FS = @FileSystem::alloc();
-                @$FS->init();
-                @$FS->writeLine($Bambus->pathTo('log').'files.log', sprintf("%s\t%s\t%s\t%s", date('r'), $bambus_user, 'download',$file));
-				
+//                $FS = @File System::alloc();
+//                @$FS->init();
+//                @$FS->writeLine($Bambus->pathTo('log').'files.log', sprintf("%s\t%s\t%s\t%s", date('r'), $bambus_user, 'download',$file));
+				DFileSystem::Append($Bambus->pathTo('log').'files.log', sprintf("%s\t%s\t%s\t%s\n", date('r'), $bambus_user, 'download',$file));
 				header('HTTP/1.1 200 OK');
 				header('Status: 200 OK');
 				header('Accept-Ranges: bytes');

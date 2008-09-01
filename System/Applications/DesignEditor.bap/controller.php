@@ -8,8 +8,7 @@
 ************************************************/
 if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
 $allowEdit = true;
-$Files = $Bambus->FileSystem->getFiles('css', array('css'));
-
+$Files = DFileSystem::FilesOf($Bambus->pathTo('css'), '/\.css/i');
 $FileOpened = false;
 //////////
 //upload//
@@ -75,7 +74,7 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 			;
 		$File = SLocalization::get('new').'-'.$i.'.css';
 		$fileContent = '/* '.SLocalization::get('new_css_file').' */';
-		$Bambus->FileSystem->write($Bambus->pathTo('css').$File, $fileContent);
+		DFileSystem::Save($Bambus->pathTo('css').$File, $fileContent);
 		$FileName = SLocalization::get('new').'-'.$i;
 		$allowEdit = false;
 		$FileOpened = true;
@@ -88,7 +87,7 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 			$File = $get['edit'];
 			$FileName = ($File == 'default.css') ? SLocalization::get('default.css') : htmlentities(substr($File, 0, -4));
 			$allowEdit = true;
-			$fileContent = $Bambus->FileSystem->read($Bambus->pathTo('css').$File);
+			$fileContent = DFileSystem::Load($Bambus->pathTo('css').$File);
 			$FileOpened = true;
 		}
 		
@@ -104,7 +103,7 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 			   	if($post['content'] != $fileContent)
 			   	{
 			        //do the save operation
-			        if($Bambus->FileSystem->write($Bambus->pathTo('css').$File, $post['content']))
+			        if(DFileSystem::Save($Bambus->pathTo('css').$File, $post['content']))
 			        {
 			        	SNotificationCenter::alloc()->init()->report('message', '.file_saved');
 			        	$fileContent = $post['content'];
@@ -122,7 +121,7 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 		//////////////////
 		if(!empty($post['action']) && $post['action'] == 'delete' && BAMBUS_GRP_DELETE)
 		{
-			$files = $Bambus->FileSystem->getFiles('design', $allowed);
+			$files = DFileSystem::FilesOf($Bambus->pathTo('design', '/\.('.implode('|', $allowed).')/i'));
 			foreach($files as $file)
 			{
 				if($file == 'default.css')
@@ -185,7 +184,8 @@ elseif(BAMBUS_APPLICATION_TAB == 'edit_templates')
 	$Path = $Bambus->pathTo($PathName);
 	$doNotDelete = array('page.tpl');
 	$ListTypes = array('tpl');
-	$Files = $Bambus->FileSystem->getFiles($PathName, $ListTypes);
+	//$Files = $Bambus->File System->getFiles($PathName, $ListTypes);
+	$Files = DFileSystem::FilesOf($Path, '/\.('.implode('|', $ListTypes).')/i');
 	
 	//////////
 	//create//
@@ -197,7 +197,7 @@ elseif(BAMBUS_APPLICATION_TAB == 'edit_templates')
 			;
 		$File = SLocalization::get('new').'-'.$i.$Suffix;
 		$fileContent = '<!-- '.SLocalization::get('new_template').' -->';
-		$Bambus->FileSystem->write($Path.$File, $fileContent);
+		DFileSystem::Save($Path.$File, $fileContent);
 		$FileName = SLocalization::get('new').'-'.$i;
 		$allowEdit = false;
 		$FileOpened = true;
@@ -211,7 +211,7 @@ elseif(BAMBUS_APPLICATION_TAB == 'edit_templates')
 			$FileName = (in_array($File, $doNotDelete)) ? SLocalization::get($File) : htmlentities(substr($File, 0, -4));
 			$allowEdit = true;
 			$FileOpened = true;
-			$fileContent = $Bambus->FileSystem->read($Path.$File);
+			$fileContent = DFileSystem::Load($Path.$File);
 		}
 		
 		////////
@@ -226,7 +226,7 @@ elseif(BAMBUS_APPLICATION_TAB == 'edit_templates')
 			   	if($post['content'] != $fileContent)
 			   	{
 			        //do the save operation
-			        if($Bambus->FileSystem->write($Path.$File, $post['content']))
+			        if(DFileSystem::Save($Path.$File, $post['content']))
 			        {
 			        	$fileContent = $post['content'];
 			        }
@@ -294,8 +294,8 @@ if(BAMBUS_APPLICATION_TAB != 'manage')
 				"<span>TPL</span>\n" .
 	"</span>\n" .
 			"<span id=\"OFD_Items\">";
-	$cssFiles = $Bambus->FileSystem->getFiles('css', array('css'));
-	$tplFiles = $Bambus->FileSystem->getFiles('template', array('tpl'));
+	$cssFiles = DFileSystem::FilesOf($Bambus->pathTo('css'), '/\.css/i');//$Bambus->File System->getFiles('css', array('css'));
+	$tplFiles = DFileSystem::FilesOf($Bambus->pathTo('template'), '/\.tpl/i');//$Bambus->File System->getFiles('template', array('tpl'));
 	$Files = array_merge($cssFiles, $tplFiles);
 	asort($Files, SORT_STRING);
 	foreach($Files as $item)
@@ -310,7 +310,7 @@ if(BAMBUS_APPLICATION_TAB != 'manage')
 			"</a>\n"
 			,$Bambus->Linker->createQueryString(array('edit' => $item,'tab' => 'edit_'.($type == 'css' ? 'css':'templates')))
 			,($item == 'default.css') ? SLocalization::get('default.css') : htmlentities(substr($item, 0, -4))
-			,$Bambus->Gui->iconPath($type == 'css' ? 'stylesheet':'template', '', 'mimetype','medium')
+			,WIcon::pathFor($type == 'css' ? 'stylesheet':'template', 'mimetype', WIcon::MEDIUM)
 			,$Bambus->formatSize(filesize($Bambus->pathTo($type == 'css' ? 'css':'template').$item))
 			,strtoupper($type)
 		);
@@ -321,9 +321,9 @@ if(BAMBUS_APPLICATION_TAB != 'manage')
 	var OBJ_ofd;
 	OBJ_ofd = new CLASS_OpenFileDialog();
 	OBJ_ofd.self = 'OBJ_ofd';
-	OBJ_ofd.openIcon = '<?php echo $Bambus->Gui->iconPath('open', 'open', 'action', 'small'); ?>';
+	OBJ_ofd.openIcon = '<?php echo WIcon::pathFor('open');?>';
 	OBJ_ofd.openTranslation = '<?php SLocalization::out('open'); ?>';
-	OBJ_ofd.closeIcon = '<?php echo $Bambus->Gui->iconPath('delete', 'delete', 'action', 'small'); ?>';
+	OBJ_ofd.closeIcon = '<?php echo WIcon::pathFor('delete'); ?>';
 	OBJ_ofd.statusText = '';
-	OBJ_ofd.statusAnimation = '<?php echo $Bambus->Gui->iconPath('loading', 'loading', 'animation', 'extra-small'); ?>';
+	OBJ_ofd.statusAnimation = '<?php echo WIcon::pathFor('loading', 'animation', WIcon::EXTRA_SMALL); ?>';
 </script>
