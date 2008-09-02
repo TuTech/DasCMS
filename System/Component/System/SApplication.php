@@ -1,137 +1,127 @@
 <?php
-/**
- * @package Bambus
- * @subpackage System
- * @copyright Lutz Selke/TuTech Innovation GmbH
- * @author Lutz Selke <selke@tutech.de>
- * @since 28.11.2007
- * @license GNU General Public License 3
- */
-class SApplication extends BSystem implements IShareable 
+class SApplication // extends BSystem 
 {
-	/**
-	 * return an array of reuested data
-	 * request can contain name, description, icon, priority, version, tabs
-	 *
-	 * @param string $appDefinition
-	 * @param array $requests
-	 */
-	public static function getAttributesOf($appDefinition, $requests = array())
-	{
-		$result = array();
-		$requests = array_intersect($requests, array('name', 'description', 'icon', 'priority', 'version', 'purpose', 'tabs'));
-		if(substr($appDefinition,-16) != '/Application.xml')
-		{
-			$appDefinition .= '/Application.xml';
-		}
-		if(file_exists($appDefinition))
-		{
-			$xml = DFileSystem::Load($appDefinition);
-			foreach ($requests as $tag) 
-			{
-				if($tag == 'tabs')
-				{
-					preg_match_all("/<tab[\\s]+icon=\"([a-zA-Z0-9-_]+)\">(.*)<\\/tab>/", $xml, $matches);
-			    	for($i = 0; $i < count($matches[0]); $i++)
-			    	{
-			    		//tabs => [tab-name => icon]
-			    		$result['tabs'][$matches[2][$i]] = $matches[1][$i];
-			    	}
-				}
-				else
-				{
-					preg_match("/<".$tag.">(.*)<\/".$tag.">/", $xml, $preg);
-					$result[$tag] = (isset($preg[1])) ? $preg[1] : '';
-				}
-			}
-		}
-		else
-		{
-			throw new XFileNotFoundException($appDefinition);
-		}
-		return $result;
-	}
-	
-	public function listAvailable()
-	{
-		$available = array();
-		$appPath = './System/Applications/';
-		$dirhdl = opendir($appPath);
-		//@todo remove old uag-binding
-		$UAG = UsersAndGroups::alloc();
-		$UAG->init();
-		while($item = readdir($dirhdl))
-		{
-			if(is_dir($appPath.$item) 
-				&& substr($item,0,1) != '.' 
-				&& strtolower(substr($item,-4)) == '.bap' 
-				&& file_exists($appPath.$item.'/Application.xml')
-			)
-			{
-				$data = self::getAttributesOf($appPath.$item, array('name', 'description', 'icon', 'tabs'));
-				//@todo remove old uag-binding
-				if($UAG->hasPermission(constant('BAMBUS_USER'), $item) || $UAG->isMemberOf(constant('BAMBUS_USER'), 'Administrator'))
-				{
-					$available[$item] = array(
-						 'name' => $data['name']
-						,'desc' => $data['description']
-						,'icon' => $data['icon']
-						,'tabs' => $data['tabs']
-						,'active' => false
-						);
-				}
-			}
-		}
-		closedir($dirhdl);
-		
-		$selectedApp = $this->getDataFromInput('editor','get');
-		if(!empty($selectedApp) && isset($available[$selectedApp]))
-		{
-			//select tab
-			$selectedTab = $this->getDataFromInput('tab','get');
-			//correct if necessary
-			if(!array_key_exists($selectedTab, $available[$selectedApp]['tabs']))
-			{
-				//right app, wrong tab
-				$tabs = array_keys($available[$selectedApp]['tabs']);
-				if(count($tabs) > 0)
-				{
-					$selectedTab = $tabs[0];
-				}
-			}
-			//prevent failure if no tabs exists
-			if(array_key_exists($selectedTab, $available[$selectedApp]['tabs']))
-			{
-				$available[$selectedApp]['active'] = $selectedTab;
-			}
-		}
-		return $available;
-	}
-	
-	
-	//IShareable
-	const Class_Name = 'SApplication';
-	public static $sharedInstance = NULL;
-	/**
-	 * @return SApplication
-	 */
-	public static function alloc()
-	{
-		$class = self::Class_Name;
-		if(self::$sharedInstance == NULL && $class != NULL)
-		{
-			self::$sharedInstance = new $class();
-		}
-		return self::$sharedInstance;
-	}
+    /**
+     * @var string
+     */
+    private $_appName;
+    /**
+     * @var DOMDocument
+     */
+    private $_dom;
     
-	/**
-	 * @return SApplication
-	 */
-	function init()
+    /**
+     * @var DOMXPath
+     */
+    private $_xpath;
+    
+    /**
+     * @param string $application
+     * @throws XFileNotFoundException
+     * @throws XInvalidDataException
+     */
+    public function __construct($application)
     {
-    	return $this;
+        $path = sprintf(
+            '%s%s/%s.xml'
+            ,SPath::SYSTEM_APPLICATIONS
+            ,$application
+            ,$application
+        );
+        if(!file_exists($path))
+        {
+            throw new XFileNotFoundException($application);
+        }
+        $this->_appName = $application;
+        $this->_dom = new DOMDocument();
+        if(!@$this->_dom->load($path) || !@$this->_dom->validate())
+        {
+            throw new XInvalidDataException($path);
+        }
+        $this->_xpath = new DOMXPath($this->_dom);
     }
-	//end IShareable
+    
+    
+    /**
+     * query XPath for single node item
+     *
+     * @param string $query
+     * @return DOMNode
+     * @throws XUndefinedIndexException
+     */
+    private function queryValue($query)
+    {
+        $entries = $this->_xpath->query($query);
+        if($entries->length != 1)
+        {
+            throw new XUndefinedIndexException('unexpected number of results for XPath query', $entries->length);
+        }
+        return $entries->item(0);
+    }
+    
+    //meta
+    public function getName()
+    {
+        return $this->queryValue('//application/meta/name')->nodeValue;
+    }
+    
+    public function getDescription()
+    {
+        return $this->queryValue('//application/meta/description')->nodeValue;
+    }
+    
+    public function getIcon()
+    {
+        return $this->queryValue('//application/meta/icon')->nodeValue;
+    }
+    
+    public function getVersion()
+    {
+        return $this->queryValue('//application/meta/version')->nodeValue;
+    }
+    
+    public function getGUID()
+    {
+        return $this->queryValue('//application/meta/guid')->nodeValue;
+    }
+    
+    public function getCategories()
+    {   
+        $ret = array();
+        $categories = $this->queryValue('//application/meta/categories/category@name');
+        foreach ($categories as $category) 
+        {
+        	$ret[] = $category->nodeValue;
+        }
+        
+    }
+     //interface
+    
+    public function getAvailableWindows()
+    {
+        
+    }
+
+    public function getActiveWindow()
+    {
+        
+    }
+    
+    
+    //management
+
+    public static function listAvailable()
+    {
+        
+    }
+    
+
+    
+    
+    
+    public static function readMetadata($fromApplication)
+    {
+        
+    }
 }
 ?>

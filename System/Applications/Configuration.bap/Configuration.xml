@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE application SYSTEM "../../Resource/DTD/application.dtd">
+<application>
+    <meta>
+        <name>name</name>
+        <description>description</description>
+        <icon>icon</icon>
+        <version>version</version>
+        <guid>guid</guid>
+        <categories>
+            <category name="test" />
+        </categories>
+    </meta>
+    <window title="window" icon="icon">
+        <controller src="src" />
+        <view src="src" type="tpl" />
+    </window>
+</application>
