@@ -148,7 +148,7 @@ class WHeader extends BWidget
 				if(strtolower($relArr[1]) == 'stylesheet')
 				{
 					//@todo determine if management | system and load appropriate
-					$relArr[0] = SEnviornment::SYSTEM_STYLESHEETS.$relArr[0]; 
+					$relArr[0] = SPath::SYSTEM_STYLESHEETS.$relArr[0]; 
 				}
 			}
 			$html .= sprintf("\t\t<link href=\"%s\" rel=\"%s\" type=\"%s\" />\n"
@@ -162,7 +162,7 @@ class WHeader extends BWidget
 			if(strpos($script,'/') === false)
 			{
 				//@todo determine if management | system and load appropriate
-				$script = SEnviornment::SYSTEM_SCRIPTS.$script; 
+				$script = SPath::SYSTEM_SCRIPTS.$script; 
 			}			
 			$html .= sprintf("\t\t<script type=\"text/javascript\" src=\"%s\">%s</script>\n"
 				, self::enc($script)

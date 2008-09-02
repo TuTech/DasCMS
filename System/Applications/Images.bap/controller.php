@@ -9,7 +9,7 @@
 if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
 $allowEdit = true;
 $allowed = array('jpeg','jpg','png','gif','svg','mng','eps','ps','tif','tiff','psd','ai','pcx','wmf');
-$Files = DFileSystem::FilesOf($Bambus->pathTo('image'), '/\.('.implode('|', $allowed).')/i');
+$Files = DFileSystem::FilesOf(SPath::IMAGES, '/\.('.implode('|', $allowed).')/i');
 
 //////////
 //upload//
@@ -19,7 +19,7 @@ $uploadIsImage = false;
 if(isset($_FILES['bambus_image_file']['name']) && BAMBUS_GRP_CREATE)
 { 
     // we have got an upload
-    if(file_exists($Bambus->pathTo('image').basename($_FILES['bambus_image_file']['name'])) 
+    if(file_exists(SPath::IMAGES.basename($_FILES['bambus_image_file']['name'])) 
       && empty($post['bambus_overwrite_image_file']))
     {
         SNotificationCenter::alloc()->init()->report('warning', 'upload_failed_because_file_already_exists');
@@ -36,14 +36,14 @@ if(isset($_FILES['bambus_image_file']['name']) && BAMBUS_GRP_CREATE)
         if(in_array($suffix, $allowed))
         {
             //we like him
-            if(move_uploaded_file($_FILES['bambus_image_file']['tmp_name'], $Bambus->pathTo('image').basename(utf8_decode($_FILES['bambus_image_file']['name']))))
+            if(move_uploaded_file($_FILES['bambus_image_file']['tmp_name'], SPath::IMAGES.basename(utf8_decode($_FILES['bambus_image_file']['name']))))
             {
                 //i like to move it move it
                 SNotificationCenter::alloc()->init()->report('message', 'file_uploaded');
-                chmod($Bambus->pathTo('image').basename(utf8_decode($_FILES['bambus_image_file']['name'])), 0666);
+                chmod(SPath::IMAGES.basename(utf8_decode($_FILES['bambus_image_file']['name'])), 0666);
                 $succesfullUpload = basename(utf8_decode($_FILES['bambus_image_file']['name']));
                 //create thumbnail image
-                $image = $Bambus->pathTo('image').basename(utf8_decode($_FILES['bambus_image_file']['name']));
+                $image = SPath::IMAGES.basename(utf8_decode($_FILES['bambus_image_file']['name']));
                 $uploadIsImage = ($suffix != 'css' && $suffix != 'gpl');
             }
             else
@@ -71,7 +71,7 @@ if(count($Files) > 0)
 		{
 			if(!empty($post['select_'.md5($file)]))
 			{
-		        if(@unlink($Bambus->pathTo('image').$file)){
+		        if(@unlink(SPath::IMAGES.$file)){
 		        	SNotificationCenter::alloc()->init()->report('message', 'file_deleted');
 		        }else{
 		            SNotificationCenter::alloc()->init()->report('warning', 'could_not_delete_file');

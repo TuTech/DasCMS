@@ -368,6 +368,77 @@ class DFileSystem extends BDriver
 		  	throw new XFileLockedException('delete failed', $file);
 		}
 	}
+	
+	/**
+	 * get the suffix of a filename
+	 * 
+	 * @param string $of
+	 * @return string
+	 */
+    public static function suffix($of)
+    {
+        $tmp = explode('.',strtolower($of));
+        return array_pop($tmp);
+    }
+    
+    /**
+     * parse size string and return number of bytes
+     * 
+     * @param string $val
+     * @return int
+     */
+    public static function returnBytes($val) 
+    {
+       $val = strtolower(trim($val));
+       if(substr($val, -1) == 'b')
+       {
+            $last = substr($val, -2, 1);
+            $val =  substr($val, 0, -2);
+       }
+       else
+       {
+            $last = substr($val, -1);
+            $val =  substr($val, 0, -1);
+       }
+       switch($last) 
+       {
+           case 'y':
+               $val *= 1024;
+           case 'z':
+               $val *= 1024;
+           case 'e':
+               $val *= 1024;
+           case 'p':
+               $val *= 1024;
+           case 't':
+               $val *= 1024;
+           case 'g':
+               $val *= 1024;
+           case 'm':
+               $val *= 1024;
+           case 'k':
+               $val *= 1024;
+       }
+       return $val;
+    }
+    
+    /**
+     * format bytes to a more readable form
+     * 
+     * @param int $bytes
+     * @return string
+     */
+    public static function formatSize($bytes)
+    {
+        $units = array('B','KB','MB','GB','TB','PB','EB','ZB','YB');
+        $loops = 0;
+        while($bytes >= 1024)
+        {
+            $loops++;
+            $bytes /= 1024;
+        }        
+        return round($bytes,2).$units[$loops];
+    }
 }
 
 ?>

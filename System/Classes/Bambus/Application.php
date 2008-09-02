@@ -30,10 +30,8 @@ class Application extends Bambus implements IShareable
     	{
     		if(defined('BAMBUS_DEBUG'))printf("\n<!--[%s init]-->\n", self::Class_Name);
 	    	self::$initializedInstance = true;
-	    	$this->FileSystem = FileSystem::alloc();
 	    	$this->Linker = Linker::alloc();
 
-	    	$this->FileSystem->init();
 	    	$this->Linker->init();
     	}
     }
@@ -228,7 +226,7 @@ class Application extends Bambus implements IShareable
 		$xmlfile = $path.'Application.xml';
 		if(file_exists($xmlfile))
 		{
-			$this->xml = $this->FileSystem->read($xmlfile);
+			$this->xml = DFileSystem::Load($xmlfile);
 			$this->initialized = true;
 			return true;
 		}

@@ -36,17 +36,12 @@ class Configuration extends Bambus implements IShareable
     	{
     		if(defined('BAMBUS_DEBUG'))printf("\n<!--[%s init]-->\n", self::Class_Name);
 	    	self::$initializedInstance = true;
-			$this->FileSystem = FileSystem::alloc();
-
-			$this->FileSystem->init();
     	}
     	return $this;
     }
 	//end IShareable
 
     private $configuration;
-
-	public $FileSystem = NULL;
 
 	public function __construct()
 	{
@@ -62,9 +57,9 @@ class Configuration extends Bambus implements IShareable
     public function loadVars($i, $dont_care, $about, $these_variables)
     {
         $this->configuration = array();
-        $file = parent::pathToFile('configuration');
+        $file = SPath::SYSTEM.'configuration/system.php';
         $cfg = &$this->configuration;
-        $fileData = $this->FileSystem->read($file);
+        $fileData = DFileSystem::Load($file);
         $temp = explode("\n", $fileData);
         unset($temp[0]);
         if(isset($temp[count($temp)-1]) && substr($temp[count($temp)-1], -2) == '?>') array_pop($temp);
@@ -110,8 +105,8 @@ class Configuration extends Bambus implements IShareable
     public function save()
     {
     	SNotificationCenter::alloc()->init()->report('message', 'configuration_saved');
-        $file = parent::pathToFile('configuration');
-        return $this->FileSystem->writeData($file, $this->configuration);
+        $file = SPath::SYSTEM.'configuration/system.php';
+        return DFileSystem::SaveData($file, $this->configuration);
     }
 }
 ?>

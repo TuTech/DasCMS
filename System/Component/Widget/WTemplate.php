@@ -98,8 +98,8 @@ class WTemplate extends BWidget
     
     private function getTemplateString()
     {
-        $cpath = SEnviornment::CONTENT_TEMPLATES.basename($this->template).'.tpl';
-        $spath = SEnviornment::SYSTEM_TEMPLATES.basename($this->template).'.tpl';
+        $cpath = SPath::TEMPLATES.basename($this->template).'.tpl';
+        $spath = SPath::SYSTEM_TEMPLATES.basename($this->template).'.tpl';
         $dat = '';
         switch ($this->scope) 
         {

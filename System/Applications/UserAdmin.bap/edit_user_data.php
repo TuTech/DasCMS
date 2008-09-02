@@ -226,13 +226,13 @@ ROW;
 /////////////////////////////EX PERMS
 echo '<br />';
 $myDir = getcwd();//nice place... remember it
-chdir($Bambus->pathTo('systemApplication'));
+chdir(SPath::SYSTEM_APPLICATIONS);
 $Dir = opendir ('./'); 
 $items = array();
 $i = 0;
 while ($item = readdir ($Dir)) 
 {
-	if(is_dir($item) && substr($item,0,1) != '.' && strtolower($Bambus->suffix($item)) == 'bap')
+	if(is_dir($item) && substr($item,0,1) != '.' && strtolower(DFileSystem::suffix($item)) == 'bap')
     {
     	//BambusApplicartion-Package
         $i++;
@@ -327,7 +327,7 @@ EOX;
 	    $flip = ($flip == '1') ? '2' : '1';
 	    if(!empty($editor))
 	    {
-	        $app_name = substr($editor['item'],0,((strlen($Bambus->suffix($editor['item']))+1) * -1));
+	        $app_name = substr($editor['item'],0,((strlen(DFileSystem::suffix($editor['item']))+1) * -1));
 	        $id = md5($app_name);
 	        $is_admin = $Bambus->UsersAndGroups->isMemberOf($victim, 'Administrator');
 	        //printf('%s %s an administrator; ', $victim, ($is_admin) ? 'is' : 'is not');

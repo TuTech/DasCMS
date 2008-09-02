@@ -9,7 +9,7 @@
 if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
 echo LGui::beginForm(array(), 'documentform');
 echo LGui::hiddenInput('action', 'delete');
-$files = DFileSystem::FilesOf($Bambus->pathTo('image'), '/\.('.implode('|', $allowed).')/i');
+$files = DFileSystem::FilesOf(SPath::IMAGES, '/\.('.implode('|', $allowed).')/i');
 
 
 ksort($files, SORT_STRING);
@@ -30,7 +30,7 @@ foreach($files as $file){
 	}
 	$fileName = $file;
     $id = md5($file);
-    $suffix = $Bambus->suffix($file);
+    $suffix = DFileSystem::suffix($file);
     $isImage = ($suffix != 'css' && $suffix != 'gpl');
     $imagePath =  html_entity_decode($Bambus->Linker->createQueryString(array('render' => $file, 'path' => 'image'),false,'thumbnail.php'));
     $icon = (file_exists(WIcon::pathFor($suffix, 'mimetype'))) ? $suffix : 'file';

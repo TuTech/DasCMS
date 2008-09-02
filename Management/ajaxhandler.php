@@ -24,7 +24,7 @@ list($get, $post, $session, $uploadfiles) = $Bambus->initialize($_GET,$_POST,$_S
 @$bambus_password = utf8_decode((!empty($_SESSION['bambus_cms_password'])) ? $_SESSION['bambus_cms_password'] : $_SESSION['pwrd']);
 
 $get['editor'] = isset($get['editor']) ? $get['editor'] : '';
-$appName = substr($get['editor'],0,((strlen($Bambus->suffix($get['editor']))+1)*-1));
+$appName = substr($get['editor'],0,((strlen(DFileSystem::suffix($get['editor']))+1)*-1));
 if($Bambus->UsersAndGroups->isValidUser($bambus_user, $bambus_password) 
 	&& (
 		$Bambus->UsersAndGroups->isMemberOf($bambus_user, 'Administrator')
@@ -48,12 +48,12 @@ if($Bambus->UsersAndGroups->isValidUser($bambus_user, $bambus_password)
 	define('BAMBUS_PRIMARY_GROUP', $Bambus->UsersAndGroups->getPrimaryGroup(BAMBUS_USER));
     
     //build the shiny bambus menu-bar and check the editor permissions
-	define('BAMBUS_APPLICATION_DIRECTORY',  $Bambus->pathTo('systemApplication').BAMBUS_APPLICATION.'/');
+	define('BAMBUS_APPLICATION_DIRECTORY',  SPath::SYSTEM_APPLICATIONS.BAMBUS_APPLICATION.'/');
     
     //load the desired editor helper
-    if(file_exists($Bambus->pathTo('systemApplication').basename($get['editor']).'/Ajax.php'))
+    if(file_exists(SPath::SYSTEM_APPLICATIONS.basename($get['editor']).'/Ajax.php'))
     { 
-        include ($Bambus->pathTo('systemApplication').basename($get['editor']).'/Ajax.php');
+        include (SPath::SYSTEM_APPLICATIONS.basename($get['editor']).'/Ajax.php');
     }
     else
     {

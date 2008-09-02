@@ -7,11 +7,11 @@
 * Description: image upload form
 ************************************************/
 if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
-$maxPost = $Bambus->returnBytes(ini_get('upload_max_filesize'));
-$freeSpace = disk_free_space($Bambus->pathTo('image'));
+$maxPost = DFileSystem::returnBytes(ini_get('upload_max_filesize'));
+$freeSpace = disk_free_space(SPath::IMAGES);
 $requestmessage = SLocalization::get('supported_file_types').': '.implode(', ', $allowed)
-		.'<br />'.SLocalization::get('maximum_upload_size').': '.$Bambus->formatSize($maxPost)
-		.'<br />'.SLocalization::get('free_disk_space').': '.$Bambus->formatSize($freeSpace);
+		.'<br />'.SLocalization::get('maximum_upload_size').': '.DFileSystem::formatSize($maxPost)
+		.'<br />'.SLocalization::get('free_disk_space').': '.DFileSystem::formatSize($freeSpace);
         $image = $this->icon('css', '', 'mimetype','medium', $system);
 echo '<div class=""><span style="float:left;padding:4px;padding-top:0px;">'.$image.'</span>'.$requestmessage.'<br class="clear" /></div>';
 	

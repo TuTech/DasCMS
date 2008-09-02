@@ -259,7 +259,7 @@ if(!empty($post['action']))
 	if($post['action'] == 'save_editor_permissions' && BAMBUS_GRP_EDIT && $victim != BAMBUS_USER)
 	{
 		//list the applications
-	    chdir($Bambus->pathTo('systemApplication'));
+	    chdir(SPath::SYSTEM_APPLICATIONS);
 	    $Dir = opendir ('./'); 
 	    $items = array();
 	    while ($item = readdir ($Dir)) {

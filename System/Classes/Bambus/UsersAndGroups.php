@@ -30,9 +30,6 @@ class UsersAndGroups extends Bambus implements IShareable
     	{
     		if(defined('BAMBUS_DEBUG'))printf("\n<!--[%s init]-->\n", self::Class_Name);
 	    	self::$initializedInstance = true;
-			$this->FileSystem = FileSystem::alloc();
-
-			$this->FileSystem->init();
     	}
     }
 	//end IShareable
@@ -72,11 +69,11 @@ class UsersAndGroups extends Bambus implements IShareable
 		//unchangeable groups owned by bambus
 		$this->systemGroups = array("Administrator", "PHP", "CMS", "Create",  "Delete", "Edit", "Rename");
 		//load the config files for:
-        //Users
-        $this->userlistfile = parent::pathToFile('userList');
+        //FIXME Users hard linked
+        $this->userlistfile = SPath::CONTENT.'configuration/users.php';
 		$this->userlist = $this->readData($this->userlistfile);
-		//Groups
-        $this->grouplistfile = parent::pathToFile('groupList');
+		//FIXME Groups hard linked
+        $this->grouplistfile = SPath::CONTENT.'configuration/users.php';
 		$this->grouplist = $this->readData($this->grouplistfile);
 	}
 	
@@ -128,7 +125,7 @@ class UsersAndGroups extends Bambus implements IShareable
 	function checkGroups($groupOrGroups)
 	{
 		//do they exist?
-		$groups = $this->isAnArray($groupOrGroups);
+		$groups = (is_array($groupOrGroups)) ? $groupOrGroups : array($groupOrGroups);
 		$checkedGroups = array();
 		foreach($groups as $group)
 		{
@@ -143,7 +140,7 @@ class UsersAndGroups extends Bambus implements IShareable
 	function saveGroups(){
 		//$data = $this->bgfstring."\n".serialize($this->grouplist);
 		$this->ucsort($this->grouplist);
-		$this->FileSystem->writeData($this->grouplistfile, $this->grouplist);
+		DFileSystem::SaveData($this->grouplistfile, $this->grouplist);
 	}
 
 ////public functions////
@@ -244,8 +241,8 @@ class UsersAndGroups extends Bambus implements IShareable
 	{
 		$userlist = &$this->userlist;
 		//we want arrays
-		$groups = $this->isAnArray($groupOrGroups);
-		$users = $this->isAnArray($userOrUsers);
+		$groups = (is_array($groupOrGroups)) ? $groupOrGroups : array($groupOrGroups);
+		$users = (is_array($userOrUsers)) ? $userOrUsers : array($userOrUsers);
 		//every user joins all groups
 		foreach($users as $user)
 		{
@@ -278,7 +275,7 @@ class UsersAndGroups extends Bambus implements IShareable
 	{
 		$userlist = &$this->userlist;
 		//we want arrays
-		$users = $this->isAnArray($userOrUsers);
+		$users = (is_array($userOrUsers)) ? $userOrUsers : array($userOrUsers);
 		if($this->isGroup($group))
 		{
 			//every user joins all groups
@@ -354,8 +351,8 @@ class UsersAndGroups extends Bambus implements IShareable
 		$userlist = &$this->userlist;
 		$sysgroups = &$this->systemGroups;
 		//we want arrays
-		$groups = $this->isAnArray($groupOrGroups);
-		$users = $this->isAnArray($userOrUsers);
+		$groups = (is_array($groupOrGroups)) ? $groupOrGroups : array($groupOrGroups);
+		$users = (is_array($userOrUsers)) ? $userOrUsers : array($userOrUsers);
 		//every user leaves all groups
 		foreach($users as $user)
 		{
@@ -620,7 +617,7 @@ class UsersAndGroups extends Bambus implements IShareable
 		//write to userfile
 		//$data = $this->bufstring."\n".serialize($this->userlist);
 		$this->ucsort($this->userlist);
-		$this->FileSystem->writeData($this->userlistfile, $this->userlist);
+		DFileSystem::SaveData($this->userlistfile, $this->userlist);
 	}
 
 ////public functions////
@@ -852,7 +849,7 @@ class UsersAndGroups extends Bambus implements IShareable
 	function grantUserPermissions($userOrUsers, $permissionOrPermissions)
 	{
 		$userlist = &$this->userlist;
-		$users = $this->isAnArray($userOrUsers);
+		$users = (is_array($userOrUsers)) ? $userOrUsers : array($userOrUsers);
 		foreach($users as $user)
 		{
 			if($this->isUser($user))
@@ -893,7 +890,7 @@ class UsersAndGroups extends Bambus implements IShareable
 	function rejectUserPermissions($userOrUsers, $permissionOrPermissions)
 	{
 		$userlist = &$this->userlist;
-		$users = $this->isAnArray($userOrUsers);
+		$users = (is_array($userOrUsers)) ? $userOrUsers : array($userOrUsers);
 		foreach($users as $user)
 		{
 			if($this->isUser($user))

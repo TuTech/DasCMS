@@ -29,20 +29,6 @@ class bcmsuser{
 		$this->grantPermissions($permissions);
 		$this->setPrimaryGroup($primaryGroup);
  	}
- 	
- 	function isAnArray($whatever)
-	{
-		if(is_array($whatever))
-		{
-			$array = $whatever;
-		}
-		else
-		{
-			$array = array($whatever);
-		}
-		return $array;
-	}
-	
 ////Preferences
 	function setApplicationPreference($application, $key, $value, $withAdminPower = false)
 	{
@@ -186,7 +172,7 @@ class bcmsuser{
 	//grant application permissions
 	{
 		$userPermissions = &$this->permissions;
-		$permissions = $this->isAnArray($permissionOrPermissions);
+		$permissions = (is_array($permissionOrPermissions)) ? $permissionOrPermissions : array($permissionOrPermissions);
 		foreach($permissions as $permission)
 		{
 			if(!in_array($permission, $userPermissions) && !empty($permission))
@@ -201,7 +187,7 @@ class bcmsuser{
 	//reject application permissions
 	{		
 		$userPermissions = &$this->permissions;
-		$permissionsToReject = $this->isAnArray($permissionOrPermissions);
+		$permissionsToReject = (is_array($permissionOrPermissions)) ? $permissionOrPermissions : array($permissionOrPermissions);
 		$newPermissions = array();
 		foreach($userPermissions as $permission)
 		{
@@ -260,7 +246,7 @@ class bcmsuser{
  	function joinGroups($groupOrGroups)
  	{
  		$userGroups = &$this->groups;
- 		$groups = $this->isAnArray($groupOrGroups);
+ 		$groups = (is_array($groupOrGroups)) ? $groupOrGroups : array($groupOrGroups);
  		foreach($groups as $group)
  		{
  			if(!in_array($group, $userGroups) && !empty($group))
@@ -273,7 +259,7 @@ class bcmsuser{
  	function leaveGroups($groupOrGroups)
   	{
  		$userGroups = &$this->groups;
- 		$groupsToBeLeft = $this->isAnArray($groupOrGroups);
+ 		$groupsToBeLeft = (is_array($groupOrGroups)) ? $groupOrGroups : array($groupOrGroups);
  		$newUserList = array();
  		foreach($userGroups as $group)
  		{

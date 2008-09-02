@@ -22,11 +22,11 @@ list($get, $post, $session, $uploadfiles) = $Bambus->initialize($_GET,$_POST,$_S
 
 if($Bambus->UsersAndGroups->isValidUser($bambus_user, $bambus_password))
 {
-	$path = (!empty($get['path']) && in_array($get['path'], $allowedPaths)) ? $get['path'] : 'image';
-	if(!empty($get['render']) && file_exists($Bambus->pathTo($path).basename($get['render']))){
+	$path = (!empty($get['path']) && $get['path'] == 'design') ? (SPath::DESIGN): (SPath::IMAGES);
+	if(!empty($get['render']) && file_exists($path.basename($get['render']))){
 
-        $image = $Bambus->pathTo($path).basename($get['render']);
-        $thumb = $Bambus->pathTo('temp').filemtime($Bambus->pathTo($path).basename($get['render'])).basename($get['render']).'.jpg';
+        $image = $path.basename($get['render']);
+        $thumb = SPath::TEMP.filemtime($path.basename($get['render'])).basename($get['render']).'.jpg';
        
        	if(file_exists($thumb))
        	{
@@ -48,11 +48,10 @@ if($Bambus->UsersAndGroups->isValidUser($bambus_user, $bambus_password))
 	    $maxImageHeight = 96;
 	    
 	    //do some var init
-	    $file = $Bambus->pathTo($path).basename($get['render']);
+	    $file = $path.basename($get['render']);
 	    $suffixTemp = explode(".", $file);
 	    $filetype = strtolower(array_pop($suffixTemp));
-	    $thumbfile = $thumb;// $Bambus->pathTo('temp').filemtime($file).basename($get['render']).'.jpg';
-	
+	    $thumbfile = $thumb;
 	    //header('Content-Type: image/jpeg');
 	    
 	    //already there?

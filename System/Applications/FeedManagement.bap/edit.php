@@ -85,7 +85,7 @@ else
 			</td>
 		</tr>
 		<?php
-		$templates = DFileSystem::FilesOf($Bambus->pathTo('template'), '/\.tpl$/');
+		$templates = DFileSystem::FilesOf(SPath::TEMPLATES, '/\.tpl$/');
 		sort($templates, SORT_LOCALE_STRING);
 		?>
 		<tr class="flip_2" valign="top">

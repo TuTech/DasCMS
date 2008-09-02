@@ -225,10 +225,8 @@ if($dbg)				printf('<p>found %s at %d</p>', $found, $foundAt);
     		if(defined('BAMBUS_DEBUG'))printf("\n<!--[%s init]-->\n", self::Class_Name);
 	    	self::$initializedInstance = true;
 			$this->BCMSString = BCMSString::alloc();
-			$this->FileSystem = FileSystem::alloc();
 
 			$this->BCMSString->init();
-			$this->FileSystem->init();
     	}
     }
 	//end IShareable

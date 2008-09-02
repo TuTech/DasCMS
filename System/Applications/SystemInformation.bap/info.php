@@ -30,7 +30,7 @@ foreach(
 		,SLocalization::get($linekeys[0])								//title
 		,empty($info[$linekeys[0]]) ? '' : $info[$linekeys[0]]						//number
 		,empty($info[$linekeys[1]]) ? '' : $info[$linekeys[1]]						//lines
-		,empty($info[$linekeys[2]]) ? '' : $Bambus->formatSize($info[$linekeys[2]])	//size
+		,empty($info[$linekeys[2]]) ? '' : DFileSystem::formatSize($info[$linekeys[2]])	//size
 		,(!empty($info[$linekeys[2]]) && !empty($info[$linekeys[1]]))				//chars per line
 			? round($info[$linekeys[2]]/$info[$linekeys[1]])
 			: ''

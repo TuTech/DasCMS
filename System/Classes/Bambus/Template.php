@@ -31,10 +31,8 @@ class Template extends Bambus implements IShareable
     		if(defined('BAMBUS_DEBUG'))printf("\n<!--[%s init]-->\n", self::Class_Name);
 	    	self::$initializedInstance = true;
 			$this->BCMSString = BCMSString::alloc();
-			$this->FileSystem = FileSystem::alloc();
 
 			$this->BCMSString->init();
-			$this->FileSystem->init();
     	}
     }
 	//end IShareable
@@ -86,11 +84,11 @@ class Template extends Bambus implements IShareable
         }
         if($type == 'content')
         {
-            $template = $this->FileSystem->read(parent::pathToFile('template',$template));
+            $template = DFileSystem::Load(SPath::TEMPLATES.$template.'.tpl');
         }
         elseif($type == 'system')
         {
-            $template = $this->FileSystem->read(parent::pathToFile('systemTemplate',$template));
+            $template = DFileSystem::Load(SPath::SYSTEM_TEMPLATES.$template.'.tpl');
         }
         $res = ($this->BCMSString->bsprintv($template, $env));
 		

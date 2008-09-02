@@ -4,7 +4,7 @@ $succesfullUpload = false;
 $notAllowed = array('php', 'cgi', 'php3', 'php4', 'php5', 'php6', 'asp', 'aspx', 'pl', 'py', 'phtml');
 if(isset($_FILES['bambus_file']['name']) && BAMBUS_GRP_CREATE){ 
     // we have got an upload
-    if(file_exists($Bambus->pathTo('download').basename($_FILES['bambus_file']['name'])) && empty($post['bambus_overwrite_file'])){
+    if(file_exists(SPath::DOWNLOADS.basename($_FILES['bambus_file']['name'])) && empty($post['bambus_overwrite_file'])){
         SNotificationCenter::alloc()->init()->report('warning', 'upload_failed_because_file_already_exists');
     }else{
         //file does not exist or we are allowed to overwrite it
@@ -13,12 +13,12 @@ if(isset($_FILES['bambus_file']['name']) && BAMBUS_GRP_CREATE){
         $tmp = null;
         if(!in_array($suffix, $notAllowed)){
             //we like him
-            if(@move_uploaded_file($_FILES['bambus_file']['tmp_name'], $Bambus->pathTo('download').basename(utf8_decode($_FILES['bambus_file']['name'])))){
+            if(@move_uploaded_file($_FILES['bambus_file']['tmp_name'], SPath::DOWNLOADS.basename(utf8_decode($_FILES['bambus_file']['name'])))){
                 //i like to move it move it
                 SNotificationCenter::alloc()->init()->report('message', 'file_uploaded');
-                chmod($Bambus->pathTo('download').basename(utf8_decode($_FILES['bambus_file']['name'])), 0666);
+                chmod(SPath::DOWNLOADS.basename(utf8_decode($_FILES['bambus_file']['name'])), 0666);
                 $succesfullUpload = basename(utf8_decode($_FILES['bambus_file']['name']));
-                DFileSystem::Append($Bambus->pathTo('log').'files.log', sprintf("%s\t%s\t%s\t%s\n", date('r'), BAMBUS_USER, 'upload', $_FILES['bambus_file']['name']));
+                DFileSystem::Append(SPath::LOGS.'files.log', sprintf("%s\t%s\t%s\t%s\n", date('r'), BAMBUS_USER, 'upload', $_FILES['bambus_file']['name']));
             }else{
                 SNotificationCenter::alloc()->init()->report('warning', 'uploded_failed');
             }
@@ -31,14 +31,14 @@ if(isset($_FILES['bambus_file']['name']) && BAMBUS_GRP_CREATE){
 }
 if(!empty($post['action']) && $post['action'] == 'delete' && BAMBUS_GRP_DELETE)
 {
-	$files = DFileSystem::FilesOf($Bambus->pathTo('download'), '/\.(?!(php[0-9]?|aspx?|pl|phtml|cgi))$/i');
+	$files = DFileSystem::FilesOf(SPath::DOWNLOADS, '/\.(?!(php[0-9]?|aspx?|pl|phtml|cgi))$/i');
 	foreach($files as $file)
 	{
 		if(!empty($post['select_'.md5($file)]))
 		{
-	        if(unlink($Bambus->pathTo('download').$file)){
+	        if(unlink(SPath::DOWNLOADS.$file)){
 	            SNotificationCenter::alloc()->init()->report('message', 'file_deleted');
-                DFileSystem::Append($Bambus->pathTo('log').'files.log', sprintf("%s\t%s\t%s\t%s\n", date('r'), BAMBUS_USER, 'delete',$file));
+                DFileSystem::Append(SPath::LOGS.'files.log', sprintf("%s\t%s\t%s\t%s\n", date('r'), BAMBUS_USER, 'delete',$file));
 	        }else{
 	            SNotificationCenter::alloc()->init()->report('warning', 'could_not_delete_file');
 	        }

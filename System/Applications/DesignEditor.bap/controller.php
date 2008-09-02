@@ -8,7 +8,7 @@
 ************************************************/
 if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
 $allowEdit = true;
-$Files = DFileSystem::FilesOf($Bambus->pathTo('css'), '/\.css/i');
+$Files = DFileSystem::FilesOf(SPath::DESIGN, '/\.css/i');
 $FileOpened = false;
 //////////
 //upload//
@@ -20,7 +20,7 @@ $File = null;
 if(isset($_FILES['bambus_image_file']['name']) && BAMBUS_GRP_CREATE)
 { 
     // we have got an upload
-    if(file_exists($Bambus->pathTo('design').basename($_FILES['bambus_image_file']['name'])) 
+    if(file_exists(SPath::DESIGN.basename($_FILES['bambus_image_file']['name'])) 
       && empty($post['bambus_overwrite_image_file']))
     {
         SNotificationCenter::alloc()->init()->report('warning', 'upload_failed_because_file_already_exists');
@@ -37,14 +37,14 @@ if(isset($_FILES['bambus_image_file']['name']) && BAMBUS_GRP_CREATE)
         if(in_array($suffix, $allowed))
         {
             //we like him
-            if(move_uploaded_file($_FILES['bambus_image_file']['tmp_name'], $Bambus->pathTo('design').basename(utf8_decode($_FILES['bambus_image_file']['name']))))
+            if(move_uploaded_file($_FILES['bambus_image_file']['tmp_name'], SPath::DESIGN.basename(utf8_decode($_FILES['bambus_image_file']['name']))))
             {
                 //i like to move it move it
                 SNotificationCenter::alloc()->init()->report('message', 'file_uploaded');
-                chmod($Bambus->pathTo('design').basename(utf8_decode($_FILES['bambus_image_file']['name'])), 0666);
+                chmod(SPath::DESIGN.basename(utf8_decode($_FILES['bambus_image_file']['name'])), 0666);
                 $succesfullUpload = basename(utf8_decode($_FILES['bambus_image_file']['name']));
                 //create thumbnail image
-                $image = $Bambus->pathTo('design').basename(utf8_decode($_FILES['bambus_image_file']['name']));
+                $image = SPath::DESIGN.basename(utf8_decode($_FILES['bambus_image_file']['name']));
                 $uploadIsImage = ($suffix != 'css' && $suffix != 'gpl');
             }
             else
@@ -70,11 +70,11 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 	if(BAMBUS_GRP_CREATE && !empty($get['_action']) && $get['_action'] == 'create')
 	{
 		$i = 0;
-		while(file_exists($Bambus->pathTo('css').SLocalization::get('new').'-'.++$i.'.css'))
+		while(file_exists(SPath::DESIGN.SLocalization::get('new').'-'.++$i.'.css'))
 			;
 		$File = SLocalization::get('new').'-'.$i.'.css';
 		$fileContent = '/* '.SLocalization::get('new_css_file').' */';
-		DFileSystem::Save($Bambus->pathTo('css').$File, $fileContent);
+		DFileSystem::Save(SPath::DESIGN.$File, $fileContent);
 		$FileName = SLocalization::get('new').'-'.$i;
 		$allowEdit = false;
 		$FileOpened = true;
@@ -87,7 +87,7 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 			$File = $get['edit'];
 			$FileName = ($File == 'default.css') ? SLocalization::get('default.css') : htmlentities(substr($File, 0, -4));
 			$allowEdit = true;
-			$fileContent = DFileSystem::Load($Bambus->pathTo('css').$File);
+			$fileContent = DFileSystem::Load(SPath::DESIGN.$File);
 			$FileOpened = true;
 		}
 		
@@ -103,7 +103,7 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 			   	if($post['content'] != $fileContent)
 			   	{
 			        //do the save operation
-			        if(DFileSystem::Save($Bambus->pathTo('css').$File, $post['content']))
+			        if(DFileSystem::Save(SPath::DESIGN.$File, $post['content']))
 			        {
 			        	SNotificationCenter::alloc()->init()->report('message', '.file_saved');
 			        	$fileContent = $post['content'];
@@ -121,14 +121,14 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 		//////////////////
 		if(!empty($post['action']) && $post['action'] == 'delete' && BAMBUS_GRP_DELETE)
 		{
-			$files = DFileSystem::FilesOf($Bambus->pathTo('design', '/\.('.implode('|', $allowed).')/i'));
+			$files = DFileSystem::FilesOf(SPath::DESIGN, '/\.('.implode('|', $allowed).')/i');
 			foreach($files as $file)
 			{
 				if($file == 'default.css')
 					continue;
 				if(!empty($post['select_'.md5($file)]))
 				{
-			        if(@unlink($Bambus->pathTo('design').$file)){
+			        if(@unlink(SPath::DESIGN.$file)){
 			            SNotificationCenter::alloc()->init()->report('message', 'file_deleted');
 			        }else{
 			            SNotificationCenter::alloc()->init()->report('warning', 'could_not_delete_file');
@@ -145,7 +145,7 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 		if(BAMBUS_GRP_DELETE && !empty($get['_action']) && $get['_action'] == 'delete' && $File != 'default.css' && $allowEdit)
 		{
 			//kill it
-			unlink($Bambus->pathTo('css').$File);
+			unlink(SPath::DESIGN.$File);
 		    SNotificationCenter::alloc()->init()->report('message', 'file_deleted');
 			$FileOpened = false;
 		}
@@ -160,9 +160,9 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 		
 		if(BAMBUS_GRP_RENAME && $allowEdit && $FileOpened)
 		{
-		    if(!empty($post['filename']) && $FileName != $post['filename']&& $FileName != 'default.css' && file_exists($Bambus->pathTo('css').$File))
+		    if(!empty($post['filename']) && $FileName != $post['filename']&& $FileName != 'default.css' && file_exists(SPath::DESIGN.$File))
 		    {
-				rename($Bambus->pathTo('css').$File, $Bambus->pathTo('css').basename($post['filename']).'.css');
+				rename(SPath::DESIGN.$File, SPath::DESIGN.basename($post['filename']).'.css');
 				$FileName = basename($post['filename']);
 				$File = basename($post['filename']).'.css';
 		        SNotificationCenter::alloc()->init()->report('message', 'file_renamed');
@@ -180,8 +180,7 @@ elseif(BAMBUS_APPLICATION_TAB == 'edit_templates')
 	$allowEdit = true;
 	$Suffix = '.tpl';
 	$DefaultFile = 'header.tpl';
-	$PathName = 'template';
-	$Path = $Bambus->pathTo($PathName);
+	$Path = SPath::TEMPLATES;
 	$doNotDelete = array('page.tpl');
 	$ListTypes = array('tpl');
 	//$Files = $Bambus->File System->getFiles($PathName, $ListTypes);
@@ -294,8 +293,8 @@ if(BAMBUS_APPLICATION_TAB != 'manage')
 				"<span>TPL</span>\n" .
 	"</span>\n" .
 			"<span id=\"OFD_Items\">";
-	$cssFiles = DFileSystem::FilesOf($Bambus->pathTo('css'), '/\.css/i');//$Bambus->File System->getFiles('css', array('css'));
-	$tplFiles = DFileSystem::FilesOf($Bambus->pathTo('template'), '/\.tpl/i');//$Bambus->File System->getFiles('template', array('tpl'));
+	$cssFiles = DFileSystem::FilesOf(SPath::DESIGN, '/\.css/i');//$Bambus->File System->getFiles('css', array('css'));
+	$tplFiles = DFileSystem::FilesOf(SPath::TEMPLATES, '/\.tpl/i');//$Bambus->File System->getFiles('template', array('tpl'));
 	$Files = array_merge($cssFiles, $tplFiles);
 	asort($Files, SORT_STRING);
 	foreach($Files as $item)
@@ -311,7 +310,7 @@ if(BAMBUS_APPLICATION_TAB != 'manage')
 			,$Bambus->Linker->createQueryString(array('edit' => $item,'tab' => 'edit_'.($type == 'css' ? 'css':'templates')))
 			,($item == 'default.css') ? SLocalization::get('default.css') : htmlentities(substr($item, 0, -4))
 			,WIcon::pathFor($type == 'css' ? 'stylesheet':'template', 'mimetype', WIcon::MEDIUM)
-			,$Bambus->formatSize(filesize($Bambus->pathTo($type == 'css' ? 'css':'template').$item))
+			,DFileSystem::formatSize(filesize(($type == 'css' ? (SPath::DESIGN) : (SPath::TEMPLATES)).$item))
 			,strtoupper($type)
 		);
 	}

@@ -42,7 +42,7 @@ class BCMSString extends Bambus implements IShareable
     var $env = array();
     var $cms = array();
     var $unsolvedCallbacks = array();
-    var $templateKeys = array('navigation', 'navigationsFor', 'cms', 'configuration', 'translate', 'title', 'loadPlugin', 'todo', 'ignore', 'help', 'pathTo');
+    var $templateKeys = array('navigation', 'navigationsFor', 'cms', 'configuration', 'translate', 'title', 'loadPlugin', 'todo', 'ignore', 'help');
     var $classes = array();
     var $Bambus = NULL;
     //init
@@ -85,11 +85,6 @@ class BCMSString extends Bambus implements IShareable
 		return SLocalization::get($string);
 	}
 	
-	function pathToCallBack($path)
-	{
-		return (isset($this->paths[$path])) ? $this->paths[$path] : '';
-	}
-	
 	function navigationCallBack($string)
 	{
 		//return $this->Navigations->generateNavigation($string);
@@ -113,9 +108,9 @@ class BCMSString extends Bambus implements IShareable
 			case 'rootdir': 		return BAMBUS_CMS_ROOT;
 			case 'diskspace':
 			case 'freediskspace':
-			case 'diskfreespace':	return $this->formatSize(disk_free_space(BAMBUS_CMS_ROOT));
+			case 'diskfreespace':	return DFileSystem::formatSize(disk_free_space(BAMBUS_CMS_ROOT));
 			case 'memoryusage':
-			case 'memusage':		return $this->formatSize(memory_get_usage(true));
+			case 'memusage':		return DFileSystem::formatSize(memory_get_usage(true));
 			case 'starttime':
 			case 'execstart':		return BAMBUS_EXEC_START;
 			case 'gentime':
@@ -126,9 +121,9 @@ class BCMSString extends Bambus implements IShareable
 			case 'applicationtablogo':return BAMBUS_APPLICATION_TAB_ICON;
 			case 'applicationtabtitle':return BAMBUS_APPLICATION_TAB_TITLE;
 			case 'currentobject':	return BAMBUS_CURRENT_OBJECT;
-			case 'currentobjecttitle':return substr(BAMBUS_CURRENT_OBJECT,0,strlen($this->suffix(BAMBUS_CURRENT_OBJECT))*-1-1);
+			case 'currentobjecttitle':return substr(BAMBUS_CURRENT_OBJECT,0,strlen(DFileSystem::suffix(BAMBUS_CURRENT_OBJECT))*-1-1);
 			case 'currentobjecticon':
-				return WIcon::pathFor($this->suffix(BAMBUS_CURRENT_OBJECT),'mimetype');
+				return WIcon::pathFor(DFileSystem::suffix(BAMBUS_CURRENT_OBJECT),'mimetype');
 			default: 				return '';
 		}
 	}

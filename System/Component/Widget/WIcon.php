@@ -51,8 +51,8 @@ class WIcon extends BWidget
     {
         $type = substr($type, -1) == 's' ? $type : $type.'s';
         $size = in_array($size, array_keys(self::$sizes)) ? $size : 22;
-        $tango  = SEnviornment::SYSTEM_ICONS.self::$sizes[$size].'/'.$type.'/'.$icon.'.png';
-        $legacy = SEnviornment::SYSTEM_ICONS.'../'.$size.'x'.$size.'/'.$type.'/'.$icon.'.png';
+        $tango  = SPath::SYSTEM_ICONS.self::$sizes[$size].'/'.$type.'/'.$icon.'.png';
+        $legacy = SPath::SYSTEM_ICONS.'../'.$size.'x'.$size.'/'.$type.'/'.$icon.'.png';
         if(!file_exists($tango) && file_exists($legacy))
         {
             return $legacy;

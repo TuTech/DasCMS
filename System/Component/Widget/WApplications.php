@@ -28,7 +28,7 @@ class WApplications extends BWidget
 		$parts = explode('-', $name);
 		//specifyer in name
 		$type = array_shift($parts);
-		$path = SEnviornment::SYSTEM_ICONS.'/large/'.strtolower($type).'s/';
+		$path = SPath::SYSTEM_ICONS.'/large/'.strtolower($type).'s/';
 		if(ctype_alpha($type) && is_dir($path))
 		{
 			//valid path

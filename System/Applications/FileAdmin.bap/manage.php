@@ -9,7 +9,7 @@
 if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
 echo LGui::beginForm(array(), 'documentform');
 echo LGui::hiddenInput('action', 'delete');
-$files = DFileSystem::FilesOf($Bambus->pathTo('download'), '/\.(?!(php[0-9]?|aspx?|pl|phtml|cgi))$/i');
+$files = DFileSystem::FilesOf(SPath::DOWNLOADS, '/\.(?!(php[0-9]?|aspx?|pl|phtml|cgi))$/i');
 
 ksort($files, SORT_STRING);
 $itemTemplate = "<a class=\"listView\" name=\"{id}\" title=\"{title}\" id=\"{id}\" href=\"javascript:selectImage('{id}');\">
@@ -27,7 +27,7 @@ foreach($files as $file){
 		printf('<span class="hiddenGroup">%s</span>', $fchar);
 	}
     $id = md5($file);
-    $suffix = $Bambus->suffix($file);
+    $suffix = DFileSystem::suffix($file);
     $icon = (file_exists(WIcon::pathFor($suffix, 'mimetype'))) ? $suffix : 'file';
     $bigIcon = (file_exists(WIcon::pathFor($suffix, 'mimetype', WIcon::LARGE))) ? $suffix : 'file';
     $output = array('realname'  => htmlentities($file),

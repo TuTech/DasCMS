@@ -15,7 +15,7 @@ function dirlist_r($dir = './', $indent = 0){
     	if(!isset($info[$key]))$info[$key] = 0;
     $files = array();
     $dirs = array();
-    chdir($Bambus->pathTo('system'));
+    chdir(SPath::SYSTEM);
     if(is_dir($dir)){
         if(@chdir($dir))
         {
@@ -81,13 +81,12 @@ function pdirlist_r($dir = './', $indent = 0){
                 $indent = $indent + 20;
             }
         }else{
-            $out[] =  '<div class="listeddir"><img src="'.$Bambus->pathTo('systemImage').'dir.png" alt="" />'.htmlentities($dir).' <span class="notreadable">'.SLocalization::get('not_readable').'</span></div>';
+            $out[] =  '<div class="listeddir"><img src="'.SPath::SYSTEM_IMAGES.'dir.png" alt="" />'.htmlentities($dir).' <span class="notreadable">'.SLocalization::get('not_readable').'</span></div>';
             $indent = $indent + 20;                
         }
         if ($files != array())
         { 
             sort ($files);
-            $docpath = $Bambus->pathTo('document');
             foreach($files as $file)
             {
             	$chmod = false;

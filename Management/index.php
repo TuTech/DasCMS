@@ -68,7 +68,7 @@ WTemplate::globalSet('bambus_my_uri', $Bambus->Linker->createQueryString(array()
 //load all related js and css files//
 /////////////////////////////////////
 
-$path = $Bambus->pathTo('systemClientDataStylesheet');
+$path = SPath::SYSTEM_STYLESHEETS;
 $files = DFileSystem::FilesOf($path, '/\.css$/i');
 foreach ($styles as $css) 
 {
@@ -76,8 +76,7 @@ foreach ($styles as $css)
 		continue;
 	WHeader::useStylesheet($path.$css);
 }
-$path = $Bambus->pathTo('systemClientDataScript');
-//$scripts = $Bam bus->File System->get Files('systemClientDataScript', 'js', true, true);
+$path = SPath::SYSTEM_SCRIPTS;
 $scripts = DFileSystem::FilesOf($path, '/\.js$/i');
 sort($scripts);//UC first
 foreach ($scripts as $script) 
