@@ -14,7 +14,7 @@
 function __autoload($className)
 {
 	$sc = substr($className,1,1);
-	if($sc == strtoupper($sc) && $className != 'BCMSString')
+	if($sc == strtoupper($sc))
 	{
 		//new class loader
 		$Components = array(
@@ -89,8 +89,7 @@ class Bambus extends BObject
 
     //private
     protected $autoloadClasses = array(
-		'BCMSString'
-		,'Configuration'
+		'Configuration'
 		,'Linker'
 		,'UsersAndGroups'
 	);

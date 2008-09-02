@@ -98,10 +98,51 @@ if($dbg)				printf('<p>found %s at %d</p>', $found, $foundAt);
 		return $utf8_string; 
 	}
 
+    private function cmsCallBack($string)
+    {
+        switch(strtolower($string))
+        {
+            case 'version':         
+                return BAMBUS_VERSION;
+            case 'rootdir':         
+                return BAMBUS_CMS_ROOT;
+            case 'diskspace':
+            case 'freediskspace':
+            case 'diskfreespace':   
+                return DFileSystem::formatSize(disk_free_space(BAMBUS_CMS_ROOT));
+            case 'memoryusage':
+            case 'memusage':        
+                return DFileSystem::formatSize(memory_get_usage(true));
+            case 'starttime':
+            case 'execstart':       
+                return BAMBUS_EXEC_START;
+            case 'gentime':
+            case 'runtime':         
+                return round((microtime(true) - BAMBUS_EXEC_START),2);
+            case 'bambuslogo':      
+                return 'System/Images/BambusCMSLogo.png';
+            case 'applicationlogo': 
+                return BAMBUS_APPLICATION_ICON;
+            case 'applicationtitle': 
+                return BAMBUS_APPLICATION_TITLE;
+            case 'applicationtablogo':
+                return BAMBUS_APPLICATION_TAB_ICON;
+            case 'applicationtabtitle':
+                return BAMBUS_APPLICATION_TAB_TITLE;
+            case 'currentobject':   
+                return BAMBUS_CURRENT_OBJECT;
+            case 'currentobjecttitle':
+                return substr(BAMBUS_CURRENT_OBJECT,0,strlen(DFileSystem::suffix(BAMBUS_CURRENT_OBJECT))*-1-1);
+            case 'currentobjecticon':
+                return WIcon::pathFor(DFileSystem::suffix(BAMBUS_CURRENT_OBJECT),'mimetype');
+            default:                
+                return '';
+        }
+    }
+	
 	private function exec_cmd($string, $Object = NULL)
 	{
 		$SCI = SComponentIndex::alloc()->init();
-		$BCMSString = null;
 		$Linker = null;
 		$CFG = null;
 		//if($Object != NULL)
@@ -123,12 +164,7 @@ if($dbg)				printf('<p>found %s at %d</p>', $found, $foundAt);
 				}
 				elseif($class === 'cms')
 				{
-					if($BCMSString == null)
-					{
-						$BCMSString = BCMSString::alloc();
-						$BCMSString->init();
-					}
-					return $BCMSString->cmsCallBack($prop);
+					return $this->cmsCallBack($prop);
 				}
 				elseif($class === 'Linker')
 				{
@@ -224,9 +260,6 @@ if($dbg)				printf('<p>found %s at %d</p>', $found, $foundAt);
     	{
     		if(defined('BAMBUS_DEBUG'))printf("\n<!--[%s init]-->\n", self::Class_Name);
 	    	self::$initializedInstance = true;
-			$this->BCMSString = BCMSString::alloc();
-
-			$this->BCMSString->init();
     	}
     }
 	//end IShareable
