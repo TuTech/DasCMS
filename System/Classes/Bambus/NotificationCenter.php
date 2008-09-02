@@ -31,10 +31,8 @@ class NotificationCenter extends Bambus implements IShareable
     		if(defined('BAMBUS_DEBUG'))printf("\n<!--[%s init]-->\n", self::Class_Name);
 	    	self::$initializedInstance = true;
 			$this->Configuration = Configuration::alloc();
-			$this->Template = Template::alloc();
 
 			$this->Configuration->init();
-			$this->Template->init();
     	}
     }
 	//end IShareable
@@ -107,7 +105,9 @@ class NotificationCenter extends Bambus implements IShareable
 		}
 		if($this->Configuration->get('logChanges'))
 		{
-			$logEntry = str_replace("\n", " ", $this->Template->parse($this->template, $attributes, 'string'));
+            $logEntry = new WTemplate($this->template, WTemplate::STRING);
+            $logEntry->setEnvornment($attributes);
+			$logEntry = str_replace("\n", " ", $logEntry->render());
 			$logFile = SPath::LOGS.'change.log';
 			DFileSystem::Append(BAMBUS_CMS_ROOT.'/'.$logFile, $logEntry."\n");
 		}

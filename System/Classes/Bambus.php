@@ -80,7 +80,7 @@ class Bambus extends BObject
     /////////////////////////////
 
     //public
-    var $Template,
+    var 
     	$Configuration,
     	$UsersAndGroups;
 
@@ -91,7 +91,6 @@ class Bambus extends BObject
     protected $autoloadClasses = array(
 		'BCMSString'
 		,'Configuration'
-		,'Template'
 		,'Linker'
 		,'UsersAndGroups'
 	);
