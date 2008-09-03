@@ -2,17 +2,17 @@
 <!DOCTYPE application SYSTEM "../../Resource/DTD/application.dtd">
 <application>
     <meta>
-        <name>name</name>
-        <description>description</description>
-        <icon>icon</icon>
-        <version>version</version>
-        <guid>guid</guid>
+        <name>configuration</name>
+        <description>edit_configuration</description>
+        <icon>app-preferences-enviornment</icon>
+        <version>0.10.20061011</version>
+        <guid>org.bambus-cms.configuration</guid>
         <categories>
-            <category name="test" />
+            <category name="system" />
         </categories>
     </meta>
-    <window title="window" icon="icon">
-        <controller src="src" />
-        <view src="src" type="tpl" />
+    <window title="edit" icon="action-edit">
+        <controller src="controller.php" />
+        <view src="edit.php" type="php" />
     </window>
 </application>

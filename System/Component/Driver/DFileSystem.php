@@ -291,47 +291,90 @@ class DFileSystem extends BDriver
     } 
     
     
-	/**
-	 * List files in $dir
-	 * $match can be a regexp for file names
-	 *
-	 * @param string $dir
-	 * @param mixed $match
-	 * @return array
-	 * @throws XFileNotFoundException
-	 */
-	public static function FilesOf($dir, $match = false)
-	{
-		chdir(constant('BAMBUS_CMS_ROOTDIR'));
-		$files = array();
-		if(is_dir($dir) && chdir($dir))
-		{
-			$handle = openDir('.');
-			$i=1;
-			while($item = readdir($handle))
-			{
-				if(is_dir($item))
-				{
-					continue;
-				}
-				if(substr($item,0,1) != '.' 
-					&& (!$match || preg_match($match, $item))
-				)
-				{
-					$files[strtoupper($item).md5($i)] = $item;
-				}
-				$i++;
-			}
-			asort($files, SORT_LOCALE_STRING);
-			closedir($handle);
-		}
-		else
-		{
-			throw new XFileNotFoundException('dir not found ',$dir,1);
-		}
-		chdir(constant('BAMBUS_CMS_ROOTDIR'));
-		return $files;
-	}
+    /**
+     * List files in $dir
+     * $match can be a regexp for file names
+     *
+     * @param string $dir
+     * @param mixed $match
+     * @return array
+     * @throws XFileNotFoundException
+     */
+    public static function FilesOf($dir, $match = false)
+    {
+        chdir(constant('BAMBUS_CMS_ROOTDIR'));
+        $files = array();
+        if(is_dir($dir) && chdir($dir))
+        {
+            $handle = openDir('.');
+            $i=1;
+            while($item = readdir($handle))
+            {
+                if(is_dir($item))
+                {
+                    continue;
+                }
+                if(substr($item,0,1) != '.' 
+                    && (!$match || preg_match($match, $item))
+                )
+                {
+                    $files[strtoupper($item).md5($i)] = $item;
+                }
+                $i++;
+            }
+            asort($files, SORT_LOCALE_STRING);
+            closedir($handle);
+        }
+        else
+        {
+            throw new XFileNotFoundException('dir not found ',$dir,1);
+        }
+        chdir(constant('BAMBUS_CMS_ROOTDIR'));
+        return $files;
+    }
+    
+    /**
+     * List files in $dir
+     * $match can be a regexp for file names
+     *
+     * @param string $dir
+     * @param mixed $match
+     * @return array
+     * @throws XFileNotFoundException
+     */
+//FIXME filesof/dirsof use same fx itemsof and decide 
+    public static function DirsOf($dir, $match = false)
+    {
+        chdir(constant('BAMBUS_CMS_ROOTDIR'));
+        $files = array();
+        if(is_dir($dir) && chdir($dir))
+        {
+            $handle = openDir('.');
+            $i=1;
+            while($item = readdir($handle))
+            {
+                if(!is_dir($item))
+                {
+                    continue;
+                }
+                if(substr($item,0,1) != '.' 
+                    && (!$match || preg_match($match, $item))
+                )
+                {
+                    $files[strtoupper($item).md5($i)] = $item;
+                }
+                $i++;
+            }
+            asort($files, SORT_LOCALE_STRING);
+            closedir($handle);
+        }
+        else
+        {
+            throw new XFileNotFoundException('dir not found ',$dir,1);
+        }
+        chdir(constant('BAMBUS_CMS_ROOTDIR'));
+        return $files;
+    }
 	
 	/**
 	 * Checks string being a valid file name
