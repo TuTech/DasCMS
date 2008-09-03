@@ -154,7 +154,7 @@ class pre_setup_BaseLayout implements runnable
 			'Content/configuration/users.php', 
 			self::HEADER.
 				'a:1:{s:5:"admin";'.
-				'O:8:"bcmsuser":11:{'.
+				'O:5:"SUser":11:{'.
 				's:8:"password";s:32:"'.md5($pw).'";'.
 				's:8:"realName";s:13:"Administrator";'.
 				's:5:"email";b:0;'.

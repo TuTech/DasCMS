@@ -21,7 +21,9 @@ list($get, $post, $session, $uploadfiles) = $Bambus->initialize($_GET,$_POST,$_S
 @$bambus_user = utf8_decode((!empty($_SESSION['bambus_cms_username'])) ? $_SESSION['bambus_cms_username'] : $_SESSION['uname']);
 @$bambus_password = utf8_decode((!empty($_SESSION['bambus_cms_password'])) ? $_SESSION['bambus_cms_password'] : $_SESSION['pwrd']);
 
-if($Bambus->UsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($Bambus->UsersAndGroups->isMemberOf($bambus_user, 'Administrator') || $Bambus->UsersAndGroups->isMemberOf($bambus_user, 'Edit')))
+$SUsersAndGroups = SUsersAndGroups::alloc()->init();
+
+if($SUsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($SUsersAndGroups->isMemberOf($bambus_user, 'Administrator') || $SUsersAndGroups->isMemberOf($bambus_user, 'Edit')))
 {
 	if(!empty($get['file']) && !empty($get['path']))
 	{

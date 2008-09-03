@@ -81,8 +81,7 @@ class Bambus extends BObject
 
     //public
     var 
-    	$Configuration,
-    	$UsersAndGroups;
+    	$Configuration;
 
 	//include all class-root-level classes
 	     
@@ -91,7 +90,6 @@ class Bambus extends BObject
     protected $autoloadClasses = array(
 		'Configuration'
 		,'Linker'
-		,'UsersAndGroups'
 	);
 	
 	protected $managementAutoloadClasses = array(
@@ -417,7 +415,8 @@ class Bambus extends BObject
 	        foreach($keys as $id)
 	        {
 		        $appName = substr($id,0,(strlen(DFileSystem::suffix($id))+1)*-1);
-				if(!$this->UsersAndGroups->hasPermission(BAMBUS_USER, $appName))
+		        $SUsersAndGroups = SUsersAndGroups::alloc()->init();
+				if(!$SUsersAndGroups->hasPermission(BAMBUS_USER, $appName))
 	        	{
 	        		unset($available[$id]);
 	        	}

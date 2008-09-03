@@ -15,6 +15,9 @@ $dbNeedsUpdate = false;
 //what do we edit?//
 ////////////////////
 
+$SUsersAndGroups = SUsersAndGroups::alloc()->init();
+
+
 $edit = (!isset($get['edit'])) ? '' : $get['edit'];
 if(empty($get['mode']) || $get['mode'] == 'usr')
 {
@@ -23,7 +26,7 @@ if(empty($get['mode']) || $get['mode'] == 'usr')
 	/////////
 	
 	$edit_mode = 'usr';
-	$victim = (($Bambus->UsersAndGroups->isUser($edit)) ? $edit : BAMBUS_USER);
+	$victim = (($SUsersAndGroups->isUser($edit)) ? $edit : BAMBUS_USER);
 }
 else
 {	
@@ -31,7 +34,7 @@ else
 	//groups//
 	//////////
 	
-	if($Bambus->UsersAndGroups->isGroup($edit))
+	if($SUsersAndGroups->isGroup($edit))
 	{
 		$victim = $edit;
 		$edit_mode = 'grp';
@@ -56,17 +59,17 @@ if(!empty($post['action']))
 	
 	if($post['action'] == 'edit_user_data' && BAMBUS_GRP_EDIT && ($victim == BAMBUS_USER || BAMBUS_GRP_ADMINISTRATOR))
 	{
-		$Bambus->UsersAndGroups->setUserRealName($victim, $post['realName']);
-		$Bambus->UsersAndGroups->setUserEmail($victim, $post['email']);
-		$Bambus->UsersAndGroups->setUserAttribute($victim, 'company', $post['att_company']);
+		$SUsersAndGroups->setUserRealName($victim, $post['realName']);
+		$SUsersAndGroups->setUserEmail($victim, $post['email']);
+		$SUsersAndGroups->setUserAttribute($victim, 'company', $post['att_company']);
 		SNotificationCenter::alloc()->init()->report('message', 'user_profile_saved');
 		if(BAMBUS_GRP_ADMINISTRATOR)
 		{
 			if(!empty($post['adm_set_password']) && !empty($post['adm_set_password_confirm']) &&$post['adm_set_password_confirm'] == $post['adm_set_password'])
 			{
-				$Bambus->UsersAndGroups->setUserPassword($victim, $post['adm_set_password']);
+				$SUsersAndGroups->setUserPassword($victim, $post['adm_set_password']);
 			}
-			if(!empty($post['adm_set_password_confirm']) &&!empty($post['adm_set_password']) && md5($post['adm_set_password_confirm']) == $Bambus->UsersAndGroups->getPasswordHash($victim))
+			if(!empty($post['adm_set_password_confirm']) &&!empty($post['adm_set_password']) && md5($post['adm_set_password_confirm']) == $SUsersAndGroups->getPasswordHash($victim))
 			{
 				SNotificationCenter::alloc()->init()->report('message', 'new_password_set');
 			}
@@ -78,15 +81,15 @@ if(!empty($post['action']))
 		else
 		{
 			if(
-				(!empty($post['change_password_from_old']) && $Bambus->UsersAndGroups->isValidUser($victim, $post['change_password_from_old']))
+				(!empty($post['change_password_from_old']) && $SUsersAndGroups->isValidUser($victim, $post['change_password_from_old']))
 				&&
 				(!empty($post['change_password_to_new']) && !empty($post['change_password_confirm']) && $post['change_password_to_new'] == $post['change_password_confirm'])
 			  )
 			{
-				$Bambus->UsersAndGroups->setUserPassword($victim, $post['change_password_to_new']);
+				$SUsersAndGroups->setUserPassword($victim, $post['change_password_to_new']);
 				SNotificationCenter::alloc()->init()->report('message', 'password_changed');
 			}
-			elseif(!empty($post['change_password_from_old']) && $Bambus->UsersAndGroups->isValidUser($victim, $post['change_password_from_old']))
+			elseif(!empty($post['change_password_from_old']) && $SUsersAndGroups->isValidUser($victim, $post['change_password_from_old']))
 			{
 				SNotificationCenter::alloc()->init()->report('alert', 'passwords_do_not_match');
 			}
@@ -101,7 +104,7 @@ if(!empty($post['action']))
 	{
 		if(!empty($post['new_group_name']) && isset($post['new_group_description']))
 		{
-			$Bambus->UsersAndGroups->addGroup($post['new_group_name'], $post['new_group_description']);
+			$SUsersAndGroups->addGroup($post['new_group_name'], $post['new_group_description']);
 			SNotificationCenter::alloc()->init()->report('message', 'group_created');
 			$edit = $post['new_group_name'];
 			$victim = $post['new_group_name'];
@@ -122,7 +125,7 @@ if(!empty($post['action']))
 		  	(!empty($post['new_user_name'])) &&
 		  	(!empty($post['new_user_password'])) &&
 		  	(!empty($post['new_user_password_check'])) &&
-		  	(!$Bambus->UsersAndGroups->isUser($post['new_user_name'])) &&
+		  	(!$SUsersAndGroups->isUser($post['new_user_name'])) &&
 		  	($post['new_user_password'] == $post['new_user_password_check'])
 		  )
 		{
@@ -130,7 +133,7 @@ if(!empty($post['action']))
 			//create user//
 			///////////////
 			
-			$Bambus->UsersAndGroups->addUser($post['new_user_name'], $post['new_user_password'], $post['new_user_name_and_surname'], $post['new_user_email']);
+			$SUsersAndGroups->addUser($post['new_user_name'], $post['new_user_password'], $post['new_user_name_and_surname'], $post['new_user_email']);
 			SNotificationCenter::alloc()->init()->report('message', 'user_created');
 			$victim = $post['new_user_name'];
 			$edit_mode = 'usr';
@@ -147,7 +150,7 @@ if(!empty($post['action']))
 			{
 				SNotificationCenter::alloc()->init()->report('warning', 'passwords_not_equal');
 			}
-			elseif($Bambus->UsersAndGroups->isUser($post['new_user_name']))
+			elseif($SUsersAndGroups->isUser($post['new_user_name']))
 			{
 				SNotificationCenter::alloc()->init()->report('warning', 'user_already_exists');
 			}
@@ -184,7 +187,7 @@ if(!empty($post['action']))
 			if(empty($post['join_group_Administrator']))
 			{
 				//no administrator 
-				foreach($Bambus->UsersAndGroups->listSystemGroups() as $systemGroup)
+				foreach($SUsersAndGroups->listSystemGroups() as $systemGroup)
 				{
 					if(!empty($post['join_group_'.md5($systemGroup)]))
 					{
@@ -199,7 +202,7 @@ if(!empty($post['action']))
 			else
 			{
 				//platin member: access to everything 
-				foreach($Bambus->UsersAndGroups->listSystemGroups() as $systemGroup)
+				foreach($SUsersAndGroups->listSystemGroups() as $systemGroup)
 				{
 					$join[$systemGroup] = $systemGroup;
 				}			
@@ -207,10 +210,10 @@ if(!empty($post['action']))
 		}
 		else
 		{
-			$groups = $Bambus->UsersAndGroups->listGroupsOfUser(BAMBUS_USER);
+			$groups = $SUsersAndGroups->listGroupsOfUser(BAMBUS_USER);
 			foreach($groups as $group)
 			{	
-				if($Bambus->UsersAndGroups->isSystemGroup($group))
+				if($SUsersAndGroups->isSystemGroup($group))
 					$join[$group] = $group;
 			}
 		}
@@ -219,7 +222,7 @@ if(!empty($post['action']))
 		//change custom group settings//
 		////////////////////////////////
 		
-		foreach(array_keys($Bambus->UsersAndGroups->listGroups()) as $group)
+		foreach(array_keys($SUsersAndGroups->listGroups()) as $group)
 		{
 			if(!empty($post['join_group_'.md5($group)]))
 			{
@@ -236,7 +239,7 @@ if(!empty($post['action']))
 		//////////////////
 		//remove all changes the current user is not allowed to do
 		
-		foreach($Bambus->UsersAndGroups->listSystemGroups() as $systemGroup)
+		foreach($SUsersAndGroups->listSystemGroups() as $systemGroup)
 		{
 			if(!constant('BAMBUS_GRP_'.strtoupper($systemGroup)))
 			{
@@ -245,10 +248,10 @@ if(!empty($post['action']))
 			}
 		}
 		//leave all groups
-		$Bambus->UsersAndGroups->leaveGroups($victim, $leave);
+		$SUsersAndGroups->leaveGroups($victim, $leave);
 		//set new groups
- 		$Bambus->UsersAndGroups->joinGroups($victim, $join);
- 		$Bambus->UsersAndGroups->setPrimaryGroup($victim, $post['primary_group']);
+ 		$SUsersAndGroups->joinGroups($victim, $join);
+ 		$SUsersAndGroups->setPrimaryGroup($victim, $post['primary_group']);
  		SNotificationCenter::alloc()->init()->report('message', 'group_assignment_saved');
 	}
 	
@@ -276,29 +279,29 @@ if(!empty($post['action']))
 	    foreach($items as $item)
 	    {
 	    	//all admins and the current user must have access to this app
-	    	if(!(($victim == BAMBUS_USER || $Bambus->UsersAndGroups->isMemberOf($victim, 'Administrator')) && $item == BAMBUS_APPLICATION))
+	    	if(!(($victim == BAMBUS_USER || $SUsersAndGroups->isMemberOf($victim, 'Administrator')) && $item == BAMBUS_APPLICATION))
 	    	{
-		    	if(!empty($post['editor_'.md5($item)]) && ($Bambus->UsersAndGroups->hasPermission(BAMBUS_USER, $item) || BAMBUS_GRP_ADMINISTRATOR))
+		    	if(!empty($post['editor_'.md5($item)]) && ($SUsersAndGroups->hasPermission(BAMBUS_USER, $item) || BAMBUS_GRP_ADMINISTRATOR))
 		    	{
 		    		//we are allowed to change the value and we like this app -> activate it
 		    		$grantPermission[] = $item;
 		    	}
-		    	elseif($Bambus->UsersAndGroups->hasPermission(BAMBUS_USER, $item) || BAMBUS_GRP_ADMINISTRATOR)
+		    	elseif($SUsersAndGroups->hasPermission(BAMBUS_USER, $item) || BAMBUS_GRP_ADMINISTRATOR)
 		    	{
 		    		//changing allowed but this app stinks -> deactivate it
 		    		$rejectPermission[] = $item;
 		    	}
 	    	}
-	    	elseif($Bambus->UsersAndGroups->isMemberOf($victim, 'Administrator'))
+	    	elseif($SUsersAndGroups->isMemberOf($victim, 'Administrator'))
 	    	{
 	    		//admins are foced to love me (the shiny user-administration)
 	    		$grantPermission[] = $item;
 	    	}
 	    }
 	    //set the beloved apps
-	    $Bambus->UsersAndGroups->grantUserPermissions($victim, $grantPermission);
+	    $SUsersAndGroups->grantUserPermissions($victim, $grantPermission);
 	    //send the others to hell
-	    $Bambus->UsersAndGroups->rejectUserPermissions($victim, $rejectPermission);
+	    $SUsersAndGroups->rejectUserPermissions($victim, $rejectPermission);
 	    SNotificationCenter::alloc()->init()->report('message', 'permissions_saved');
 	}
 	if($post['action'] == 'save_editor_group_permissions' && BAMBUS_GRP_EDIT)
@@ -322,9 +325,9 @@ if(!empty($get['_action']) && $get['_action'] == 'delete')
 	
 	if($edit_mode == 'grp' && BAMBUS_GRP_DELETE)
 	{
-		if($Bambus->UsersAndGroups->isGroup($victim) && ! $Bambus->UsersAndGroups->isSystemGroup($victim))
+		if($SUsersAndGroups->isGroup($victim) && ! $SUsersAndGroups->isSystemGroup($victim))
 		{
-			$Bambus->UsersAndGroups->removeGroup($victim);
+			$SUsersAndGroups->removeGroup($victim);
 			SNotificationCenter::alloc()->init()->report('message', 'group_deleted');
 			$edit_mode = 'usr';
 			$victim = BAMBUS_USER;
@@ -341,9 +344,9 @@ if(!empty($get['_action']) && $get['_action'] == 'delete')
 	
 	elseif($edit_mode == 'usr' && BAMBUS_GRP_DELETE)
 	{
-		if($Bambus->UsersAndGroups->isUser($victim) && $victim != BAMBUS_USER)
+		if($SUsersAndGroups->isUser($victim) && $victim != BAMBUS_USER)
 		{
-			$result = $Bambus->UsersAndGroups->removeUser($victim);
+			$result = $SUsersAndGroups->removeUser($victim);
 			if($result)
 			{
 				SNotificationCenter::alloc()->init()->report('message', 'message');
@@ -368,8 +371,8 @@ if(!empty($get['_action']) && $get['_action'] == 'delete')
 
 
 
-$users = $Bambus->UsersAndGroups->listUsers();
-$groups = $Bambus->UsersAndGroups->listGroups();
+$users = $SUsersAndGroups->listUsers();
+$groups = $SUsersAndGroups->listGroups();
 if(count($users) > 0 || count($groups) > 0)
 {
     ksort($users, SORT_STRING);
@@ -384,9 +387,9 @@ if(count($users) > 0 || count($groups) > 0)
 	//openFileDialog files
     foreach(array_keys($users) as $item)
 	{
-		$realname = $Bambus->UsersAndGroups->getRealName($item);
+		$realname = $SUsersAndGroups->getRealName($item);
 		$realname = ($item == BAMBUS_USER) ? 'You' : htmlentities($realname, ENT_QUOTES);
-		$admin = $Bambus->UsersAndGroups->isMemberOf($item, 'Administrator');
+		$admin = $SUsersAndGroups->isMemberOf($item, 'Administrator');
 		printf(
 			'<a href="%s">' ."\n\t".
 				'<span title="title">%s</span>' ."\n\t".
@@ -412,7 +415,7 @@ if(empty($get['tab']) || strpos($get['tab'],'manage_')===false)
 	}
 	else
 	{
-		$EditingObject = sprintf('%s.%s', $victim, (($Bambus->UsersAndGroups->isMemberOf($victim, 'Administrator')) ? SLocalization::get('administrator') : 'user'));
+		$EditingObject = sprintf('%s.%s', $victim, (($SUsersAndGroups->isMemberOf($victim, 'Administrator')) ? SLocalization::get('administrator') : 'user'));
 	}
 }
 ?>

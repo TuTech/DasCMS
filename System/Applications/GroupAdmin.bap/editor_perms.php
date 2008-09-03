@@ -45,6 +45,8 @@ if(BAMBUS_GRP_CREATE)
 //editorpermissions//
 /////////////////////
 
+$SUsersAndGroups = SUsersAndGroups::alloc()->init();
+
 if(BAMBUS_GRP_EDIT)
 {
 	printf('<form method="post" onchange="showPreview()" id="documentform" name="documentform" action="%s">',$Bambus->Linker->createQueryString());
@@ -92,6 +94,7 @@ if($edit_mode == 'grp')
 //group information// 
 /////////////////////
 
+
 	$urow = <<<ROW
 <div class="group%sMember">
 	%s
@@ -102,7 +105,7 @@ ROW;
 	echo LGui::beginTable();
 	echo LGui::tableHeader(array(SLocalization::get('description')));
 	echo LGui::beginTableRow();
-	echo htmlentities($Bambus->UsersAndGroups->getGroupDescription($victim));
+	echo htmlentities($SUsersAndGroups->getGroupDescription($victim));
 	echo LGui::endTableRow();
 	echo LGui::endTable();
 	echo LGui::verticalSpace();
@@ -110,7 +113,7 @@ ROW;
 	echo LGui::tableHeader(array(SLocalization::get('assigned_users')));
 	echo LGui::beginTableRow();
 	
-	$assignedUsers = $Bambus->UsersAndGroups->listUsersOfGroup($victim);
+	$assignedUsers = $SUsersAndGroups->listUsersOfGroup($victim);
 	sort($assignedUsers, SORT_STRING);
 	if(is_array($assignedUsers) && count($assignedUsers) > 0)
 	{
@@ -118,7 +121,7 @@ ROW;
 		{
 			printf(
 					$urow
-					,($Bambus->UsersAndGroups->isMemberOf($user, 'Administrator')) ? 'Gold' : ''
+					,($SUsersAndGroups->isMemberOf($user, 'Administrator')) ? 'Gold' : ''
 					,htmlentities($user)
 				);
 		}
@@ -165,9 +168,9 @@ EOX;
 	    {
 	        $app_name = substr($editor['item'],0,((strlen(DFileSystem::suffix($editor['item']))+1) * -1));
 	        $id = md5($app_name);
-	        $is_admin = $Bambus->UsersAndGroups->isMemberOf($victim, 'Administrator');
+	        $is_admin = $SUsersAndGroups->isMemberOf($victim, 'Administrator');
 	        //printf('%s %s an administrator; ', $victim, ($is_admin) ? 'is' : 'is not');
-	        $checked = ($is_admin || $Bambus->UsersAndGroups->hasPermission($victim, $app_name)) ? ' checked="checked"' : '';
+	        $checked = ($is_admin || $SUsersAndGroups->hasPermission($victim, $app_name)) ? ' checked="checked"' : '';
 	        $disabled = ($is_admin || ($app_name == BAMBUS_APPLICATION && $victim == BAMBUS_USER)) ? ' disabled="disabled"' : '';
 	        	printf(
 	        		$line,

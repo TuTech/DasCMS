@@ -57,8 +57,7 @@ class WSidebar extends BWidget
 		{
 			return '';
 		}
-		$UAG = UsersAndGroups::alloc();
-		$UAG->init();
+		$UAG = SUsersAndGroups::alloc()->init();
 		if(isset($_POST['WSidebar-selected']) && in_array($_POST['WSidebar-selected'], $widgets))
 		{
 			$UAG->setMyPreference('WSidebar-selected', $_POST['WSidebar-selected']);

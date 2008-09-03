@@ -40,20 +40,23 @@ $Bambus->initialize($_GET,$_POST,$_SESSION,$_FILES, $_SERVER['REQUEST_URI']);
 $BambusConfigClass = &$Bambus->Configuration;
 $BambusConfig = $BambusConfigClass->as_array();
 
+$SUsersAndGroups = SUsersAndGroups::alloc()->init();
+
+
 //TODO: remove old env vars
 list($get, $post, $session, $files) = array($_GET,$_POST,$_SESSION,$_FILES);
 
 //some permission constants 
-define('BAMBUS_USER', ($Bambus->UsersAndGroups->isValidUser($bambus_username, $bambus_password)) ? $bambus_username : '');
-define('BAMBUS_USER_GROUPS', BAMBUS_USER != '' ? implode('; ', $Bambus->UsersAndGroups->listGroupsOfUser(BAMBUS_USER)) : '');
-define('BAMBUS_GRP_ADMINISTRATOR', $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-define('BAMBUS_GRP_CREATE', $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'Create') || $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-define('BAMBUS_GRP_RENAME', $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'Rename') || $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-define('BAMBUS_GRP_DELETE', $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'Delete') || $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-define('BAMBUS_GRP_EDIT', $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'Edit') || $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-define('BAMBUS_GRP_CMS', $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'CMS') || $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-define('BAMBUS_GRP_PHP', $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'PHP') || $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-define('BAMBUS_PRIMARY_GROUP', $Bambus->UsersAndGroups->getPrimaryGroup(BAMBUS_USER));
+define('BAMBUS_USER', ($SUsersAndGroups->isValidUser($bambus_username, $bambus_password)) ? $bambus_username : '');
+define('BAMBUS_USER_GROUPS', BAMBUS_USER != '' ? implode('; ', $SUsersAndGroups->listGroupsOfUser(BAMBUS_USER)) : '');
+define('BAMBUS_GRP_ADMINISTRATOR', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
+define('BAMBUS_GRP_CREATE', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Create') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
+define('BAMBUS_GRP_RENAME', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Rename') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
+define('BAMBUS_GRP_DELETE', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Delete') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
+define('BAMBUS_GRP_EDIT', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Edit') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
+define('BAMBUS_GRP_CMS', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'CMS') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
+define('BAMBUS_GRP_PHP', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'PHP') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
+define('BAMBUS_PRIMARY_GROUP', $SUsersAndGroups->getPrimaryGroup(BAMBUS_USER));
 
 //set sometemplate keys
 WTemplate::globalSet('meta_keywords',$BambusConfigClass->get('meta_keywords'));

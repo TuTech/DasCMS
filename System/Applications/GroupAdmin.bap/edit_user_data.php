@@ -51,6 +51,8 @@ if(BAMBUS_GRP_EDIT)
 		, htmlspecialchars($victim, ENT_QUOTES, 'utf-8'));
 }
 
+$SUsersAndGroups = SUsersAndGroups::alloc()->init();
+
 if($edit_mode == 'usr')
 {
 	///////////////////////
@@ -78,7 +80,7 @@ if($edit_mode == 'usr')
 			$row
 			,2
 			,SLocalization::get('name')
-			,htmlentities($Bambus->UsersAndGroups->getRealName($victim))
+			,htmlentities($SUsersAndGroups->getRealName($victim))
 			,'realName'
 			,'fullinput'
 			,'text'
@@ -88,7 +90,7 @@ if($edit_mode == 'usr')
 			$row
 			,1
 			,SLocalization::get('email')
-			,htmlentities($Bambus->UsersAndGroups->getEmail($victim))
+			,htmlentities($SUsersAndGroups->getEmail($victim))
 			,'email'
 			,'fullinput'
 			,'text'
@@ -98,7 +100,7 @@ if($edit_mode == 'usr')
 			$row
 			,2
 			,SLocalization::get('company')
-			,htmlentities($Bambus->UsersAndGroups->getUserAttribute($victim, 'company'))
+			,htmlentities($SUsersAndGroups->getUserAttribute($victim, 'company'))
 			,'att_company'
 			,'fullinput'
 			,'text'
@@ -128,8 +130,8 @@ if($edit_mode == 'usr')
 					,'password'
 				);
 			printf("<tr><th colspan=\"2\">%s</th></tr>\n", SLocalization::get('login_information'));
-			$lastManagementLogin = $Bambus->UsersAndGroups->getUserAttribute($victim, 'last_management_login');
-			$managementLoginCount = $Bambus->UsersAndGroups->getUserAttribute($victim, 'management_login_count');
+			$lastManagementLogin = $SUsersAndGroups->getUserAttribute($victim, 'last_management_login');
+			$managementLoginCount = $SUsersAndGroups->getUserAttribute($victim, 'management_login_count');
 			printf(
 					$noEditRow
 					,2
@@ -196,7 +198,7 @@ ROW;
 	echo LGui::beginTable();
 	echo LGui::tableHeader(array(SLocalization::get('description')));
 	echo LGui::beginTableRow();
-	echo htmlentities($Bambus->UsersAndGroups->getGroupDescription($victim));
+	echo htmlentities($SUsersAndGroups->getGroupDescription($victim));
 	echo LGui::endTableRow();
 	echo LGui::endTable();
 	echo LGui::verticalSpace();
@@ -204,7 +206,7 @@ ROW;
 	echo LGui::tableHeader(array(SLocalization::get('assigned_users')));
 	echo LGui::beginTableRow();
 	
-	$assignedUsers = $Bambus->UsersAndGroups->listUsersOfGroup($victim);
+	$assignedUsers = $SUsersAndGroups->listUsersOfGroup($victim);
 	sort($assignedUsers, SORT_STRING);
 	if(is_array($assignedUsers) && count($assignedUsers) > 0)
 	{
@@ -212,7 +214,7 @@ ROW;
 		{
 			printf(
 					$urow
-					,($Bambus->UsersAndGroups->isMemberOf($user, 'Administrator')) ? 'Gold' : ''
+					,($SUsersAndGroups->isMemberOf($user, 'Administrator')) ? 'Gold' : ''
 					,htmlentities($user)
 				);
 		}

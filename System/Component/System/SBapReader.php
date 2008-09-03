@@ -58,8 +58,7 @@ class SBapReader extends BSystem implements IShareable
 		$appPath = './System/Applications/';
 		$dirhdl = opendir($appPath);
 		//@todo remove old uag-binding
-		$UAG = UsersAndGroups::alloc();
-		$UAG->init();
+		$UAG = SUsersAndGroups::alloc()->init();
 		while($item = readdir($dirhdl))
 		{
 			if(is_dir($appPath.$item) 

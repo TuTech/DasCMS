@@ -42,6 +42,10 @@ if(BAMBUS_GRP_CREATE)
 	print('</table>');
 	echo LGui::endForm();
 }
+
+$SUsersAndGroups = SUsersAndGroups::alloc()->init();
+
+
 if(BAMBUS_GRP_EDIT)
 {
 	echo LGui::beginForm(array('edit' => $victim), 'documentform');
@@ -62,10 +66,10 @@ if($edit_mode == 'usr')
     printf('<tr><th class="tdicon">&nbsp;</th><th>%s</th></tr>',SLocalization::get('assignment_of_groups'));
 	$id = 1;
 	$flip = 2;
-	$groups = $Bambus->UsersAndGroups->listGroups();
+	$groups = $SUsersAndGroups->listGroups();
 	foreach(array_keys($groups) as $group)
 	{
-		if(!$Bambus->UsersAndGroups->isSystemGroup($group))
+		if(!$SUsersAndGroups->isSystemGroup($group))
 		{
 			$flip = ($flip == '1') ? '2' : '1';
 			$desc = (empty($groups[$group])) ? '' : '<br /><small><i><p>'.htmlentities($groups[$group]).'</p></i></small>';
@@ -74,7 +78,7 @@ if($edit_mode == 'usr')
 					'<td class="flip_%s"><label for="group_%d"><img src="%s" alt="" /> %s</label></td></tr>'
 				,$id
 				,md5($group)
-				,(($Bambus->UsersAndGroups->isMemberOf($victim, $group)) ? 'checked="checked" ' : '')
+				,(($SUsersAndGroups->isMemberOf($victim, $group)) ? 'checked="checked" ' : '')
 				,$flip
 				,$id
 				,WIcon::pathFor('group', 'mimetype')
@@ -89,7 +93,7 @@ if($edit_mode == 'usr')
 	}
 	echo LGui::endTable();
 	echo LGui::verticalSpace();
-	$usergroups = $Bambus->UsersAndGroups->listGroupsOfUser($victim);
+	$usergroups = $SUsersAndGroups->listGroupsOfUser($victim);
 	
 	/////////////////
 	//primary group//
@@ -101,10 +105,10 @@ if($edit_mode == 'usr')
 	$selected = '';
 	foreach($usergroups as $usergroup)
 	{
-		if($Bambus->UsersAndGroups->isGroup($usergroup) && !$Bambus->UsersAndGroups->isSystemGroup($usergroup))
+		if($SUsersAndGroups->isGroup($usergroup) && !$SUsersAndGroups->isSystemGroup($usergroup))
 		{
 			$grparray[$usergroup] = htmlentities($usergroup);
-			if($Bambus->UsersAndGroups->getPrimaryGroup($victim) == $usergroup)
+			if($SUsersAndGroups->getPrimaryGroup($victim) == $usergroup)
 			{
 				$selected = $usergroup;
 			}
@@ -125,7 +129,7 @@ if($edit_mode == 'usr')
 	echo LGui::beginTable();
 	printf('<tr><th class="tdicon">&nbsp;</th><th>%s</th></tr>',SLocalization::get('assignment_of_system_groups'));
 	$id = 1;
-	foreach($Bambus->UsersAndGroups->listSystemGroups() as $sysgroup)
+	foreach($SUsersAndGroups->listSystemGroups() as $sysgroup)
 	{
 		$desc = '<br /><small><i>'.SLocalization::get('SystemGroupDescription_'.$sysgroup).'</i></small>';
 		$flip = ($flip == '1') ? '2' : '1';
@@ -137,8 +141,8 @@ if($edit_mode == 'usr')
 							'<td class="flip_%s"><label for="sysgroup_%s"><img src="%s" alt="" /> %s</label></td></tr>'
 						,$id
 						,md5($sysgroup)
-						,(($Bambus->UsersAndGroups->isMemberOf($victim, 'Administrator')) ? 'disabled="disabled" ' : '')
-							.(($Bambus->UsersAndGroups->isMemberOf($victim, $sysgroup)) ? 'checked="checked" ' : '')
+						,(($SUsersAndGroups->isMemberOf($victim, 'Administrator')) ? 'disabled="disabled" ' : '')
+							.(($SUsersAndGroups->isMemberOf($victim, $sysgroup)) ? 'checked="checked" ' : '')
 						,$flip
 						,$id
 						,WIcon::pathFor('system-group', 'mimetype')
@@ -148,12 +152,12 @@ if($edit_mode == 'usr')
 			}
 			else
 			{
-				printf('<tr><th class="tdicon"><input id="sysgroup_admin" type="checkbox" name="join_group_%s" %s onchange="checkothers(this.checked);" /></th><td class="flip_%s"><label for="sysgroup_admin"><img src="%s" alt="" /> %s</label></td></tr>', md5($sysgroup), (($Bambus->UsersAndGroups->isMemberOf($victim, $sysgroup)) ? 'checked="checked" ' : ''), $flip, WIcon::pathFor('system-group', 'mimetype'), htmlentities($sysgroup).$desc);
+				printf('<tr><th class="tdicon"><input id="sysgroup_admin" type="checkbox" name="join_group_%s" %s onchange="checkothers(this.checked);" /></th><td class="flip_%s"><label for="sysgroup_admin"><img src="%s" alt="" /> %s</label></td></tr>', md5($sysgroup), (($SUsersAndGroups->isMemberOf($victim, $sysgroup)) ? 'checked="checked" ' : ''), $flip, WIcon::pathFor('system-group', 'mimetype'), htmlentities($sysgroup).$desc);
 			}
 		}
 		else
 		{
-				printf('<tr><th class="tdicon"><input type="checkbox" disabled="disabled" %s /></th><td class="flip_%s"><img src="%s" alt="" /> %s</td></tr>', (($Bambus->UsersAndGroups->isMemberOf($victim, $sysgroup)) ? 'checked="checked" ' : ''), $flip, WIcon::pathFor('system-group', 'mimetype'),htmlentities($sysgroup).$desc);
+				printf('<tr><th class="tdicon"><input type="checkbox" disabled="disabled" %s /></th><td class="flip_%s"><img src="%s" alt="" /> %s</td></tr>', (($SUsersAndGroups->isMemberOf($victim, $sysgroup)) ? 'checked="checked" ' : ''), $flip, WIcon::pathFor('system-group', 'mimetype'),htmlentities($sysgroup).$desc);
 		}
 	}
 	echo LGui::endTable();
@@ -175,7 +179,7 @@ ROW;
 	echo LGui::beginTable();
 	echo LGui::tableHeader(array(SLocalization::get('description')));
 	echo LGui::beginTableRow();
-	echo htmlentities($Bambus->UsersAndGroups->getGroupDescription($victim));
+	echo htmlentities($SUsersAndGroups->getGroupDescription($victim));
 	echo LGui::endTableRow();
 	echo LGui::endTable();
 	echo LGui::verticalSpace();
@@ -183,7 +187,7 @@ ROW;
 	echo LGui::tableHeader(array(SLocalization::get('assigned_users')));
 	echo LGui::beginTableRow();
 	
-	$assignedUsers = $Bambus->UsersAndGroups->listUsersOfGroup($victim);
+	$assignedUsers = $SUsersAndGroups->listUsersOfGroup($victim);
 	sort($assignedUsers, SORT_STRING);
 	if(is_array($assignedUsers) && count($assignedUsers) > 0)
 	{
@@ -191,7 +195,7 @@ ROW;
 		{
 			printf(
 					$urow
-					,($Bambus->UsersAndGroups->isMemberOf($user, 'Administrator')) ? 'Gold' : ''
+					,($SUsersAndGroups->isMemberOf($user, 'Administrator')) ? 'Gold' : ''
 					,htmlentities($user)
 				);
 		}

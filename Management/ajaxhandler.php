@@ -25,27 +25,31 @@ list($get, $post, $session, $uploadfiles) = $Bambus->initialize($_GET,$_POST,$_S
 
 $get['editor'] = isset($get['editor']) ? $get['editor'] : '';
 $appName = substr($get['editor'],0,((strlen(DFileSystem::suffix($get['editor']))+1)*-1));
-if($Bambus->UsersAndGroups->isValidUser($bambus_user, $bambus_password) 
+
+$SUsersAndGroups = SUsersAndGroups::alloc()->init();
+
+if($SUsersAndGroups->isValidUser($bambus_user, $bambus_password) 
 	&& (
-		$Bambus->UsersAndGroups->isMemberOf($bambus_user, 'Administrator')
+		$SUsersAndGroups->isMemberOf($bambus_user, 'Administrator')
 		||(
-			$Bambus->UsersAndGroups->hasPermission($bambus_user, $appName)
-			&& $Bambus->UsersAndGroups->isMemberOf($bambus_user, 'CMS') 	
+			$SUsersAndGroups->hasPermission($bambus_user, $appName)
+			&& $SUsersAndGroups->isMemberOf($bambus_user, 'CMS') 	
 		)
 	)
   )
 {
+    //FIXME to be done by users and groups class
     //export the config into an array
 	define('BAMBUS_USER', $bambus_user);
-	define('BAMBUS_USER_GROUPS', implode('; ', $Bambus->UsersAndGroups->listGroupsOfUser(BAMBUS_USER)));
-	define('BAMBUS_GRP_ADMINISTRATOR', $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-	define('BAMBUS_GRP_CREATE', $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'Create') || $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-	define('BAMBUS_GRP_RENAME', $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'Rename') || $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-	define('BAMBUS_GRP_DELETE', $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'Delete') || $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-	define('BAMBUS_GRP_EDIT', $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'Edit') || $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-	define('BAMBUS_GRP_CMS', $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'CMS') || $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-	define('BAMBUS_GRP_PHP', $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'PHP') || $Bambus->UsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-	define('BAMBUS_PRIMARY_GROUP', $Bambus->UsersAndGroups->getPrimaryGroup(BAMBUS_USER));
+	define('BAMBUS_USER_GROUPS', implode('; ', $SUsersAndGroups->listGroupsOfUser(BAMBUS_USER)));
+	define('BAMBUS_GRP_ADMINISTRATOR', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
+	define('BAMBUS_GRP_CREATE', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Create') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
+	define('BAMBUS_GRP_RENAME', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Rename') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
+	define('BAMBUS_GRP_DELETE', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Delete') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
+	define('BAMBUS_GRP_EDIT', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Edit') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
+	define('BAMBUS_GRP_CMS', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'CMS') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
+	define('BAMBUS_GRP_PHP', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'PHP') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
+	define('BAMBUS_PRIMARY_GROUP', $SUsersAndGroups->getPrimaryGroup(BAMBUS_USER));
     
     //build the shiny bambus menu-bar and check the editor permissions
 	define('BAMBUS_APPLICATION_DIRECTORY',  SPath::SYSTEM_APPLICATIONS.BAMBUS_APPLICATION.'/');
