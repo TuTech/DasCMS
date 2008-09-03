@@ -40,7 +40,7 @@ foreach(
 ?>
 </table>
 <br />
-<h3><?php SLocalization::out('enviornment');?></h3>
+<h3><?php SLocalization::out('environment');?></h3>
 <table cellspacing="0" class="borderedtable full">
 <tr>
 	<th><?php SLocalization::out('software');?></th>
@@ -56,12 +56,12 @@ foreach(
 <?php
 if(!empty($_GET['_action']) && $_GET['_action'] == 'repair_rights')
 {
-	SNotificationCenter::alloc()->init()->report('message', 'repair_tried');
+	SNotificationCenter::report('message', 'repair_tried');
 }
 pdirlist_r();
 if($out == array())
 {
-	SNotificationCenter::alloc()->init()->report('message', 'all_file_permissions_are_ok');
+	SNotificationCenter::report('message', 'all_file_permissions_are_ok');
 }
 else
 {

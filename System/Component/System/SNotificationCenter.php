@@ -16,9 +16,9 @@ class SNotificationCenter extends BSystem implements IShareable
 	
 	//IShareable
 	const Class_Name = 'SNotificationCenter';
-	public static $sharedInstance = NULL;
+	private static $sharedInstance = NULL;
 	private static $initializedInstance = false;
-	
+	private static $notifications = array(); 
 	/**
      * @return SNotificationCenter
      */
@@ -68,23 +68,61 @@ class SNotificationCenter extends BSystem implements IShareable
 		$etype = substr($etype,strlen('EContent'));
 		$etype = substr($etype,0,strlen('Event')*-1);
 		$etype = str_replace('Changed', 'Saved', $etype);
-		$NFC = NotificationCenter::alloc();
-		$NFC->init();
-		$NFC->report(($etype == 'Revoked') ? 'warning' : 'message', strtolower($etype), array());
+		self::report(($etype == 'Revoked') ? 'warning' : 'message', strtolower($etype), array());
 	}
 	
-	public function report($type, $message)
+	private static function alertLog($type, $message)
 	{
-		$NFC = NotificationCenter::alloc();
-		$NFC->init();
-		$NFC->report($type, $message, array());
+	    $tpl = new WTemplate('log_entry', WTemplate::SYSTEM);
+	    $tpl->setEnvironment(array(
+           'message' => $message
+            ,'message_type' => $type
+            ,'edit' => ''
+            ,'user' => defined('BAMBUS_USER') ? constant('BAMBUS_USER') : ''
+            ,'application' =>  defined('BAMBUS_APPLICATION') ? constant('BAMBUS_APPLICATION') : ''
+            ,'timestamp' => time()
+            ,'ip_address' => getenv ("REMOTE_ADDR")
+            ,'cms_root' =>  defined('BAMBUS_CMS_ROOT') ? constant('BAMBUS_CMS_ROOT') : ''
+            ,'working_dir' => getcwd()
+            ,'seperator' => "\t"
+            ,'attibutes' => ''
+	    ));
+        DFileSystem::Append(BAMBUS_CMS_ROOT.'/alerts.log', $tpl->render()."\n");    
+	}
+	
+	public static function report($type, $message)
+	{
+	    if($type == 'alert')
+	    {
+	        self::alertLog($type, $message);
+	    }
+	    
+	    //notifications to be sent on __toString()
+        $msgid = crc32($type.$message);
+	    if(array_key_exists($msgid, self::$notifications))
+	    {
+	        self::$notifications[crc32($type.$message)][2]++;
+	    }
+	    else
+	    {
+	       self::$notifications[crc32($type.$message)] = array($type, $message, 1);
+	    } 
 	}
 	
 	public function __toString()
 	{
-		$NFC = NotificationCenter::alloc();
-        $NFC->init();
-        return $NFC->notifier();
+	    $msgs = '<div id="notifier"><div id="notifications">';
+        foreach (self::$notifications as $ntf) 
+        {
+        	$msgs = sprintf(
+                "%s<div class=\"%s\">%s</div>\n"
+                ,$msgs
+                ,$ntf[0]
+                ,$ntf[1].($ntf[2] > 1 ? ' ('.$ntf[2].')':'')
+            );
+        }
+        $msgs .= '</div></div>';
+	    return $msgs; 
 	}
 }
 ?>

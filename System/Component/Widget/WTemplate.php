@@ -19,7 +19,7 @@ class WTemplate extends BWidget
     
     private $template;
     private $scope = self::CONTENT;
-    private $enviornment = array();
+    private $environment = array();
     private static $globalEnviornment = array();
     
     //@todo WTemplate::available(WTemplate::SYSTEM);
@@ -62,26 +62,26 @@ class WTemplate extends BWidget
     
     public function get($key)
     {
-        if(!array_key_exists($key, $this->enviornment))
+        if(!array_key_exists($key, $this->environment))
         {
             throw new XUndefinedIndexException($key, 404);
         }
-        return $this->enviornment[$key];
+        return $this->environment[$key];
     }
     
     public function set($key, $value)
     {
-        $this->enviornment[strval($key)] = $value;
+        $this->environment[strval($key)] = $value;
     }
     
-    public function setEnvornment(array $env)
+    public function setEnvironment(array $env)
     {
-        $this->enviornment = $env;
+        $this->environment = $env;
     }
     
-    public function getEnvornment()
+    public function getEnvironment()
     {
-        return $this->enviornment;
+        return $this->environment;
     }
     
     /**
@@ -137,7 +137,7 @@ class WTemplate extends BWidget
     {
         $string = $this->getTemplateString();
         $data = self::$globalEnviornment;
-        foreach($this->enviornment as $key => $value)
+        foreach($this->environment as $key => $value)
         {
             $data[$key] = $value;
         }

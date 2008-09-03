@@ -50,7 +50,7 @@ foreach($files as $file){
         'type' => 'manager_image'
     );
     $tpl = new WTemplate($itemTemplate, WTemplate::STRING);
-    $tpl->setEnvornment($output);
+    $tpl->setEnvironment($output);
     $tpl->render();
 }
 echo LGui::endForm();

@@ -104,7 +104,7 @@ class Configuration extends Bambus implements IShareable
     //save changed config
     public function save()
     {
-    	SNotificationCenter::alloc()->init()->report('message', 'configuration_saved');
+    	SNotificationCenter::report('message', 'configuration_saved');
         $file = SPath::SYSTEM.'configuration/system.php';
         return DFileSystem::SaveData($file, $this->configuration);
     }

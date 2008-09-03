@@ -19,7 +19,7 @@ if(!preg_match(DOMAINREGEXP,$argv[1]))
 		"regexp is ".DOMAINREGEXP."\n");
 }
 chdir(DOCUMENTROOT);// /srv/www/
-printf("Creating enviornment for new cms\n");
+printf("Creating environment for new cms\n");
 //check domain 
 if(!is_dir($argv[1]))
 {

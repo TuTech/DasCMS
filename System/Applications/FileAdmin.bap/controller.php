@@ -5,7 +5,7 @@ $notAllowed = array('php', 'cgi', 'php3', 'php4', 'php5', 'php6', 'asp', 'aspx',
 if(isset($_FILES['bambus_file']['name']) && BAMBUS_GRP_CREATE){ 
     // we have got an upload
     if(file_exists(SPath::DOWNLOADS.basename($_FILES['bambus_file']['name'])) && empty($post['bambus_overwrite_file'])){
-        SNotificationCenter::alloc()->init()->report('warning', 'upload_failed_because_file_already_exists');
+        SNotificationCenter::report('warning', 'upload_failed_because_file_already_exists');
     }else{
         //file does not exist or we are allowed to overwrite it
         $tmp = explode('.', $_FILES['bambus_file']['name']);
@@ -15,16 +15,16 @@ if(isset($_FILES['bambus_file']['name']) && BAMBUS_GRP_CREATE){
             //we like him
             if(@move_uploaded_file($_FILES['bambus_file']['tmp_name'], SPath::DOWNLOADS.basename(utf8_decode($_FILES['bambus_file']['name'])))){
                 //i like to move it move it
-                SNotificationCenter::alloc()->init()->report('message', 'file_uploaded');
+                SNotificationCenter::report('message', 'file_uploaded');
                 chmod(SPath::DOWNLOADS.basename(utf8_decode($_FILES['bambus_file']['name'])), 0666);
                 $succesfullUpload = basename(utf8_decode($_FILES['bambus_file']['name']));
                 DFileSystem::Append(SPath::LOGS.'files.log', sprintf("%s\t%s\t%s\t%s\n", date('r'), BAMBUS_USER, 'upload', $_FILES['bambus_file']['name']));
             }else{
-                SNotificationCenter::alloc()->init()->report('warning', 'uploded_failed');
+                SNotificationCenter::report('warning', 'uploded_failed');
             }
         }else{
             //run away and scream
-            SNotificationCenter::alloc()->init()->report('warning', 'uploded_failed');
+            SNotificationCenter::report('warning', 'uploded_failed');
         }
         
     }
@@ -37,10 +37,10 @@ if(!empty($post['action']) && $post['action'] == 'delete' && BAMBUS_GRP_DELETE)
 		if(!empty($post['select_'.md5($file)]))
 		{
 	        if(unlink(SPath::DOWNLOADS.$file)){
-	            SNotificationCenter::alloc()->init()->report('message', 'file_deleted');
+	            SNotificationCenter::report('message', 'file_deleted');
                 DFileSystem::Append(SPath::LOGS.'files.log', sprintf("%s\t%s\t%s\t%s\n", date('r'), BAMBUS_USER, 'delete',$file));
 	        }else{
-	            SNotificationCenter::alloc()->init()->report('warning', 'could_not_delete_file');
+	            SNotificationCenter::report('warning', 'could_not_delete_file');
 	        }
 			
 		}

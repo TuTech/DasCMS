@@ -11,7 +11,7 @@ if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
 
 if(!empty($_POST['rebuildAliasDatabase']) && BAMBUS_GRP_ADMINISTRATOR)
 {
-	SNotificationCenter::alloc()->init()->report('message', 'rebuilding alias database');
+	SNotificationCenter::report('message', 'rebuilding alias database');
 	SAlias::alloc()->init()->rebuildAliases();
 }
 function getData($key, $GPCarray)

@@ -22,7 +22,7 @@ if(isset($_FILES['bambus_image_file']['name']) && BAMBUS_GRP_CREATE)
     if(file_exists(SPath::IMAGES.basename($_FILES['bambus_image_file']['name'])) 
       && empty($post['bambus_overwrite_image_file']))
     {
-        SNotificationCenter::alloc()->init()->report('warning', 'upload_failed_because_file_already_exists');
+        SNotificationCenter::report('warning', 'upload_failed_because_file_already_exists');
     }
     else
     {
@@ -39,7 +39,7 @@ if(isset($_FILES['bambus_image_file']['name']) && BAMBUS_GRP_CREATE)
             if(move_uploaded_file($_FILES['bambus_image_file']['tmp_name'], SPath::IMAGES.basename(utf8_decode($_FILES['bambus_image_file']['name']))))
             {
                 //i like to move it move it
-                SNotificationCenter::alloc()->init()->report('message', 'file_uploaded');
+                SNotificationCenter::report('message', 'file_uploaded');
                 chmod(SPath::IMAGES.basename(utf8_decode($_FILES['bambus_image_file']['name'])), 0666);
                 $succesfullUpload = basename(utf8_decode($_FILES['bambus_image_file']['name']));
                 //create thumbnail image
@@ -48,13 +48,13 @@ if(isset($_FILES['bambus_image_file']['name']) && BAMBUS_GRP_CREATE)
             }
             else
             {
-                SNotificationCenter::alloc()->init()->report('message', 'uploded_failed');
+                SNotificationCenter::report('message', 'uploded_failed');
             }
         }
         else
         {
             //run away and scream
-            SNotificationCenter::alloc()->init()->report('warning', 'upload_failed_because_of_unsupported_file_type');
+            SNotificationCenter::report('warning', 'upload_failed_because_of_unsupported_file_type');
         }
         
     }
@@ -72,9 +72,9 @@ if(count($Files) > 0)
 			if(!empty($post['select_'.md5($file)]))
 			{
 		        if(@unlink(SPath::IMAGES.$file)){
-		        	SNotificationCenter::alloc()->init()->report('message', 'file_deleted');
+		        	SNotificationCenter::report('message', 'file_deleted');
 		        }else{
-		            SNotificationCenter::alloc()->init()->report('warning', 'could_not_delete_file');
+		            SNotificationCenter::report('warning', 'could_not_delete_file');
 		        }
 				
 			}

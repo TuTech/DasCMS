@@ -40,7 +40,7 @@ foreach($files as $file){
         'name' => wordwrap(htmlentities($file),1,"<wbr />",true),
     );
     $tpl = new WTemplate($itemTemplate, WTemplate::STRING);
-    $tpl->setEnvornment($output);
+    $tpl->setEnvironment($output);
     $tpl->render();
 }
 echo LGui::endForm();

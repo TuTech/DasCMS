@@ -39,7 +39,7 @@ foreach($files as $id => $file){
         'name' => wordwrap(htmlentities($file,ENT_QUOTES, 'utf-8'),8,"<wbr />",true),
     );
     $tpl = new WTemplate($itemTemplate, WTemplate::STRING);
-    $tpl->setEnvornment($output);
+    $tpl->setEnvironment($output);
     $tpl->render();
 }
 echo LGui::endForm();

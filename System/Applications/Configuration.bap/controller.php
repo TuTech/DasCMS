@@ -80,21 +80,21 @@ if(!empty($post['404redirect']))
     $htaccess = "ErrorDocument 404 ".$cms_root_path."/index.php";
     if(!empty($post['error_404_overwrite_htaccess']) && file_exists(basename($post['htaccessfile'])))
     {
-        SNotificationCenter::alloc()->init()->report('information', 'sorry_but_your_htaccess-file_has_been_overwritten');
+        SNotificationCenter::report('information', 'sorry_but_your_htaccess-file_has_been_overwritten');
     }
     DFileSystem::Save(basename($post['htaccessfile']), $htaccess);
 }
 elseif(!empty($post['error_404_overwrite_htaccess']) && file_exists(basename($post['htaccessfile'])))
 {
     unlink(basename($post['htaccessfile']));
-    SNotificationCenter::alloc()->init()->report('information', 'sorry_but_your_htaccess-file_has_been_deleted');
+    SNotificationCenter::report('information', 'sorry_but_your_htaccess-file_has_been_deleted');
 }
 else
 {
     //    	echo $post['404redirect'];
 }
 $ncfg->save();
-SNotificationCenter::alloc()->init()->report('message', 'configuration_saved-file_has_been_overwritten');
+SNotificationCenter::report('message', 'configuration_saved-file_has_been_overwritten');
 $cfgchd = true;
 }
 $config = $Bambus->Configuration->as_array();
@@ -102,6 +102,6 @@ $config = $Bambus->Configuration->as_array();
 if(!empty($post['_clear_cache']) && BAMBUS_GRP_DELETE)
 {//clear cache
 clearCache();
-SNotificationCenter::alloc()->init()->report('message', 'cache_cleared');
+SNotificationCenter::report('message', 'cache_cleared');
 }
 ?>

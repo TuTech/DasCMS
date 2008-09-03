@@ -56,7 +56,7 @@ function __autoload($className)
 		}
 		else
 		{
-			SNotificationCenter::alloc()->init()->report('alert', 'could_not_load_class'.$className);
+			SNotificationCenter::report('alert', 'could_not_load_class'.$className);
 		}
 		
 	}
@@ -117,7 +117,7 @@ class Bambus extends BObject
     
     
     ////////////////////////////////
-    //define enviornment variables//
+    //define environment variables//
     ////////////////////////////////
     
     function Bambus()

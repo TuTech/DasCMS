@@ -23,7 +23,7 @@ if(isset($_FILES['bambus_image_file']['name']) && BAMBUS_GRP_CREATE)
     if(file_exists(SPath::DESIGN.basename($_FILES['bambus_image_file']['name'])) 
       && empty($post['bambus_overwrite_image_file']))
     {
-        SNotificationCenter::alloc()->init()->report('warning', 'upload_failed_because_file_already_exists');
+        SNotificationCenter::report('warning', 'upload_failed_because_file_already_exists');
     }
     else
     {
@@ -40,7 +40,7 @@ if(isset($_FILES['bambus_image_file']['name']) && BAMBUS_GRP_CREATE)
             if(move_uploaded_file($_FILES['bambus_image_file']['tmp_name'], SPath::DESIGN.basename(utf8_decode($_FILES['bambus_image_file']['name']))))
             {
                 //i like to move it move it
-                SNotificationCenter::alloc()->init()->report('message', 'file_uploaded');
+                SNotificationCenter::report('message', 'file_uploaded');
                 chmod(SPath::DESIGN.basename(utf8_decode($_FILES['bambus_image_file']['name'])), 0666);
                 $succesfullUpload = basename(utf8_decode($_FILES['bambus_image_file']['name']));
                 //create thumbnail image
@@ -49,13 +49,13 @@ if(isset($_FILES['bambus_image_file']['name']) && BAMBUS_GRP_CREATE)
             }
             else
             {
-                SNotificationCenter::alloc()->init()->report('warning', 'uploded_failed');
+                SNotificationCenter::report('warning', 'uploded_failed');
             }
         }
         else
         {
             //run away and scream
-            SNotificationCenter::alloc()->init()->report('warning', 'upload_failed_because_of_unsupported_file_type');
+            SNotificationCenter::report('warning', 'upload_failed_because_of_unsupported_file_type');
         }
         
     }
@@ -105,12 +105,12 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 			        //do the save operation
 			        if(DFileSystem::Save(SPath::DESIGN.$File, $post['content']))
 			        {
-			        	SNotificationCenter::alloc()->init()->report('message', '.file_saved');
+			        	SNotificationCenter::report('message', '.file_saved');
 			        	$fileContent = $post['content'];
 			        }
 			        else
 			        {
-			        	SNotificationCenter::alloc()->init()->report('alert', 'saving_failed');
+			        	SNotificationCenter::report('alert', 'saving_failed');
 			        }
 			   	}
 			}
@@ -129,9 +129,9 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 				if(!empty($post['select_'.md5($file)]))
 				{
 			        if(@unlink(SPath::DESIGN.$file)){
-			            SNotificationCenter::alloc()->init()->report('message', 'file_deleted');
+			            SNotificationCenter::report('message', 'file_deleted');
 			        }else{
-			            SNotificationCenter::alloc()->init()->report('warning', 'could_not_delete_file');
+			            SNotificationCenter::report('warning', 'could_not_delete_file');
 			        }
 					
 				}
@@ -146,12 +146,12 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 		{
 			//kill it
 			unlink(SPath::DESIGN.$File);
-		    SNotificationCenter::alloc()->init()->report('message', 'file_deleted');
+		    SNotificationCenter::report('message', 'file_deleted');
 			$FileOpened = false;
 		}
 		elseif(BAMBUS_GRP_DELETE && !empty($get['_action']) && $get['_action'] == 'delete' && $File == 'default.css')
 		{
-			SNotificationCenter::alloc()->init()->report('warning', 'this_file_cannott_be_deleted');
+			SNotificationCenter::report('warning', 'this_file_cannott_be_deleted');
 		}
 		
 		//////////
@@ -165,7 +165,7 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 				rename(SPath::DESIGN.$File, SPath::DESIGN.basename($post['filename']).'.css');
 				$FileName = basename($post['filename']);
 				$File = basename($post['filename']).'.css';
-		        SNotificationCenter::alloc()->init()->report('message', 'file_renamed');
+		        SNotificationCenter::report('message', 'file_renamed');
 		    }
 		}
 	}	
@@ -231,7 +231,7 @@ elseif(BAMBUS_APPLICATION_TAB == 'edit_templates')
 			        }
 			        else
 			        {
-			        	SNotificationCenter::alloc()->init()->report('warning', 'saving_failed');
+			        	SNotificationCenter::report('warning', 'saving_failed');
 			        }
 			   	}
 			}
@@ -245,12 +245,12 @@ elseif(BAMBUS_APPLICATION_TAB == 'edit_templates')
 		{
 			//kill it
 			unlink($Path.$File);
-		    SNotificationCenter::alloc()->init()->report('message', 'file_deleted');
+		    SNotificationCenter::report('message', 'file_deleted');
 			$FileOpened = false;
 		}
 		elseif(BAMBUS_GRP_DELETE && !empty($get['_action']) && $get['_action'] == 'delete' && in_array($File, $doNotDelete))
 		{
-			SNotificationCenter::alloc()->init()->report('warning', 'this_file_cannott_be_deleted');
+			SNotificationCenter::report('warning', 'this_file_cannott_be_deleted');
 		}
 		
 		//////////
@@ -264,7 +264,7 @@ elseif(BAMBUS_APPLICATION_TAB == 'edit_templates')
 				rename($Path.$File, $Path.basename($post['filename']).$Suffix);
 				$FileName = basename($post['filename']);
 				$File = basename($post['filename']).$Suffix;
-		        SNotificationCenter::alloc()->init()->report('message', 'file_renamed');
+		        SNotificationCenter::report('message', 'file_renamed');
 		    }
 		}
 		$EditingObject = $FileName.'.tpl';

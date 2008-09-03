@@ -63,7 +63,7 @@ if($edit != null && isset($_POST['1_p']) && $_POST['1_p'] == '0')//parent of fir
 		if(!empty($_POST['set_spore']) && QSpore::exists(getData('set_spore',$_POST)))
     	{
     		$sp = new QSpore(getData('set_spore',$_POST));
-    		SNotificationCenter::alloc()->init()->report('message', 'changing target view');
+    		SNotificationCenter::report('message', 'changing target view');
     	}
 		else
 		{
@@ -71,11 +71,11 @@ if($edit != null && isset($_POST['1_p']) && $_POST['1_p'] == '0')//parent of fir
 		}
 		NTreeNavigation::set($edit,$sp, $data[1]);
 		NTreeNavigation::Save();
-		SNotificationCenter::alloc()->init()->report('message', 'saved');
+		SNotificationCenter::report('message', 'saved');
 	}
 	catch(Exception $e)
 	{
-		SNotificationCenter::alloc()->init()->report('warning', $e->getMessage());
+		SNotificationCenter::report('warning', $e->getMessage());
 		//@todo: report error
 	}
 }

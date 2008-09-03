@@ -62,7 +62,7 @@ if(!empty($post['action']))
 		$SUsersAndGroups->setUserRealName($victim, $post['realName']);
 		$SUsersAndGroups->setUserEmail($victim, $post['email']);
 		$SUsersAndGroups->setUserAttribute($victim, 'company', $post['att_company']);
-		SNotificationCenter::alloc()->init()->report('message', 'user_profile_saved');
+		SNotificationCenter::report('message', 'user_profile_saved');
 		if(BAMBUS_GRP_ADMINISTRATOR)
 		{
 			if(!empty($post['adm_set_password']) && !empty($post['adm_set_password_confirm']) &&$post['adm_set_password_confirm'] == $post['adm_set_password'])
@@ -71,11 +71,11 @@ if(!empty($post['action']))
 			}
 			if(!empty($post['adm_set_password_confirm']) &&!empty($post['adm_set_password']) && md5($post['adm_set_password_confirm']) == $SUsersAndGroups->getPasswordHash($victim))
 			{
-				SNotificationCenter::alloc()->init()->report('message', 'new_password_set');
+				SNotificationCenter::report('message', 'new_password_set');
 			}
 			elseif(!empty($post['adm_set_password']))
 			{
-				SNotificationCenter::alloc()->init()->report('alert', 'passwords_do_not_match');
+				SNotificationCenter::report('alert', 'passwords_do_not_match');
 			}
 		}
 		else
@@ -87,11 +87,11 @@ if(!empty($post['action']))
 			  )
 			{
 				$SUsersAndGroups->setUserPassword($victim, $post['change_password_to_new']);
-				SNotificationCenter::alloc()->init()->report('message', 'password_changed');
+				SNotificationCenter::report('message', 'password_changed');
 			}
 			elseif(!empty($post['change_password_from_old']) && $SUsersAndGroups->isValidUser($victim, $post['change_password_from_old']))
 			{
-				SNotificationCenter::alloc()->init()->report('alert', 'passwords_do_not_match');
+				SNotificationCenter::report('alert', 'passwords_do_not_match');
 			}
 		}
 	}
@@ -105,14 +105,14 @@ if(!empty($post['action']))
 		if(!empty($post['new_group_name']) && isset($post['new_group_description']))
 		{
 			$SUsersAndGroups->addGroup($post['new_group_name'], $post['new_group_description']);
-			SNotificationCenter::alloc()->init()->report('message', 'group_created');
+			SNotificationCenter::report('message', 'group_created');
 			$edit = $post['new_group_name'];
 			$victim = $post['new_group_name'];
 			$edit_mode = 'grp';
 		}
 		else
 		{
-			SNotificationCenter::alloc()->init()->report('warning', 'no_group_name_specified');
+			SNotificationCenter::report('warning', 'no_group_name_specified');
 		}
 	}
 	////////////////
@@ -134,7 +134,7 @@ if(!empty($post['action']))
 			///////////////
 			
 			$SUsersAndGroups->addUser($post['new_user_name'], $post['new_user_password'], $post['new_user_name_and_surname'], $post['new_user_email']);
-			SNotificationCenter::alloc()->init()->report('message', 'user_created');
+			SNotificationCenter::report('message', 'user_created');
 			$victim = $post['new_user_name'];
 			$edit_mode = 'usr';
 			$Bambus->Linker->set('get', 'edit', $victim);
@@ -148,23 +148,23 @@ if(!empty($post['action']))
 			
 			if(($post['new_user_password']) != ($post['new_user_password_check']))
 			{
-				SNotificationCenter::alloc()->init()->report('warning', 'passwords_not_equal');
+				SNotificationCenter::report('warning', 'passwords_not_equal');
 			}
 			elseif($SUsersAndGroups->isUser($post['new_user_name']))
 			{
-				SNotificationCenter::alloc()->init()->report('warning', 'user_already_exists');
+				SNotificationCenter::report('warning', 'user_already_exists');
 			}
 			elseif(empty($post['new_user_name']))
 			{
-				SNotificationCenter::alloc()->init()->report('warning', 'username_has_to_be_set');
+				SNotificationCenter::report('warning', 'username_has_to_be_set');
 			}
 			elseif(empty($post['new_user_password']))
 			{
-				SNotificationCenter::alloc()->init()->report('warning', 'password_has_to_be_set');
+				SNotificationCenter::report('warning', 'password_has_to_be_set');
 			}
 			else
 			{
-				SNotificationCenter::alloc()->init()->report('warning', 'failed_to_create_user');
+				SNotificationCenter::report('warning', 'failed_to_create_user');
 			}
 		}
 	}
@@ -252,7 +252,7 @@ if(!empty($post['action']))
 		//set new groups
  		$SUsersAndGroups->joinGroups($victim, $join);
  		$SUsersAndGroups->setPrimaryGroup($victim, $post['primary_group']);
- 		SNotificationCenter::alloc()->init()->report('message', 'group_assignment_saved');
+ 		SNotificationCenter::report('message', 'group_assignment_saved');
 	}
 	
 	///////////////////////////
@@ -302,11 +302,11 @@ if(!empty($post['action']))
 	    $SUsersAndGroups->grantUserPermissions($victim, $grantPermission);
 	    //send the others to hell
 	    $SUsersAndGroups->rejectUserPermissions($victim, $rejectPermission);
-	    SNotificationCenter::alloc()->init()->report('message', 'permissions_saved');
+	    SNotificationCenter::report('message', 'permissions_saved');
 	}
 	if($post['action'] == 'save_editor_group_permissions' && BAMBUS_GRP_EDIT)
 	{
-		SNotificationCenter::alloc()->init()->report('alert', 'not_implemented');
+		SNotificationCenter::report('alert', 'not_implemented');
 	}
 	
 	//update user & group data in database if it cares
@@ -328,13 +328,13 @@ if(!empty($get['_action']) && $get['_action'] == 'delete')
 		if($SUsersAndGroups->isGroup($victim) && ! $SUsersAndGroups->isSystemGroup($victim))
 		{
 			$SUsersAndGroups->removeGroup($victim);
-			SNotificationCenter::alloc()->init()->report('message', 'group_deleted');
+			SNotificationCenter::report('message', 'group_deleted');
 			$edit_mode = 'usr';
 			$victim = BAMBUS_USER;
 		}
 		else
 		{
-			SNotificationCenter::alloc()->init()->report('warning', 'this_group_cannot_be_deleted');
+			SNotificationCenter::report('warning', 'this_group_cannot_be_deleted');
 		}
 		
 	}
@@ -349,21 +349,21 @@ if(!empty($get['_action']) && $get['_action'] == 'delete')
 			$result = $SUsersAndGroups->removeUser($victim);
 			if($result)
 			{
-				SNotificationCenter::alloc()->init()->report('message', 'message');
+				SNotificationCenter::report('message', 'message');
 				$victim = BAMBUS_USER;
 			}
 			elseif($result == -1)
 			{
-				SNotificationCenter::alloc()->init()->report('warning', 'you_cannot_delete_the_last_administrator');
+				SNotificationCenter::report('warning', 'you_cannot_delete_the_last_administrator');
 			}
 			else
 			{
-				SNotificationCenter::alloc()->init()->report('warning', 'failed_to_delete_this_user');
+				SNotificationCenter::report('warning', 'failed_to_delete_this_user');
 			}
 		}
 		else
 		{
-			SNotificationCenter::alloc()->init()->report('warning', 'you_do_not_have_the_permission_to_delete_this_user');
+			SNotificationCenter::report('warning', 'you_do_not_have_the_permission_to_delete_this_user');
 		}
 	}
 	$dbNeedsUpdate = true;

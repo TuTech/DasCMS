@@ -182,7 +182,7 @@ if($SUsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($SUsersAndG
 			//interface is coded in php an needs to be called here
 			if(!file_exists($erg) || !include($erg))
 			{
-				SNotificationCenter::alloc()->init()->report('alert', 'invalid_application');
+				SNotificationCenter::report('alert', 'invalid_application');
 			}
     	}
 		echo LGui::endApplication();
@@ -205,13 +205,13 @@ if($SUsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($SUsersAndG
     if(!empty($_POST['bambus_cms_login']))
     {
         sleep(10);
-        SNotificationCenter::alloc()->init()->report('warning', 'wrong_username_or_password');
+        SNotificationCenter::report('warning', 'wrong_username_or_password');
     }
     $headTpl = new WTemplate('header', WTemplate::SYSTEM);
     $headTpl->render();
     echo LGui::beginApplication();
     $loginTpl = new WTemplate('login', WTemplate::SYSTEM);
-    $loginTpl->setEnvornment(array(
+    $loginTpl->setEnvironment(array(
         'translate:username' => SLocalization::get('username'),
         'translate:password' => SLocalization::get('password'),
         'translate:login' => SLocalization::get('login')
