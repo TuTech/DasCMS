@@ -43,18 +43,6 @@ class Application extends Bambus implements IShareable
     var $initialized = false;
     var $tab = '';  
     
-    function __construct()
-    {
-        parent::Bambus();
-        $this->initialized = false;
-    }
-    
-    public function __sleep()
-    {
-    	//do not serialize
-    	return array();
-    }
-    	
     function loadVars($get,$post,$session,$uploadfiles)
     {
 		//init program

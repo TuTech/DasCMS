@@ -36,9 +36,6 @@ class Linker extends Bambus implements IShareable
     	{
 	    	if(defined('BAMBUS_DEBUG'))printf("\n<!--[%s init]-->\n", self::Class_Name);
 	    	self::$initializedInstance = true;
-			$this->Configuration = Configuration::alloc();
-
-			$this->Configuration->init();
     	}
     	return $this;
     }
@@ -70,7 +67,7 @@ class Linker extends Bambus implements IShareable
     	
     public function myBase()
     {
-    	$base = $this->Configuration->get('cms_uri');
+    	$base = LConfiguration::get('cms_uri');
     	if(empty($base))
     	{
 	    	$base = './';

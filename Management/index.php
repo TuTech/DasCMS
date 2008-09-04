@@ -147,7 +147,7 @@ if($SUsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($SUsersAndG
 			}
 		}
 	    
-	    WHeader::setTitle(BAMBUS_APPLICATION_TITLE.' - '.$Bambus->Configuration->get('sitename'));
+	    WHeader::setTitle(BAMBUS_APPLICATION_TITLE.' - '.LConfiguration::get('sitename'));
 	    
 	    
 	    //load additional translations from the application

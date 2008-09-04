@@ -27,7 +27,7 @@ abstract class DSQL extends BDriver implements IShareable
 	{
 		if(self::$Connector == null)
 		{
-			self::$engine = Configuration::alloc()->init()->get('db_engine');
+			self::$engine = LConfiguration::get('db_engine');
 			$connector = 'DSQL_'.self::$engine;
 			if(!class_exists($connector, true))
 			{

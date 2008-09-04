@@ -52,7 +52,6 @@ function getData($key, $GPCarray)
 
 if(isset($post['writeconfig']) && BAMBUS_GRP_EDIT)
 {//save
-$ncfg = &$Bambus->Configuration;
 //die('config unsaveable');
 $post['htaccessfile'] = (empty($post['htaccessfile'])) ? '.htaccess' : $post['htaccessfile'];
  
@@ -70,8 +69,7 @@ foreach($keys as $key)
     {
         $post[$key] = (isset($post[$key])) ? $post[$key] : '';
         $post[$key] = ($post[$key] != 'on') ? $post[$key] : '1';
-        $Bambus->Configuration->set($key, trim($post[$key]));
-        $ncfg->set($key, trim($post[$key]));
+        LConfiguration::set($key, trim($post[$key]));
     }
 }
 //TODO: 404 redirect is out of order
@@ -93,11 +91,9 @@ else
 {
     //    	echo $post['404redirect'];
 }
-$ncfg->save();
 SNotificationCenter::report('message', 'configuration_saved-file_has_been_overwritten');
 $cfgchd = true;
 }
-$config = $Bambus->Configuration->as_array();
 
 if(!empty($post['_clear_cache']) && BAMBUS_GRP_DELETE)
 {//clear cache

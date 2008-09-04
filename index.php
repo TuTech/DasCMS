@@ -37,8 +37,7 @@ $Bambus = new Bambus('site');
 
 //tell bambus whats going on
 $Bambus->initialize($_GET,$_POST,$_SESSION,$_FILES, $_SERVER['REQUEST_URI']);
-$BambusConfigClass = &$Bambus->Configuration;
-$BambusConfig = $BambusConfigClass->as_array();
+$BambusConfig = LConfiguration::as_array();
 
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
@@ -59,7 +58,7 @@ define('BAMBUS_GRP_PHP', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'PHP') || $SU
 define('BAMBUS_PRIMARY_GROUP', $SUsersAndGroups->getPrimaryGroup(BAMBUS_USER));
 
 //set sometemplate keys
-WTemplate::globalSet('meta_keywords',$BambusConfigClass->get('meta_keywords'));
+WTemplate::globalSet('meta_keywords',LConfiguration::get('meta_keywords'));
 WTemplate::globalSet('bambus_version', BAMBUS_VERSION);
 WTemplate::globalSet('rssfeeds', '');
 WTemplate::globalSet('bambus_my_uri', $Bambus->Linker->myFormURL());

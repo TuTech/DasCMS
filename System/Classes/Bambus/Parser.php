@@ -190,12 +190,7 @@ if($dbg)				printf('<p>found %s at %d</p>', $found, $foundAt);
 				}
 				else
 				{
-					if($CFG == null)
-					{
-						$CFG = Configuration::alloc();
-						$CFG->init(); 
-					}
-					return $CFG->get($prop);
+					return LConfiguration::get($prop);
 				}
 			}
 			elseif(ctype_alnum($string))
@@ -223,12 +218,7 @@ if($dbg)				printf('<p>found %s at %d</p>', $found, $foundAt);
 			}
 			else
 			{
-				if($CFG == null)
-				{
-					$CFG = Configuration::alloc();
-					$CFG->init(); 
-				}
-				return $CFG->get($string);
+				LConfiguration::get($string);
 			}
 		}
 		return md5($string);

@@ -319,8 +319,6 @@ class SAlias extends BSystem implements IShareable,
 	
 	private function getUnifiedAlias($title, $pubdate)
 	{
-		$cfg = Configuration::alloc();
-		$cfg->init();
 		$prefix = '';
 		if(true)// $cfg->get('AliasPubDatePrefix'))
 		{

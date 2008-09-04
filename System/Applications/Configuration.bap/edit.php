@@ -111,16 +111,16 @@ foreach($values as $title => $settings)
 		if($options[1] == 'fullinput')
 		{
 			$text = '<input class="fullinput" type="text" size="40" name="%s" id="%s" value="%s" />';
-			$input = sprintf($text, $options[0], $options[0], htmlentities($Bambus->Configuration->get($options[0])));
+			$input = sprintf($text, $options[0], $options[0], htmlentities(LConfiguration::get($options[0])));
 		}
 		elseif($options[1] == 'checkbox')
 		{
 			$text = '<input type="checkbox" name="%s" id="%s" %s/>';
-			$input = sprintf($text, $options[0], $options[0], ($Bambus->Configuration->get($options[0]) != '1') ? '' : ' checked="checked"');		
+			$input = sprintf($text, $options[0], $options[0], (LConfiguration::get($options[0]) != '1') ? '' : ' checked="checked"');		
 		}
 		elseif($options[1] == 'password')
 		{
-			$input = sprintf('<input class="fullinput" type="password" size="40" name="db_password" value="%s" /><br /><input type="checkbox" name="chdbpasswd" />%s', (trim($Bambus->Configuration->get('db_password')) != '') ? '#######' : '' , SLocalization::get('change_db_password'));
+			$input = sprintf('<input class="fullinput" type="password" size="40" name="db_password" value="%s" /><br /><input type="checkbox" name="chdbpasswd" />%s', (trim(LConfiguration::get('db_password')) != '') ? '#######' : '' , SLocalization::get('change_db_password'));
 		}
 		printf('<tr class="flip_%s"><th scope="row"><label for="%s">%s</label></th><td>%s</td><td class="tdx100">%s</td></tr>', $flip, $options[0], SLocalization::get($name), $input,  (!empty($options[2])) ? '' : '{'.$options[0].'}');
 	}

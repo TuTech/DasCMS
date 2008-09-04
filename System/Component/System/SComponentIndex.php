@@ -165,7 +165,7 @@ class SComponentIndex extends BSystem implements IShareable
 		}
 		DFileSystem::SaveData($this->StoragePath('classes'), self::$_classIndex);
 		DFileSystem::SaveData($this->StoragePath('interfaces'), self::$_interfaceIndex);
-		$dbEngine = Configuration::alloc()->init()->get('db_engine');
+		$dbEngine = LConfiguration::get('db_engine');
 		
 		$managers = $this->ExtensionsOf("BContentManager");
 		$mangs = array();

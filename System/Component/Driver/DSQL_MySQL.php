@@ -34,15 +34,14 @@ class DSQL_MySQL extends DSQL
 	{
 		if(self::$DB == null)
     	{
-    		$cfg = Configuration::alloc()->init();
     		//$host $cfg->get()
     		self::$DB = new mysqli(
-				$this->getCfgOrNull($cfg, 'db_server'),
-				$this->getCfgOrNull($cfg, 'db_user'),
-				$this->getCfgOrNull($cfg, 'db_password'),
-				$this->getCfgOrNull($cfg, 'db_name'),
-				$this->getCfgOrNull($cfg, 'db_port'),
-				$this->getCfgOrNull($cfg, 'db_socket'));
+				$this->getCfgOrNull('db_server'),
+				$this->getCfgOrNull('db_user'),
+				$this->getCfgOrNull('db_password'),
+				$this->getCfgOrNull('db_name'),
+				$this->getCfgOrNull('db_port'),
+				$this->getCfgOrNull('db_socket'));
 			if(mysqli_connect_errno() != 0)
 			{
 				throw new XDatabaseException(mysqli_connect_error(), mysqli_connect_errno());
@@ -51,9 +50,9 @@ class DSQL_MySQL extends DSQL
     	}
 	}
 	
-	private function getCfgOrNull(Configuration $cfg, $key)
+	private function getCfgOrNull($key)
 	{
-		$dat = $cfg->get($key);
+		$dat = LConfiguration::get($key);
 		return empty($dat) ? null : $dat; 
 	}
 	
