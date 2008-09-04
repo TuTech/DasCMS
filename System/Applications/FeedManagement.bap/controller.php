@@ -105,8 +105,7 @@ if($FeedManager->Exists(getData('edit', $_GET)))
 }
 if(BAMBUS_GRP_EDIT)
 {
-	printf('<form method="post" id="documentform" name="documentform" action="%s">', 
-		$Bambus->Linker->createQueryString());
+	printf('<form method="post" id="documentform" name="documentform" action="%s">', SLink::link());
 }
 
 echo $SideBar;
@@ -138,7 +137,7 @@ if($FeedManager->Items > 0)
 				'<span title="description">%s</span>' ."\n\t".
 				'<span title="category">%s</span>' ."\n".
 			"</a>\n"
-			,$Bambus->Linker->createQueryString(array('edit' => $item))
+			,SLink::link(array('edit' => $item))
 			,htmlspecialchars($name)
 			,WIcon::pathFor('news-channel', 'mimetype',WIcon::MEDIUM)
 			,($item === 0) ? SLocalization::get('provides_all_published_objects') : ' '

@@ -363,8 +363,7 @@ array objectid => spore
 				$dat[$this->name.'-'.$name] = $value;
 			}
 		}
-		$linker = Linker::alloc()->init();
-		return $linker->createQueryString($dat);
+		return SLink::link($dat);
 	}
 	/* begin * * ITemplateSupporter**/
 	

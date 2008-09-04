@@ -47,9 +47,7 @@ if($succesfullUpload != false)
 		'<tr><th class="left_th">%s</th><td><div class="thumbnail"><img src="%s" alt="" title="%s" />%s</div></td></tr>'
 		,SLocalization::get('recently_uploaded_file')
 		,(($uploadIsImage) 
-			//preview image
-			//? 'thumbnail.php'.$Bambus->Linker->createQueryString(array('render' => $succesfullUpload, 'path' => 'design'))
-			? html_entity_decode($Bambus->Linker->createQueryString(array('render' => $succesfullUpload, 'path' => 'design'),false,'thumbnail.php'))
+			? html_entity_decode(SLink::link(array('render' => $succesfullUpload, 'path' => 'design'),'thumbnail.php'))
 			//file icon
 			: (file_exists(WIcon::pathFor($suffix, 'mimetype',WIcon::LARGE)))
 				? WIcon::pathFor($suffix, 'mimetype',WIcon::LARGE)

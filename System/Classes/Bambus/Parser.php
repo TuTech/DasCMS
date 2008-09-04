@@ -143,7 +143,6 @@ if($dbg)				printf('<p>found %s at %d</p>', $found, $foundAt);
 	private function exec_cmd($string, $Object = NULL)
 	{
 		$SCI = SComponentIndex::alloc()->init();
-		$Linker = null;
 		$CFG = null;
 		//if($Object != NULL)
 		{
@@ -166,14 +165,17 @@ if($dbg)				printf('<p>found %s at %d</p>', $found, $foundAt);
 				{
 					return $this->cmsCallBack($prop);
 				}
-				elseif($class === 'Linker')
+				elseif($class === 'SLink')
 				{
-					if($Linker == null)
-					{
-						$Linker = Linker::alloc();
-						$Linker->init();
-					}
-					return $Linker->{$prop}();
+				    switch ($prop) 
+				    {
+				    	case 'base':
+				    		return SLink::base();
+				    		break;
+				    	case 'link':
+				    	    return SLink::link();
+				    	break;
+				    }
 				}
 				elseif(class_exists($class, true))
 				{

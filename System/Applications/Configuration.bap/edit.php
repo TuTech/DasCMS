@@ -8,7 +8,7 @@
 ************************************************/
 if(BAMBUS_GRP_EDIT)
 {
-	printf('<form method="post" id="documentform" name="documentform" action="%s">', $Bambus->Linker->createQueryString());
+	printf('<form method="post" id="documentform" name="documentform" action="%s">', SLink::link());
 }
 $values = array(
 	"settings" => array(

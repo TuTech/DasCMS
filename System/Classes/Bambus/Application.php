@@ -30,9 +30,6 @@ class Application extends Bambus implements IShareable
     	{
     		if(defined('BAMBUS_DEBUG'))printf("\n<!--[%s init]-->\n", self::Class_Name);
 	    	self::$initializedInstance = true;
-	    	$this->Linker = Linker::alloc();
-
-	    	$this->Linker->init();
     	}
     }
   	//end IShareable

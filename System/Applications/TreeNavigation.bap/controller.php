@@ -144,7 +144,7 @@ if(count($navigations) > 0)
 				'<span title="description">%s</span>' ."\n\t".
 				'<span title="category">%s</span>' ."\n".
 			"</a>\n"
-			,$Bambus->Linker->createQueryString(array('edit' => $item))
+			,SLink::link(array('edit' => $item))
 			,htmlspecialchars($item, ENT_QUOTES, 'UTF-8')
 			,WIcon::pathFor('navigation', 'mimetype',WIcon::MEDIUM)
 			,' '

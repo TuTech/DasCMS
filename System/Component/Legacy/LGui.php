@@ -53,12 +53,10 @@ class LGui extends BLegacy
 
     public static function beginMultipartForm($_get_values = array(), $id = '')
     {
-        $Linker = Linker::alloc();
-        $Linker->init();
         if(!is_array($_get_values))$_get_values = array();
         return sprintf(
             "<form enctype=\"multipart/form-data\" action=\"%s\"%s method=\"post\">\n", 
-            $Linker->createQueryString($_get_values), 
+            SLink::link($_get_values), 
             (empty($id)) 
                 ? '' 
                 : (sprintf(' id="%s"', $id).(($id == 'documentform') ? ' name="documentform"' : '')));
@@ -108,15 +106,13 @@ class LGui extends BLegacy
 
     public static function beginForm($_get_values = array(), $id = '')
     {
-        $Linker = Linker::alloc();
-        $Linker->init();
         if($id == 'documentform')
         {
             $id = 'documentform" name="documentform';
         }
         $id = (empty($id)) ? '' : ' id="'.$id.'"';
         if(!is_array($_get_values))$_get_values = array();
-        $action = $Linker->createQueryString($_get_values);
+        $action = SLink::link($_get_values);
         return "<form action=\"".$action."\" method=\"post\"".$id.">\n";
     }
 

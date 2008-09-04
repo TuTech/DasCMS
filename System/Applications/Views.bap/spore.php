@@ -11,8 +11,7 @@ if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
 if(BAMBUS_GRP_EDIT)
 {
 	printf(
-		'<form method="post" id="documentform" name="documentform" action="%s"><input type="hidden" name="posted" value="1" />', 
-		$Bambus->Linker->createQueryString()
+		'<form method="post" id="documentform" name="documentform" action="%s"><input type="hidden" name="posted" value="1" />', SLink::link()
 	);
 }
 ?>

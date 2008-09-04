@@ -61,7 +61,7 @@ list($get, $post, $session, $uploadfiles) = $Bambus->initialize($_GET,$_POST,$_S
 WTemplate::globalSet('logotext', BAMBUS_VERSION);
 WTemplate::globalSet('WApplications', '');
 WTemplate::globalSet('SNotificationCenter', SNotificationCenter::alloc()->init());
-WTemplate::globalSet('bambus_my_uri', $Bambus->Linker->createQueryString(array(), true));
+WTemplate::globalSet('bambus_my_uri', SLink::link());
 
 
 /////////////////////////////////////
@@ -83,7 +83,7 @@ foreach ($scripts as $script)
 {
 	WHeader::useScript($path.$script);
 }
-WHeader::setBase($Bambus->Linker->myBase());
+WHeader::setBase(SLink::base());
 
 WHeader::setTitle('BoxFish');
 WHeader::meta('license', 'GNU General Public License/GPL 2 or newer');

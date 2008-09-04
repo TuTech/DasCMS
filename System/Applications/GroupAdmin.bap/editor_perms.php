@@ -49,7 +49,7 @@ $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
 if(BAMBUS_GRP_EDIT)
 {
-	printf('<form method="post" onchange="showPreview()" id="documentform" name="documentform" action="%s">',$Bambus->Linker->createQueryString());
+	printf('<form method="post" onchange="showPreview()" id="documentform" name="documentform" action="%s">',SLink::link());
 	if($edit_mode == 'usr')
 	{
     	echo LGui::hiddenInput('action', 'save_editor_permissions');

@@ -61,8 +61,8 @@ define('BAMBUS_PRIMARY_GROUP', $SUsersAndGroups->getPrimaryGroup(BAMBUS_USER));
 WTemplate::globalSet('meta_keywords',LConfiguration::get('meta_keywords'));
 WTemplate::globalSet('bambus_version', BAMBUS_VERSION);
 WTemplate::globalSet('rssfeeds', '');
-WTemplate::globalSet('bambus_my_uri', $Bambus->Linker->myFormURL());
-WTemplate::globalSet('logout_href', $Bambus->Linker->createQueryString(array('_destroy_session' => '1')));
+WTemplate::globalSet('bambus_my_uri', SLink::buildURL());
+WTemplate::globalSet('logout_href', SLink::link(array('_destroy_session' => '1')));
 
 //any stylesheets assigned to this document?
 $stylesheetLinks = '<link rel="stylesheet" href="./Content/stylesheets/default.css" type="text/css" media="all" />';

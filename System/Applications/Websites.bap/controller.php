@@ -84,7 +84,7 @@ foreach($Files as $id => $name)
 			'<span title="description">%s</span>' ."\n\t".
 			'<span title="category">TPL</span>' ."\n".
 		"</a>\n"
-		,$Bambus->Linker->createQueryString(array('edit' => $id))
+		,SLink::link(array('edit' => $id))
 		,htmlentities($name, ENT_QUOTES, 'utf-8')
 		,WIcon::pathFor('website', 'mimetype',WIcon::MEDIUM)
 		,' '
@@ -93,7 +93,7 @@ foreach($Files as $id => $name)
 echo "</span>\n</div>\n";
 
 echo '<form method="post" id="documentform" name="documentform" action="'
-	,$Bambus->Linker->createQueryString(
+	,SLink::link(
 		array(
 			'edit' => (isset($Page) && $Page instanceof CPage)? $Page->Id :''
 			)

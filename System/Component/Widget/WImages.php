@@ -64,7 +64,7 @@ class WImages extends BWidget implements ISidebarWidget
 		$html = "";
 		foreach($images as $file)
 		{
-			$imagePath = html_entity_decode($Bambus->Linker->createQueryString(array('render' => $file, 'path' => ($this->targetClass !== null) ? 'image':'design'),false,'thumbnail.php'));
+			$imagePath = html_entity_decode(SLink::link(array('render' => $file, 'path' => ($this->targetClass !== null) ? 'image':'design'),'thumbnail.php'));
 			
 			$html .= sprintf(
 				"<div class=\"thumbnail\" onclick=\"insertMedia('image','%s%s','%s')\">".	

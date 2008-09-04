@@ -137,8 +137,8 @@ if(!empty($post['action']))
 			SNotificationCenter::report('message', 'user_created');
 			$victim = $post['new_user_name'];
 			$edit_mode = 'usr';
-			$Bambus->Linker->set('get', 'edit', $victim);
-			$Bambus->Linker->set('get', 'mode', 'usr');
+			SLink::set('edit', $victim);
+			SLink::set('mode', 'usr');
 		}
 		else
 		{
@@ -397,7 +397,7 @@ if(count($users) > 0 || count($groups) > 0)
 				'<span title="description">%s</span>' ."\n\t".
 				'<span title="category">%s</span>' ."\n".
 			"</a>\n"
-			,$Bambus->Linker->createQueryString(array('edit' => $item,'mode' => 'usr'))
+			,SLink::link(array('edit' => $item,'mode' => 'usr'))
 			,htmlentities($item, ENT_QUOTES)
 			,WIcon::pathFor(($admin ? 'administrator' : 'user'), 'mimetype',WIcon::MEDIUM)
 			,$realname.' '

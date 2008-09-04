@@ -273,7 +273,7 @@ elseif(BAMBUS_APPLICATION_TAB == 'edit_templates')
 	}
 }
 echo '<form method="post" id="documentform" name="documentform" action="'
-	,$Bambus->Linker->createQueryString(array('edit' => $File))
+	,SLink::link(array('edit' => $File))
 	,'">';
 
 if(BAMBUS_APPLICATION_TAB != 'manage')
@@ -307,7 +307,7 @@ if(BAMBUS_APPLICATION_TAB != 'manage')
 				'<span title="description">%s</span>' ."\n\t".
 				'<span title="category">%s</span>' ."\n".
 			"</a>\n"
-			,$Bambus->Linker->createQueryString(array('edit' => $item,'tab' => 'edit_'.($type == 'css' ? 'css':'templates')))
+			,SLink::link(array('edit' => $item,'tab' => 'edit_'.($type == 'css' ? 'css':'templates')))
 			,($item == 'default.css') ? SLocalization::get('default.css') : htmlentities(substr($item, 0, -4))
 			,WIcon::pathFor($type == 'css' ? 'stylesheet':'template', 'mimetype', WIcon::MEDIUM)
 			,DFileSystem::formatSize(filesize(($type == 'css' ? (SPath::DESIGN) : (SPath::TEMPLATES)).$item))

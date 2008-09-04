@@ -8,7 +8,7 @@
  * @since 22.09.2006
  * @license GNU General Public License 3
  */
-class LConfiguration 
+class LConfiguration extends BLegacy 
 {
     private static $configuration = null;
     private static $configurationChanged = false;

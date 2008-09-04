@@ -82,7 +82,6 @@ class Bambus extends BObject
 
     //private
     protected $autoloadClasses = array(
-		'Linker'
 	);
 	
 	protected $managementAutoloadClasses = array(
@@ -223,12 +222,11 @@ class Bambus extends BObject
     function initialize(&$lget,$post,$session,$files, $rawUrl = false)
     {
     	//nice url reformating
-    	$this->using(array('Linker'));
         if(!defined('BAMBUS_NICE_URLS'))
             define ('BAMBUS_NICE_URLS', (LConfiguration::get('404redirect') == '1' && (!defined('BAMBUS_ACCESS_TYPE') || BAMBUS_ACCESS_TYPE != 'management')));
     	if(!empty($rawUrl))
     	{
-    		$cms_uri = $this->Linker->myBase();
+    		$cms_uri = SLink::base();
     		$siteUrlArr = parse_url($rawUrl);
     		$cmsUrlArr = parse_url($cms_uri);
 			$sitePath = ($siteUrlArr['path']);

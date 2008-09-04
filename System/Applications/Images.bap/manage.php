@@ -32,7 +32,7 @@ foreach($files as $file){
     $id = md5($file);
     $suffix = DFileSystem::suffix($file);
     $isImage = ($suffix != 'css' && $suffix != 'gpl');
-    $imagePath =  html_entity_decode($Bambus->Linker->createQueryString(array('render' => $file, 'path' => 'image'),false,'thumbnail.php'));
+    $imagePath =  html_entity_decode(SLink::link(array('render' => $file, 'path' => 'image'),'thumbnail.php'));
     $icon = (file_exists(WIcon::pathFor($suffix, 'mimetype'))) ? $suffix : 'file';
     $bigIcon = (file_exists(WIcon::pathFor($suffix, 'mimetype', WIcon::LARGE))) ? $suffix : 'file';
     $output = array('realname'  => htmlentities($file),
