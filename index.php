@@ -84,8 +84,7 @@ WTemplate::globalSet('stylesheets', $stylesheetLinks);
 $spores = QSpore::activeSpores();
 if(count($spores) > 0)
 {
-	$Parser = Parser::alloc();
-	$Parser->init();
+	$Parser = SParser::alloc()->init();
 	$Spore = new QSpore($spores[0]);
 	$content = $Spore->getContent();
 	if($content != null && $content instanceof BContent)
@@ -96,6 +95,6 @@ if(count($spores) > 0)
 			$content = MError::alloc()->init()->Open(403);
 		}
 	}
-	echo $Parser->Parse(implode('', file('Content/templates/page.tpl')), $content);
+	echo $Parser->parse(implode('', file('Content/templates/page.tpl')), $content);
 }
 ?>
