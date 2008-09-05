@@ -32,7 +32,8 @@ function __autoload($class)
         'M' => 'Manager',
 		'N' => 'Navigator',
 		'Q' => 'Query',
-		'S' => 'System',
+		'R' => 'Request',
+        'S' => 'System',
 		'W' => 'Widget',
 		'X' => 'Exception'
 	);

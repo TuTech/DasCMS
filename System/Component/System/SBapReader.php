@@ -83,11 +83,11 @@ class SBapReader extends BSystem implements IShareable
 		}
 		closedir($dirhdl);
 		
-		$selectedApp = $this->getDataFromInput('editor','get');
+		$selectedApp = RURL::get('editor');
 		if(!empty($selectedApp) && isset($available[$selectedApp]))
 		{
 			//select tab
-			$selectedTab = $this->getDataFromInput('tab','get');
+			$selectedTab = RURL::get('tab');
 			//correct if necessary
 			if(!array_key_exists($selectedTab, $available[$selectedApp]['tabs']))
 			{

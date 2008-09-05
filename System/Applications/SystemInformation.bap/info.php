@@ -54,7 +54,7 @@ foreach(
 <br />
 <h3><?php SLocalization::out('file_permission');?></h3>
 <?php
-if(!empty($_GET['_action']) && $_GET['_action'] == 'repair_rights')
+if(RURL::get('_action') == 'repair_rights')
 {
 	SNotificationCenter::report('message', 'repair_tried');
 }

@@ -51,16 +51,14 @@ class WSidebar extends BWidget
 	
 	private function selectWidget(array $widgets)
 	{
-		//@todo remove chimera bindings
-		global $_POST;
 		if(count($widgets) == 0)
 		{
 			return '';
 		}
 		$UAG = SUsersAndGroups::alloc()->init();
-		if(isset($_POST['WSidebar-selected']) && in_array($_POST['WSidebar-selected'], $widgets))
+		if(RSent::has('WSidebar-selected') && in_array(RSent::get('WSidebar-selected'), $widgets))
 		{
-			$UAG->setMyPreference('WSidebar-selected', $_POST['WSidebar-selected']);
+			$UAG->setMyPreference('WSidebar-selected', RSent::get('WSidebar-selected'));
 		}
 		$selected = $UAG->getMyPreference('WSidebar-selected');
 		return (in_array($selected, $widgets)) ? $selected : $widgets[0];

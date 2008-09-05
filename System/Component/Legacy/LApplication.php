@@ -47,22 +47,6 @@ class LApplication extends BLegacy implements IShareable
     var $initialized = false;
     var $tab = '';  
     
-    function loadVars($get,$post,$session,$uploadfiles)
-    {
-        //init program
-        if(!$this->initialized)
-        {
-            parent::loadVars($get,$post,$session,$uploadfiles);
-            $this->autorun();
-        }
-        else
-        {
-            $this->get = array_merge($this->get, $get);
-            $this->post = array_merge($this->post, $post);
-            $this->session = array_merge($this->session, $session);
-            $this->files = array_merge($this->files, $uploadfiles);
-        }
-    }
             
 //////////////////////////////////////////////////////////////
 //// Class functions
@@ -72,7 +56,6 @@ class LApplication extends BLegacy implements IShareable
     {
         if($this->initApp())
         {//application valid
-            $get = &$this->get;
             define('BAMBUS_XML_NODE_VALUE', 0);
             define('BAMBUS_XML_NODE_ATTRIBUTES', 1);
                         
@@ -88,13 +71,13 @@ class LApplication extends BLegacy implements IShareable
             {
                 $availableTabs[] = $tab[0];
             }
-            if(empty($get['tab']) || !in_array($get['tab'], $availableTabs))
+            if(!RURL::has('tab') || !in_array(RURL::get('tab'), $availableTabs))
             {
                 $this->tab = $tabs[0][0];
             }
             else
             {
-                $this->tab = $get['tab'];
+                $this->tab = RURL::get('tab');
             }
         }
     }
@@ -125,7 +108,6 @@ class LApplication extends BLegacy implements IShareable
 
     function generateTaskBar()
     {//TASK- not Tab-Bar
-        $get = &$this->get;
         $html = '';
         $applicationNode = $this->getXMLNodeByPathAndAttribute('bambus/application/interface', 'name', $this->tab);
         if(!empty($applicationNode[0]))
@@ -405,19 +387,17 @@ class LApplication extends BLegacy implements IShareable
     
     public function selectApplicationFromPool($pool = array())
     {
-        $get = &$this->get;
         $barCompatibleTabs = array();
-        if(isset($get['editor']) 
-            && in_array($get['editor'], array_keys($pool))
-            && file_exists(SPath::SYSTEM_APPLICATIONS.$get['editor'].'/Application.xml'))
+        if(RURL::has('editor') 
+            && in_array(RURL::get('editor'), array_keys($pool))
+            && file_exists(SPath::SYSTEM_APPLICATIONS.RURL::get('editor').'/Application.xml'))
         {
-            define('BAMBUS_APPLICATION',            $get['editor']);
+            define('BAMBUS_APPLICATION',            RURL::get('editor'));
             define('BAMBUS_APPLICATION_DIRECTORY',  SPath::SYSTEM_APPLICATIONS.BAMBUS_APPLICATION.'/');
-            define('BAMBUS_APPLICATION_ICON',       WIcon::pathFor($pool[$get['editor']]['icon'],'app'));
-            define('BAMBUS_APPLICATION_TITLE',      SLocalization::get($pool[$get['editor']]['name']));
-            define('BAMBUS_APPLICATION_DESCRIPTION',SLocalization::get($pool[$get['editor']]['desc']));
+            define('BAMBUS_APPLICATION_ICON',       WIcon::pathFor($pool[RURL::get('editor')]['icon'],'app'));
+            define('BAMBUS_APPLICATION_TITLE',      SLocalization::get($pool[RURL::get('editor')]['name']));
+            define('BAMBUS_APPLICATION_DESCRIPTION',SLocalization::get($pool[RURL::get('editor')]['desc']));
 
-            $this->using('Application');
             $tabs = $this->getXMLPathValueAndAttributes('bambus/tabs/tab');
             if(!isset($tabs[0]))
             {   //no tabs in xml? - create default "edit"-tab
@@ -427,7 +407,7 @@ class LApplication extends BLegacy implements IShareable
             foreach($tabs as $tab)
             {
                 $barCompatibleTabs[$tab[0]] = array($tab[1]['icon'], SLocalization::get($tab[0]));
-                if(!empty($get['tab']) && $tab[0] == $get['tab'])
+                if($tab[0] == RURL::get('tab'))
                     $activeTab = $tab;
             }     
 

@@ -44,7 +44,8 @@ class post_setup_SComponentIndex implements runnable
 		'M' => 'Manager',
 		'N' => 'Navigator',
 		'Q' => 'Query',
-		'S' => 'System',
+		'R' => 'Request',
+        'S' => 'System',
 		'W' => 'Widget',
 		'X' => 'Exception'
 		);

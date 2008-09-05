@@ -8,7 +8,6 @@
  ************************************************/
 if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
 function clearCache(){
-    global $Bambus;
     $myDir = getcwd();
     if(chdir(SPath::TEMP))
     {
@@ -24,7 +23,6 @@ function clearCache(){
 }
 
 function cacheSize(){
-    global $Bambus;
     $myDir = getcwd();
     chdir(SPath::TEMP);
     $Dir = opendir ('./');
@@ -41,11 +39,6 @@ function cacheSize(){
 
 //some statistics of the system folder
 
-function getData($key, $GPCarray)
-{
-    $data = isset($GPCarray[$key]) ? $GPCarray[$key] : '';
-    return (get_magic_quotes_gpc()) ? stripslashes($data) : $data;
-}
 /////////////////////////
 //save and process data//
 /////////////////////////

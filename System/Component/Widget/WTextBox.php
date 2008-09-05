@@ -48,11 +48,10 @@ class WTextBox extends BWidget
 	{
 		if($this->target != null)
 		{
-			$data = $this->getDataFromInput($this->target->Id."-Title",'post',null);
-			if($data != null)
+			if(RSent::has($this->target->Id."-Title"))
 			{
 				//@todo check permissions 
-				$this->target->Title = $data;
+				$this->target->Title = RSent::get($this->target->Id."-Title");
 			}
 		}
 	}

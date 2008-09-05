@@ -37,40 +37,29 @@ class WSettings extends BWidget implements ISidebarWidget
 		return ($object !== null && ($object instanceof BContent));
 	}
 	
-	private function postData($key, $alt = '')
-	{
-		global $_POST;
-		if(isset($_POST[$key]))
-		{
-			return get_magic_quotes_gpc() ? stripcslashes($_POST[$key]) : $_POST[$key];
-		}
-		return $alt;
-	}
-	
 	public function __construct($target)
 	{
 		$this->targetObject = $target;
-		global $_POST;
-		if(isset($_POST['WSearch-Tags']))
+		if(RSent::has('WSearch-Tags'))
 		{
-			$tagstr = $this->postData('WSearch-Tags');
-			$chk = $this->postData('WSearch-Tags-chk', '-');
+			$tagstr = RSent::get('WSearch-Tags');
+			$chk = RSent::get('WSearch-Tags-chk');
 			if($chk != md5($tagstr)) 
 			{
 				$this->targetObject->Tags = $tagstr;
 			}
 		}
-		if(isset($_POST['WSearch-PubDate']))
+		if(RSent::has('WSearch-PubDate'))
 		{
-			$dat = $this->postData('WSearch-PubDate');
+			$dat = RSent::get('WSearch-PubDate');
 			$chk = $this->targetObject->PubDate;
 			if($chk != $dat) 
 			{
 				$this->targetObject->PubDate = $dat;
 			}
 		}
-		$desc = $this->postData('WSearch-Desc', null);
-		if($desc !== null && $desc != $this->targetObject->Description)
+		$desc = RSent::get('WSearch-Desc');
+		if(RSent::has('WSearch-Desc') && $desc != $this->targetObject->Description)
 		{
 			$this->targetObject->Description = $desc;
 		}

@@ -48,7 +48,6 @@ class WImages extends BWidget implements ISidebarWidget
 	{
 		//js insertMedia('image', $img, $title
 	    //@todo remove chimera hack
-	    global $Bambus;	
 	    if($this->targetClass !== null)
 	    {
 	    	//content stuff wants content images

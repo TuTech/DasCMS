@@ -11,23 +11,18 @@ $allowEdit = true;
 
 $FileOpened = false;
 $mp = MPageManager::alloc()->init();
-function getData($key, $GPCarray)
-{
-	$data = isset($GPCarray[$key]) ? $GPCarray[$key] : '';
-	return (get_magic_quotes_gpc()) ? stripslashes($data) : $data;
-}
 
-$editExist = (isset($_GET['edit']) && $mp->Exists($_GET['edit']));
+$editExist = (RURL::has('edit')) && $mp->Exists(RURL::get('edit'));
 
 //delete
-if($editExist && !empty($_POST['delete']) && BAMBUS_GRP_DELETE)
+if($editExist && RSent::get('delete') != '' && BAMBUS_GRP_DELETE)
 {
-	$mp->Delete($_GET['edit']);
+	$mp->Delete(RURL::get('edit'));
 	$editExist = false;
 }
-if(!empty($_POST['action']) && $_POST['action'] == 'delete' && BAMBUS_GRP_DELETE)
+if(RSent::get('action') == 'delete' && BAMBUS_GRP_DELETE)
 {
-	foreach ($_POST as $k => $v) 
+	foreach (RSent::data() as $k => $v) 
 	{
 		if(substr($k,0,7) == 'select_' && !empty($v))
 		{
@@ -38,9 +33,9 @@ if(!empty($_POST['action']) && $_POST['action'] == 'delete' && BAMBUS_GRP_DELETE
 }
 
 //create
-elseif(!empty($_POST['create']) && BAMBUS_GRP_CREATE)
+elseif(RSent::hasValue('create') && BAMBUS_GRP_CREATE)
 {
-	$Title = getData('create', $_POST);
+	$Title = RSent::get('create');
 	$Page = $mp->Create($Title);
 	$Page->Content = $Title;
 }
@@ -48,19 +43,19 @@ elseif(!empty($_POST['create']) && BAMBUS_GRP_CREATE)
 //open for editing
 elseif($editExist && BAMBUS_GRP_EDIT)
 {
-	$Page = $mp->Open($_GET['edit']);
+	$Page = $mp->Open(RURL::get('edit'));
 }
 
 //save data
 if(isset($Page) && $Page instanceof CPage && BAMBUS_GRP_EDIT)
 {
-	if(isset($_POST['content']))
+	if(RSent::has('content'))
 	{
-		$Page->Content = getData('content', $_POST);
+		$Page->Content = RSent::get('content');
 	}
-	if(isset($_POST['filename']))
+	if(RSent::has('filename'))
 	{
-		$Page->Title = getData('filename', $_POST);
+		$Page->Title = RSent::get('filename');
 	}
 	
 }

@@ -16,17 +16,17 @@ header('Content-Type: text/html; charset=utf-8');
 session_start();
 
 //now we have a running session we might want to kill it
-if(isset($_GET['_destroy_session']) || isset($_GET['_bcms_logout']) || isset($_GET['_bambus_logout']))
+if(RURL::has('_destroy_session') || RURL::has('_bcms_logout') || RURL::has('_bambus_logout'))
 {
 	$_SESSION['bambus_cms_username'] = '';
 	$_SESSION['bambus_cms_password'] = '';
     session_destroy();
 }
 //or create login differently
-if(isset($_POST['bambus_cms_login']) && isset($_POST['bambus_cms_username']) && isset($_POST['bambus_cms_password'])){
+if(RSent::has('bambus_cms_login') && RSent::has('bambus_cms_username') && RSent::has('bambus_cms_password')){
     $triedToLogin = true;
-    $_SESSION['bambus_cms_username'] = $_POST['bambus_cms_username'];
-    $_SESSION['bambus_cms_password'] = $_POST['bambus_cms_password'];
+    $_SESSION['bambus_cms_username'] = RSent::get('bambus_cms_username');
+    $_SESSION['bambus_cms_password'] = RSent::get('bambus_cms_password');
 }
 $bambus_username = utf8_decode(isset($_SESSION['bambus_cms_username'])  ? $_SESSION['bambus_cms_username'] : '');
 $bambus_password = utf8_decode(isset($_SESSION['bambus_cms_password'])  ? $_SESSION['bambus_cms_password'] : '');
@@ -36,14 +36,9 @@ require_once('./System/Classes/Bambus.php');
 $Bambus = new Bambus('site');
 
 //tell bambus whats going on
-$Bambus->initialize($_GET,$_POST,$_SESSION,$_FILES, $_SERVER['REQUEST_URI']);
 $BambusConfig = LConfiguration::as_array();
-
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
-
-//TODO: remove old env vars
-list($get, $post, $session, $files) = array($_GET,$_POST,$_SESSION,$_FILES);
 
 //some permission constants 
 define('BAMBUS_USER', ($SUsersAndGroups->isValidUser($bambus_username, $bambus_password)) ? $bambus_username : '');

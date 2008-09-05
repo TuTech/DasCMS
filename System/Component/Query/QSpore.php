@@ -194,13 +194,11 @@ array objectid => spore
 	{
 		if($this->content != null)
 			return;
-		global $_GET;
 		$content = null;
 		$alias = '';
-		if(isset($_GET[$this->name]))
+		if(isset(RURL::has($this->name)))
 		{
-			//$alias = S-Enviornment::getData($this->name, $_GET);
-			$alias = $this->getDataFromInput($this->name, 'GET');
+			$alias = RURL::get($this->name);
 		}
 		else
 		{
@@ -328,17 +326,16 @@ array objectid => spore
 	 */
 	public function GetParameter($optionName)
 	{
-		global $_GET;
 		$val = '';
-		if(isset($_GET[$this->name.'-'.$optionName]))
+		if(RURL::has($this->name.'-'.$optionName))
 		{
-			$val = $_GET[$this->name.'-'.$optionName];
+			$val = RURL::get($this->name.'-'.$optionName);
 		}
-		elseif(isset($_GET['_'.$this->name.'-'.$optionName]))
+		elseif(RURL::has('_'.$this->name.'-'.$optionName))
 		{
-			$val = $_GET['_'.$this->name.'-'.$optionName];
+			$val = RURL::get('_'.$this->name.'-'.$optionName);
 		}
-		return  get_magic_quotes_gpc() ? stripslashes($val) : $val;
+		return  $val;
 	}
 	
 	public function LinkTo($target)

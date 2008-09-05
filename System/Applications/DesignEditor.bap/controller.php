@@ -67,7 +67,7 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 	//create//
 	//////////
 		
-	if(BAMBUS_GRP_CREATE && !empty($get['_action']) && $get['_action'] == 'create')
+	if(BAMBUS_GRP_CREATE && RURL::get('_action') == 'create')
 	{
 		$i = 0;
 		while(file_exists(SPath::DESIGN.SLocalization::get('new').'-'.++$i.'.css'))
@@ -82,9 +82,9 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 	
 	if(count($Files) > 0)
 	{
-		if($allowEdit && !empty($get['edit']) && in_array($get['edit'], $Files))
+		if($allowEdit && RURL::hasValue('edit') && in_array(RURL::get('edit'), $Files))
 		{
-			$File = $get['edit'];
+			$File = RURL::get('edit');
 			$FileName = ($File == 'default.css') ? SLocalization::get('default.css') : htmlentities(substr($File, 0, -4));
 			$allowEdit = true;
 			$fileContent = DFileSystem::Load(SPath::DESIGN.$File);
@@ -142,14 +142,14 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 		//delete//
 		//////////
 		
-		if(BAMBUS_GRP_DELETE && !empty($get['_action']) && $get['_action'] == 'delete' && $File != 'default.css' && $allowEdit)
+		if(BAMBUS_GRP_DELETE && RURL::get('_action') == 'delete' && $File != 'default.css' && $allowEdit)
 		{
 			//kill it
 			unlink(SPath::DESIGN.$File);
 		    SNotificationCenter::report('message', 'file_deleted');
 			$FileOpened = false;
 		}
-		elseif(BAMBUS_GRP_DELETE && !empty($get['_action']) && $get['_action'] == 'delete' && $File == 'default.css')
+		elseif(BAMBUS_GRP_DELETE && RURL::get('_action') == 'delete' && $File == 'default.css')
 		{
 			SNotificationCenter::report('warning', 'this_file_cannott_be_deleted');
 		}
@@ -169,7 +169,7 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 		    }
 		}
 	}	
-	if(count($Files) > 0 && (empty($get['tab']) || $get['tab'] == 'edit_css'))
+	if(count($Files) > 0 && (!RURL::has('tab') || RURL::get('tab') == 'edit_css'))
 	{
 		$EditingObject = ($File == 'default.css') ? SLocalization::get('default.css').'.css' : $File;	
 	}
@@ -189,7 +189,7 @@ elseif(BAMBUS_APPLICATION_TAB == 'edit_templates')
 	//////////
 	//create//
 	//////////
-	if(BAMBUS_GRP_CREATE && !empty($get['_action']) && $get['_action'] == 'create')
+	if(BAMBUS_GRP_CREATE && RURL::get('_action') == 'create')
 	{
 		$i = 0;
 		while(file_exists($Path.SLocalization::get('new').'-'.++$i.$Suffix))
@@ -204,9 +204,9 @@ elseif(BAMBUS_APPLICATION_TAB == 'edit_templates')
 	
 	if(count($Files) > 0)
 	{
-		if($allowEdit && !empty($get['edit']) && in_array($get['edit'], $Files))
+		if($allowEdit && RURL::hasValue('edit') && in_array(RURL::get('edit'), $Files))
 		{
-			$File = $get['edit'];
+			$File = RURL::get('edit');
 			$FileName = (in_array($File, $doNotDelete)) ? SLocalization::get($File) : htmlentities(substr($File, 0, -4));
 			$allowEdit = true;
 			$FileOpened = true;
@@ -241,14 +241,14 @@ elseif(BAMBUS_APPLICATION_TAB == 'edit_templates')
 		//delete//
 		//////////
 		
-		if(BAMBUS_GRP_DELETE && !empty($get['_action']) && $get['_action'] == 'delete' && !in_array($File, $doNotDelete) && $allowEdit)
+		if(BAMBUS_GRP_DELETE && RURL::get('_action') == 'delete' && !in_array($File, $doNotDelete) && $allowEdit)
 		{
 			//kill it
 			unlink($Path.$File);
 		    SNotificationCenter::report('message', 'file_deleted');
 			$FileOpened = false;
 		}
-		elseif(BAMBUS_GRP_DELETE && !empty($get['_action']) && $get['_action'] == 'delete' && in_array($File, $doNotDelete))
+		elseif(BAMBUS_GRP_DELETE && RURL::get('_action') == 'delete' && in_array($File, $doNotDelete))
 		{
 			SNotificationCenter::report('warning', 'this_file_cannott_be_deleted');
 		}

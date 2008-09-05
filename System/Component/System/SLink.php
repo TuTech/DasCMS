@@ -44,10 +44,10 @@ class SLink extends BSystem
     */
    private static function loadInput()
     {
-        global $_GET;
         if(self::$getData == null)
         {
-            foreach ($_GET as $k => $v) 
+            $get = RURL::data();
+            foreach ($get as $k => $v) 
             {
                 if(substr($k,0,1) != '_')
                 {

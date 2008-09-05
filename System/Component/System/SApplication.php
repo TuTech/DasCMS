@@ -69,9 +69,7 @@ class SApplication // extends BSystem
     {
         if($this->_activeWindowNode == null)
         {
-            //FIXME global get
-            global $_GET;
-            $requested = (isset($_GET['window'])) ? $_GET['window'] : 0;
+            $requested = RURL::has('window') ? RURL::get('window') : 0;
             $windows = $this->_xpath->query('/application/child::window');
             $i = 0;
             $cwin = 0;

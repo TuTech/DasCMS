@@ -19,12 +19,12 @@ $Bambus = new Bambus();
 session_start();
 
 //tell the bambus whats going on
-list($get, $post, $session, $uploadfiles) = $Bambus->initialize($_GET,$_POST,$_SESSION,$_FILES);
 @$bambus_user = utf8_decode((!empty($_SESSION['bambus_cms_username'])) ? $_SESSION['bambus_cms_username'] : $_SESSION['uname']);
 @$bambus_password = utf8_decode((!empty($_SESSION['bambus_cms_password'])) ? $_SESSION['bambus_cms_password'] : $_SESSION['pwrd']);
 
-$get['editor'] = isset($get['editor']) ? $get['editor'] : '';
-$appName = substr($get['editor'],0,((strlen(DFileSystem::suffix($get['editor']))+1)*-1));
+$editor = RURL::get('editor');
+
+$appName = substr($editor,0,((strlen(DFileSystem::suffix($editor))+1)*-1));
 
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
@@ -55,9 +55,9 @@ if($SUsersAndGroups->isValidUser($bambus_user, $bambus_password)
 	define('BAMBUS_APPLICATION_DIRECTORY',  SPath::SYSTEM_APPLICATIONS.BAMBUS_APPLICATION.'/');
     
     //load the desired editor helper
-    if(file_exists(SPath::SYSTEM_APPLICATIONS.basename($get['editor']).'/Ajax.php'))
+    if(file_exists(SPath::SYSTEM_APPLICATIONS.basename($editor).'/Ajax.php'))
     { 
-        include (SPath::SYSTEM_APPLICATIONS.basename($get['editor']).'/Ajax.php');
+        include (SPath::SYSTEM_APPLICATIONS.basename($editor).'/Ajax.php');
     }
     else
     {

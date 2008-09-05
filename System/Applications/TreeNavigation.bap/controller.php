@@ -8,61 +8,55 @@
 ************************************************/
 if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
 
-function getData($key, $GPCarray)
-{
-	$data = isset($GPCarray[$key]) ? $GPCarray[$key] : '';
-	return (get_magic_quotes_gpc()) ? stripslashes($data) : $data;
-}
-
 $EditingObject = '';
 $edit = null;
 
-if(isset($_GET['edit']) && NTreeNavigation::exists(getData('edit',$_GET)))
+if(RURL::has('edit') && NTreeNavigation::exists(RURL::get('edit')))
 {
-	if(!empty($_POST['delete_nav']))
+	if(RSent::has('delete_nav'))
 	{
 		//delete nav
-		NTreeNavigation::remove(getData('edit',$_GET));
+		NTreeNavigation::remove(RURL::get('edit'));
 		NTreeNavigation::save();
 	}
 	else
 	{
-		$EditingObject = getData('edit',$_GET).'.nav';
-		$edit = getData('edit',$_GET);
+		$EditingObject = RURL::get('edit').'.nav';
+		$edit = RURL::get('edit');
 	}
 }
-if($edit != null && isset($_POST['1_p']) && $_POST['1_p'] == '0')//parent of first has to be "0"
+if($edit != null && RSent::has('1_p') && RSent::get('1_p') == '0')//parent of first has to be "0"
 {
 	//got data
 	$data = array(1 => new NTreeNavigationObject('', null, null, null));
 	$i = 2;
 	//get all nav objects 
-	while(isset($_POST[$i.'_p']))
+	while(RSent::has($i.'_p'))
 	{
-		$cid = getData($i.'_cid', $_POST);
+		$cid = RSent::get($i.'_cid');
 		$data[$i] = new  NTreeNavigationObject($cid, null, null, null);
 		$i++;
 	}
 	//link nav objects
 	foreach ($data as $id => $obj) 
 	{
-		if(!empty($_POST[$id.'_fc']) && array_key_exists($_POST[$id.'_fc'], $data))
+		if(RSent::has($id.'_fc') && array_key_exists(RSent::get($id.'_fc'), $data))
 		{
-			$obj->setFirstChild($data[$_POST[$id.'_fc']]);
+			$obj->setFirstChild($data[RSent::get($id.'_fc')]);
 		}
-		if(!empty($_POST[$id.'_p']) && array_key_exists($_POST[$id.'_p'], $data))
+		if(RSent::has($id.'_p') && array_key_exists(RSent::get($id.'_p'), $data))
 		{
-			$obj->setParent($data[$_POST[$id.'_p']]);
+			$obj->setParent($data[RSent::get($id.'_p')]);
 		}
-		if(!empty($_POST[$id.'_n']) && array_key_exists($_POST[$id.'_n'], $data))
+		if(RSent::has($id.'_n') && array_key_exists(RSent::get($id.'_n'), $data))
 		{
-			$obj->setNext($data[$_POST[$id.'_n']]);
+			$obj->setNext($data[RSent::get($id.'_n')]);
 		}
 	}
 	try{
-		if(!empty($_POST['set_spore']) && QSpore::exists(getData('set_spore',$_POST)))
+		if(RSent::has('set_spore') && QSpore::exists(RSent::get('set_spore')))
     	{
-    		$sp = new QSpore(getData('set_spore',$_POST));
+    		$sp = new QSpore(RSent::get('set_spore'));
     		SNotificationCenter::report('message', 'changing target view');
     	}
 		else
@@ -79,9 +73,9 @@ if($edit != null && isset($_POST['1_p']) && $_POST['1_p'] == '0')//parent of fir
 		//@todo: report error
 	}
 }
-if(isset($_POST['new_nav_name']))
+if(RSent::has('new_nav_name'))
 {
-	$newNav = getData('new_nav_name', $_POST);
+	$newNav = RSent::get('new_nav_name');
 	if(QSpore::exists($newNav))
 	{
 		//matching spore exists - use it

@@ -43,7 +43,7 @@ class WTextEditor extends BWidget
 			echo htmlentities($this->target->Content, ENT_QUOTES, 'UTF-8');
 			echo "</textarea>\n";
 			echo "<input type=\"hidden\" id=\"_",$this->ID,"-ScrollPos\" name=\"",$this->target->Id,"-Content-ScrollPos\" value=\"",
-				htmlentities($this->getDataFromInput($this->target->Id."-Content-ScrollPos",'post',0), ENT_QUOTES, 'UTF-8')
+				htmlentities(RSent::get($this->target->Id."-Content-ScrollPos"), ENT_QUOTES, 'UTF-8')
 			,"\" />\n";
 			echo "<script type=\"text/javascript\">\$('_",$this->ID,"').scrollTop = $('_",$this->ID,"-ScrollPos').value;</script>\n";
 		}
@@ -53,11 +53,10 @@ class WTextEditor extends BWidget
 	{
 		if($this->target != null)
 		{
-			$data = $this->getDataFromInput($this->target->Id."-Content",'post',null);
-			if($data != null)
+			if(RSent::has($this->target->Id."-Content"))
 			{
 				//@todo check permissions 
-				$this->target->Content = $data;
+				$this->target->Content = RSent::get($this->target->Id."-Content");
 			}
 		}
 	}

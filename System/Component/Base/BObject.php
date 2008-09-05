@@ -29,43 +29,6 @@ abstract class BObject
 				: $defaultValue;
 		}
 	}
-	/**
-	 * get input data
-	 *
-	 * @param string $key
-	 * @param string $inputVarName get/post/cookie/session
-	 * @param mixed $default return this if no data set
-	 * @return mixed
-	 */
-	protected function getDataFromInput($key, $inputVarName,$default = '')
-	{
-		global $_GET,$_POST,$_COOKIE, $_SESSION,$_REQUEST;
-		$inputVarName = strtolower($inputVarName);
-		$inputVarName = (substr($inputVarName,0,1) == '_') ? substr($inputVarName,1) : $inputVarName;
-		$encode = get_magic_quotes_gpc();
-		switch($inputVarName)
-		{
-			case 'get':
-				$array = &$_GET;
-				break;
-			case 'post':
-				$array = &$_POST;
-				break;
-			case 'cookie':
-				$array = &$_COOKIE;
-				break;
-			case 'session':
-				$array = &$_SESSION;
-				$encode = false;
-				break;
-			default:
-				$array = &$_REQUEST;
-				
-		}
-		return isset($array[$key]) ? ($encode ? stripslashes($array[$key]) 
-											  : $array[$key]) 
-								   : $default;
-	}
 	
 	
 	public final static function InvokeObjectByDynClass($class)

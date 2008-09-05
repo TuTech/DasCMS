@@ -10,7 +10,7 @@ if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
 
 //some statistics of the system folder
 function dirlist_r($dir = './', $indent = 0){
-    global $info, $Bambus;
+    global $info;
     foreach(array('folders', 'files','size', 'php-scripts', 'php-lines', 'php-size', 'js-scripts', 'js-lines', 'js-size', 'css-scripts', 'css-lines', 'css-size') as $key)
     	if(!isset($info[$key]))$info[$key] = 0;
     $files = array();
@@ -56,7 +56,7 @@ function dirlist_r($dir = './', $indent = 0){
     }
 }
 function pdirlist_r($dir = './', $indent = 0){
-    global $out,$Bambus,$_GET;
+    global $out;
     $files = array();
     $dirs = array();
     $yes = SLocalization::get('yes');
@@ -90,7 +90,7 @@ function pdirlist_r($dir = './', $indent = 0){
             foreach($files as $file)
             {
             	$chmod = false;
-        		if(is_file($file) && !empty($_GET['_action']) && $_GET['_action'] == 'repair_rights')
+        		if(is_file($file) && RURL::get('_action') == 'repair_rights')
         		{
         			$chmod = @chmod($file, 0666);
         		}

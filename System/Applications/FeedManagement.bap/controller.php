@@ -10,28 +10,19 @@ if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
 
 $FeedManager = MFeedManager::alloc()->init();
 $SideBar = '';
-function getData($key, $GPCarray)
-{
-	$data = isset($GPCarray[$key]) ? $GPCarray[$key] : '';
-	return (get_magic_quotes_gpc()) ? stripslashes($data) : $data;
-}
 
-if(!empty($get['_action']))
+if(RURL::get('_action') == 'create')
 {
-	$prompt = getData('_action', $_GET);
-	if(getData('_action', $_GET) == 'create' && !empty($prompt))
-	{
-		$Feed = $FeedManager->Create($prompt);
-		$Feed->Save();
-	}
+	$Feed = $FeedManager->Create(SLocalization::get('new_feed'));
+	$Feed->Save();
 }
 $savePage = false;
-if($FeedManager->Exists(getData('edit', $_GET)))
+if($FeedManager->Exists(RURL::get('edit')))
 {
-	$channel = $FeedManager->Open(getData('edit', $_GET));
+	$channel = $FeedManager->Open(RURL::get('edit'));
 	
 	//title
-	$fname = getData('fileNameInput', $_POST);
+	$fname = RSent::get('fileNameInput');
 	if(!empty($fname))
 	{
 		$channel->Title = $fname;
@@ -40,21 +31,21 @@ if($FeedManager->Exists(getData('edit', $_GET)))
 
 	if(isset($post['type']))
 	{
-		list($mode, $type) = explode('-', getData('type', $_POST));
+		list($mode, $type) = explode('-', RSent::get('type'));
 		$channel->FilterType = $type;
-		$channel->Filter = ($mode == 'predef') ? getData('filter', $_POST) : null;
+		$channel->Filter = ($mode == 'predef') ? RSent::get('filter') : null;
 		$savePage =  true;
 	}
 	
 	if(isset($post['itemsperpage']))
 	{
-		$channel->ItemsPerPage = getData('itemsperpage', $_POST);
+		$channel->ItemsPerPage = RSent::get('itemsperpage');
 		$savePage =  true;
 	}
 	
 	if(isset($post['overview']))
 	{
-		switch (getData('overview', $_POST))
+		switch (RSent::get('overview'))
 		{
 			case 't':
 				$channel->OverViewMode = CFeed::TITLE;
@@ -66,14 +57,14 @@ if($FeedManager->Exists(getData('edit', $_GET)))
 				$channel->OverViewMode = CFeed::TITLE_AND_CONTENT;
 				break;
 			default:
-				$channel->OverViewMode = getData('overview_template', $_POST);
+				$channel->OverViewMode = RSent::get('overview_template');
 		}
 		$savePage =  true;
 	}
 	
-	if(isset($post['detailview']))
+	if(isset(RSent::get('detailview')))
 	{
-		switch (getData('detailview', $_POST))
+		switch (RSent::get('detailview'))
 		{
 			case 'd':
 				$channel->DetailViewMode = CFeed::DISABLED;
@@ -85,7 +76,7 @@ if($FeedManager->Exists(getData('edit', $_GET)))
 				$channel->DetailViewMode = CFeed::CONTENT;
 				break;
 			default:
-				$channel->DetailViewMode = getData('detailview_template', $_POST);
+				$channel->DetailViewMode = RSent::get('detailview_template');
 		}
 		$savePage =  true;
 	}

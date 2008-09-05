@@ -16,7 +16,7 @@ require_once('./System/Classes/Bambus.php');
 WHeader::httpHeader('Content-Type: text/html; charset=utf-8');
 session_start();
 //you want to go? ok!
-if(!empty($_GET['logout'])){
+if(RURL::has('logout')){
     session_destroy();
     header('Location: ../?');
     exit;
@@ -25,20 +25,12 @@ if(!empty($_GET['logout'])){
 define('BAMBUS_ACCESS_TYPE', 'management');
 
 //got a new login?
-if(!empty($_POST['bambus_cms_login']))
+if(RSent::has('bambus_cms_login'))
 {
-    $_SESSION['uname'] = (empty($_POST['username'])) 
-    	? '' 
-    	: $_POST['username'];
-    $_SESSION['pwrd'] = (empty($_POST['password'])) 
-    	? '' 
-    	: $_POST['password'];
-    $_SESSION['bambus_cms_username'] = (empty($_POST['bambus_cms_username'])) 
-    	? '' 
-    	: $_POST['bambus_cms_username'];
-    $_SESSION['bambus_cms_password'] = (empty($_POST['bambus_cms_password'])) 
-    	? '' 
-    	: $_POST['bambus_cms_password'];
+    $_SESSION['uname'] = RSent::get('username');
+    $_SESSION['pwrd'] =  RSent::get('password');
+    $_SESSION['bambus_cms_username'] = RSent::get('bambus_cms_username'); 
+    $_SESSION['bambus_cms_password'] = RSent::get('bambus_cms_password'); 
 }
 
 @$bambus_user = utf8_decode((!empty($_SESSION['bambus_cms_username'])) 
@@ -48,14 +40,9 @@ if(!empty($_POST['bambus_cms_login']))
 	? $_SESSION['bambus_cms_password'] 
 	: $_SESSION['pwrd']);
 
-$_SESSION['language'] = (isset($_SESSION['language'])) ? $_SESSION['language'] :'de';
-$_POST['language'] = (isset($_POST['language'])) ? $_POST['language'] : $_SESSION['language'];
-$_SESSION['language'] = $_POST['language'];
-
 //tell the bambus whats going on
 $Bambus = new Bambus();
 
-list($get, $post, $session, $uploadfiles) = $Bambus->initialize($_GET,$_POST,$_SESSION,$_FILES);
 
 
 WTemplate::globalSet('logotext', BAMBUS_VERSION);
@@ -93,7 +80,7 @@ $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
 if($SUsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($SUsersAndGroups->isMemberOf($bambus_user, 'CMS') || $SUsersAndGroups->isMemberOf($bambus_user, 'Administrator'))) //login ok?
 {
-	if(!empty($_POST['bambus_cms_login']))
+	if(RSent::has('bambus_cms_login'))
 	{
 		$SUsersAndGroups->setUserAttribute($bambus_user, 'last_management_login', time());
 		$logins = $SUsersAndGroups->getUserAttribute($bambus_user, 'management_login_count');
@@ -167,7 +154,7 @@ if($SUsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($SUsersAndG
     		require($controller);
     		$ob = ob_get_contents();
     		ob_end_clean();
-    		$Application->loadVars($get, $post, $session, $uploadfiles);
+    		$Application->autorun();
     	}
 		define('BAMBUS_CURRENT_OBJECT', $EditingObject);
 		WTemplate::globalSet('TaskBar',$Application->generateTaskBar());
@@ -201,7 +188,7 @@ if($SUsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($SUsersAndG
     LApplication::alloc()->init()->selectApplicationFromPool(array());
 
 	WHeader::useStylesheet('specialPurpose.login.css');
-    if(!empty($_POST['bambus_cms_login']))
+    if(RSent::has('bambus_cms_login'))
     {
         sleep(10);
         SNotificationCenter::report('warning', 'wrong_username_or_password');

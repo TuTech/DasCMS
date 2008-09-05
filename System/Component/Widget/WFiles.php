@@ -43,7 +43,6 @@ class WFiles extends BWidget implements ISidebarWidget
 	{
 		//js insertMedia('image', $img, $title
 	    //@todo remove chimera hack
-	    global $Bambus;	
 		$files = DFileSystem::FilesOf('Content/download/');
 		$html = "";
 		foreach($files as $file)

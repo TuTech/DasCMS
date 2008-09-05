@@ -18,8 +18,8 @@ $dbNeedsUpdate = false;
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
 
-$edit = (!isset($get['edit'])) ? '' : $get['edit'];
-if(empty($get['mode']) || $get['mode'] == 'usr')
+$edit = RURL::get('edit');
+if(!RURL::has('mode') || RURL::get('mode') == 'usr')
 {
 	/////////
 	//users//
@@ -314,7 +314,7 @@ if(!empty($post['action']))
 	
 }
 
-if(!empty($get['_action']) && $get['_action'] == 'delete')
+if(RURL::get('_action') == 'delete')
 {
 	
 	
@@ -407,7 +407,7 @@ if(count($users) > 0 || count($groups) > 0)
 	echo "</span>\n</div>\n";
 }
 
-if(empty($get['tab']) || strpos($get['tab'],'manage_')===false)
+if(strpos(RURL::get('tab'),'manage_')===false)
 {
 	if($edit_mode == 'grp')
 	{

@@ -9,15 +9,10 @@
 if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
 
 
-if(!empty($_POST['rebuildAliasDatabase']) && BAMBUS_GRP_ADMINISTRATOR)
+if(RSent::has('rebuildAliasDatabase') && BAMBUS_GRP_ADMINISTRATOR)
 {
 	SNotificationCenter::report('message', 'rebuilding alias database');
 	SAlias::alloc()->init()->rebuildAliases();
-}
-function getData($key, $GPCarray)
-{
-	$data = isset($GPCarray[$key]) ? $GPCarray[$key] : '';
-	return (get_magic_quotes_gpc()) ? stripslashes($data) : $data;
 }
 if(BAMBUS_APPLICATION_TAB == 'content_access')
 {
@@ -52,8 +47,8 @@ if(BAMBUS_APPLICATION_TAB == 'content_access')
 					QSpore::set(
 						$spore, 
 						!empty($post['actv_'.$spore]), 
-						getData('init_'.$spore, $_POST), 
-						getData('err_'.$spore, $_POST)
+						RSent::get('init_'.$spore), 
+						RSent::get('err_'.$spore)
 					);
 				}
 			}
@@ -64,8 +59,8 @@ if(BAMBUS_APPLICATION_TAB == 'content_access')
 				QSpore::set(
 					$post['new_spore'], 
 					!empty($post['new_actv']), 
-					getData('new_init', $_POST), 
-					getData('new_err', $_POST)
+					RSent::get('new_init'), 
+					RSent::get('new_err')
 				);
 			}
 			catch(Exception $e){

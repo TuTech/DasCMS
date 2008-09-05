@@ -16,7 +16,6 @@ $allowedPaths = array('design', 'image');
 //go to the cms root
 
 //tell the bambus whats going on
-list($get, $post, $session, $uploadfiles) = $Bambus->initialize($_GET,$_POST,$_SESSION,$_FILES);
 @$bambus_user = utf8_decode((!empty($_SESSION['bambus_cms_username'])) ? $_SESSION['bambus_cms_username'] : $_SESSION['uname']);
 @$bambus_password = utf8_decode((!empty($_SESSION['bambus_cms_password'])) ? $_SESSION['bambus_cms_password'] : $_SESSION['pwrd']);
 
@@ -24,11 +23,12 @@ $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
 if($SUsersAndGroups->isValidUser($bambus_user, $bambus_password))
 {
-	$path = (!empty($get['path']) && $get['path'] == 'design') ? (SPath::DESIGN): (SPath::IMAGES);
-	if(!empty($get['render']) && file_exists($path.basename($get['render']))){
+    $render = RURL::get('render');
+	$path = (RURL::get('path') == 'design') ? (SPath::DESIGN): (SPath::IMAGES);
+	if(file_exists($path.basename($render))){
 
-        $image = $path.basename($get['render']);
-        $thumb = SPath::TEMP.filemtime($path.basename($get['render'])).basename($get['render']).'.jpg';
+        $image = $path.basename($render);
+        $thumb = SPath::TEMP.filemtime($path.basename($render)).basename($render).'.jpg';
        
        	if(file_exists($thumb))
        	{
@@ -50,7 +50,7 @@ if($SUsersAndGroups->isValidUser($bambus_user, $bambus_password))
 	    $maxImageHeight = 96;
 	    
 	    //do some var init
-	    $file = $path.basename($get['render']);
+	    $file = $path.basename($render);
 	    $suffixTemp = explode(".", $file);
 	    $filetype = strtolower(array_pop($suffixTemp));
 	    $thumbfile = $thumb;
