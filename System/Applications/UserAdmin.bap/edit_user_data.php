@@ -239,7 +239,7 @@ while ($item = readdir ($Dir))
     {
     	//BambusApplicartion-Package
         $i++;
-        list($name, $description, $icon, $pri) = array_values($Bambus->getBambusApplicationDescription($item.'/Application.xml'));
+        list($name, $description, $icon, $pri) = array_values(LApplication::getBambusApplicationDescription($item.'/Application.xml'));
         $available[$pri.'_'.$i] = array('item' => $item,'name' => $name,'desc' => $description,'icon' => $icon, 'type' => 'application');
     }  
 }

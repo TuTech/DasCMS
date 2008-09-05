@@ -113,8 +113,8 @@ if($SUsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($SUsersAndG
 	define('BAMBUS_GRP_PHP', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'PHP') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
 
     //1st: validate application
-    $applications = $Bambus->getAvailableApplications();
-    $tabs = $Bambus->selectApplicationFromPool($applications);
+    $applications = LApplication::getAvailableApplications();
+    $tabs = LApplication::alloc()->init()->selectApplicationFromPool($applications);
     WTemplate::globalSet('WApplications',  new WApplications(''));
     
  	//2nd: load application
@@ -157,10 +157,9 @@ if($SUsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($SUsersAndG
 	    
 	    
 	    //export the config into an array
-		$Bambus->using('Application');    
     	//load application class
-
-    	$controller = $Bambus->Application->controller();
+        $Application = LApplication::alloc()->init();
+    	$controller = $Application->controller();
     	$EditingObject = '';
     	if($controller != false)
     	{
@@ -168,15 +167,15 @@ if($SUsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($SUsersAndG
     		require($controller);
     		$ob = ob_get_contents();
     		ob_end_clean();
-    		$Bambus->Application->loadVars($get, $post, $session, $uploadfiles);
+    		$Application->loadVars($get, $post, $session, $uploadfiles);
     	}
 		define('BAMBUS_CURRENT_OBJECT', $EditingObject);
-		WTemplate::globalSet('TaskBar',$Bambus->Application->generateTaskBar());
+		WTemplate::globalSet('TaskBar',$Application->generateTaskBar());
     	$headTpl = new WTemplate('header', WTemplate::SYSTEM);
         $headTpl->render();
 		echo $ob;
 		echo LGui::beginApplication();
-    	$erg = $Bambus->Application->run();
+    	$erg = $Application->run();
     	if($erg !== true)
     	{
 			//interface is coded in php an needs to be called here
@@ -199,7 +198,7 @@ if($SUsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($SUsersAndG
 	define('BAMBUS_CURRENT_OBJECT', '');
 	define('BAMBUS_USER', '');
 	
-    $Bambus->selectApplicationFromPool(array());
+    LApplication::alloc()->init()->selectApplicationFromPool(array());
 
 	WHeader::useStylesheet('specialPurpose.login.css');
     if(!empty($_POST['bambus_cms_login']))
