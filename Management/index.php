@@ -6,10 +6,8 @@
 * Description: Management (Login and Applcation loader)
 ************************************************/
 
-error_reporting(4095);
-setlocale (LC_ALL, 'de_DE');
 chdir('..');
-require_once('./System/Classes/Bambus.php');
+require_once('./System/Component/Loader.php');
 //We speak unicode xhtml 
 //@todo
 //header('Content-Type: text/html; charset=utf-8');
@@ -38,10 +36,6 @@ if(RSent::has('bambus_cms_login'))
 @$bambus_password = utf8_decode((!empty($_SESSION['bambus_cms_password'])) 
 	? $_SESSION['bambus_cms_password'] 
 	: $_SESSION['pwrd']);
-
-	//tell the bambus whats going on
-$Bambus = new Bambus();
-
 
 
 WTemplate::globalSet('logotext', BAMBUS_VERSION);

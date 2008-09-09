@@ -7,10 +7,8 @@
 * Description: 
 ************************************************/
 chdir('..');
-require_once('./System/Classes/Bambus.php');
+require_once('./System/Component/Loader.php');
 setlocale (LC_ALL, 'de_DE');
-$Bambus = new Bambus();
-//$Bambus->setMode('editor');
 
 //go to the cms root
 session_start();

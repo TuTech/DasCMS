@@ -10,9 +10,7 @@ header('Content-Type: text/html; charset=utf-8');
 setlocale (LC_ALL, 'de_DE');
 //load the mighty bambus
 chdir('..');
-require_once('./System/Classes/Bambus.php');
-$Bambus = new Bambus();
-//$Bambus->setMode('editor');
+require_once('./System/Component/Loader.php');
 
 //go to the cms root
 session_start();

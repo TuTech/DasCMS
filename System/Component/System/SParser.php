@@ -106,11 +106,11 @@ class SParser extends BSystem implements IShareable
             case 'version':         
                 return BAMBUS_VERSION;
             case 'rootdir':         
-                return BAMBUS_CMS_ROOT;
+                return BAMBUS_CMS_ROOTDIR;
             case 'diskspace':
             case 'freediskspace':
             case 'diskfreespace':   
-                return DFileSystem::formatSize(disk_free_space(BAMBUS_CMS_ROOT));
+                return DFileSystem::formatSize(disk_free_space(BAMBUS_CMS_ROOTDIR));
             case 'memoryusage':
             case 'memusage':        
                 return DFileSystem::formatSize(memory_get_usage(true));

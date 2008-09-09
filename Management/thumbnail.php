@@ -7,9 +7,7 @@
 ************************************************/
 session_start();
 chdir('..');
-require_once('./System/Classes/Bambus.php');
-$Bambus = new Bambus();
-//$Bambus->setMode('editor');
+require_once('./System/Component/Loader.php');
 $allowedPaths = array('design', 'image');
 
 //go to the cms root

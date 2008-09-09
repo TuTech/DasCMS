@@ -183,7 +183,6 @@ elseif(BAMBUS_APPLICATION_TAB == 'edit_templates')
 	$Path = SPath::TEMPLATES;
 	$doNotDelete = array('page.tpl');
 	$ListTypes = array('tpl');
-	//$Files = $Bambus->File System->getFiles($PathName, $ListTypes);
 	$Files = DFileSystem::FilesOf($Path, '/\.('.implode('|', $ListTypes).')/i');
 	
 	//////////
@@ -293,8 +292,8 @@ if(BAMBUS_APPLICATION_TAB != 'manage')
 				"<span>TPL</span>\n" .
 	"</span>\n" .
 			"<span id=\"OFD_Items\">";
-	$cssFiles = DFileSystem::FilesOf(SPath::DESIGN, '/\.css/i');//$Bambus->File System->getFiles('css', array('css'));
-	$tplFiles = DFileSystem::FilesOf(SPath::TEMPLATES, '/\.tpl/i');//$Bambus->File System->getFiles('template', array('tpl'));
+	$cssFiles = DFileSystem::FilesOf(SPath::DESIGN, '/\.css/i');
+	$tplFiles = DFileSystem::FilesOf(SPath::TEMPLATES, '/\.tpl/i');
 	$Files = array_merge($cssFiles, $tplFiles);
 	asort($Files, SORT_STRING);
 	foreach($Files as $item)

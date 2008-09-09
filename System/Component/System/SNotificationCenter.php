@@ -82,12 +82,12 @@ class SNotificationCenter extends BSystem implements IShareable
             ,'application' =>  defined('BAMBUS_APPLICATION') ? constant('BAMBUS_APPLICATION') : ''
             ,'timestamp' => time()
             ,'ip_address' => getenv ("REMOTE_ADDR")
-            ,'cms_root' =>  defined('BAMBUS_CMS_ROOT') ? constant('BAMBUS_CMS_ROOT') : ''
+            ,'cms_root' =>  defined('BAMBUS_CMS_ROOTDIR') ? constant('BAMBUS_CMS_ROOTDIR') : ''
             ,'working_dir' => getcwd()
             ,'seperator' => "\t"
             ,'attibutes' => ''
 	    ));
-        DFileSystem::Append(BAMBUS_CMS_ROOT.'/alerts.log', $tpl->render()."\n");    
+        DFileSystem::Append(BAMBUS_CMS_ROOTDIR.'/alerts.log', $tpl->render()."\n");    
 	}
 	
 	public static function report($type, $message)

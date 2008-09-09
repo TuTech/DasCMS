@@ -8,13 +8,10 @@
 * Description: Bambus Website generator
 * Version:     0.13.0
 ************************************************/
-error_reporting(E_ALL|E_NOTICE|E_STRICT);
-
-setlocale (LC_ALL, 'de_DE');
 //Bambus uses UTF-8 and sessions will allways be active... TODO: check if sessions are necessary
 header('Content-Type: text/html; charset=utf-8');
 session_start();
-require_once('./System/Classes/Bambus.php');
+require_once('./System/Component/Loader.php');
 //now we have a running session we might want to kill it
 if(RURL::has('_destroy_session') || RURL::has('_bcms_logout') || RURL::has('_bambus_logout'))
 {
@@ -31,12 +28,6 @@ if(RSent::has('bambus_cms_login') && RSent::has('bambus_cms_username') && RSent:
 $bambus_username = utf8_decode(isset($_SESSION['bambus_cms_username'])  ? $_SESSION['bambus_cms_username'] : '');
 $bambus_password = utf8_decode(isset($_SESSION['bambus_cms_password'])  ? $_SESSION['bambus_cms_password'] : '');
 
-//load the bambus main class and initialize it
-
-$Bambus = new Bambus('site');
-
-//tell bambus whats going on
-$BambusConfig = LConfiguration::as_array();
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
 
