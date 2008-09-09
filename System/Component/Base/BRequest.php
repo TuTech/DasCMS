@@ -1,10 +1,10 @@
 <?php
-class BRequest extends BObject 
+abstract class BRequest extends BObject 
 {
-    abstract public static function get($key);
+    public static function get($key){}
     
-    abstract public static function alter($key, $value);
+    public static function alter($key, $value){}
     
-    abstract public static function has($key);
+    public static function has($key){}
 }
 ?>

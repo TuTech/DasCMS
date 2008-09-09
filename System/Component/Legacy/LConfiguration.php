@@ -24,13 +24,12 @@ class LConfiguration extends BLegacy
      */
     private static function init()
     {
-        if(!self::$configuration == null)
+        if(self::$configuration == null)
         {
-            $file = SPath::SYSTEM.'configuration/system.php';
+            $file = SPath::CONTENT.'configuration/system.php';
             self::$configuration = DFileSystem::LoadData($file);
             self::$instanceForSavingOnEnd = new LConfiguration();
         }
-        return self::alloc();
     }
     /**
      * export config to array

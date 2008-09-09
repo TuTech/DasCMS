@@ -20,7 +20,7 @@ if(isset($_FILES['bambus_image_file']['name']) && BAMBUS_GRP_CREATE)
 { 
     // we have got an upload
     if(file_exists(SPath::IMAGES.basename($_FILES['bambus_image_file']['name'])) 
-      && empty($post['bambus_overwrite_image_file']))
+      && !RSent::hasValue('bambus_overwrite_image_file'))
     {
         SNotificationCenter::report('warning', 'upload_failed_because_file_already_exists');
     }
@@ -65,11 +65,11 @@ if(count($Files) > 0)
 	//////////////////
 	//manager delete//
 	//////////////////
-	if(!empty($post['action']) && $post['action'] == 'delete' && BAMBUS_GRP_DELETE)
+	if(RSent::hasValue('action') && RSent::get('action') == 'delete' && BAMBUS_GRP_DELETE)
 	{
 		foreach($Files as $file)
 		{
-			if(!empty($post['select_'.md5($file)]))
+			if(!RSent::hasValue('select_'.md5($file)))
 			{
 		        if(@unlink(SPath::IMAGES.$file)){
 		        	SNotificationCenter::report('message', 'file_deleted');

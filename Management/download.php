@@ -6,7 +6,6 @@
 * Copyright:   Lutz Selke/TuTech Innovation GmbH 
 * Description: 
 ************************************************/
-define('BAMBUS_ACCESS_TYPE', 'management');
 chdir('..');
 require_once('./System/Classes/Bambus.php');
 setlocale (LC_ALL, 'de_DE');

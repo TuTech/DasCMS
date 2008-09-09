@@ -29,14 +29,14 @@ if(BAMBUS_APPLICATION_TAB == 'content_access')
 	}
 	////////////////////
 	
-	if(!empty($post['posted']))
+	if(RSent::hasValue('posted'))
 	{
-		foreach ($post as $key => $value) 
+		foreach (RSent::data() as $key => $value) 
 		{
 			if(substr($key,0,5) == 'spore')
 			{
 				$spore = substr($key,6);
-				$delete = !empty($post[$key]);
+				$delete = !empty($value);
 				
 				if($delete)
 				{
@@ -46,19 +46,19 @@ if(BAMBUS_APPLICATION_TAB == 'content_access')
 				{
 					QSpore::set(
 						$spore, 
-						!empty($post['actv_'.$spore]), 
+						RSent::hasValue('actv_'.$spore), 
 						RSent::get('init_'.$spore), 
 						RSent::get('err_'.$spore)
 					);
 				}
 			}
 		}
-		if(!empty($post['new_spore']) && !QSpore::exists($post['new_spore']))
+		if(RSent::hasValue('new_spore') && !QSpore::exists(RSent::get('new_spore')))
 		{
 			try{
 				QSpore::set(
-					$post['new_spore'], 
-					!empty($post['new_actv']), 
+					RSent::get('new_spore'), 
+					RSent::hasValue('new_actv'), 
 					RSent::get('new_init'), 
 					RSent::get('new_err')
 				);

@@ -2,8 +2,16 @@
 class SLink extends BSystem 
 {
     private static $base = null;
-    private static $current = null;
     private static $getData = null;
+    
+    /**
+     * @return boolean
+     */
+    public static function isManagement()
+    {
+        $path = explode('/', dirname($_SERVER['SCRIPT_NAME']));
+        return (count($path) > 0 && $path[count($path)-1] == 'Management');
+    }
     
     /**
      * link base
@@ -23,7 +31,7 @@ class SLink extends BSystem
             //calculate path to cms root
             $path = explode('/', dirname($script));
             $optimizedPath = array();
-            if(constant('BAMBUS_ACCESS_TYPE') == 'management')
+            if(self::isManagement())
             {
                 array_pop($path);
             }
@@ -46,6 +54,7 @@ class SLink extends BSystem
     {
         if(self::$getData == null)
         {
+            self::$getData = array();
             $get = RURL::data();
             foreach ($get as $k => $v) 
             {
@@ -66,7 +75,7 @@ class SLink extends BSystem
     private static function merge(array $withAdditionalData)
     {
         self::loadInput();
-        $data = self::$current;
+        $data = self::$getData;
         foreach ($withAdditionalData as $k => $v) 
         {
             if($v == null)
@@ -126,7 +135,7 @@ class SLink extends BSystem
     public static function link(array $withAdditionalData = array(), $file = '')
     {
         $wfu = LConfiguration::get('wellformed_urls');
-        if(constant('BAMBUS_ACCESS_TYPE') == 'management')
+        if(self::isManagement())
         {
             $url =  'Management/'.$file.self::buildURL($withAdditionalData);
         }

@@ -150,23 +150,29 @@ class pre_setup_BaseLayout implements runnable
 		$pw = substr(base64_encode(md5(getmypid().'-'.$_SERVER['REMOTE_ADDR'].'-'.strval(microtime(true)*100).'-'.crc32(rand()))),0,8);
 		//$pw = substr($pw,rand(0,14),4).substr($pw,rand(14,28),4);
 		echo '<code style="border:1px solid #2e3436;background:#eeeeec;padding:10px;display:block;margin:2px;">Your Username is: "admin"<br />Your password is: "'.$pw.'"</code>';
+		
+		require_once('System/Component/System/SUser.php');
+		$user = new SUser($pw, 'Administrator');
+        $user->joinGroups("Administrator");
+		$dat = array('admin' => $user);
 		$this->write(
 			'Content/configuration/users.php', 
 			self::HEADER.
-				'a:1:{s:5:"admin";'.
-				'O:5:"SUser":11:{'.
-				's:8:"password";s:32:"'.md5($pw).'";'.
-				's:8:"realName";s:13:"Administrator";'.
-				's:5:"email";b:0;'.
-				's:6:"groups";a:1:{i:0;s:13:"Administrator";}'.
-				's:11:"permissions";a:0:{}'.
-				's:10:"attributes";a:2:{s:21:"last_management_login";i:0;s:22:"management_login_count";i:0;}'.
-				's:12:"primaryGroup";s:0:"";'.
-				's:22:"applicationPreferences";a:0:{}'.
-				's:30:"applicationPreferenceKeyForces";a:0:{}'.
-				's:27:"applicationPreferenceForces";a:0:{}'.
-				's:16:"preferenceForced";b:0;}}'
+			serialize($dat)
 		);
+//		      'a:1:{s:5:"admin";'.
+//                'O:5:"SUser":11:{'.
+//                's:16:"password:private";s:32:"'.md5($pw).'";'.
+//                's:16:"realName:private";s:13:"Administrator";'.
+//                's:13:"email:private";b:0;'.
+//                's:14:"groups:private";a:1:{i:0;s:13:"Administrator";}'.
+//                's:19:"permissions:private";a:0:{}'.
+//                's:18:"attributes:private";a:2:{s:21:"last_management_login";i:0;s:22:"management_login_count";i:0;}'.
+//                's:20:"primaryGroup:private";s:0:"";'.
+//                's:30:"applicationPreferences:private";a:0:{}'.
+//                's:38:"applicationPreferenceKeyForces:private";a:0:{}'.
+//                's:35:"applicationPreferenceForces:private";a:0:{}'.
+//                's:24:"preferenceForced:private";b:0;}}'
 	}
 }
 ?>

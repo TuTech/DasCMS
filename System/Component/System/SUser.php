@@ -7,16 +7,16 @@
  * @license GNU General Public License 3
  */
 class SUser extends BSystem {
-    private $password,$realName,$email;
-    private $groups = array();
-    private $permissions = array();
-    private $attributes = array();
-    private $primaryGroup = '';
+    public $password,$realName,$email;
+    public $groups = array();
+    public $permissions = array();
+    public $attributes = array();
+    public $primaryGroup = '';
     
-    private $applicationPreferences = array();
-    private $applicationPreferenceKeyForces = array();
-    private $applicationPreferenceForces = array();
-    private $preferenceForced = false;
+    public $applicationPreferences = array();
+    public $applicationPreferenceKeyForces = array();
+    public $applicationPreferenceForces = array();
+    public $preferenceForced = false;
     
     public function __construct($password, $realName = "", $email = "", $groups = "", $permissions = "", $primaryGroup = "")
     {
@@ -27,6 +27,13 @@ class SUser extends BSystem {
         $this->grantPermissions($permissions);
         $this->setPrimaryGroup($primaryGroup);
     }
+    
+    public function __sleep()
+    {
+        return array_keys(get_class_vars('SUser'));
+        //return array('password', 'realName', 'email', 'groups', 'permissions', 'attributes', 'applicationPreferences', 'applicationPreferenceKeyForces', 'applicationPreferenceForces', 'preferenceForced');
+    }
+    
 ////Preferences
     public function setApplicationPreference($application, $key, $value, $withAdminPower = false)
     {

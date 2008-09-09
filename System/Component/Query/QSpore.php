@@ -196,7 +196,7 @@ array objectid => spore
 			return;
 		$content = null;
 		$alias = '';
-		if(isset(RURL::has($this->name)))
+		if(RURL::has($this->name))
 		{
 			$alias = RURL::get($this->name);
 		}

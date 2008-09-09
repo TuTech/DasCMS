@@ -6,7 +6,6 @@
 * Description: Image Administration Thumbnail creator
 ************************************************/
 session_start();
-define('BAMBUS_ACCESS_TYPE', 'management');
 chdir('..');
 require_once('./System/Classes/Bambus.php');
 $Bambus = new Bambus();

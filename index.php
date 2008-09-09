@@ -14,7 +14,7 @@ setlocale (LC_ALL, 'de_DE');
 //Bambus uses UTF-8 and sessions will allways be active... TODO: check if sessions are necessary
 header('Content-Type: text/html; charset=utf-8');
 session_start();
-
+require_once('./System/Classes/Bambus.php');
 //now we have a running session we might want to kill it
 if(RURL::has('_destroy_session') || RURL::has('_bcms_logout') || RURL::has('_bambus_logout'))
 {
@@ -32,7 +32,7 @@ $bambus_username = utf8_decode(isset($_SESSION['bambus_cms_username'])  ? $_SESS
 $bambus_password = utf8_decode(isset($_SESSION['bambus_cms_password'])  ? $_SESSION['bambus_cms_password'] : '');
 
 //load the bambus main class and initialize it
-require_once('./System/Classes/Bambus.php');
+
 $Bambus = new Bambus('site');
 
 //tell bambus whats going on

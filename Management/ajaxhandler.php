@@ -9,7 +9,6 @@
 header('Content-Type: text/html; charset=utf-8');
 setlocale (LC_ALL, 'de_DE');
 //load the mighty bambus
-define('BAMBUS_ACCESS_TYPE', 'management');
 chdir('..');
 require_once('./System/Classes/Bambus.php');
 $Bambus = new Bambus();

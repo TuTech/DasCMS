@@ -31,6 +31,7 @@ abstract class DSQL extends BDriver implements IShareable
 			$connector = 'DSQL_'.self::$engine;
 			if(!class_exists($connector, true))
 			{
+			    var_dump(LConfiguration::as_array());
 				throw new XDatabaseException('unsupported database '.self::$engine, 0);
 			}
 			self::$Connector = new $connector;

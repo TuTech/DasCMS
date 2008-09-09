@@ -29,7 +29,7 @@ if($FeedManager->Exists(RURL::get('edit')))
 		$savePage =  true;
 	}
 
-	if(isset($post['type']))
+	if(RSent::hasValue('type'))
 	{
 		list($mode, $type) = explode('-', RSent::get('type'));
 		$channel->FilterType = $type;
@@ -37,13 +37,13 @@ if($FeedManager->Exists(RURL::get('edit')))
 		$savePage =  true;
 	}
 	
-	if(isset($post['itemsperpage']))
+	if(RSent::hasValue('itemsperpage'))
 	{
 		$channel->ItemsPerPage = RSent::get('itemsperpage');
 		$savePage =  true;
 	}
 	
-	if(isset($post['overview']))
+	if(RSent::hasValue('overview'))
 	{
 		switch (RSent::get('overview'))
 		{
@@ -62,7 +62,7 @@ if($FeedManager->Exists(RURL::get('edit')))
 		$savePage =  true;
 	}
 	
-	if(isset(RSent::get('detailview')))
+	if(RSent::has('detailview') )
 	{
 		switch (RSent::get('detailview'))
 		{

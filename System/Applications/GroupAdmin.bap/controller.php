@@ -7,9 +7,6 @@
 * Description: css controller
 ************************************************/
 if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
-if(!empty($post['ta_size'])){
-    setcookie('bambus_ta_size', $post['ta_size']);
-}
 $dbNeedsUpdate = false;
 ////////////////////
 //what do we edit?//
@@ -51,29 +48,29 @@ else
 //process inputs//
 //////////////////
 
-if(!empty($post['action']))
+if(RSent::hasValue('action'))
 {
 	/////////////////////
 	//edit user profile//
 	/////////////////////
 	
-	if($post['action'] == 'edit_user_data' && BAMBUS_GRP_EDIT && ($victim == BAMBUS_USER || BAMBUS_GRP_ADMINISTRATOR))
+	if(RSent::get('action') == 'edit_user_data' && BAMBUS_GRP_EDIT && ($victim == BAMBUS_USER || BAMBUS_GRP_ADMINISTRATOR))
 	{
-		$SUsersAndGroups->setUserRealName($victim, $post['realName']);
-		$SUsersAndGroups->setUserEmail($victim, $post['email']);
-		$SUsersAndGroups->setUserAttribute($victim, 'company', $post['att_company']);
+		$SUsersAndGroups->setUserRealName($victim, RSent::get('realName'));
+		$SUsersAndGroups->setUserEmail($victim, RSent::get('email'));
+		$SUsersAndGroups->setUserAttribute($victim, 'company', RSent::get('att_company'));
 		SNotificationCenter::report('message', 'user_profile_saved');
 		if(BAMBUS_GRP_ADMINISTRATOR)
 		{
-			if(!empty($post['adm_set_password']) && !empty($post['adm_set_password_confirm']) &&$post['adm_set_password_confirm'] == $post['adm_set_password'])
+			if(RSent::hasValue('adm_set_password') && RSent::hasValue('adm_set_password_confirm') && RSent::get('adm_set_password_confirm') == RSent::get('adm_set_password'))
 			{
-				$SUsersAndGroups->setUserPassword($victim, $post['adm_set_password']);
+				$SUsersAndGroups->setUserPassword($victim, RSent::get('adm_set_password'));
 			}
-			if(!empty($post['adm_set_password_confirm']) &&!empty($post['adm_set_password']) && md5($post['adm_set_password_confirm']) == $SUsersAndGroups->getPasswordHash($victim))
+			if(RSent::hasValue('adm_set_password_confirm') && RSent::hasValue('adm_set_password') && md5(RSent::get('adm_set_password_confirm')) == $SUsersAndGroups->getPasswordHash($victim))
 			{
 				SNotificationCenter::report('message', 'new_password_set');
 			}
-			elseif(!empty($post['adm_set_password']))
+			elseif(RSent::hasValue('adm_set_password'))
 			{
 				SNotificationCenter::report('alert', 'passwords_do_not_match');
 			}
@@ -81,15 +78,15 @@ if(!empty($post['action']))
 		else
 		{
 			if(
-				(!empty($post['change_password_from_old']) && $SUsersAndGroups->isValidUser($victim, $post['change_password_from_old']))
+				(RSent::hasValue('change_password_from_old') && $SUsersAndGroups->isValidUser($victim, RSent::get('change_password_from_old')))
 				&&
-				(!empty($post['change_password_to_new']) && !empty($post['change_password_confirm']) && $post['change_password_to_new'] == $post['change_password_confirm'])
+				(RSent::hasValue('change_password_to_new') && RSent::hasValue('change_password_confirm') && RSent::get('change_password_to_new') == RSent::get('change_password_confirm'))
 			  )
 			{
-				$SUsersAndGroups->setUserPassword($victim, $post['change_password_to_new']);
+				$SUsersAndGroups->setUserPassword($victim, RSent::get('change_password_to_new'));
 				SNotificationCenter::report('message', 'password_changed');
 			}
-			elseif(!empty($post['change_password_from_old']) && $SUsersAndGroups->isValidUser($victim, $post['change_password_from_old']))
+			elseif(RSent::hasValue('change_password_from_old') && $SUsersAndGroups->isValidUser($victim, RSent::get('change_password_from_old')))
 			{
 				SNotificationCenter::report('alert', 'passwords_do_not_match');
 			}
@@ -100,14 +97,14 @@ if(!empty($post['action']))
 	//group actions//
 	/////////////////
 	
-	if($post['action'] == 'create_new_group' && BAMBUS_GRP_CREATE)
+	if(RSent::get('action') == 'create_new_group' && BAMBUS_GRP_CREATE)
 	{
-		if(!empty($post['new_group_name']) && isset($post['new_group_description']))
+		if(RSent::hasValue('new_group_name') && RSent::has('new_group_description'))
 		{
-			$SUsersAndGroups->addGroup($post['new_group_name'], $post['new_group_description']);
+			$SUsersAndGroups->addGroup(RSent::get('new_group_name'), RSent::get('new_group_description'));
 			SNotificationCenter::report('message', 'group_created');
-			$edit = $post['new_group_name'];
-			$victim = $post['new_group_name'];
+			$edit = RSent::get('new_group_name');
+			$victim = RSent::get('new_group_name');
 			$edit_mode = 'grp';
 		}
 		else
@@ -119,23 +116,23 @@ if(!empty($post['action']))
 	//user actions//
 	////////////////
 	
-	if($post['action'] == 'create_new_user' && BAMBUS_GRP_CREATE)
+	if(RSent::get('action') == 'create_new_user' && BAMBUS_GRP_CREATE)
 	{
 		if(
-		  	(!empty($post['new_user_name'])) &&
-		  	(!empty($post['new_user_password'])) &&
-		  	(!empty($post['new_user_password_check'])) &&
-		  	(!$SUsersAndGroups->isUser($post['new_user_name'])) &&
-		  	($post['new_user_password'] == $post['new_user_password_check'])
+		  	(RSent::hasValue('new_user_name')) &&
+		  	(RSent::hasValue('new_user_password')) &&
+		  	(RSent::hasValue('new_user_password_check')) &&
+		  	(!$SUsersAndGroups->isUser(RSent::get('new_user_name'))) &&
+		  	(RSent::get('new_user_password') == RSent::get('new_user_password_check'))
 		  )
 		{
 			///////////////
 			//create user//
 			///////////////
 			
-			$SUsersAndGroups->addUser($post['new_user_name'], $post['new_user_password'], $post['new_user_name_and_surname'], $post['new_user_email']);
+			$SUsersAndGroups->addUser(RSent::get('new_user_name'), RSent::get('new_user_password'), RSent::get('new_user_name_and_surname'), RSent::get('new_user_email'));
 			SNotificationCenter::report('message', 'user_created');
-			$victim = $post['new_user_name'];
+			$victim = RSent::get('new_user_name');
 			$edit_mode = 'usr';
 			SLink::set('edit', $victim);
 			SLink::set('mode', 'usr');
@@ -146,19 +143,19 @@ if(!empty($post['action']))
 			//display error message//
 			/////////////////////////
 			
-			if(($post['new_user_password']) != ($post['new_user_password_check']))
+			if(RSent::get('new_user_password') != RSent::get('new_user_password_check'))
 			{
 				SNotificationCenter::report('warning', 'passwords_not_equal');
 			}
-			elseif($SUsersAndGroups->isUser($post['new_user_name']))
+			elseif($SUsersAndGroups->isUser(RSent::get('new_user_name')))
 			{
 				SNotificationCenter::report('warning', 'user_already_exists');
 			}
-			elseif(empty($post['new_user_name']))
+			elseif(RSent::hasValue('new_user_name'))
 			{
 				SNotificationCenter::report('warning', 'username_has_to_be_set');
 			}
-			elseif(empty($post['new_user_password']))
+			elseif(RSent::hasValue('new_user_password'))
 			{
 				SNotificationCenter::report('warning', 'password_has_to_be_set');
 			}
@@ -173,7 +170,7 @@ if(!empty($post['action']))
 	//save group assignment//
 	/////////////////////////
 	
-	if($post['action'] == 'save_assignment_of_groups' && BAMBUS_GRP_EDIT)
+	if(RSent::get('action') == 'save_assignment_of_groups' && BAMBUS_GRP_EDIT)
 	{
 		$join = array();
 		$leave = array();
@@ -184,12 +181,12 @@ if(!empty($post['action']))
 			//change system group settings//
 			////////////////////////////////
 			
-			if(empty($post['join_group_Administrator']))
+			if(RSent::hasValue('join_group_Administrator'))
 			{
 				//no administrator 
 				foreach($SUsersAndGroups->listSystemGroups() as $systemGroup)
 				{
-					if(!empty($post['join_group_'.md5($systemGroup)]))
+					if(RSent::hasValue('join_group_'.md5($systemGroup)))
 					{
 						$join[$systemGroup] = $systemGroup;
 					}
@@ -224,7 +221,7 @@ if(!empty($post['action']))
 		
 		foreach(array_keys($SUsersAndGroups->listGroups()) as $group)
 		{
-			if(!empty($post['join_group_'.md5($group)]))
+			if(RSent::hasValue('join_group_'.md5($group)))
 			{
 				$join[$group] = $group;
 			}
@@ -251,7 +248,7 @@ if(!empty($post['action']))
 		$SUsersAndGroups->leaveGroups($victim, $leave);
 		//set new groups
  		$SUsersAndGroups->joinGroups($victim, $join);
- 		$SUsersAndGroups->setPrimaryGroup($victim, $post['primary_group']);
+ 		$SUsersAndGroups->setPrimaryGroup($victim, RSent::get('primary_group'));
  		SNotificationCenter::report('message', 'group_assignment_saved');
 	}
 	
@@ -259,7 +256,7 @@ if(!empty($post['action']))
 	//save editor permissions//
 	///////////////////////////
 	
-	if($post['action'] == 'save_editor_permissions' && BAMBUS_GRP_EDIT && $victim != BAMBUS_USER)
+	if(RSent::get('action') == 'save_editor_permissions' && BAMBUS_GRP_EDIT && $victim != BAMBUS_USER)
 	{
 		//list the applications
 	    chdir(SPath::SYSTEM_APPLICATIONS);
@@ -281,7 +278,7 @@ if(!empty($post['action']))
 	    	//all admins and the current user must have access to this app
 	    	if(!(($victim == BAMBUS_USER || $SUsersAndGroups->isMemberOf($victim, 'Administrator')) && $item == BAMBUS_APPLICATION))
 	    	{
-		    	if(!empty($post['editor_'.md5($item)]) && ($SUsersAndGroups->hasPermission(BAMBUS_USER, $item) || BAMBUS_GRP_ADMINISTRATOR))
+		    	if(RSent::hasValue('editor_'.md5($item)) && ($SUsersAndGroups->hasPermission(BAMBUS_USER, $item) || BAMBUS_GRP_ADMINISTRATOR))
 		    	{
 		    		//we are allowed to change the value and we like this app -> activate it
 		    		$grantPermission[] = $item;
@@ -304,7 +301,7 @@ if(!empty($post['action']))
 	    $SUsersAndGroups->rejectUserPermissions($victim, $rejectPermission);
 	    SNotificationCenter::report('message', 'permissions_saved');
 	}
-	if($post['action'] == 'save_editor_group_permissions' && BAMBUS_GRP_EDIT)
+	if(RSent::get('action') == 'save_editor_group_permissions' && BAMBUS_GRP_EDIT)
 	{
 		SNotificationCenter::report('alert', 'not_implemented');
 	}

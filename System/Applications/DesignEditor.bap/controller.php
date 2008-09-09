@@ -21,7 +21,7 @@ if(isset($_FILES['bambus_image_file']['name']) && BAMBUS_GRP_CREATE)
 { 
     // we have got an upload
     if(file_exists(SPath::DESIGN.basename($_FILES['bambus_image_file']['name'])) 
-      && empty($post['bambus_overwrite_image_file']))
+      && RSent::hasValue('bambus_overwrite_image_file'))
     {
         SNotificationCenter::report('warning', 'upload_failed_because_file_already_exists');
     }
@@ -98,15 +98,15 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 		if(BAMBUS_GRP_EDIT && $allowEdit && $FileOpened)
 		{
 			//content changed?
-			if(isset($post['content']))
+			if(RSent::has('content'))
 			{
-			   	if($post['content'] != $fileContent)
+			   	if(RSent::get('content') != $fileContent)
 			   	{
 			        //do the save operation
-			        if(DFileSystem::Save(SPath::DESIGN.$File, $post['content']))
+			        if(DFileSystem::Save(SPath::DESIGN.$File, RSent::get('content')))
 			        {
 			        	SNotificationCenter::report('message', '.file_saved');
-			        	$fileContent = $post['content'];
+			        	$fileContent = RSent::get('content');
 			        }
 			        else
 			        {
@@ -119,14 +119,14 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 		//////////////////
 		//manager delete//
 		//////////////////
-		if(!empty($post['action']) && $post['action'] == 'delete' && BAMBUS_GRP_DELETE)
+		if(RSent::get('action') == 'delete' && BAMBUS_GRP_DELETE)
 		{
 			$files = DFileSystem::FilesOf(SPath::DESIGN, '/\.('.implode('|', $allowed).')/i');
 			foreach($files as $file)
 			{
 				if($file == 'default.css')
 					continue;
-				if(!empty($post['select_'.md5($file)]))
+				if(RSent::hasValue('select_'.md5($file)))
 				{
 			        if(@unlink(SPath::DESIGN.$file)){
 			            SNotificationCenter::report('message', 'file_deleted');
@@ -160,11 +160,11 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 		
 		if(BAMBUS_GRP_RENAME && $allowEdit && $FileOpened)
 		{
-		    if(!empty($post['filename']) && $FileName != $post['filename']&& $FileName != 'default.css' && file_exists(SPath::DESIGN.$File))
+		    if(RSent::hasValue('filename') && $FileName != RSent::get('filename') && $FileName != 'default.css' && file_exists(SPath::DESIGN.$File))
 		    {
-				rename(SPath::DESIGN.$File, SPath::DESIGN.basename($post['filename']).'.css');
-				$FileName = basename($post['filename']);
-				$File = basename($post['filename']).'.css';
+				rename(SPath::DESIGN.$File, SPath::DESIGN.basename(RSent::get('filename')).'.css');
+				$FileName = basename(RSent::get('filename'));
+				$File = basename(RSent::get('filename')).'.css';
 		        SNotificationCenter::report('message', 'file_renamed');
 		    }
 		}
@@ -220,14 +220,14 @@ elseif(BAMBUS_APPLICATION_TAB == 'edit_templates')
 		if(BAMBUS_GRP_EDIT && $allowEdit && $FileOpened)
 		{
 			//content changed?
-			if(isset($post['content']))
+			if(RSent::has('content'))
 			{
-			   	if($post['content'] != $fileContent)
+			   	if(RSent::get('content') != $fileContent)
 			   	{
 			        //do the save operation
-			        if(DFileSystem::Save($Path.$File, $post['content']))
+			        if(DFileSystem::Save($Path.$File, RSent::get('content')))
 			        {
-			        	$fileContent = $post['content'];
+			        	$fileContent = RSent::get('content');
 			        }
 			        else
 			        {
@@ -259,11 +259,11 @@ elseif(BAMBUS_APPLICATION_TAB == 'edit_templates')
 		
 		if(BAMBUS_GRP_RENAME && $allowEdit && $FileOpened)
 		{
-		    if(!empty($post['filename']) && $FileName != $post['filename'] && file_exists($Path.$File))
+		    if(RSent::hasValue('filename') && $FileName != RSent::get('filename') && file_exists($Path.$File))
 		    {
-				rename($Path.$File, $Path.basename($post['filename']).$Suffix);
-				$FileName = basename($post['filename']);
-				$File = basename($post['filename']).$Suffix;
+				rename($Path.$File, $Path.basename(RSent::get('filename')).$Suffix);
+				$FileName = basename(RSent::get('filename'));
+				$File = basename(RSent::get('filename')).$Suffix;
 		        SNotificationCenter::report('message', 'file_renamed');
 		    }
 		}

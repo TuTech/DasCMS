@@ -22,7 +22,6 @@ if(RURL::has('logout')){
     exit;
 }
 
-define('BAMBUS_ACCESS_TYPE', 'management');
 
 //got a new login?
 if(RSent::has('bambus_cms_login'))
@@ -40,7 +39,7 @@ if(RSent::has('bambus_cms_login'))
 	? $_SESSION['bambus_cms_password'] 
 	: $_SESSION['pwrd']);
 
-//tell the bambus whats going on
+	//tell the bambus whats going on
 $Bambus = new Bambus();
 
 
@@ -50,13 +49,12 @@ WTemplate::globalSet('WApplications', '');
 WTemplate::globalSet('SNotificationCenter', SNotificationCenter::alloc()->init());
 WTemplate::globalSet('bambus_my_uri', SLink::link());
 
-
 /////////////////////////////////////
 //load all related js and css files//
 /////////////////////////////////////
 
 $path = SPath::SYSTEM_STYLESHEETS;
-$files = DFileSystem::FilesOf($path, '/\.css$/i');
+$styles = DFileSystem::FilesOf($path, '/\.css$/i');
 foreach ($styles as $css) 
 {
 	if(substr($css,-24) == 'specialPurpose.login.css')
@@ -78,7 +76,9 @@ WTemplate::globalSet('Header', new WHeader());
 
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
-if($SUsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($SUsersAndGroups->isMemberOf($bambus_user, 'CMS') || $SUsersAndGroups->isMemberOf($bambus_user, 'Administrator'))) //login ok?
+
+if($SUsersAndGroups->isValidUser($bambus_user, $bambus_password) && 
+    ($SUsersAndGroups->isMemberOf($bambus_user, 'CMS') || $SUsersAndGroups->isMemberOf($bambus_user, 'Administrator'))) //login ok?
 {
 	if(RSent::has('bambus_cms_login'))
 	{
@@ -101,8 +101,10 @@ if($SUsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($SUsersAndG
 
     //1st: validate application
     $applications = LApplication::getAvailableApplications();
-    $tabs = LApplication::alloc()->init()->selectApplicationFromPool($applications);
-    WTemplate::globalSet('WApplications',  new WApplications(''));
+    $Application = LApplication::alloc()->init();
+    $tabs = $Application->selectApplicationFromPool($applications);
+    
+    WTemplate::globalSet('WApplications',  new WApplications());
     
  	//2nd: load application
     if(BAMBUS_APPLICATION == '')
@@ -118,6 +120,7 @@ if($SUsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($SUsersAndG
 	}    
     else
     {
+        $Application->initApp();
 		//is there an application specific css or js file?
 		$appFiles = array('style.css' => 'screen','print.css'=>'print', 'script.js' => 'script');
 		foreach($appFiles as $file => $type)
@@ -145,7 +148,6 @@ if($SUsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($SUsersAndG
 	    
 	    //export the config into an array
     	//load application class
-        $Application = LApplication::alloc()->init();
     	$controller = $Application->controller();
     	$EditingObject = '';
     	if($controller != false)
@@ -190,7 +192,7 @@ if($SUsersAndGroups->isValidUser($bambus_user, $bambus_password) && ($SUsersAndG
 	WHeader::useStylesheet('specialPurpose.login.css');
     if(RSent::has('bambus_cms_login'))
     {
-        sleep(10);
+        //sleep(10);
         SNotificationCenter::report('warning', 'wrong_username_or_password');
     }
     $headTpl = new WTemplate('header', WTemplate::SYSTEM);

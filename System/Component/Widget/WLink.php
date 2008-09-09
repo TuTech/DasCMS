@@ -77,6 +77,11 @@ class WLink extends BWidget
     
     public function render()
     {
+        echo $this->__toString();
+    }
+    
+    public function __toString()
+    {
         return sprintf(
             '<a href="%s" target="%s">%s</a>'
             ,$this->getURL()

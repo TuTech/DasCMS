@@ -28,7 +28,7 @@ class RSent extends BRequest
     {
         self::init();
         $ret = '';
-        if(array_key_exists(self::$data, $key))
+        if(array_key_exists($key, self::$data))
         {
             $ret = self::$data[$key];
         }
@@ -38,13 +38,13 @@ class RSent extends BRequest
     public static function has($key)
     {
         self::init();
-        return array_key_exists(self::$data, $key);
+        return array_key_exists($key, self::$data);
     }
     
     public static function hasValue($key)
     {
         self::init();
-        return (array_key_exists(self::$data, $key) && !empty(self::$data[$key]));
+        return (array_key_exists($key, self::$data) && !empty(self::$data[$key]));
     }
     
     public static function alter($key, $value)

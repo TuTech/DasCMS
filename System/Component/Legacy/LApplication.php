@@ -110,6 +110,7 @@ class LApplication extends BLegacy implements IShareable
     {//TASK- not Tab-Bar
         $html = '';
         $applicationNode = $this->getXMLNodeByPathAndAttribute('bambus/application/interface', 'name', $this->tab);
+        $CommandBar = '';
         if(!empty($applicationNode[0]))
         {
             if(!empty($applicationNode[1]['search']))
@@ -162,7 +163,7 @@ class LApplication extends BLegacy implements IShareable
                             {
                                 $prompt = "+'&amp;prompt='+prompt('".addslashes($task['prompt'])."')";
                             }
-                            $action .= sprintf("{top.location = '%s'%s;}", addslashes(parent::createQueryString(array('_action' => $task['action']))), $prompt);
+                            $action .= sprintf("{top.location = '%s'%s;}", addslashes(SLink::link(array('_action' => $task['action']))), $prompt);
                         }
                         $html .= LGui::taskButton($action, $doJS, $task['icon'], SLocalization::get($task['caption']),$hotkey);
                         if($closed)
