@@ -6,7 +6,6 @@
 * Copyright:   Lutz Selke/TuTech Innovation GmbH 
 * Description: 
 ************************************************/
-if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
 echo LGui::beginForm(array(), 'documentform');
 echo LGui::hiddenInput('action', 'delete');
 $files = DFileSystem::FilesOf(SPath::DOWNLOADS, '/\.(?!(php[0-9]?|aspx?|pl|phtml|cgi))$/i');

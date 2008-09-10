@@ -6,7 +6,6 @@
 * Copyright:   Lutz Selke/TuTech Innovation GmbH 
 * Description: 
 ************************************************/
-if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
 
 
 if(RSent::has('rebuildAliasDatabase') && BAMBUS_GRP_ADMINISTRATOR)

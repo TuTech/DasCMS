@@ -1,5 +1,4 @@
 <?php
-if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
 $succesfullUpload = false;
 $notAllowed = array('php', 'cgi', 'php3', 'php4', 'php5', 'php6', 'asp', 'aspx', 'pl', 'py', 'phtml');
 if(isset($_FILES['bambus_file']['name']) && BAMBUS_GRP_CREATE){ 

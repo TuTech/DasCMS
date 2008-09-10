@@ -6,7 +6,6 @@
 * Copyright:   Lutz Selke/TuTech Innovation GmbH 
 * Description: css controller
 ************************************************/
-if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
 $allowEdit = true;
 $allowed = array('jpeg','jpg','png','gif','svg','mng','eps','ps','tif','tiff','psd','ai','pcx','wmf');
 $Files = DFileSystem::FilesOf(SPath::IMAGES, '/\.('.implode('|', $allowed).')/i');

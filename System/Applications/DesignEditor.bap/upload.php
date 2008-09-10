@@ -6,7 +6,6 @@
 * Copyright:   Lutz Selke/TuTech Innovation GmbH 
 * Description: image upload form
 ************************************************/
-if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
 $maxPost = DFileSystem::returnBytes(ini_get('upload_max_filesize'));
 $freeSpace = disk_free_space(SPath::IMAGES);
 $requestmessage = SLocalization::get('supported_file_types').': '.implode(', ', $allowed)

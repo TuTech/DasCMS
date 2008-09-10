@@ -6,7 +6,6 @@
 * Copyright:   Lutz Selke/TuTech Innovation GmbH 
 * Description: 
 ************************************************/
-if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
 $MPage = MPageManager::alloc()->init();
 $Page = $MPage->Open('a66139353d3097e25f08136fe763de46');
 if($Page)
