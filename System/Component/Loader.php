@@ -23,6 +23,7 @@ function __autoload($className)
         'L' => 'Legacy',
 		'M' => 'Manager',
 		'N' => 'Navigator',
+		'P' => 'Provider',
 		'Q' => 'Query',
 		'R' => 'Request',
         'S' => 'System',

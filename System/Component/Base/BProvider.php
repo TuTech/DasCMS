@@ -55,7 +55,7 @@ abstract class BProvider
         {
             throw new XUndefinedException('provider has not been set up');
         }
-        return $this->Implementation;
+        return $this->Implementor;
     }
 }
 ?>

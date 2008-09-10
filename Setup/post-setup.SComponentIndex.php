@@ -43,6 +43,7 @@ class post_setup_SComponentIndex implements runnable
         'L' => 'Legacy',
 		'M' => 'Manager',
 		'N' => 'Navigator',
+		'P' => 'Provider',
 		'Q' => 'Query',
 		'R' => 'Request',
         'S' => 'System',

@@ -56,6 +56,7 @@ WTemplate::globalSet('Header', new WHeader());
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
 
+
 if($SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'CMS') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator')) //login ok?
 {
 	if(RSent::has('bambus_cms_username'))

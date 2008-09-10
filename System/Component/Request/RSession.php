@@ -5,17 +5,17 @@ class RSession extends BRequest
     
     public static function start()
     {
-        global $_SESSION;
         if(self::$session == null)
         {
             session_start();
+            global $_SESSION;
             self::$session = &$_SESSION;
         }
     }
     
     private static function init()
     {
-        if(self::$session == null)
+        if(self::$session === null)
         {
             throw new XUndefinedException('no session');
         }
