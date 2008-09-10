@@ -4,7 +4,7 @@
  */
 class SSimpleXMLWriter extends BSystem 
 {
-	const Class_Name = 'SSimpleXMLWriter';
+	const CLASS_NAME = 'SSimpleXMLWriter';
 	const XML_HEADER = '<?xml version="%s" encoding="%s" standalone="%s" ?>';
 	
 	private $version;

@@ -11,12 +11,12 @@ class SConfiguration extends BSystem implements IShareable
 {
 	//IShareable
 	private static $initDone = false;
-	const Class_Name = 'SConfiguration';
+	const CLASS_NAME = 'SConfiguration';
 	public static $sharedInstance = NULL;
 	private static $initializedInstance = false;
 	public static function alloc()
 	{
-		$class = self::Class_Name;
+		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)
 			self::$sharedInstance = new $class();
 		return self::$sharedInstance;

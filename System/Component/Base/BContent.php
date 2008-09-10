@@ -66,7 +66,7 @@ abstract class BContent extends BObject
 	{
 		if(method_exists($this, '_set_'.$var))
 		{
-			$this->ModifiedBy = BAMBUS_USER;
+			$this->ModifiedBy = PAuthentication::getUserID();
 			$this->ModifyDate = time();
 			
 			$this->_data__set[$var] = true;

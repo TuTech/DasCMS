@@ -90,7 +90,7 @@ class SProfiler extends BSystem implements IShareable
 	
 	
 	//IShareable
-    const Class_Name = 'SProfiler';
+    const CLASS_NAME = 'SProfiler';
     public static $sharedInstance = NULL;
     
     /**
@@ -98,7 +98,7 @@ class SProfiler extends BSystem implements IShareable
      */
     public static function alloc()
     {
-        $class = self::Class_Name;
+        $class = self::CLASS_NAME;
         if(self::$sharedInstance == NULL && $class != NULL)
         {
             self::$sharedInstance = new $class();

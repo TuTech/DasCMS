@@ -72,6 +72,7 @@ class pre_setup_BaseLayout implements runnable
 			"404redirect" => 0,
 			"htaccessfile" => '.htaccess',
 			"logo" => '',
+			'PAuthentication' => 'SBambusSessionAuth',
 			"sitename" => 'Capricore CMS Installation',
 			"logout_on_exit" => 1,
 			"confirm_for_exit" => 1

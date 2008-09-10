@@ -276,42 +276,42 @@ class SUsersAndGroups extends BSystem implements IShareable
 //wrapper functions: current user and current application
     public function setMyPreference($withKey, $toValue)
     {
-        return $this->setUserApplicationPreference(BAMBUS_USER, BAMBUS_APPLICATION, $withKey, $toValue);
+        return $this->setUserApplicationPreference(PAuthentication::getUserID(), BAMBUS_APPLICATION, $withKey, $toValue);
     }
     
     public function resetMyPreference($withKeyOrKeys = false)
     {
         //false = reset all keys / string = reset one specific key / array of strings = reset all keys in array
-        return $this->resetUserApplicationPreference(BAMBUS_USER, BAMBUS_APPLICATION, $withKeyOrKeys);
+        return $this->resetUserApplicationPreference(PAuthentication::getUserID(), BAMBUS_APPLICATION, $withKeyOrKeys);
     }
     
     public function getMyPreference($withKey)
     {
-        return $this->getUserApplicationPreference(BAMBUS_USER, BAMBUS_APPLICATION, $withKey);
+        return $this->getUserApplicationPreference(PAuthentication::getUserID(), BAMBUS_APPLICATION, $withKey);
     }
     
     
 //wrapper functions: current user and specific application
     public function setMyApplicationPreference($ofApplication, $withKey, $toValue)
     {
-        return $this->setUserApplicationPreference(BAMBUS_USER, $ofApplication, $withKey, $toValue);
+        return $this->setUserApplicationPreference(PAuthentication::getUserID(), $ofApplication, $withKey, $toValue);
     }
     
     public function resetMyApplicationPreference($ofApplication, $withKeyOrKeys = false)
     {
         //false = reset all keys / string = reset one specific key / array of strings = reset all keys in array
-        return $this->resetUserApplicationPreference(BAMBUS_USER, $ofApplication, $withKeyOrKeys);
+        return $this->resetUserApplicationPreference(PAuthentication::getUserID(), $ofApplication, $withKeyOrKeys);
     }
     
     public function getMyApplicationPreference($ofApplication, $withKey)
     {
-        return $this->getUserApplicationPreference(BAMBUS_USER, $ofApplication, $withKey);
+        return $this->getUserApplicationPreference(PAuthentication::getUserID(), $ofApplication, $withKey);
     }
     
 //specific user and specific application
     public function setUserApplicationPreference($ofUser, $andApplication, $withKey, $toValue, $forcedByAdminPower = false)
     {
-        if($this->isUser($ofUser) && ($ofUser == BAMBUS_USER || BAMBUS_GRP_ADMINISTRATOR))
+        if($this->isUser($ofUser) && ($ofUser == PAuthentication::getUserID() || BAMBUS_GRP_ADMINISTRATOR))
         {
             //permitted
             $forcedByAdminPower = $forcedByAdminPower && BAMBUS_GRP_ADMINISTRATOR;
@@ -329,7 +329,7 @@ class SUsersAndGroups extends BSystem implements IShareable
     public function resetUserApplicationPreference($ofUser, $andApplication, $withKeyOrKeys = false)
     {
         //false = reset all keys / string = reset one specific key / array of strings = reset all keys in array
-        if($this->isUser($ofUser) && ($ofUser == BAMBUS_USER || BAMBUS_GRP_ADMINISTRATOR))
+        if($this->isUser($ofUser) && ($ofUser == PAuthentication::getUserID() || BAMBUS_GRP_ADMINISTRATOR))
         {
             //permitted
             $this->userlist[$ofUser]->resetApplicationPreference($andApplication, $withKeyOrKeys);
@@ -345,7 +345,7 @@ class SUsersAndGroups extends BSystem implements IShareable
         
     public function getUserApplicationPreference($ofUser, $andApplication, $withKey)
     {
-        if($this->isUser($ofUser) && ($ofUser == BAMBUS_USER || BAMBUS_GRP_ADMINISTRATOR))
+        if($this->isUser($ofUser) && ($ofUser == PAuthentication::getUserID() || BAMBUS_GRP_ADMINISTRATOR))
         {
             //permitted
             return $this->userlist[$ofUser]->getApplicationPreference($andApplication, $withKey);
@@ -660,7 +660,7 @@ class SUsersAndGroups extends BSystem implements IShareable
     
     
     //IShareable
-    const Class_Name = 'SUsersAndGroups';
+    const CLASS_NAME = 'SUsersAndGroups';
     public static $sharedInstance = NULL;
 
     /**
@@ -668,7 +668,7 @@ class SUsersAndGroups extends BSystem implements IShareable
      */
     public static function alloc()
     {
-        $class = self::Class_Name;
+        $class = self::CLASS_NAME;
         if(self::$sharedInstance == NULL && $class != NULL)
         {
             self::$sharedInstance = new $class();

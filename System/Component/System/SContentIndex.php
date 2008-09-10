@@ -18,7 +18,7 @@ class SContentIndex
 				HContentPublishedEventHandler, HContentRevokedEventHandler, HContentAccessEventHandler 
 {
 	//IShareable
-	const Class_Name = 'SContentIndex';
+	const CLASS_NAME = 'SContentIndex';
 	/**
 	 * @var SContentIndex
 	 */
@@ -29,7 +29,7 @@ class SContentIndex
 	 */
 	public static function alloc()
 	{
-		$class = self::Class_Name;
+		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)
 		{
 			self::$sharedInstance = new $class();
@@ -427,7 +427,7 @@ SQL;
 						"'".$e_title."'",
 						$DB->escape(isset($content->Size) ? intval($content->Size) : 0),
 						$DB->escape(time()),
-						"'".$DB->escape(BAMBUS_USER)."'"
+						"'".$DB->escape(PAuthentication::getUserID())."'"
 					)
 				);
 		}
@@ -593,7 +593,7 @@ SQL;
 					'',
 					-1,
 					$DB->escape(time()),
-					$DB->escape(BAMBUS_USER."@".$_SERVER['REMOTE_ADDR'])
+					$DB->escape(PAuthentication::getUserID()."@".$_SERVER['REMOTE_ADDR'])
 				)
 			);
 		}

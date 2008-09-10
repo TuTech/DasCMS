@@ -10,38 +10,33 @@
 ************************************************/
 //Bambus uses UTF-8 and sessions will allways be active... TODO: check if sessions are necessary
 header('Content-Type: text/html; charset=utf-8');
-session_start();
 require_once('./System/Component/Loader.php');
+RSession::start();
+
 //now we have a running session we might want to kill it
 if(RURL::has('_destroy_session') || RURL::has('_bcms_logout') || RURL::has('_bambus_logout'))
 {
-	$_SESSION['bambus_cms_username'] = '';
-	$_SESSION['bambus_cms_password'] = '';
-    session_destroy();
+    RSession::destroy();
 }
 //or create login differently
 if(RSent::has('bambus_cms_login') && RSent::has('bambus_cms_username') && RSent::has('bambus_cms_password')){
     $triedToLogin = true;
-    $_SESSION['bambus_cms_username'] = RSent::get('bambus_cms_username');
-    $_SESSION['bambus_cms_password'] = RSent::get('bambus_cms_password');
 }
-$bambus_username = utf8_decode(isset($_SESSION['bambus_cms_username'])  ? $_SESSION['bambus_cms_username'] : '');
-$bambus_password = utf8_decode(isset($_SESSION['bambus_cms_password'])  ? $_SESSION['bambus_cms_password'] : '');
-
+PAuthentication::required();
+ 
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
 
 //some permission constants 
-define('BAMBUS_USER', ($SUsersAndGroups->isValidUser($bambus_username, $bambus_password)) ? $bambus_username : '');
-define('BAMBUS_USER_GROUPS', BAMBUS_USER != '' ? implode('; ', $SUsersAndGroups->listGroupsOfUser(BAMBUS_USER)) : '');
-define('BAMBUS_GRP_ADMINISTRATOR', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-define('BAMBUS_GRP_CREATE', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Create') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-define('BAMBUS_GRP_RENAME', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Rename') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-define('BAMBUS_GRP_DELETE', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Delete') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-define('BAMBUS_GRP_EDIT', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Edit') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-define('BAMBUS_GRP_CMS', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'CMS') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-define('BAMBUS_GRP_PHP', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'PHP') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-define('BAMBUS_PRIMARY_GROUP', $SUsersAndGroups->getPrimaryGroup(BAMBUS_USER));
+define('BAMBUS_USER_GROUPS', PAuthentication::getUserID() != '' ? implode('; ', $SUsersAndGroups->listGroupsOfUser(PAuthentication::getUserID())) : '');
+define('BAMBUS_GRP_ADMINISTRATOR', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
+define('BAMBUS_GRP_CREATE', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Create') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
+define('BAMBUS_GRP_RENAME', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Rename') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
+define('BAMBUS_GRP_DELETE', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Delete') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
+define('BAMBUS_GRP_EDIT', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Edit') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
+define('BAMBUS_GRP_CMS', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'CMS') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
+define('BAMBUS_GRP_PHP', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'PHP') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
+define('BAMBUS_PRIMARY_GROUP', $SUsersAndGroups->getPrimaryGroup(PAuthentication::getUserID()));
 
 //set sometemplate keys
 WTemplate::globalSet('meta_keywords',LConfiguration::get('meta_keywords'));

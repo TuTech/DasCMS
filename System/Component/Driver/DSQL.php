@@ -10,7 +10,7 @@
 abstract class DSQL extends BDriver implements IShareable 
 {
 	private function __construct(){}
-	const Class_Name = 'DSQL';
+	const CLASS_NAME = 'DSQL';
 	private static $engine = null;
 	protected static $Database = null;
 	protected static $Connector = null;

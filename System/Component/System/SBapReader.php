@@ -69,7 +69,7 @@ class SBapReader extends BSystem implements IShareable
 			{
 				$data = self::getAttributesOf($appPath.$item, array('name', 'description', 'icon', 'tabs'));
 				//@todo remove old uag-binding
-				if($UAG->hasPermission(constant('BAMBUS_USER'), $item) || $UAG->isMemberOf(constant('BAMBUS_USER'), 'Administrator'))
+				if($UAG->hasPermission(PAuthentication::getUserID(), $item) || $UAG->isMemberOf(PAuthentication::getUserID(), 'Administrator'))
 				{
 					$available[$item] = array(
 						 'name' => $data['name']
@@ -109,14 +109,14 @@ class SBapReader extends BSystem implements IShareable
 	
 	
 	//IShareable
-	const Class_Name = 'SBapReader';
+	const CLASS_NAME = 'SBapReader';
 	public static $sharedInstance = NULL;
 	/**
 	 * @return SApplication
 	 */
 	public static function alloc()
 	{
-		$class = self::Class_Name;
+		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)
 		{
 			self::$sharedInstance = new $class();

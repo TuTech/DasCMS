@@ -5,20 +5,16 @@
 * Copyright:   Lutz Selke/TuTech Innovation GmbH 
 * Description: Image Administration Thumbnail creator
 ************************************************/
-session_start();
 chdir('..');
 require_once('./System/Component/Loader.php');
 $allowedPaths = array('design', 'image');
 
-//go to the cms root
-
-//tell the bambus whats going on
-@$bambus_user = utf8_decode((!empty($_SESSION['bambus_cms_username'])) ? $_SESSION['bambus_cms_username'] : $_SESSION['uname']);
-@$bambus_password = utf8_decode((!empty($_SESSION['bambus_cms_password'])) ? $_SESSION['bambus_cms_password'] : $_SESSION['pwrd']);
+RSession::start();
+PAuthentication::required();
 
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
-if($SUsersAndGroups->isValidUser($bambus_user, $bambus_password))
+if(PAuthentication::isAuthenticated())
 {
     $render = RURL::get('render');
 	$path = (RURL::get('path') == 'design') ? (SPath::DESIGN): (SPath::IMAGES);

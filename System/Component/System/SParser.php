@@ -227,12 +227,12 @@ class SParser extends BSystem implements IShareable
     }
 
     //IShareable
-    const Class_Name = 'SParser';
+    const CLASS_NAME = 'SParser';
     public static $sharedInstance = NULL;
     private static $initializedInstance = false;
     public static function alloc()
     {
-        $class = self::Class_Name;
+        $class = self::CLASS_NAME;
         if(self::$sharedInstance == NULL && $class != NULL)
         {
             self::$sharedInstance = new $class();

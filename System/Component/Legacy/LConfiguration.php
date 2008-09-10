@@ -17,7 +17,7 @@ class LConfiguration extends BLegacy
     private function __construct()
     {    }
     
-    const Class_Name = 'LConfiguration';
+    const CLASS_NAME = 'LConfiguration';
 
     /**
      * @return LConfiguration

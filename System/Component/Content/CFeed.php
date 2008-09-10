@@ -71,9 +71,9 @@ class CFeed extends BContent implements ISupportsSidebar
 		$meta = array();
 		$defaults = array(
 			'CreateDate' => time(),
-			'CreatedBy' => BAMBUS_USER,
+			'CreatedBy' => PAuthentication::getUserID(),
 			'ModifyDate' => time(),
-			'ModifiedBy' => BAMBUS_USER,
+			'ModifiedBy' => PAuthentication::getUserID(),
 			'PubDate' => 0,
 			'Size' => 0,
 			'Title' => 'new CFeed '.date('r'),

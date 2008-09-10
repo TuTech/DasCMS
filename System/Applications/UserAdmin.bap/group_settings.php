@@ -133,7 +133,7 @@ if($edit_mode == 'usr')
 	{
 		$desc = '<br /><small><i>'.SLocalization::get('SystemGroupDescription_'.$sysgroup).'</i></small>';
 		$flip = ($flip == '1') ? '2' : '1';
-		if($victim != BAMBUS_USER && constant('BAMBUS_GRP_'.strtoupper($sysgroup)))
+		if($victim != PAuthentication::getUserID() && constant('BAMBUS_GRP_'.strtoupper($sysgroup)))
 		{
 			if($sysgroup != 'Administrator')
 			{

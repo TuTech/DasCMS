@@ -400,7 +400,7 @@ class SAlias extends BSystem implements IShareable,
 	}
 
 	//begin IShareable
-	const Class_Name = 'SAlias';
+	const CLASS_NAME = 'SAlias';
 	
 	public static $sharedInstance = NULL;
 	
@@ -411,7 +411,7 @@ class SAlias extends BSystem implements IShareable,
 	 */
 	public static function alloc()
 	{
-		$class = self::Class_Name;
+		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)
 		{
 			self::$sharedInstance = new $class();

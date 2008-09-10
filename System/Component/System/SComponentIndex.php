@@ -217,7 +217,7 @@ class SComponentIndex extends BSystem implements IShareable
 	/**
 	 * Find all classes implementing the given interface
 	 *
-	 * @param strring $interface
+	 * @param string $interface
 	 * @return array
 	 * @throws XUndefinedIndexException
 	 */
@@ -308,7 +308,7 @@ class SComponentIndex extends BSystem implements IShareable
 	
 	//IShareable
 	private static $initDone = false;
-	const Class_Name = 'SComponentIndex';
+	const CLASS_NAME = 'SComponentIndex';
 	public static $sharedInstance = NULL;
 	private static $initializedInstance = false;
 	
@@ -319,7 +319,7 @@ class SComponentIndex extends BSystem implements IShareable
 	 */
 	public static function alloc()
 	{
-		$class = self::Class_Name;
+		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)
 			self::$sharedInstance = new $class();
 		return self::$sharedInstance;

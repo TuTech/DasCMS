@@ -75,14 +75,14 @@ class NListNavigation extends BNavigation implements IShareable
 	
 	
 	//IShareable
-	const Class_Name = 'NListNavigation';
+	const CLASS_NAME = 'NListNavigation';
 	public static $sharedInstance = NULL;
 	/**
 	 * @return NListNavigator
 	 */
 	public static function alloc()
 	{
-		$class = self::Class_Name;
+		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)
 		{
 			self::$sharedInstance = new $class();

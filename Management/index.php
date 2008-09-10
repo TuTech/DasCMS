@@ -12,31 +12,16 @@ require_once('./System/Component/Loader.php');
 //@todo
 //header('Content-Type: text/html; charset=utf-8');
 WHeader::httpHeader('Content-Type: text/html; charset=utf-8');
-session_start();
+RSession::start();
 //you want to go? ok!
 if(RURL::has('logout')){
-    session_destroy();
+    RSession::destroy(); 
     header('Location: ../?');
     exit;
 }
 
 
-//got a new login?
-if(RSent::has('bambus_cms_login'))
-{
-    $_SESSION['uname'] = RSent::get('username');
-    $_SESSION['pwrd'] =  RSent::get('password');
-    $_SESSION['bambus_cms_username'] = RSent::get('bambus_cms_username'); 
-    $_SESSION['bambus_cms_password'] = RSent::get('bambus_cms_password'); 
-}
-
-@$bambus_user = utf8_decode((!empty($_SESSION['bambus_cms_username'])) 
-	? $_SESSION['bambus_cms_username'] 
-	: $_SESSION['uname']);
-@$bambus_password = utf8_decode((!empty($_SESSION['bambus_cms_password'])) 
-	? $_SESSION['bambus_cms_password'] 
-	: $_SESSION['pwrd']);
-
+PAuthentication::required();
 
 WTemplate::globalSet('logotext', BAMBUS_VERSION);
 WTemplate::globalSet('WApplications', '');
@@ -71,27 +56,25 @@ WTemplate::globalSet('Header', new WHeader());
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
 
-if($SUsersAndGroups->isValidUser($bambus_user, $bambus_password) && 
-    ($SUsersAndGroups->isMemberOf($bambus_user, 'CMS') || $SUsersAndGroups->isMemberOf($bambus_user, 'Administrator'))) //login ok?
+if($SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'CMS') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator')) //login ok?
 {
-	if(RSent::has('bambus_cms_login'))
+	if(RSent::has('bambus_cms_username'))
 	{
-		$SUsersAndGroups->setUserAttribute($bambus_user, 'last_management_login', time());
-		$logins = $SUsersAndGroups->getUserAttribute($bambus_user, 'management_login_count');
+		$SUsersAndGroups->setUserAttribute(PAuthentication::getUserID(), 'last_management_login', time());
+		$logins = $SUsersAndGroups->getUserAttribute(PAuthentication::getUserID(), 'management_login_count');
 		$count = (empty($logins)) ? 1 : ++$logins;
-		$SUsersAndGroups->setUserAttribute($bambus_user, 'management_login_count', $count);
+		$SUsersAndGroups->setUserAttribute(PAuthentication::getUserID(), 'management_login_count', $count);
 	}
 	//this is not defined in a loop because code assist would not work otherwise
-	define('BAMBUS_USER', $bambus_user);
-	define('BAMBUS_USER_GROUPS', implode('; ', $SUsersAndGroups->listGroupsOfUser(BAMBUS_USER)));
-	define('BAMBUS_PRIMARY_GROUP', $SUsersAndGroups->getPrimaryGroup(BAMBUS_USER));
-	define('BAMBUS_GRP_ADMINISTRATOR', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-	define('BAMBUS_GRP_CREATE', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Create') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-	define('BAMBUS_GRP_RENAME', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Rename') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-	define('BAMBUS_GRP_DELETE', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Delete') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-	define('BAMBUS_GRP_EDIT', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Edit') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-	define('BAMBUS_GRP_CMS', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'CMS') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
-	define('BAMBUS_GRP_PHP', $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'PHP') || $SUsersAndGroups->isMemberOf(BAMBUS_USER, 'Administrator'));
+	define('BAMBUS_USER_GROUPS', implode('; ', $SUsersAndGroups->listGroupsOfUser(PAuthentication::getUserID())));
+	define('BAMBUS_PRIMARY_GROUP', $SUsersAndGroups->getPrimaryGroup(PAuthentication::getUserID()));
+	define('BAMBUS_GRP_ADMINISTRATOR', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
+	define('BAMBUS_GRP_CREATE', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Create') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
+	define('BAMBUS_GRP_RENAME', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Rename') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
+	define('BAMBUS_GRP_DELETE', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Delete') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
+	define('BAMBUS_GRP_EDIT', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Edit') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
+	define('BAMBUS_GRP_CMS', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'CMS') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
+	define('BAMBUS_GRP_PHP', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'PHP') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
 
     //1st: validate application
     $applications = LApplication::getAvailableApplications();
@@ -179,7 +162,6 @@ if($SUsersAndGroups->isValidUser($bambus_user, $bambus_password) &&
     define('BAMBUS_APPLICATION_TITLE', SLocalization::get('login'));
     define('BAMBUS_APPLICATION_ICON', WIcon::pathFor('login'));
 	define('BAMBUS_CURRENT_OBJECT', '');
-	define('BAMBUS_USER', '');
 	
     LApplication::alloc()->init()->selectApplicationFromPool(array());
 

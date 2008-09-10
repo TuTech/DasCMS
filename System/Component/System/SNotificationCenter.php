@@ -15,7 +15,7 @@ class SNotificationCenter extends BSystem implements IShareable
 	//utilize old NFC Class
 	
 	//IShareable
-	const Class_Name = 'SNotificationCenter';
+	const CLASS_NAME = 'SNotificationCenter';
 	private static $sharedInstance = NULL;
 	private static $initializedInstance = false;
 	private static $notifications = array(); 
@@ -24,7 +24,7 @@ class SNotificationCenter extends BSystem implements IShareable
      */
 	public static function alloc()
 	{
-		$class = self::Class_Name;
+		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)
 		{
 			self::$sharedInstance = new $class();
@@ -78,7 +78,7 @@ class SNotificationCenter extends BSystem implements IShareable
            'message' => $message
             ,'message_type' => $type
             ,'edit' => ''
-            ,'user' => defined('BAMBUS_USER') ? constant('BAMBUS_USER') : ''
+            ,'user' => PAuthentication::getUserID()
             ,'application' =>  defined('BAMBUS_APPLICATION') ? constant('BAMBUS_APPLICATION') : ''
             ,'timestamp' => time()
             ,'ip_address' => getenv ("REMOTE_ADDR")

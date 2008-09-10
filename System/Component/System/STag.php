@@ -36,7 +36,7 @@ class STag extends BSystem implements IShareable,
 	}
 	
 	//IShareable
-	const Class_Name = 'STag';
+	const CLASS_NAME = 'STag';
 	/**
 	 * @var STag
 	 */
@@ -47,7 +47,7 @@ class STag extends BSystem implements IShareable,
 	 */
 	public static function alloc()
 	{
-		$class = self::Class_Name;
+		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)
 		{
 			self::$sharedInstance = new $class();

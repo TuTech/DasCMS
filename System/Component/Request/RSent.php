@@ -24,7 +24,7 @@ class RSent extends BRequest
         }
     }
     
-    public static function get($key)
+    public static function get($key, $encoding = "ISO-8859-15")
     {
         self::init();
         $ret = '';
@@ -32,7 +32,7 @@ class RSent extends BRequest
         {
             $ret = self::$data[$key];
         }
-        return $ret;
+        return mb_convert_encoding($ret, $encoding, 'UTF-8');
     }
     
     public static function has($key)
@@ -47,14 +47,25 @@ class RSent extends BRequest
         return (array_key_exists($key, self::$data) && !empty(self::$data[$key]));
     }
     
-    public static function alter($key, $value)
+    public static function alter($key, $value, $encoding = "ISO-8859-15")
     {
         self::init();
-        self::$data[$key] = $value;
+        self::$data[$key] = mb_convert_encoding($value, 'UTF-8', $encoding);
     }
     
-    public static function data()
+    public static function data($encoding = "ISO-8859-15")
     {
+        self::init();
+        $data = self::$data;
+        if(strtoupper($encoding) != 'UTF-8')
+        {
+            $data = array();
+            foreach (self::$data as $k => $v) 
+            {
+                $data[mb_convert_encoding($k, $encoding, 'UTF-8')] = mb_convert_encoding($v, $encoding, 'UTF-8');
+            }
+            
+        }
         return self::$data;
     }
 }

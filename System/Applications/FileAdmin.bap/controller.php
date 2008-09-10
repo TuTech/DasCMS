@@ -18,7 +18,7 @@ if(isset($_FILES['bambus_file']['name']) && BAMBUS_GRP_CREATE){
                 SNotificationCenter::report('message', 'file_uploaded');
                 chmod(SPath::DOWNLOADS.basename(utf8_decode($_FILES['bambus_file']['name'])), 0666);
                 $succesfullUpload = basename(utf8_decode($_FILES['bambus_file']['name']));
-                DFileSystem::Append(SPath::LOGS.'files.log', sprintf("%s\t%s\t%s\t%s\n", date('r'), BAMBUS_USER, 'upload', $_FILES['bambus_file']['name']));
+                DFileSystem::Append(SPath::LOGS.'files.log', sprintf("%s\t%s\t%s\t%s\n", date('r'), PAuthentication::getUserID(), 'upload', $_FILES['bambus_file']['name']));
             }else{
                 SNotificationCenter::report('warning', 'uploded_failed');
             }
@@ -38,7 +38,7 @@ if(RSent::get('action') == 'delete' && BAMBUS_GRP_DELETE)
 		{
 	        if(unlink(SPath::DOWNLOADS.$file)){
 	            SNotificationCenter::report('message', 'file_deleted');
-                DFileSystem::Append(SPath::LOGS.'files.log', sprintf("%s\t%s\t%s\t%s\n", date('r'), BAMBUS_USER, 'delete',$file));
+                DFileSystem::Append(SPath::LOGS.'files.log', sprintf("%s\t%s\t%s\t%s\n", date('r'), PAuthentication::getUserID(), 'delete',$file));
 	        }else{
 	            SNotificationCenter::report('warning', 'could_not_delete_file');
 	        }

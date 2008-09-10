@@ -11,7 +11,7 @@
 class LApplication extends BLegacy implements IShareable
 {
     //IShareable
-    const Class_Name = 'LApplication';
+    const CLASS_NAME = 'LApplication';
     public static $sharedInstance = NULL;
     private static $initializedInstance = false;
     
@@ -20,7 +20,7 @@ class LApplication extends BLegacy implements IShareable
      */
     public static function alloc()
     {
-        $class = self::Class_Name;
+        $class = self::CLASS_NAME;
         if(self::$sharedInstance == NULL && $class != NULL)
         {
             self::$sharedInstance = new $class();
@@ -376,7 +376,7 @@ class LApplication extends BLegacy implements IShareable
             {
                 $appName = substr($id,0,(strlen(DFileSystem::suffix($id))+1)*-1);
                 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
-                if(!$SUsersAndGroups->hasPermission(BAMBUS_USER, $appName))
+                if(!$SUsersAndGroups->hasPermission(PAuthentication::getUserID(), $appName))
                 {
                     unset($available[$id]);
                 }

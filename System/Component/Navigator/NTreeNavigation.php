@@ -22,17 +22,17 @@ class NTreeNavigation extends BNavigation implements IShareable
 	private $ActiveNodes = array();
 	
 	//IShareable
-	const Class_Name = 'NTreeNavigation';
+	const CLASS_NAME = 'NTreeNavigation';
 	public static $sharedInstance = NULL;
 	private static $initializedInstance = false;
 	public static function alloc()
 	{
-		$class = self::Class_Name;
+		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)
 		{
 			self::$sharedInstance = new $class();
 			try{
-				self::$index = DFileSystem::LoadData('./Content/'.self::Class_Name.'/index.php');
+				self::$index = DFileSystem::LoadData('./Content/'.self::CLASS_NAME.'/index.php');
 			}
 			catch (Exception $e)
 			{
@@ -131,7 +131,7 @@ class NTreeNavigation extends BNavigation implements IShareable
     public static function Save()
     {
     	self::alloc();
-		DFileSystem::SaveData('./Content/'.self::Class_Name.'/index.php', self::$index);
+		DFileSystem::SaveData('./Content/'.self::CLASS_NAME.'/index.php', self::$index);
 		return true;
     }
     

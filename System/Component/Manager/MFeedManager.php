@@ -186,7 +186,7 @@ class MFeedManager extends BContentManager implements IShareable
 	}
 	
 	//begin IShareable
-	const Class_Name = 'MFeedManager';
+	const CLASS_NAME = 'MFeedManager';
 	
 	public static $sharedInstance = NULL;
 	private static $initializedInstance = false;
@@ -198,7 +198,7 @@ class MFeedManager extends BContentManager implements IShareable
 	 */
 	public static function alloc()
 	{
-		$class = self::Class_Name;
+		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)
 		{
 			self::$sharedInstance = new $class();

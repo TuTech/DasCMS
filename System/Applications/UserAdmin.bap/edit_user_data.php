@@ -60,7 +60,7 @@ if($edit_mode == 'usr')
 	///////////////////////
 	echo LGui::hiddenInput('action', 'edit_user_data');
 	//what kind of edit do we have? admin|self|others
-	$allowEdit = ($victim == BAMBUS_USER || BAMBUS_GRP_ADMINISTRATOR);
+	$allowEdit = ($victim == PAuthentication::getUserID() || BAMBUS_GRP_ADMINISTRATOR);
 		$row = ($allowEdit)
  			? "<tr class=\"flip_%d\"><th class=\"left_th\">%s</th><td><input value=\"%s\" name=\"%s\" class=\"%s\" type=\"%s\" /></td></tr>\n"
 			: "<tr class=\"flip_%d\"><th class=\"left_th\">%s</th><td>%s</td></tr>\n";
@@ -335,7 +335,7 @@ EOX;
 	        $is_admin = $SUsersAndGroups->isMemberOf($victim, 'Administrator');
 	        //printf('%s %s an administrator; ', $victim, ($is_admin) ? 'is' : 'is not');
 	        $checked = ($is_admin || $SUsersAndGroups->hasPermission($victim, $app_name)) ? ' checked="checked"' : '';
-	        $disabled = ($is_admin || ($app_name == BAMBUS_APPLICATION && $victim == BAMBUS_USER)) ? ' disabled="disabled"' : '';
+	        $disabled = ($is_admin || ($app_name == BAMBUS_APPLICATION && $victim == PAuthentication::getUserID())) ? ' disabled="disabled"' : '';
 	        	printf(
 	        		$line,
 	        		$flip,

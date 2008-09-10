@@ -9,7 +9,7 @@
  */
 class DSQL_SQLite extends DSQL  
 {
-	const Class_Name = 'DSQL_SQLite';
+	const CLASS_NAME = 'DSQL_SQLite';
 	
 	/**
 	 * @var SQLiteDatabase

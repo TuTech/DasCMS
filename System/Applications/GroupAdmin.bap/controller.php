@@ -23,7 +23,7 @@ if(!RURL::has('mode') || RURL::get('mode') == 'usr')
 	/////////
 	
 	$edit_mode = 'usr';
-	$victim = (($SUsersAndGroups->isUser($edit)) ? $edit : BAMBUS_USER);
+	$victim = (($SUsersAndGroups->isUser($edit)) ? $edit : PAuthentication::getUserID());
 }
 else
 {	
@@ -39,7 +39,7 @@ else
 	else
 	{
 		//no group found?
-		$victim = BAMBUS_USER;
+		$victim = PAuthentication::getUserID();
 		$edit_mode = 'usr';
 	}
 }
@@ -54,7 +54,7 @@ if(RSent::hasValue('action'))
 	//edit user profile//
 	/////////////////////
 	
-	if(RSent::get('action') == 'edit_user_data' && BAMBUS_GRP_EDIT && ($victim == BAMBUS_USER || BAMBUS_GRP_ADMINISTRATOR))
+	if(RSent::get('action') == 'edit_user_data' && BAMBUS_GRP_EDIT && ($victim == PAuthentication::getUserID() || BAMBUS_GRP_ADMINISTRATOR))
 	{
 		$SUsersAndGroups->setUserRealName($victim, RSent::get('realName'));
 		$SUsersAndGroups->setUserEmail($victim, RSent::get('email'));
@@ -175,7 +175,7 @@ if(RSent::hasValue('action'))
 		$join = array();
 		$leave = array();
 		//you cant change your own system rights
-		if($victim != BAMBUS_USER)
+		if($victim != PAuthentication::getUserID())
 		{
 			////////////////////////////////
 			//change system group settings//
@@ -207,7 +207,7 @@ if(RSent::hasValue('action'))
 		}
 		else
 		{
-			$groups = $SUsersAndGroups->listGroupsOfUser(BAMBUS_USER);
+			$groups = $SUsersAndGroups->listGroupsOfUser(PAuthentication::getUserID());
 			foreach($groups as $group)
 			{	
 				if($SUsersAndGroups->isSystemGroup($group))
@@ -256,7 +256,7 @@ if(RSent::hasValue('action'))
 	//save editor permissions//
 	///////////////////////////
 	
-	if(RSent::get('action') == 'save_editor_permissions' && BAMBUS_GRP_EDIT && $victim != BAMBUS_USER)
+	if(RSent::get('action') == 'save_editor_permissions' && BAMBUS_GRP_EDIT && $victim != PAuthentication::getUserID())
 	{
 		//list the applications
 	    chdir(SPath::SYSTEM_APPLICATIONS);
@@ -276,14 +276,14 @@ if(RSent::hasValue('action'))
 	    foreach($items as $item)
 	    {
 	    	//all admins and the current user must have access to this app
-	    	if(!(($victim == BAMBUS_USER || $SUsersAndGroups->isMemberOf($victim, 'Administrator')) && $item == BAMBUS_APPLICATION))
+	    	if(!(($victim == PAuthentication::getUserID() || $SUsersAndGroups->isMemberOf($victim, 'Administrator')) && $item == BAMBUS_APPLICATION))
 	    	{
-		    	if(RSent::hasValue('editor_'.md5($item)) && ($SUsersAndGroups->hasPermission(BAMBUS_USER, $item) || BAMBUS_GRP_ADMINISTRATOR))
+		    	if(RSent::hasValue('editor_'.md5($item)) && ($SUsersAndGroups->hasPermission(PAuthentication::getUserID(), $item) || BAMBUS_GRP_ADMINISTRATOR))
 		    	{
 		    		//we are allowed to change the value and we like this app -> activate it
 		    		$grantPermission[] = $item;
 		    	}
-		    	elseif($SUsersAndGroups->hasPermission(BAMBUS_USER, $item) || BAMBUS_GRP_ADMINISTRATOR)
+		    	elseif($SUsersAndGroups->hasPermission(PAuthentication::getUserID(), $item) || BAMBUS_GRP_ADMINISTRATOR)
 		    	{
 		    		//changing allowed but this app stinks -> deactivate it
 		    		$rejectPermission[] = $item;
@@ -327,7 +327,7 @@ if(RURL::get('_action') == 'delete')
 			$SUsersAndGroups->removeGroup($victim);
 			SNotificationCenter::report('message', 'group_deleted');
 			$edit_mode = 'usr';
-			$victim = BAMBUS_USER;
+			$victim = PAuthentication::getUserID();
 		}
 		else
 		{
@@ -341,13 +341,13 @@ if(RURL::get('_action') == 'delete')
 	
 	elseif($edit_mode == 'usr' && BAMBUS_GRP_DELETE)
 	{
-		if($SUsersAndGroups->isUser($victim) && $victim != BAMBUS_USER)
+		if($SUsersAndGroups->isUser($victim) && $victim != PAuthentication::getUserID())
 		{
 			$result = $SUsersAndGroups->removeUser($victim);
 			if($result)
 			{
 				SNotificationCenter::report('message', 'message');
-				$victim = BAMBUS_USER;
+				$victim = PAuthentication::getUserID();
 			}
 			elseif($result == -1)
 			{
@@ -405,7 +405,7 @@ if(count($users) > 0 || count($groups) > 0)
     foreach(array_keys($users) as $item)
 	{
 		$realname = $SUsersAndGroups->getRealName($item);
-		$realname = ($item == BAMBUS_USER) ? 'You' : htmlentities($realname, ENT_QUOTES);
+		$realname = ($item == PAuthentication::getUserID()) ? 'You' : htmlentities($realname, ENT_QUOTES);
 		$admin = $SUsersAndGroups->isMemberOf($item, 'Administrator');
 		printf(
 			'<a href="%s">' ."\n\t".

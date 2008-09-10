@@ -9,7 +9,7 @@
  */
 class DSQL_MySQL extends DSQL  
 {
-	const Class_Name = 'DSQL_MySQL';
+	const CLASS_NAME = 'DSQL_MySQL';
 	
 	/**
 	 * @var mysqli

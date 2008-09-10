@@ -130,7 +130,7 @@ class MPageManager extends BContentManager implements IShareable
 		}
 		if(self::$_index == null)
 		{
-			self::$_exists[$id] = SContentIndex::isPublic(self::Class_Name,  $id, false);
+			self::$_exists[$id] = SContentIndex::isPublic(self::CLASS_NAME,  $id, false);
 			return self::$_exists[$id];
 		}
 		return isset(self::$_index[$id]);
@@ -169,7 +169,7 @@ class MPageManager extends BContentManager implements IShareable
 	}
 	
 	//begin IShareable
-	const Class_Name = 'MPageManager';
+	const CLASS_NAME = 'MPageManager';
 	
 	public static $sharedInstance = NULL;
 	private static $initializedInstance = false;
@@ -179,7 +179,7 @@ class MPageManager extends BContentManager implements IShareable
 	 */
 	public static function alloc()
 	{
-		$class = self::Class_Name;
+		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)
 		{
 			self::$sharedInstance = new $class();

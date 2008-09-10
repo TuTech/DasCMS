@@ -70,7 +70,7 @@ class MError extends BContentManager implements IShareable
 		return new CError($id);
 	}
 	//begin IShareable
-	const Class_Name = 'MError';
+	const CLASS_NAME = 'MError';
 	
 	public static $sharedInstance = NULL;
 	private static $initializedInstance = false;
@@ -82,7 +82,7 @@ class MError extends BContentManager implements IShareable
 	 */
 	public static function alloc()
 	{
-		$class = self::Class_Name;
+		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)
 		{
 			self::$sharedInstance = new $class();
