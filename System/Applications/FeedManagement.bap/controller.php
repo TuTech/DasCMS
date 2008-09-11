@@ -105,50 +105,15 @@ if($savePage)
 {
 	$channel->Save();
 }
-//open file dialog
-if($FeedManager->Items > 0)
+if(isset($channel) && $channel != null)
 {
-    $channels = $FeedManager->Index;
-    asort($channels, SORT_LOCALE_STRING);
-	$channelIds = array_keys($channels);
-	echo "\n<div id=\"OFD_Definition\">\n" .
-			"<span id=\"OFD_Categories\">\n" .
-				"<span>".SLocalization::get('news_channel')."</span>\n" .
-			"</span>\n" .
-			"<span id=\"OFD_Items\">";
-
-	//openFileDialog files
-    foreach($channels as $item => $name)
-	{
-		printf(
-			'<a href="%s">' ."\n\t".
-				'<span title="title">%s</span>' ."\n\t".
-				'<span title="icon">%s</span>' ."\n\t".
-				'<span title="description">%s</span>' ."\n\t".
-				'<span title="category">%s</span>' ."\n".
-			"</a>\n"
-			,SLink::link(array('edit' => $item))
-			,htmlspecialchars($name)
-			,WIcon::pathFor('news-channel', 'mimetype',WIcon::MEDIUM)
-			,($item === 0) ? SLocalization::get('provides_all_published_objects') : ' '
-			,SLocalization::get('news_channel')
-		);
-	}
-	echo "</span>\n</div>\n";
+    $EditingObject = $channel->Title.'.feed';
 }
-if($channel != null)
+$OFD = new WOpenFileDialog();
+$OFD->registerCategory('news_channel');
+foreach($FeedManager->Index as $item => $name)
 {
-	$EditingObject = $channel->Title.'.feed';
+    $OFD->addItem('news_channel',$name,SLink::link(array('edit' => $item)),'news-channel', ' ');
 }
-
+$OFD->render();
 ?>
-<script language="JavaScript" type="text/javascript">
-	var OBJ_ofd;
-	OBJ_ofd = new CLASS_OpenFileDialog();
-	OBJ_ofd.self = 'OBJ_ofd';
-	OBJ_ofd.openIcon = '<?php echo WIcon::pathFor('open'); ?>';
-	OBJ_ofd.openTranslation = '<?php SLocalization::out('open'); ?>';
-	OBJ_ofd.closeIcon = '<?php echo WIcon::pathFor('delete'); ?>';
-	OBJ_ofd.statusText = '';
-	OBJ_ofd.statusAnimation = '<?php echo  WIcon::pathFor('loading', 'animation', WIcon::EXTRA_SMALL);  ?>';
-</script>

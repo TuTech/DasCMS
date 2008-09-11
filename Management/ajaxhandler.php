@@ -38,7 +38,6 @@ if(
 	define('BAMBUS_GRP_DELETE', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Delete') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
 	define('BAMBUS_GRP_EDIT', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Edit') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
 	define('BAMBUS_GRP_CMS', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'CMS') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
-	define('BAMBUS_GRP_PHP', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'PHP') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
 	define('BAMBUS_PRIMARY_GROUP', $SUsersAndGroups->getPrimaryGroup(PAuthentication::getUserID()));
     
     //build the shiny bambus menu-bar and check the editor permissions

@@ -285,42 +285,18 @@ if(BAMBUS_APPLICATION_TAB != 'manage')
 	}	
 }
 
-	echo "\n<div id=\"OFD_Definition\">\n" .
-			"<span id=\"OFD_Categories\">\n" .
-				"<span>CSS</span>\n" .
-				"<span>TPL</span>\n" .
-	"</span>\n" .
-			"<span id=\"OFD_Items\">";
-	$cssFiles = DFileSystem::FilesOf(SPath::DESIGN, '/\.css/i');
-	$tplFiles = DFileSystem::FilesOf(SPath::TEMPLATES, '/\.tpl/i');
-	$Files = array_merge($cssFiles, $tplFiles);
-	asort($Files, SORT_STRING);
-	foreach($Files as $item)
-	{
-		$type = strtolower(substr($item,-3));
-		printf(
-			'<a href="%s">' ."\n\t".
-				'<span title="title">%s</span>' ."\n\t".
-				'<span title="icon">%s</span>' ."\n\t".
-				'<span title="description">%s</span>' ."\n\t".
-				'<span title="category">%s</span>' ."\n".
-			"</a>\n"
-			,SLink::link(array('edit' => $item,'tab' => 'edit_'.($type == 'css' ? 'css':'templates')))
-			,($item == 'default.css') ? SLocalization::get('default.css') : htmlentities(substr($item, 0, -4))
-			,WIcon::pathFor($type == 'css' ? 'stylesheet':'template', 'mimetype', WIcon::MEDIUM)
-			,DFileSystem::formatSize(filesize(($type == 'css' ? (SPath::DESIGN) : (SPath::TEMPLATES)).$item))
-			,strtoupper($type)
-		);
-	}
-	echo "</span>\n</div>\n";
+$OFD = new WOpenFileDialog();
+$OFD->registerCategory('stylesheet');
+$OFD->registerCategory('template');
+$cssFiles = DFileSystem::FilesOf(SPath::DESIGN, '/\.css/i');
+foreach($cssFiles as $item)
+{
+    $OFD->addItem('stylesheet',$item,SLink::link(array('edit' => $item,'tab' => 'edit_css')),'stylesheet', DFileSystem::formatSize(filesize(SPath::DESIGN.$item)));
+}
+$tplFiles = DFileSystem::FilesOf(SPath::TEMPLATES, '/\.tpl/i');
+foreach($tplFiles as $item)
+{
+    $OFD->addItem('template',$item,SLink::link(array('edit' => $item,'tab' => 'edit_templates')),'template', DFileSystem::formatSize(filesize(SPath::TEMPLATES.$item)));
+}
+$OFD->render();
 ?>
-<script language="JavaScript" type="text/javascript">
-	var OBJ_ofd;
-	OBJ_ofd = new CLASS_OpenFileDialog();
-	OBJ_ofd.self = 'OBJ_ofd';
-	OBJ_ofd.openIcon = '<?php echo WIcon::pathFor('open');?>';
-	OBJ_ofd.openTranslation = '<?php SLocalization::out('open'); ?>';
-	OBJ_ofd.closeIcon = '<?php echo WIcon::pathFor('delete'); ?>';
-	OBJ_ofd.statusText = '';
-	OBJ_ofd.statusAnimation = '<?php echo WIcon::pathFor('loading', 'animation', WIcon::EXTRA_SMALL); ?>';
-</script>

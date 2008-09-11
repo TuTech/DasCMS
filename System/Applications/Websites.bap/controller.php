@@ -59,41 +59,18 @@ if(isset($Page) && $Page instanceof CPage && BAMBUS_GRP_EDIT)
 	
 }
 
-
-
-
-echo "\n<div id=\"OFD_Definition\">\n" .
-	"<span id=\"OFD_Categories\">\n" .
-		"<span>TPL</span>\n" .
-	"</span>\n" .
-	"<span id=\"OFD_Items\">";
-$Files = $mp->Index;
-asort($Files, SORT_STRING);
-foreach($Files as $id => $name)
+$OFD = new WOpenFileDialog();
+$OFD->registerCategory('page');
+foreach($mp->Index as $item => $name)
 {
-	printf(
-		'<a href="%s">' ."\n\t".
-			'<span title="title">%s</span>' ."\n\t".
-			'<span title="icon">%s</span>' ."\n\t".
-			'<span title="description">%s</span>' ."\n\t".
-			'<span title="category">TPL</span>' ."\n".
-		"</a>\n"
-		,SLink::link(array('edit' => $id))
-		,htmlentities($name, ENT_QUOTES, 'utf-8')
-		,WIcon::pathFor('website', 'mimetype',WIcon::MEDIUM)
-		,' '
-	);
+    $OFD->addItem('page',$name,SLink::link(array('edit' => $item)),'website', ' ');
 }
-echo "</span>\n</div>\n";
+$OFD->render();
 
-echo '<form method="post" id="documentform" name="documentform" action="'
-	,SLink::link(
-		array(
-			'edit' => (isset($Page) && $Page instanceof CPage)? $Page->Id :''
-			)
-		)
-	,'">';
-
+printf(
+    '<form method="post" id="documentform" name="documentform" action="%s">'
+	,SLink::link(array('edit' => (isset($Page) && $Page instanceof CPage)? $Page->Id :''))
+);
 if(BAMBUS_APPLICATION_TAB != 'manage' && isset($Page))
 {
 	try{
@@ -110,13 +87,3 @@ if(BAMBUS_APPLICATION_TAB != 'manage' && isset($Page))
 	
 }
 ?>
-<script language="JavaScript" type="text/javascript">
-	var OBJ_ofd;
-	OBJ_ofd = new CLASS_OpenFileDialog();
-	OBJ_ofd.self = 'OBJ_ofd';
-	OBJ_ofd.openIcon = '<?php echo WIcon::pathFor('open'); ?>';
-	OBJ_ofd.openTranslation = '<?php SLocalization::out('open'); ?>';
-	OBJ_ofd.closeIcon = '<?php echo WIcon::pathFor('delete'); ?>';
-	OBJ_ofd.statusText = '';
-	OBJ_ofd.statusAnimation = '<?php echo  WIcon::pathFor('loading', 'animation', WIcon::EXTRA_SMALL); ?>';
-</script>

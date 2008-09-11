@@ -147,7 +147,7 @@ $data = file($argv[1]."/groups.php");
 unset($data[0]);
 $ser = implode("", $data);
 $userdata = unserialize($ser);
-$systemGroups = array("Administrator", "PHP", "CMS", "Create",  "Delete", "Edit", "Rename");
+$systemGroups = array("Administrator",  "CMS", "Create",  "Delete", "Edit", "Rename");
 $grp = 0;
 foreach ($userdata as $group => $desc) 
 {

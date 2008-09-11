@@ -11,55 +11,10 @@
 //Bambus uses UTF-8 and sessions will allways be active... TODO: check if sessions are necessary
 header('Content-Type: text/html; charset=utf-8');
 require_once('./System/Component/Loader.php');
-
-
-
-
-$err = <<<ERR
-    <div style="font-family:sans-serif;border:1px solid #a40000;">
-        <div style="border:1px solid #cc0000;padding:10px;background:#a40000;color:white;">
-            <h1 style="border-bottom:1px solid #cc0000;font-size:16px;">%s <code>%d</code> in "%s" at line %d</h1>
-            <p>%s</p>
-            <p><pre>%s</pre></p>
-        </div>
-    </div>
-ERR;
-define('ERROR_TEMPLATE', $err);
-
-function EX_Handler(Exception $e)
-{
-    printf(ERROR_TEMPLATE
-        , get_class($e)
-        , $e->getCode()
-        , $e->getFile()
-        , $e->getLine()
-        , $e->getMessage()
-        , $e->getTraceAsString());
-    exit(1);
-}
-
-function ER_Handler( $errno ,  $errstr ,  $errfile ,  $errline ,  $errcontext  )
-{
-    ob_start();
-    print_r($errcontext);
-    $context = ob_get_contents();
-    ob_end_clean();
-    printf(ERROR_TEMPLATE
-        , 'Error'
-        , $errno
-        , $errfile
-        , $errline
-        , $errstr
-        , $context);
-        exit(1);
-    
-}
-set_error_handler('ER_Handler');
-set_exception_handler('EX_Handler');
 RSession::start();
 
 //now we have a running session we might want to kill it
-if(RURL::has('_destroy_session') || RURL::has('_bcms_logout') || RURL::has('_bambus_logout'))
+if(RURL::has('_destroy_session') || RURL::has('_bambus_logout'))
 {
     RSession::destroy();
 }
@@ -80,7 +35,6 @@ define('BAMBUS_GRP_RENAME', $SUsersAndGroups->isMemberOf(PAuthentication::getUse
 define('BAMBUS_GRP_DELETE', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Delete') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
 define('BAMBUS_GRP_EDIT', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Edit') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
 define('BAMBUS_GRP_CMS', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'CMS') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
-define('BAMBUS_GRP_PHP', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'PHP') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
 define('BAMBUS_PRIMARY_GROUP', $SUsersAndGroups->getPrimaryGroup(PAuthentication::getUserID()));
 
 //set sometemplate keys

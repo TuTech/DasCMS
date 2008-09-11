@@ -141,7 +141,7 @@ class pre_setup_BaseLayout implements runnable
 			"<?php exit(); ?>\na:1:{s:4:\"page\";a:3:{i:0;b:1;i:1;s:10:\"MError:404\";i:2;s:10:\"MError:404\";}}"
 		);
 		//write group file groups.php
-		$data = array("Administrator" => '',"CMS" => '',"Create" => '',"Delete" => '',"Edit" => '',"Rename" => '',"PHP" => '');
+		$data = array("Administrator" => '',"CMS" => '',"Create" => '',"Delete" => '',"Edit" => '',"Rename" => '');
 		$this->write(
 			'Content/configuration/groups.php', 
 			self::HEADER.serialize($data)

@@ -12,7 +12,7 @@ class SUsersAndGroups extends BSystem implements IShareable
     private $grouplist = null;
     private $userlistfile = null;
     private $grouplistfile = null;
-    private $systemGroups = array("Administrator", "PHP", "CMS", "Create",  "Delete", "Edit", "Rename");
+    private $systemGroups = array("Administrator", "CMS", "Create",  "Delete", "Edit", "Rename");
         
     public function __construct()
     {
@@ -687,7 +687,7 @@ class SUsersAndGroups extends BSystem implements IShareable
             $this->userlistfile = SPath::CONTENT.'configuration/users.php';
             $this->userlist = DFileSystem::LoadData($this->userlistfile);
             //FIXME Groups hard linked
-            $this->grouplistfile = SPath::CONTENT.'configuration/users.php';
+            $this->grouplistfile = SPath::CONTENT.'configuration/groups.php';
             $this->grouplist = DFileSystem::LoadData($this->grouplistfile);
         }
         return $this;

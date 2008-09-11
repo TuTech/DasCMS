@@ -8,10 +8,8 @@
 
 chdir('..');
 require_once('./System/Component/Loader.php');
-//We speak unicode xhtml 
-//@todo
-//header('Content-Type: text/html; charset=utf-8');
 WHeader::httpHeader('Content-Type: text/html; charset=utf-8');
+
 RSession::start();
 //you want to go? ok!
 if(RURL::has('logout')){
@@ -20,7 +18,7 @@ if(RURL::has('logout')){
     exit;
 }
 
-
+PAuthorisation::request('foo.bar.bazz.zigg.doo');
 PAuthentication::required();
 
 WTemplate::globalSet('logotext', BAMBUS_VERSION);
@@ -75,7 +73,6 @@ if($SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'CMS') || $SUsersA
 	define('BAMBUS_GRP_DELETE', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Delete') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
 	define('BAMBUS_GRP_EDIT', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Edit') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
 	define('BAMBUS_GRP_CMS', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'CMS') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
-	define('BAMBUS_GRP_PHP', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'PHP') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
 
     //1st: validate application
     $applications = LApplication::getAvailableApplications();

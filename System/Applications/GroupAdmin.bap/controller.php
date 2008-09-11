@@ -365,83 +365,35 @@ if(RURL::get('_action') == 'delete')
 	$dbNeedsUpdate = true;
 }
 
-
-
-$users = $SUsersAndGroups->listUsers();
-$groups = $SUsersAndGroups->listGroups();
-if(count($users) > 0 || count($groups) > 0)
-{
-    ksort($users, SORT_STRING);
-    ksort($groups, SORT_STRING);
-    echo "\n<div id=\"OFD_Definition\">\n" .
-			"<span id=\"OFD_Categories\">\n" .
-				"<span>Group</span>\n" .
-				"<span>User</span>\n" .
-				"<span>Administrator</span>\n" .
-    		"</span>\n" .
-			"<span id=\"OFD_Items\">";
-
-    foreach(array_keys($groups) as $item)
-	{
-		if($SUsersAndGroups->isSystemGroup($item))
-		{
-			continue;
-		}
-		printf(
-			'<a href="%s">' ."\n\t".
-				'<span title="title">%s</span>' ."\n\t".
-				'<span title="icon">%s</span>' ."\n\t".
-				'<span title="description">%s</span>' ."\n\t".
-				'<span title="category">%s</span>' ."\n".
-			"</a>\n"
-			,SLink::link(array('edit' => $item,'mode' => 'grp'))
-			,htmlentities($item, ENT_QUOTES)
-			,WIcon::pathFor('group', 'mimetype',WIcon::MEDIUM)
-			,' '
-			,'Group'
-		);
-	}
-    foreach(array_keys($users) as $item)
-	{
-		$realname = $SUsersAndGroups->getRealName($item);
-		$realname = ($item == PAuthentication::getUserID()) ? 'You' : htmlentities($realname, ENT_QUOTES);
-		$admin = $SUsersAndGroups->isMemberOf($item, 'Administrator');
-		printf(
-			'<a href="%s">' ."\n\t".
-				'<span title="title">%s</span>' ."\n\t".
-				'<span title="icon">%s</span>' ."\n\t".
-				'<span title="description">%s</span>' ."\n\t".
-				'<span title="category">%s</span>' ."\n".
-			"</a>\n"
-			,SLink::link(array('edit' => $item,'mode' => 'usr'))
-			,htmlentities($item, ENT_QUOTES)
-			,WIcon::pathFor(($admin ? 'administrator' : 'user'), 'mimetype',WIcon::MEDIUM)
-			,$realname.' '
-			,$admin ? 'Administrator' : 'User'
-		);
-	}
-	echo "</span>\n</div>\n";
-}
-
 if(strpos(RURL::get('tab'),'manage_')===false)
 {
-	if($edit_mode == 'grp')
-	{
-		$EditingObject = sprintf('%s.%s', $victim, 'group');    
-	}
-	else
-	{
-		$EditingObject = sprintf('%s.%s', $victim, (($SUsersAndGroups->isMemberOf($victim, 'Administrator')) ? SLocalization::get('administrator') : 'user'));
-	}
+    if($edit_mode == 'grp')
+    {
+        $EditingObject = sprintf('%s.%s', $victim, 'group');    
+    }
+    else
+    {
+        $EditingObject = sprintf('%s.%s', $victim, (($SUsersAndGroups->isMemberOf($victim, 'Administrator')) ? SLocalization::get('administrator') : 'user'));
+    }
 }
+
+
+$OFD = new WOpenFileDialog();
+$OFD->registerCategory('group');
+$OFD->registerCategory('user');
+$users = $SUsersAndGroups->listUsers();
+foreach(array_keys($users) as $item)
+{
+    $OFD->addItem('user',$SUsersAndGroups->getRealName($item),SLink::link(array('edit' => $item,'mode' => 'usr')),'user', $item);
+}
+$groups = $SUsersAndGroups->listGroups();
+foreach($groups as $item => $desc)
+{
+    if($SUsersAndGroups->isSystemGroup($item))
+    {
+        continue;
+    }
+    $OFD->addItem('group',$item,SLink::link(array('edit' => $item,'mode' => 'grp')),'group', $desc.' ');
+}
+$OFD->render();
 ?>
-<script language="JavaScript" type="text/javascript">
-	var OBJ_ofd;
-	OBJ_ofd = new CLASS_OpenFileDialog();
-	OBJ_ofd.self = 'OBJ_ofd';
-	OBJ_ofd.openIcon = '<?php echo WIcon::pathFor('open') ?>';
-	OBJ_ofd.openTranslation = '<?php SLocalization::out('open'); ?>';
-	OBJ_ofd.closeIcon = '<?php echo WIcon::pathFor('delete') ?>';
-	OBJ_ofd.statusText = '';
-	OBJ_ofd.statusAnimation = '<?php echo  WIcon::pathFor('loading', 'animation', WIcon::EXTRA_SMALL);  ?>';
-</script>
