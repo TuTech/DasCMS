@@ -1,6 +1,37 @@
 <?php
-class SBambusSessionAuth implements IAuthenticate
+class SBambusSessionAuth implements IAuthenticate, IAuthorize 
 {
+    //IAuthorize
+    public function getPermissions()
+    {
+        $SUsersAndGroups = SUsersAndGroups::alloc()->init();
+        if($SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'))
+        {
+            $rigths = array('*' => PAuthorisation::PERMIT);
+        }
+        else
+        {
+            $rigths = array(
+                '*.view'        => PAuthorisation::PERMIT,
+                '*.create'      => $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Create'),
+                '*.delete'      => $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Delete'),
+                '*.change'      => $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Edit'),
+                'org.bambus-cms'=> $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'CMS'),
+                
+                //compat
+                'org.bambus-cms.configuration.view.*'   => PAuthorisation::PERMIT,
+                'org.bambus-cms.configuration.change.*' => PAuthorisation::PERMIT,
+                'org.bambus-cms.layout.*'               => PAuthorisation::PERMIT,
+                'org.bambus-cms.content.*'              => PAuthorisation::PERMIT,
+                'org.bambus-cms.credentials.*'          => PAuthorisation::PERMIT
+            );     
+           // $applications = $SUsersAndGroups->      
+        }
+        return $rigths;
+    }
+    
+    //IAuthenticate
+    
     private $user;
     private $status;
     /**
