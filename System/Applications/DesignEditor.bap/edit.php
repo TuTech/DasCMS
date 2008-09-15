@@ -9,13 +9,15 @@
 //document title
 
 //editing allowed?
-if(BAMBUS_GRP_EDIT && $FileOpened)
+if($FileOpened)
 {
 	printf('<h2>%s: %s</h2>'
 		,SLocalization::get((BAMBUS_APPLICATION_TAB == 'edit_templates') ? 'template' : 'stylesheet')
 		,htmlspecialchars($FileName, ENT_QUOTES, 'utf-8'));
 		
-	if(BAMBUS_GRP_RENAME && !in_array($File,array('default.css','header.tpl','footer.tpl','body.tpl')))
+	if((((BAMBUS_APPLICATION_TAB == 'edit_templates') &&  PAuthorisation::has('org.bambus-cms.layout.template.create') && PAuthorisation::has('org.bambus-cms.layout.template.delete')) ||
+        ((BAMBUS_APPLICATION_TAB != 'edit_templates') && PAuthorisation::has('org.bambus-cms.layout.stylesheet.create') && PAuthorisation::has('org.bambus-cms.layout.stylesheet.delete')))
+	&& !in_array($File,array('default.css','header.tpl','footer.tpl','body.tpl')))
 	{
 		printf('<input type="hidden" id="filename" size="30" name="filename" value="%s"/>', htmlentities($FileName));
 	}

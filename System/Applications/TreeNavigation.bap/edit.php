@@ -7,7 +7,7 @@
 * Description: 
 ************************************************/
 
-if(BAMBUS_GRP_EDIT)
+if(PAuthorisation::has('org.bambus-cms.layout.navigation.ntreenavigation.change'))
 {
 	printf(
 		'<form method="post" id="documentform" name="documentform" action="%s"><input type="hidden" name="posted" value="1" />', SLink::link()
@@ -97,7 +97,7 @@ else
 	echo '<h3>', SLocalization::out('please_create_a_new_navigation'), '</h3>';
 }
 
-if(BAMBUS_GRP_EDIT)
+if(PAuthorisation::has('org.bambus-cms.layout.navigation.ntreenavigation.change'))
 {
 	echo '</form>';
 }	

@@ -16,7 +16,7 @@ $allowed = array('css', 'gpl', 'jpeg','jpg','png','gif','svg','mng','eps','ps','
 $succesfullUpload = false;
 $uploadIsImage = false;
 $File = null;
-if(isset($_FILES['bambus_image_file']['name']) && BAMBUS_GRP_CREATE)
+if(isset($_FILES['bambus_image_file']['name']) && PAuthorisation::has('org.bambus-cms.layout.image.create'))
 { 
     // we have got an upload
     if(file_exists(SPath::DESIGN.basename($_FILES['bambus_image_file']['name'])) 
@@ -66,7 +66,7 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 	//create//
 	//////////
 		
-	if(BAMBUS_GRP_CREATE && RURL::get('_action') == 'create')
+	if(PAuthorisation::has('org.bambus-cms.layout.stylesheet.create') && RURL::get('_action') == 'create')
 	{
 		$i = 0;
 		while(file_exists(SPath::DESIGN.SLocalization::get('new').'-'.++$i.'.css'))
@@ -94,7 +94,7 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 		//save//
 		////////
 		
-		if(BAMBUS_GRP_EDIT && $allowEdit && $FileOpened)
+		if(PAuthorisation::has('org.bambus-cms.stylesheet.change') && $allowEdit && $FileOpened)
 		{
 			//content changed?
 			if(RSent::has('content'))
@@ -118,7 +118,7 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 		//////////////////
 		//manager delete//
 		//////////////////
-		if(RSent::get('action') == 'delete' && BAMBUS_GRP_DELETE)
+		if(RSent::get('action') == 'delete' && PAuthorisation::has('org.bambus-cms.layout.stylesheet.delete'))
 		{
 			$files = DFileSystem::FilesOf(SPath::DESIGN, '/\.('.implode('|', $allowed).')/i');
 			foreach($files as $file)
@@ -141,14 +141,14 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 		//delete//
 		//////////
 		
-		if(BAMBUS_GRP_DELETE && RURL::get('_action') == 'delete' && $File != 'default.css' && $allowEdit)
+		if(PAuthorisation::has('org.bambus-cms.layout.stylesheet.delete') && RURL::get('_action') == 'delete' && $File != 'default.css' && $allowEdit)
 		{
 			//kill it
 			unlink(SPath::DESIGN.$File);
 		    SNotificationCenter::report('message', 'file_deleted');
 			$FileOpened = false;
 		}
-		elseif(BAMBUS_GRP_DELETE && RURL::get('_action') == 'delete' && $File == 'default.css')
+		elseif(PAuthorisation::has('org.bambus-cms.layout.stylesheet.delete') && RURL::get('_action') == 'delete' && $File == 'default.css')
 		{
 			SNotificationCenter::report('warning', 'this_file_cannott_be_deleted');
 		}
@@ -157,7 +157,7 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 		//rename//
 		//////////
 		
-		if(BAMBUS_GRP_RENAME && $allowEdit && $FileOpened)
+		if(PAuthorisation::has('org.bambus-cms.layout.stylesheet.create') && PAuthorisation::has('org.bambus-cms.layout.stylesheet.delete') && $allowEdit && $FileOpened)
 		{
 		    if(RSent::hasValue('filename') && $FileName != RSent::get('filename') && $FileName != 'default.css' && file_exists(SPath::DESIGN.$File))
 		    {
@@ -187,7 +187,7 @@ elseif(BAMBUS_APPLICATION_TAB == 'edit_templates')
 	//////////
 	//create//
 	//////////
-	if(BAMBUS_GRP_CREATE && RURL::get('_action') == 'create')
+	if(PAuthorisation::has('org.bambus-cms.layout.template.create') && RURL::get('_action') == 'create')
 	{
 		$i = 0;
 		while(file_exists($Path.SLocalization::get('new').'-'.++$i.$Suffix))
@@ -215,7 +215,7 @@ elseif(BAMBUS_APPLICATION_TAB == 'edit_templates')
 		//save//
 		////////
 		
-		if(BAMBUS_GRP_EDIT && $allowEdit && $FileOpened)
+		if(PAuthorisation::has('org.bambus-cms.template.change') && $allowEdit && $FileOpened)
 		{
 			//content changed?
 			if(RSent::has('content'))
@@ -239,14 +239,14 @@ elseif(BAMBUS_APPLICATION_TAB == 'edit_templates')
 		//delete//
 		//////////
 		
-		if(BAMBUS_GRP_DELETE && RURL::get('_action') == 'delete' && !in_array($File, $doNotDelete) && $allowEdit)
+		if(PAuthorisation::has('org.bambus-cms.layout.template.delete') && RURL::get('_action') == 'delete' && !in_array($File, $doNotDelete) && $allowEdit)
 		{
 			//kill it
 			unlink($Path.$File);
 		    SNotificationCenter::report('message', 'file_deleted');
 			$FileOpened = false;
 		}
-		elseif(BAMBUS_GRP_DELETE && RURL::get('_action') == 'delete' && in_array($File, $doNotDelete))
+		elseif(PAuthorisation::has('org.bambus-cms.layout.template.delete') && RURL::get('_action') == 'delete' && in_array($File, $doNotDelete))
 		{
 			SNotificationCenter::report('warning', 'this_file_cannott_be_deleted');
 		}
@@ -255,7 +255,7 @@ elseif(BAMBUS_APPLICATION_TAB == 'edit_templates')
 		//rename//
 		//////////
 		
-		if(BAMBUS_GRP_RENAME && $allowEdit && $FileOpened)
+		if(PAuthorisation::has('org.bambus-cms.layout.template.create') && PAuthorisation::has('org.bambus-cms.layout.template.delete') && $allowEdit && $FileOpened)
 		{
 		    if(RSent::hasValue('filename') && $FileName != RSent::get('filename') && file_exists($Path.$File))
 		    {

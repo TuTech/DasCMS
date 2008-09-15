@@ -10,7 +10,7 @@
 echo '<div id="objectInspectorActiveFullBox">';
 //editing allowed?
 	
-if(BAMBUS_GRP_EDIT && isset($Page) && $Page instanceof CPage)
+if(PAuthorisation::has('org.bambus-cms.content.cpage.change') && isset($Page) && $Page instanceof CPage)
 {
 		
 	printf('<input type="hidden" id="filename" size="30" name="filename" value="%s"/><h2>%s</h2>'

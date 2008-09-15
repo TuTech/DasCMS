@@ -12,7 +12,8 @@
 	<application>
 		<controller>controller.php</controller>
 		<interface name="system_information" src="info.php">
-			<task type="button" hotkey="R" caption="repair" icon="action-system-repair" action="repair_rights" mode="html" />
+            <task type="button" hotkey="R" caption="repair" icon="action-system-repair" action="repair_rights" mode="html" />
+            <task type="button" hotkey="C" caption="clear_cache" icon="action-clean" action="_clear_cache" mode="html" />
 		</interface>
 	</application>
 </bambus>

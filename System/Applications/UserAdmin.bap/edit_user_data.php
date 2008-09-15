@@ -11,7 +11,7 @@
 //create user form//
 ////////////////////
 //TODO: rewrite
-if(BAMBUS_GRP_CREATE)
+if(PAuthorisation::has('org.bambus-cms.credentials.user.create') || PAuthorisation::has('org.bambus-cms.credentials.group.create'))
 {
 	echo LGui::beginForm();
 	printf('<table id="addBox" class="hide" border="0" cellspacing="0" cellpadding="0">');
@@ -45,7 +45,7 @@ if(BAMBUS_GRP_CREATE)
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
 
-if(BAMBUS_GRP_EDIT)
+if(PAuthorisation::has('org.bambus-cms.credentials.user.change') || PAuthorisation::has('org.bambus-cms.credentials.group.change'))
 {
 	echo LGui::beginForm(array('edit' => $victim), 'documentform');
 	printf('<h2> %s</h2>'
@@ -59,7 +59,7 @@ if($edit_mode == 'usr')
 	///////////////////////
 	echo LGui::hiddenInput('action', 'edit_user_data');
 	//what kind of edit do we have? admin|self|others
-	$allowEdit = ($victim == PAuthentication::getUserID() || BAMBUS_GRP_ADMINISTRATOR);
+	$allowEdit = ($victim == PAuthentication::getUserID() || PAuthorisation::isInGroup('Administrator'));
 		$row = ($allowEdit)
  			? "<tr class=\"flip_%d\"><th class=\"left_th\">%s</th><td><input value=\"%s\" name=\"%s\" class=\"%s\" type=\"%s\" /></td></tr>\n"
 			: "<tr class=\"flip_%d\"><th class=\"left_th\">%s</th><td>%s</td></tr>\n";
@@ -106,7 +106,7 @@ if($edit_mode == 'usr')
 		);
 	if($allowEdit)
 	{
-		if(BAMBUS_GRP_ADMINISTRATOR)
+		if(PAuthorisation::isInGroup('Administrator'))
 		{
 			/////////
 			//admin//
@@ -354,7 +354,7 @@ EOX;
 }
 /////////////////////////////EOF EX PERMS
 
-if(BAMBUS_GRP_EDIT)
+if(PAuthorisation::has('org.bambus-cms.credentials.user.change') || PAuthorisation::has('org.bambus-cms.credentials.group.change'))
 {
     echo LGui::endForm();
 }

@@ -11,7 +11,7 @@
 //create user form//
 ////////////////////
 //TODO: rewrite
-if(BAMBUS_GRP_CREATE)
+if(PAuthorisation::has('org.bambus-cms.credentials.user.create') || PAuthorisation::has('org.bambus-cms.credentials.group.create'))
 {
 	echo LGui::beginForm();
 	printf('<table id="addBox" class="hide" border="0" cellspacing="0" cellpadding="0">');
@@ -45,7 +45,7 @@ if(BAMBUS_GRP_CREATE)
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
 
-if(BAMBUS_GRP_EDIT)
+if(PAuthorisation::has('org.bambus-cms.credentials.user.change') || PAuthorisation::has('org.bambus-cms.credentials.group.change'))
 {
 	echo LGui::beginForm(array('edit' => $victim), 'documentform');
 	printf('<h2>%s: %s</h2>'
@@ -206,14 +206,11 @@ ROW;
 	
 }
 
-if(BAMBUS_GRP_EDIT)
+if(PAuthorisation::has('org.bambus-cms.credentials.user.change') || PAuthorisation::has('org.bambus-cms.credentials.group.change'))
 {
 	?>
 	<input type="submit" class="submitinput" value="<?php echo SLocalization::get("save");?>" onmousedown="document.getElementById('scrollposinput').value = document.getElementById('editorianid').scrollTop;"/>
 	<?php
-}
-if(BAMBUS_GRP_EDIT)
-{
     echo LGui::endForm();
 }
 ?>

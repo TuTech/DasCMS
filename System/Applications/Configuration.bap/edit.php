@@ -6,7 +6,7 @@
 * Copyright:   Lutz Selke/TuTech Innovation GmbH 
 * Description: 
 ************************************************/
-if(BAMBUS_GRP_EDIT)
+if(PAuthorisation::has('org.bambus-cms.configuration.set'))
 {
 	printf('<form method="post" id="documentform" name="documentform" action="%s">', SLink::link());
 }
@@ -24,9 +24,6 @@ $values = array(
 		"copyright" => array(
 			"copyright", "fullinput"
 		),
-		"cms_uri" => array(
-			"cms_uri", "fullinput"
-		),
 		"cms_color" => array(
 			"cms_color", "fullinput"
 		),
@@ -41,18 +38,6 @@ $values = array(
 		),
 		"confirm_for_exit" => array(
 			"confirm_for_exit", "checkbox"
-		)
-	),
-	/////
-	"wellformed_uris" => array(
-		"error_404_redirect" => array(
-			"404redirect", "checkbox"
-		),
-		"overwrite_htaccess_file" => array(
-			"error_404_overwrite_htaccess", "checkbox", true
-		),
-		"htaccess_file" => array(
-			"htaccessfile", "fullinput"
 		)
 	),
 	/////
@@ -84,15 +69,7 @@ $values = array(
 			"meta_description", "fullinput"
 		)
 	),
-	"backup" => array(
-		"automatic_backup" => array(
-			"autoBackup", "checkbox"
-		)
-	),
 	"logs" => array(
-//		"access" => array(
-//			"logAccess", "checkbox"
-//		),
 		"page_changes" => array(
 			"logChanges", "checkbox"
 		)
@@ -127,28 +104,7 @@ foreach($values as $title => $settings)
 	echo '</table><br />';
 
 }
-printf('<h3>%s</h3>', SLocalization::get('cache'));
-?>
-<table cellspacing="0" class="borderedtable full">
-    <tr>
-        <th colspan="3">
-            <?php SLocalization::out("bambus_cache");?>
-        </th>
-    </tr>
-    <tr class="flip_1">
-        <th scope="row"><?php SLocalization::out("cache_size");?>:</th>
-            <td colspan="2"><?php echo htmlentities(cacheSize());?>
-        </td>
-    </tr>
-    <tr class="flip_2">
-        <th scope="row"><?php SLocalization::out("clear_cache");?>:</th>
-            <td colspan="2"><input type="checkbox" name="_clear_cache" /> 
-        </td>
-    </tr>
-</table>
-
-<?php
-if(BAMBUS_GRP_EDIT)
+if(PAuthorisation::has('org.bambus-cms.configuration.set'))
 {
 	echo '<input type="hidden" name="writeconfig" value="1" /></form>';
 }

@@ -10,7 +10,7 @@
 //create user form//
 ////////////////////
 //TODO: rewrite
-if(BAMBUS_GRP_CREATE)
+if(PAuthorisation::has('org.bambus-cms.credentials.user.create') || PAuthorisation::has('org.bambus-cms.credentials.group.create'))
 {
 	echo LGui::beginForm();
 	printf('<table id="addBox" class="hide" border="0" cellspacing="0" cellpadding="0">');
@@ -47,7 +47,7 @@ if(BAMBUS_GRP_CREATE)
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
 
-if(BAMBUS_GRP_EDIT)
+if(PAuthorisation::has('org.bambus-cms.credentials.user.change') || PAuthorisation::has('org.bambus-cms.credentials.group.change'))
 {
 	printf('<form method="post" onchange="showPreview()" id="documentform" name="documentform" action="%s">',SLink::link());
 	if($edit_mode == 'usr')
@@ -188,7 +188,7 @@ EOX;
 	echo LGui::endTable();
 	echo LGui::verticalSpace();
 }
-if(BAMBUS_GRP_EDIT)
+if(PAuthorisation::has('org.bambus-cms.credentials.user.change') || PAuthorisation::has('org.bambus-cms.credentials.group.change'))
 {
 	printf('<input type="submit" class="submitinput" onmousedown="commitChanges()" value="%s" />', SLocalization::get("save"));
     echo LGui::endForm();

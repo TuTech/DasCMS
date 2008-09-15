@@ -2,6 +2,27 @@
 class SBambusSessionAuth implements IAuthenticate, IAuthorize 
 {
     //IAuthorize
+    public function getObjectPermissions()
+    {
+        return array();
+    }
+    
+    public function getGroups()
+    {
+        $uag = SUsersAndGroups::alloc()->init();
+        $g = $uag->listGroupsOfUser(PAuthentication::getUserID(), false);
+        if($uag->isMemberOf(PAuthentication::getUserID(), 'Administrator'))
+        {
+            $g[] = 'Administrator';
+        }
+        return $g;
+    }
+    
+    public function getPrimaryGroup()
+    {
+        return SUsersAndGroups::alloc()->init()->getPrimaryGroup(PAuthentication::getUserID());
+    }
+    
     public function getPermissions()
     {
         $SUsersAndGroups = SUsersAndGroups::alloc()->init();
@@ -12,18 +33,11 @@ class SBambusSessionAuth implements IAuthenticate, IAuthorize
         else
         {
             $rigths = array(
-                '*.view'        => PAuthorisation::PERMIT,
+                '*'             => PAuthorisation::PERMIT,
                 '*.create'      => $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Create'),
                 '*.delete'      => $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Delete'),
                 '*.change'      => $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Edit'),
-                'org.bambus-cms'=> $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'CMS'),
-                
-                //compat
-                'org.bambus-cms.configuration.view.*'   => PAuthorisation::PERMIT,
-                'org.bambus-cms.configuration.change.*' => PAuthorisation::PERMIT,
-                'org.bambus-cms.layout.*'               => PAuthorisation::PERMIT,
-                'org.bambus-cms.content.*'              => PAuthorisation::PERMIT,
-                'org.bambus-cms.credentials.*'          => PAuthorisation::PERMIT
+                'org.bambus-cms.login'=> $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'CMS'),
             );     
            // $applications = $SUsersAndGroups->      
         }

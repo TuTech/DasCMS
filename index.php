@@ -28,14 +28,6 @@ $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
 
 //some permission constants 
-define('BAMBUS_USER_GROUPS', PAuthentication::getUserID() != '' ? implode('; ', $SUsersAndGroups->listGroupsOfUser(PAuthentication::getUserID())) : '');
-define('BAMBUS_GRP_ADMINISTRATOR', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
-define('BAMBUS_GRP_CREATE', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Create') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
-define('BAMBUS_GRP_RENAME', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Rename') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
-define('BAMBUS_GRP_DELETE', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Delete') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
-define('BAMBUS_GRP_EDIT', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Edit') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
-define('BAMBUS_GRP_CMS', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'CMS') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
-define('BAMBUS_PRIMARY_GROUP', $SUsersAndGroups->getPrimaryGroup(PAuthentication::getUserID()));
 
 //set sometemplate keys
 WTemplate::globalSet('meta_keywords',LConfiguration::get('meta_keywords'));

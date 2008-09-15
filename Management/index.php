@@ -18,7 +18,6 @@ if(RURL::has('logout')){
     exit;
 }
 
-PAuthorisation::request('foo.bar.bazz.zigg.doo');
 PAuthentication::required();
 
 WTemplate::globalSet('logotext', BAMBUS_VERSION);
@@ -54,8 +53,7 @@ WTemplate::globalSet('Header', new WHeader());
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
 
-
-if($SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'CMS') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator')) //login ok?
+if(PAuthorisation::has('org.bambus-cms.login')) //login ok?
 {
 	if(RSent::has('bambus_cms_username'))
 	{
@@ -65,14 +63,6 @@ if($SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'CMS') || $SUsersA
 		$SUsersAndGroups->setUserAttribute(PAuthentication::getUserID(), 'management_login_count', $count);
 	}
 	//this is not defined in a loop because code assist would not work otherwise
-	define('BAMBUS_USER_GROUPS', implode('; ', $SUsersAndGroups->listGroupsOfUser(PAuthentication::getUserID())));
-	define('BAMBUS_PRIMARY_GROUP', $SUsersAndGroups->getPrimaryGroup(PAuthentication::getUserID()));
-	define('BAMBUS_GRP_ADMINISTRATOR', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
-	define('BAMBUS_GRP_CREATE', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Create') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
-	define('BAMBUS_GRP_RENAME', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Rename') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
-	define('BAMBUS_GRP_DELETE', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Delete') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
-	define('BAMBUS_GRP_EDIT', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Edit') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
-	define('BAMBUS_GRP_CMS', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'CMS') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
 
     //1st: validate application
     $applications = LApplication::getAvailableApplications();

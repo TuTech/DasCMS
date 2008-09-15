@@ -111,7 +111,8 @@ class SNotificationCenter extends BSystem implements IShareable
 	
 	public function __toString()
 	{
-	    $msgs = '<div id="notifier"><div id="notifications">';
+	    $html = '<div id="notifier">%s</div>';
+	    $msgs = '<div id="notifications">';
         foreach (self::$notifications as $ntf) 
         {
         	$msgs = sprintf(
@@ -121,8 +122,8 @@ class SNotificationCenter extends BSystem implements IShareable
                 ,$ntf[1].($ntf[2] > 1 ? ' ('.$ntf[2].')':'')
             );
         }
-        $msgs .= '</div></div>';
-	    return $msgs; 
+        $msgs .= '</div>';
+        return (count(self::$notifications) > 0) ? sprintf($html, $msgs) : ''; 
 	}
 }
 ?>

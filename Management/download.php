@@ -17,7 +17,7 @@ PAuthentication::required();
 
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
-if($SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Edit'))
+if(PAuthorisation::has('org.bambus-cms'))
 {
     $fileName = RURL::get('file');
     $pathName = RURL::get('path');

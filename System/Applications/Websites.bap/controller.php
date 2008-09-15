@@ -14,12 +14,12 @@ $mp = MPageManager::alloc()->init();
 $editExist = (RURL::has('edit')) && $mp->Exists(RURL::get('edit'));
 
 //delete
-if($editExist && RSent::get('delete') != '' && BAMBUS_GRP_DELETE)
+if($editExist && RSent::get('delete') != '' && PAuthorisation::has('org.bambus-cms.content.cpage.delete'))
 {
 	$mp->Delete(RURL::get('edit'));
 	$editExist = false;
 }
-if(RSent::get('action') == 'delete' && BAMBUS_GRP_DELETE)
+if(RSent::get('action') == 'delete' && PAuthorisation::has('org.bambus-cms.content.cpage.delete'))
 {
 	foreach (RSent::data() as $k => $v) 
 	{
@@ -32,7 +32,7 @@ if(RSent::get('action') == 'delete' && BAMBUS_GRP_DELETE)
 }
 
 //create
-elseif(RSent::hasValue('create') && BAMBUS_GRP_CREATE)
+elseif(RSent::hasValue('create') && PAuthorisation::has('org.bambus-cms.content.cpage.create'))
 {
 	$Title = RSent::get('create');
 	$Page = $mp->Create($Title);
@@ -40,13 +40,13 @@ elseif(RSent::hasValue('create') && BAMBUS_GRP_CREATE)
 }
 
 //open for editing
-elseif($editExist && BAMBUS_GRP_EDIT)
+elseif($editExist && PAuthorisation::has('org.bambus-cms.content.cpage.change'))
 {
 	$Page = $mp->Open(RURL::get('edit'));
 }
 
 //save data
-if(isset($Page) && $Page instanceof CPage && BAMBUS_GRP_EDIT)
+if(isset($Page) && $Page instanceof CPage && PAuthorisation::has('org.bambus-cms.content.cpage.change'))
 {
 	if(RSent::has('content'))
 	{

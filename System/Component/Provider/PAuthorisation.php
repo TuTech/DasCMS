@@ -9,6 +9,9 @@ class PAuthorisation extends BProvider
     private static $instance = null;
     
     private static $permissions;
+    private static $objectPermissions;
+    private static $primaryGroup;
+    private static $groups;
     
     private static $active = false;
     
@@ -47,60 +50,108 @@ class PAuthorisation extends BProvider
                 throw new XPermissionDeniedException('authentication class failed');
             }
             self::$permissions = $relay->getPermissions();//load perms of self and anonymous
+            self::$objectPermissions = $relay->getObjectPermissions();//load perms of self and anonymous
+            self::$groups = $relay->getGroups();//load perms of self and anonymous
+            self::$primaryGroup = $relay->getPrimaryGroup();//load perms of self and anonymous
         }
-    }
-    
-    private function calculateRight($permission, $right)
-    {
-        if(array_key_exists($permission, self::$permissions))
-        {
-            if($right == null || self::$permissions[$permission] == self::DENY)
-            {
-                $right = self::$permissions[$permission];
-            }
-        }
-        return $right;
     }
     
     /**
      * check if an action is permitted 
      * for the action "foo.bar.bazz.zigg.doo" the following permissions match:
-     *  [0] => foo.bar.bazz.zigg.doo
-     *  [1] => *.bar.bazz.zigg.doo
-     *  [2] => foo.bar.bazz.zigg.*
-     *  [3] => *.bazz.zigg.doo
-     *  [4] => foo.bar.bazz.*
-     *  [5] => *.zigg.doo
-     *  [6] => foo.bar.*
-     *  [7] => *.doo
-     *  [8] => foo.*
-     *  [9] => *
+     *  foo.bar.bazz.zigg.doo
+     *  *.bar.bazz.zigg.doo
+     *  *.bazz.zigg.doo
+     *  *.zigg.doo
+     *  *.doo
+     *  foo.bar.bazz.zigg.*
+     *  foo.bar.bazz.*
+     *  foo.bar.*
+     *  foo.*
+     *  *
      * @return boolean
      * @throws XArgumentException
      */
-    public static function request($permission)
+    public static function has($permission, $object = null)
     {
-        //self::load();
-        $result = null;
-        if(preg_match('/[a-z]+\.[a-z0-9-]+\.[a-z0-9-\.]+/', $permission))
-        {
-            if(array_key_exists($permission, self::$permissions))
-            {
-                return self::$permissions[$permission];
-            }
-            $parts = explode('.', $permission);
-            for($i = 1; $i < count($parts); $i++)
-            {
-                $result = $this->calculateRight('*.'.implode('.', array_slice($parts, $i)), $result);
-                $result = $this->calculateRight(implode('.', array_slice($parts, 0, $i)).'.*', $result);
-            }
-            $result = $this->calculateRight('*', $result);
-        }
-        else
+        if(!preg_match('/[a-z]+\.[a-z0-9-]+\.[a-z0-9-\.]+/', $permission))
         {
             throw new XArgumentException('invalid permission '.$permission);
         }
+        
+        self::load();
+        $result = null;
+
+        //build array for possible rights. most significant first
+        $test = array($permission);
+        $parts = explode('.', $permission);
+        //*.bar.bazz.zigg.doo -> *.doo
+        for($i = 1; $i < count($parts); $i++)
+        {
+            $test[] = '*.'.implode('.', array_slice($parts, $i));
+        }
+        //foo.bar.bazz.zigg.* -> foo.*
+        for($i = 1; $i < count($parts); $i++)
+        {
+           $test[] = implode('.', array_slice($parts, 0, $i)).'.*';
+        }
+        //global wildcard
+        $test[] = '*';
+        
+        //check for special object permissions
+        if($object != null && array_key_exists($object, self::$objectPermissions))
+        {
+            $objPerms = self::$objectPermissions[$object];
+        }
+        else
+        {
+            $objPerms = array();
+        }
+        
+        //check permissions 
+        foreach ($test as $perm) 
+        {
+            if(array_key_exists($perm, $objPerms))
+            {
+                $result = $objPerms[$perm];
+                break;
+            }               
+            if(array_key_exists($perm, self::$permissions))
+            {
+                $result = self::$permissions[$perm];
+                break;
+            }
+        }
         return ($result == null) ? (self::DENY) : $result;
+    }
+    
+    /**
+     * this will fail with a XPermissionDeniedException if action is not permitted
+     * @throws XPermissionDeniedException
+     */
+    public static function requires($permission, $object = null)
+    {
+        if(!$this->has($permission, $object))
+        {
+            throw new XPermissionDeniedException($permission.($object == null ? '' : ' for '.$object));
+        }
+    }
+    
+    public static function getPrimaryGroup()
+    {
+        self::load();
+        return self::$primaryGroup;
+    }
+    
+    public static function getGroups()
+    {
+        self::load();
+        return self::$groups;
+    }
+    
+    public static function isInGroup($group)
+    {
+        return in_array($group, self::$groups);
     }
 }
 ?>

@@ -15,7 +15,7 @@ $Files = DFileSystem::FilesOf(SPath::IMAGES, '/\.('.implode('|', $allowed).')/i'
 //////////
 $succesfullUpload = false;
 $uploadIsImage = false;
-if(isset($_FILES['bambus_image_file']['name']) && BAMBUS_GRP_CREATE)
+if(isset($_FILES['bambus_image_file']['name']) && PAuthorisation::has('org.bambus-cms.image.file.create'))
 { 
     // we have got an upload
     if(file_exists(SPath::IMAGES.basename($_FILES['bambus_image_file']['name'])) 
@@ -64,7 +64,7 @@ if(count($Files) > 0)
 	//////////////////
 	//manager delete//
 	//////////////////
-	if(RSent::hasValue('action') && RSent::get('action') == 'delete' && BAMBUS_GRP_DELETE)
+	if(RSent::hasValue('action') && RSent::get('action') == 'delete' && PAuthorisation::has('org.bambus-cms.image.file.delete'))
 	{
 		foreach($Files as $file)
 		{

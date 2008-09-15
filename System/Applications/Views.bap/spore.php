@@ -7,7 +7,7 @@
 * Description: 
 ************************************************/
 
-if(BAMBUS_GRP_EDIT)
+if(PAuthorisation::has('org.bambus-cms.resolver.qspore.change'))
 {
 	printf(
 		'<form method="post" id="documentform" name="documentform" action="%s"><input type="hidden" name="posted" value="1" />', SLink::link()
@@ -147,7 +147,7 @@ else
 ?>
 </div>
 <?php
-if(BAMBUS_GRP_EDIT)
+if(PAuthorisation::has('org.bambus-cms.resolver.qspore.change'))
 {
 	echo '</form>';
 }	

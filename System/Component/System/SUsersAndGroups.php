@@ -311,10 +311,10 @@ class SUsersAndGroups extends BSystem implements IShareable
 //specific user and specific application
     public function setUserApplicationPreference($ofUser, $andApplication, $withKey, $toValue, $forcedByAdminPower = false)
     {
-        if($this->isUser($ofUser) && ($ofUser == PAuthentication::getUserID() || BAMBUS_GRP_ADMINISTRATOR))
+        if($this->isUser($ofUser) && ($ofUser == PAuthentication::getUserID() || PAuthorisation::isInGroup('Administrator')))
         {
             //permitted
-            $forcedByAdminPower = $forcedByAdminPower && BAMBUS_GRP_ADMINISTRATOR;
+            $forcedByAdminPower = $forcedByAdminPower && PAuthorisation::isInGroup('Administrator');
             $success = $this->userlist[$ofUser]->setApplicationPreference($andApplication, $withKey, $toValue, $forcedByAdminPower);
             $this->saveUsers();
             return $success;
@@ -329,7 +329,7 @@ class SUsersAndGroups extends BSystem implements IShareable
     public function resetUserApplicationPreference($ofUser, $andApplication, $withKeyOrKeys = false)
     {
         //false = reset all keys / string = reset one specific key / array of strings = reset all keys in array
-        if($this->isUser($ofUser) && ($ofUser == PAuthentication::getUserID() || BAMBUS_GRP_ADMINISTRATOR))
+        if($this->isUser($ofUser) && ($ofUser == PAuthentication::getUserID() || PAuthorisation::isInGroup('Administrator')))
         {
             //permitted
             $this->userlist[$ofUser]->resetApplicationPreference($andApplication, $withKeyOrKeys);
@@ -345,7 +345,7 @@ class SUsersAndGroups extends BSystem implements IShareable
         
     public function getUserApplicationPreference($ofUser, $andApplication, $withKey)
     {
-        if($this->isUser($ofUser) && ($ofUser == PAuthentication::getUserID() || BAMBUS_GRP_ADMINISTRATOR))
+        if($this->isUser($ofUser) && ($ofUser == PAuthentication::getUserID() || PAuthorisation::isInGroup('Administrator')))
         {
             //permitted
             return $this->userlist[$ofUser]->getApplicationPreference($andApplication, $withKey);

@@ -49,7 +49,7 @@ class SUser extends BSystem {
         
         //only set if permitted
         if(
-            BAMBUS_GRP_ADMINISTRATOR
+            PAuthorisation::isInGroup('Administrator')
             ||
             (
                 !$this->preferenceForced 

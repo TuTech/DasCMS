@@ -1,7 +1,7 @@
 <?php
 $succesfullUpload = false;
 $notAllowed = array('php', 'cgi', 'php3', 'php4', 'php5', 'php6', 'asp', 'aspx', 'pl', 'py', 'phtml');
-if(isset($_FILES['bambus_file']['name']) && BAMBUS_GRP_CREATE){ 
+if(isset($_FILES['bambus_file']['name']) && PAuthorisation::has('org.bambus-cms.download.file.create')){ 
     // we have got an upload
     if(file_exists(SPath::DOWNLOADS.basename($_FILES['bambus_file']['name'])) && !RSent::hasValue('bambus_overwrite_file')){
         SNotificationCenter::report('warning', 'upload_failed_because_file_already_exists');
@@ -28,7 +28,7 @@ if(isset($_FILES['bambus_file']['name']) && BAMBUS_GRP_CREATE){
         
     }
 }
-if(RSent::get('action') == 'delete' && BAMBUS_GRP_DELETE)
+if(RSent::get('action') == 'delete' && PAuthorisation::has('org.bambus-cms.downlaad.file.delete'))
 {
 	$files = DFileSystem::FilesOf(SPath::DOWNLOADS, '/\.(?!(php[0-9]?|aspx?|pl|phtml|cgi))$/i');
 	foreach($files as $file)

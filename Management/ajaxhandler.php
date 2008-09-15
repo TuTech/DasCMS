@@ -21,24 +21,10 @@ $appName = substr($editor,0,((strlen(DFileSystem::suffix($editor))+1)*-1));
 
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
-if(
-	$SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator')
-	||(
-		$SUsersAndGroups->hasPermission(PAuthentication::getUserID(), $appName)
-		&& $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'CMS') 	
-	)
-  )
+if(PAuthorisation::has('org.bambus-cms') && PAuthorisation::has('org.bambus-cms.'.$appName))
 {
     //FIXME to be done by users and groups class
     //export the config into an array
-	define('BAMBUS_USER_GROUPS', implode('; ', $SUsersAndGroups->listGroupsOfUser(PAuthentication::getUserID())));
-	define('BAMBUS_GRP_ADMINISTRATOR', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
-	define('BAMBUS_GRP_CREATE', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Create') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
-	define('BAMBUS_GRP_RENAME', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Rename') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
-	define('BAMBUS_GRP_DELETE', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Delete') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
-	define('BAMBUS_GRP_EDIT', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Edit') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
-	define('BAMBUS_GRP_CMS', $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'CMS') || $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'));
-	define('BAMBUS_PRIMARY_GROUP', $SUsersAndGroups->getPrimaryGroup(PAuthentication::getUserID()));
     
     //build the shiny bambus menu-bar and check the editor permissions
 	define('BAMBUS_APPLICATION_DIRECTORY',  SPath::SYSTEM_APPLICATIONS.BAMBUS_APPLICATION.'/');

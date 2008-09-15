@@ -122,4 +122,39 @@ function pdirlist_r($dir = './', $indent = 0){
         }
     }
 }
+function clearCache(){
+    $myDir = getcwd();
+    if(chdir(SPath::TEMP))
+    {
+        $Dir = opendir ('./');
+        while ($item = readdir ($Dir)) {
+            if((is_file($item)) && (substr($item,0,1) != '.')){
+                @unlink($item);
+            }
+        }
+        closedir($Dir);
+    }
+    chdir(constant('BAMBUS_CMS_ROOTDIR'));
+}
+
+function cacheSize(){
+    $myDir = getcwd();
+    chdir(SPath::TEMP);
+    $Dir = opendir ('./');
+    $size = 0;
+    while ($item = readdir ($Dir)) {
+        if(is_file($item)){
+            $size += filesize($item);
+        }
+    }
+    closedir($Dir);
+    chdir(constant('BAMBUS_CMS_ROOTDIR'));
+    return DFileSystem::formatSize($size);
+}
+if(RURL::get('action') == '_clear_cache' && PAuthorisation::has('org.bambus-cms.cache.clear'))
+{
+    //clear cache
+    clearCache();
+    SNotificationCenter::report('message', 'cache_cleared');
+}
 ?>

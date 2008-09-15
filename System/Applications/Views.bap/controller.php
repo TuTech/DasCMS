@@ -8,7 +8,7 @@
 ************************************************/
 
 
-if(RSent::has('rebuildAliasDatabase') && BAMBUS_GRP_ADMINISTRATOR)
+if(RSent::has('rebuildAliasDatabase') && PAuthorisation::isInGroup('Administrator'))
 {
 	SNotificationCenter::report('message', 'rebuilding alias database');
 	SAlias::alloc()->init()->rebuildAliases();

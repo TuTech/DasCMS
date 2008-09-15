@@ -369,7 +369,7 @@ class LApplication extends BLegacy implements IShareable
         closedir($Dir);
         chdir(BAMBUS_CMS_ROOTDIR);
         
-        if(!BAMBUS_GRP_ADMINISTRATOR)
+        if(!PAuthorisation::isInGroup('Administrator'))
         {
             $keys = array_keys($available);
             foreach($keys as $id)

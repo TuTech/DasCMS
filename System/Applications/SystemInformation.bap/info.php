@@ -51,6 +51,21 @@ foreach(
 	<td><?php echo phpversion();?></td>
 </tr>
 </table>
+<?php
+printf('<h3>%s</h3>', SLocalization::get('cache'));
+?>
+<table cellspacing="0" class="borderedtable full">
+    <tr>
+        <th colspan="3">
+            <?php SLocalization::out("bambus_cache");?>
+        </th>
+    </tr>
+    <tr class="flip_1">
+        <th scope="row"><?php SLocalization::out("cache_size");?>:</th>
+            <td colspan="2"><?php echo htmlentities(cacheSize());?>
+        </td>
+    </tr>
+</table>
 <br />
 <h3><?php SLocalization::out('file_permission');?></h3>
 <?php
