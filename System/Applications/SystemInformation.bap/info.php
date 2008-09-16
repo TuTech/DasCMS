@@ -2,17 +2,9 @@
 $info = array(); //array('size' => 0,'lines' => 0,'chars' => 0,'files' => 0,'folders' => 0,'scripts' => 0);
 dirlist_r('./');
 chdir(constant('BAMBUS_CMS_ROOTDIR'));
-?>
-<h3><?php SLocalization::out('system');?></h3>
-<table cellspacing="0" class="borderedtable full">
-<tr>
-	<th><?php SLocalization::out('type');?></th>
-	<th><?php SLocalization::out('number_of_items');?></th>
-	<th><?php SLocalization::out('lines');?></th>
-	<th><?php SLocalization::out('size');?></th>
-	<th><?php SLocalization::out('chars_per_line');?></th>
-</tr>
-<?php
+$system_tbl = new WTable(WTable::HEADING_TOP|WTable::HEADING_LEFT, 'system');
+$system_tbl->addRow(array('type', 'number_of_items', 'lines', 'size', 'chars_per_line'));
+$system_tbl->setHeaderTranslation(true);
 foreach(
 	array(
 		array('folders','',''),
@@ -25,48 +17,33 @@ foreach(
 	$linekeys
 )
 {
-	printf(
-		'<tr><th class="left_th">%s</th><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>'
-		,SLocalization::get($linekeys[0])								//title
-		,empty($info[$linekeys[0]]) ? '' : $info[$linekeys[0]]						//number
-		,empty($info[$linekeys[1]]) ? '' : $info[$linekeys[1]]						//lines
-		,empty($info[$linekeys[2]]) ? '' : DFileSystem::formatSize($info[$linekeys[2]])	//size
-		,(!empty($info[$linekeys[2]]) && !empty($info[$linekeys[1]]))				//chars per line
-			? round($info[$linekeys[2]]/$info[$linekeys[1]])
-			: ''
-	);
+    $system_tbl->addRow(array(
+        $linekeys[0]
+        ,empty($info[$linekeys[0]]) ? '' : $info[$linekeys[0]]                      //number
+        ,empty($info[$linekeys[1]]) ? '' : $info[$linekeys[1]]                      //lines
+        ,empty($info[$linekeys[2]]) ? '' : DFileSystem::formatSize($info[$linekeys[2]]) //size
+        ,(!empty($info[$linekeys[2]]) && !empty($info[$linekeys[1]]))               //chars per line
+            ? round($info[$linekeys[2]]/$info[$linekeys[1]])
+            : ''
+    ));
 }
+$system_tbl->render();
+echo LGui::verticalSpace();
+
+$environment_tbl = new WTable(WTable::HEADING_TOP|WTable::HEADING_LEFT, 'environment');
+$environment_tbl->addRow(array('software', 'version'));
+$environment_tbl->addRow(array('php', phpversion()));
+$environment_tbl->render();
+echo LGui::verticalSpace();
+
+$cache_tbl = new WTable(WTable::HEADING_TOP|WTable::HEADING_LEFT, 'cache');
+$cache_tbl->addRow(array('information', 'value'));
+$cache_tbl->addRow(array('size', cacheSize()));
+$cache_tbl->render();
+echo LGui::verticalSpace();
+
 
 ?>
-</table>
-<br />
-<h3><?php SLocalization::out('environment');?></h3>
-<table cellspacing="0" class="borderedtable full">
-<tr>
-	<th><?php SLocalization::out('software');?></th>
-	<th><?php SLocalization::out('version');?></th>
-</tr>
-<tr>
-	<th class="left_th">PHP</th>
-	<td><?php echo phpversion();?></td>
-</tr>
-</table>
-<?php
-printf('<h3>%s</h3>', SLocalization::get('cache'));
-?>
-<table cellspacing="0" class="borderedtable full">
-    <tr>
-        <th colspan="3">
-            <?php SLocalization::out("bambus_cache");?>
-        </th>
-    </tr>
-    <tr class="flip_1">
-        <th scope="row"><?php SLocalization::out("cache_size");?>:</th>
-            <td colspan="2"><?php echo htmlentities(cacheSize());?>
-        </td>
-    </tr>
-</table>
-<br />
 <h3><?php SLocalization::out('file_permission');?></h3>
 <?php
 if(RURL::get('_action') == 'repair_rights')

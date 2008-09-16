@@ -1,0 +1,47 @@
+@CHARSET "UTF-8";
+.WTable{
+    border-width:0px;
+    border-top-width: 1px;
+    border-left-width: 1px;
+    width:100%;
+    font-size: 0.9em;
+}
+.WTable td, .WTable th{
+    border-width:0px;
+    border-bottom-width: 1px;
+    border-right-width: 1px;
+}
+.WTable, .WTable td, .WTable th{
+    border-style: solid;
+    border-spacing: 0px;
+    border-color: #4e9a06;
+}
+.WTable th
+{
+    background: #4e9a06 url(../../Images/iconbarbg.png) 50% 50%;
+    padding:2px;
+    color:white;
+}
+.WTable th[scope=row]
+{
+    background: #e7f8d7;
+    font-weight:normal;
+    padding-top:0px;
+    padding-bottom:0px;
+    color:black;
+    width:15%;
+}
+.WTable tr.alt_a th[scope=row]
+{
+    background: #cce4b5;
+}
+
+.WTable td
+{
+    background: #ffffff;
+}
+.WTable tr.alt_a td
+{
+    background: #eeeeec;
+}
+
