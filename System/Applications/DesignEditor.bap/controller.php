@@ -94,7 +94,7 @@ if(BAMBUS_APPLICATION_TAB == 'edit_css')
 		//save//
 		////////
 		
-		if(PAuthorisation::has('org.bambus-cms.stylesheet.change') && $allowEdit && $FileOpened)
+		if(PAuthorisation::has('org.bambus-cms.layout.stylesheet.change') && $allowEdit && $FileOpened)
 		{
 			//content changed?
 			if(RSent::has('content'))
@@ -215,7 +215,7 @@ elseif(BAMBUS_APPLICATION_TAB == 'edit_templates')
 		//save//
 		////////
 		
-		if(PAuthorisation::has('org.bambus-cms.template.change') && $allowEdit && $FileOpened)
+		if(PAuthorisation::has('org.bambus-cms.layout.template.change') && $allowEdit && $FileOpened)
 		{
 			//content changed?
 			if(RSent::has('content'))

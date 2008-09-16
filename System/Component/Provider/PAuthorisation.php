@@ -14,6 +14,7 @@ class PAuthorisation extends BProvider
     private static $groups;
     
     private static $active = false;
+    private static $cache = array();
     
     private function __construct()
     {
@@ -80,49 +81,59 @@ class PAuthorisation extends BProvider
         }
         
         self::load();
-        $result = null;
-
-        //build array for possible rights. most significant first
-        $test = array($permission);
-        $parts = explode('.', $permission);
-        //*.bar.bazz.zigg.doo -> *.doo
-        for($i = 1; $i < count($parts); $i++)
+        $uid = sprintf('%s(%s)',$permission, ($object == null ? '-' : $object));
+        if(!array_key_exists($uid, self::$cache))
         {
-            $test[] = '*.'.implode('.', array_slice($parts, $i));
-        }
-        //foo.bar.bazz.zigg.* -> foo.*
-        for($i = 1; $i < count($parts); $i++)
-        {
-           $test[] = implode('.', array_slice($parts, 0, $i)).'.*';
-        }
-        //global wildcard
-        $test[] = '*';
-        
-        //check for special object permissions
-        if($object != null && array_key_exists($object, self::$objectPermissions))
-        {
-            $objPerms = self::$objectPermissions[$object];
+            $result = null;
+    
+            //build array for possible rights. most significant first
+            $test = array($permission);
+            $parts = explode('.', $permission);
+            //*.bar.bazz.zigg.doo -> *.doo
+            for($i = 1; $i < count($parts); $i++)
+            {
+                $test[] = '*.'.implode('.', array_slice($parts, $i));
+            }
+            //foo.bar.bazz.zigg.* -> foo.*
+            for($i = 1; $i < count($parts); $i++)
+            {
+               $test[] = implode('.', array_slice($parts, 0, $i)).'.*';
+            }
+            //global wildcard
+            $test[] = '*';
+            
+            //check for special object permissions
+            if($object != null && array_key_exists($object, self::$objectPermissions))
+            {
+                $objPerms = self::$objectPermissions[$object];
+            }
+            else
+            {
+                $objPerms = array();
+            }
+            
+            //check permissions 
+            foreach ($test as $perm) 
+            {
+                if(array_key_exists($perm, $objPerms))
+                {
+                    $result = $objPerms[$perm];
+                    break;
+                }               
+                if(array_key_exists($perm, self::$permissions))
+                {
+                    $result = self::$permissions[$perm];
+                    break;
+                }
+            }
+            $result = ($result == null) ? (self::DENY) : $result;
+            self::$cache[$uid] = $result;
         }
         else
         {
-            $objPerms = array();
+            $result = self::$cache[$uid];
         }
-        
-        //check permissions 
-        foreach ($test as $perm) 
-        {
-            if(array_key_exists($perm, $objPerms))
-            {
-                $result = $objPerms[$perm];
-                break;
-            }               
-            if(array_key_exists($perm, self::$permissions))
-            {
-                $result = self::$permissions[$perm];
-                break;
-            }
-        }
-        return ($result == null) ? (self::DENY) : $result;
+        return $result;
     }
     
     /**
