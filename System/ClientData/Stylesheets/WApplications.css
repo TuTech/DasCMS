@@ -15,32 +15,26 @@ height:50px;
 {
 	display:none;
 }
-#WApplications a:link img,
-#WApplications a:visited img
-{
-	width: 24px;
-	height: 24px;
-}
-#WApplications a:hover img
-{
-	width: 32px;
-	height: 32px;
-	
-}
 #WApplications a:hover span.application-description
 {
 	position:absolute;
-	
-	border:1px solid black;	
-	display:block;
-	padding:2px;
-	font-size: 11px;
-	color: #eeeeec;
+	text-align:left;
+	top:57px;
+	height:34px;
+	mergin-left:50px;
+    border:1px solid #f0f9d7;   
+    border-right:1px solid #9fbc4a;   
+    border-left:1px solid #9fbc4a;   
+    display:block;
+    padding:2px;
+    padding-left:6px;
+    padding-right:6px;
+	font-size: 12px;
+	color: #000;
 }
 .application-description
 {
-	top:48px;
-	background: #2e3436;
+	background: #f0f9d7;
 }
 
 #WApplications a.active img
@@ -50,7 +44,7 @@ height:50px;
 }
 #WApplications a.active 
 {
-	background:  url(../../Images/shadow.png) 50% 100% no-repeat;
+	background:  url(../../Images/header_app_shadow.png) 50% 100% no-repeat;
 	width: 56px;
 	height:54px;
 	display: block;
@@ -66,6 +60,6 @@ height:50px;
 	vertical-align: middle;
 }
 #WApplications table{
-	padding-left:150px;
+	padding-left:10px;
 	background: url(../../Images/boxfish.png) 10px 50% no-repeat;
 }

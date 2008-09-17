@@ -5,6 +5,8 @@
     border-left-width: 1px;
     width:100%;
     font-size: 0.9em;
+    text-align:left;
+    empty-cells: show;
 }
 .WTable td, .WTable th{
     border-width:0px;
@@ -42,6 +44,6 @@
 }
 .WTable tr.alt_a td
 {
-    background: #eeeeec;
+    background: #f5f5ec;
 }
 

@@ -31,7 +31,7 @@ if(PAuthorisation::has('org.bambus-cms'))
 				break;
 			case 'download':
 				$path = SPath::DOWNLOADS;
-				$files = DFileSystem::FilesOf($path, '/\.(?!(php[0-9]?|aspx?|pl|phtml|cgi))$/i');
+				$files = DFileSystem::FilesOf($path, '/(?!\.php[0-9]?|\.aspx?|\.pl|\.phtml|\.cgi)$/i');
 				break;
 			case 'design':
 				$path = SPath::DESIGN;

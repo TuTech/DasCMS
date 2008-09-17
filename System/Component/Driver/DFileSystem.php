@@ -318,7 +318,7 @@ class DFileSystem extends BDriver
                     && (!$match || preg_match($match, $item))
                 )
                 {
-                    $files[strtoupper($item).md5($i)] = $item;
+                    $files[] = $item;
                 }
                 $i++;
             }

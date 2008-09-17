@@ -8,40 +8,31 @@
 ************************************************/
 echo LGui::beginForm(array(), 'documentform');
 echo LGui::hiddenInput('action', 'delete');
-$files = DFileSystem::FilesOf(SPath::DOWNLOADS, '/\.(?!(php[0-9]?|aspx?|pl|phtml|cgi))$/i');
+$files = DFileSystem::FilesOf(SPath::DOWNLOADS, '/(?!\.php[0-9]?|\.aspx?|\.pl|\.phtml|\.cgi)$/i');
 
-ksort($files, SORT_STRING);
-$itemTemplate = "<a class=\"listView\" name=\"{id}\" title=\"{title}\" id=\"{id}\" href=\"javascript:selectImage('{id}');\">
-    <img src=\"{icon}\" title=\"{title}\" id=\"img_{id}\" alt=\"{bigIcon}\" />
+$itemTemplate = "<a name=\"{id}\" title=\"{title}\" id=\"{id}\" href=\"javascript:selectImage('{id}');\">
+    <img src=\"{icon}\" title=\"{title}\" id=\"img_{id}\" />
     <input type=\"checkbox\" name=\"select_{id}\" id=\"select_{id}\" />
     {name}
 </a>";
-$id = 0;
-$lastchar = '';
+$flowLayout = new WFlowLayout('files');
+$flowLayout->setAdditionalCSSClasses('WFlowLayoutFile');
 foreach($files as $file){
-	$fchar = strtoupper(substr($file,0,1));
-	if($fchar != $lastchar)
-	{
-		$lastchar = $fchar;
-		printf('<span class="hiddenGroup">%s</span>', $fchar);
-	}
     $id = md5($file);
     $suffix = DFileSystem::suffix($file);
-    $icon = (file_exists(WIcon::pathFor($suffix, 'mimetype'))) ? $suffix : 'file';
     $bigIcon = (file_exists(WIcon::pathFor($suffix, 'mimetype', WIcon::LARGE))) ? $suffix : 'file';
     $output = array('realname'  => htmlentities($file),
-        'icon' => 	WIcon::pathFor($icon, 'mimetype'),
-        'bigIcon' =>WIcon::pathFor($bigIcon, 'mimetype', WIcon::LARGE),
+        'icon' =>WIcon::pathFor($bigIcon, 'mimetype', WIcon::LARGE),
         'linktarget' => '_blank',
         'id' => $id,
-        'link' => '#'.$id,
-        'title' => htmlentities($file),
-        'name' => wordwrap(htmlentities($file),1,"<wbr />",true),
+        'title' => htmlentities(mb_convert_encoding($file,'UTF-8', 'ISO-8859-15,auto'), ENT_QUOTES, 'UTF-8'),
+        'name' => mb_convert_encoding(wordwrap($file,16,"<wbr />",true),'UTF-8', 'ISO-8859-15,auto'),
     );
     $tpl = new WTemplate($itemTemplate, WTemplate::STRING);
     $tpl->setEnvironment($output);
-    $tpl->render();
+    $flowLayout->addItem($tpl);
 }
+$flowLayout->render();
 echo LGui::endForm();
 echo new WScript('hideInputs();');
 ?>

@@ -21,7 +21,7 @@ if(PAuthentication::isAuthenticated())
 	if(file_exists($path.basename($render))){
 
         $image = $path.basename($render);
-        $thumb = SPath::TEMP.filemtime($path.basename($render)).basename($render).'.jpg';
+        $thumb = SPath::TEMP.md5(filemtime($path.basename($render)).basename($render)).'.jpg';
        
        	if(file_exists($thumb))
        	{
@@ -33,7 +33,10 @@ if(PAuthentication::isAuthenticated())
         $command = "/usr/bin/convert ".escapeshellarg($image)." -background white -flatten +matte -resize 96x96 ".escapeshellarg($thumb).";"
          ." /usr/bin/montage -geometry 96x96 ".escapeshellarg($thumb)." ".escapeshellarg($thumb)." ";
 	
-		@unlink($thumb);
+		if(file_exists($thumb))
+		{
+            @unlink($thumb);
+        }
 		$output = shell_exec($command);
 
 
@@ -52,7 +55,8 @@ if(PAuthentication::isAuthenticated())
 	    //already there?
 	    if(!file_exists($thumbfile)){
 	        //just for the case we fail...
-	        copy('./System/Images/no_preview.jpg', $thumbfile);
+            if(file_exists(SPath::SYSTEM_IMAGES.'no_preview.jpg'))
+	        copy(SPath::SYSTEM_IMAGES.'no_preview.jpg', $thumbfile);
 	        
 	        //calculating size position etc
 	        $size = GetImageSize($file);
@@ -85,10 +89,11 @@ if(PAuthentication::isAuthenticated())
 	        imagefill($newImage,0,0,$farbe);
 	        ImageCopyResized($newImage,$image,$pos_x,$pos_y,0,0,$newWidth,$newHeight,$width,$height);
 	        //save it as jpeg
+echo getcwd();
+echo $thumbfile;
 	        @ImageJPEG($newImage, $thumbfile, 60);
 	        //ImageJPEG($newImage);
 	        readfile($thumbfile);
-	        @chmod($thumbfile, 0666);
 	        //kill them and remove their dead bodies from the memory
 	        ImageDestroy($image);
 	        ImageDestroy($newImage);

@@ -43,6 +43,7 @@ class SLocalization extends BSystem
         $file = 'System/Resource/Translation/'.self::$currentLang.'.strings';
         mb_internal_encoding("UTF-8");
         self::$translations = array();
+        echo "<h1>loading..lang$file</h1>";
         if(file_exists($file))
         {
         	//FIXME implement lang file loading
@@ -55,7 +56,7 @@ class SLocalization extends BSystem
             	{
 	            	$key = mb_substr($line, 0, $tab);
 	            	$value = mb_substr($line, $tab+1, -1);
-	            	self::$currentLang[$key] = $value;
+	            	self::$translations[$key] = $value;
             	}
             }
         }
@@ -72,7 +73,7 @@ class SLocalization extends BSystem
      */
 	public static function get($key, array $subjects = array())
 	{
-		if(self::$translations == null)
+		if(self::$translations === null)
 		{
 			self::loadLanguage();
 		}

@@ -80,7 +80,7 @@ function pdirlist_r($dir = './', $indent = 0){
                 $indent = $indent + 20;
             }
         }else{
-            $out[] =  '<div class="listeddir"><img src="'.SPath::SYSTEM_IMAGES.'dir.png" alt="" />'.htmlentities($dir).' <span class="notreadable">'.SLocalization::get('not_readable').'</span></div>';
+            $out[] =  array(htmlentities($dir), SLocalization::get('not_readable'), '-', '-', '-');
             $indent = $indent + 20;                
         }
         if ($files != array())
@@ -99,14 +99,13 @@ function pdirlist_r($dir = './', $indent = 0){
 					$fileperms =sprintf('%o', $fileperms);
 	            	if(!is_readable($file) || (!is_writable($file) && substr($file, 0, 10) == './Content/') || strpos($fileperms, '7') !== false)
 	            	{
-	            		$out[] = sprintf(
-							'<tr><th class="left_th">%s</th><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>',
-							htmlentities($file),
-							is_readable($file) ? $yes : $no,
-							is_writable($file) ? $yes : $no,
-							substr($fileperms,3),
-							htmlentities($dir)
-	            		);
+                        $out[] = array(
+                            htmlentities($file),
+                            is_readable($file) ? $yes : $no,
+                            is_writable($file) ? $yes : $no,
+                            substr($fileperms,3),
+                            htmlentities($dir)
+                        );
 	            	}
         		}
             }

@@ -1,7 +1,6 @@
 /********Colors********/
 #BambusHeader{
- 	/*background: #000 url(../../Images/iconbarbg.png) 50% 0%;*/
- 	background: url(../../Images/iconbarbg_selected.png) 0% 0%;
+ 	background: url(../../Images/header_background.jpg) 0% 0%;
 }
 
 div.CommandBar{
@@ -11,12 +10,12 @@ div.CommandBar{
 }
 table.CommandBarPanel{
 	border-style: solid;
-	border-color: #2e3436;
+	border-color: #d3d7cf;
 	background: #eeeeec;
 }
 th.CommandBarPanelStart{
 	border-style: dotted;
-	border-color: #2e3436;
+	border-color: #d3d7cf;
 }
 a.CommandBarPanelItem{
 	
@@ -33,7 +32,7 @@ div.CommandBar{
 	margin:0px;
 	border-width: 0px;
 	border-top-width: 0px;
-	border-bottom-width: 1px;
+	border-bottom-width: 0px;
 }
 table.CommandBarPanel, table.CommandBarPanel *{
 	padding:0px;

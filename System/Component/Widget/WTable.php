@@ -71,7 +71,7 @@ class WTable extends BWidget
     {
         $this->setHeadings($headings);
         $this->setTitle($title);
-        $this->id = ++self::$CurrentWidgetID;
+        $this->id = ++parent::$CurrentWidgetID;
     }
     
     public function __toString()
@@ -97,7 +97,7 @@ class WTable extends BWidget
     {
         if($this->title != null)
         {
-            printf('<h3>%s</h3>', $this->title);
+            printf("<h3>%s</h3>\n", $this->title);
         }
         printf("<table class=\"WTable\" id=\"WTable_%d\">\n", $this->id);
         $rows = count($this->data);

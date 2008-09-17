@@ -30,7 +30,7 @@ if(isset($_FILES['bambus_file']['name']) && PAuthorisation::has('org.bambus-cms.
 }
 if(RSent::get('action') == 'delete' && PAuthorisation::has('org.bambus-cms.downlaad.file.delete'))
 {
-	$files = DFileSystem::FilesOf(SPath::DOWNLOADS, '/\.(?!(php[0-9]?|aspx?|pl|phtml|cgi))$/i');
+	$files = DFileSystem::FilesOf(SPath::DOWNLOADS, '/(?!\.php[0-9]?|\.aspx?|\.pl|\.phtml|\.cgi)$/i');
 	foreach($files as $file)
 	{
 		if(RSent::hasValue('select_'.md5($file)))
