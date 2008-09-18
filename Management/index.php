@@ -38,11 +38,15 @@ foreach ($styles as $css)
 	WHeader::useStylesheet($path.$css);
 }
 $path = SPath::SYSTEM_SCRIPTS;
+WHeader::useScript($path.'NameSpace.js');
 $scripts = DFileSystem::FilesOf($path, '/\.js$/i');
 sort($scripts);//UC first
 foreach ($scripts as $script) 
 {
-	WHeader::useScript($path.$script);
+    if($script != 'NameSpace.js')
+    {
+        WHeader::useScript($path.$script);
+    }
 }
 WHeader::setBase(SLink::base());
 

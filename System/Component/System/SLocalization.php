@@ -89,7 +89,7 @@ class SLocalization extends BSystem
 		}
 		else
 		{
-			return $key;
+			return str_replace('_', ' ',$key);
 		}
 	}
 	

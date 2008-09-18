@@ -6,10 +6,7 @@ var systemSmallActionImage = systemIcon+'22x22/actions/';
 var cleanupmesseage = 'document_has_been_cleaned_up';
 
 //new
-function $(id)
-{
-	return document.getElementById(id);
-}
+
 function WCLFilter()
 {
 var filterStr
