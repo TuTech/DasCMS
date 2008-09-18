@@ -1,10 +1,7 @@
 @CHARSET "UTF-8";
 #WApplications{
-	border-top: 1px solid #eeeeec;
 	z-index:500000;
 	display:block;
-	
-	/*background: url(../../Images/iconbarbg_selected.png) 50% 50%;*/
 }
 #WApplications table, #WApplications tr, #WApplications td
 {
@@ -15,16 +12,19 @@ height:50px;
 {
 	display:none;
 }
+
 #WApplications a:hover span.application-description
 {
 	position:absolute;
 	text-align:left;
 	top:57px;
+	margin-left:-1px;
 	height:34px;
 	mergin-left:50px;
     border:1px solid #f0f9d7;   
     border-right:1px solid #9fbc4a;   
     border-left:1px solid #9fbc4a;   
+    border-bottom:1px solid #9fbc4a;   
     display:block;
     padding:2px;
     padding-left:6px;
@@ -36,17 +36,37 @@ height:50px;
 {
 	background: #f0f9d7;
 }
-
+#WApplications a img 
+{
+	width:32px;
+	height:32px;
+}
 #WApplications a.active img
 {
-	width: 48px;
-	height: 48px;
+	width:48px;
+	height:48px;
+		
+}
+#WApplications a:hover img
+{
+	border:1px solid #9fbc4a;
+	padding:3px;
+	background: #fff;
+}
+#WApplications a.active img
+{
+	border-width: 0px;
+	padding:0px;
+	background: none;
 }
 #WApplications a.active 
 {
-	background:  url(../../Images/header_app_shadow.png) 50% 100% no-repeat;
+	background: #f9fcee ;
+    border:1px solid #9fbc4a;
+    border-bottom-width:0px;
+    padding-top:1px;   
 	width: 56px;
-	height:54px;
+	height:53px;
 	display: block;
 }
 
@@ -57,9 +77,8 @@ height:50px;
 }
 #WApplications table, #WApplications tr
 {
-	vertical-align: middle;
+	vertical-align: top;
 }
 #WApplications table{
 	padding-left:10px;
-	background: url(../../Images/boxfish.png) 10px 50% no-repeat;
 }

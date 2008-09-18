@@ -43,11 +43,8 @@ class SLocalization extends BSystem
         $file = 'System/Resource/Translation/'.self::$currentLang.'.strings';
         mb_internal_encoding("UTF-8");
         self::$translations = array();
-        echo "<h1>loading..lang$file</h1>";
         if(file_exists($file))
         {
-        	//FIXME implement lang file loading
-        	//load
             $data = file($file);
             foreach ($data as $line) 
             {

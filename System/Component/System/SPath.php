@@ -14,7 +14,7 @@ class SPath extends BSystem
 	const SYSTEM_SCRIPTS = './System/ClientData/Scripts/';
     const SYSTEM_ICONS = './System/Icons/tango/';
     const SYSTEM_IMAGES = './System/Images/';
-    const SYSTEM_TEMPLATES = './System/Templates/';
+    const SYSTEM_TEMPLATES = './System/Resource/Templates/';
     const SYSTEM_APPLICATIONS = './System/Applications/';
     
     const CONTENT = './Content/';

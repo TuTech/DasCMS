@@ -20,7 +20,7 @@ if(RURL::has('logout')){
 
 PAuthentication::required();
 
-WTemplate::globalSet('logotext', BAMBUS_VERSION);
+WTemplate::globalSet('bcms_version', BAMBUS_VERSION);
 WTemplate::globalSet('WApplications', '');
 WTemplate::globalSet('SNotificationCenter', SNotificationCenter::alloc()->init());
 WTemplate::globalSet('bambus_my_uri', SLink::link());
