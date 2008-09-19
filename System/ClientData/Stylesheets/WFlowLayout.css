@@ -14,8 +14,8 @@
     float:left;
     overflow:hidden;
 }
-.WFlowLayoutFile{
-    border: 1px solid #eeeeec;
+.WFlowLayoutFile,
+.WFlowLayoutImage{
 	width:128px;
     height:128px;
     text-align:center;

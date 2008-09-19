@@ -11,6 +11,7 @@ define('ERROR_TEMPLATE', '<div style="font-family:sans-serif;border:1px solid #a
             <h1 style="border-bottom:1px solid #cc0000;font-size:16px;">%s <code>%d</code> in "%s" at line %d</h1>
             <p>%s</p>
             <p><pre>%s</pre></p>
+			<p>CWD: %s</p>
         </div>
     </div>');
 
@@ -22,7 +23,8 @@ function EX_Handler(Exception $e)
         , $e->getFile()
         , $e->getLine()
         , $e->getMessage()
-        , $e->getTraceAsString());
+        , $e->getTraceAsString()
+        ,getcwd());
     exit(1);
 }
 
@@ -38,7 +40,8 @@ function ER_Handler( $errno ,  $errstr ,  $errfile ,  $errline ,  $errcontext  )
         , $errfile
         , $errline
         , $errstr
-        , $context);
+        , $context
+        ,getcwd());
         exit(1);
     
 }

@@ -166,7 +166,7 @@ class LGui extends BLegacy
     
     public static function verticalSpace()
     {
-        return "<br class=\"clear\"/>";
+        return "<br />";
     }
 
     public static function beginTable($id = '',$class = 'borderedtable full')

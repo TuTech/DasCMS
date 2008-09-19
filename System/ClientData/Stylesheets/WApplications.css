@@ -17,14 +17,11 @@ height:50px;
 {
 	position:absolute;
 	text-align:left;
-	top:57px;
-	margin-left:-1px;
+	top:10px;
 	height:34px;
-	margin-left:50px;
+	margin-left:58px;
     border:1px solid #f0f9d7;   
-    border-right:1px solid #9fbc4a;   
-    border-left:1px solid #9fbc4a;   
-    border-bottom:1px solid #9fbc4a;   
+    border:1px solid #9fbc4a;   
     display:block;
     padding:2px;
     padding-left:6px;

@@ -21,15 +21,17 @@ class WDialog extends BWidget
     private $currentSection = 0;
     private $translateTitles = true;
     
+    private $isMultipart = false;
+    
     private $captions = array(
         1 => 'ok',
         2 => 'cancel',
         4 => 'reset'
     );
     
-    public function __construct($title, $buttons)
+    public function __construct($id, $title, $buttons)
     {       
-        $this->ID = ++parent::$CurrentWidgetID;
+        $this->ID = $id;
         $this->setTitle($title);
         $this->setButtons($buttons);
     }
@@ -54,6 +56,17 @@ class WDialog extends BWidget
         $this->captions[$button] = $text;
     }
     
+    public function remember($name, $value)
+    {
+        $this->items[] = array(
+            $this->currentSection,
+            'hidden',
+            $name,
+            '',
+            $value
+        );
+    }
+    
     public function askText($name, $defaultValue = '', $title = null)
     {
         $this->items[] = array(
@@ -64,6 +77,7 @@ class WDialog extends BWidget
             $defaultValue
         );
     }
+    
     public function askPassword($name, $title = null)
     {
         $this->items[] = array(
@@ -83,6 +97,7 @@ class WDialog extends BWidget
             $title,
             ''
         );
+        $this->isMultipart = true;
     }
     public function askConfirm($name, $checked = false, $title = null)
     {
@@ -146,12 +161,13 @@ class WDialog extends BWidget
     public function render()
     {
         echo '<script type="text/javascript">';
-        printf('org.bambuscms.wdialog.dialogs[%d] = ', $this->ID);
-        printf('{"OK":%s, "Cancel":%s, "Reset":%s, "title":"%s", "sections":[',
+        printf('org.bambuscms.wdialog.dialogs.%s = ', $this->ID);
+        printf('{"OK":%s, "Cancel":%s, "Reset":%s, "title":"%s", "isMultipart":%d, "sections":[',
             ($this->buttons & self::SUBMIT) ? ('"'.SLocalization::get($this->captions[self::SUBMIT]).'"') : 'null',
             ($this->buttons & self::CANCEL) ? ('"'.SLocalization::get($this->captions[self::CANCEL]).'"') : 'null',
             ($this->buttons & self::RESET) ? ('"'.SLocalization::get($this->captions[self::RESET]).'"') : 'null',
-            htmlentities($this->translateTitles ? (SLocalization::get($this->title)) : $this->title, ENT_QUOTES, 'UTF-8')
+            htmlentities($this->translateTitles ? (SLocalization::get($this->title)) : $this->title, ENT_QUOTES, 'UTF-8'),
+            $this->isMultipart ? '1' : '0'
         );
         $csect = '';
         $sep = '';
@@ -171,12 +187,12 @@ class WDialog extends BWidget
         	}
         	printf(
         	    //'$name:{type:$type, title:$title, value:$value<-- if not choice}'
-    	        '"%s":{"type":"%s","title":"%s","value":%s}%s',
+    	        '%s"%s":{"type":"%s","title":"%s","value":%s}',
+    	        $isep,
 				$item[2],
 				$item[1],
 				$item[3],
-				'"'.$item[4].'"',
-				$isep
+				'"'.$item[4].'"'
         	);
 	        $isep = ',';
         }
@@ -185,8 +201,13 @@ class WDialog extends BWidget
             echo '}}';
         }
         echo ']};';
-        printf('org.bambuscms.wdialog.run(%d);', $this->ID);
+        //printf('org.bambuscms.wdialog.run("%s");', $this->ID);
         echo '</script>';
+    }
+    
+    public static function openCommand($dialog)
+    {
+        return sprintf('org.bambuscms.wdialog.run("%s");', $dialog);
     }
     
     public function run()

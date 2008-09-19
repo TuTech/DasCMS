@@ -15,7 +15,7 @@
 			<task type="button" hotkey="o" caption="open" icon="action-document-open" action="OBJ_ofd.toggle()" />
 			<task type="button" hotkey="s" caption="save" icon="action-document-save" action="EditorSave()" />
 			<task type="spacer" />
-			<task type="button" hotkey="N" caption="new" icon="action-document-new-group" action="toggleAddBox()" />
+			<task type="button" hotkey="N" caption="new" icon="action-add" action="action_add_group()" />
 			<task type="button" hotkey="X" caption="delete" icon="action-delete" action="delete" mode="html" confirm="do_you_really_want_to_delete_this_user" />
 		</interface>	
 	</application>

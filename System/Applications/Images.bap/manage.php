@@ -6,6 +6,22 @@
  * @version 1.0
  * @author selke@tutech.de
  */
+
+$jsCreate = "alert('permission denied');";
+//if(PAuthorisation::has('org.bambus-cms.credentials.group.create'))
+{
+    $d = new WDialog('dlg_upload','upload_image', WDialog::SUBMIT|WDialog::CANCEL);
+    $d->setButtonCaption(WDialog::SUBMIT, 'send');
+    $d->askFile('bambus_image_file');
+    $d->askConfirm('new_group_description',false,'allow_overwrite');
+    $d->remember('MAX_FILE_SIZE','1000000000');
+    $d->render();
+    $jsCreate = WDialog::openCommand('dlg_upload');
+}
+echo "\n";
+echo new WScript('var Upload = function(){'.$jsCreate.'};');
+
+
 echo LGui::beginForm(array(), 'documentform');
 echo LGui::hiddenInput('action', 'delete');
 $files = DFileSystem::FilesOf(SPath::IMAGES, '/\.('.implode('|', $allowed).')/i');

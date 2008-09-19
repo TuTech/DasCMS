@@ -11,7 +11,8 @@ org.bambuscms.wdialog = {
 			var c = org.bambuscms.wdialog.container;
 			var dialog = document.createElement('div');
 			dialog.setAttribute('class', 'WDialog');
-
+			var focusInput = null;
+			
 			//title
 			var title = document.createElement('h2');
 			title.appendChild(document.createTextNode(src.title));
@@ -54,6 +55,7 @@ org.bambuscms.wdialog = {
 							otitle.setAttribute('for', 'WDialog_'+id+'_'+name);
 							otitle.appendChild(document.createTextNode(sect.items[name].title));
 							obj.appendChild(otitle);
+							obj.setAttribute('class', 'WDialog_labeled');
 						}
 						
 						//type,title,value
@@ -62,6 +64,7 @@ org.bambuscms.wdialog = {
 							case 'text':
 							case 'password':
 							case 'file':
+							case 'hidden':
 							case 'checkbox':
 								var input = document.createElement('input');
 								input.setAttribute('type', sect.items[name].type);
@@ -83,6 +86,10 @@ org.bambuscms.wdialog = {
 							default:
 								var input = document.createElement('span');
 						}
+						if(focusInput == null)
+						{
+							focusInput = input;
+						}
 						obj.appendChild(input);
 						block.appendChild(obj);
 					}
@@ -101,7 +108,8 @@ org.bambuscms.wdialog = {
 				if(buttons[i].title)
 				{
 					var el = document.createElement('a');
-					el.setAttribute('onclick', buttons[i].link);
+					el.setAttribute('onclick', buttons[i].link+';return false;');
+					el.setAttribute('href', '#');
 					el.appendChild(document.createTextNode(buttons[i].title));
 					dialog.appendChild(el);
 				}
@@ -115,6 +123,11 @@ org.bambuscms.wdialog = {
 			
 			//show
 			c.style.display = 'block';
+			
+			if(focusInput != null)
+			{
+				focusInput.focus();
+			}
 		}
 	},
 	"init":function()
@@ -142,7 +155,7 @@ org.bambuscms.wdialog = {
 			org.bambuscms.wdialog.container.style.display = 'none';
 		}
 	},
-	"dialogs":[],
+	"dialogs":{},
 	"conainer":null,
 	"form":null
 };

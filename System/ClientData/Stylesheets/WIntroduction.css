@@ -1,0 +1,16 @@
+@CHARSET "UTF-8";
+.WIntroduction{
+	display:block;
+	padding-top:5px;
+	padding-bottom: 5px;
+	clear:both;
+}
+
+.WIntroduction img{
+	float:left;
+	padding-right: 5px;
+	padding-bottom: 5px;
+}
+.WIntroduction p{
+	clear:both;
+}

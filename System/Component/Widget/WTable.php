@@ -1,6 +1,7 @@
 <?php
 class WTable extends BWidget 
 {
+    const HEADING_NONE = 0;
     const HEADING_TOP = 1;
     const HEADING_BOTTOM = 2;
     const HEADING_RIGHT = 4;

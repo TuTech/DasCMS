@@ -8,9 +8,9 @@ reset	Zurücksetzen
 revoked	Veröffentlichung zurückgezogen
 saved	Gespeichert
 logged_in_user	Eingeloggter Benutzer
-Event_ContentRemoved	Gel&ouml;scht: 
+Event_ContentRemoved	Gelöscht: 
 Event_ContentCreated	Erstellt: 
-Event_ContentChanged	Ge&auml;ndert: 
+Event_ContentChanged	Geändert: 
 resources	Resourcen
 color_palettes	Farbpaletten
 number_of_items	Anzahl
@@ -21,17 +21,17 @@ lines	Zeilen
 manage	Verwalten
 configure	Konfigurieren
 session_timed_out	Session abgelaufen \n(Wenn Sie die aktuellen eingaben speichern wollen loggen Sie sich in einem anderen Browserfenster/-tab neu an)
-free_disk_space	Verf&uuml;gbarer Speicherplatz
+free_disk_space	Verfügbarer Speicherplatz
 hidden	Versteckt
-exit_management_area	Wenn Sie den Management Bereich verlassen wollen dr&uuml;cken Sie OK
+exit_management_area	Wenn Sie den Management Bereich verlassen wollen drücken Sie OK
 logout_on_exit	Beim Verlassen des Managementbereichs ausloggen
 confirm_for_exit	Abfrage beim Verlassen des Managementbereichs
 cms_color	Hintergrundfarbe der Management Titelleiste
 cms_text_color	Textfarbe	der Management Titelleiste
 always_expanded	Immer ausgeklappt
 object_attributes	Objekteigenschaften
-protect_against_anyone_but	Objekt gegen alle sch&uuml;tzen au&szlig;er
-protect_object	Objekt sch&uuml;tzen
+protect_against_anyone_but	Objekt gegen alle schützen außer
+protect_object	Objekt schützen
 sent_on	Gesendet am
 new	Neu
 message_unread	Mitteilung ungelesen
@@ -49,16 +49,16 @@ max_time_to_cache	Maximale Zeit bis zur Aktualisierung
 unnamed	Unbenannt
 subtitle	Untertitel
 authors	Autoren
-publish_on	Ver&ouml;ffentlichen am
-publish_this_enty_in	Diesen Beitrag ver&ouml;ffentlichen in
+publish_on	Veröffentlichen am
+publish_this_enty_in	Diesen Beitrag veröffentlichen in
 assign_this_entry_to	Diesen Beitrag eintragen in
-expires_on	Verf&auml;llt am
+expires_on	Verfällt am
 you_are	Sie sind
 to_users	An die Benutzer
 to_groups	An die Gruppen
 this_user_has_not_logged_in_yet	Dieser Benutzer hat sich bisher noch nicht eingeloggt
 user_profile_saved	Benutzerprofil gespeichert
-you_do_not_have_the_permission_to_delete_this_user	Sie haben nicht die Berechtigung diesen Benutzer zu l&ouml;schen
+you_do_not_have_the_permission_to_delete_this_user	Sie haben nicht die Berechtigung diesen Benutzer zu löschen
 assigned_users	Zugeordnete Benutzer
 sent_messages	Gesendete Mitteilungen
 message_sent	Mitteilung gesendet
@@ -69,14 +69,14 @@ number_of_management_logins	Anzahl der Logins im Management
 last_management_login	Letzter Login im Management
 set_password	Passwort setzen
 set_new_password	Neues Passwort setzten
-confirm_new_password	Neues Passwort best&auml;tigen
+confirm_new_password	Neues Passwort bestätigen
 edit_users	Benutzer bearbeiten
 group_settings	Gruppeneinstellungen
 switch_application	Editor wechseln
 confirm_logout	Wollen Sie sich abmelden?
 backup_created	Backup erstellt
 send	Senden
-attach_file	Datei anh&auml;ngen
+attach_file	Datei anhängen
 send_and_receive_messages_from_other_users	Mitteilungen an Benutzer senden und empfangen
 communication	Kommunikation
 write_messages	Mitteilungen verfassen
@@ -95,9 +95,9 @@ status	Status
 received	Empfangen
 recently_uploaded_file	Kürzlich hochgeladene Datei
 edit_news	Nachrichten bearbeiten
-pubDate	Ver&ouml;ffentlichungsdatum
+pubDate	Veröffentlichungsdatum
 tags	Tags
-unsupported_file_types	Nicht unterst&uuml;tzte Dateitypen
+unsupported_file_types	Nicht unterstützte Dateitypen
 not_active	Nicht aktiv
 navigation_variable	Navigationsvariable
 template_variable_access	Zugriff per Templatevariable
@@ -105,7 +105,7 @@ variable	Variable
 relation	Relation
 dummy	Dummy
 db_item	Datenbank Eintrag
-search_entries	Eintr&auml;ge durchsuchen
+search_entries	Einträge durchsuchen
 target	Link-Target
 hour	Stunde
 minute	Minute
@@ -114,11 +114,11 @@ year	Jahr
 month	Monat
 day	Tag
 manage_navigations	Navigationen verwalten
-manage_navigation_objects	Navigationseintr&auml;ge verwalten
-assigned_navigation_objects	Eintr&auml;ge die dieser Navigation zugeordnet sind
+manage_navigation_objects	Navigationseinträge verwalten
+assigned_navigation_objects	Einträge die dieser Navigation zugeordnet sind
 arrange_navigations	Navigationen arrangieren
-howto_delete	Klicken Sie hier um dieses Objekt zu l&ouml;schen
-howto_undelete	Klicken Sie hier wenn dieses Objekt nicht l&ouml;schen wollen. Dieses Objekt wird gel&ouml;scht wenn sie speichern.
+howto_delete	Klicken Sie hier um dieses Objekt zu löschen
+howto_undelete	Klicken Sie hier wenn dieses Objekt nicht löschen wollen. Dieses Objekt wird gelöscht wenn sie speichern.
 is	ist
 is_not	ist nicht
 contains	beinhaltet
@@ -126,13 +126,13 @@ contains_not	beinhaltet nicht
 less_than	kleiner als
 navigations	Navigationen
 edit_and_manage_navigation	Navigationen bearbeiten und verwalten
-greater_than	gr&ouml;&szlig;er als
+greater_than	größer als
 edit_content	Inhalt bearbeiten
 manage_content	Inhalt verwalten
 system	System
 manage_users	Benutzer verwalten
 view_informations_about_documents	Dokumenteninformationen
-do_you_really_want_to_delete_this_document	Wollen Sie dieses Dokument wirklich l&ouml;schen
+do_you_really_want_to_delete_this_document	Wollen Sie dieses Dokument wirklich löschen
 manage_backups	Backups verwalten
 restored	Wiederhergestellt
 full_screen	Vollbild
@@ -140,8 +140,8 @@ edit_documents	Dokumente bearbeiten
 manage_documents	Dokumente verwalten
 protector	Seitenschutz
 edit_settings_of_documents	Dokumenteneinstellungen bearbeiten
-supported_file_types	Unterst&uuml;tzte Dateitypen
-maximum_upload_size	Maximal hochladbare Dateigr&ouml;&szlig;e
+supported_file_types	Unterstützte Dateitypen
+maximum_upload_size	Maximal hochladbare Dateigröße
 file_upload	Dateien hochladen
 search	Suchen
 list_view	Listenansicht
@@ -149,26 +149,26 @@ icon_view	Symbolansicht
 detail_view	Detailansicht
 this_field_must_not_be_empty	Dieses Feld darf nicht leer sein
 manage_and_upload_images	Bilder hochladen und verwalten
-delete_selected	Ausgew&auml;hlte l&ouml;schen
-do_you_really_want_to_delete_the_selected_images	Wollen Sie die ausgew&auml;lten Bilder wirklich l&ouml;schen
+delete_selected	Ausgewählte löschen
+do_you_really_want_to_delete_the_selected_images	Wollen Sie die ausgewälten Bilder wirklich löschen
 no_preview	Keine Vorschau
 character_is_not_allowed	Zeichen ist nicht erlaubt
-select_all	Alle Elemente ausw&auml;hlen
+select_all	Alle Elemente auswählen
 navigation_dependencies	Navigationsbedingungen
-download_selected	Ausgew&auml;hlte Elemente herunterladen
-recently_uploaded_image	K&uuml;rzlich hochgeladenes Bild
+download_selected	Ausgewählte Elemente herunterladen
+recently_uploaded_image	Kürzlich hochgeladenes Bild
 select_none	Auswahl aufheben
-allow_overwrite	&Uuml;berschreiben zulassen
+allow_overwrite	Überschreiben zulassen
 image_upload	Bild hochladen
 configuration	Konfiguration
 edit_configuration	Konfiguration bearbeiten
-enlarge	Vergr&ouml;&szlig;ern
-enlarge_selected	Ausgew&auml;hlte vergr&ouml;&szlig;ern
+enlarge	Vergrößern
+enlarge_selected	Ausgewählte vergrößern
 manage_and_upload_files	Dateien hochladen und verwalten
 system_information	Systeminformationen
 cache_cleared	Zwischenspeicher geleert
 css_files	CSS-Dateien
-this_file_cannott_be_deleted	Diese Datei kann nicht gel&ouml;scht werden
+this_file_cannott_be_deleted	Diese Datei kann nicht gelöscht werden
 go_to	Gehe zu
 file_name	Dateiname
 import_as_new_file	Als neue Datei importieren
@@ -177,24 +177,24 @@ design_editor	Design Editor
 template	Template
 news_feed	Nachrichtenkanal
 table	Tabelle
-open_file	Datei &ouml;ffnen
+open_file	Datei öffnen
 old_class_warning	This editor requires the old class-structure
 edit_website	Webseite editieren
-do_you_really_want_to_delete_this_page	Wollen Sie diese Seite wirklich l&ouml;schen
+do_you_really_want_to_delete_this_page	Wollen Sie diese Seite wirklich löschen
 linethrough	Durchgestrichen
 website	Webseite
 YANE	YANE
-feed_table_does_not_exists	Tabelle f&uuml;r die RSS-Feeds existiert nicht
-item_table_does_not_exists	Tabelle f&uuml;r die RSS-Eintr&auml;ge existiert nicht
-feed_table_created	Tabelle f&uuml;r die RSS-Feeds wurde erstellt
-item_table_created	Tabelle f&uuml;r die RSS-Eintr&auml;ge wurde erstellt
+feed_table_does_not_exists	Tabelle für die RSS-Feeds existiert nicht
+item_table_does_not_exists	Tabelle für die RSS-Einträge existiert nicht
+feed_table_created	Tabelle für die RSS-Feeds wurde erstellt
+item_table_created	Tabelle für die RSS-Einträge wurde erstellt
 could_not_connect_to_database	Verbindung zur Datenbank konnte nicht hergestellt werden
-this_application_needs_a_database	F&uuml;r dieses Programm wird eine Datenbank ben&ouml;tigt
+this_application_needs_a_database	Für dieses Programm wird eine Datenbank benötigt
 create_required_tables	Tabellen erstellen
-add_feed	RSS-Feed hinzuf&uuml;gen
-add_item	RSS-Eintrag hinzuf&uuml;gen
+add_feed	RSS-Feed hinzufügen
+add_item	RSS-Eintrag hinzufügen
 new_feed	Neuer RSS-Feed
-primary_group	Prim&auml;re Gruppe
+primary_group	Primäre Gruppe
 none	Keine Auswahl
 align_left	Links ausrichten
 align_center	Mittig ausrichten
@@ -204,25 +204,25 @@ ol	Nummerierte Liste
 ul	Liste
 edit_news_and_rss-feeds	Nachrichten und RSS-Feeds bearbeiten
 news_admin	Nachrichten
-do_you_really_want_to_delete_all_backup_files	Wollen Sie wirklich ALLE Backups l&ouml;schen
+do_you_really_want_to_delete_all_backup_files	Wollen Sie wirklich ALLE Backups löschen
 autobackup_on	Automatisches Backup aktiviert
 wellformed_uris	Wohlgeformte URLS
 error_404_redirect	Fehler 404 Weiterleitung
 htaccess_file	.htaccess-Datei
-back	Zur&uuml;ck
-forward	Vorw&auml;rts
+back	Zurück
+forward	Vorwärts
 pixel	Pixel
 upload_includes	Dateien zum Einbinden hochladen
 move_in	Hineinschieben
-managing_editor	Zust&auml;ndiger Benutzer
+managing_editor	Zuständiger Benutzer
 webmaster	Webmaster
 category	Kategorie
 move_out	Herrausschieben
-configuration_keys	Konfigurationsschl&uuml;sselwort
+configuration_keys	Konfigurationsschlüsselwort
 image_bar	Bildleiste
-protect_websites	Webseiten sch&uuml;tzen
+protect_websites	Webseiten schützen
 access_log	Zugriffe
-change_log	&Auml;nderungen
+change_log	Änderungen
 manage_images	Bilder verwalten
 manage_files	Dateien verwalten
 manage_includes	Includes verwalten
@@ -236,13 +236,13 @@ is_not_ie4	Ist nicht IE 4
 is_not_ie5	Ist nicht IE 5
 is_not_ie6	Ist nicht IE 6
 is_not_ie7	Ist nicht IE 7
-less_than_ie5	Ist IE &auml;lter als Version 5
-less_than_ie6	Ist IE &auml;lter als Version 6
-less_than_ie7	Ist IE &auml;lter als Version 7
-less_or_equal_ie4	Ist IE Version 4 oder &auml;lter
-less_or_equal_ie5	Ist IE Version 5 oder &auml;lter
-less_or_equal_ie6	Ist IE Version 6 oder &auml;lter
-less_or_equal_ie7	Ist IE Version 7 oder &auml;lter
+less_than_ie5	Ist IE älter als Version 5
+less_than_ie6	Ist IE älter als Version 6
+less_than_ie7	Ist IE älter als Version 7
+less_or_equal_ie4	Ist IE Version 4 oder älter
+less_or_equal_ie5	Ist IE Version 5 oder älter
+less_or_equal_ie6	Ist IE Version 6 oder älter
+less_or_equal_ie7	Ist IE Version 7 oder älter
 greater_than_ie4	Ist IE neuer als Verison 4
 greater_than_ie5	Ist IE neuer als Verison 5
 greater_than_ie6	Ist IE neuer als Verison 6
@@ -268,12 +268,12 @@ underline	Unterstreichen
 strike	Durchstreichen
 file_management	Dateiverwaltung
 manage_categories	Kategorien verwalten
-do_you_really_want_to_delete_this_category	Wollen Sie diese Kategorie wirklich l&ouml;schen
-delete_category	Kategorie l&ouml;schen
+do_you_really_want_to_delete_this_category	Wollen Sie diese Kategorie wirklich löschen
+delete_category	Kategorie löschen
 new_category	Kategorie erstellen
 category_already_exists	Die Kategorie existiert bereits
 new_category_created	Neue Kategorie erstellt
-category_deleted	Kategorie gel&ouml;scht
+category_deleted	Kategorie gelöscht
 no_categories_found	Keine Kategorien gefunden
 enviornment_variable	Umgebungsvariable
 categories	Kategorien
@@ -282,16 +282,16 @@ manage_categorisations	Kategorisierungen verwalten
 one_item_per_line	Ein Eintrag pro Zeile
 please_type_in_the_kategories_here_one_item_per_line	Bitte tragen Sie hier die Kategorien ein (Ein Eintrag pro Zeile)
 documents	Dokumente
-do_you_really_want_to_delete_this_language	Wollen Sie diese Sprache wirklich l&ouml;schen
-add_language	Sprache hinzuf&uuml;gen
-select_the_documents_you_want_to_assign_to_this_language	Bitte w&auml;hlen Sie die Dokumente, die dieser Sprache zugewiesen werden sollen
+do_you_really_want_to_delete_this_language	Wollen Sie diese Sprache wirklich löschen
+add_language	Sprache hinzufügen
+select_the_documents_you_want_to_assign_to_this_language	Bitte wählen Sie die Dokumente, die dieser Sprache zugewiesen werden sollen
 browse_files	Dateien durchsuchen
 manage_files	Dateien verwalten
 categories_saved	Kategorisierung gespeichert
 search_by_categorisation	Suchen nach Kategorisierung
 categorisations	Kategorisierungen
 new_feed_added	RSS-Feed wurde erstellt
-delete_feed	RSS-Feed l&ouml;schen
+delete_feed	RSS-Feed löschen
 feed_settings	RSS-Feedeinstellungen
 edit_rss-feeds	RSS-Feeds bearbeiten
 rss-admin	RSS-Admin
@@ -300,42 +300,42 @@ edit_stylesheets	CSS bearbeiten
 edit_website_languages	Sprachzuordnung bearbeiten
 administration_for_includes	Includes administrieren
 includes	Includes
-html_has_been_cleaned_up	HTML wurde aufger&auml;umt
-document_has_been_cleaned_up	Dokument wurde aufger&auml;umt
+html_has_been_cleaned_up	HTML wurde aufgeräumt
+document_has_been_cleaned_up	Dokument wurde aufgeräumt
 activate	Aktivieren
-set_free	&Ouml;ffentlich machen
-protect	Sch&uuml;tzen
+set_free	Öffentlich machen
+protect	Schützen
 group	Gruppe
-group_deleted	Gruppe gel&ouml;scht
+group_deleted	Gruppe gelöscht
 group_created	Neue Gruppe erstellt
 retype_password	Passwort wiederholen
 name_and_surname	Vor- und Nachname
 email	E-Mail
 version	Version
 user_and_group_administration	Benutzer- und Gruppenverwaltung
-assignment_of_groups	Zuordnung f&uuml;r Gruppen
-assignment_of_system_groups	Zuordnung f&uuml;r Systemgruppen
+assignment_of_groups	Zuordnung für Gruppen
+assignment_of_system_groups	Zuordnung für Systemgruppen
 websites	Webseiten
 new_entry	Neuer Eintrag
-edit_entries	Eintr&auml;ge bearbeiten
-entries	Eintr&auml;ge
+edit_entries	Einträge bearbeiten
+entries	Einträge
 new_group	Neue Gruppe
-delete_group	Gruppe l&ouml;schen
-do_you_really_want_to_delete_this_group	Wollen Sie diese Gruppe wirklich l&ouml;schen
+delete_group	Gruppe löschen
+do_you_really_want_to_delete_this_group	Wollen Sie diese Gruppe wirklich löschen
 groups	Gruppen
 group_administration	Gruppenverwaltung
 system_groups	Systemgruppen
 system_group	Systemgruppe
 no_userdefined_groups	Keine benutzerdefinierten Gruppen
 entry_saved	Eintrag gespeichert
-published	Ver&ouml;ffentlicht
-not_published	Nicht ver&ouml;ffentlicht
-delete_entry	Eintrag l&ouml;schen
-entry_deleted	Eintrag gel&ouml;scht
-do_you_really_want_to_delete_this_entry	Wollen Sie diesee Eintrag wirklich l&ouml;schen
-not_yet_published	Noch nicht ver&ouml;ffentlicht
+published	Veröffentlicht
+not_published	Nicht veröffentlicht
+delete_entry	Eintrag löschen
+entry_deleted	Eintrag gelöscht
+do_you_really_want_to_delete_this_entry	Wollen Sie diesee Eintrag wirklich löschen
+not_yet_published	Noch nicht veröffentlicht
 edit_feed	RSS-Feed bearbeiten
-publication_date	Ver&ouml;ffentlichungsdatum
+publication_date	Veröffentlichungsdatum
 author		Autor
 text	Text
 entry	Eintrag
@@ -345,28 +345,28 @@ document	Dokument
 please_log_in	Bitte loggen Sie sich ein
 sorry_wrong_username_or_password	Falscher Benutzername oder falsches Passwort
 image_uploaded	Bild hochgeladen
-image_deleted	Bild gel&ouml;scht
+image_deleted	Bild gelöscht
 upload_failed_because_file_already_exists	Upload ist fehlgeschlagen: Die Datei existiert bereits
 file_uploaded	Datei hochgeladen
 new_website	Neue Webseite
 document_information_saved	Dokumentinformationen gespeichert
-open	&Ouml;ffnen
+open	Öffnen
 data	Daten
-sorry_but_your_htaccess-file_has_been_deleted	Entschuldigung aber Ihre .htaccess-Datei wurde gel&ouml;scht
-sorry_but_your_htaccess-file_has_been_overwritten	Entschuldigung aber Ihre .htaccess-Datei wurde &uuml;berschrieben
+sorry_but_your_htaccess-file_has_been_deleted	Entschuldigung aber Ihre .htaccess-Datei wurde gelöscht
+sorry_but_your_htaccess-file_has_been_overwritten	Entschuldigung aber Ihre .htaccess-Datei wurde überschrieben
 configuration_saved	Konfiguration gesichert
 structure	Struktur
 photoblog	Photo Blog
-required_tables_do_not_exists	Die ben&ouml;tigten Tabellen existieren nicht
+required_tables_do_not_exists	Die benötigten Tabellen existieren nicht
 these_tables_will_be_created	Folgende Tabellen werden in der Datenbank erstellt
 ok	OK
-do_you_really_want_to_delete_this_table	Wollen Sie diese Tabelle wirklich l&ouml;schen
-delete_table	Tabelle l&ouml;schen
+do_you_really_want_to_delete_this_table	Wollen Sie diese Tabelle wirklich löschen
+delete_table	Tabelle löschen
 new_table	Neue Tabelle
 create_new_table	Neue Tabelle erstellen
 table_settings	Tabelleneinstellungen
 table_structure	Tabellenstruktur
-add_row	Zeile hinzuf&uuml;gen
+add_row	Zeile hinzufügen
 table_name	Tabellenname
 no_selector	Auswahlfeld ausblenden
 file_selector	Dateiauswahl
@@ -374,58 +374,58 @@ image_selector	Bildauswahl
 template_variables	Templatevariablen
 all_documents	Alle Seiten
 navigation2	Navigation 2
-choose_an_image_to_upload	Bitte w&auml;hlen Sie ein Bild zum Hochladen aus
-choose_a_file_to_upload	Bitte w&auml;hlen Sie eine Datei zum Hochladen aus
+choose_an_image_to_upload	Bitte wählen Sie ein Bild zum Hochladen aus
+choose_a_file_to_upload	Bitte wählen Sie eine Datei zum Hochladen aus
 save	Speichern
-insert_image	Bild einf&uuml;gen
+insert_image	Bild einfügen
 document_settings_saved	Dokumenteneinstellungen gespeichert
-insert_download	Download einf&uuml;gen
+insert_download	Download einfügen
 save_as	Speichern unter
 language	Sprache
 paragraph_formats	Absatzformate
 grant	Erlauben
 deny	Verwehren
 sort	Sortieren
-cleanup	Aufr&auml;umen
+cleanup	Aufräumen
 css_has_been_sorted	CSS Elemente wurden sortiert
 navigation_saved	Navigation gespeichert
 navigation	Navigation
 save	Speichern
 uses_docuemnt_name_if_empty	Wenn dises Feld leer ist wird der Dokumentenname verwendet
-used_for_simple_and_easy_url	F&uuml;r eine klare und einfache URL
+used_for_simple_and_easy_url	Für eine klare und einfache URL
 please_use_only_az_or_09_chars	Bitte benutzen Sie nur Zeichen von A-Z oder Zahlen
-html_syntax_check	HTML Syntax pr&uuml;fen
+html_syntax_check	HTML Syntax prüfen
 as_new_file	Als neue Datei
 new	Neu
-delete_language	Sprache l&ouml;schen
-select_language	Sprache w&auml;hlen
+delete_language	Sprache löschen
+select_language	Sprache wählen
 file	Datei
 cms_uri	URL der Webseite
 server	Server
 bambus_cache	Bambus Cache
-cache_size	Cache Gr&ouml;&szlig;e
+cache_size	Cache Größe
 clear_cache	Cache leeren
 problematic_files	Problematische Dateien
 not_writeable	Nicht bescheibbar
 not_readable	Nicht lesbar
-filesize	Dateigr&ouml;&szlig;e
+filesize	Dateigröße
 scripts	Scripte
 all_files_writeable	Alle Dateien sind beschreibbar
 backup_files	Gesicherte Dateien
 cursor	Cursor
 sub	Tiefgestellter Text
 sup	Hochgestellter Text
-items_per_page	Eintr&auml;ge pro Seite
+items_per_page	Einträge pro Seite
 feeds	RSS-Feeds
 element	Element
 url	URL
-click_here_to_add_a_navigationpoint	Klicken Sie hier um einen Navigationspunkt hinzuzuf&uuml;gen
+click_here_to_add_a_navigationpoint	Klicken Sie hier um einen Navigationspunkt hinzuzufügen
 linked_stylesheets	Verlinkte Stylesheets
 internet_explorer_options	Internet Explorer Optionen
-for_all_browsers	F&uuml;r alle Browser
+for_all_browsers	Für alle Browser
 media	Medium
 document_type	Dokumententyp
-for_all_medias	F&uuml;r alle Medien
+for_all_medias	Für alle Medien
 alias	Alias
 anchor	Anker
 jump_to	Springe zu
@@ -434,26 +434,26 @@ link_to	Verlinke zu
 bambus_system_info	Bambus Systeminformationen
 permissions_saved	Berechtigungen gespeichert
 templates	Templates
-delete_users	Benutzer l&ouml;schen
-change_users	Benutzer &auml;ndern
+delete_users	Benutzer löschen
+change_users	Benutzer ändern
 administrator	Administrator
 general_permissions	Allgemeine Berechtigungen
 editor_permissions	Editor Berechtigungen
 all_elements_replaced	Alle Elements ersetzt
 users	Benutzer
 access_protection	Zugriffsschutz
-access_for_everyone	F&uuml;r alle zug&auml;nglich
-access_for_spezific_users	F&uuml;r bestimmte Benutzer zug&auml;nglich
-grant_access_to	Zugriff erlauben f&uuml;r
-deny_access_to	Zugriff verwehren f&uuml;r
-css_has_been_cleaned_up	CSS wurde aufger&auml;umt
-code_has_been_cleaned_up	Die Dokumentenstruktur wurde aufger&auml;umt
+access_for_everyone	Für alle zugänglich
+access_for_spezific_users	Für bestimmte Benutzer zugänglich
+grant_access_to	Zugriff erlauben für
+deny_access_to	Zugriff verwehren für
+css_has_been_cleaned_up	CSS wurde aufgeräumt
+code_has_been_cleaned_up	Die Dokumentenstruktur wurde aufgeräumt
 document_type_saved	Dokumententyp gespeichert
-document_meta_keys_saved	Schl&uuml;sselworte gespeichert
+document_meta_keys_saved	Schlüsselworte gespeichert
 news	Nachrichten
 post_edit_and_manage_news	Nachrichten erstellen, bearbeiten und verwalten
-your_browser_does_not_support_this_feature	Dieses Feature wird von Ihrem Browser nicht unterst&uuml;tzt
-your_browser_does_not_support_this_feature_correctly	Dieses Feature wird von Ihrem Browser nicht richtig unterst&uuml;tzt
+your_browser_does_not_support_this_feature	Dieses Feature wird von Ihrem Browser nicht unterstützt
+your_browser_does_not_support_this_feature_correctly	Dieses Feature wird von Ihrem Browser nicht richtig unterstützt
 missing_open_tags	Fehlende Start-Tags
 missing_close_tags	Fehlende End-Tags
 html_seems_ok	HTML scheint korrekt zu sein
@@ -469,17 +469,16 @@ default.css	Standard Designvorlage
 stylesheet	Designvorlage
 stylesheets	Designvorlagen
 new_stylesheet	Neue Designvorlage
-please_select_a_csv_table	Bitte w&auml;hlen Sie eine CSV-Tabelle zum Importieren aus
-insert_imported_table	Importierte Tabelle einf&uuml;gen
-HOWTO__import_csv_table	<span class="howto"><b>So importieren Sie eine Tabelle:</b><br />1. W&auml;hlen Sie im Editor die Stelle an der Sie die Tabelle einf&uuml;gen wollen.<br />2. Klicken Sie auf den &quot;Importierte Tabelle einf&uuml;gen&quot;-Button </span>
+please_select_a_csv_table	Bitte wählen Sie eine CSV-Tabelle zum Importieren aus
+insert_imported_table	Importierte Tabelle einfügen
 directory	Verzeichnis
 import	Importieren
-items	Eintr&auml;ge
+items	Einträge
 modified_by	Bearbeitet von
 owner	Besitzer
 created	Erstellt
 document_created	Dokument erstellt
-document_deleted	Dokument gel&ouml;scht
+document_deleted	Dokument gelöscht
 document_saved	Dokument gespeichert
 general_settings	Allgemeine Einstellungen
 file_permissions	Dateiberechtigungen
@@ -487,47 +486,47 @@ date_format	Datumsformat (siehe <u><a href="http://de2.php.net/manual/de/functio
 directories	Verzeichnisse
 user_created	Benutzer erstellt
 admin_created	Administrator erstellt
-password_changed	Passwort ge&auml;ndert
-user_deleted	Benutzer gel&ouml;scht
-admin_deleted	Administrator gel&ouml;scht
+password_changed	Passwort geändert
+user_deleted	Benutzer gelöscht
+admin_deleted	Administrator gelöscht
 no_page_found	Keine Webseite vorhanden
 create_a_new_website	Neue Webseite erstellen
-delete_user	Benutzer l&ouml;schen
-delete_website	Webseite l&ouml;schen
-select_file	Datei w&auml;hlen
-delete_selected_file	Ausgew&auml;hlte Datei l&ouml;schen
+delete_user	Benutzer löschen
+delete_website	Webseite löschen
+select_file	Datei wählen
+delete_selected_file	Ausgewählte Datei löschen
 upload	Hochladen
 use_database	Datenbank benutzen
-database_table_prefix	Tabellen Pr&auml;fix
+database_table_prefix	Tabellen Präfix
 config_saved	Konfiguration gesichert
 download	Runterladen
 describe_site	Webseite
 css_saved	CSS gespeichert
 describe_jump	Sprungmarke (Linkt zu &lt;a name=&quot;xyz&quot;&gt;&lt;/a&gt;)
 describe_url	Hyperlink zu einer externen Seite
-file_deleted	Datei gel&ouml;scht
+file_deleted	Datei gelöscht
 template_saved	Template gespeichert
-template_deleted	Template gel&ouml;scht
+template_deleted	Template gelöscht
 template_created	Neues Template erstellt
 file_already_exists	Die Datei existiert bereits
 file_created	Datei erstellt
 file_renamed	Datei umbenannt
 file_saved	Datei gespeichert
 new_page	Neue Seite
-change_db_password	Datenbankpasswort &auml;ndern
+change_db_password	Datenbankpasswort ändern
 upload_website	Webseite hochladen
 other	Andere
 as_submenu	Als Unterpunkt
-no_page_selected	Keine Seite gew&auml;hlt
-add	Hinzuf&uuml;gen
-overwrite	&Uuml;berschreiben
+no_page_selected	Keine Seite gewählt
+add	Hinzufügen
+overwrite	Überschreiben
 informations	Informationen
 database_settings	Datenbankeinstellungen
-do_you_really_want_to_delete_this_user	Wollen Sie diesen Benutzer wirklich l&ouml;schen
+do_you_really_want_to_delete_this_user	Wollen Sie diesen Benutzer wirklich löschen
 database	Datenbank
 database_name	Datenbankname
-over	&Uuml;ber
-about	&Uuml;ber
+over	Über
+about	Über
 views	Views
 edits	Edits
 page	Seite
@@ -536,35 +535,35 @@ lines_of_phpcode	PHP-Codezeilen
 phpcode_chars	PHP-Codezeichen
 create_user	Benutzer erstellen
 you	Sie
-feed_deleted	Feed gel&ouml;scht
+feed_deleted	Feed gelöscht
 feed_created	Feed erstellt
 value	Wert
 rss_feeds	RSS-Feeds
-do_you_really_want_to_delete_this_item	Wollen Sie diesen Eintrag wirklich l&ouml;schen
-do_you_really_want_to_delete_this_feed	Wollen Sie diesen Feed wirklich l&ouml;schen
+do_you_really_want_to_delete_this_item	Wollen Sie diesen Eintrag wirklich löschen
+do_you_really_want_to_delete_this_feed	Wollen Sie diesen Feed wirklich löschen
 saving_failed	Speichern fehlgeschlagen
 data_saved	Die Daten wurden gespeichert
-publish	Ver&ouml;ffentlichen
+publish	Veröffentlichen
 feed_name	Feed Name
 save_and_rename	Speichern und umbenennen
 go_to_color	Farbe im CSS anzeigen 
 wrong_username_or_password	Benutzername oder Passwort ist nicht korrekt
 search_and_replace	Suchen und Ersetzen
 start_page	Startseite
-rss_feeds_for_this_document	RSS-Feeds f&uuml;r dieses Dokument
-meta_keywords_for_this_document	Meta-Keywords f&uuml;r dieses Dokument
+rss_feeds_for_this_document	RSS-Feeds für dieses Dokument
+meta_keywords_for_this_document	Meta-Keywords für dieses Dokument
 administration	Verwaltung
 preview_while_typing	Vorschau bei Schreiben
 filename	Dateiname
-size	Gr&ouml;&szlig;e
-last_modification	&Auml;nderungsdatum
+size	Größe
+last_modification	Änderungsdatum
 actions	Aktionen
 help	Hilfe
 name	 Name
 id	ID
 backups	Backups
 creation_date	Erstellungsdatum
-changed_by	Ge&auml;ndert von
+changed_by	Geändert von
 new_template	Neues Template
 created_by	Erstellt von
 new_user	Neuer Benutzer
@@ -573,20 +572,20 @@ password	Passwort
 repeat_password	Passwort wiederholen
 username	Benutzername
 permissions	Berechtigungen
-delete	L&ouml;schen
+delete	Löschen
 create	Erstellen
 edit	Bearbeiten
 show_all_images	Alle Bilder anzeigen
 hide_all_images	Alle Bilder Ausblenden
 with	mit
-the_size_of_the_backup	Das Backup hat eine Gr&ouml;&szlig;e von
+the_size_of_the_backup	Das Backup hat eine Größe von
 create_backup	Backup erstellen
-delete_backup	Backup l&ouml;schen
+delete_backup	Backup löschen
 backup_created_automatically	Backup wird automatisch erstellt
 view	Ansehen
 hide	Ausblenden
 autobackup_activated	Automatisches Backup aktiviert
-delete_all_backup_files	Alle Backupdateien l&ouml;schen
+delete_all_backup_files	Alle Backupdateien löschen
 type	Typ
 upload_images	Bilder hochladen
 upload_files	Dateien hochladen
@@ -607,38 +606,38 @@ display_flag	Flagge anzeigen
 other_settings	Andere Einstellungen
 automatic_backup	Automatisches Backup
 display_editor_symbol	Editorsymbol anzeigen
-use_expanded_menu	Men&uuml; immer ausklappen
+use_expanded_menu	Menü immer ausklappen
 log	Log
 logs	Logs
-change	&Auml;ndern
+change	Ändern
 languages	Sprachen
-delete_page	Seite l&ouml;schen
-css_for	CSS f&uuml;r
+delete_page	Seite löschen
+css_for	CSS für
 document_date	Dokumentendatum
 document_renamed	Dokument umbenannt
 backup_date	Backupdatum
-you_cant_delete_yourself	Sie k&ouml;nnen sich nicht selbst l&ouml;schen
-you_cant_change_the_password_of_this_user	Sie k&ouml;nnen das Passwort dieses Benutzers nicht &auml;ndern
-you_cant_delete_this_user	Sie k&ouml;nnen diesen Benutzer nicht l&ouml;schen
+you_cant_delete_yourself	Sie können sich nicht selbst löschen
+you_cant_change_the_password_of_this_user	Sie können das Passwort dieses Benutzers nicht ändern
+you_cant_delete_this_user	Sie können diesen Benutzer nicht löschen
 language_site_association	Verbindung von Sprache und Webseite
 access	Zugriffe
-page_changes	&Auml;nderungen der Seite
+page_changes	Änderungen der Seite
 backup	Backup
 file_xy_uploaded	Datei "{0}" hochgeladen
 file_xy_exists	Datei "{0}" existiert bereits
 file_xy_created	Datei "{0}" erstellt
-file_xy_deleted	Datei "{0}" gel&ouml;scht
+file_xy_deleted	Datei "{0}" gelöscht
 file_xy_restored	Datei "{0}" wiederhergestellt
-backup_files_deleted	Backup-dateien gel&ouml;scht
+backup_files_deleted	Backup-dateien gelöscht
 restore	Wiederherstellen
 view_preview	Bildvorschau ansehen
 view_sourcecode	Quelltext ansehen
-delete_file	Datei l&ouml;schen
+delete_file	Datei löschen
 preview	Vorschau
 and	&amp;
 no_files_or_folders_found	Keine Verzeichnisse oder Dateien vorhanden
 edit_css	CSS bearbeiten
-close_edit	Editor schlie&szlig;en
+close_edit	Editor schließen
 new_css_file	Neue CSS Datei
 easy_config	Einfache Konfiguration
 config	Konfiguration
@@ -648,7 +647,7 @@ please_insert_link_title	Bitte Linktitel eingeben
 bold	Fett
 italic	Kursiv
 underlined	Unterstrichen
-please_insert_the_text_of_the_paragraph	Bitte geben Sie den Text f&uuml;r den Absatz ein
+please_insert_the_text_of_the_paragraph	Bitte geben Sie den Text für den Absatz ein
 please_insert_bold_text	Bitte fetten Text eingeben
 please_insert_italic_text	Bitte kursiven Text eingeben
 please_insert_underlined_text	Bitte unterstrichenen Text eingeben
@@ -664,14 +663,14 @@ download_administration	Downloadverwaltung
 database_administration	Datenbankverwaltung
 image_administration	Bilderverwaltung
 upload_file	Datei hochladen
-delete_content	Inhalt l&ouml;schen
+delete_content	Inhalt löschen
 edit_templates	Templates bearbeiten
 edit_template	Template bearbeiten
-passwords_dont_match	Passw&ouml;rter stimmen nicht &uuml;berein
+passwords_dont_match	Passwörter stimmen nicht überein
 user_already_exists	Benutzer existiert bereits
 new_password	Neues Passwort
 repeat_new_password	Neues Passwort wiederholen
-change_password	Passwort &auml;ndern
+change_password	Passwort ändern
 old_password	Altes Passwort
 editors	Editoren
 templates	Templates
@@ -681,14 +680,14 @@ easynav	EasyNav
 downloads	Downloads
 images	Bilder
 logout	Abmelden
-back_to_website	Zur&uuml;ck zur Webseite
+back_to_website	Zurück zur Webseite
 user_administration	Benutzerverwaltung
 edit_websites	Webseiten bearbeiten
 edit_config	Konfiguration bearbeiten
 security	Sicherheit
 login	Login
 no_navigation_created	Es existiert keine Navigation
-in_language	f&uuml;r die Sprache
+in_language	für die Sprache
 filter	Filter
 website_versions	Versionen
 set_language	Sprache einstellen
@@ -697,23 +696,23 @@ rename	Umbenennen
 action	Aktion
 no_action	Keine Aktion
 lists	Listen
-execute	Ausf&uuml;hren
-do_you_really_want_to_delete_this_file	Wollen Sie die Datei wirklich l&ouml;schen?
+execute	Ausführen
+do_you_really_want_to_delete_this_file	Wollen Sie die Datei wirklich löschen?
 yes	Ja
 no	Nein
-group_assignment_saved	Gruppenzugeh&ouml;rigkeit gespeichert
+group_assignment_saved	Gruppenzugehörigkeit gespeichert
 allow	Erlauben
 enforce	Erzwingen
-SystemGroupDescription_Administrator	<p>Ein Benutzer der der Gruppe der Administratoren angeh&ouml;rt unterliegt keinerlei Einschr&auml;nkungen.</p><p>Es muss immer mindestens ein Benutzer Mitglied in dieser Gruppe sein.</p>
-SystemGroupDescription_CMS	 <p>Benutzer die dieser Gruppe angeh&ouml;ren d&uuml;rfen sich im CMS anmelden. Wer also nicht Mitglied in dieser oder der Gruppe der Administratoren ist, hat keinerlei Rechte.</p>
+SystemGroupDescription_Administrator	<p>Ein Benutzer der der Gruppe der Administratoren angehört unterliegt keinerlei Einschränkungen.</p><p>Es muss immer mindestens ein Benutzer Mitglied in dieser Gruppe sein.</p>
+SystemGroupDescription_CMS	 <p>Benutzer die dieser Gruppe angehören dürfen sich im CMS anmelden. Wer also nicht Mitglied in dieser oder der Gruppe der Administratoren ist, hat keinerlei Rechte.</p>
 SystemGroupDescription_Database	 <p>Mitglieder dieser Gruppe haben zugriff auf die Datenbank.</p>
-SystemGroupDescription_Create	 <p>Mitglieder dieser Gruppe d&uuml;rfen neue Dateien oder Eintr&auml;ge erstellen.</p>
-SystemGroupDescription_Rename	 <p>Mitglieder dieser Gruppe d&uuml;rfen neue Dateien oder Eintr&auml;ge umbenennen.</p>
-SystemGroupDescription_Delete	 <p>Mitglieder dieser Gruppe d&uuml;rfen Dateien oder Eintr&auml;ge l&ouml;schen.</p>
-SystemGroupDescription_Edit	<p>Mitglieder dieser Gruppe d&uuml;rfen Dateien oder Eintr&auml;ge bearbeiten.</p>
-SystemGroupDescription_PHP	<p>Es d&uuml;rfen nur Benutzer aus dieser Gruppe PHP-Scripte bearbeiten. Benutzer die nicht in dieser Gruppe sind k&ouml;nnen PHP-Scripte weder bearbeiten noch ansehen.</p>
+SystemGroupDescription_Create	 <p>Mitglieder dieser Gruppe dürfen neue Dateien oder Einträge erstellen.</p>
+SystemGroupDescription_Rename	 <p>Mitglieder dieser Gruppe dürfen neue Dateien oder Einträge umbenennen.</p>
+SystemGroupDescription_Delete	 <p>Mitglieder dieser Gruppe dürfen Dateien oder Einträge löschen.</p>
+SystemGroupDescription_Edit	<p>Mitglieder dieser Gruppe dürfen Dateien oder Einträge bearbeiten.</p>
+SystemGroupDescription_PHP	<p>Es dürfen nur Benutzer aus dieser Gruppe PHP-Scripte bearbeiten. Benutzer die nicht in dieser Gruppe sind können PHP-Scripte weder bearbeiten noch ansehen.</p>
 undefined	Nicht festgelegt
-disable_by_default	Standardm&auml;&szlig;ig deaktiviert
+disable_by_default	Standardmäßig deaktiviert
 force_disabled	Darf nicht benutzt werden
-enable_by_default	Standardm&auml;&szlig;ig aktiviert
+enable_by_default	Standardmäßig aktiviert
 force_enabled	Muss benutzt werden

@@ -27,10 +27,9 @@
 }
 #WDialog_container .WDialog input
 {
-	border: 1px solid #2e3436;
-	margin:5px;
+	border: 1px solid #4e9a06;
 }
-#WDialog_container .WDialog input[type=text]
+#WDialog_container .WDialog input
 {
 	width:338px;
 }
@@ -43,7 +42,7 @@
 	margin-bottom: 3px;
 	font-weight: bold;
 	background: #4e9a06 url(../../Images/iconbarbg.png) 50% 50%;
-	color:#fff;
+	color:#000;
 	font-size:14px;
 	text-align: center;
 }
@@ -51,14 +50,36 @@
 {
 	float:right;
 	display:block;
-	border-width:0px;
-	color: #2e3436;
-	background: #d3d7cf;
-	border:1px solid #888a85;
-	padding:3px;
+	color: #000;
+	background: url(../../Images/header_background.jpg) 0% 0%;
+   	border:1px solid #4e9a06;
+	padding:4px;
 	min-width:50px;
 	text-align:center;
 	font-size:12px;
 	margin:5px;
 	margin-left:0px;
+}
+#WDialog_container .WDialog_labeled label
+{
+	width:80px;
+	float:left;
+	padding-top:4px;
+}
+
+#WDialog_container, 
+#WDialog_container .WDialog, 
+#WDialog_container .WDialog_labeled
+{
+	overflow:hidden;
+}
+
+#WDialog_container .WDialog_labeled input,
+#WDialog_container .WDialog_labeled select
+{
+	width:250px;
+}
+.WDialog_section div
+{
+	margin:4px;
 }

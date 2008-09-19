@@ -91,8 +91,4 @@ if(PAuthorisation::has('org.bambus-cms.configuration.set'))
 	echo LGui::hiddenInput('writeconfig','1');
 	echo LGui::endForm();
 }
-$d = new WDialog('foo', WDialog::SUBMIT|WDialog::RESET|WDialog::CANCEL);
-$d->setButtonCaption(WDialog::SUBMIT, 'make_it_so');
-$d->askText('foo','nix','summus');
-$d->render();
 ?>

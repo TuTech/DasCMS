@@ -89,8 +89,6 @@ if(PAuthentication::isAuthenticated())
 	        imagefill($newImage,0,0,$farbe);
 	        ImageCopyResized($newImage,$image,$pos_x,$pos_y,0,0,$newWidth,$newHeight,$width,$height);
 	        //save it as jpeg
-echo getcwd();
-echo $thumbfile;
 	        @ImageJPEG($newImage, $thumbfile, 60);
 	        //ImageJPEG($newImage);
 	        readfile($thumbfile);
