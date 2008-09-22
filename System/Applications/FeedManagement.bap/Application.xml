@@ -2,7 +2,7 @@
 <bambus>
 	<name>feed_manager</name>
 	<description>edit_and_manage_news_feeds_and_searches</description>
-	<icon>news</icon>
+	<icon>app-preferences-feeds</icon>
 	<version>0.16.20080317</version>
 	<priority>1.9</priority>
 	<purpose>content_access</purpose>
@@ -17,7 +17,7 @@
 			<task caption="save_and_rename" hotkey="S" icon="action-document-save-as" type="button" action="EditorSaveAs('fileNameInput')" />
 			<task type="spacer" />
 			<task type="button" caption="new" hotkey="N" icon="action-document-new" action="create" prompt="Name of feed?" mode="html" />
-			<task type="button" caption="delete" hotkey="X" icon="action-delete" action="delete" mode="html" confirm="do_you_really_want_to_delete_this_document" />
+			<task type="button" caption="delete" hotkey="X" icon="action-list-remove" action="delete" mode="html" confirm="do_you_really_want_to_delete_this_document" />
 		</interface>
 	</application>
 </bambus>

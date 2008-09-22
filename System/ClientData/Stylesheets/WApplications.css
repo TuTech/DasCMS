@@ -29,6 +29,10 @@ height:50px;
 	font-size: 12px;
 	color: #000;
 }
+#WApplications a.active:hover span.application-description
+{
+	margin-left:68px;
+}
 .application-description
 {
 	background: #f0f9d7;

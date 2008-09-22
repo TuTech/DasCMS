@@ -166,7 +166,7 @@ class WDialog extends BWidget
             ($this->buttons & self::SUBMIT) ? ('"'.SLocalization::get($this->captions[self::SUBMIT]).'"') : 'null',
             ($this->buttons & self::CANCEL) ? ('"'.SLocalization::get($this->captions[self::CANCEL]).'"') : 'null',
             ($this->buttons & self::RESET) ? ('"'.SLocalization::get($this->captions[self::RESET]).'"') : 'null',
-            htmlentities($this->translateTitles ? (SLocalization::get($this->title)) : $this->title, ENT_QUOTES, 'UTF-8'),
+            $this->translateTitles ? (SLocalization::get($this->title)) : htmlentities($this->title, ENT_QUOTES, 'UTF-8'),
             $this->isMultipart ? '1' : '0'
         );
         $csect = '';
@@ -191,7 +191,7 @@ class WDialog extends BWidget
     	        $isep,
 				$item[2],
 				$item[1],
-				$item[3],
+				($this->translateTitles) ? (SLocalization::get($item[3])) : $item[3],
 				'"'.$item[4].'"'
         	);
 	        $isep = ',';

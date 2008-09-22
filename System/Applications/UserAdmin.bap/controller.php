@@ -132,6 +132,8 @@ if(RSent::hasValue('action'))
 			$SUsersAndGroups->addUser(RSent::get('new_user_name'), RSent::get('new_user_password'), RSent::get('new_user_name_and_surname'), RSent::get('new_user_email'));
 			SNotificationCenter::report('message', 'user_created');
 			$victim = RSent::get('new_user_name');
+			$SUsersAndGroups->setUserRealName($victim, RSent::get('new_user_real_name'));
+			$SUsersAndGroups->setUserEmail($victim, RSent::get('new_user_email'));
 			$edit_mode = 'usr';
 			SLink::set('edit', $victim);
 			SLink::set('mode', 'usr');

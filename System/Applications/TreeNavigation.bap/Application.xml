@@ -2,7 +2,7 @@
 <bambus>
 	<name>navigation</name>
 	<description>edit_navigations</description>
-	<icon>tree-navigation</icon>
+	<icon>app-preferences-tree-navigation</icon>
 	<version>0.16.20080320</version>
 	<priority>1.9</priority>
 	<purpose>system</purpose>

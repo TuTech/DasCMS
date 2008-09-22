@@ -2,7 +2,7 @@
 <bambus>
 	<name>images</name>
 	<description>manage_and_upload_images</description>
-	<icon>image-administration</icon>
+	<icon>app-system-image-manager</icon>
 	<version>0.14.20070820</version>
 	<priority>1.9</priority>
 	<purpose>edit_content</purpose>	<tabs>

@@ -65,6 +65,7 @@
 	width:80px;
 	float:left;
 	padding-top:4px;
+
 }
 
 #WDialog_container, 
@@ -72,6 +73,8 @@
 #WDialog_container .WDialog_labeled
 {
 	overflow:hidden;
+	padding-bottom:4px;
+	border-bottom: 1px solid #d3d7cf;
 }
 
 #WDialog_container .WDialog_labeled input,

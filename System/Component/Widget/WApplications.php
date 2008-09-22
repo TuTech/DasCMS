@@ -23,12 +23,12 @@ class WApplications extends BWidget
 		//forek app display icon 
 	}
 	
-	private function selectIcon($name)
+	private function selectIcon($name, $active = true)
 	{
 		$parts = explode('-', $name);
 		//specifyer in name
 		$type = array_shift($parts);
-		$path = SPath::SYSTEM_ICONS.'/large/'.strtolower($type).'s/';
+		$path = SPath::SYSTEM_ICONS.'/'.($active ? 'large' : 'medium').'/'.strtolower($type).'s/';
 		if(ctype_alpha($type) && is_dir($path))
 		{
 			//valid path
@@ -46,7 +46,7 @@ class WApplications extends BWidget
 		}
 		else
 		{
-			return './System/Icons/48x48/apps/'.$name.'.png';
+			return './System/Icons/'.($active ? '48x48' : '32x32').'/apps/'.$name.'.png';
 		}
 	}
 	
@@ -66,7 +66,7 @@ class WApplications extends BWidget
 				,htmlentities($app, ENT_QUOTES, 'UTF-8')
 				,($meta['active']) ? $meta['active'] : ''
 				,($meta['active']) ? ' active' : ''
-				,$this->selectIcon($meta['icon'])
+				,$this->selectIcon($meta['icon'], $meta['active'])
 				,$name
 				,$name
 				,SLocalization::get($meta['desc'])
