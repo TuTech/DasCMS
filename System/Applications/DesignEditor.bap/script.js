@@ -36,7 +36,6 @@ function Upload()
 
 
 /******************/
-var doclientredraw = true;
 function insertMedia(type, url, title)
 {
 	var insert = '';
@@ -49,19 +48,6 @@ function insertMedia(type, url, title)
 }
 
 
-function clientredraw()
-{
-	if(document.getElementById('imageEnlargeContainer'))
-	{
-		var imageEnlargeContainer =  document.getElementById('imageEnlargeContainer');
-		var imageEnlarge =  document.getElementById('imageEnlarge');
-		if(window.innerHeight >= 400){
-			imageEnlarge.style.height = (window.innerHeight - 100)+'px';
-			imageEnlargeContainer.style.height = (window.innerHeight - 220)+'px';
-		}
-		imageEnlarge.style.width =  (window.innerWidth - 200)+'px';
-	}
-}
 
 function selectImage(id)
 {
@@ -227,7 +213,6 @@ function cleanCSS(){
     cssElem.value = css;
     cssElem.scrollTop = topScroll;
     cssElem.scrollLeft = leftScroll;
-    fademessage(msg);
 }
 var isSorting = false;
 function sortCSS(msg){
@@ -240,7 +225,6 @@ function sortCSS(msg){
     var editor = document.getElementById('editorianid');
     var topScroll = editor.scrollTop;
     var leftScroll = editor.scrollLeft;
-    fademessage('normalizing_css '+(Math.round(prcnt * i))+'%');
     
     var str = editor.value;
     str = str.replace(/[\n]/g, " ");
@@ -292,7 +276,6 @@ function sortCSS(msg){
 	        //editor.value += definitions[i]+'\n';
 	        parts[parti][parts[parti].length] = definitions[i];
         }
-        fademessage('preparing_for_sort '+(Math.round(prcnt * i))+'%');
     }
     //editor.value = '';
     var sorted = new Array();
@@ -308,7 +291,6 @@ function sortCSS(msg){
     		{
     			//editor.value += i+':'+g+'> '+parts[i][g]+'\n';
     			sorted[sorted.length] = parts[i][g];
-    			fademessage('sorting '+(Math.round(prcnt * y))+'%');
     			y++;
     		}
     	}
@@ -316,7 +298,6 @@ function sortCSS(msg){
     	{
 	    	//editor.value += i+'>> '+parts[i][0]+'\n';
     		sorted[sorted.length] = parts[i][0];
-    		fademessage('sorting '+(Math.round(prcnt * y))+'%');
     		y++;
     	}
     }
@@ -327,7 +308,6 @@ function sortCSS(msg){
      	sorted[i] = sorted[i].replace(/    }/g, "}\n");
     
         finalCSS += sorted[i]+'\n';
-        fademessage('finishing '+(Math.round(prcnt * i))+'%');
     }
     editor.value = finalCSS;
     editor.scrollTop = topScroll;

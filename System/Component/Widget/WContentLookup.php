@@ -46,7 +46,7 @@ class WContentLookup extends BWidget implements ISidebarWidget
 	public function __toString()
 	{
 		$html = '<strong>All Contents</strong>';
-		$html .= '<div id="WCLSearchBox"><input type="text" id="WContentLookupFilter" onchange="WCLFilter();" onkeyup="WCLFilter();" /></div>';
+		$html .= '<div id="WCLSearchBox"><input type="text" id="WContentLookupFilter" onchange="org.bambuscms.wcontentlookup.filter();" onkeyup="org.bambuscms.wcontentlookup.filter();" /></div>';
 		
 		try
 		{

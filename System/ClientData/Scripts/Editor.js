@@ -46,27 +46,6 @@ function createList(listType){
     EditorFocus();
 }
 
-//function initeditor(){
-//    var textarea = document.getElementById('editorianid');
-//    textarea.selectionStart = 0;
-//    textarea.selectionEnd = 0;
-//    document.onkeypress = function(e){
-//        var bform = document.getElementById('documentform');
-//        if(bform && e.ctrlKey && e.charCode == 115){
-//            bform.submit();
-//            return false;
-//        }
-//        if(e.ctrlKey && e.charCode == 111){
-//            openFileDialog();
-//            return false;
-//        }
-//        //shiftKey
-//        //altKey
-//    }
-////    redraw();
-//    curpos();
-//    actv();
-//}
 
 ////////////////////////////////////////////////////////////////////////////////
 // HTML editor functions 
@@ -296,7 +275,6 @@ function old_sad_function(){
         }
     }
     setContent(document.getElementById('editorianid').value);
-    fademessage('all_elements_replaced');
 }
 function addImport(elemid){
     var elem = document.getElementById(elemid);

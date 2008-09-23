@@ -33,7 +33,7 @@ if(PAuthorisation::has('org.bambus-cms.resolver.qspore.change'))
 	</tr>
 	<tr class="flip_1" valign="top">
 		<td class="td20">
-			<input type="text" name="new_spore" value="" onkeyup="validateField(this, 'spore');" onblur="validateField(this, 'spore');" onchange="validateField(this, 'spore');"/>
+			<input type="text" name="new_spore" value="" onkeyup="org.bambuscms.validators.spore(this);" onblur="org.bambuscms.validators.spore(this);" onchange="org.bambuscms.validators.spore(this);"/>
 		</td>
 		<td>
 			<input type="checkbox" name="new_actv" />

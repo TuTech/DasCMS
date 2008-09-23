@@ -9,7 +9,7 @@
 
 if(!isset($channel))
 {
-	echo new WScript('BCMSRunFX[BCMSRunFX.length] = function(){OBJ_ofd.show()};');
+	echo new WScript('org.bambuscms.autorun.register(function(){OBJ_ofd.show()});');
 }
 else
 {

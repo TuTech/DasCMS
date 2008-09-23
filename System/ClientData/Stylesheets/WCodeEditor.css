@@ -1,0 +1,9 @@
+@CHARSET "UTF-8";
+#org_bambuscms_wcodeeditor_infobox_linenr
+{
+	position:absolute;
+	top:110px;
+	right:10px;
+	color: #4e9a06;
+	font-size:12px;
+}

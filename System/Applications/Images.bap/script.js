@@ -1,17 +1,3 @@
-var doclientredraw = true;
-function clientredraw()
-{
-	if(document.getElementById('imageEnlargeContainer'))
-	{
-		var imageEnlargeContainer =  document.getElementById('imageEnlargeContainer');
-		var imageEnlarge =  document.getElementById('imageEnlarge');
-		if(window.innerHeight >= 400){
-			imageEnlarge.style.height = (window.innerHeight - 100)+'px';
-			imageEnlargeContainer.style.height = (window.innerHeight - 220)+'px';
-		}
-		imageEnlarge.style.width =  (window.innerWidth - 200)+'px';
-	}
-}
 
 function selectImage(id)
 {

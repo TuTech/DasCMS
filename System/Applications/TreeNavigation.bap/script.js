@@ -2,9 +2,9 @@
 function Create()
 {
 	input = document.createElement('input');
-	input.setAttribute('onkeyup','validateField(this, \'filename\');');
-	input.setAttribute('onchange','validateField(this, \'filename\');');
-	input.setAttribute('onblur','validateField(this, \'filename\');');
+	input.setAttribute('onkeyup','org.bambuscms.validators.filename(this);');
+	input.setAttribute('onchange','org.bambuscms.validators.filename(this);');
+	input.setAttribute('onblur','org.bambuscms.validators.filename(this);');
 	input.setAttribute('name','new_nav_name');
 	input.setAttribute('type','text');
 	input.setAttribute('value','');

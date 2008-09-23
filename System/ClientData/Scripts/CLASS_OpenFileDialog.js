@@ -110,11 +110,9 @@ function CLASS_OpenFileDialog()
 			}
 		}
 		this.generateStaticHTML();
-		RedrawAddId('OFD_Window', 10, 81+32-9);
-		RedrawAddId('OFD_Body', ((this.groups.length > 0) ? 160 : 10)+1, 156);
 		if(this.groups.length > 0)
 			this.displayItems(0);
-		Redraw();
+			//todo re-draw
 	}
 	
 	this.filterItems = function (e)

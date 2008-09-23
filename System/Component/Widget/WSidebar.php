@@ -76,7 +76,7 @@ class WSidebar extends BWidget
 		{
 			ksort($this->sidebarWidgets, SORT_LOCALE_STRING);
 			$html = "<div id=\"WSidebar\">\n<div class=\"side-scroll-body\">\n\t<div id=\"WSidebar-head\">\n";
-			$html .= "\t\t<select name=\"WSidebar-selected\" onchange=\"WSidebarShow(this.options[this.selectedIndex].value);\">\n"; 
+			$html .= "\t\t<select name=\"WSidebar-selected\" onchange=\"org.bambuscms.wsidebar.show(this.options[this.selectedIndex].value);\">\n"; 
 			//select
 			foreach ($this->sidebarWidgets as $name => $object) 
 			{

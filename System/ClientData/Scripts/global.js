@@ -1,5 +1,5 @@
-var org = {};
-org.bambuscms = {};
+
+
 
 function $(id)
 {

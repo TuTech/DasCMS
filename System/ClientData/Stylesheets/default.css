@@ -184,9 +184,6 @@ body
     font-family:"Helvetica", "Arial", "Sans-Serif";
     background: #fff;
 }
-#linenr{
-	float:right;
-}
 a:link
 {
     color: black;

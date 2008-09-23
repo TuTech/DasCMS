@@ -17,17 +17,14 @@ if(PAuthorisation::has('org.bambus-cms.content.cpage.change') && isset($Page) &&
 		, htmlentities($Page->Title, ENT_QUOTES, 'UTF-8')
 		, htmlentities($Page->Title, ENT_QUOTES, 'UTF-8')
 		);
-	//////////////
-	//css editor//
-	//////////////
 	echo LGui::beginEditorWrapper();
 	echo LGui::editorTextarea($Page->Content);
 	echo LGui::endEditorWrapper();
-	echo new WScript('initeditor();');
 }
 else
 {
-	echo new WScript('BCMSRunFX[BCMSRunFX.length] = function(){OBJ_ofd.show()};');
+	echo new WScript('org.bambuscms.autorun.register(function(){OBJ_ofd.show()});');
 }
-echo '</form></div>';
+echo LGui::endForm();
+echo '</div>';
 ?>

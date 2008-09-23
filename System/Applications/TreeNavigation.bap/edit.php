@@ -83,14 +83,14 @@ if($edit != null)
 		}
 		?>
 		}
-		BCMSRunFX[BCMSRunFX.length] = function(){buildNav();};
+		org.bambuscms.autorun.register(buildNav);
 	</script>
 
 <?php	
 }
 elseif(count($navigations) > 0)
 {
-	echo new WScript('BCMSRunFX[BCMSRunFX.length] = function(){OBJ_ofd.show()};');
+	echo new WScript('org.bambuscms.autorun.register(function(){OBJ_ofd.show()});');
 }
 else
 {

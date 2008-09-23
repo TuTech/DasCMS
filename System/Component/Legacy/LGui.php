@@ -153,8 +153,7 @@ class LGui extends BLegacy
     {
         $out = "<input type=\"hidden\" name=\"action\" value=\"save\" />\n";
         $out .= sprintf(
-        "<textarea  spellcheck=\"%s\" onkeyup=\"curpos();actv();\" ".
-        "onmouseup=\"curpos();actv();\" onfocus=\"curpos();actv();\" ".
+        "<textarea  spellcheck=\"%s\" ".
         "name=\"content\" class=\"visibleEditor\" wrap=\"on\" ".
         "id=\"editorianid\" cols=\"60\" rows=\"15\">"
             , $spellcheck ? 'true' : 'false'

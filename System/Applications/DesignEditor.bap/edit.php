@@ -28,11 +28,10 @@ if($FileOpened)
 	echo LGui::beginEditorWrapper();
 	echo LGui::editorTextarea(utf8_encode($fileContent));
 	echo LGui::endEditorWrapper();
-	echo new WScript('initeditor();');
 }
 elseif(!$FileOpened)
 {
-	echo new WScript('BCMSRunFX[BCMSRunFX.length] = function(){OBJ_ofd.show()};');
+	echo new WScript('org.bambuscms.autorun.register(function(){OBJ_ofd.show()});');
 }
 	echo '</form>';
 ?>

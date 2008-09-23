@@ -5,36 +5,6 @@ var systemMediumActionImage = systemIcon+'32x32/actions/';
 var systemSmallActionImage = systemIcon+'22x22/actions/';
 var cleanupmesseage = 'document_has_been_cleaned_up';
 
-//new
-
-function WCLFilter()
-{
-var filterStr
-	if($('WContentLookupFilter') && $('WContentLookup'))
-	{
-	
-		filterStr = $('WContentLookupFilter').value;
-		var elements = $('WContentLookup').getElementsByTagName('option');
-		var str;
-		for(var i = 0; i < elements.length; i++)
-		{
-			str = elements[i].text;
-			elements[i].style.display = (str.indexOf(filterStr) > -1) ? 'block' : 'none';
-		}
-	}
-}
-
-
-
-
-
-
-
-
-
-/////////////
-//variables//
-/////////////
 
 //wysiwyg
 var bWYSIWYGAllowed = false; //to be set true in browser specific js-scripts
@@ -48,64 +18,25 @@ var BCMSWYSIWYGIFrameId = 'wysiwygeditor';
 var BCMSWYSIWYGIFrameControlId = 'enabledWYSIWYGActions';
 var BCMSTextEditorId = 'editorianid';
 var BCMSTextEditorControlId = 'disabledWYSIWYGActions';
-var BCMSWYSIWYGInitialized = false;
-var BCMSBodyLoaded = false;
-var sessionTimeOut;
-var sessionTimeOutValue = 0;
 //colors
 cSelectedObject = '#aee27d';
 
-//autostart function pointer - init with useless function
-var BCMSRunFX = new Array();
-var BCMSExitFX = new Array();
-var BCMSWillSaveFX = new Array();
 
 ////////
 //INIT//
 ////////
 
-function BCMSDestroy()
-{
-	for(var i = 0; i < BCMSExitFX.length; i++)
-		BCMSExitFX[i]();
-}
 
 function BCMSInitialize()
 {
-	BCMSBodyLoaded = true;
-	for(var i = 0; i < BCMSRunFX.length; i++)
-		BCMSRunFX[i]();
-	RedrawAddId(BCMSWYSIWYGIFrameId, 0, 200);
-	RedrawAddId(BCMSTextEditorId, 0, 130);
-	Redraw();
 	if(document.getElementById(BCMSNotifier))
 	{
 		//BCMSHideNotifier(runTotal, runCurrent, beginFadeout, intervall)
 		BCMSHideNotifier(2000, 0, 1800, 50);
 	}
-	BCMSInitializeHotKeys();
-	if(bWYSIWYGAllowed && document.getElementById(BCMSWYSIWYGIFrameId))
-	{
-		WYSIWYGStart();
-	}
-	try
-	{
-		//might not exist
-		BCMSApplicationInitialize();
-	}
-	catch(e)
-	{
-		//does not matter
-	}
-
 }
+org.bambuscms.autorun.register(BCMSInitialize);
 
-function BCMSAlert(message)
-{
-	window.clearTimeout(ctrlKeyTimeOut);
-	//EditorHideShortCutHelper();
-	return alert(message);
-}
 function BCMSPrompt(title, preset)
 {
 	window.clearTimeout(ctrlKeyTimeOut);
@@ -142,16 +73,12 @@ function BCMSLogout(msg, confirmForExit, killSession)
 
 function EditorSave()
 {
-	for(var i = 0; i < BCMSWillSaveFX.length; i++)
-		BCMSWillSaveFX[i]();
 	if(bWYSIWYGEnabled) WYSIWYGCommitText();
 	if(!document.documentform.submit())
 		document.getElementById('documentform').submit();
 }
 function EditorSaveAs(inputId)
 {
-	for(var i = 0; i < BCMSWillSaveFX.length; i++)
-		BCMSWillSaveFX[i]();
 	if(bWYSIWYGEnabled) WYSIWYGCommitText();
 	if(document.getElementById(inputId))
 	{
@@ -166,12 +93,6 @@ function EditorSaveAs(inputId)
 	}
 }
 var ctrlKeyTimeOut;
-function initeditor(){EditorStart();}
-function EditorStart()
-{
-    curpos();
-    actv();
-}
 function EditorSearchAndReplace(lookFor, replaceWith)
 {
 	if(lookFor == undefined || lookFor == '')
@@ -197,7 +118,6 @@ function EditorSearchAndReplace(lookFor, replaceWith)
 		textarea.focus();
 		if(bWYSIWYGEnabled) 
 			WYSIWYGApplyText();
-		fademessage('all_elements_replaced');
 	}
 }
 
@@ -371,7 +291,6 @@ function BCMSNotifierHide()
 /////////////////
 //ancient//
 /////////////////
-var doclientredraw = false;
 var prevv = false;
 var chk = false;
 var update;
@@ -433,13 +352,6 @@ function viewMode(className, flipimg)
 	}
 }
 
-function body_load()
-{
-	if(document.getElementById("wysiwygeditor"))
-		bWYSIWYGAllowed = true;
-	BCMSInitialize();
-}
-
 //for login
 function disableInputs()
 {
@@ -471,64 +383,3 @@ function applyTag(tag)
     document.getElementById("wysiwygeditor").contentWindow.focus();
 }
 
-         
-////////////////////////////////////////////////////////////////////////////////
-
-function showElem(id){
-    document.getElementById(id).style.visibility = 'visible';
-    document.getElementById(id).style.display = 'block';
-}
-
-function hideElem(id){
-    document.getElementById(id).style.visibility = 'hidden';
-    document.getElementById(id).style.display = 'none';
-}
-
-function activate(){
-    if(startx == 0){
-        startx = mx;
-        ta_org_heigth = ta_height;
-    }
-}
-function deactivate(){
-    startx = 0;
-    document.getElementById('ta_size').value = ta_height;
-}
-
-function savepos(e){
-    mx = e.pageY;
-    if(startx != 0){
-        ta_height = ta_org_heigth + (mx - startx);
-    }
-}
-
-function fademessage(msg){
-    var msgElem =  document.getElementById('js_message');
-    msgElem.innerHTML = msg;
-    msgElem.style.opacity = 1.0;
-    setTimeout("fade_out()", 5000);
-}
-
-function fade_out(){
-	if(smallMessageOpacity >= 0)
-	{
-		smallMessageOpacity -= 0.05;
-		document.getElementById('js_message').style.opacity = smallMessageOpacity;
-		setTimeout("fade_out()", 30);
-	}
-	else
-	{
-		document.getElementById('js_message').innerHTML = '';
-		smallMessageOpacity = 1.0;
-	}
-}
-
-function set_js_msg_color(bg, color){
-    var elem =  document.getElementById('js_message');
-    elem.style.background = bg;
-    elem.style.color = color;
-}
-
-function actv(){
-    somethinghappened = true;
-}

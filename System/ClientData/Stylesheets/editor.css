@@ -28,10 +28,6 @@ textarea
 #editor{
     padding:0px;
 }
-#editorwrapper{
-    border: 1px solid #555753;
-    border-top: 0px solid #babdb6;
-}
 #enabledWYSIWYGActions{
 	display:none;
 }
@@ -45,9 +41,7 @@ textarea
     border: 0px;
     margin:0px;
     padding:0px;
-    visibility: visible;
     border:0px;
-    float:right;
     background:#fff;
 }
 .hiddenEditor{

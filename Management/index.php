@@ -38,12 +38,21 @@ foreach ($styles as $css)
 	WHeader::useStylesheet($path.$css);
 }
 $path = SPath::SYSTEM_SCRIPTS;
-WHeader::useScript($path.'NameSpace.js');
+$jsPriorities = array(
+    'global.js',
+    'org.js',
+    'org.bambuscms.js',
+    'org.bambuscms.autorun.js'
+);
+foreach ($jsPriorities as $js) 
+{
+	WHeader::useScript($path.$js);
+}
 $scripts = DFileSystem::FilesOf($path, '/\.js$/i');
 sort($scripts);//UC first
 foreach ($scripts as $script) 
 {
-    if($script != 'NameSpace.js')
+    if(!in_array($script, $jsPriorities))
     {
         WHeader::useScript($path.$script);
     }
