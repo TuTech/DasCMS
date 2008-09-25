@@ -57,7 +57,7 @@ class SContentIndex
 			$ignorePubDate = $checkPubDate ? 0 : 1;
 			$now = time();
 			
-			$sql = <<<SQL
+			$sql = "
 SELECT 
 		ContentIndex.pubDate 
 	FROM ContentIndex 
@@ -74,7 +74,7 @@ SELECT
 			)
 		)
 	LIMIT 1
-SQL;
+";
 			$res = $DB->query($sql);
 			list($pd) = $res->fetch();
 			$rows = $res->getRowCount();
@@ -110,37 +110,35 @@ SQL;
 		{
 			try
 			{
-				$condition = implode('OR', $bulk);
-				$sql = <<<SQL
-SELECT DISTINCT 
+				$condition = implode(" \nOR ", $bulk);
+				$sql = "
+SELECT  
 		ContentIndex.managerContentID AS CID, 
 		Managers.manager AS Manager, 
 		ContentIndex.title as Title, 
-		Aliases.alias AS Alias, 
 		ContentIndex.pubDate AS PubDate 
-	FROM Aliases 
-	LEFT JOIN ContentIndex 
-		ON (Aliases.contentREL = ContentIndex.contentID) 
+	FROM ContentIndex
 	LEFT JOIN Managers 
 		ON (ContentIndex.managerREL = Managers.managerID) 
 	WHERE 
-		AND ($condition)
-    ORDER BY Aliases.active DESC
-    LIMIT 1
-SQL;
+		$condition
+";
 				$res = $DB->query($sql, DSQL::ASSOC);
 				while ($erg = $res->fetch())
 				{
 					$result[$erg['Manager'].':'.$erg['CID']] = array(
 						'Title' => $erg['Title'], 
-						'Alias' => $erg['Alias'], 
-						'PubDate' => $erg['PubDate']
+						'Alias' => $erg['Manager'].':'.$erg['CID'],//$erg['Alias'], 
+						'PubDate' => $erg['PubDate'],
+						'Manager' => $erg['Manager'],
+						'MCID' => $erg['CID'] 
 					);
 				}
 				$res->free();
 			}
 			catch(Exception $e)
 			{
+			    echo $sql;
 			}
 		}
 		
@@ -154,7 +152,7 @@ SQL;
 		{
 			$e_manager = $DB->escape($manager);
 			$e_contentId = $DB->escape($contentId);
-			$sql = <<<SQL
+			$sql = "
 SELECT 
 		ContentIndex.title, 
 		Aliases.alias, 
@@ -169,7 +167,7 @@ SELECT
 		AND Managers.manager LIKE '$e_manager'
 	ORDER BY Aliases.active DESC
     LIMIT 1
-SQL;
+";
 			$res = $DB->query($sql, DSQL::NUM);
 			if($res->getRowCount() > 0)
 			{
@@ -223,7 +221,7 @@ SQL;
 			$tags = array();
 		}
 		
-		$sql = <<<SQL
+		$sql = "
 SELECT 
 		COUNT(ContentIndex.title) AS Count 
 	FROM ContentIndex 
@@ -232,11 +230,11 @@ SELECT
 	WHERE 
 		$ManagerSQL
 		
-SQL;
+";
 		foreach ($tags as $tag) 
 		{
 			$tag = $DB->escape($tag);
-			$sql .= <<<SQL
+			$sql .= "
 		AND ContentIndex.contentID 
 			IN (
 				SELECT 
@@ -247,7 +245,7 @@ SQL;
 					WHERE 
 						Tags.tag = '$tag'
 			)
-SQL;
+";
 		}	
 		return $sql;
 	}
@@ -270,7 +268,7 @@ SQL;
 		{
 			$tags = array();
 		}
-		$sql = <<<SQL
+		$sql = "
 SELECT 
 		ContentIndex.title AS Title, 
 		ContentIndex.pubDate AS PubDate, 
@@ -283,11 +281,11 @@ SELECT
 		$ManagerSQL
 		AND ContentIndex.pubDate > 0 
 		AND ContentIndex.pubDate < $now
-SQL;
+";
 		foreach ($tags as $tag) 
 		{
 			$tag = $DB->escape($tag);
-			$sql .= <<<SQL
+			$sql .= "
 		AND ContentIndex.contentID 
 			IN (
 				SELECT 
@@ -300,7 +298,7 @@ SQL;
 			)
 		ORDER BY ContentIndex.pubDate $order
 		$limit
-SQL;
+";
 		}	
 		return $sql;
 	}
@@ -353,12 +351,12 @@ SQL;
 	{
 		$DB = DSQL::alloc()->init();
 		$manager = $DB->escape($manager);
-		$sql = <<<SQL
+		$sql = "
 SELECT managerID 
 	FROM Managers 
 	WHERE manager LIKE '$manager'
 	LIMIT 1
-SQL;
+";
 		$res = $DB->query($sql, DSQL::NUM);
 		list($erg) = $res->fetch();
 		$res->free();
@@ -388,12 +386,12 @@ SQL;
 			$e_pubdate = $DB->escape($content->PubDate);
 			$e_summary = $DB->escape(mb_substr(preg_replace("/[\\s]+/u"," ",$content->Text),0,1024, 'UTF-8'));
 			
-			$sql = <<<SQL
+			$sql = "
 SELECT COUNT(managerContentID) 
 	FROM ContentIndex 
 	WHERE managerContentID = '$e_contentID' 
 	AND managerREL = $e_managerID
-SQL;
+";
 			$res = $DB->query($sql, DSQL::ASSOC);
 			$dat = $res->fetch();
 			$res->free();
@@ -407,7 +405,7 @@ SQL;
 			}
 			else
 			{
-				$sql = <<<SQL
+				$sql = "
 UPDATE ContentIndex 
 	SET 
 		title='$e_title', 
@@ -416,7 +414,7 @@ UPDATE ContentIndex
 	WHERE 
 		managerContentID LIKE '$e_contentID' 
 		AND managerREL = $e_managerID
-SQL;
+";
 				$res = $DB->queryExecute($sql);
 			}
 			$DB->insertUnescaped(
@@ -448,7 +446,7 @@ SQL;
 		
 		try
 		{
-			$sql = <<<SQL
+			$sql = "
 SELECT 
 		ContentIndex.title, 
 		ContentIndex.pubDate, 
@@ -460,7 +458,7 @@ SELECT
 		managerContentID LIKE '$e_cid'
 		AND Managers.manager LIKE '$e_manager' 
 	LIMIT 1
-SQL;
+";
 			$res = $DB->query($sql, DSQL::NUM);
 			if($res->getRowCount() != 1)
 			{
@@ -470,7 +468,7 @@ SQL;
 			list($meta['Title'], $meta['PubDate'], $dbid) = $res->fetch();
 			$dbid = $DB->escape(intval($dbid));
 			$res->free();
-			$sql = <<<SQL
+			$sql = "
 
 SELECT 
     (SELECT size FROM Changes WHERE contentREL=$dbid ORDER BY changeDate DESC LIMIT 1) AS size,
@@ -478,7 +476,7 @@ SELECT
     (SELECT username FROM Changes WHERE contentREL=$dbid ORDER BY changeDate DESC LIMIT 1) AS Modifier,
     (SELECT changeDate FROM Changes WHERE contentREL=$dbid ORDER BY changeDate ASC LIMIT 1) AS Created,
     (SELECT username FROM Changes WHERE contentREL=$dbid ORDER BY changeDate ASC LIMIT 1) AS Creator
-SQL;
+";
 //
 //SELECT 
 //		size, 
@@ -522,11 +520,14 @@ SQL;
 		return $meta;
 	}
 	
+	/**
+	 * @return array (managerContentId => Title)
+	 */
 	public function getIndex(BContentManager $manager)
 	{
 		$DB = DSQL::alloc()->init();
 		$e_manager = $DB->escape(get_class($manager));
-		$sql = <<<SQL
+		$sql = "
 SELECT 
 		ContentIndex.managerContentId, 
 		ContentIndex.Title 
@@ -537,7 +538,7 @@ SELECT
 		ContentIndex.pubDate > -1 
 		AND Managers.manager LIKE '$e_manager' 
 	ORDER BY ContentIndex.Title ASC
-SQL;
+";
 		try
 		{
 			$res = $DB->query($sql, DSQL::NUM);
@@ -574,7 +575,7 @@ SQL;
 		$DB->beginTransaction();
 		try
 		{
-			$sql = <<<SQL
+			$sql = "
 UPDATE ContentIndex 
 	SET 
 		title='', 
@@ -583,7 +584,7 @@ UPDATE ContentIndex
 	WHERE 
 		managerContentID LIKE '$e_cid' 
 		AND managerREL = $e_manager;
-SQL;
+";
 			$DB->queryExecute($sql);
 			$DB->insertUnescaped(
 				'Changes',

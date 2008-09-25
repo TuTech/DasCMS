@@ -1,0 +1,69 @@
+@CHARSET "UTF-8";
+#WOpenFileDialog{
+	width:100%;
+	height:100%;
+	background: #151718;
+	z-index: 5000;
+	position:absolute;
+	left:0px;
+	top:0px;
+}
+
+#WOpenFileDialog-header{
+	width:85%;
+	height:45px;
+	border-bottom: 1px solid #2e3436;
+	background: #090a0b;
+	position:absolute;
+	left:0px;
+	top:0px;
+}
+
+#WOpenFileDialog-sidebar{
+	width:15%;
+	border-left: 1px solid #2e3436;
+	height:100%;
+	background: #090a0b;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+}
+
+#WOpenFileDialog-filecontainer{
+	background: #151718;
+	width:84%;
+	height:100%;
+}
+
+#WOpenFileDialog label{
+	color: #eeeeec;
+	display:block;
+	margin-top: 10px;
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
+#WOpenFileDialog-TitleSearchContainer{
+	border: 1px solid black;
+	background: #fff url("../../Icons/16x16/actions/search-gray.png") 1px 50% no-repeat;
+	-moz-border-radius: 5px;
+	margin-left:15px;
+	margin-right:15px;
+}
+
+#WOpenFileDialog-TitleSearch{
+	border-width: 0px;
+	margin-left:18px;
+	padding:2px;
+	width:80%;
+}
+
+
+
+
+
+
+
+
+
+
