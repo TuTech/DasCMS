@@ -9,25 +9,26 @@ org.bambuscms.wdialog = {
 			org.bambuscms.wdialog.init();
 			var src = org.bambuscms.wdialog.dialogs[id];
 			var c = org.bambuscms.wdialog.container;
-			var dialog = document.createElement('div');
-			dialog.setAttribute('class', 'WDialog');
+			var dialog = org.bambuscms.gui.element('div', null, {
+				'class':"WDialog"
+			});
 			var focusInput = null;
 			
 			//title
-			var title = document.createElement('h2');
-			title.appendChild(document.createTextNode(src.title));
+			var title = org.bambuscms.gui.element('h2', src.title, {});
 			dialog.appendChild(title);
 			
 			//form
-			var form = document.createElement('form');
-			org.bambuscms.wdialog.form = form;
-			form.setAttribute('action', $('documentform').getAttribute('action'));
-			form.setAttribute('id', 'WDialog_form');
-			form.setAttribute('method','post');
+			var form = org.bambuscms.gui.element('form', null, {
+				'action':$('documentform').getAttribute('action'),
+				'id':'WDialog_form',
+				'method':'post',
+			});
 			if(src.isMultipart)
 			{
 				form.setAttribute('enctype','multipart/form-data');
 			}
+			org.bambuscms.wdialog.form = form;
 			dialog.appendChild(form);
 			
 			//sections
@@ -36,14 +37,15 @@ org.bambuscms.wdialog = {
 				for(var i = 0; i < src.sections.length; i++)
 				{
 					var sect = src.sections[i];
-					var block = document.createElement('div');
-					block.setAttribute('id', 'WDialog_'+id+'_sect_'+i);
-					block.setAttribute('class', 'WDialog_section');
+					var block = org.bambuscms.gui.element('div', null, {
+						'id':'WDialog_'+id+'_sect_'+i,
+						'class': 'WDialog_section'
+					});
 					if(sect.title)
 					{
-						var btitle = document.createElement('h3');
-						btitle.setAttribute('id', 'WDialog_'+id+'_sect_'+i+'_head');
-						btitle.appendChild(document.createTextNode(sect.title));
+						var btitle = org.bambuscms.gui.element('h3', sect.title, {
+							'id':'WDialog_'+id+'_sect_'+i+'_head'
+						});
 						block.appendChild(btitle);
 					}
 					for(name in sect.items)
@@ -66,10 +68,11 @@ org.bambuscms.wdialog = {
 							case 'file':
 							case 'hidden':
 							case 'checkbox':
-								var input = document.createElement('input');
-								input.setAttribute('type', sect.items[name].type);
-								input.setAttribute('id', 'WDialog_'+id+'_'+name);
-								input.setAttribute('name', name);
+								var input = org.bambuscms.gui.element('input', sect.title, {
+									'id':'WDialog_'+id+'_'+name,
+									'type': sect.items[name].type,
+									'name': name
+								});
 								if(sect.items[name].value)
 								{
 									if(sect.items[name].type != 'checkbox')
@@ -107,10 +110,11 @@ org.bambuscms.wdialog = {
 			{
 				if(buttons[i].title)
 				{
-					var el = document.createElement('a');
-					el.setAttribute('onclick', buttons[i].link+';return false;');
-					el.setAttribute('href', '#');
-					el.appendChild(document.createTextNode(buttons[i].title));
+					var el = org.bambuscms.gui.element('a', buttons[i].title, {
+						'onclick': buttons[i].link+';return false;',
+						'href': '#',
+						'name': name
+					});
 					dialog.appendChild(el);
 				}
 			}

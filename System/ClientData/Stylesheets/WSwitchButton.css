@@ -1,0 +1,50 @@
+@CHARSET "UTF-8";
+.WSwitchButton
+{
+	height:24px;
+	border: 1px solid #000;
+	margin:10px;
+	float:left;
+}
+
+.WSB_button
+{
+	width:48px;
+	overflow:hidden;
+	height:18px;
+	padding-top:6px;
+	float:left;
+	text-align: center;
+}
+
+.WSB_middle
+{
+	background: url(../../Images/WSwitchButtonSprite.png) -8px 24px;
+	border-right: 1px solid #888a85;
+}
+.WSB_middle.WSB_active
+{
+	background: url(../../Images/WSwitchButtonSprite.png) -8px 0px;
+}
+
+.WSB_left
+{
+	padding-left:5px;
+	background: url(../../Images/WSwitchButtonSprite.png) 0% 24px;
+	border-right: 1px solid #888a85;
+}
+.WSB_left.WSB_active
+{
+	background: url(../../Images/WSwitchButtonSprite.png) 0% 0px;
+}
+
+.WSB_right
+{
+	padding-right:5px;
+	background: url(../../Images/WSwitchButtonSprite.png) 100% 24px;
+}
+.WSB_right.WSB_active
+{
+	background: url(../../Images/WSwitchButtonSprite.png) 100% 0px;
+}
+

@@ -29,29 +29,10 @@ org.bambuscms.wcodeeditor = {
 			textarea = $(textarea);
 		} 
 		org.bambuscms.wcodeeditor.target = textarea;
-		if(textarea.addEventListener)
-		{
-			textarea.addEventListener('keyup', org.bambuscms.wcodeeditor.keyup, false);
-			textarea.addEventListener('keydown', org.bambuscms.wcodeeditor.keydown, false);
-			textarea.addEventListener('mouseup', org.bambuscms.wcodeeditor.mouseup, false);
-			textarea.addEventListener('mousedown', org.bambuscms.wcodeeditor.mousedown, false);
-		}
-		else if(textarea.attachEvent)
-		{
-			textarea.attachEvent('onkeyup', org.bambuscms.wcodeeditor.keyup);
-			textarea.attachEvent('onkeydown', org.bambuscms.wcodeeditor.keydown);
-			textarea.attachEvent('onmouseup', org.bambuscms.wcodeeditor.mouseup);
-			textarea.attachEvent('onmousedown', org.bambuscms.wcodeeditor.mousedown);
-			textarea.attachEvent('onmousedown', org.bambuscms.wcodeeditor.mousedown);
-		}
-		else
-		{
-			textarea.onkeyup = org.bambuscms.wcodeeditor.keyup;
-			textarea.onkeydown = org.bambuscms.wcodeeditor.keydown;
-			textarea.onmouseup = org.bambuscms.wcodeeditor.mouseup;
-			textarea.onmousedown = org.bambuscms.wcodeeditor.mousedown;
-			textarea.onmousedown = org.bambuscms.wcodeeditor.mousedown;
-		}
+		org.bambuscms.gui.setEventHandler(textarea, 'keyup', org.bambuscms.wcodeeditor.keyup);
+		org.bambuscms.gui.setEventHandler(textarea, 'keydown', org.bambuscms.wcodeeditor.keydown);
+		org.bambuscms.gui.setEventHandler(textarea, 'mouseup', org.bambuscms.wcodeeditor.mouseup);
+		org.bambuscms.gui.setEventHandler(textarea, 'mousedown', org.bambuscms.wcodeeditor.mousedown);
 		org.bambuscms.wcodeeditor.updateInterval = 
 			window.setInterval(org.bambuscms.wcodeeditor.update, org.bambuscms.wcodeeditor.updateTime);
 		
@@ -96,20 +77,3 @@ org.bambuscms.wcodeeditor = {
 	    return result;
 	}
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

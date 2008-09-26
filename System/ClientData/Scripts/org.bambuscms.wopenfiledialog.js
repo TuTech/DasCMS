@@ -18,6 +18,19 @@ org.bambuscms.wopenfiledialog = {
 	'hide':function(){},
 	'toggle':function(){},
 	'isVisible':false,
+	'sortBy':'title',
+	'sortOrder':'asc',
+	'sort':function(by, order){
+		if(by)
+		{
+			org.bambuscms.wopenfiledialog.sortBy = by;
+		}
+		if(order)
+		{
+			org.bambuscms.wopenfiledialog.sortOrder = order;
+		}
+		alert('sorting by '+org.bambuscms.wopenfiledialog.sortBy+' '+org.bambuscms.wopenfiledialog.sortOrder);
+	},
 	'titleFilter':function(){alert($('WOpenFileDialog-TitleSearch').value);}
 };
 
@@ -34,8 +47,9 @@ org.bambuscms.wopenfiledialog._build = function()
 	var sidebar = org.bambuscms.gui.element('div', null, {
 		'id':"WOpenFileDialog-sidebar"
 	});
-	var filecontainer = org.bambuscms.gui.element('div', null, {
-		'id':"WOpenFileDialog-filecontainer"
+	var filecontainer = org.bambuscms.gui.element('div', '<div id="WOpenFileDialog-InnerPadding"><div class="WOFD_item">test</div><div class="WOFD_item">1</div><div class="WOFD_item">2</div><div class="WOFD_item">3</div></div>', {
+		'id':"WOpenFileDialog-filecontainer",
+		'class':'WOFD_detail_view'
 	});
 
 //sidebar
@@ -52,22 +66,8 @@ org.bambuscms.wopenfiledialog._build = function()
 		'id':"WOpenFileDialog-TitleSearch",
 		'type':'text'
 	});
-	if(searchbox.addEventListener)
-	{
-		searchbox.addEventListener('keyup', org.bambuscms.wopenfiledialog.titleFilter, false);
-		searchbox.addEventListener('mouseup', org.bambuscms.wopenfiledialog.titleFilter, false);
-	}
-	else if(searchbox.attachEvent)
-	{
-		searchbox.attachEvent('onkeyup', org.bambuscms.wopenfiledialog.titleFilter);
-		searchbox.attachEvent('onmouseup', org.bambuscms.wopenfiledialog.titleFilter);
-	}
-	else
-	{
-		searchbox.onkeyup =  org.bambuscms.wopenfiledialog.titleFilter;		
-		searchbox.onmouseup =  org.bambuscms.wopenfiledialog.titleFilter;
-	}
-	
+	org.bambuscms.gui.setEventHandler(searchbox, 'keyup', org.bambuscms.wopenfiledialog.titleFilter);
+	org.bambuscms.gui.setEventHandler(searchbox, 'mouseup', org.bambuscms.wopenfiledialog.titleFilter);
 	//tag box
 	
 	//info box
@@ -75,18 +75,37 @@ org.bambuscms.wopenfiledialog._build = function()
 //header
 	
 	//view-switch
-	var view_switch = document.createElement('div');
-	view_switch.className = 'WSwitch';
-	
-	
+	var view_switch = org.bambuscms.gui.switchButton(
+		'views',
+		[
+			{'title':"detail", 'callBack': function(){$('WOpenFileDialog-filecontainer').className = 'WOFD_detail_view';}}, 
+			{'title':"icon",   'callBack': function(){$('WOpenFileDialog-filecontainer').className = 'WOFD_icon_view';}}, 
+			{'title':"list",   'callBack': function(){$('WOpenFileDialog-filecontainer').className = 'WOFD_list_view';}}, 
+		]
+	); 
+	header.appendChild(view_switch);
+
 	//sort-switch
-	var sort_switch = document.createElement('div');
-	sort_switch.className = 'WSwitch';
-	
-	
+	var sort_switch = org.bambuscms.gui.switchButton(
+		'sort',
+		[
+			{'title':"title", 'callBack': function(){org.bambuscms.wopenfiledialog.sort('title', null);}}, 
+			{'title':"date",   'callBack': function(){org.bambuscms.wopenfiledialog.sort('date', null);}}, 
+		]
+	); 
+	header.appendChild(sort_switch);
+
 	//sort-dir-switch
-	var sort_dir_switch = document.createElement('div');
-	sort_dir_switch.className = 'WSwitch';
+	var sort_order_switch = org.bambuscms.gui.switchButton(
+		'sort_order',
+		[
+			{'title':"ASC", 'callBack': function(){org.bambuscms.wopenfiledialog.sort(null, 'asc');}}, 
+			{'title':"DESC",'callBack': function(){org.bambuscms.wopenfiledialog.sort(null, 'desc');}}, 
+		]
+	); 
+	header.appendChild(sort_order_switch);
+
+	
 	
 
 //file container
@@ -99,9 +118,6 @@ org.bambuscms.wopenfiledialog._build = function()
 	dialog.appendChild(header);
 	dialog.appendChild(filecontainer);
 	dialog.style.display = 'block';
-	
-	
-	
 	document.body.appendChild(dialog);
 }
 
