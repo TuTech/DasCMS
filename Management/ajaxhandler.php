@@ -63,9 +63,21 @@ try
             'nrOfItems' => count($items),
             'linkPrefix' => 'javascript:alert(\'',
             'linkSuffix' => '\');',
-            'iconMap' => array('mimetype-html'),
-            'itemMap' => array('title' => 0, 'id' => 1, 'icon' => 2, 'pubDate' => 3),//, 'tags' => 4
-            'items' => $items
+            'iconMap' => array('System/Icons/48x48/mimetypes/dummy.png'),
+            'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2, 'pubDate' => 3),//, 'tags' => 4
+            'sortable' => array('title' => 'title', 'pubDate' => 'pubDate', 'icon' => 'type'),
+            'items' => $items,
+            'captions' => array(
+                'detail' => SLocalization::get('detail'),
+                'icon' => SLocalization::get('icon'),
+                'list' => SLocalization::get('list'),
+                'asc' => SLocalization::get('asc'),
+                'desc' => SLocalization::get('desc'),
+                'searchByTitle' => SLocalization::get('search_by_title'),
+                'pubDate' => SLocalization::get('pubDate'),
+                'title' => SLocalization::get('title'),
+                'type' => SLocalization::get('type'),
+            )
         );
         echo json_encode($OFD);
     }

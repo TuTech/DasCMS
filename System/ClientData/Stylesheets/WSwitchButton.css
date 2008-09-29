@@ -5,14 +5,15 @@
 	border: 1px solid #000;
 	margin:10px;
 	float:left;
+	font-size: 9px;
 }
 
 .WSB_button
 {
 	width:48px;
 	overflow:hidden;
-	height:18px;
-	padding-top:6px;
+	height:16px;
+	padding-top:8px;
 	float:left;
 	text-align: center;
 }

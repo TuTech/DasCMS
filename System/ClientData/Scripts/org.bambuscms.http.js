@@ -6,7 +6,7 @@ org.bambuscms.http.requestFactory = function()
 	var factories = [
 		function(){return new XMLHttpRequest(); },
 		function(){return new ActiveXObject("Msxml2.XMLHTTP"); },
-		function(){return new ActiveXObject("Microsoft.XMLHTTP"); },
+		function(){return new ActiveXObject("Microsoft.XMLHTTP"); }
 	];
 	for(var i = 0; i < factories.length; i++)
 	{

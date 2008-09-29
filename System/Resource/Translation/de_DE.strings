@@ -18,6 +18,11 @@ js-scripts	JavaScripte
 php-scripts	PHP-Scripte
 css-scripts	CSS-Dateien
 lines	Zeilen
+pubDate	Freigabe
+asc	Auf
+desc	Ab
+detail	Details
+icon	Symbol
 manage	Verwalten
 configure	Konfigurieren
 session_timed_out	Session abgelaufen \n(Wenn Sie die aktuellen eingaben speichern wollen loggen Sie sich in einem anderen Browserfenster/-tab neu an)
@@ -95,7 +100,6 @@ status	Status
 received	Empfangen
 recently_uploaded_file	Kürzlich hochgeladene Datei
 edit_news	Nachrichten bearbeiten
-pubDate	Veröffentlichungsdatum
 tags	Tags
 unsupported_file_types	Nicht unterstützte Dateitypen
 not_active	Nicht aktiv

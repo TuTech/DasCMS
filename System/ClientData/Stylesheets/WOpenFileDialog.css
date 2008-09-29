@@ -45,6 +45,15 @@
 	margin-right: 15px;
 }
 
+#WOpenFileDialog h2{
+	color: #eeeeec;
+	display:block;
+	height:24px;
+	border: 1px solid #000;
+	margin:10px;
+	float:left;
+}
+
 #WOpenFileDialog-TitleSearchContainer{
 	border: 1px solid black;
 	background: #fff url("../../Icons/16x16/actions/search-gray.png") 1px 50% no-repeat;
@@ -55,38 +64,100 @@
 
 #WOpenFileDialog-TitleSearch{
 	border-width: 0px;
-	margin-left:18px;
+	margin-left:20px;
 	padding:2px;
 	width:80%;
 }
-#WOpenFileDialog-InnerPadding{
+#WOpenFileDialog-ItemWrapper{
 	margin:5px;
-	margin-right: 0px;
 	margin-top:55px;
+	padding-bottom: 10px;
 }
+.WOFD_item h4{
+	margin:2px;
+	margin-left:0px;
+	margin-bottom:5px;
+	font-weight: normal;
+	font-size: 1.1em;
+	color: #fff;
+}
+.WOFD_item div{
+	margin:2px;
+	margin-left:0px;
+	font-weight: normal;
+	font-size: 0.9em;
+	color: #d3d7cf;
+}
+
 
 #WOpenFileDialog-filecontainer .WOFD_item{
 	display:block;
-	border: 1px solid #555753;
-	margin-bottom:5px;
-	margin-left:5px;
+	margin-bottom:10px;
+	margin-left:10px;
 }
+/***
+detail view
+****/
 #WOpenFileDialog-filecontainer.WOFD_detail_view .WOFD_item{
 	display:block;
 	height:64px;
 }
-#WOpenFileDialog-filecontainer.WOFD_icon_view .WOFD_item{
+#WOpenFileDialog-filecontainer.WOFD_detail_view .WOFD_item img{
+	float:left;
+	margin-right:5px;
+}
+#WOpenFileDialog-filecontainer.WOFD_detail_view .WOFD_item{
 	display:block;
 	border-bottom: 1px solid #555753;
-	width:64px;
-	height:64px;
-	float:left;
 }
+/***
+icon view
+****/
+#WOpenFileDialog-filecontainer.WOFD_icon_view .WOFD_item{
+	display:block;
+	width:96px;
+	height:96px;
+	float:left;
+	overflow:hidden;
+	text-align: center;
+}
+
+#WOpenFileDialog-filecontainer.WOFD_icon_view .WOFD_item img{
+	margin-left: 24px;
+	margin-top:6px;
+	margin-bottom:6px;
+	display:block;
+}
+
+#WOpenFileDialog-filecontainer.WOFD_icon_view .WOFD_item div{
+	display: none;
+}
+/***
+list view
+****/
+#WOpenFileDialog-filecontainer.WOFD_list_view .WOFD_item img{
+	float:left;
+	width:22px;
+	height:22px;
+	margin-bottom:2px;
+	margin-right:5px;
+}
+
 #WOpenFileDialog-filecontainer.WOFD_list_view .WOFD_item{
 	display:block;
 	border-bottom: 1px solid #555753;
+	overflow:hidden;
 }
-
+#WOpenFileDialog-filecontainer.WOFD_list_view .WOFD_item div
+{
+	float:left;
+	width:25%;
+	text-align:left;
+}
+#WOpenFileDialog-filecontainer.WOFD_list_view .WOFD_item h4{
+	float:left;
+	width:25%;
+}
 
 
 
