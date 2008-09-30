@@ -43,16 +43,18 @@ org.bambuscms.gui.setEventHandler = function(element, event, handler)
 	}
 }
 org.bambuscms.gui.switchButtonCallBacks = {};
-org.bambuscms.gui.switchButton = function(name, states)
+org.bambuscms.gui.switchButton = function(name, states, iconSprite)
 {
 	//name: string
 	//states: array of objects
 	var cssClass;
+	var len = (iconSprite ? 29: 49);
 	var container = org.bambuscms.gui.element('div', null, {
-		'class':'WSwitchButton', 
+		'class':'WSwitchButton'+(iconSprite ? ' WSB_Sprited': ''), 
 		'id':'WSB_'+name,
-		'style': 'width:'+(states.length*49+9)+'px'
+		'style': 'width:'+(states.length*len+9)+'px'
 	});
+	var value;
 	org.bambuscms.gui.switchButtonCallBacks[name] = [];
 	for(var i = 0; i < states.length; i++)
 	{
@@ -65,16 +67,28 @@ org.bambuscms.gui.switchButton = function(name, states)
 			cssClass = (i == 0) ? 'WSB_left WSB_active' : 'WSB_right';
 		}
 		cssClass += ' WSB_button';
-		var button = org.bambuscms.gui.element('a', states[i].title, {
+		
+		if(iconSprite)
+		{
+			value = org.bambuscms.gui.element('div', null, {
+				'class':'Sprite_'+iconSprite+'_'+(i+1), 
+				'title':states[i].title
+			});
+		}
+		else
+		{
+			value = states[i].title;
+		}
+		var button = org.bambuscms.gui.element('a', value, {
 			'class':cssClass,
-			'href':'javascript:org.bambuscms.gui.switchButtonClick(\'WSB_'+name+'\', '+i+');'
+			'href':'javascript:org.bambuscms.gui.switchButtonClick(\'WSB_'+name+'\', '+i+', '+(states[i].param ? '"'+states[i].param+'"' : 'null')+');'
 		});
 		org.bambuscms.gui.switchButtonCallBacks[name][i] = states[i].callBack;
 		container.appendChild(button);
 	}
 	return container;
 }
-org.bambuscms.gui.switchButtonClick = function(id, state)
+org.bambuscms.gui.switchButtonClick = function(id, state, clickedElement)
 {
 	var sb = $(id);
 	var name = id.replace(/^WSB_/, '');
@@ -85,7 +99,7 @@ org.bambuscms.gui.switchButtonClick = function(id, state)
 	sb.childNodes[state].className += ' WSB_active';
 	if(org.bambuscms.gui.switchButtonCallBacks[name] && org.bambuscms.gui.switchButtonCallBacks[name][state])
 	{
-		org.bambuscms.gui.switchButtonCallBacks[name][state]();
+		org.bambuscms.gui.switchButtonCallBacks[name][state](clickedElement);
 	}
 }
 

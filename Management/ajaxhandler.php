@@ -61,9 +61,8 @@ try
         $OFD = array(
             'title' => SLocalization::get('open'),
             'nrOfItems' => count($items),
-            'linkPrefix' => 'javascript:alert(\'',
-            'linkSuffix' => '\');',
-            'iconMap' => array('System/Icons/48x48/mimetypes/dummy.png'),
+            'iconMap' => array('System/Icons/tango/large/mimetypes/C'.substr($manager,1).'.png'),
+            'smallIconMap' => array('System/Icons/tango/extra-small/mimetypes/C'.substr($manager,1).'.png'),
             'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2, 'pubDate' => 3),//, 'tags' => 4
             'sortable' => array('title' => 'title', 'pubDate' => 'pubDate', 'icon' => 'type'),
             'items' => $items,
@@ -75,6 +74,7 @@ try
                 'desc' => SLocalization::get('desc'),
                 'searchByTitle' => SLocalization::get('search_by_title'),
                 'pubDate' => SLocalization::get('pubDate'),
+                'notPublished' => SLocalization::get('not_published'),
                 'title' => SLocalization::get('title'),
                 'type' => SLocalization::get('type'),
             )

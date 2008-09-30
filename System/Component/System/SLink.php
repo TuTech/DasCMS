@@ -78,7 +78,7 @@ class SLink extends BSystem
         $data = self::$getData;
         foreach ($withAdditionalData as $k => $v) 
         {
-            if($v == null)
+            if($v === null)
             {
                 unset($data[$k]);
             }

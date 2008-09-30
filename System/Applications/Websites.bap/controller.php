@@ -12,7 +12,7 @@ $FileOpened = false;
 $mp = MPageManager::alloc()->init();
 
 $editExist = (RURL::has('edit')) && $mp->Exists(RURL::get('edit'));
-
+$Page = null;
 //delete
 if($editExist && RSent::get('delete') != '' && PAuthorisation::has('org.bambus-cms.content.cpage.delete'))
 {
@@ -59,13 +59,23 @@ if(isset($Page) && $Page instanceof CPage && PAuthorisation::has('org.bambus-cms
 	
 }
 
+echo new WScript('org.bambuscms.wopenfiledialog.setSource({\'_OpenFiles\':\'MPageManager\'});'.
+                 'org.bambuscms.wopenfiledialog.prepareLinks("'.
+                 SLink::link(array('edit' => ''))
+                 .'","");');
+if($Page == null)
+{
+    echo new WScript('org.bambuscms.wopenfiledialog.closable = false;'.
+                     'org.bambuscms.wopenfiledialog.show();');
+}
+
 $OFD = new WOpenFileDialog();
 $OFD->registerCategory('page');
 foreach($mp->Index as $item => $name)
 {
     $OFD->addItem('page',$name,SLink::link(array('edit' => $item)),'website', ' ');
 }
-$OFD->render();
+//$OFD->render();
 
 printf(
     '<form method="post" id="documentform" name="documentform" action="%s">'

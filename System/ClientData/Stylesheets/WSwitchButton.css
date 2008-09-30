@@ -18,6 +18,17 @@
 	text-align: center;
 }
 
+.WSB_Sprited a div{
+	width:16px;
+	height:16px;
+	float:left;
+	margin-left:6px;
+}
+.WSB_Sprited .WSB_button{
+	width:28px;
+	padding-top:4px;
+	height:20px;
+}
 .WSB_middle
 {
 	background: url(../../Images/WSwitchButtonSprite.png) -8px 24px;

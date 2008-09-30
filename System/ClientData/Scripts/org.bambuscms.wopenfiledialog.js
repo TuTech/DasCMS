@@ -1,23 +1,36 @@
 org.bambuscms.wopenfiledialog = {
-	'dataSource':null,
-	'sourceType':null,
+	'linkPrefix':'javascript:alert("',
+	'linkSuffix':'");',
+	'prepareLinks':function(prefix, suffix){
+		org.bambuscms.wopenfiledialog.linkPrefix = prefix ? prefix : '';
+		org.bambuscms.wopenfiledialog.linkSuffix = suffix ? suffix : '';
+	},
+	'dataSource':{'_OpenFiles':'MError'},
 	'setSource':function(src){
 		if(typeof src == 'object')
 		{
-			org.bambuscms.wopenfiledialog.dataSource = org.bambuscms.http.managementRequestURL(src);
-			org.bambuscms.wopenfiledialog.dataSource = 'url';
-		}
-		else
-		{
 			org.bambuscms.wopenfiledialog.dataSource = src;
-			org.bambuscms.wopenfiledialog.dataSource = 'embed';
 		}
 	},
 	'_build':function(){},
-	'show':function(){},
-	'hide':function(){},
-	'toggle':function(){},
-	'isVisible':false,
+	'show':function(){org.bambuscms.wopenfiledialog._build();},
+	'hide':function(){
+		if($("WOpenFileDialog"))
+		{
+			document.body.removeChild($("WOpenFileDialog"));
+		}
+	},
+	'toggle':function(){
+		if($("WOpenFileDialog"))
+		{
+			org.bambuscms.wopenfiledialog.hide();
+		}
+		else
+		{
+			org.bambuscms.wopenfiledialog.show();
+		}
+	},
+	'closable':true,
 	'sortCompare': function(a, b){
 		//a and b are dom objects
 		var ca = a.firstChild.getAttribute(org.bambuscms.wopenfiledialog.sortBy);
@@ -81,7 +94,15 @@ org.bambuscms.wopenfiledialog._build = function()
 		'id':"WOpenFileDialog",
 		'style':'display:none'
 	});
-	var header = org.bambuscms.gui.element('div', null, {
+	var closer = null;
+	if(org.bambuscms.wopenfiledialog.closable) 
+	{
+		closer = org.bambuscms.gui.element('a', null, {
+			'id':"WOpenFileDialog-closer",
+			'href':'javascript:org.bambuscms.wopenfiledialog.hide();'
+		});
+	}
+	var header = org.bambuscms.gui.element('div', closer, {
 		'id':"WOpenFileDialog-header"
 	});
 	var sidebar = org.bambuscms.gui.element('div', null, {
@@ -97,7 +118,7 @@ org.bambuscms.wopenfiledialog._build = function()
 	filecontainer.appendChild(filewrapper);
 	
 	//fetch data
-	var data = org.bambuscms.http.fetchJSONObject({'_OpenFiles':'MError'});
+	var data = org.bambuscms.http.fetchJSONObject(org.bambuscms.wopenfiledialog.dataSource);
 	
 	//set title
 	if(data.title)
@@ -112,7 +133,7 @@ org.bambuscms.wopenfiledialog._build = function()
 		//item
 		var item = org.bambuscms.gui.element('a', null, {
 			'class':"WOFD_item", 
-			'href': data.linkPrefix+data.items[y][data.itemMap['alias']]+data.linkSuffix
+			'href': org.bambuscms.wopenfiledialog.linkPrefix+data.items[y][data.itemMap['alias']]+org.bambuscms.wopenfiledialog.linkSuffix
 		});
 		//searchable attributes
 		var search = org.bambuscms.gui.element('span', null, {'style':"display:none"});
@@ -126,7 +147,16 @@ org.bambuscms.wopenfiledialog._build = function()
 		if(data.iconMap[data.items[y][data.itemMap['icon']]])
 		{
 			item.appendChild(
-				org.bambuscms.gui.element('img', null, {'src': data.iconMap[data.items[y][data.itemMap['icon']]]})
+				org.bambuscms.gui.element('img', null, {
+					'src': data.smallIconMap[data.items[y][data.itemMap['icon']]],
+					'class':'extra-small'
+				})
+			);
+			item.appendChild(
+				org.bambuscms.gui.element('img', null, {
+					'src': data.iconMap[data.items[y][data.itemMap['icon']]],
+					'class':'large'
+				})
 			);
 		}		
 		if(data.items[y][data.itemMap['title']])
@@ -137,14 +167,23 @@ org.bambuscms.wopenfiledialog._build = function()
 		}
 		if(data.items[y][data.itemMap['pubDate']])
 		{
-			var d = new Date(data.items[y][data.itemMap['pubDate']] * 1000);
-			item.appendChild(
-				org.bambuscms.gui.element('div', data.captions.pubDate+': '+d.toLocaleString(), {})
-			);
+			if(data.items[y][data.itemMap['pubDate']] < 1)
+			{
+				item.appendChild(
+					org.bambuscms.gui.element('div', data.captions.notPublished, {})
+				);
+			}
+			else
+			{
+				var d = new Date(data.items[y][data.itemMap['pubDate']] * 1000);
+				item.appendChild(
+					org.bambuscms.gui.element('div', data.captions.pubDate+': '+d.toLocaleString(), {})
+				);
+			}
 		}
 		filewrapper.appendChild(item);
 	}
-//sidebar
+	//sidebar
 
 	//search box
 	var search_container = org.bambuscms.gui.element('div', null, {
@@ -167,46 +206,41 @@ org.bambuscms.wopenfiledialog._build = function()
 //header
 	
 	//view-switch
-	var view_switch = org.bambuscms.gui.switchButton(
+	header.appendChild(org.bambuscms.gui.switchButton(
 		'views',
 		[
 			{'title':data.captions.detail, 'callBack': function(){$('WOpenFileDialog-filecontainer').className = 'WOFD_detail_view';}}, 
 			{'title':data.captions.icon,   'callBack': function(){$('WOpenFileDialog-filecontainer').className = 'WOFD_icon_view';}}, 
 			{'title':data.captions.list,   'callBack': function(){$('WOpenFileDialog-filecontainer').className = 'WOFD_list_view';}}, 
-		]
-	); 
-	header.appendChild(view_switch);
+		],
+		'DetailIconList'
+	));
 
-	var keys = [];
-	for(key in data.sortable)
+	var sort_keys = [];
+	for(sort_k in data.sortable)
 	{
-		var k = {
-			'title':data.captions[data.sortable[key]], 
-			'callBack': function(){org.bambuscms.wopenfiledialog.sort(key, null);}
+		sort_keys[sort_keys.length] =  {
+			'title':data.captions[data.sortable[sort_k]], 
+			'callBack': function(param){org.bambuscms.wopenfiledialog.sort(param, null);},
+			'param':sort_k
 		};
-		keys[keys.length] = k;
 	}
 	//sort-switch
-	var sort_switch = org.bambuscms.gui.switchButton(
+	header.appendChild(org.bambuscms.gui.switchButton(
 		'sort',
-		keys
-	); 
-	header.appendChild(sort_switch);
+		sort_keys
+	));
 
 	//sort-dir-switch
-	var sort_order_switch = org.bambuscms.gui.switchButton(
+	header.appendChild(org.bambuscms.gui.switchButton(
 		'sort_order',
 		[
 			{'title':data.captions.asc, 'callBack': function(){org.bambuscms.wopenfiledialog.sort(null, 'ASC');}}, 
 			{'title':data.captions.desc,'callBack': function(){org.bambuscms.wopenfiledialog.sort(null, 'DESC');}}, 
-		]
-	); 
-	header.appendChild(sort_order_switch);
+		],
+		'UpDown'
+	));
 
-	
-	
-
-//file container
 
 	//link elements
 	sidebar.appendChild(search_title);	
@@ -220,4 +254,7 @@ org.bambuscms.wopenfiledialog._build = function()
 	
 	org.bambuscms.wopenfiledialog.sort(null, null);
 }
-
+org.bambuscms.wopenfiledialog.sortHelpFunction = function(sort)
+{
+	return function(){return sort;}
+}
