@@ -101,11 +101,11 @@ class SNotificationCenter extends BSystem implements IShareable
         $msgid = crc32($type.$message);
 	    if(array_key_exists($msgid, self::$notifications))
 	    {
-	        self::$notifications[crc32($type.$message)][2]++;
+	        self::$notifications[$msgid][2]++;
 	    }
 	    else
 	    {
-	       self::$notifications[crc32($type.$message)] = array($type, $message, 1);
+	       self::$notifications[$msgid] = array($type, $message, 1);
 	    } 
 	}
 	
