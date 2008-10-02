@@ -6,7 +6,10 @@
  * @since 03.09.2008
  * @license GNU General Public License 3
  */
-class SUser extends BSystem {
+class SUser 
+    extends 
+        BSystem 
+{
     public $password,$realName,$email;
     public $groups = array();
     public $permissions = array();

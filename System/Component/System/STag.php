@@ -7,9 +7,14 @@
  * @since 05.03.2008
  * @license GNU General Public License 3
  */
-class STag extends BSystem implements IShareable, 
-	HContentChangedEventHandler, HContentCreatedEventHandler,
-	HContentDeletedEventHandler 
+class STag 
+    extends 
+        BSystem 
+    implements 
+        IShareable, 
+    	HContentChangedEventHandler, 
+    	HContentCreatedEventHandler,
+    	HContentDeletedEventHandler 
 {
 	/**
 	 * @param EContentChangedEvent $e

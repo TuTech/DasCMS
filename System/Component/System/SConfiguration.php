@@ -7,7 +7,11 @@
  * @since 28.11.2007
  * @license GNU General Public License 3
  */
-class SConfiguration extends BSystem implements IShareable
+class SConfiguration 
+    extends 
+        BSystem 
+    implements 
+        IShareable
 {
 	//IShareable
 	private static $initDone = false;

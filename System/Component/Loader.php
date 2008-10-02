@@ -55,6 +55,7 @@ set_exception_handler('EX_Handler');
 function __autoload($className)
 {
 	$ComponentMap = array(
+		'A' => 'AppController',
 		'B' => 'Base',
 		'C' => 'Content',
 		'D' => 'Driver',

@@ -20,18 +20,38 @@ try
     {
         throw new XPermissionDeniedException("No bambus for you, hungry Panda!");
     }
-    if(RURL::hasValue('editor'))
+    if(RURL::hasValue('controller'))
     {
-        $editor = RURL::get('editor');
-        $appName = substr($editor,0,((strlen(DFileSystem::suffix($editor))+1)*-1));
-        $SUsersAndGroups = SUsersAndGroups::alloc()->init();
-        
-    	define('BAMBUS_APPLICATION_DIRECTORY',  SPath::SYSTEM_APPLICATIONS.basename($editor).'/');
-        if(!file_exists(BAMBUS_APPLICATION_DIRECTORY.'Ajax.php'))
-        { 
-            throw new XFileNotFoundException("No Ajax controller");
-        }    
-        include (BAMBUS_APPLICATION_DIRECTORY.'Ajax.php');
+        $appCtrlID = RURL::get('controller');
+        $function = RURL::get('call');
+        $Interface = null;
+        if(substr($function,0,7) == 'receive')
+        {
+            $Interface = 'IACReceiver'.substr($function,7);
+        }
+        elseif(substr($function,0,7) == 'provide')
+        {
+            $Interface = 'IACProvider'.substr($function,7);
+        }
+        else
+        {
+            $Interface = 'IACCapability'.ucfirst($function);
+        }
+        $controller = BAppController::getControllerForID($appCtrlID);
+        if(in_array($Interface, class_implements($controller)))
+        {
+            $paramStr = file_get_contents('php://input');
+            $parameters = null;
+            if(!empty($paramStr))
+            {
+                $parameters = @json_decode($paramStr);
+            }
+            if(!is_array($parameters))
+            {
+                $parameters = array();
+            }
+            echo json_encode(call_user_func_array(array($controller, $function), array($parameters)));
+        }
     }
     elseif(RURL::hasValue('_OpenFiles'))
     {

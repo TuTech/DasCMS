@@ -59,7 +59,7 @@ if(isset($Page) && $Page instanceof CPage && PAuthorisation::has('org.bambus-cms
 	
 }
 
-echo new WScript('org.bambuscms.wopenfiledialog.setSource({\'_OpenFiles\':\'MPageManager\'});'.
+echo new WScript('org.bambuscms.wopenfiledialog.setSource({\'controller\':\'org.bambuscms.applications.websiteeditor\',\'call\':\'provideOpenDialogData\'});'.
                  'org.bambuscms.wopenfiledialog.prepareLinks("'.
                  SLink::link(array('edit' => ''))
                  .'","");');

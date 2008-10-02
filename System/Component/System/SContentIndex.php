@@ -12,10 +12,16 @@
  * @license GNU General Public License 3
  */
 class SContentIndex 
-	extends BSystem 
-	implements 	IShareable, 
-				HContentChangedEventHandler, HContentCreatedEventHandler, HContentDeletedEventHandler,
-				HContentPublishedEventHandler, HContentRevokedEventHandler, HContentAccessEventHandler 
+	extends 
+	    BSystem 
+	implements 	
+	    IShareable, 
+		HContentChangedEventHandler, 
+		HContentCreatedEventHandler, 
+		HContentDeletedEventHandler,
+		HContentPublishedEventHandler, 
+		HContentRevokedEventHandler, 
+		HContentAccessEventHandler 
 {
 	//IShareable
 	const CLASS_NAME = 'SContentIndex';
@@ -523,10 +529,14 @@ SELECT
 	/**
 	 * @return array (managerContentId => Title)
 	 */
-	public function getIndex(BContentManager $manager)
+	public function getIndex($manager)
 	{
+	    if($manager instanceof BContentManager)
+	    {
+	        $manager = get_class($manager);
+	    }
 		$DB = DSQL::alloc()->init();
-		$e_manager = $DB->escape(get_class($manager));
+		$e_manager = $DB->escape($manager); 
 		$sql = "
 SELECT 
 		ContentIndex.managerContentId, 

@@ -1,5 +1,9 @@
 <?php
-class SProfiler extends BSystem implements IShareable 
+class SProfiler 
+    extends 
+        BSystem 
+    implements 
+        IShareable 
 {
 	private $runningProfilings = array();
 	private $profilings = array();

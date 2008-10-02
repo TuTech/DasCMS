@@ -1,5 +1,7 @@
 <?php
-class SApplication // extends BSystem 
+class SApplication
+    extends 
+        BSystem 
 {
     /**
      * @var string

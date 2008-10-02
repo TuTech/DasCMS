@@ -33,7 +33,7 @@ class post_setup_SComponentIndex implements runnable
 	private static $_classIndex = array();
 	private static $_interfaceIndex = array();
 	private static	$_components = array(
-//		'A' => 'AppController',
+		'A' => 'AppController',
 		'B' => 'Base',
 		'C' => 'Content',
 		'D' => 'Driver',

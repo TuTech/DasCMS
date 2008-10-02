@@ -23,7 +23,7 @@ if(PAuthorisation::has('org.bambus-cms.content.cpage.change') && isset($Page) &&
 }
 else
 {
-	echo new WScript('org.bambuscms.autorun.register(function(){OBJ_ofd.show()});');
+	//echo new WScript('org.bambuscms.autorun.register(function(){OBJ_ofd.show()});');
 }
 echo LGui::endForm();
 echo '</div>';

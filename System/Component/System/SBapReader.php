@@ -7,7 +7,11 @@
  * @since 28.11.2007
  * @license GNU General Public License 3
  */
-class SBapReader extends BSystem implements IShareable 
+class SBapReader 
+    extends 
+        BSystem 
+    implements 
+        IShareable 
 {
 	/**
 	 * return an array of reuested data

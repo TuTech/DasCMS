@@ -7,7 +7,9 @@
  * @since 06.05.2008
  * @license GNU General Public License 3
  */
-class SPath extends BSystem 
+class SPath 
+    extends 
+        BSystem 
 {
     const SYSTEM = './System/';
 	const SYSTEM_STYLESHEETS = './System/ClientData/Stylesheets/';

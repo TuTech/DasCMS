@@ -1,5 +1,7 @@
 <?php
-class SLocalization extends BSystem 
+class SLocalization 
+    extends 
+        BSystem 
 {
 	/**
 	 * do not instanciate

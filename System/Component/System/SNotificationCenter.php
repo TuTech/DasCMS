@@ -7,10 +7,16 @@
  * @since 21.04.2008
  * @license GNU General Public License 3
  */
-class SNotificationCenter extends BSystem implements IShareable
-	,HContentChangedEventHandler ,HContentCreatedEventHandler 
-	,HContentDeletedEventHandler ,HContentPublishedEventHandler 
-	,HContentRevokedEventHandler 
+class SNotificationCenter 
+    extends 
+        BSystem 
+    implements 
+        IShareable,
+    	HContentChangedEventHandler,
+    	HContentCreatedEventHandler, 
+    	HContentDeletedEventHandler,
+    	HContentPublishedEventHandler, 
+    	HContentRevokedEventHandler 
 {
 	//utilize old NFC Class
 	

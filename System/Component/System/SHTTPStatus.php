@@ -2,7 +2,9 @@
 /**
  * @static 
  */
-class SHTTPStatus extends BSystem 
+class SHTTPStatus 
+    extends 
+        BSystem 
 {
 	/**
 	 * @var array

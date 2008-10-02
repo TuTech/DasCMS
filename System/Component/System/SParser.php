@@ -6,7 +6,11 @@
  * @since 11.09.2007
  * @license GNU General Public License 3
  */
-class SParser extends BSystem implements IShareable
+class SParser 
+    extends 
+        BSystem 
+    implements 
+        IShareable
 {   
     function parse($utf8_string, $Object = NULL)
     {

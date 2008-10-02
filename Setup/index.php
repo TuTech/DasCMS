@@ -52,7 +52,7 @@ function ER_Handler( $errno ,  $errstr ,  $errfile ,  $errline ,  $errcontext  )
 function __autoload($class)
 {
 	$Components = array(
-//		'A' => 'AppController',
+		'A' => 'AppController',
 		'B' => 'Base',
 		'C' => 'Content',
 		'D' => 'Driver',

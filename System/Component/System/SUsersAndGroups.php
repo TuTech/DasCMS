@@ -6,7 +6,11 @@
  * @since 03.09.2008
  * @license GNU General Public License 3
  */
-class SUsersAndGroups extends BSystem implements IShareable
+class SUsersAndGroups 
+    extends 
+        BSystem 
+    implements 
+        IShareable
 {
     private $userlist = null;
     private $grouplist = null;

@@ -7,10 +7,14 @@
  * @since 28.04.2008
  * @license GNU General Public License 3
  */
-class SComponentIndex extends BSystem implements IShareable 
+class SComponentIndex 
+    extends 
+        BSystem 
+    implements 
+        IShareable 
 {
 	private static	$_components = array(
-//		'A' => 'AppController',
+		'A' => 'AppController',
 		'B' => 'Base',
 		'C' => 'Content',
 		'D' => 'Driver',

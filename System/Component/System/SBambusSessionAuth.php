@@ -1,5 +1,10 @@
 <?php
-class SBambusSessionAuth implements IAuthenticate, IAuthorize 
+class SBambusSessionAuth 
+    extends 
+        BSystem 
+    implements 
+        IAuthenticate, 
+        IAuthorize 
 {
     //IAuthorize
     public function getObjectPermissions()

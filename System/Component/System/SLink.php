@@ -1,5 +1,7 @@
 <?php
-class SLink extends BSystem 
+class SLink 
+    extends 
+        BSystem 
 {
     private static $base = null;
     private static $getData = null;

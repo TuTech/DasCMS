@@ -7,9 +7,15 @@
  * @since 28.11.2007
  * @license GNU General Public License 3
  */
-class SAlias extends BSystem implements IShareable,
-			HContentChangedEventHandler, HContentCreatedEventHandler, HContentDeletedEventHandler,
-			HContentPublishedEventHandler 
+class SAlias 
+    extends 
+        BSystem 
+    implements 
+        IShareable,
+		HContentChangedEventHandler, 
+		HContentCreatedEventHandler, 
+		HContentDeletedEventHandler,
+		HContentPublishedEventHandler 
 {	
 	
 	/**
