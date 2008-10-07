@@ -160,6 +160,16 @@ class LGui extends BLegacy
         );
         $out .= htmlspecialchars($content, ENT_QUOTES, 'UTF-8');
         $out .= "</textarea>\n";
+        $resize = new WScript(
+            '(function(){
+            	var h = -190;
+                if($("editorianid").offsetTop)
+                {
+            		h = function(){return ($("editorianid").offsetTop+5)*-1;};
+            	}
+                org.bambuscms.display.setAutosize("editorianid",0,h);
+            })();');
+        $out .= $resize->__toString();
         return $out;
     }
     

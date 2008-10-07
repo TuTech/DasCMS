@@ -17,7 +17,7 @@ PAuthentication::required();
 
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
-if(PAuthorisation::has('org.bambus-cms'))
+if(PAuthorisation::has('org.bambuscms.login'))
 {
     $fileName = RURL::get('file');
     $pathName = RURL::get('path');

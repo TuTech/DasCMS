@@ -6,20 +6,21 @@
 * Copyright:   Lutz Selke/TuTech Innovation GmbH 
 * Description: css controller
 ************************************************/
-$allowEdit = true;
+$AppController = BAppController::getControllerForID('org.bambuscms.applications.websiteeditor');
 
+$allowEdit = true;
 $FileOpened = false;
 $mp = MPageManager::alloc()->init();
 
 $editExist = (RURL::has('edit')) && $mp->Exists(RURL::get('edit'));
 $Page = null;
 //delete
-if($editExist && RSent::get('delete') != '' && PAuthorisation::has('org.bambus-cms.content.cpage.delete'))
+if($editExist && RSent::get('delete') != '' && PAuthorisation::has('org.bambuscms.content.cpage.delete'))
 {
 	$mp->Delete(RURL::get('edit'));
 	$editExist = false;
 }
-if(RSent::get('action') == 'delete' && PAuthorisation::has('org.bambus-cms.content.cpage.delete'))
+if(RSent::get('action') == 'delete' && PAuthorisation::has('org.bambuscms.content.cpage.delete'))
 {
 	foreach (RSent::data() as $k => $v) 
 	{
@@ -32,7 +33,7 @@ if(RSent::get('action') == 'delete' && PAuthorisation::has('org.bambus-cms.conte
 }
 
 //create
-elseif(RSent::hasValue('create') && PAuthorisation::has('org.bambus-cms.content.cpage.create'))
+elseif(RSent::hasValue('create') && PAuthorisation::has('org.bambuscms.content.cpage.create'))
 {
 	$Title = RSent::get('create');
 	$Page = $mp->Create($Title);
@@ -40,13 +41,13 @@ elseif(RSent::hasValue('create') && PAuthorisation::has('org.bambus-cms.content.
 }
 
 //open for editing
-elseif($editExist && PAuthorisation::has('org.bambus-cms.content.cpage.change'))
+elseif($editExist && PAuthorisation::has('org.bambuscms.content.cpage.change'))
 {
 	$Page = $mp->Open(RURL::get('edit'));
 }
 
 //save data
-if(isset($Page) && $Page instanceof CPage && PAuthorisation::has('org.bambus-cms.content.cpage.change'))
+if(isset($Page) && $Page instanceof CPage && PAuthorisation::has('org.bambuscms.content.cpage.change'))
 {
 	if(RSent::has('content'))
 	{
@@ -58,24 +59,8 @@ if(isset($Page) && $Page instanceof CPage && PAuthorisation::has('org.bambus-cms
 	}
 	
 }
+echo new WOpenDialog($AppController, $Page);
 
-echo new WScript('org.bambuscms.wopenfiledialog.setSource({\'controller\':\'org.bambuscms.applications.websiteeditor\',\'call\':\'provideOpenDialogData\'});'.
-                 'org.bambuscms.wopenfiledialog.prepareLinks("'.
-                 SLink::link(array('edit' => ''))
-                 .'","");');
-if($Page == null)
-{
-    echo new WScript('org.bambuscms.wopenfiledialog.closable = false;'.
-                     'org.bambuscms.wopenfiledialog.show();');
-}
-
-$OFD = new WOpenFileDialog();
-$OFD->registerCategory('page');
-foreach($mp->Index as $item => $name)
-{
-    $OFD->addItem('page',$name,SLink::link(array('edit' => $item)),'website', ' ');
-}
-//$OFD->render();
 
 printf(
     '<form method="post" id="documentform" name="documentform" action="%s">'

@@ -6,7 +6,9 @@
  * @license GNU General Public License 3
  * @since 09.09.2008
  */
-define('ERROR_TEMPLATE', '<div style="font-family:sans-serif;border:1px solid #a40000;">
+if(!defined('ERROR_TEMPLATE'))
+{
+    define('ERROR_TEMPLATE', '<div style="font-family:sans-serif;border:1px solid #a40000;">
         <div style="border:1px solid #cc0000;padding:10px;background:#a40000;color:white;">
             <h1 style="border-bottom:1px solid #cc0000;font-size:16px;">%s <code>%d</code> in "%s" at line %d</h1>
             <p>%s</p>
@@ -14,7 +16,7 @@ define('ERROR_TEMPLATE', '<div style="font-family:sans-serif;border:1px solid #a
 			<p>CWD: %s</p>
         </div>
     </div>');
-
+}
 function EX_Handler(Exception $e)
 {
     printf(ERROR_TEMPLATE

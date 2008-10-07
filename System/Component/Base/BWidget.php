@@ -13,7 +13,7 @@ abstract class BWidget extends BObject
 	
 	/**
 	 * return rendered html
-	 *
+	 * @return string
 	 */
 	abstract public function __toString();
 	

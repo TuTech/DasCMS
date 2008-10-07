@@ -15,9 +15,9 @@
    sodipodi:version="0.32"
    inkscape:version="0.46"
    version="1.0"
-   sodipodi:docname="document-save.svg"
+   sodipodi:docname="action-document-save-small.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   inkscape:export-filename="/home/lse/public_html/Chimera/System/Icons/tango/small/actions/document-save.png"
+   inkscape:export-filename="/Users/lse/Sites/BambusONE/System/Icons/tango/small/actions/document-save.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -58,7 +58,7 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.25"
+     inkscape:zoom="29.698485"
      inkscape:cx="11"
      inkscape:cy="11.669233"
      inkscape:document-units="px"
@@ -66,8 +66,8 @@
      showgrid="true"
      inkscape:window-width="1121"
      inkscape:window-height="899"
-     inkscape:window-x="0"
-     inkscape:window-y="25">
+     inkscape:window-x="187"
+     inkscape:window-y="203">
     <inkscape:grid
        type="xygrid"
        id="grid4931"
@@ -94,13 +94,6 @@
        d="M 0.5,0.5 L 18,0.5 L 21.5,4 L 21.5,21.5 L 0.5,21.5 L 0.5,0.5 z"
        id="rect4933"
        sodipodi:nodetypes="cccccc" />
-    <rect
-       style="opacity:0.52044612000000001;fill:#eeeeec;fill-opacity:1;fill-rule:evenodd;stroke:#204a87;stroke-width:1;stroke-linecap:square;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:29.89999961999999911;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       id="rect3159"
-       width="5"
-       height="5.9523811"
-       x="11.523809"
-       y="0.47619045" />
     <path
        style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#eeeeec;stroke-width:0.99999994000000003;stroke-linecap:square;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:29.89999961999999911;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;opacity:0.50557621"
        d="M 1.4545454,1.5021645 L 17.64935,1.5497835 L 20.545454,4.4855701 L 20.545454,20.545455 L 1.4545454,20.545455 L 1.4545454,1.5021645 z"

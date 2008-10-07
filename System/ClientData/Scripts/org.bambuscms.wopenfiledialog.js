@@ -5,7 +5,7 @@ org.bambuscms.wopenfiledialog = {
 		org.bambuscms.wopenfiledialog.linkPrefix = prefix ? prefix : '';
 		org.bambuscms.wopenfiledialog.linkSuffix = suffix ? suffix : '';
 	},
-	'dataSource':{'_OpenFiles':'MError'},
+	'dataSource':{},
 	'setSource':function(src){
 		if(typeof src == 'object')
 		{
@@ -165,6 +165,12 @@ org.bambuscms.wopenfiledialog._build = function()
 				org.bambuscms.gui.element('h4', data.items[y][data.itemMap['title']], {})
 			);
 		}
+		if(data.items[y][data.itemMap['description']])
+		{
+			item.appendChild(
+				org.bambuscms.gui.element('div', data.captions.description+': '+data.items[y][data.itemMap['description']], {})
+			);
+		}
 		if(data.items[y][data.itemMap['pubDate']])
 		{
 			if(data.items[y][data.itemMap['pubDate']] < 1)
@@ -180,6 +186,28 @@ org.bambuscms.wopenfiledialog._build = function()
 					org.bambuscms.gui.element('div', data.captions.pubDate+': '+d.toLocaleString(), {})
 				);
 			}
+		}
+		if(data.items[y][data.itemMap['modified']])
+		{
+			var d = new Date(data.items[y][data.itemMap['modified']] * 1000);
+			item.appendChild(
+				org.bambuscms.gui.element('div', data.captions.modified+': '+d.toLocaleString(), {})
+			);
+		}
+		if(data.items[y][data.itemMap['size']])
+		{
+			var s = data.items[y][data.itemMap['size']];
+			var u = ['Byte', 'KB', 'MB', 'GB', 'TB'];
+			var i = 0;
+			while(s > 1024)
+			{
+				i++;
+				s = s/1024.0;
+			}
+			s = Math.round(s, 2);
+			item.appendChild(
+				org.bambuscms.gui.element('div', data.captions.size+': '+s+u[i], {})
+			);
 		}
 		filewrapper.appendChild(item);
 	}
@@ -249,8 +277,10 @@ org.bambuscms.wopenfiledialog._build = function()
 	dialog.appendChild(sidebar);
 	dialog.appendChild(header);
 	dialog.appendChild(filecontainer);
-	dialog.style.display = 'block';
 	document.body.appendChild(dialog);
+	org.bambuscms.display.setAutosize("WOpenFileDialog",0,-58, true);
+	dialog.style.display = 'block';
+	
 	
 	org.bambuscms.wopenfiledialog.sort(null, null);
 }

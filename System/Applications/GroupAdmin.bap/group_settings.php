@@ -8,7 +8,7 @@
 ************************************************/
 
 $jsCreate = "alert('permission denied');";
-if(PAuthorisation::has('org.bambus-cms.credentials.group.create'))
+if(PAuthorisation::has('org.bambuscms.credentials.group.create'))
 {
     $d = new WDialog('dlg_create_group','create_group', WDialog::SUBMIT|WDialog::CANCEL);
     $d->setButtonCaption(WDialog::SUBMIT, 'create');
@@ -20,7 +20,7 @@ if(PAuthorisation::has('org.bambus-cms.credentials.group.create'))
 }
 echo "\n";
 echo new WScript('var action_add_group = function(){'.$jsCreate.'};');
-if(PAuthorisation::has('org.bambus-cms.credentials.user.change') || PAuthorisation::has('org.bambus-cms.credentials.group.change'))
+if(PAuthorisation::has('org.bambuscms.credentials.user.change') || PAuthorisation::has('org.bambuscms.credentials.group.change'))
 {
 	echo LGui::beginForm(array('edit' => $victim), 'documentform');
 }
@@ -163,7 +163,7 @@ else
 	
 }
 
-if(PAuthorisation::has('org.bambus-cms.credentials.user.change') || PAuthorisation::has('org.bambus-cms.credentials.group.change'))
+if(PAuthorisation::has('org.bambuscms.credentials.user.change') || PAuthorisation::has('org.bambuscms.credentials.group.change'))
 {
 	?>
 	<input type="submit" class="submitinput" value="<?php SLocalization::out("save");?>" onmousedown="document.getElementById('scrollposinput').value = document.getElementById('editorianid').scrollTop;"/>

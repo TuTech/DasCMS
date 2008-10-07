@@ -58,7 +58,11 @@ org.bambuscms.gui.switchButton = function(name, states, iconSprite)
 	org.bambuscms.gui.switchButtonCallBacks[name] = [];
 	for(var i = 0; i < states.length; i++)
 	{
-		if(i != 0 && i < states.length - 1)
+		if(i == 0 && states.length == 1)
+		{
+			cssClass = 'WSB_single';
+		}
+		else if(i != 0 && i < states.length - 1)
 		{
 			cssClass = 'WSB_middle';
 		}

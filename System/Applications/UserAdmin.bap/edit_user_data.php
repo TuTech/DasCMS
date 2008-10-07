@@ -9,7 +9,7 @@
 
 //user creation
 $jsCreate = "alert('permission denied');";
-if(PAuthorisation::has('org.bambus-cms.credentials.user.create'))
+if(PAuthorisation::has('org.bambuscms.credentials.user.create'))
 {
     $d = new WDialog('dlg_create_user','create_user', WDialog::SUBMIT|WDialog::CANCEL);
     $d->setButtonCaption(WDialog::SUBMIT, 'create');
@@ -27,7 +27,7 @@ echo new WScript('var action_add_user = function(){'.$jsCreate.'};');
 
 //password changing
 $jsCreate = "alert('permission denied');";
-if(PAuthorisation::has('org.bambus-cms.credentials.user.change'))
+if(PAuthorisation::has('org.bambuscms.credentials.user.change'))
 {
     $d = new WDialog('dlg_change_password','change_password', WDialog::SUBMIT|WDialog::CANCEL);
     $d->setButtonCaption(WDialog::SUBMIT, 'change');
@@ -55,7 +55,7 @@ echo new WScript('var action_change_password = function(){'.$jsCreate.'};');
 
 
 
-if(PAuthorisation::has('org.bambus-cms.credentials.user.change') || PAuthorisation::has('org.bambus-cms.credentials.group.change'))
+if(PAuthorisation::has('org.bambuscms.credentials.user.change') || PAuthorisation::has('org.bambuscms.credentials.group.change'))
 {
 	echo LGui::beginForm(array('edit' => $victim), 'documentform');
 }
@@ -63,7 +63,7 @@ if(PAuthorisation::has('org.bambus-cms.credentials.user.change') || PAuthorisati
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
 
-if(PAuthorisation::has('org.bambus-cms.credentials.user.change') || PAuthorisation::has('org.bambus-cms.credentials.group.change'))
+if(PAuthorisation::has('org.bambuscms.credentials.user.change') || PAuthorisation::has('org.bambuscms.credentials.group.change'))
 {
 	echo LGui::beginForm(array('edit' => $victim), 'documentform');
 }
@@ -78,7 +78,7 @@ if($edit_mode == 'usr')
     $prof_tbl = new WTable(WTable::HEADING_TOP|WTable::HEADING_LEFT, 'profile');
 	$prof_tbl->addRow(array('attribute', 'value'));
 	//what kind of edit do we have? admin|self|others
-	$allowEdit = PAuthorisation::has('org.bambus-cms.credentials.user.change');
+	$allowEdit = PAuthorisation::has('org.bambuscms.credentials.user.change');
 	$row = ($allowEdit)
 		? "<input value=\"%s\" name=\"%s\" class=\"%s\" type=\"%s\" />\n"
 		: "%s\n";
@@ -246,7 +246,7 @@ EOX;
     }
     /////////////////////////////EOF EX PERMS
     
-    if(PAuthorisation::has('org.bambus-cms.credentials.user.change') || PAuthorisation::has('org.bambus-cms.credentials.group.change'))
+    if(PAuthorisation::has('org.bambuscms.credentials.user.change') || PAuthorisation::has('org.bambuscms.credentials.group.change'))
     {
         echo LGui::endForm();
     }

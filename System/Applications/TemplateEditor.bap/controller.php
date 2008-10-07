@@ -7,7 +7,7 @@
 * Description: css controller
 ************************************************/
 $allowed = array('css', 'gpl', 'jpeg','jpg','png','gif','svg','mng','eps','ps','tif','tiff','psd','ai','pcx','wmf');
-if(isset($_FILES['bambus_image_file']['name']) && PAuthorisation::has('org.bambus-cms.layout.image.create'))
+if(isset($_FILES['bambus_image_file']['name']) && PAuthorisation::has('org.bambuscms.layout.image.create'))
 { 
     // we have got an upload
     if(file_exists(SPath::DESIGN.basename($_FILES['bambus_image_file']['name'])) 
@@ -62,7 +62,7 @@ if(RURL::hasValue('edit') && file_exists(SPath::TEMPLATES.basename(RURL::get('ed
     $File = basename(RURL::get('edit'));
 }
 //create new file
-if(RURL::get('_action') == 'create' && PAuthorisation::has('org.bambus-cms.layout.template.create'))
+if(RURL::get('_action') == 'create' && PAuthorisation::has('org.bambuscms.layout.template.create'))
 {
 	$i = 0;
 	$sep = '';
@@ -74,7 +74,7 @@ if(RURL::get('_action') == 'create' && PAuthorisation::has('org.bambus-cms.layou
 	DFileSystem::Save(SPath::TEMPLATES.$File, '<!-- '.SLocalization::get('new_template').' -->');
 }
 //delete file
-elseif($File != null && RURL::get('_action') == 'delete' && PAuthorisation::has('org.bambus-cms.layout.template.delete'))
+elseif($File != null && RURL::get('_action') == 'delete' && PAuthorisation::has('org.bambuscms.layout.template.delete'))
 {
     if(in_array($File, $doNotDelete))
     {
@@ -106,7 +106,7 @@ elseif($File != null && RSent::hasValue('filename') && substr($File,0,-4) != RSe
     }
 }
 //save file
-elseif($File != null && RSent::has('content') && PAuthorisation::has('org.bambus-cms.layout.template.change'))
+elseif($File != null && RSent::has('content') && PAuthorisation::has('org.bambuscms.layout.template.change'))
 {
     //do the save operation
     if(DFileSystem::Save(SPath::TEMPLATES.$File, RSent::get('content','utf-8')))

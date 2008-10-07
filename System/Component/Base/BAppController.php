@@ -29,6 +29,14 @@ abstract class BAppController extends BObject
 	    {
 	        case 'org.bambuscms.applications.websiteeditor':
 	            return new AWebsiteEditor();
+	        case 'org.bambuscms.applications.templateeditor':
+	            return new ATemplateEditor();
+	        case 'org.bambuscms.applications.stylesheeteditor':
+	            return new AStylesheetEditor();
+	        case 'org.bambuscms.applications.treenavigationeditor':
+	            return new ATreeNavigationEditor();
+	        case 'org.bambuscms.applications.usereditor':
+	            return new AUserEditor();
 	        default:
 	            throw new XUndefinedException('controller not found');
 	    }

@@ -47,7 +47,7 @@ class AWebsiteEditor
             'iconMap' => array('System/Icons/tango/large/mimetypes/CPage.png'),
             'smallIconMap' => array('System/Icons/tango/extra-small/mimetypes/CPage.png'),
             'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2, 'pubDate' => 3),//, 'tags' => 4
-            'sortable' => array('title' => 'title', 'pubDate' => 'pubDate', 'icon' => 'type'),
+            'sortable' => array('title' => 'title', 'pubDate' => 'pubDate'),
             'items' => $items,
             'captions' => array(
                 'detail' => SLocalization::get('detail'),

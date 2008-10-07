@@ -150,7 +150,7 @@ function cacheSize(){
     chdir(constant('BAMBUS_CMS_ROOTDIR'));
     return DFileSystem::formatSize($size);
 }
-if(RURL::get('action') == '_clear_cache' && PAuthorisation::has('org.bambus-cms.cache.clear'))
+if(RURL::get('action') == '_clear_cache' && PAuthorisation::has('org.bambuscms.cache.clear'))
 {
     //clear cache
     clearCache();

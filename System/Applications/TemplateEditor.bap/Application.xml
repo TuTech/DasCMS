@@ -13,7 +13,7 @@
 		<controller>controller.php</controller>
 		<interface name="edit_templates" src="edit.php">
 			<task type="spacer" name="edit_files"/>
-			<task type="button" hotkey="o" caption="open" icon="action-document-open" action="OBJ_ofd.toggle()" />
+			<task type="button" hotkey="o" caption="open" icon="action-document-open" action="org.bambuscms.wopenfiledialog.show();" />
 			<task type="button" hotkey="s" caption="save" icon="action-document-save" action="EditorSave()" />
 			<task caption="save_and_rename" hotkey="S" icon="action-document-save-as" type="button" action="EditorSaveAs('filename')" />
 			<task type="spacer"  name="manage_files"/>

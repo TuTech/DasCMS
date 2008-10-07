@@ -15,8 +15,8 @@ if($FileOpened)
 		,SLocalization::get((BAMBUS_APPLICATION_TAB == 'edit_templates') ? 'template' : 'stylesheet')
 		,htmlspecialchars($FileName, ENT_QUOTES, 'utf-8'));
 		
-	if((((BAMBUS_APPLICATION_TAB == 'edit_templates') &&  PAuthorisation::has('org.bambus-cms.layout.template.create') && PAuthorisation::has('org.bambus-cms.layout.template.delete')) ||
-        ((BAMBUS_APPLICATION_TAB != 'edit_templates') && PAuthorisation::has('org.bambus-cms.layout.stylesheet.create') && PAuthorisation::has('org.bambus-cms.layout.stylesheet.delete')))
+	if((((BAMBUS_APPLICATION_TAB == 'edit_templates') &&  PAuthorisation::has('org.bambuscms.layout.template.create') && PAuthorisation::has('org.bambuscms.layout.template.delete')) ||
+        ((BAMBUS_APPLICATION_TAB != 'edit_templates') && PAuthorisation::has('org.bambuscms.layout.stylesheet.create') && PAuthorisation::has('org.bambuscms.layout.stylesheet.delete')))
 	&& !in_array($File,array('default.css','header.tpl','footer.tpl','body.tpl')))
 	{
 		printf('<input type="hidden" id="filename" size="30" name="filename" value="%s"/>', htmlentities($FileName));
@@ -26,12 +26,9 @@ if($FileOpened)
 	//////////////
 	
 	echo LGui::beginEditorWrapper();
-	echo LGui::editorTextarea(utf8_encode($fileContent));
+	echo LGui::editorTextarea($fileContent);
 	echo LGui::endEditorWrapper();
+	echo new WScript('org.bambuscms.wcodeeditor.run(document.getElementById("editorianid"));');
 }
-elseif(!$FileOpened)
-{
-	echo new WScript('org.bambuscms.autorun.register(function(){OBJ_ofd.show()});');
-}
-	echo '</form>';
+echo '</form>';
 ?>

@@ -7,7 +7,7 @@
 * Description: 
 ************************************************/
 
-if(PAuthorisation::has('org.bambus-cms.layout.navigation.ntreenavigation.change'))
+if(PAuthorisation::has('org.bambuscms.layout.navigation.ntreenavigation.change'))
 {
 	printf(
 		'<form method="post" id="documentform" name="documentform" action="%s"><input type="hidden" name="posted" value="1" />', SLink::link()
@@ -88,16 +88,7 @@ if($edit != null)
 
 <?php	
 }
-elseif(count($navigations) > 0)
-{
-	echo new WScript('org.bambuscms.autorun.register(function(){OBJ_ofd.show()});');
-}
-else
-{
-	echo '<h3>', SLocalization::out('please_create_a_new_navigation'), '</h3>';
-}
-
-if(PAuthorisation::has('org.bambus-cms.layout.navigation.ntreenavigation.change'))
+if(PAuthorisation::has('org.bambuscms.layout.navigation.ntreenavigation.change'))
 {
 	echo '</form>';
 }	

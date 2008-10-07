@@ -10,6 +10,19 @@ header('Content-Type: text/html; charset=utf-8');
 setlocale (LC_ALL, 'de_DE');
 //load the mighty bambus
 chdir('..');
+if(!defined('ERROR_TEMPLATE'))
+{
+    define('ERROR_TEMPLATE', 
+'{
+	"error":"%s", 
+	"errnr":"%d",
+	"file":"%s",
+	"line":"%d",
+	"desc":"%s",
+	"trace":"%s",
+	"cwd":"%s"
+}');
+}
 require_once('./System/Component/Loader.php');
 
 RSession::start();
@@ -52,54 +65,6 @@ try
             }
             echo json_encode(call_user_func_array(array($controller, $function), array($parameters)));
         }
-    }
-    elseif(RURL::hasValue('_OpenFiles'))
-    {
-        $manager = RURL::get('_OpenFiles');
-        if(!PAuthorisation::has('org.bambuscms.content.'.$manager.'.view'))
-        {
-            throw new XPermissionDeniedException("No bambus for you, hungry Panda!");
-        }
-        if(substr($manager,0,1) != 'M' || !class_exists($manager, true))
-        {
-            throw new XFileNotFoundException("No bambus for you, hungry Panda!");
-        }
-        $man = BObject::InvokeObjectByDynClass($manager);
-        $SCI = SContentIndex::alloc()->init();
-        $IDindex = $SCI->getIndex($man);
-        $CMDIDS = array();
-        foreach ($IDindex as $key => $ttl) 
-        {
-        	$CMDIDS[] = $manager.':'.$key;
-        }
-        $index = $SCI->getContentInformationBulk($CMDIDS);
-        $items = array();
-        foreach($index as $item)
-        {
-            $items[] = array($item['Title'], $item['MCID'], 0, $item['PubDate']);//
-        }
-        $OFD = array(
-            'title' => SLocalization::get('open'),
-            'nrOfItems' => count($items),
-            'iconMap' => array('System/Icons/tango/large/mimetypes/C'.substr($manager,1).'.png'),
-            'smallIconMap' => array('System/Icons/tango/extra-small/mimetypes/C'.substr($manager,1).'.png'),
-            'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2, 'pubDate' => 3),//, 'tags' => 4
-            'sortable' => array('title' => 'title', 'pubDate' => 'pubDate', 'icon' => 'type'),
-            'items' => $items,
-            'captions' => array(
-                'detail' => SLocalization::get('detail'),
-                'icon' => SLocalization::get('icon'),
-                'list' => SLocalization::get('list'),
-                'asc' => SLocalization::get('asc'),
-                'desc' => SLocalization::get('desc'),
-                'searchByTitle' => SLocalization::get('search_by_title'),
-                'pubDate' => SLocalization::get('pubDate'),
-                'notPublished' => SLocalization::get('not_published'),
-                'title' => SLocalization::get('title'),
-                'type' => SLocalization::get('type'),
-            )
-        );
-        echo json_encode($OFD);
     }
     else
     {

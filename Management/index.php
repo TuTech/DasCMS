@@ -66,7 +66,7 @@ WTemplate::globalSet('Header', new WHeader());
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
 
-if(PAuthorisation::has('org.bambus-cms.login')) //login ok?
+if(PAuthorisation::has('org.bambuscms.login')) //login ok?
 {
 	if(RSent::has('bambus_cms_username'))
 	{

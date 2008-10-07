@@ -93,7 +93,7 @@ if($FeedManager->Exists(RURL::get('edit')))
 	////////////////////
 
 }
-if(PAuthorisation::has('org.bambus-cms.content.cfeed.change'))
+if(PAuthorisation::has('org.bambuscms.content.cfeed.change'))
 {
 	printf('<form method="post" id="documentform" name="documentform" action="%s">', SLink::link());
 }

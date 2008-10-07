@@ -15,27 +15,15 @@ catch(Exception $e){
 	//echo $e->getTraceAsString();
 }	
 
-$OFD = new WOpenFileDialog();
-$OFD->registerCategory('template');
-$tplFiles = DFileSystem::FilesOf(SPath::TEMPLATES, '/\.tpl/i');
-foreach($tplFiles as $item)
-{
-    $OFD->addItem(
-        'template',
-        $item,
-        SLink::link(array('edit' => $item,'tab' => 'edit_templates')),
-        'template', 
-        DFileSystem::formatSize(filesize(SPath::TEMPLATES.$item))
-    );
-}
-$OFD->render();
+$AppController = BAppController::getControllerForID('org.bambuscms.applications.templateeditor');
+echo new WOpenDialog($AppController, $File);
 
 //editing allowed?
 if($File != null)
 {
     echo new WIntroduction($File,null,'mimetype-template');
 		
-	if(PAuthorisation::has('org.bambus-cms.layout.template.create') && PAuthorisation::has('org.bambus-cms.layout.template.delete'))
+	if(PAuthorisation::has('org.bambuscms.layout.template.create') && PAuthorisation::has('org.bambuscms.layout.template.delete'))
 	{
 		printf('<input type="hidden" id="filename" size="30" name="filename" value="%s"/>', htmlentities(substr($File,0,-4)));
 	}
@@ -43,22 +31,6 @@ if($File != null)
 	echo LGui::editorTextarea(mb_convert_encoding(DFileSystem::Load(SPath::TEMPLATES.$File), 'utf-8','utf-8,iso-8859-1,auto'));
 	echo LGui::endEditorWrapper();
 	echo new WScript('org.bambuscms.wcodeeditor.run(document.getElementById("editorianid"));');
-	echo new WScript('
-(function(){
-	var h = -190;
-    if($("editorianid").offsetTop)
-    {
-		h = function(){return ($("editorianid").offsetTop+5)*-1;};
-	}
-    org.bambuscms.display.setAutosize("editorianid",0,h);
-})();
-
-
-');
-}
-else
-{
-	echo new WScript('org.bambuscms.autorun.register(function(){OBJ_ofd.show()});');
 }
 echo LGui::endForm();
 ?>

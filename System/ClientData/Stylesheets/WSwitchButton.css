@@ -29,20 +29,24 @@
 	padding-top:4px;
 	height:20px;
 }
+.WSB_single
+{
+	background: url(../../Images/WSwitchButtonSprite.png) 0px 24px;
+}
 .WSB_middle
 {
-	background: url(../../Images/WSwitchButtonSprite.png) -8px 24px;
+	background: url(../../Images/WSwitchButtonSprite.png) -8px -24px;
 	border-right: 1px solid #888a85;
 }
 .WSB_middle.WSB_active
 {
-	background: url(../../Images/WSwitchButtonSprite.png) -8px 0px;
+	background: url(../../Images/WSwitchButtonSprite.png) -8px 24px;
 }
 
 .WSB_left
 {
 	padding-left:5px;
-	background: url(../../Images/WSwitchButtonSprite.png) 0% 24px;
+	background: url(../../Images/WSwitchButtonSprite.png) 0% -24px;
 	border-right: 1px solid #888a85;
 }
 .WSB_left.WSB_active
@@ -53,7 +57,7 @@
 .WSB_right
 {
 	padding-right:5px;
-	background: url(../../Images/WSwitchButtonSprite.png) 100% 24px;
+	background: url(../../Images/WSwitchButtonSprite.png) 100% -24px;
 }
 .WSB_right.WSB_active
 {

@@ -10,7 +10,7 @@
 echo '<div id="objectInspectorActiveFullBox">';
 //editing allowed?
 	
-if(PAuthorisation::has('org.bambus-cms.content.cpage.change') && isset($Page) && $Page instanceof CPage)
+if(PAuthorisation::has('org.bambuscms.content.cpage.change') && isset($Page) && $Page instanceof CPage)
 {
 		
 	printf('<input type="hidden" id="filename" size="30" name="filename" value="%s"/><h2>%s</h2>'
@@ -20,10 +20,6 @@ if(PAuthorisation::has('org.bambus-cms.content.cpage.change') && isset($Page) &&
 	echo LGui::beginEditorWrapper();
 	echo LGui::editorTextarea($Page->Content);
 	echo LGui::endEditorWrapper();
-}
-else
-{
-	//echo new WScript('org.bambuscms.autorun.register(function(){OBJ_ofd.show()});');
 }
 echo LGui::endForm();
 echo '</div>';

@@ -15,7 +15,10 @@ $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
 
 $edit = RURL::get('edit');
-if(!RURL::has('mode') || RURL::get('mode') == 'usr')
+$mode = substr($edit,0,2) == 'g:' ? 'grp' : 'usr';
+$edit = substr($edit,2);
+$hasVictim = $edit;
+if($mode == 'usr')
 {
 	/////////
 	//users//
@@ -38,7 +41,8 @@ else
 	else
 	{
 		//no group found?
-		$victim = PAuthentication::getUserID();
+		$victim = null;
+		$hasVictim = null;
 		$edit_mode = 'usr';
 	}
 }
@@ -53,7 +57,7 @@ if(RSent::hasValue('action'))
 	//edit user profile//
 	/////////////////////
 	
-	if(RSent::get('action') == 'edit_user_data' && PAuthorisation::has('org.bambus-cms.credentials.user.change') && ($victim == PAuthentication::getUserID() || PAuthorisation::isInGroup('Administrator')))
+	if(RSent::get('action') == 'edit_user_data' && PAuthorisation::has('org.bambuscms.credentials.user.change') && ($victim == PAuthentication::getUserID() || PAuthorisation::isInGroup('Administrator')))
 	{
 		$SUsersAndGroups->setUserRealName($victim, RSent::get('realName'));
 		$SUsersAndGroups->setUserEmail($victim, RSent::get('email'));
@@ -96,7 +100,7 @@ if(RSent::hasValue('action'))
 	//group actions//
 	/////////////////
 	
-	if(RSent::get('action') == 'create_new_group' && PAuthorisation::has('org.bambus-cms.credentials.group.create'))
+	if(RSent::get('action') == 'create_new_group' && PAuthorisation::has('org.bambuscms.credentials.group.create'))
 	{
 		if(RSent::hasValue('new_group_name') && RSent::has('new_group_description'))
 		{
@@ -115,7 +119,7 @@ if(RSent::hasValue('action'))
 	//user actions//
 	////////////////
 	
-	if(RSent::get('action') == 'create_new_user' && PAuthorisation::has('org.bambus-cms.credentials.user.create'))
+	if(RSent::get('action') == 'create_new_user' && PAuthorisation::has('org.bambuscms.credentials.user.create'))
 	{
 		if(
 		  	(RSent::hasValue('new_user_name')) &&
@@ -171,7 +175,7 @@ if(RSent::hasValue('action'))
 	//save group assignment//
 	/////////////////////////
 	
-	if(RSent::get('action') == 'save_assignment_of_groups' && PAuthorisation::has('org.bambus-cms.credentials.user.change'))
+	if(RSent::get('action') == 'save_assignment_of_groups' && PAuthorisation::has('org.bambuscms.credentials.user.change'))
 	{
 		$join = array();
 		$leave = array();
@@ -257,7 +261,7 @@ if(RSent::hasValue('action'))
 	//save editor permissions//
 	///////////////////////////
 	
-	if(RSent::get('action') == 'save_editor_permissions' && PAuthorisation::has('org.bambus-cms.credentials.user.change') && $victim != PAuthentication::getUserID())
+	if(RSent::get('action') == 'save_editor_permissions' && PAuthorisation::has('org.bambuscms.credentials.user.change') && $victim != PAuthentication::getUserID())
 	{
 		//list the applications
 	    chdir(SPath::SYSTEM_APPLICATIONS);
@@ -302,7 +306,7 @@ if(RSent::hasValue('action'))
 	    $SUsersAndGroups->rejectUserPermissions($victim, $rejectPermission);
 	    SNotificationCenter::report('message', 'permissions_saved');
 	}
-	if(RSent::get('action') == 'save_editor_group_permissions' && PAuthorisation::has('org.bambus-cms.credentials.group.change'))
+	if(RSent::get('action') == 'save_editor_group_permissions' && PAuthorisation::has('org.bambuscms.credentials.group.change'))
 	{
 		SNotificationCenter::report('alert', 'not_implemented');
 	}
@@ -321,7 +325,7 @@ if(RURL::get('_action') == 'delete')
 	//delete group//
 	////////////////
 	
-	if($edit_mode == 'grp' && PAuthorisation::has('org.bambus-cms.credentials.group.delete'))
+	if($edit_mode == 'grp' && PAuthorisation::has('org.bambuscms.credentials.group.delete'))
 	{
 		if($SUsersAndGroups->isGroup($victim) && ! $SUsersAndGroups->isSystemGroup($victim))
 		{
@@ -340,7 +344,7 @@ if(RURL::get('_action') == 'delete')
 	//delete user//
 	///////////////
 	
-	elseif($edit_mode == 'usr' && PAuthorisation::has('org.bambus-cms.credentials.user.delete'))
+	elseif($edit_mode == 'usr' && PAuthorisation::has('org.bambuscms.credentials.user.delete'))
 	{
 		if($SUsersAndGroups->isUser($victim) && $victim != PAuthentication::getUserID())
 		{
@@ -368,34 +372,8 @@ if(RURL::get('_action') == 'delete')
 }
 
 
-if(strpos(RURL::get('tab'),'manage_')===false)
-{
-	if($edit_mode == 'grp')
-	{
-		$EditingObject = sprintf('%s.%s', $victim, 'group');    
-	}
-	else
-	{
-		$EditingObject = sprintf('%s.%s', $victim, (($SUsersAndGroups->isMemberOf($victim, 'Administrator')) ? SLocalization::get('administrator') : 'user'));
-	}
-}
+$AppController = BAppController::getControllerForID('org.bambuscms.applications.usereditor');
+echo new WOpenDialog($AppController, $hasVictim);
 
-$OFD = new WOpenFileDialog();
-$OFD->registerCategory('group');
-$OFD->registerCategory('user');
-$users = $SUsersAndGroups->listUsers();
-foreach(array_keys($users) as $item)
-{
-    $OFD->addItem('user',$SUsersAndGroups->getRealName($item),SLink::link(array('edit' => $item,'mode' => 'usr')),'user', $item);
-}
-$groups = $SUsersAndGroups->listGroups();
-foreach($groups as $item => $desc)
-{
-    if($SUsersAndGroups->isSystemGroup($item))
-    {
-        continue;
-    }
-    $OFD->addItem('group',$item,SLink::link(array('edit' => $item,'mode' => 'grp')),'group', $desc.' ');
-}
-$OFD->render();
+
 ?>

@@ -75,7 +75,14 @@ org.bambuscms.http.fetchJSONObject = function(url, asyncHandler)
 	{
 		var request = org.bambuscms.http.fetch(url);
 		//alert(request.responseText);
-		return json_parse(request.responseText);
+		try
+		{
+			return json_parse(request.responseText);
+		}
+		catch(e)
+		{
+			alert('EXCEPTION: '+e+'\n\nSERVER SENT:\n'+request.responseText);
+		}
 	}
 };
 org.bambuscms.http.managementRequestURL = function(data)

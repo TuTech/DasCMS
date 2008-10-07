@@ -422,6 +422,19 @@ class DFileSystem extends BDriver
     {
         $tmp = explode('.',strtolower($of));
         return array_pop($tmp);
+    }    
+    
+	/**
+	 * remove the suffix of a filename
+	 * 
+	 * @param string $of
+	 * @return string
+	 */
+    public static function name($of)
+    {
+        $tmp = explode('.',basename($of));
+        array_pop($tmp);
+        return implode('.', $tmp);
     }
     
     /**

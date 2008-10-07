@@ -1,12 +1,12 @@
 <?php
 /**
  * @copyright Lutz Selke/TuTech Innovation GmbH 
- * @package org.bambus-cms.applications.configuration
+ * @package org.bambuscms.applications.configuration
  * @since 2006-10-16
  * @version 1.0
  * @author selke@tutech.de
  */
-if(PAuthorisation::has('org.bambus-cms.configuration.set'))
+if(PAuthorisation::has('org.bambuscms.configuration.set'))
 {
 	echo LGui::beginForm(array(), 'documentform');
 }
@@ -86,7 +86,7 @@ foreach($values as $title => $settings)
 	}
     $tbl->render();
 }
-if(PAuthorisation::has('org.bambus-cms.configuration.set'))
+if(PAuthorisation::has('org.bambuscms.configuration.set'))
 {
 	echo LGui::hiddenInput('writeconfig','1');
 	echo LGui::endForm();

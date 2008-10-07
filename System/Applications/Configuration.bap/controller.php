@@ -1,13 +1,13 @@
 <?php
 /**
  * @copyright Lutz Selke/TuTech Innovation GmbH 
- * @package org.bambus-cms.applications.configuration
+ * @package org.bambuscms.applications.configuration
  * @since 2006-10-16
  * @version 1.0
  * @author selke@tutech.de
  */
 
-if(RSent::hasValue('writeconfig') && PAuthorisation::has('org.bambus-cms.configuration.set'))
+if(RSent::hasValue('writeconfig') && PAuthorisation::has('org.bambuscms.configuration.set'))
 {
     RSent::alter('dateformat', !RSent::hasValue('dateformat') ? 'c' : RSent::get('dateformat'));
     $keys = array(

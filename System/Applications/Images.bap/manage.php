@@ -1,14 +1,14 @@
 <?php
 /**
  * @copyright Lutz Selke/TuTech Innovation GmbH 
- * @package org.bambus-cms.applications.configuration
+ * @package org.bambuscms.applications.configuration
  * @since 2006-10-16
  * @version 1.0
  * @author selke@tutech.de
  */
 
 $jsCreate = "alert('permission denied');";
-//if(PAuthorisation::has('org.bambus-cms.credentials.group.create'))
+//if(PAuthorisation::has('org.bambuscms.credentials.group.create'))
 {
     $d = new WDialog('dlg_upload','upload_image', WDialog::SUBMIT|WDialog::CANCEL);
     $d->setButtonCaption(WDialog::SUBMIT, 'send');
