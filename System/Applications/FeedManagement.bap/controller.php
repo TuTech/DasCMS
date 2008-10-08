@@ -15,6 +15,7 @@ if(RURL::get('_action') == 'create')
 	$Feed = $FeedManager->Create(SLocalization::get('new_feed'));
 	$Feed->Save();
 }
+$channel = null;
 $savePage = false;
 if($FeedManager->Exists(RURL::get('edit')))
 {
@@ -105,15 +106,7 @@ if($savePage)
 {
 	$channel->Save();
 }
-if(isset($channel) && $channel != null)
-{
-    $EditingObject = $channel->Title.'.feed';
-}
-$OFD = new WOpenFileDialog();
-$OFD->registerCategory('news_channel');
-foreach($FeedManager->Index as $item => $name)
-{
-    $OFD->addItem('news_channel',$name,SLink::link(array('edit' => $item)),'news-channel', ' ');
-}
-$OFD->render();
+$AppController = BAppController::getControllerForID('org.bambuscms.applications.feedmanager');
+echo new WOpenDialog($AppController, $channel);
+
 ?>

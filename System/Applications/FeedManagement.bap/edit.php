@@ -7,13 +7,8 @@
 * Description: 
 ************************************************/
 
-if(!isset($channel))
+if($channel !== null)
 {
-	echo new WScript('org.bambuscms.autorun.register(function(){OBJ_ofd.show()});');
-}
-else
-{
-
 	?>
 		<script type="text/javascript">
 		<!--

@@ -12,7 +12,7 @@
 	<application>
 		<controller>controller.php</controller>
 		<interface name="configure" src="edit.php">
-			<task caption="open" hotkey="o" icon="action-document-open" type="button" action="OBJ_ofd.toggle()" />
+			<task caption="open" hotkey="o" icon="action-document-open" type="button" action="org.bambuscms.wopenfiledialog.show();" />
 			<task caption="save" hotkey="s" icon="action-document-save" type="button" action="EditorSave()" />
 			<task caption="save_and_rename" hotkey="S" icon="action-document-save-as" type="button" action="EditorSaveAs('fileNameInput')" />
 			<task type="spacer" />

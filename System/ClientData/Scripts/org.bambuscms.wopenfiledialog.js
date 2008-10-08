@@ -127,6 +127,11 @@ org.bambuscms.wopenfiledialog._build = function()
 		header.appendChild(title); 
 	}
 	
+	if(data.nrOfItems == 0)
+	{
+		return;
+	}
+	
 	//add items
 	for(var y = 0; y < data.nrOfItems; y++)
 	{

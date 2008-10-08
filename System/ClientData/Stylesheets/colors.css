@@ -104,25 +104,11 @@ Sub Headline
 	color: #2e3436;
 }
 
-/*
-Command frame
-*/
-#OFD_Footer,
-#OFD_Header
-{
-	color: #fff;
-	background-color:#555753;
-	border-style: solid;
-	border-color: #2e3436;
-}
 
 /*
 Command item
 */
-.OFD_ItemIconBox,
 #BCMSNavigator a,
-.OFD_Item,
-.OFD_Item a,.OFD_Item a:link,.OFD_Item a:visited,
 .editortoolbar a img, 
 .editortoolbar a:link img, 
 .editortoolbar a:visited img
@@ -135,7 +121,6 @@ Command item
 /*
 Command item hover
 */
-.OFD_Item a:hover,
 .editortoolbar a:hover img,
 #BCMSNavigator a:hover
 
@@ -173,8 +158,7 @@ Content element
 .borderedtable td input[type=text],
 .borderedtable td textarea, 
 .borderedtable td select,
-#editorwrapper textarea,
-#OFD_Window
+#editorwrapper textarea
 {
 	border-color: #4e9a06;
 	border-style: solid;

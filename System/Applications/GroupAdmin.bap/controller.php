@@ -381,7 +381,7 @@ if(strpos(RURL::get('tab'),'manage_')===false)
 }
 
 
-$AppController = BAppController::getControllerForID('org.bambuscms.applications.usereditor');
+$AppController = BAppController::getControllerForID('org.bambuscms.applications.groupmanager');
 echo new WOpenDialog($AppController, $hasVictim);
 
 ?>

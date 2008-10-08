@@ -16,6 +16,7 @@
 	padding-top:8px;
 	float:left;
 	text-align: center;
+	background-image: url(../../Images/WSwitchButtonSprite.png);
 }
 
 .WSB_Sprited a div{
@@ -31,36 +32,36 @@
 }
 .WSB_single
 {
-	background: url(../../Images/WSwitchButtonSprite.png) 0px 24px;
+	background-position: 0px 24px;
 }
 .WSB_middle
 {
-	background: url(../../Images/WSwitchButtonSprite.png) -8px -24px;
+	background-position: -8px -24px;
 	border-right: 1px solid #888a85;
 }
 .WSB_middle.WSB_active
 {
-	background: url(../../Images/WSwitchButtonSprite.png) -8px 24px;
+	background-position: -8px 24px;
 }
 
 .WSB_left
 {
 	padding-left:5px;
-	background: url(../../Images/WSwitchButtonSprite.png) 0% -24px;
+	background-position: 0% -24px;
 	border-right: 1px solid #888a85;
 }
 .WSB_left.WSB_active
 {
-	background: url(../../Images/WSwitchButtonSprite.png) 0% 0px;
+	background-position: 0% 0px;
 }
 
 .WSB_right
 {
 	padding-right:5px;
-	background: url(../../Images/WSwitchButtonSprite.png) 100% -24px;
+	background-position: 100% -24px;
 }
 .WSB_right.WSB_active
 {
-	background: url(../../Images/WSwitchButtonSprite.png) 100% 0px;
+	background-position: 100% 0px;
 }
 
