@@ -9,6 +9,38 @@
  */
 abstract class BObject
 {
+	/**
+	 * load a controller for given app id
+	 *
+	 * @param string $ID
+	 * @return BObject
+	 * @throws XPermissionDeniedException
+	 * @throws XUndefinedException
+	 */
+	public static function InvokeObjectByID($ID)
+	{
+	    //FIXME use some kind of config file
+	    switch($appID)
+	    {
+	        case 'org.bambuscms.applications.websiteeditor':
+	            return new AWebsiteEditor();
+	        case 'org.bambuscms.applications.templateeditor':
+	            return new ATemplateEditor();
+	        case 'org.bambuscms.applications.stylesheeteditor':
+	            return new AStylesheetEditor();
+	        case 'org.bambuscms.applications.treenavigationeditor':
+	            return new ATreeNavigationEditor();
+	        case 'org.bambuscms.applications.usereditor':
+	            return new AUserEditor();
+	        case 'org.bambuscms.applications.groupmanager':
+	            return new AGroupManager();
+	        case 'org.bambuscms.applications.feedmanager':
+	            return new AFeedManager();
+	        default:
+	            throw new XUndefinedException('controller not found');
+	    }
+	}
+
 	//do path resolve
 	//local id --> cms id path
 	//cms id path --> local id
