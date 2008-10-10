@@ -74,7 +74,7 @@ org.bambuscms.http.fetchJSONObject = function(url, asyncHandler)
 	else
 	{
 		var request = org.bambuscms.http.fetch(url);
-		alert(request.responseText);
+		//alert(request.responseText);
 		try
 		{
 			return json_parse(request.responseText);

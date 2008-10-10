@@ -20,7 +20,7 @@ abstract class BObject
 	public static function InvokeObjectByID($ID)
 	{
 	    //FIXME use some kind of config file
-	    switch($appID)
+	    switch($ID)
 	    {
 	        case 'org.bambuscms.applications.websiteeditor':
 	            return new AWebsiteEditor();
@@ -36,7 +36,9 @@ abstract class BObject
 	            return new AGroupManager();
 	        case 'org.bambuscms.applications.feedmanager':
 	            return new AFeedManager();
-	        default:
+	        case 'org.bambuscms.view.spore':
+	            return new VSpore();
+            default:
 	            throw new XUndefinedException('controller not found');
 	    }
 	}

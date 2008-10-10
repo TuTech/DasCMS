@@ -9,7 +9,7 @@
 if(!defined('ERROR_TEMPLATE'))
 {
     define('ERROR_TEMPLATE', '<div style="font-family:sans-serif;border:1px solid #a40000;">
-        <div style="border:1px solid #cc0000;padding:10px;background:#a40000;color:white;">
+        <div style="border:1px solid #cc0000;z-index:1000000;padding:10px;background:#a40000;color:white;">
             <h1 style="border-bottom:1px solid #cc0000;font-size:16px;">%s <code>%d</code> in "%s" at line %d</h1>
             <p>%s</p>
             <p><pre>%s</pre></p>
@@ -44,7 +44,6 @@ function ER_Handler( $errno ,  $errstr ,  $errfile ,  $errline ,  $errcontext  )
         , $errstr
         , $context
         ,getcwd());
-        exit(1);
     
 }
 set_error_handler('ER_Handler');
@@ -71,7 +70,9 @@ function __autoload($className)
 		'Q' => 'Query',
 		'R' => 'Request',
         'S' => 'System',
-		'W' => 'Widget',
+		'T' => 'TemplateEngine',
+        'V' => 'View',
+        'W' => 'Widget',
 		'X' => 'Exception'
 	);
 	$fc = substr($className,0,1); 

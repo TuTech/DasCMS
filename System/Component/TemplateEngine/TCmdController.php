@@ -1,5 +1,9 @@
 <?php
-class TCmdController extends BTemplate 
+class TCmdController 
+    extends 
+        BTemplate
+    implements 
+        ITemplateCommand 
 {
     private $controller;
     private $call;
@@ -27,15 +31,23 @@ class TCmdController extends BTemplate
         $this->parameters = array();
         foreach ($node->childNodes as $child) 
         {
-            if(strtolower($node->localName) != 'param')
+            if($child->nodeType != XML_ELEMENT_NODE || strtolower($child->localName) != 'param')
             {
                 continue;
             }
-        	$name  = $child->attributes->getNamedItem('name');
-        	$value = $child->attributes->getNamedItem('value');
-        	if($name && $value && $name->nodeValue && $value->nodeValue)
+            $name = null;
+            $value = null;
+            foreach ($child->attributes as $att) 
+            {
+                if($att->name == 'name' || $att->name == 'value')
+                {
+                    ${$att->name} = $att->value;
+                }
+            }
+            
+        	if(!empty($name) && $value !== null)
         	{
-        	    $this->parameters[$name->nodeValue] = $value->nodeValue;
+        	    $this->parameters[$name] = $value;
         	}
         }
     }
@@ -43,13 +55,13 @@ class TCmdController extends BTemplate
     public function setUp(array $environment)
     {
         //do inits n stuff
-        if($this->controller)
+        if(!empty($this->controller))
         {
             try
             {
                 $controllerObject = BObject::InvokeObjectByID($this->controller);
                 if(
-                    (!$controllerObject instanceof ITemplateSupporter)
+                    ($controllerObject instanceof ITemplateSupporter)
                     && ($controllerObject->TemplateCallable($this->call))
                    )
                 {
@@ -57,7 +69,8 @@ class TCmdController extends BTemplate
                 }
             }
             catch(Exception $e)
-            {/*logging might be nice*/}
+            {/*logging might be nice*/
+            }
         }
     }
     
@@ -66,7 +79,11 @@ class TCmdController extends BTemplate
         //do what you have to do
         if($this->controllerObject != null)
         {
-            $this->controllerObject->TemplateCall($this->call, $this->parameters);
+            return $this->controllerObject->TemplateCall($this->call, $this->parameters);
+        }
+        else
+        {
+            return '';
         }
     }
     
@@ -74,7 +91,7 @@ class TCmdController extends BTemplate
     {
         $this->controllerObject = null;
     }
-    
+
     public function __sleep()
     {
         $this->data = array();

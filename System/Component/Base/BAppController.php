@@ -7,7 +7,11 @@
  * @since 01.10.2008
  * @license GNU General Public License 3
  */
-abstract class BAppController extends BObject
+abstract class BAppController 
+    extends 
+        BObject
+    implements 
+        IGlobalUniqueId 
 {
 	/**
 	 * load a controller for given app id
@@ -56,10 +60,5 @@ abstract class BAppController extends BObject
 	{
 	    return PAuthorisation::has($this->getGUID().'.'.$action);
 	}
-	/**
-	 * get globaly unique class id
-	 * @return string
-	 */
-	abstract public function getGUID();
 }
 ?>

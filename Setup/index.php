@@ -66,6 +66,8 @@ function __autoload($class)
 		'Q' => 'Query',
         'R' => 'Request',
         'S' => 'System',
+        'T' => 'TemplateEngine',
+        'V' => 'View',
         'W' => 'Widget',
 		'X' => 'Exception'
 	);

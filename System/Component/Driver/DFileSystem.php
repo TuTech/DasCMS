@@ -226,7 +226,7 @@ class DFileSystem extends BDriver
 		$suc = false;
 		if($fp != null)
 		{
-			$suc = fwrite($fp, self::FHEADER.$changes);
+			$suc = fwrite($fp, ((self::suffix($dataFile) == 'php') ? (self::FHEADER) : '').$changes);
 		}
 		self::close($fp);
 		if(!$suc)
@@ -263,8 +263,11 @@ class DFileSystem extends BDriver
         if(filesize($dataFile) > 0)
         {
             $bin = fread($fp, filesize($dataFile));
-            $pos = (strpos($bin, "\n") === false) ? 0 : strpos($bin, "\n")+1;
-            $bin = substr($bin, $pos);
+            if(self::suffix($dataFile) == 'php')
+            {
+                $pos = (strpos($bin, "\n") === false) ? 0 : strpos($bin, "\n")+1;
+                $bin = substr($bin, $pos);
+            }
         }
         self::close($fp);
         return $bin;

@@ -3,7 +3,8 @@ class AStylesheetEditor
     extends 
         BAppController 
     implements 
-        IACProviderOpenDialogData 
+        IACProviderOpenDialogData,
+        IGlobalUniqueId  
 {
     const GUID = 'org.bambuscms.applications.stylesheeteditor';
     

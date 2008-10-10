@@ -111,7 +111,16 @@ elseif($File != null && RSent::has('content') && PAuthorisation::has('org.bambus
     //do the save operation
     if(DFileSystem::Save(SPath::TEMPLATES.$File, RSent::get('content','utf-8')))
     {
-    	SNotificationCenter::report('message', 'saved');
+        try
+        {
+            $tc = new TCompiler(substr($File,0,-4), BTemplate::CONTENT);
+            $tc->save();
+            SNotificationCenter::report('message', 'saved');
+        }
+        catch(Exception $e)
+        {
+            SNotificationCenter::report('warning', sprintf('%s@%d: %s', $e->getFile(),$e->getLine(), $e->getMessage()));
+        }
     }
     else
     {

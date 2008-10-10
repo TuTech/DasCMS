@@ -13,7 +13,8 @@ abstract class BTemplate extends BObject
     const SYSTEM = 'S';
     
     protected $parsed = array();
-    protected $parsedLast = 0;
+    protected $parsedLast = '';
+    protected $parsedIndex = -1;
     
     protected function analyze(DOMNode $node)
     {
@@ -83,7 +84,7 @@ abstract class BTemplate extends BObject
         $attStr = '';
         foreach ($node->attributes as $name => $value) 
         {
-        	$attStr .= sprintf(' %s="%s"', $name, htmlentities($value, ENT_QUOTES, 'utf-8'));
+        	$attStr .= sprintf(' %s="%s"', strval($name), htmlentities($value->value, ENT_QUOTES, 'utf-8'));
         }
         $this->appendData(sprintf('<%s%s>', $node->nodeName, $attStr));
     }
@@ -95,22 +96,17 @@ abstract class BTemplate extends BObject
     
     protected function appendData($data)
     {
-        if(is_object($data))
+        if($this->parsedIndex == -1 || is_object($this->parsed[$this->parsedIndex]) || is_object($data))
         {
-            $this->parsed[] = $data;
-            $this->parsedLast = 'obj';
+            $this->parsedIndex++;
+        }
+        if(isset($this->parsed[$this->parsedIndex]))
+        {
+            $this->parsed[$this->parsedIndex] .= $data;
         }
         else
         {
-            if($this->parsedLast == 'str')
-            {
-                $this->parsed[count($this->parsed)-1] .= $data;
-            }
-            else
-            {
-                $this->parsed[] = $data;
-            }
-            $this->parsedLast = 'str';
+            $this->parsed[$this->parsedIndex] = $data;
         }
     }
 }

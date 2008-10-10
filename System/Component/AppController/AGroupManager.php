@@ -3,7 +3,8 @@ class AGroupManager
     extends 
         BAppController 
     implements 
-        IACProviderOpenDialogData 
+        IACProviderOpenDialogData,
+        IGlobalUniqueId  
 {
     const GUID = 'org.bambuscms.applications.groupmanager';
     

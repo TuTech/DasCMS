@@ -14,8 +14,8 @@ class TEngine extends BTemplate
         //load
         $filename = sprintf(
             '%sDATA_%s_%s.php'
-			,($this->source == parent::SYSTEM) ? (SPath::SYSTEM_TEMPLATES) : (SPath::TEMPLATES)
-            ,$this->source
+			,($source == BTemplate::SYSTEM) ? (SPath::SYSTEM_TEMPLATES) : (SPath::TEMPLATES)
+            ,$source
             ,$template
         );
         $this->executionStack = DFileSystem::LoadData($filename);

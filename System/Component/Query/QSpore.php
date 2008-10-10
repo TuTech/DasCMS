@@ -7,7 +7,7 @@
  * @since 28.04.2008
  * @license GNU General Public License 3
  */
-class QSpore extends BQuery implements ITemplateSupporter  
+class QSpore extends BQuery 
 {
 	/*
 all active spore run
@@ -235,7 +235,7 @@ array objectid => spore
 	/**
 	 * Get the assigned BContent object of this QSpore object
 	 * Only works for active content 
-	 * @return BContent|null
+	 * @return BContent
 	 */
 	public function getContent()
 	{
