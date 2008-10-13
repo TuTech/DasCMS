@@ -49,6 +49,10 @@ class TCmdController
         	{
         	    $this->parameters[$name] = $value;
         	}
+        	elseif($value !== null)
+        	{
+        	    $this->parameters[] = $value;
+        	}
         }
     }
     

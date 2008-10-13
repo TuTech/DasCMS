@@ -38,6 +38,10 @@ abstract class BObject
 	            return new AFeedManager();
 	        case 'org.bambuscms.view.spore':
 	            return new VSpore();
+	        case 'org.bambuscms.navigation.treenavigation':
+	            return NTreeNavigation::alloc()->init();
+	        case 'org.bambuscms.navigation.listnavigation':
+	            return NListNavigation::alloc()->init();
             default:
 	            throw new XUndefinedException('controller not found');
 	    }

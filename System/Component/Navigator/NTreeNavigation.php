@@ -7,9 +7,22 @@
  * @since 28.11.2007
  * @license GNU General Public License 3
  */
-class NTreeNavigation extends BNavigation implements IShareable
+class NTreeNavigation 
+    extends 
+        BNavigation 
+    implements 
+        IShareable, 
+        ITemplateSupporter, 
+        IGlobalUniqueId
 {
-	//constants
+    const GUID = 'org.bambuscms.navigation.treenavigation';
+    
+    public function getGUID()
+    {
+        return self::GUID;
+    }
+    
+    //constants
 	const Spore = 0;
 	const Tree = 1;
 	
@@ -25,13 +38,17 @@ class NTreeNavigation extends BNavigation implements IShareable
 	const CLASS_NAME = 'NTreeNavigation';
 	public static $sharedInstance = NULL;
 	private static $initializedInstance = false;
+	/**
+	 * @return NTreeNavigation
+	 */
 	public static function alloc()
 	{
 		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)
 		{
 			self::$sharedInstance = new $class();
-			try{
+			try
+		    {
 				self::$index = DFileSystem::LoadData('./Content/'.self::CLASS_NAME.'/index.php');
 			}
 			catch (Exception $e)
@@ -43,7 +60,10 @@ class NTreeNavigation extends BNavigation implements IShareable
 		return self::$sharedInstance;
 	}
     
-    function init()
+	/**
+	 * @return NTreeNavigation
+	 */
+	function init()
     {
     	return $this;
     }
@@ -162,5 +182,70 @@ class NTreeNavigation extends BNavigation implements IShareable
     	}
     	return $navigation;
     }
+
+/////////////////////////////////
+
+    /**
+     * return an array with function => array(0..n => parameters [, 'description' =>  desc])
+     *
+     * @return array
+     */
+    public function TemplateProvidedFunctions()
+    {
+        return array('embed' => array('name','description' => 'embeds the Tree-Navigation with the given name'));
+    }
+    
+    /**
+     * return an array with attributeName => description
+     *
+     * @return array
+     */
+    public function TemplateProvidedAttributes()
+    {
+        return array();
+    }
+
+    /**
+	 * @param string $function
+	 * @return boolean
+	 */
+	public function TemplateCallable($function)
+	{
+	    return $function == 'embed';
+	}
+	
+	/**
+	 * @param string $function
+	 * @param array $namedParameters
+	 * @return string in utf-8
+	 */
+	public function TemplateCall($function, array $namedParameters)
+	{
+	    if(!$this->TemplateCallable($function))
+	    {
+	        throw new XTemplateException('called undefined function');
+	    }
+	    if(!array_key_exists('name', $namedParameters))
+	    {
+	        throw new XArgumentException('name must be defined');
+	    }
+	    if(self::exists($namedParameters['name']))
+	    {
+	        return self::navigatieWith($namedParameters['name']);
+	    }
+	    else
+	    {
+	        return '';
+	    }
+	}
+	
+	/**
+	 * @param string $property
+	 * @return string in utf-8
+	 */
+	public function TemplateGet($property)
+	{
+	    return '';
+	}
 }
 ?>

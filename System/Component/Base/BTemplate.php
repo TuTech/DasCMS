@@ -49,7 +49,7 @@ abstract class BTemplate extends BObject
                     }
                     $this->appendData($executor);
                 }
-                else //nothing commands here
+                else
                 {
                     //open tag
                     $this->htmlTagBegin($node);
@@ -86,12 +86,14 @@ abstract class BTemplate extends BObject
         {
         	$attStr .= sprintf(' %s="%s"', strval($name), htmlentities($value->value, ENT_QUOTES, 'utf-8'));
         }
-        $this->appendData(sprintf('<%s%s>', $node->nodeName, $attStr));
+        $tag = in_array($node->nodeName, array('br', 'img', 'input', 'wbr', 'hr')) ? '<%s%s' : '<%s%s>';
+        $this->appendData(sprintf($tag, $node->nodeName, $attStr));
     }
     
     protected function htmlTagEnd(DOMNode $node)
     {
-        $this->appendData(sprintf('</%s>', $node->nodeName));
+        $tag = in_array($node->nodeName, array('br', 'img', 'input', 'wbr', 'hr')) ? ' />' : '</%s>';
+        $this->appendData(sprintf($tag, $node->nodeName));
     }
     
     protected function appendData($data)

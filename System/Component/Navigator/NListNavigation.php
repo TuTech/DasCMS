@@ -7,9 +7,22 @@
  * @since 30.04.2008
  * @license GNU General Public License 3
  */
-class NListNavigation extends BNavigation implements IShareable 
+class NListNavigation 
+    extends 
+        BNavigation 
+    implements 
+        IShareable, 
+        ITemplateSupporter, 
+        IGlobalUniqueId 
 {
-	public function navigateWith($tagstring)
+    const GUID = 'org.bambuscms.navigation.listnavigation';
+    
+    public function getGUID()
+    {
+        return self::GUID;
+    }
+    
+    public static function navigateWith($tagstring)
 	{
 		$tags = STag::parseTagStr($tagstring);
 		$html = '';
@@ -78,7 +91,7 @@ class NListNavigation extends BNavigation implements IShareable
 	const CLASS_NAME = 'NListNavigation';
 	public static $sharedInstance = NULL;
 	/**
-	 * @return NListNavigator
+	 * @return NListNavigation
 	 */
 	public static function alloc()
 	{
@@ -91,12 +104,69 @@ class NListNavigation extends BNavigation implements IShareable
 	}
     
 	/**
-	 * @return NListNavigator
+	 * @return NListNavigation
 	 */
 	function init()
     {
     	return $this;
     }
 	//end IShareable
+
+
+/////////////////////////////////
+
+    /**
+     * return an array with function => array(0..n => parameters [, 'description' =>  desc])
+     *
+     * @return array
+     */
+    public function TemplateProvidedFunctions()
+    {
+        return array('embed' => array('description' => 'all parameter values will be combined to the tag filter'));
+    }
+    
+    /**
+     * return an array with attributeName => description
+     *
+     * @return array
+     */
+    public function TemplateProvidedAttributes()
+    {
+        return array();
+    }
+
+    /**
+	 * @param string $function
+	 * @return boolean
+	 */
+	public function TemplateCallable($function)
+	{
+	    return $function == 'embed';
+	}
+	
+	/**
+	 * @param string $function
+	 * @param array $namedParameters
+	 * @return string in utf-8
+	 */
+	public function TemplateCall($function, array $namedParameters)
+	{
+	    if(!$this->TemplateCallable($function))
+	    {
+	        throw new XTemplateException('called undefined function');
+	    }
+	    $tags = implode(',', $namedParameters);
+	    
+        return self::navigatieWith($tags);
+	}
+	
+	/**
+	 * @param string $property
+	 * @return string in utf-8
+	 */
+	public function TemplateGet($property)
+	{
+	    return '';
+	}
 }
 ?>

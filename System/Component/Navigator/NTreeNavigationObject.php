@@ -177,7 +177,7 @@ class NTreeNavigationObject
 				,($this->Navigation->isSelectedElement($this)) 
 					? ' SelectedNavigationObject' 
 					: ''
-				,' NavigationAlias-'.$this->Navigation->getAlias($this)
+				,' NavigationAlias-'.preg_replace('/[^a-zA-Z0-9_-]/', '_', $this->Navigation->getAlias($this))
 				,$this->Navigation->LinkTo($this)
 				,htmlentities($this->Navigation->getTitle($this), ENT_QUOTES, 'utf-8')
 			);		

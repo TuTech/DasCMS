@@ -7,7 +7,7 @@
  * @since 29.04.2008
  * @license GNU General Public License 3
  */
-class NTreeNavigationHelper extends BNavigation 
+class NTreeNavigationHelper 
 {
 	public $spore = null;
 	public $root = null;
