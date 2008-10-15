@@ -237,14 +237,10 @@ class SAlias
 	 */
 	public static function resolve($alias, $toObject = true)
 	{
-		$DB = DSQL::alloc()->init();
 		$failed = true;
 		try
 		{
-			$res = $DB->query("SELECT Managers.manager,ContentIndex.managerContentID FROM Aliases ".
-					"LEFT JOIN ContentIndex ON (Aliases.contentREL = ContentIndex.contentID) ".
-					"LEFT JOIN Managers ON (ContentIndex.managerREL = Managers.managerID) ".
-					"WHERE Aliases.alias LIKE '".$DB->escape($alias)."'", DSQL::NUM);	
+			$res = QSAlias::resolveAlias($alias);	
 			if($res->getRowCount() > 0) 
 			{
 				list($manager, $id) = $res->fetch();

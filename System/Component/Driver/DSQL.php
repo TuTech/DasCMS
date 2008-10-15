@@ -40,6 +40,38 @@ abstract class DSQL extends BDriver implements IShareable
 	}
 	
 	/**
+	 * @return DSQLResult
+	 * @throws XUndefinedException
+	 */
+	public static function call($sender, $function, array $arguments = array())
+	{
+	    if(self::$engine == null)
+	    {
+	        self::$engine = LConfiguration::get('db_engine');
+	    }
+	    $class = sprintf('Q%s_%s', self::$engine, $sender);
+	    $handler = sprintf('Q%s_%s::%s', self::$engine, $sender, $function);
+	    if(!class_exists($class, true))
+	    {
+	        throw new XUndefinedException('class not found: '.$class);
+	    }
+	    if(!is_callable($handler, true, $callableHandler))
+	    {
+	        throw new XUndefinedException('handler not found: '.$handler);
+	    }
+	    return call_user_func_array($callableHandler, $arguments);
+	}
+	
+	public static function getEngineName()
+	{
+	    if(self::$engine == null)
+	    {
+	        self::$engine = LConfiguration::get('db_engine');
+	    }
+	    return self::$engine;
+	}
+	
+	/**
 	 * @return DSQL
 	 * @throws XDatabaseException
 	 */

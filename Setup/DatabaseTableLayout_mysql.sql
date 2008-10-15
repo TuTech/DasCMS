@@ -3,7 +3,8 @@ ALTER IGNORE TABLE Contents
 	DROP FOREIGN KEY content_class,
 	DROP FOREIGN KEY primary_alias;
 
-ALTER IGNORE TABLE Aliases DROP FOREIGN KEY assigned_content;
+ALTER IGNORE TABLE Aliases 
+	DROP FOREIGN KEY assigned_content;
 
 ALTER IGNORE TABLE Changes 
 	DROP FOREIGN KEY changed_content,

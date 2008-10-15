@@ -97,18 +97,11 @@ class STag
 	{
 		$tags = self::parseTagStr($tagstring);
 		$DB = DSQL::alloc()->init();
-		$DB->beginTransaction();
 		$ptok = SProfiler::profile(__FILE__, __LINE__, 'updating tags to '.implode(', ', $tags));
 		try
 		{
-			$res = $DB->query(
-"SELECT ContentIndex.contentID 
-    FROM ContentIndex LEFT JOIN Managers
-	ON (ContentIndex.managerREL = Managers.managerID) 
-	WHERE 
-		ContentIndex.managerContentID = '".$DB->escape($contentID)."' 
-		AND Managers.manager = '".$DB->escape($managerId)."' 
-	LIMIT 1",DSQL::NUM);
+		    $DB->beginTransaction();
+			$res = QSTag::getContentDBID($managerId, $contentID);
 			if($res->getRowCount() != 1)
 			{
 				$res->free();
@@ -117,32 +110,18 @@ class STag
 			list($CID) = $res->fetch();
 			$res->free();
 			//remove links
-			$DB->queryExecute("DELETE FROM relContentTags WHERE contentREL = ".$DB->escape($CID));	
+			QSTag::removeRelationsTo($CID);
 			$tagval = array();
 			foreach ($tags as $tag) 
 			{
 				$tagval[] = array($tag);
 			}
-			
-			//dump tags in db
 			if(count($tagval) > 0)
 			{
-				$DB->insert('Tags',array('tag'), $tagval, true);
-			}			
-			//FIXME ineffective sql
-			//link tags to content
-			foreach ($tags as $tag) 
-			{
-				$DB->insertUnescaped(
-					'relContentTags',
-					array('contentREL', 'tagREL'),
-					array(
-						$DB->escape($CID),
-						"(SELECT tagID FROM Tags WHERE tag = '".$DB->escape($tag)."' LIMIT 1)"
-					)
-				);
-			}
-			
+				QSTag::dumpNewTags($tagval);
+			}		
+			QSTag::linkTagsTo($tags, $CID);
+			$DB->commit();
 		}
 		catch(Exception $e)
 		{
@@ -152,34 +131,19 @@ class STag
 			SProfiler::finish($ptok);
 			return false;
 		}
-		$DB->commit();
 		SProfiler::finish($ptok);
 		return true;
 	}
 	
 	private function getTags($managerId, $contentId)
 	{
-		$DB = DSQL::alloc()->init();
 		$tags = array();
-		try
+		$res = QSTag::listTagsOf($managerId, $contentId);
+		while($tag = $res->fetch())
 		{
-			$res = $DB->query(sprintf("SELECT Tags.tag FROM Tags ".
-				"LEFT JOIN relContentTags ON (relContentTags.tagREL = Tags.tagID) ".
-				"LEFT JOIN ContentIndex ON (relContentTags.contentREL = ContentIndex.contentID) ".
-				"LEFT JOIN Managers ON (ContentIndex.managerREL = Managers.managerID) ".
-				"WHERE ContentIndex.managerContentID LIKE '%s' and Managers.manager LIKE '%s' ORDER BY Tags.tag;"
-				, $DB->escape($contentId)
-				, $DB->escape($managerId)
-			), DSQL::ASSOC);
-			while($tag = $res->fetch())
-			{
-				$tags[] = $tag[0];
-			}
-			$res->free();
+			$tags[] = $tag[0];
 		}
-		catch(Exception $e)
-		{
-		}
+		$res->free();
 		return $tags;
 	}
 	

@@ -9,6 +9,7 @@
  */
 class WContentLookup extends BWidget implements ISidebarWidget  
 {
+    const CLASS_NAME = 'WContentLookup';
 	private $managers = array();
 	/**
 	 * get category of this widget
@@ -38,29 +39,24 @@ class WContentLookup extends BWidget implements ISidebarWidget
 	
 	public function __construct($target = null)
 	{
-		//build content list
-//		$SCI = SComponentIndex::alloc()->init();
-//		$this->managers = $SCI->ExtensionsOf('BContentManager');
 	}
 	
 	public function __toString()
 	{
 		$html = '<strong>All Contents</strong>';
-		$html .= '<div id="WCLSearchBox"><input type="text" id="WContentLookupFilter" onchange="org.bambuscms.wcontentlookup.filter();" onkeyup="org.bambuscms.wcontentlookup.filter();" /></div>';
+		$html .= '<div id="WCLSearchBox">'.
+		            '<input type="text" id="WContentLookupFilter" onchange="org.bambuscms.wcontentlookup.filter();" '.
+		            'onkeyup="org.bambuscms.wcontentlookup.filter();" /></div>';
 		
 		try
 		{
-			$DB = DSQL::alloc()->init();
-			$managers = SComponentIndex::alloc()->init()->ExtensionsOf('BContentManager');
-			$sql = "SELECT ContentIndex.managerContentID, Managers.manager AS Manager,".
-					"ContentIndex.title AS Title, ContentIndex.pubDate ".
-					"FROM ContentIndex ".
-					"LEFT JOIN Managers ON (ContentIndex.managerREL = Managers.managerID) ".
-					"WHERE ContentIndex.pubDate > -1  ORDER BY Manager,Title ASC";
-			$res = $DB->query($sql, DSQL::NUM);
+		    $res = QWContentLookup::fetchContentList();
+		    $managers = SComponentIndex::alloc()->init()->ExtensionsOf('BContentManager');
 			$rows = $res->getRowCount()+count($managers);
 				
-			$html .= '<select id="WContentLookup" onclick="insertMedia(\'content\', this.options[this.selectedIndex].value, this.options[this.selectedIndex].text)" size="'.$rows.'">';
+			$html .= '<select id="WContentLookup" '.
+			            'onclick="insertMedia(\'content\', this.options[this.selectedIndex].value, '.
+			            'this.options[this.selectedIndex].text)" size="'.$rows.'">';
 			
 			$lastMan = null;
 			while($erg = $res->fetch())
@@ -93,7 +89,13 @@ class WContentLookup extends BWidget implements ISidebarWidget
 		}
 		catch (Exception $e)
 		{
-			$html .= '<div>Ex @ '.$e->getFile().' line '.$e->getLine().'<b>'.$e->getCode().': '.$e->getMessage().'</b></div>';
+		    $html .= sprintf(
+		        '<div>Ex @ %s line %s<b>%s: %s</b></div>'
+				,$e->getFile()
+		        ,$e->getLine()
+		        ,$e->getCode()
+		        ,$e->getMessage()
+			);
 		}
 		return $html;
 	}

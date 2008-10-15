@@ -181,9 +181,7 @@ class SComponentIndex
 		{
 			$mangs[] = array($mngr);
 		}
-
-		$DB = DSQL::alloc()->init();
-		$DB->insert('Managers',array('manager'),$mangs);
+		QSComponentIndex::updateManagers($mangs);
 	}
 
 	/**

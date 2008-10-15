@@ -35,30 +35,10 @@ class NListNavigation
 				$spore = QSpore::byName($sporename);
 			}
 		}
-		
-		
-		$tagfilter = '';
-		
-		$DB = DSQL::alloc()->init();
 		try
 		{
-			foreach ($tags as $tag) 
-			{
-				$tagfilter .= "AND ContentIndex.contentID IN (SELECT relContentTags.contentREL FROM relContentTags LEFT JOIN Tags ON (Tags.tagID = relContentTags.tagREL) ".
-					"WHERE Tags.tag = '".$DB->escape($tag)."') ";
-			}
-			$managers = SComponentIndex::alloc()->init()->ExtensionsOf('BContentManager');
-			$sql = "SELECT Aliases.alias, ContentIndex.title, Managers.manager, ContentIndex.pubDate AS PubDate ".
-					"FROM Aliases ".
-					"LEFT JOIN ContentIndex ON (ContentIndex.contentID = Aliases.contentREL)".
-					"LEFT JOIN Managers ON (ContentIndex.managerREL = Managers.managerID) ".
-					"WHERE Aliases.active = 1 ".
-					"AND PubDate > 0 ".
-					"AND PubDate <= ".time().
-					$tagfilter.
-					" ORDER BY Title ASC";
-			$res = $DB->query($sql, DSQL::NUM);
-				
+		    $managers = SComponentIndex::alloc()->init()->ExtensionsOf('BContentManager');
+		    $res = QNListNavigation::listTagged($tags);
 			$html .= '<ul class="NListNavigation">';
 			$html .= '<span class="NavigationItemCount">'.$res->getRowCount().'</span>';
 			
@@ -82,10 +62,6 @@ class NListNavigation
 		}
 		return $html;
 	}
-	
-	
-	
-	
 	
 	//IShareable
 	const CLASS_NAME = 'NListNavigation';

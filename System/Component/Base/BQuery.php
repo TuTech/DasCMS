@@ -9,6 +9,21 @@
  */
 abstract class BQuery extends BObject
 {
+	/**
+	 * @var DSQL
+	 */
+    protected static $_database = null;
 	
+	/**
+	 * @return DSQL
+	 */
+	protected static function Database()
+	{
+	    if(self::$_database == null)
+	    {
+	        self::$_database = DSQL::alloc()->init();
+	    }
+	    return self::$_database;
+	}
 }
 ?>
