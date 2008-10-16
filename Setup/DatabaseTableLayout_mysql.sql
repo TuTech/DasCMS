@@ -1,28 +1,5 @@
 -- clean up
-ALTER IGNORE TABLE Contents 
-	DROP FOREIGN KEY content_class,
-	DROP FOREIGN KEY primary_alias;
-
-ALTER IGNORE TABLE Aliases 
-	DROP FOREIGN KEY assigned_content;
-
-ALTER IGNORE TABLE Changes 
-	DROP FOREIGN KEY changed_content,
-	DROP FOREIGN KEY changed_by;
-
-ALTER IGNORE TABLE relContentsTags 
-	DROP FOREIGN KEY tagged_content,
-	DROP FOREIGN KEY tagged_with;
-
-ALTER IGNORE TABLE ContentSummaries
-    DROP FOREIGN KEY content_relation;
-
-ALTER IGNORE TABLE Users
-    DROP FOREIGN KEY primary_group;
-
-ALTER IGNORE TABLE relUsersGroups
-    DROP FOREIGN KEY group_member, 
-    DROP FOREIGN KEY group_relation; 
+SET FOREIGN_KEY_CHECK = 0;
 
 DROP TABLE IF EXISTS Classes;
 DROP TABLE IF EXISTS Contents;
@@ -35,6 +12,7 @@ DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS Groups;
 DROP TABLE IF EXISTS relUsersGroups;
 
+SET FOREIGN_KEY_CHECK = 1;
 
 -- Every class will be listed here 
 -- GUID is the global unique id for classes implementing IGlobalUniqueID

@@ -130,7 +130,7 @@ class MPageManager extends BContentManager implements IShareable
 		}
 		if(self::$_index == null)
 		{
-			self::$_exists[$id] = SContentIndex::isPublic(self::CLASS_NAME,  $id, false);
+			self::$_exists[$id] = SContentIndex::exists(self::CLASS_NAME.':'.$id);
 			return self::$_exists[$id];
 		}
 		return isset(self::$_index[$id]);

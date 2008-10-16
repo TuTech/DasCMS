@@ -264,10 +264,5 @@ class CPage extends BContent implements ISupportsSidebar
 	{
 		return MPageManager::alloc()->init();
 	}	
-	
-	public function getManagerName()
-	{
-		return self::MANAGER;
-	}
 }
 ?>

@@ -74,6 +74,9 @@ class SComponentIndex
 		//build class db
 		//build structure.html
 		//allow doing this from cfg app
+
+		$db_class_index = array();
+
 		$err = 0;
 		$errarr = array();
 		self::$_interfaceIndex = array();
@@ -134,6 +137,14 @@ class SComponentIndex
 								if($verbose)printf("<li>%s</li>", $itf);
 							}
 							if($verbose)print("</ol></ul>");
+							////DB stuff
+							$guid = '';
+							if(isset(self::$_classIndex[$c][self::INTERFACES]['IGlobalUniqueId']))
+							{
+							    $o = new $c();
+							    $guid = $o->getGUID();
+							}
+							$db_class_index[$c] = $guid;
 						}
 						else
 						{
@@ -175,13 +186,7 @@ class SComponentIndex
 		DFileSystem::SaveData($this->StoragePath('interfaces'), self::$_interfaceIndex);
 		$dbEngine = LConfiguration::get('db_engine');
 		
-		$managers = $this->ExtensionsOf("BContentManager");
-		$mangs = array();
-		foreach ($managers as $mngr) 
-		{
-			$mangs[] = array($mngr);
-		}
-		QSComponentIndex::updateManagers($mangs);
+		QSComponentIndex::updateClassIndex($db_class_index);
 	}
 
 	/**

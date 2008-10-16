@@ -13,8 +13,6 @@
 		<controller>controller.php</controller>
 		<interface name="content_access" src="spore.php">
 			<task type="button" hotkey="s" caption="save" icon="action-document-save" action="EditorSave()" />
-			<task type="spacer" name="aliases" />
-			<task type="button" hotkey="R" caption="repair" icon="action-system-repair" action="rebuildAliasDB();" />
 		</interface>
 	</application>
 </bambus>

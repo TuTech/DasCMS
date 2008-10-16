@@ -52,326 +52,58 @@ class SContentIndex
     }
 	//end IShareable
 	
-	public static function isPublic($managerClass,  $contentId, $checkPubDate = true)
+	public static function exists($alias)
 	{
-		//self::alloc()->init();
-		$DB = DSQL::alloc()->init();
-		try
-		{
-			$managerClass = $DB->escape($managerClass);
-			$contentId = $DB->escape($contentId);
-			$ignorePubDate = $checkPubDate ? 0 : 1;
-			$now = time();
-			
-			$sql = "
-SELECT 
-		ContentIndex.pubDate 
-	FROM ContentIndex 
-	LEFT JOIN Managers 
-		ON (ContentIndex.managerREL = Managers.managerID) 
-	WHERE 
-		Managers.manager LIKE '$managerClass' 
-		AND ContentIndex.managerContentID LIKE '$contentId'
-		AND (
-			$ignorePubDate
-			OR (
-				ContentIndex.pubDate > 0 
-				AND ContentIndex.pubDate <= $now
-			)
-		)
-	LIMIT 1
-";
-			$res = $DB->query($sql);
-			list($pd) = $res->fetch();
-			$rows = $res->getRowCount();
-			$res->free();
-			return ($checkPubDate) ? ($pd != 0) : ($rows > 0);
-		}
-		catch(Exception $e)
-		{
-			return false;
-		}
+	    $res = QSContentIndex::getDBID($alias);
+	    $erg = $res->getRowCount();
+	    $res->free();
+	    return $erg == 1;
 	}
 
-	public static function getContentInformationBulk(array $cmsids)
+	public static function getContentInformationBulk(array $aliases)
 	{
-		$DB = DSQL::alloc()->init();
-
-		$bulk = array();
-		$result = array();
-		foreach ($cmsids as $id) 
+	    $res = QSContentIndex::getPrimaryAliases($aliases);
+	    $map = array();
+	    $revmap = array();
+	    $infos = array();
+	    while ($erg = $res->fetch())
 		{
-			if(strpos($id,':'))
-			{
-				$split = explode(':',$id);
-				if(count($split) != 2)
-				{
-					continue;
-				}
-				$bulk[] = " (ContentIndex.managerContentId LIKE '".$DB->escape($split[1]).
-							"' AND Managers.manager LIKE '".$DB->escape($split[0])."') ";
-			}
+		    list($reqest, $primary) = $erg;
+		    $map[] = $primary;
+		    $revmap[$primary] = $reqest;
 		}
-		if(count($bulk))
+	    $res->free();
+	    
+	    $res = QSContentIndex::getBasicInformation($map);
+	    while ($erg = $res->fetch())
 		{
-			try
-			{
-				$condition = implode(" \nOR ", $bulk);
-				$sql = "
-SELECT  
-		ContentIndex.managerContentID AS CID, 
-		Managers.manager AS Manager, 
-		ContentIndex.title as Title, 
-		ContentIndex.pubDate AS PubDate 
-	FROM ContentIndex
-	LEFT JOIN Managers 
-		ON (ContentIndex.managerREL = Managers.managerID) 
-	WHERE 
-		$condition
-";
-				$res = $DB->query($sql, DSQL::ASSOC);
-				while ($erg = $res->fetch())
-				{
-					$result[$erg['Manager'].':'.$erg['CID']] = array(
-						'Title' => $erg['Title'], 
-						'Alias' => $erg['Manager'].':'.$erg['CID'],//$erg['Alias'], 
-						'PubDate' => $erg['PubDate'],
-						'Manager' => $erg['Manager'],
-						'MCID' => $erg['CID'] 
-					);
-				}
-				$res->free();
-			}
-			catch(Exception $e)
-			{
-			    echo $sql;
-			}
+		    list($title, $pubdate, $alias) = $erg;
+		    $infos[$revmap[$alias]] = array(
+		        'Title' => $title, 
+				'Alias' => $alias,
+				'PubDate' => strtotime($pubdate)
+			);
 		}
-		
-		return $result;
-	}
-	
-	public static function getTitleAndAlias($manager, $contentId)
-	{
-		$DB = DSQL::alloc()->init();
-		try
-		{
-			$e_manager = $DB->escape($manager);
-			$e_contentId = $DB->escape($contentId);
-			$sql = "
-SELECT 
-		ContentIndex.title, 
-		Aliases.alias, 
-		ContentIndex.pubDate 
-	FROM Aliases 
-	LEFT JOIN ContentIndex 
-		ON (Aliases.contentREL = ContentIndex.contentID) 
-	LEFT JOIN Managers 
-		ON (ContentIndex.managerREL = Managers.managerID) 
-	WHERE 
-		ContentIndex.managerContentId LIKE '$e_contentId' 
-		AND Managers.manager LIKE '$e_manager'
-	ORDER BY Aliases.active DESC
-    LIMIT 1
-";
-			$res = $DB->query($sql, DSQL::NUM);
-			if($res->getRowCount() > 0)
-			{
-				list($Title, $Alias, $PubDate) = $res->fetch();
-				$res->free();
-			}
-			else
-			{
-				$res->free();
-				$sci = SComponentIndex::alloc()->init();
-				$cnt = false;
-				if($sci->IsExtension($manager, 'BContentManager'))
-				{
-					$man = new $manager();
-					$man = $man->alloc()->init();
-					$cnt = $man->Open($contentId);
-				}
-				if($cnt && $cnt instanceof BContent)
-				{
-					$Title = $cnt->Title; //FIXME
-					$Alias = $manager.':'.$contentId;
-					$PubDate = $cnt->PubDate;//FIXME
-				}
-				else
-				{
-					throw new Exception('unknown content');
-				}
-			}
-		}
-		catch(Exception $e)
-		{
-			$Title = 'Error 404';
-			$Alias = 'MError:404';
-			$PubDate = '1';
-		}
-		return array(
-			'Title' 	=> $Title, 
-			'Alias' 	=> $Alias,
-			'PubDate' 	=> $PubDate
-		);
-	}	
-	
-	private function buildSQLForCount($ofManger, $tagged)
-	{
-		$DB = DSQL::alloc()->init();
-		//Define what we want
-		$ManagerSQL = ($ofManger == null) ? '1' : 'Managers.manager = \''.$DB->escape($ofManger)."'";
-		$tags = STag::parseTagStr($tagged);
-		if(!is_array($tags))
-		{
-			$tags = array();
-		}
-		
-		$sql = "
-SELECT 
-		COUNT(ContentIndex.title) AS Count 
-	FROM ContentIndex 
-	LEFT JOIN Managers 
-		ON (ContentIndex.managerREL = Managers.managerID) 
-	WHERE 
-		$ManagerSQL
-		
-";
-		foreach ($tags as $tag) 
-		{
-			$tag = $DB->escape($tag);
-			$sql .= "
-		AND ContentIndex.contentID 
-			IN (
-				SELECT 
-						relContentTags.contentREL 
-					FROM relContentTags 
-					LEFT JOIN Tags 
-						ON (Tags.tagID = relContentTags.tagREL) 
-					WHERE 
-						Tags.tag = '$tag'
-			)
-";
-		}	
-		return $sql;
-	}
-	
-	private function buildSQLForList($items, $offset, $ofManger, $tagged, $latestFirst)
-	{
-		$DB = DSQL::alloc()->init();
-		$ManagerSQL = ($ofManger == null) ? '1' : 'Managers.manager = \''.$DB->escape($ofManger)."'";
-		$now = time();
-		$order = ($latestFirst) ? "DESC " : "ASC ";
-		$limit = '';
-		if($items > 0 && is_numeric($items))
-		{
-			$limit = 'LIMIT '.(($offset > 0 && is_numeric($offset)) 
-				? $offset.",".$items
-				: $items);
-		}
-		$tags = STag::parseTagStr($tagged);
-		if(!is_array($tags))
-		{
-			$tags = array();
-		}
-		$sql = "
-SELECT 
-		ContentIndex.title AS Title, 
-		ContentIndex.pubDate AS PubDate, 
-		Managers.manager AS Manager,
-		ContentIndex.managerContentID AS ContentID 
-	FROM ContentIndex 
-	LEFT JOIN Managers 
-		ON (ContentIndex.managerREL = Managers.managerID) 
-	WHERE 
-		$ManagerSQL
-		AND ContentIndex.pubDate > 0 
-		AND ContentIndex.pubDate < $now
-";
-		foreach ($tags as $tag) 
-		{
-			$tag = $DB->escape($tag);
-			$sql .= "
-		AND ContentIndex.contentID 
-			IN (
-				SELECT 
-						relContentTags.contentREL 
-					FROM relContentTags 
-					LEFT JOIN Tags 
-						ON (Tags.tagID = relContentTags.tagREL) 
-					WHERE 
-						Tags.tag = '$tag'
-			)
-		ORDER BY ContentIndex.pubDate $order
-		$limit
-";
-		}	
-		return $sql;
-	}
-	
-	public function getLatest($items = 0, $offset = 0, $ofManger = null, $tagged = "", $latestFirst = true, $fetchAssoc = false)
-	{
-		$sql = $this->buildSQLForList($items, $offset, $ofManger, $tagged, $latestFirst);
-		$return = array();
-		$DB = DSQL::alloc()->init();
-		try
-		{
-			$res = $DB->query($sql, ($fetchAssoc ? DSQL::ASSOC : DSQL::NUM));
-			while($res->hasNext())
-			{
-				$return[] = $res->fetch($fetchAssoc);
-			}
-			$res->free();
-		}
-		catch(Exception $e)
-		{
-			return array();
-		}
-		return $return;
-	}
-	
-	public function countLatest($ofManger = null, $tagged = "")
-	{
-		$sql = $this->buildSQLForCount($ofManger, $tagged);
-		$DB = DSQL::alloc()->init();
-		try
-		{
-			$res = $DB->query($sql, DSQL::NUM);
-			list($count) = $res->fetch(SQLITE_NUM);
-			$res->free();
-		}
-		catch(Exception $e)
-		{
-			$count = 0;
-		}
-		return $count;
-	}
-	
-	/**
-	 * Insert manager into manager db if it does not exist and always return the db id
-	 *
-	 * @param string $manager
-	 * @return int
-	 */
-	private function getManagerId($manager)
-	{
-		$DB = DSQL::alloc()->init();
-		$manager = $DB->escape($manager);
-		$sql = "
-SELECT managerID 
-	FROM Managers 
-	WHERE manager LIKE '$manager'
-	LIMIT 1
-";
-		$res = $DB->query($sql, DSQL::NUM);
-		list($erg) = $res->fetch();
 		$res->free();
-		if(!$erg)
-		{
-			throw new XDatabaseException('Manager not found');
-		}
-		return $erg;
+		return $infos;
 	}
+	
+	public static function getTitleAndAlias($alias)
+	{
+	    $ar =  $this->getContentInformationBulk(array($alias));
+	    if(count($ar) == 1)
+	    {
+	        return array_pop($ar);
+	    }
+	    else
+	    {
+        	return array(
+    			'Title' 	=> 'Error 404', 
+    			'Alias' 	=> 'MError:404',
+    			'PubDate' 	=> 1
+			); 
+	    }
+	}	
 	
 	/**
 	 * Update content index
@@ -384,7 +116,7 @@ SELECT managerID
 		try
 		{
 			$manager = $content->getManagerName();
-			$managerID = $this->getManagerId($manager);
+			$managerID = $manager;//FIXME manager db id
 			$contentID = $content->Id;
 			$e_managerID = $DB->escape($managerID);
 			$e_contentID = $DB->escape($contentID);
@@ -443,6 +175,10 @@ UPDATE ContentIndex
 	
 	public function getMeta(BContent $content)
 	{
+	    QSContentIndex::getMetaInformation($content->Alias);
+	    
+	    
+	    
 		$DB = DSQL::alloc()->init();
 		$manager = $content->getManagerName();
 		$cid = $content->Id;
@@ -483,39 +219,7 @@ SELECT
     (SELECT changeDate FROM Changes WHERE contentREL=$dbid ORDER BY changeDate ASC LIMIT 1) AS Created,
     (SELECT username FROM Changes WHERE contentREL=$dbid ORDER BY changeDate ASC LIMIT 1) AS Creator
 ";
-//
-//SELECT 
-//		size, 
-//		changeDate, 
-//		username 
-//	FROM Changes 
-//	WHERE 
-//		(
-//			changeDate = (
-//				SELECT changeDate 
-//					FROM Changes 
-//					WHERE contentREL=$dbid
-//					ORDER BY changeDate ASC 
-//					LIMIT 1
-//			) 
-//			OR changeDate = (
-//				SELECT changeDate 
-//					FROM Changes 
-//					WHERE contentREL=$dbid
-//					ORDER BY changeDate DESC 
-//					LIMIT 1
-//			)
-//		) 
-//		AND contentREL=$dbid
-//SQL;
 			$res = $DB->query($sql, DSQL::NUM);
-//			if($res->getRowCount() != 2)
-//			{
-//				$res->free();
-//				throw new Exception('no data');
-//			}
-//			list($meta['Size'], $meta['CreateDate'], $meta['CreatedBy']) = $res->fetch();
-//			list($meta['Size'], $meta['ModifyDate'], $meta['ModifiedBy']) = $res->fetch();
             list($meta['Size'], $meta['ModifyDate'], $meta['ModifiedBy'], $meta['CreateDate'], $meta['CreatedBy']) = $res->fetch();
 			$res->free();
 		}
@@ -529,33 +233,20 @@ SELECT
 	/**
 	 * @return array (managerContentId => Title)
 	 */
-	public function getIndex($manager)
+	public function getIndex($class)
 	{
-	    if($manager instanceof BContentManager)
+	    if(is_object($class))
 	    {
-	        $manager = get_class($manager);
+	        $class = get_class($class);
 	    }
-		$DB = DSQL::alloc()->init();
-		$e_manager = $DB->escape($manager); 
-		$sql = "
-SELECT 
-		ContentIndex.managerContentId, 
-		ContentIndex.Title 
-	FROM ContentIndex 
-	LEFT JOIN Managers 
-		ON(ContentIndex.managerREL = Managers.managerID) 
-	WHERE 
-		ContentIndex.pubDate > -1 
-		AND Managers.manager LIKE '$e_manager' 
-	ORDER BY ContentIndex.Title ASC
-";
 		try
 		{
-			$res = $DB->query($sql, DSQL::NUM);
+		    $res = QSContentIndex::getBasicInformationForClass($class);
 			$index = array();
 			while ($arr = $res->fetch())
 			{
-				$index[$arr[0]] = $arr[1];
+			    list($title, $pubdate, $alias) = $arr; 
+				$index[$alias] = $title;
 			}
 			$res->free();
 		}
@@ -574,47 +265,8 @@ SELECT
 	 */
 	private function removeFromIndex(BContent $content)
 	{
-		$DB = DSQL::alloc()->init();
-		$manager = $content->getManagerName();
-		$managerID = $this->getManagerId($manager);
-		$contentID = $content->Id;
-		
-		$e_manager = $DB->escape(intval($managerID));
-		$e_cid = $DB->escape($contentID);
-
-		$DB->beginTransaction();
-		try
-		{
-			$sql = "
-UPDATE ContentIndex 
-	SET 
-		title='', 
-		pubDate=-1, 
-		summary='' 
-	WHERE 
-		managerContentID LIKE '$e_cid' 
-		AND managerREL = $e_manager;
-";
-			$DB->queryExecute($sql);
-			$DB->insertUnescaped(
-				'Changes',
-				array('contentREL', 'title', 'size', 'changeDate', 'username'),
-				array(
-					"(SELECT contentID FROM ContentIndex WHERE managerContentID = '$e_cid' AND managerREL = $e_manager)",
-					'',
-					-1,
-					$DB->escape(time()),
-					$DB->escape(PAuthentication::getUserID()."@".$_SERVER['REMOTE_ADDR'])
-				)
-			);
-		}
-		catch(Exception $e)
-		{
-			$DB->rollback();
-		}
-		$DB->commit();
-
-		SAlias::alloc()->init()->removeAliases($content);
+	    $dbid = QSContentIndex::getDBID($content->Alias);
+	    QSContentIndex::deleteContent($dbid);
 	}
 	
 	/**

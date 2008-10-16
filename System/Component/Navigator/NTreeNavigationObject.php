@@ -259,7 +259,7 @@ class NTreeNavigationObject
 		if(count($dat) == 2)
 		{
 			list($m, $c) = $dat;
-			$r = SContentIndex::getTitleAndAlias($m,$c);
+			$r = SContentIndex::getTitleAndAlias($m.':'.$c);
 			return $r['Title'];
 		}
 		return ' <i>ROOT</i> ';

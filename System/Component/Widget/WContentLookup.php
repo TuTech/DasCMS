@@ -61,13 +61,14 @@ class WContentLookup extends BWidget implements ISidebarWidget
 			$lastMan = null;
 			while($erg = $res->fetch())
 			{
-				list($cid, $man, $ttl, $pub) = $erg;
-				if($man != $lastMan)
+				list($ctype, $alias, $ttl, $pub) = $erg;
+				if($ctype != $lastMan)
 				{
 					if($lastMan != null)  $html .= '</optgroup>';
-					$html .= '<optgroup label="'. substr($man,1).'">';
-					$lastMan = $man;
+					$html .= '<optgroup label="'. substr($ctype,1).'">';
+					$lastMan = $ctype;
 				}
+				$pub = strtotime($pub);
 				$class = 'unpublished';
 				$title = 'Not public';
 				if($pub > 0){
@@ -78,7 +79,7 @@ class WContentLookup extends BWidget implements ISidebarWidget
 					$class = 'publicationScheduled';
 					$title = 'Not yet public ('.date('r',$pub).')';
 				}
-				$html .= '<option value="'.$man.':'.$cid.'" class="'.$class.'" title="'.$title.'">'.
+				$html .= '<option value="'.$alias.'" class="'.$class.'" title="'.$title.'">'.
 								htmlentities($ttl, ENT_QUOTES, 'UTF-8')
 						.'</option>';
 			}

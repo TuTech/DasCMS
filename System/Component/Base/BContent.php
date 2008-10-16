@@ -325,19 +325,5 @@ abstract class BContent extends BObject
 	 * @return BContentManager
 	 */
 	public abstract function getManager();
-
-	/**
-	 * responsible (initialized) manager
-	 * @return string
-	 */
-	public abstract function getManagerName();
-
-	public final function getCMSID()
-	{
-		return $this->getManagerName().':'.$this->Id;
-	}
-//	public function exportXML - serialize kind of export
-	
-//	public function importXML - import xml exportet by other instance of this class - be as compatible as possible
 }
 ?>

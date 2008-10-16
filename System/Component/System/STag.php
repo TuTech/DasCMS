@@ -93,7 +93,7 @@ class STag
 		return $tagarr;
 	}
 	
-	private function setTags($managerId, $contentID, $tagstring)
+	private function setTags($alias, $tagstring)
 	{
 		$tags = self::parseTagStr($tagstring);
 		$DB = DSQL::alloc()->init();
@@ -101,7 +101,7 @@ class STag
 		try
 		{
 		    $DB->beginTransaction();
-			$res = QSTag::getContentDBID($managerId, $contentID);
+			$res = QSTag::getContentDBID($alias);
 			if($res->getRowCount() != 1)
 			{
 				$res->free();
@@ -135,10 +135,10 @@ class STag
 		return true;
 	}
 	
-	private function getTags($managerId, $contentId)
+	private function getTags($alias)
 	{
 		$tags = array();
-		$res = QSTag::listTagsOf($managerId, $contentId);
+		$res = QSTag::listTagsOf($alias);
 		while($tag = $res->fetch())
 		{
 			$tags[] = $tag[0];
@@ -154,7 +154,7 @@ class STag
 	 */
 	public function update(BContent $content)
 	{
-		$this->setTags($content->getManagerName(), $content->Id, implode(',', $content->Tags));
+		$this->setTags($content->Alias, implode(',', $content->Tags));
 	}
 	
 	/**
@@ -165,7 +165,7 @@ class STag
 	 */
 	public function set(BContent $content, $tagstr)
 	{
-		$this->setTags($content->getManagerName(), $content->Id, $tagstr);
+		$this->setTags($content->Alias, $tagstr);
 	}
 	
 	/**
@@ -176,7 +176,7 @@ class STag
 	 */
 	public function get(BContent $content)
 	{
-		return $this->getTags($content->getManagerName(), $content->Id);
+		return $this->getTags($content->Alias);
 	}
 	
 	/**

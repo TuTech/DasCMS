@@ -6,13 +6,19 @@ class QMySQL_WContentLookup extends BQuery
      */
     public static function fetchContentList()
     {
-		$sql = 
-		    "SELECT ContentIndex.managerContentID, Managers.manager AS Manager,".
-				   "ContentIndex.title AS Title, ContentIndex.pubDate ".
-				"FROM ContentIndex ".
-				"LEFT JOIN Managers ON (ContentIndex.managerREL = Managers.managerID) ".
-				"WHERE ContentIndex.pubDate > -1  ORDER BY Manager,Title ASC";
+		$sql = "
+SELECT 
+		Classes.class,
+		Aliases.alias,
+		Contents.title,
+		Content.pubDate
+	FROM Contents
+	LEFT JOIN Aliases ON (Contents.primaryAlias = Aliases.aliasID)
+	LEFT JOIN Classes ON (Contents.type = Classes.classID)
+	ORDER BY Classes.class ASC
+";
 		return parent::Database()->query($sql, DSQL::NUM);
     }
+    
 }
 ?>

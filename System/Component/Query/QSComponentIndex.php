@@ -1,9 +1,9 @@
 <?php
 class QSComponentIndex extends BQuery 
 {
-    public static function updateManagers($managers)
+    public static function updateClassIndex($classes)
     {
-		DSQL::call('WSComponentIndex', 'updateManagers', array($managers));
+		DSQL::call('WSComponentIndex', 'updateClassIndex', array($classes));
     }
 }
 ?>

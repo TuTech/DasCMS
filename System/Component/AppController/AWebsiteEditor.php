@@ -38,9 +38,10 @@ class AWebsiteEditor
         }
         $index = $SCI->getContentInformationBulk($CMDIDS);
         $items = array();
-        foreach($index as $item)
+        foreach($index as $key => $item)
         {
-            $items[] = array($item['Title'], $item['MCID'], 0, $item['PubDate']);//
+            $cid = substr($key, strlen('MPageManager:'));
+            $items[] = array($item['Title'], $cid, 0, $item['PubDate']);//
         }
         $data = array(
             'title' => SLocalization::get('open'),

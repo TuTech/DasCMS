@@ -1,58 +1,77 @@
 <?php
 class QMySQL_STag extends BQuery 
 {
-    public static function listTagsOf($mid, $cid)
+   /**
+     * @return DSQLResult
+     */
+    public static function listTagsOf($alias)
     {
         $DB = parent::Database();
-		$res = $DB->query(sprintf(
-		    "SELECT Tags.tag FROM Tags ".
-    			"LEFT JOIN relContentTags ON (relContentTags.tagREL = Tags.tagID) ".
-    			"LEFT JOIN ContentIndex ON (relContentTags.contentREL = ContentIndex.contentID) ".
-    			"LEFT JOIN Managers ON (ContentIndex.managerREL = Managers.managerID) ".
-    			"WHERE ContentIndex.managerContentID LIKE '%s' ".
-    			    "AND Managers.manager LIKE '%s' ORDER BY Tags.tag;"
-			, $DB->escape($cid)
-			, $DB->escape($mid)
-		), DSQL::ASSOC);
+		$res = $DB->query(sprintf("
+            SELECT Tags.tag 
+            	FROM Contents
+            	LEFT JOIN relContentsTags ON (Contents.contentID = relContentsTags.contentREL)
+            	LEFT JOIN Tags ON (relcontents.tagREL = Tags.tagID)
+            	LEFT JOIN Aliases ON (Contents.contentID = Aliases.contentREL)
+            	WHERE
+            		Aliases.alias = '%s'
+            	ORDER BY Tags.tag ASC", 
+		        $DB->escape($alias)), 
+            DSQL::ASSOC);
 		return $res;
     }
     
-    public static function getContentDBID($mid, $cid)
+    /**
+     * @return DSQLResult
+     * @deprecated 
+     */
+    public static function getContentDBID($alias)
     {
         $DB = parent::Database();
         $res = $DB->query(
-            "SELECT ContentIndex.contentID 
-                FROM ContentIndex LEFT JOIN Managers
-            	ON (ContentIndex.managerREL = Managers.managerID) 
+            "SELECT 
+					Contents.contentID 
+                FROM Contents 
+				LEFT JOIN Aliases ON (Contents.contentID = Aliases.contentREL) 
             	WHERE 
-            		ContentIndex.managerContentID = '".$DB->escape($contentID)."' 
-            		AND Managers.manager = '".$DB->escape($managerId)."' 
-            	LIMIT 1",DSQL::NUM);
+            		Aliases.alias = '".$DB->escape($alias)."'"
+			,DSQL::NUM);
         return $res;
     }
     
+    /**
+     * @return void
+     */
     public static function removeRelationsTo($dbcid)
     {
         $DB = parent::Database();
-        $DB->queryExecute("DELETE FROM relContentTags WHERE contentREL = ".$DB->escape($CID));	
+        $DB->queryExecute(
+            "DELETE FROM relContentsTags WHERE contentREL = ".$DB->escape($CID)
+        );	
     }
     
+    /**
+     * @return void
+     */
     public static function dumpNewTags($tags)
     {
         parent::Database()->insert('Tags',array('tag'), $tags, true);
     }
     
+    /**
+     * @return void
+     */
     public static function linkTagsTo($tags, $dbcid)
     {
         $DB = parent::Database();
         foreach ($tags as $tag) 
 		{
 			$DB->insertUnescaped(
-				'relContentTags',
+				'relContentsTags',
 				array('contentREL', 'tagREL'),
 				array(
 					$DB->escape($dbcid),
-					"(SELECT tagID FROM Tags WHERE tag = '".$DB->escape($tag)."' LIMIT 1)"
+					"(SELECT tagID FROM Tags WHERE tag = '".$DB->escape($tag)."')"
 				)
 			);
 		}

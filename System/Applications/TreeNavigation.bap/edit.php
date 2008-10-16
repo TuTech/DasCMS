@@ -54,7 +54,7 @@ if($edit != null)
 			$content = SAlias::resolve($tno->getAlias());
 			$title = ($content == null) 
 				? '' 
-				: htmlspecialchars(substr($content->getManagerName(),1).': '.$content->Title, ENT_QUOTES, 'utf-8');
+				: htmlspecialchars(substr(get_class($content),1).': '.$content->Title, ENT_QUOTES, 'utf-8');
 			if($isChild)
 			{
 				echo 'addChild(\''.$parentid.'\', \''.$tno->getAlias().'\', \''.$title.'\');';

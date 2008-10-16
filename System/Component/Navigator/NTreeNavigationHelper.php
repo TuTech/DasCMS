@@ -79,7 +79,7 @@ class NTreeNavigationHelper
     	{
     		throw new XUndefinedIndexException('not initialized');
     	}
-    	return $this->content->getCMSID();
+    	return $this->content->Alias;
     }
     
     /**
@@ -101,12 +101,6 @@ class NTreeNavigationHelper
      */
     public function isAccessable(NTreeNavigationObject $tno)
     {
-//    	if(isset($this->_nodeData[$tno->getAlias()]['PubDate']))
-//    	{
-//    		echo$this->_nodeData[$tno->getAlias()]['Title'].
-//    		 ($this->_nodeData[$tno->getAlias()]['PubDate']).
-//    		 ($tno->getAlias()).'<br />';
-//    	}
     	$alias = $tno->getAlias();
     	return (
     		//in active nodes array?
@@ -141,7 +135,7 @@ class NTreeNavigationHelper
     	{
     		throw new XUndefinedIndexException('not initialized');
     	}
-    	return $tno->getAlias() == $this->content->getCMSID();
+    	return SAlias::match($tno->getAlias(), $this->content->Alias);
     }
     
     /**

@@ -55,15 +55,5 @@ class CError extends BContent
 	{
 		return MError::alloc()->init();
 	}
-	
-	/**
-	 * Name of managing object
-	 *
-	 * @return string
-	 */
-	public function getManagerName()
-	{
-		return self::MANAGER;
-	}
 }
 ?>

@@ -8,11 +8,6 @@
 ************************************************/
 
 
-if(RSent::has('rebuildAliasDatabase') && PAuthorisation::isInGroup('Administrator'))
-{
-	SNotificationCenter::report('message', 'rebuilding alias database');
-	SAlias::alloc()->init()->rebuildAliases();
-}
 if(BAMBUS_APPLICATION_TAB == 'content_access')
 {
 	

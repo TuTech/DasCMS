@@ -114,7 +114,7 @@ if(isset($_FILES['bambus_image_file']['name']) && PAuthorisation::has('org.bambu
 		}
 		
 		//////////////////
-		//manager delete//
+		//mass delete//
 		//////////////////
 		if(RSent::get('action') == 'delete' && PAuthorisation::has('org.bambuscms.layout.stylesheet.delete'))
 		{

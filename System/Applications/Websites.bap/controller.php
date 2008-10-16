@@ -11,8 +11,9 @@ $AppController = BAppController::getControllerForID('org.bambuscms.applications.
 $allowEdit = true;
 $FileOpened = false;
 $mp = MPageManager::alloc()->init();
+$SCI = SContentIndex::alloc()->init();
 
-$editExist = (RURL::has('edit')) && $mp->Exists(RURL::get('edit'));
+$editExist = (RURL::has('edit')) && $SCI->Exists(RURL::get('edit'));
 $Page = null;
 //delete
 if($editExist && RSent::get('delete') != '' && PAuthorisation::has('org.bambuscms.content.cpage.delete'))
