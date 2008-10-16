@@ -9,75 +9,72 @@
  */
 class CPage extends BContent implements ISupportsSidebar 
 {
-	//init: load meta data
-	//on access of content/text - load content data
-	//on access of summary/description - load summary data
-	const MANAGER = 'MPageManager';
-	
-	private 
-		$_contentLoaded = false,
-		$_summaryLoaded = false,
-		$_created = false;
+	private $_contentLoaded = false;
 
+	/**
+	 * @return CPage
+	 */
+	public static function Create($title)
+	{
+	    $SCI = SContentIndex::alloc()->init();
+	    list($dbid, $alias) = $SCI->createContent('CPage', $title);
+	    DFileSystem::Save($this->StoragePath($dbid.'.content'),' ');
+	    $page = new CPage($alias);
+	    new EContentCreatedEvent($page, $$page);
+	    return $page;
+	}
+	
+	public static function Delete($alias)
+	{
+	    $SCI = SContentIndex::alloc()->init();
+	    return $SCI->deleteContent($alias, 'CPage');
+	}
+	
+	public static function Exists($alias)
+	{
+	    $SCI = SContentIndex::alloc()->init();
+	    return $SCI->exists($alias, 'CPage');
+	}
+	
+	/**
+	 * [alias => [title, pubdate]]
+	 * @return array
+	 */
+	public static function Index()
+	{
+	    $SCI = SContentIndex::alloc()->init();
+	    return $SCI->getIndex('CPage', false);;
+	}
+		
+	public static function Open($alias)
+	{
+	    $SCI = SContentIndex::alloc()->init();
+	    if($SCI->exists($alias, 'CPage'))
+	    {
+	        return new CPage($alias);
+	    }
+	    else
+	    {
+	        throw new XUndefinedIndexException($alias);
+	    }
+	}
+	
+	
 	/**
 	 * @param string $id
 	 * @throws XFileNotFoundException
 	 * @throws XFileLockedException
 	 * @throws XInvalidDataException
 	 */
-	public function __construct($id = null)
+	public function __construct($alias)
 	{
-		$manager = MPageManager::alloc()->init(); 
-		$meta = array();
-		$defaults = array(
-			'CreateDate' => time(),
-			'CreatedBy' => PAuthentication::getUserID(),
-			'ModifyDate' => time(),
-			'ModifiedBy' => PAuthentication::getUserID(),
-			'PubDate' => 0,
-			'Size' => 0,
-			'Title' => 'new CPage '.date('r'),
-		);
-		if($id == null || !$manager->Exists($id))
-		{
-			//create
-			$this->Id = ($id == null || strlen($id) != 32)
-				? $manager->generateId()
-				: $id;
-			//saved in content 
-			$this->Content = ' ';
-			
-			//saved in summary
-			$this->Description = ' ';
-			
-			//save settings
-			$this->_created = true;
-			$this->_contentLoaded = true;
-			$this->_summaryLoaded = true;
-		}
-		else
-		{
-			$this->Id = $id;
-			$meta = SContentIndex::alloc()->init()->getMeta($this);
-		}			
-		foreach ($defaults as $var => $default) 
-		{
-			$this->initPropertyValues($var, $meta, $default);
-		}
-		$this->_origPubDate = $this->PubDate;
+	    if(!self::Exists($alias))
+	    {
+	        throw new XArgumentException('content not found');
+	    }
+	    $this->initBasicMetaFromDB($alias);
 	}
 	
-	private function loadMyData($stream)//<id>.<stream>.php
-	{
-		switch($stream)
-		{
-			case 'content':
-			case 'summary':
-				return DFileSystem::Load($this->StoragePath($this->Id.'.'.$stream));
-			default:
-				throw new XUndefinedIndexException('CPage has no data file for '.$stream);
-		}
-	}
 	/**
 	 * Enter description here...
 	 *
@@ -88,7 +85,7 @@ class CPage extends BContent implements ISupportsSidebar
 		try{
 			if(!$this->_contentLoaded)
 			{
-				$this->Content = $this->loadMyData('content');
+				$this->Content = DFileSystem::Load($this->StoragePath($this->Id.'.content'));
 				$this->_contentLoaded = true;
 			}
 		}
@@ -99,82 +96,20 @@ class CPage extends BContent implements ISupportsSidebar
 		return $this->Content;
 	}
 	
-	public function _get_Description()
-	{
-		try{
-			if(!$this->_contentLoaded)
-			{
-				$this->Description = $this->loadMyData('summary');
-				$this->_summaryLoaded = true;
-			}
-		}
-		catch(Exception $e)
-		{
-			return $e->getMessage();
-		}
-		return $this->Description;
-	}
-	
 	public function _set_Content($value)
 	{
 		$this->Content = $value;
-		$this->Summary = $this->createSummary($value);
-	}
-	
-	/**
-	 * Get a list of all possible meta keys
-	 *
-	 * @return array
-	 */
-	public static function MetaKeys()
-	{
-		return array( 
-			'Summary',
-			'Text',
-			'Title',
-			'Content',
-			'Alias',
-			'PreviousAliases',
-			'PubDate',
-			'CreateDate',
-			'ModifyDate',
-			'ModifiedBy',
-			'Source',
-			'Id',
-			'Tags'
-		);
+		$this->Description = $this->createSummary($value);
 	}
 	
 	public function Save()
 	{
-		//count things changed
-		$toSave = count($this->_data__set);
-		
 		//save content
-		if(array_key_exists('Content', $this->_data__set) || $this->_created)
+		if($this->_contentLoaded)
 		{
 			DFileSystem::Save($this->StoragePath($this->Id.'.content'),$this->Content);
-			unset($this->_data__set['Content']);
 		}
-		
-		//save description/summary
-		if(array_key_exists('Description', $this->_data__set) || $this->_created)
-		{
-			DFileSystem::Save($this->StoragePath($this->Id.'.summary'),$this->Content);
-			unset($this->_data__set['Description']);
-		}
-		MPageManager::ChangeIndex($this->Id, $this->Title);
-		
-		//fire events
-		if($this->_created)//just created
-		{
-			new EContentCreatedEvent($this, $this);
-			$this->_created = false;
-		}
-		elseif($toSave = count($this->_data__set))
-		{
-			new EContentChangedEvent($this, $this);
-		}
+		new EContentChangedEvent($this, $this);
 		if($this->_origPubDate != $this->PubDate)
 		{
 			$e = ($this->__get('PubDate') == 0)
@@ -254,15 +189,5 @@ class CPage extends BContent implements ISupportsSidebar
 	{
 		return in_array(strtolower($category), array('text', 'media', 'settings', 'information', 'search'));
 	}
-	
-	/**
-	 * initialized MPageManager object
-	 *
-	 * @return MPageManager
-	 */
-	public function getManager()
-	{
-		return MPageManager::alloc()->init();
-	}	
 }
 ?>

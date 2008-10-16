@@ -64,7 +64,7 @@ if(count($spores) > 0)
 		$e = new EContentAccessEvent($Spore, $content);
 		if($e->isCanceled())
 		{
-			$content = MError::alloc()->init()->Open(403);
+			$content = CError::Open(403);
 		}
 	}
 	echo $Parser->parse(implode('', file('Content/templates/page.tpl')), $content);

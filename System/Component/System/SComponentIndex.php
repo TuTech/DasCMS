@@ -22,7 +22,6 @@ class SComponentIndex
 		'H' => 'EventHandler',
 		'I' => 'Interface',
         'L' => 'Legacy',
-		'M' => 'Manager',
 		'N' => 'Navigator',
 		'P' => 'Provider',
 		'Q' => 'Query',
@@ -57,11 +56,6 @@ class SComponentIndex
 		}
 		return sprintf("./System/Component/%s/%s.php", $Components[$fc], $class);
 	}
-//@todo FIXME dump managers in db  
-//foreach ($managers as $manager) 
-//{
-//	$result = $DB->queryExec("INSERT OR IGNORE INTO Managers (manager) VALUES ('".$manager."');");
-//}
 	/**
 	 * Build index of all component classes
 	 * 

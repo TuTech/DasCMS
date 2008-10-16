@@ -34,8 +34,6 @@ abstract class BObject
 	            return new AUserEditor();
 	        case 'org.bambuscms.applications.groupmanager':
 	            return new AGroupManager();
-	        case 'org.bambuscms.applications.feedmanager':
-	            return new AFeedManager();
 	        case 'org.bambuscms.view.spore':
 	            return new VSpore();
 	        case 'org.bambuscms.navigation.treenavigation':

@@ -69,7 +69,6 @@ class STag
     }
 	//end IShareable
 	
-	private static $_managers = null;
 	
 	/**
 	 * Uniform way to convert a string with a bunch of tags in a useful array
@@ -169,7 +168,7 @@ class STag
 	}
 	
 	/**
-	 * Get all tags assigned to a content-element defined by its manager and its id
+	 * Get all tags assigned to a content-element defined by its alias
 	 *
 	 * @param BContent $content
 	 * @return array

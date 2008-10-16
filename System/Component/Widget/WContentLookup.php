@@ -10,7 +10,6 @@
 class WContentLookup extends BWidget implements ISidebarWidget  
 {
     const CLASS_NAME = 'WContentLookup';
-	private $managers = array();
 	/**
 	 * get category of this widget
 	 * @return string
@@ -51,8 +50,7 @@ class WContentLookup extends BWidget implements ISidebarWidget
 		try
 		{
 		    $res = QWContentLookup::fetchContentList();
-		    $managers = SComponentIndex::alloc()->init()->ExtensionsOf('BContentManager');
-			$rows = $res->getRowCount()+count($managers);
+			$rows = $res->getRowCount()+5;
 				
 			$html .= '<select id="WContentLookup" '.
 			            'onclick="insertMedia(\'content\', this.options[this.selectedIndex].value, '.

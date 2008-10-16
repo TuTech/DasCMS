@@ -30,18 +30,12 @@ class AWebsiteEditor
             throw new XPermissionDeniedException('view');
         }
         $SCI = SContentIndex::alloc()->init();
-        $IDindex = $SCI->getIndex('MPageManager');
-        $CMDIDS = array();
-        foreach ($IDindex as $key => $ttl) 
-        {
-        	$CMDIDS[] = 'MPageManager:'.$key;
-        }
-        $index = $SCI->getContentInformationBulk($CMDIDS);
+        $IDindex = CPage::Index();
         $items = array();
-        foreach($index as $key => $item)
+        foreach ($IDindex as $alias => $data) 
         {
-            $cid = substr($key, strlen('MPageManager:'));
-            $items[] = array($item['Title'], $cid, 0, $item['PubDate']);//
+        	list($title, $pubdate) = $data;
+        	$items[] = array($title, $alias, 0, $pubdate);
         }
         $data = array(
             'title' => SLocalization::get('open'),

@@ -41,7 +41,6 @@ class post_setup_SComponentIndex implements runnable
 		'H' => 'EventHandler',
 		'I' => 'Interface',
         'L' => 'Legacy',
-		'M' => 'Manager',
 		'N' => 'Navigator',
 		'P' => 'Provider',
 		'Q' => 'Query',
@@ -181,7 +180,7 @@ class post_setup_SComponentIndex implements runnable
 		$ii = "<?php exit(); ?".">\n".serialize(self::$_interfaceIndex);
 		$this->write('Content/SComponentIndex/interfaces.php', $ii);
 		
-		
+		throw new Exception('let component index do this');
 		$managers = array();
 		foreach(array_keys(self::$_classIndex) as $class)
 		{

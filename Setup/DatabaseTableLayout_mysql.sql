@@ -49,7 +49,7 @@ Contents(
     primaryAlias 
         INTEGER 
         UNIQUE
-        NOT NULL,
+        NULL,
     type 
         INTEGER 
         NOT NULL,

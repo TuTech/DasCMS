@@ -60,7 +60,6 @@ function __autoload($class)
 		'H' => 'EventHandler',
 		'I' => 'Interface',
         'L' => 'Legacy',
-		'M' => 'Manager',
 		'N' => 'Navigator',
 		'P' => 'Provider',
 		'Q' => 'Query',

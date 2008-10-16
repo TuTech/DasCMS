@@ -18,7 +18,6 @@ abstract class BContent extends BObject
 	protected 
 		$Id, 		//class unique id
 		$Title, 	//title of object
-		$Summary,	//short description in html
 		$Content,	//content and content type e.g. html, mp3, gif ...
 		$Text, 		//Text representation of the object for search indexers
 		$Alias, 	//this will be used in navigations (unique in cms)
@@ -28,13 +27,65 @@ abstract class BContent extends BObject
 		$ModifyDate,//timestamp: last modified
 		$ModifiedBy, 
 		$Source,	//where does it come from local|url
-		$Keywords,	//meta keywords 
-		$Tags,	//meta keywords 
+		$Tags,	
 		$Description,//meta description - plain text
 		$Size
 		;
 	protected $invokingQueryObject = null;
 		
+	protected function initBasicMetaFromDB($alias)
+	{
+	    list($id, $ttl, $pd, $desc, $tags) = QBContent::getBasicMetaData($alias);
+	    $this->Id = $id;
+	    $this->Title = $ttl;
+	    $this->PubDate = strtotime($pd);
+	    $this->Description = $desc;
+	    $this->Tags = $tags;
+	    $this->Alias = $alias;
+	}
+	
+	protected function initAdditionalMetaFromDB($alias)
+	{
+	    $this->_loadLazyData = array();
+	    list($cb, $cd, $mb, $md, $sz) = QBContent::getAdditionalMetaData($alias);
+	    $this->CreatedBy = $cb;
+	    $this->CreateDate = strtotime($cd);
+	    $this->ModifiedBy = $mb;
+	    $this->ModifyDate = strtotime($md);
+	    $this->Size = $sz;
+	}
+	
+	protected function saveMetaToDB($id, $title, $pubDate, $description, $size = 0)
+	{
+	    QBContent::saveMetaData($id, $title, $pubDate, $description, $size);
+	}
+	
+	protected $_loadLazyData = array('CreatedBy', 'CreateDate', 'ModifiedBy', 'ModifyDate', 'Size');
+	
+	/**
+	 * [alias => [title, pubdate]]
+	 * @return array
+	 */
+	public static function Index()
+	{
+	    throw new Exception('not implemented');
+	    //FIXME
+	}
+		
+	public static function Open($alias)
+	{
+	    try
+	    {
+	        $class = QBContent::getClass($alias);
+	        return call_user_func_array($class.'::Open', array($alias));
+	        
+	    }
+	    catch(Exception $e)
+	    {
+	        return CError::Open(404);
+	    }
+	}
+	
 	/**
 	 * Forwarder for getter functions
 	 *
@@ -44,6 +95,10 @@ abstract class BContent extends BObject
 	 */
 	public function __get($var)
 	{
+	    if(in_array($var, $this->_loadLazyData))
+	    {
+	        $this->initAdditionalMetaFromDB($this->Alias);
+	    }
 		if(method_exists($this, '_get_'.$var))
 		{
 			return $this->{'_get_'.$var}();	
@@ -136,14 +191,6 @@ abstract class BContent extends BObject
 			$this->Tags = STag::alloc()->init()->get($this);
 		}
 		return $this->Tags;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function _get_Keywords()
-	{
-		return implode(', ',$this->_get_Tags());
 	}
 	
 	/**
@@ -273,21 +320,6 @@ abstract class BContent extends BObject
 	/**
 	 * @return string
 	 */
-	public function _get_Summary()
-	{
-		return $this->_get_Description();
-	}
-	
-	/**
-	 * @param string $value
-	 */
-	public function _set_Summary($value)
-	{
-		$this->_set_Description($value);
-	}
-	/**
-	 * @return string
-	 */
 	public function _get_Text()
 	{
 		return strip_tags($this->_get_Content());
@@ -319,11 +351,5 @@ abstract class BContent extends BObject
 	public abstract function __construct($Id);	//object should load its data here
 												//$id is class internal id or cms wide id-path
 	public abstract function Save();
-	
-	/**
-	 * responsible (initialized) manager object
-	 * @return BContentManager
-	 */
-	public abstract function getManager();
 }
 ?>

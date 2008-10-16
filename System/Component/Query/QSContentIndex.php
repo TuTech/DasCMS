@@ -13,6 +13,26 @@ class QSContentIndex extends BQuery
     }
     
     /**
+     * @param string $type class
+     * @param string $title
+     * @return array [dbid,alias]
+     */
+    public static function create($type, $title)
+    {
+        return DSQL::call(self::TARGET, 'create', array($type, $title));
+    }
+        
+    /**
+     * @param string $alias
+     * @param string $asType
+     * @return boolean
+     */
+    public static function exists($alias, $asType = null)
+    {
+        return DSQL::call(self::TARGET, 'exists', array($alias, $asType));
+    }
+    
+    /**
      * @param array $aliases
      * @return DSQLResult
      */
@@ -48,14 +68,6 @@ class QSContentIndex extends BQuery
         return DSQL::call(self::TARGET, 'deleteContent', array($dbid));
     }
     
-    /**
-     * @param string $alias
-     * @return DSQLResult
-     */
-    public static function getMetaInformation($alias)
-    {
-        return DSQL::call(self::TARGET, 'getMetaInformation', array($alias));
-    }
     
     /**
      * @param string $alias

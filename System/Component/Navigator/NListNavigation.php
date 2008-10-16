@@ -37,7 +37,6 @@ class NListNavigation
 		}
 		try
 		{
-		    $managers = SComponentIndex::alloc()->init()->ExtensionsOf('BContentManager');
 		    $res = QNListNavigation::listTagged($tags);
 			$html .= '<ul class="NListNavigation">';
 			$html .= '<span class="NavigationItemCount">'.$res->getRowCount().'</span>';

@@ -24,7 +24,7 @@ foreach($files as $id => $file){
 		$lastchar = $fchar;
 		printf('<span class="hiddenGroup">%s</span>', $fchar);
 	}
-   list($dbtitle, $dbalias) = array_values($SCI->getTitleAndAlias(get_class($mp).':'.$id));
+   list($dbtitle, $dbalias) = array_values($SCI->getTitleAndAlias($id));
 	$suffix = 'website';
     $icon = (file_exists(WIcon::pathFor($suffix, 'mimetype'))) ? $suffix : 'file';
     $bigIcon = (file_exists(WIcon::pathFor($suffix, 'mimetype', WIcon::LARGE))) ? $suffix : 'file';

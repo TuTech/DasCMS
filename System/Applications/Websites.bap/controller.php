@@ -10,15 +10,14 @@ $AppController = BAppController::getControllerForID('org.bambuscms.applications.
 
 $allowEdit = true;
 $FileOpened = false;
-$mp = MPageManager::alloc()->init();
 $SCI = SContentIndex::alloc()->init();
 
-$editExist = (RURL::has('edit')) && $SCI->Exists(RURL::get('edit'));
+$editExist = (RURL::has('edit')) && CPage::Exists(RURL::get('edit'));
 $Page = null;
 //delete
 if($editExist && RSent::get('delete') != '' && PAuthorisation::has('org.bambuscms.content.cpage.delete'))
 {
-	$mp->Delete(RURL::get('edit'));
+	CPage::Delete(RURL::get('edit'));
 	$editExist = false;
 }
 if(RSent::get('action') == 'delete' && PAuthorisation::has('org.bambuscms.content.cpage.delete'))
@@ -28,7 +27,7 @@ if(RSent::get('action') == 'delete' && PAuthorisation::has('org.bambuscms.conten
 		if(substr($k,0,7) == 'select_' && !empty($v))
 		{
 			//delete
-			$mp->Delete(substr($k,7));
+			CPage::Delete(substr($k,7));
 		}
 	}
 }
@@ -37,14 +36,14 @@ if(RSent::get('action') == 'delete' && PAuthorisation::has('org.bambuscms.conten
 elseif(RSent::hasValue('create') && PAuthorisation::has('org.bambuscms.content.cpage.create'))
 {
 	$Title = RSent::get('create');
-	$Page = $mp->Create($Title);
+	$Page = CPage::Create($Title);
 	$Page->Content = $Title;
 }
 
 //open for editing
 elseif($editExist && PAuthorisation::has('org.bambuscms.content.cpage.change'))
 {
-	$Page = $mp->Open(RURL::get('edit'));
+	$Page = CPage::Open(RURL::get('edit'));
 }
 
 //save data

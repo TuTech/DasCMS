@@ -218,18 +218,9 @@ array objectid => spore
 		}
 		else
 		{
-			$this->content = MError::alloc()->init()->Open(404);
+			$this->content = CError::Open(404);
 		}
 		//do once
-		
-		
-		
-		//@todo build
-		//resolve alias
-		//get manager
-		//open content
-		//set $content->InvokedByQueryObject($this)
-		//set this->content = $content
 	}
 	
 	/**

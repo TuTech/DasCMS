@@ -36,7 +36,7 @@ class NTreeNavigationHelper
     	if($content == null || !$content instanceof BContent)
     	{
     		//echo 'error content is null or no content also<br />';
-    		$content = MError::alloc()->init()->Open(404);
+    		$content = CError::Open(404);
     	}
     	//echo get_class($content);
     	$this->content = $content;
@@ -69,7 +69,7 @@ class NTreeNavigationHelper
 	}
 	
 	/**
-	 * get cmsid (manager:contentid) of active content
+	 * get cmsid of active content
 	 *
 	 * @return string
 	 */

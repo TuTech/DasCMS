@@ -43,8 +43,6 @@ abstract class BAppController
 	            return new AUserEditor();
 	        case 'org.bambuscms.applications.groupmanager':
 	            return new AGroupManager();
-	        case 'org.bambuscms.applications.feedmanager':
-	            return new AFeedManager();
 	        default:
 	            throw new XUndefinedException('controller not found');
 	    }

@@ -77,11 +77,9 @@ class SAlias
 		if(!$failed)
 		{
     		$sci = SComponentIndex::alloc()->init();
-    		if($sci->IsExtension($class, 'BContentManager'))
+    		if($sci->IsExtension($class, 'BContent'))
     		{
-				$man = new $manager();
-				$man = $man->alloc()->init();
-				$ret =  $man->Open($id);
+				$ret =  BContent::Open($id);
     		}
 		}
 		return $ret;
@@ -184,18 +182,6 @@ class SAlias
 		return QSAlias::getPrimaryAlias($content->Alias);
 	}
 
-	
-	/**
-	 * Get active aliases for all content objects by id (Manager:c-id)
-	 *
-	 * @param array $contentObjects
-	 * @return array
-	 */
-	public function getAllActive(array $contents)
-	{
-		
-	}
-	
 	/**
 	 * Check existance of an alias
 	 *

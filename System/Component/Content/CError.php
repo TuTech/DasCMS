@@ -9,11 +9,49 @@
  */
 class CError extends BContent
 {
-	const MANAGER = 'MError';
+	public static function Create($title)
+	{
+	    throw new Exception('errors are fixed');
+	}
 	
+	public static function Delete($alias)
+	{
+	    throw new Exception('errors are fixed');
+	}
+	
+	public static function Exists($alias)
+	{
+	    $SCI = SContentIndex::alloc()->init();
+	    return $SCI->exists($alias, 'CError');
+	}
+	
+	/**
+	 * [alias => [title, pubdate]]
+	 * @return array
+	 */
+	public static function Index()
+	{
+	    $SCI = SContentIndex::alloc()->init();
+	    return $SCI->getIndex('CError', false);;
+	}
+	
+	public static function Open($alias)
+	{
+	    $alias = SHTTPStatus::validate($alias);
+        return new CError($alias == null ? 501 : $alias);
+	}
+	
+	
+	public static function errdesc($code)
+	{
+		$code = SHTTPStatus::validate($code);
+		$code = $code == null ? 501 : $code; 
+		return array($code => SHTTPStatus::byCode($code, false));
+	}
+
 	public function __construct($Id)	
 	{
-		$dat = MError::errdesc($Id);
+		$dat = self::errdesc($Id);
 		$Ids = array_keys($dat);
 		$this->Id = $Ids[0];
 		$meta = array();
@@ -22,9 +60,9 @@ class CError extends BContent
 			'CreatedBy' => 'System',
 			'ModifyDate' => time(),
 			'ModifiedBy' => 'System',
-			'PubDate' => 0,
+			'PubDate' => time(),
 			'Size' => 0,
-			'Title' => 'ERROR '.$Id.' - '.$dat[$Id],
+			'Title' => 'ERROR '.$this->Id.' - '.$dat[$this->Id],
 			'Content' => sprintf('<div class="%s"><h1>ERROR %d - %s</h1></div>',get_class($this),$this->Id,$dat[$this->Id])
 		);
 		foreach ($defaults as $var => $default) 
@@ -46,14 +84,5 @@ class CError extends BContent
 	}
 	
 	public function Save(){}
-	
-	/**
-	 * responsible (initialized) manager object
-	 * @return BContentManager
-	 */
-	public function getManager()
-	{
-		return MError::alloc()->init();
-	}
 }
 ?>

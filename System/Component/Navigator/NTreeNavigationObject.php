@@ -252,19 +252,6 @@ class NTreeNavigationObject
 		{}
 	}
 	
-	//@todo remove debugging function
-	private function debug($cid)
-	{
-		$dat = explode(':', $cid);
-		if(count($dat) == 2)
-		{
-			list($m, $c) = $dat;
-			$r = SContentIndex::getTitleAndAlias($m.':'.$c);
-			return $r['Title'];
-		}
-		return ' <i>ROOT</i> ';
-	}
-	
 	/**
 	 * let the parents and their children report their visibility
 	 */
