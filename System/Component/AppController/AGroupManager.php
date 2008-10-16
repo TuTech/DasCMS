@@ -8,11 +8,6 @@ class AGroupManager
 {
     const GUID = 'org.bambuscms.applications.groupmanager';
     
-    protected function __construct()
-    {
-        //get an instance by id from the base class
-    }
-    
     public function getGUID()
     {
         return self::GUID;

@@ -59,30 +59,7 @@ class SAlias
 	 */
 	public static function resolve($alias)
 	{
-		$failed = true;
-		$ret = null;
-		try
-		{
-			$res = QSAlias::resolveAlias($alias);	
-			if($res->getRowCount() != 1) 
-			{
-				list($class, $id) = $res->fetch();
-				$failed = false;
-			}
-			$res->free();
-		}
-		catch(Exception $e)
-		{/* checked in if */}
-		
-		if(!$failed)
-		{
-    		$sci = SComponentIndex::alloc()->init();
-    		if($sci->IsExtension($class, 'BContent'))
-    		{
-				$ret =  BContent::Open($id);
-    		}
-		}
-		return $ret;
+		return BContent::Open($alias);
 	}
 	
 	/**

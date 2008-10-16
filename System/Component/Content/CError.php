@@ -7,8 +7,14 @@
  * @since 19.11.2007
  * @license GNU General Public License 3
  */
-class CError extends BContent
+class CError extends BContent implements IGlobalUniqueId 
 {
+    const GUID = 'org.bambuscms.content.cerror';
+    public function getGUID()
+    {
+        return self::GUID;
+    }
+    
 	public static function Create($title)
 	{
 	    throw new Exception('errors are fixed');
@@ -84,5 +90,10 @@ class CError extends BContent
 	}
 	
 	public function Save(){}
+	
+	public function isModified()
+	{
+	    return false;
+	}
 }
 ?>

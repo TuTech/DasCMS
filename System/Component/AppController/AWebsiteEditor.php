@@ -8,11 +8,6 @@ class AWebsiteEditor
 {
     const GUID = 'org.bambuscms.applications.websiteeditor';
     
-    protected function __construct()
-    {
-        //get an instance by id from the base class
-    }
-    
     public function getGUID()
     {
         return self::GUID;
@@ -35,7 +30,7 @@ class AWebsiteEditor
         foreach ($IDindex as $alias => $data) 
         {
         	list($title, $pubdate) = $data;
-        	$items[] = array($title, $alias, 0, $pubdate);
+        	$items[] = array($title, $alias, 0, strtotime($pubdate));
         }
         $data = array(
             'title' => SLocalization::get('open'),

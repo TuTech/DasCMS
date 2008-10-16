@@ -30,7 +30,7 @@ function insertMedia(type, id, title)
 		if(type == 'content')
 		{
 			document.getElementById(lastFocus).value = id;
-			document.getElementById(lastFocus+'_t').value = id.substr(1, id.indexOf(':')-1)+': '+title;
+			document.getElementById(lastFocus+'_t').value = title;
 		}
 		document.getElementById(lastFocus+'_t').focus();
 	}

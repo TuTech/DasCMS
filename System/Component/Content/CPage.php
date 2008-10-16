@@ -7,8 +7,13 @@
  * @since 28.11.2007
  * @license GNU General Public License 3
  */
-class CPage extends BContent implements ISupportsSidebar 
+class CPage extends BContent implements ISupportsSidebar, IGlobalUniqueId 
 {
+    const GUID = 'org.bambuscms.content.cpage';
+    public function getGUID()
+    {
+        return self::GUID;
+    }
 	private $_contentLoaded = false;
 
 	/**
@@ -18,9 +23,9 @@ class CPage extends BContent implements ISupportsSidebar
 	{
 	    $SCI = SContentIndex::alloc()->init();
 	    list($dbid, $alias) = $SCI->createContent('CPage', $title);
-	    DFileSystem::Save($this->StoragePath($dbid.'.content'),' ');
+	    DFileSystem::Save(SPath::CONTENT.'CPage/'.$dbid.'.content.php', ' ');
 	    $page = new CPage($alias);
-	    new EContentCreatedEvent($page, $$page);
+	    new EContentCreatedEvent($page, $page);
 	    return $page;
 	}
 	
@@ -85,7 +90,7 @@ class CPage extends BContent implements ISupportsSidebar
 		try{
 			if(!$this->_contentLoaded)
 			{
-				$this->Content = DFileSystem::Load($this->StoragePath($this->Id.'.content'));
+				$this->Content = DFileSystem::Load(SPath::CONTENT.'CPage/'.$this->Id.'.content.php');
 				$this->_contentLoaded = true;
 			}
 		}
@@ -98,8 +103,11 @@ class CPage extends BContent implements ISupportsSidebar
 	
 	public function _set_Content($value)
 	{
+	    $this->_contentLoaded = true;
 		$this->Content = $value;
+		$this->Size = strlen($value);
 		$this->Description = $this->createSummary($value);
+		
 	}
 	
 	public function Save()
@@ -107,8 +115,10 @@ class CPage extends BContent implements ISupportsSidebar
 		//save content
 		if($this->_contentLoaded)
 		{
-			DFileSystem::Save($this->StoragePath($this->Id.'.content'),$this->Content);
+			DFileSystem::Save(SPath::CONTENT.'CPage/'.$this->Id.'.content.php',$this->Content);
 		}
+		echo '####saving new size is '.$this->Size;
+		$this->saveMetaToDB();
 		new EContentChangedEvent($this, $this);
 		if($this->_origPubDate != $this->PubDate)
 		{

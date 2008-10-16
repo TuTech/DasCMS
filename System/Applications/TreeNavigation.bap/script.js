@@ -257,7 +257,7 @@ function insertMedia(type, id, title)
 		if(type == 'content')
 		{
 			document.getElementById(lastFocus+'_cid').value = id;
-			document.getElementById(lastFocus+'_ct').value = id.substr(1, id.indexOf(':')-1)+': '+title;
+			document.getElementById(lastFocus+'_ct').value = title;
 		}
 		document.getElementById(lastFocus+'_ct').focus();
 	}//else alert('nofoc');

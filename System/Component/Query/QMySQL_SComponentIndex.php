@@ -6,12 +6,15 @@ class QMySQL_SComponentIndex extends BQuery
      */
     public static function updateClassIndex($classes)
     {
+        $DB = BQuery::Database();
         $ci = array();
         foreach ($classes as $cname => $cguid) 
         {
-        	$ci[] = array($cname, $cguid);
+            $cn = '"'.$DB->escape($cname).'"';
+            $cg = empty($cguid) ? 'NULL' : '"'.$DB->escape($cguid).'"';
+        	$ci[] = array($cn, $cg);
         }
-		parent::Database()->insert('Classes',array('class', 'guid'),$ci, true);
+		$DB->insertUnescaped('Classes',array('class', 'guid'),$ci, true);
     }
 }
 ?>

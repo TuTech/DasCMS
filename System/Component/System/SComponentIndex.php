@@ -49,11 +49,6 @@ class SComponentIndex
 	{
 		$fc = substr($class,0,1); //first char
 		$sc = substr($class,1,1); //second char
-		if($sc == strtolower($sc))//valid class name begins with to uppercase chars 
-		{						  //use the content class as default
-			$fc = 'M';
-			$class = 'M'.$class;
-		}
 		return sprintf("./System/Component/%s/%s.php", $Components[$fc], $class);
 	}
 	/**
@@ -135,8 +130,7 @@ class SComponentIndex
 							$guid = '';
 							if(isset(self::$_classIndex[$c][self::INTERFACES]['IGlobalUniqueId']))
 							{
-							    $o = new $c();
-							    $guid = $o->getGUID();
+							    $guid = constant($c.'::GUID');
 							}
 							$db_class_index[$c] = $guid;
 						}

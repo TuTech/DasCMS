@@ -102,15 +102,13 @@ class QMySQL_SContentIndex extends BQuery
         }
         $sql = "
             SELECT 
-            		Help.request AS request,
-            		Aliases.alias AS primary
-            	FROM (
-            		SELECT contentREL AS contentID, alias AS request FROM Aliases
-            		WHERE %s
-            	) AS Help
-            	LEFT JOIN Contents UNSING (contentID)
-            	LEFT JOIN Aliases ON (Contents.primaryAlias = Aliases.aliasID)";
-       return $DB->query(sprintf($sql, $sel));
+                    Aliases.alias,
+                    A2.alias
+                FROM Contents
+                LEFT JOIN Aliases ON (Contents.contentID = Aliases.contentREL)
+                LEFT JOIN Aliases AS A2 ON (Contents.primaryAlias = A2.aliasID)
+                WHERE %s";
+       return $DB->query(sprintf($sql, $sel), DSQL::NUM);
     }
     
     /**
@@ -126,7 +124,7 @@ class QMySQL_SContentIndex extends BQuery
             		Contents.pubDate AS PubDate,
             		Aliases.alias AS Alias
             	FROM Contents 
-            	LEFT JOIN Aliases ON (Contents.contentID = Aliases.contentREL)
+            	LEFT JOIN Aliases ON (Contents.primaryAlias = Aliases.aliasID)
 				LEFT JOIN Classes ON (Contents.type = Classes.classID)
             	WHERE 
 					Classes.class = '%s'
@@ -214,26 +212,26 @@ class QMySQL_SContentIndex extends BQuery
             	(type, title, description)
             	VALUES
             	((SELECT classID FROM Classes WHERE class = '%s'), '%s', '')";
-        $DB->query(sprintf($sql, $DB->escape($type), $DB->escape($title)));
+        $DB->queryExecute(sprintf($sql, $DB->escape($type), $DB->escape($title)));
         $id = $DB->lastInsertID();
         $sql = "
             INSERT INTO Aliases
             	(alias, contentREL)
             	VALUES
             	('%s', %d)";
-        $DB->query(sprintf($sql, $DB->escape(md5($type.':'.$id)), $id));
+        $DB->queryExecute(sprintf($sql, $DB->escape(md5($type.':'.$id)), $id));
         $aliasID = $DB->lastInsertID();
         $sql = "
 			UPDATE Contents
 				SET primaryAlias = %d
 				WHERE contentID = %d";
-        $DB->query(sprintf($sql, $aliasID, $id));
+        $DB->queryExecute(sprintf($sql, $aliasID, $id));
         $sql = "
 			INSERT INTO Changes
 				(contentREL, title, size, userREL)
 				VALUES
 				(%d, '%s', 0, (SELECT userID FROM Users WHERE login = '%s'))";
-        $DB->query(sprintf($sql, $id, $DB->escape($title), $DB->escape(PAuthentication::getUserID())));
+        $DB->queryExecute(sprintf($sql, $id, $DB->escape($title), $DB->escape(PAuthentication::getUserID())));
         $DB->commit();
         return array($id, md5($type.':'.$id));
     }

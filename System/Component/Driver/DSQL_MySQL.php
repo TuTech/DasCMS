@@ -236,6 +236,10 @@ class DSQL_MySQL extends DSQL
     		throw new XDatabaseException(self::$DB->error, self::$DB->errno);
     	}
     	SProfiler::finish($ptok);
+    	if(!$res instanceof mysqli_result)
+    	{
+    	    throw new Exception($res);
+    	}
     	return new DSQLResult_MySQL(self::$DB, $res);
     }
 }

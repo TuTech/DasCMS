@@ -1,5 +1,5 @@
 -- clean up
-SET FOREIGN_KEY_CHECK = 0;
+SET FOREIGN_KEY_CHECKS = 0;
 
 DROP TABLE IF EXISTS Classes;
 DROP TABLE IF EXISTS Contents;
@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS Groups;
 DROP TABLE IF EXISTS relUsersGroups;
 
-SET FOREIGN_KEY_CHECK = 1;
+SET FOREIGN_KEY_CHECKS = 1;
 
 -- Every class will be listed here 
 -- GUID is the global unique id for classes implementing IGlobalUniqueID
@@ -245,7 +245,7 @@ Contents
         ON UPDATE RESTRICT,
     ADD CONSTRAINT primary_alias FOREIGN KEY (primaryAlias) 
         REFERENCES Aliases(aliasID)
-        ON DELETE RESTRICT
+        ON DELETE CASCADE
         ON UPDATE NO ACTION;
 
 -- Foreign keys for Aliases

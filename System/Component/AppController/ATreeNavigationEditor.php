@@ -8,10 +8,6 @@ class ATreeNavigationEditor
 {
     const GUID = 'org.bambuscms.applications.treenavigationeditor';
     
-    protected function __construct()
-    {
-        //get an instance by id from the base class
-    }
     
     public function getGUID()
     {

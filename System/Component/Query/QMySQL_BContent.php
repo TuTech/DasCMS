@@ -5,6 +5,7 @@ class QMySQL_BContent extends BQuery
     public static function saveMetaData($id, $title, $pubDate, $description, $size)
     {
         $DB = BQuery::Database();
+echo '####saving2 new size is '.$size;
         $DB->beginTransaction();
         $sql = "
             UPDATE Contents 
@@ -25,8 +26,9 @@ class QMySQL_BContent extends BQuery
 			INSERT INTO Changes
 				(contentREL, title, size, userREL)
 				VALUES
-				(%d, '%s', 0, (SELECT userID FROM Users WHERE login = '%s'))";
-        $DB->query(sprintf($sql, $id, $DB->escape($title), $DB->escape(PAuthentication::getUserID())));
+				(%d, '%s', %d, (SELECT userID FROM Users WHERE login = '%s'))";
+        $sql = sprintf($sql, $id, $DB->escape($title), $size, $DB->escape(PAuthentication::getUserID()));
+        $DB->queryExecute($sql);
         $DB->commit();
     }
 
@@ -42,7 +44,7 @@ class QMySQL_BContent extends BQuery
         $res = $DB->query(sprintf($sql, $DB->escape($alias)), DSQL::NUM);
         if($res->getRowCount() != 1)
         {
-            throw new XUndefinedIndexException();
+            throw new XUndefinedIndexException($alias);
         }
         list($class) = $res->fetch();
         return $class;

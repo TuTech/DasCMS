@@ -3,14 +3,14 @@ class QSTag extends BQuery
 {
     const TARGET = 'STag';
     
-    public static function listTagsOf($mid, $cid)
+    public static function listTagsOf($alias)
     {
-		return DSQL::call(self::TARGET, 'listTagsOf', array($mid, $cid));
+		return DSQL::call(self::TARGET, 'listTagsOf', array($alias));
     }
     
-    public static function getContentDBID($mid, $cid)
+    public static function getContentDBID($alias)
     {
-        return DSQL::call(self::TARGET, 'getContentDBID', array($mid, $cid));
+        return DSQL::call(self::TARGET, 'getContentDBID', array($alias));
     }
     
     public static function removeRelationsTo($dbcid)

@@ -64,13 +64,13 @@ echo new WOpenDialog($AppController, $Page);
 
 printf(
     '<form method="post" id="documentform" name="documentform" action="%s">'
-	,SLink::link(array('edit' => (isset($Page) && $Page instanceof CPage)? $Page->Id :''))
+	,SLink::link(array('edit' => (isset($Page) && $Page instanceof CPage)? $Page->Alias :''))
 );
-if(BAMBUS_APPLICATION_TAB != 'manage' && isset($Page))
+if(isset($Page))
 {
 	try{
 		echo new WSidebar($Page);
-		if($Page instanceof CPage)
+		if($Page instanceof CPage && $Page->isModified())
 		{
 			//FIXME - do not do allways
 			$Page->Save();
@@ -79,6 +79,5 @@ if(BAMBUS_APPLICATION_TAB != 'manage' && isset($Page))
 	catch(Exception $e){
 		echo $e->getTraceAsString();
 	}	
-	
 }
 ?>

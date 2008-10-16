@@ -80,26 +80,20 @@ if(count($spores) > 0)
 		$initCID = '';
 		if(!empty($data[QSpore::INIT_CONTENT]))
 		{
-			list($man, $id) = explode(':', $data[QSpore::INIT_CONTENT]);
-			$initCMan = BObject::InvokeObjectByDynClass($man);
-			if($initCMan != null && $initCMan->Exists($id))
-			{
-				$initCTitle = substr($man,1).': '.$initCMan->Open($id)->Title;
-				$initCID = $data[QSpore::INIT_CONTENT];
-			}
+			$alias = $data[QSpore::INIT_CONTENT];
+			$content = BContent::Open($alias);
+			$initCTitle = $content->Title;
+			$initCID = $data[QSpore::INIT_CONTENT];
 		}
 		
 		$errCTitle = '';
 		$errCID = '';
 		if(!empty($data[QSpore::ERROR_CONTENT]))
 		{
-			list($man, $id) = explode(':', $data[QSpore::ERROR_CONTENT]);
-			$errCMan = BObject::InvokeObjectByDynClass($man);
-			if($errCMan != null && $errCMan->Exists($id))
-			{
-				$errCTitle = substr($man,1).': '.$errCMan->Open($id)->Title;
-				$errCID = $data[QSpore::ERROR_CONTENT];
-			}
+			$alias = $data[QSpore::ERROR_CONTENT];
+			$content = BContent::Open($alias);
+			$errCTitle = $content->Title;
+			$errCID = $data[QSpore::ERROR_CONTENT];
 		}
 		
 		$check = ($data[QSpore::ACTIVE]) ? ' checked="checked"' : '';

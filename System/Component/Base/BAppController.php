@@ -10,8 +10,6 @@
 abstract class BAppController 
     extends 
         BObject
-    implements 
-        IGlobalUniqueId 
 {
 	/**
 	 * load a controller for given app id

@@ -75,10 +75,18 @@ function __autoload($className)
 		'X' => 'Exception'
 	);
 	$fc = substr($className,0,1); 
-	$file = sprintf("./System/Component/%s/%s.php", $ComponentMap[$fc], $className);
-	if(array_key_exists($fc, $ComponentMap) && file_exists($file))
+	
+	if(array_key_exists($fc, $ComponentMap))
 	{
-		include_once($file);
+	    $file = sprintf("./System/Component/%s/%s.php", $ComponentMap[$fc], $className);
+		if(file_exists($file))
+		{
+		    include_once($file);
+		}
+		else
+		{
+		    throw new XFileNotFoundException('class file',  $file);
+		}
 	}
 	else
 	{

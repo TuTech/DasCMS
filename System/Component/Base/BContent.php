@@ -13,7 +13,8 @@ abstract class BContent extends BObject
 	protected 
 		$_data__set = array(),
 		$_origPubDate;
-	
+	protected $_modified = false;
+		
 	//Properties - to be handled in __get() & __set()
 	protected 
 		$Id, 		//class unique id
@@ -52,12 +53,15 @@ abstract class BContent extends BObject
 	    $this->CreateDate = strtotime($cd);
 	    $this->ModifiedBy = $mb;
 	    $this->ModifyDate = strtotime($md);
-	    $this->Size = $sz;
+	    if(empty($this->Size))
+	    {
+	        $this->Size = $sz;
+	    }
 	}
 	
-	protected function saveMetaToDB($id, $title, $pubDate, $description, $size = 0)
+	protected function saveMetaToDB()
 	{
-	    QBContent::saveMetaData($id, $title, $pubDate, $description, $size);
+	    QBContent::saveMetaData($this->Id, $this->Title, $this->PubDate, $this->Description, $this->Size);
 	}
 	
 	protected $_loadLazyData = array('CreatedBy', 'CreateDate', 'ModifiedBy', 'ModifyDate', 'Size');
@@ -78,10 +82,10 @@ abstract class BContent extends BObject
 	    {
 	        $class = QBContent::getClass($alias);
 	        return call_user_func_array($class.'::Open', array($alias));
-	        
 	    }
 	    catch(Exception $e)
 	    {
+	        
 	        return CError::Open(404);
 	    }
 	}
@@ -121,9 +125,10 @@ abstract class BContent extends BObject
 	{
 		if(method_exists($this, '_set_'.$var))
 		{
+		    $this->__get($var); //trigger autoloads
 			$this->ModifiedBy = PAuthentication::getUserID();
 			$this->ModifyDate = time();
-			
+			$this->_modified = true;
 			$this->_data__set[$var] = true;
 			return $this->{'_set_'.$var}($value);	
 		}
@@ -215,7 +220,7 @@ abstract class BContent extends BObject
 	 */
 	public function _get_Alias()
 	{
-		return SAlias::alloc()->init()->getCurrent($this);
+		return $this->Alias;
 	}
 	
 	/**
@@ -351,5 +356,10 @@ abstract class BContent extends BObject
 	public abstract function __construct($Id);	//object should load its data here
 												//$id is class internal id or cms wide id-path
 	public abstract function Save();
+	
+	public function isModified()
+	{
+	    return $this->_modified;
+	}
 }
 ?>

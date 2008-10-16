@@ -8,10 +8,6 @@ class ATemplateEditor
 {
     const GUID = 'org.bambuscms.applications.templateeditor';
     
-    protected function __construct()
-    {
-        //get an instance by id from the base class
-    }
     
     public function getGUID()
     {

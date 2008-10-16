@@ -89,7 +89,7 @@ class LConfiguration extends BLegacy
         if(self::$configurationChanged)
         {
             SNotificationCenter::report('message', 'configuration_saved');
-            $file = SPath::SYSTEM.'configuration/system.php';
+            $file = SPath::CONTENT.'configuration/system.php';
             DFileSystem::SaveData($file, self::$configuration);
             self::$configurationChanged = false;
         }

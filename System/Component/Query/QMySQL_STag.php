@@ -11,7 +11,7 @@ class QMySQL_STag extends BQuery
             SELECT Tags.tag 
             	FROM Contents
             	LEFT JOIN relContentsTags ON (Contents.contentID = relContentsTags.contentREL)
-            	LEFT JOIN Tags ON (relcontents.tagREL = Tags.tagID)
+            	LEFT JOIN Tags ON (relContentsTags.tagREL = Tags.tagID)
             	LEFT JOIN Aliases ON (Contents.contentID = Aliases.contentREL)
             	WHERE
             		Aliases.alias = '%s'
@@ -46,7 +46,7 @@ class QMySQL_STag extends BQuery
     {
         $DB = parent::Database();
         $DB->queryExecute(
-            "DELETE FROM relContentsTags WHERE contentREL = ".$DB->escape($CID)
+            sprintf("DELETE FROM relContentsTags WHERE contentREL = %d",$DB->escape($dbcid))
         );	
     }
     
