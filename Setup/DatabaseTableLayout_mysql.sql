@@ -31,8 +31,6 @@ Classes(
         VARCHAR(128) 
         UNIQUE
         NULL,
-    INDEX classes_class (class),
-    INDEX classes_guid (guid)
 )
 ENGINE = InnoDB 
 CHARACTER SET utf8 

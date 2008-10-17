@@ -70,6 +70,7 @@ function __autoload($className)
 		'R' => 'Request',
         'S' => 'System',
 		'T' => 'TemplateEngine',
+		'U' => 'Plugin',
         'V' => 'View',
         'W' => 'Widget',
 		'X' => 'Exception'
