@@ -40,6 +40,8 @@ abstract class BObject
 	            return NTreeNavigation::alloc()->init();
 	        case 'org.bambuscms.navigation.listnavigation':
 	            return NListNavigation::alloc()->init();
+	        case 'org.bambuscms.applications.templates':
+	            return new ATemplates();
             default:
 	            throw new XUndefinedException('controller not found');
 	    }

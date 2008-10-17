@@ -28,6 +28,7 @@ class SComponentIndex
 		'R' => 'Request',
         'S' => 'System',
 		'T' => 'TemplateEngine',
+		'U' => 'Plugin',
         'V' => 'View',
         'W' => 'Widget',
 		'X' => 'Exception'

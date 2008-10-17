@@ -113,7 +113,7 @@ elseif($File != null && RSent::has('content') && PAuthorisation::has('org.bambus
     {
         try
         {
-            $tc = new TCompiler(substr($File,0,-4), BTemplate::CONTENT);
+            $tc = new TCompiler($File, BTemplate::CONTENT);
             $tc->save();
             SNotificationCenter::report('message', 'saved');
         }

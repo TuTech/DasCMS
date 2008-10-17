@@ -48,7 +48,7 @@ class QMySQL_SAlias extends BQuery
      */
     public static function match($aliasA, $aliasB)
     {
-        $DB = parent::Database();
+        $DB = BQuery::Database();
         $sql = sprintf("
 SELECT contentREL, count(*) 
 	FROM Aliases
@@ -69,7 +69,7 @@ SELECT contentREL, count(*)
      */
     public static function resolveAlias($alias)
     {
-        $DB = parent::Database();
+        $DB = BQuery::Database();
         return $DB->query("
             SELECT 
             		Classes.class,

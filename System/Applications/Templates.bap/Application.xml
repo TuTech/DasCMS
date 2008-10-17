@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<bambus>
+	<name>websites</name>
+	<description>edit_templates</description>
+	<icon>app-utilities-editor-template</icon>
+	<version>0.1.20081017</version>
+	<priority>2.0</priority>
+	<purpose>manage_content</purpose>
+	<tabs>
+		<tab icon="action-edit">edit</tab>
+	</tabs>
+	<application>
+		<controller>controller.php</controller>
+		<interface name="edit" src="edit.php">
+			<task type="button" hotkey="o" caption="open" icon="action-document-open" action="org.bambuscms.wopenfiledialog.show();" />
+			<task type="button" hotkey="s" caption="save" icon="action-document-save" action="EditorSave()" />
+			<task type="button" hotkey="S" caption="save_and_rename" icon="action-document-save-as" action="EditorSaveAs('filename')" />
+			<task type="button" hotkey="N" caption="new" icon="action-document-new" action="Create()" />
+			<no_task type="button" hotkey="X" caption="delete" icon="action-delete" action="Delete()" />
+			<task type="spacer" />
+			<task type="button" hotkey="C" caption="cleanup" icon="action-edit-clean" action="cleanHTML('')" />
+			<task type="button" hotkey="R" caption="search_and_replace" icon="action-edit-find-replace" action="EditorSearchAndReplace()" />
+			<task type="spacer" name="char_format" />
+			<task type="button" caption="bold" action="EditorFormat('bold');" icon="action-format-bold-gray" /> 
+			<task type="button" caption="italic" action="EditorFormat('italic');" icon="action-format-italic-gray" /> 
+			<task type="button" caption="underlined" action="EditorFormat('underlined');" icon="action-format-underline-gray" /> 
+			<task type="button" caption="linethrough" action="EditorFormat('linethrough');" icon="action-format-strike-gray" /> 
+			<task type="button" caption="sub" action="EditorFormat('sub');" icon="action-format-sub-gray" /> 
+			<task type="button" caption="sup" action="EditorFormat('sup');" icon="action-format-sup-gray" /> 
+			<task type="spacer" name="text_order" />
+			<task type="button" caption="ordered_list" action="EditorFormat('ol');" icon="action-format-list-ordered-gray" /> 
+			<task type="button" caption="unordered_list" action="EditorFormat('ul');" icon="action-format-list-unordered-gray" /> 
+			<task type="button" caption="indent_left" action="EditorFormat('left-indent');" icon="action-left-indent-gray" /> 
+			<task type="button" caption="indent_right" action="EditorFormat('right-indent');" icon="action-right-indent-gray" /> 
+			<task type="spacer" name="text_modifier" />
+			<task type="button" caption="link" action="EditorFormat('link');" icon="action-link-gray" /> 
+			<task type="button" caption="unlink" action="EditorFormat('unlink');" icon="action-unlink-gray" /> 
+			<task type="spacer" />
+			<task type="button" hotkey="o" caption="open" icon="place-folder" action="top.location = 'Management/?editor=Websites.bap&amp;tab=manage';" />
+		</interface>
+	</application>
+</bambus>

@@ -85,7 +85,7 @@ class CPage extends BContent implements ISupportsSidebar, IGlobalUniqueId
 	 *
 	 * @return string
 	 */
-	public function _get_Content()
+	public function getContent()
 	{
 		try{
 			if(!$this->_contentLoaded)
@@ -101,7 +101,7 @@ class CPage extends BContent implements ISupportsSidebar, IGlobalUniqueId
 		return $this->Content;
 	}
 	
-	public function _set_Content($value)
+	public function setContent($value)
 	{
 	    $this->_contentLoaded = true;
 		$this->Content = $value;
@@ -117,7 +117,6 @@ class CPage extends BContent implements ISupportsSidebar, IGlobalUniqueId
 		{
 			DFileSystem::Save(SPath::CONTENT.'CPage/'.$this->Id.'.content.php',$this->Content);
 		}
-		echo '####saving new size is '.$this->Size;
 		$this->saveMetaToDB();
 		new EContentChangedEvent($this, $this);
 		if($this->_origPubDate != $this->PubDate)

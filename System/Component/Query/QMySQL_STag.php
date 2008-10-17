@@ -6,7 +6,7 @@ class QMySQL_STag extends BQuery
      */
     public static function listTagsOf($alias)
     {
-        $DB = parent::Database();
+        $DB = BQuery::Database();
 		$res = $DB->query(sprintf("
             SELECT Tags.tag 
             	FROM Contents
@@ -27,7 +27,7 @@ class QMySQL_STag extends BQuery
      */
     public static function getContentDBID($alias)
     {
-        $DB = parent::Database();
+        $DB = BQuery::Database();
         $res = $DB->query(
             "SELECT 
 					Contents.contentID 
@@ -44,7 +44,7 @@ class QMySQL_STag extends BQuery
      */
     public static function removeRelationsTo($dbcid)
     {
-        $DB = parent::Database();
+        $DB = BQuery::Database();
         $DB->queryExecute(
             sprintf("DELETE FROM relContentsTags WHERE contentREL = %d",$DB->escape($dbcid))
         );	
@@ -55,7 +55,7 @@ class QMySQL_STag extends BQuery
      */
     public static function dumpNewTags($tags)
     {
-        parent::Database()->insert('Tags',array('tag'), $tags, true);
+        BQuery::Database()->insert('Tags',array('tag'), $tags, true);
     }
     
     /**
@@ -63,7 +63,7 @@ class QMySQL_STag extends BQuery
      */
     public static function linkTagsTo($tags, $dbcid)
     {
-        $DB = parent::Database();
+        $DB = BQuery::Database();
         foreach ($tags as $tag) 
 		{
 			$DB->insertUnescaped(

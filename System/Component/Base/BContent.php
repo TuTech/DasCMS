@@ -103,9 +103,9 @@ abstract class BContent extends BObject
 	    {
 	        $this->initAdditionalMetaFromDB($this->Alias);
 	    }
-		if(method_exists($this, '_get_'.$var))
+		if(method_exists($this, 'get'.$var))
 		{
-			return $this->{'_get_'.$var}();	
+			return $this->{'get'.$var}();	
 		}
 		else
 		{
@@ -123,14 +123,14 @@ abstract class BContent extends BObject
 	 */
 	public function __set($var, $value)
 	{
-		if(method_exists($this, '_set_'.$var))
+		if(method_exists($this, 'set'.$var))
 		{
 		    $this->__get($var); //trigger autoloads
 			$this->ModifiedBy = PAuthentication::getUserID();
 			$this->ModifyDate = time();
 			$this->_modified = true;
 			$this->_data__set[$var] = true;
-			return $this->{'_set_'.$var}($value);	
+			return $this->{'set'.$var}($value);	
 		}
 		else
 		{
@@ -146,7 +146,7 @@ abstract class BContent extends BObject
 	 */
 	public function __isset($var)
 	{
-		return method_exists($this, '_get_'.$var);
+		return method_exists($this, 'get'.$var);
 	}
 	
 	/**
@@ -156,13 +156,13 @@ abstract class BContent extends BObject
 	 */
 	public function __toString()
 	{
-		return strval($this->_get_Content());
+		return strval($this->getContent());
 	}
 	
 	/**
 	 * @return string
 	 */
-	public function _get_Id()
+	public function getId()
 	{
 		return $this->Id;
 	}
@@ -170,7 +170,7 @@ abstract class BContent extends BObject
 	/**
 	 * @return string
 	 */
-	public function _get_Title()
+	public function getTitle()
 	{
 		return $this->Title;
 	}
@@ -178,7 +178,7 @@ abstract class BContent extends BObject
 	/**
 	 * @param string $value
 	 */
-	public function _set_Title($value)
+	public function setTitle($value)
 	{
 		if(strlen($value) > 0)
 		{
@@ -189,7 +189,7 @@ abstract class BContent extends BObject
 	/**
 	 * @return array
 	 */
-	public function _get_Tags()
+	public function getTags()
 	{
 		if($this->Tags == null)
 		{
@@ -203,7 +203,7 @@ abstract class BContent extends BObject
 	 *
 	 * @param array|string $value
 	 */
-	public function _set_Tags($value)
+	public function setTags($value)
 	{
 		if(is_array($value))
 		{
@@ -218,7 +218,7 @@ abstract class BContent extends BObject
 	/**
 	 * @return string
 	 */
-	public function _get_Alias()
+	public function getAlias()
 	{
 		return $this->Alias;
 	}
@@ -226,7 +226,7 @@ abstract class BContent extends BObject
 	/**
 	 * @return string
 	 */
-	public function _get_CreatedBy()
+	public function getCreatedBy()
 	{
 		return $this->CreatedBy;
 	}
@@ -234,7 +234,7 @@ abstract class BContent extends BObject
 		/**
 	 * @return string
 	 */
-	public function _get_ModifiedBy()
+	public function getModifiedBy()
 	{
 		return $this->ModifiedBy;
 	}
@@ -242,7 +242,7 @@ abstract class BContent extends BObject
 /**
 	 * @return int
 	 */
-	public function _get_PubDate()
+	public function getPubDate()
 	{
 		return ($this->PubDate == 0) ? '' : $this->PubDate;
 	}
@@ -250,7 +250,7 @@ abstract class BContent extends BObject
 	/**
 	 * @param int|string $value
 	 */
-	public function _set_PubDate($value)
+	public function setPubDate($value)
 	{
 		if(is_numeric($value) && intval($value) > 0)//timestamp
 		{
@@ -269,7 +269,7 @@ abstract class BContent extends BObject
 	/**
 	 * @return string
 	 */
-	public function _get_Source()
+	public function getSource()
 	{
 		return 'local';
 	}
@@ -277,7 +277,7 @@ abstract class BContent extends BObject
 	/**
 	 * @return int
 	 */
-	public function _get_CreateDate()
+	public function getCreateDate()
 	{
 		return $this->CreateDate;
 	}
@@ -285,7 +285,7 @@ abstract class BContent extends BObject
 	/**
 	 * @return int
 	 */
-	public function _get_ModifyDate()
+	public function getModifyDate()
 	{
 		return $this->ModifyDate;
 	}
@@ -293,7 +293,7 @@ abstract class BContent extends BObject
 	/**
 	 * @return string
 	 */
-	public function _get_Content()
+	public function getContent()
 	{
 		return $this->Content;
 	}
@@ -301,7 +301,7 @@ abstract class BContent extends BObject
 	/**
 	 * @param string $value
 	 */
-	public function _set_Content($value)
+	public function setContent($value)
 	{
 		$this->Content = $value;
 	}
@@ -309,7 +309,7 @@ abstract class BContent extends BObject
 	/**
 	 * @return string
 	 */
-	public function _get_Description()
+	public function getDescription()
 	{
 		return $this->Description;
 	}
@@ -317,7 +317,7 @@ abstract class BContent extends BObject
 	/**
 	 * @param string $value
 	 */
-	public function _set_Description($value)
+	public function setDescription($value)
 	{
 		$this->Description = $value;
 	}
@@ -325,9 +325,9 @@ abstract class BContent extends BObject
 	/**
 	 * @return string
 	 */
-	public function _get_Text()
+	public function getText()
 	{
-		return strip_tags($this->_get_Content());
+		return strip_tags($this->getContent());
 	}
 	
 	public function InvokedByQueryObject(QSpore $qo)

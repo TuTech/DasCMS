@@ -43,9 +43,9 @@ class LApplication extends BLegacy implements IShareable
     
     
     
-    var $name, $bad, $xml, $applicationDirectory, $interfaceXML;
-    var $initialized = false;
-    var $tab = '';  
+    public $name, $bad, $xml, $applicationDirectory, $interfaceXML;
+    public $initialized = false;
+    public $tab = '';  
     
             
 //////////////////////////////////////////////////////////////

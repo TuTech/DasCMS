@@ -20,7 +20,7 @@ class SPath
     const SYSTEM_APPLICATIONS = './System/Applications/';
     
     const CONTENT = './Content/';
-    const TEMPLATES = './Content/templates/';
+    const TEMPLATES = './Content/CTemplate/';
     const IMAGES = './Content/images/';
     const DOWNLOADS = './Content/download/';
     const LOGS = './Content/logs/';

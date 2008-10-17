@@ -50,17 +50,17 @@ class VSpore
     
     private function content($spore)
     {
-        return $this->sporeContent($spore)->_get_Content();
+        return $this->sporeContent($spore)->getContent();
     }
     
     private function title($spore)
     {
-        return $this->sporeContent($spore)->_get_Title();
+        return $this->sporeContent($spore)->getTitle();
     }
     
     private function pubdate($spore)
     {
-        return $this->sporeContent($spore)->_get_PubDate();
+        return $this->sporeContent($spore)->getPubDate();
     }
     
     private function author($spore)
@@ -70,7 +70,7 @@ class VSpore
     
     private function tags($spore)
     {
-        return implode(', ',$this->sporeContent($spore)->_get_Tags());
+        return implode(', ',$this->sporeContent($spore)->getTags());
     }
     
     private function property($spore, $propname)

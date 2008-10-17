@@ -13,7 +13,7 @@ class QMySQL_NListNavigation extends BQuery
         }
         else
         {
-        $DB = parent::Database();
+        $DB = BQuery::Database();
         $ts = array();
         //building list of tags
         foreach ($tags as $t) 

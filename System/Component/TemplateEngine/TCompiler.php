@@ -20,8 +20,11 @@ class TCompiler extends BTemplate
         $this->source = ($source == parent::SYSTEM) ? (parent::SYSTEM) : (parent::CONTENT);
         $this->templateName = $template;
         $path = ($source == parent::SYSTEM) ? (SPath::SYSTEM_TEMPLATES) : (SPath::TEMPLATES);
-        $path = sprintf('%s%s.tpl', $path, $template);
-        $this->template->load($path);
+        $path = sprintf('%s%s', $path, $template);
+        if(!@$this->template->load($path))
+        {
+            throw new XArgumentException('invalid template');
+        }
         //analyse template 
         $this->analyze($this->template->documentElement);
         //our data in now in the inherited var $parsed
