@@ -83,9 +83,10 @@ class WPropertyEditor extends BWidget
 					<td>"
 		);	    
 		//props
+		printf('<div id="WPropertyEditor_%s_options">', $this->ID);
         foreach ($this->data as $name => $data) 
         {
-            $i = 0;
+            $i = 1;
         	printf("
 						<div id=\"WPropertyEditor_%s_option_%s_data\" class=\"WPropertyEditor_option\" style=\"display:none;\">
 						<input type=\"hidden\" name=\"WPropertyEditor_%s_%s_position\" value=\"%s\" id=\"WPropertyEditor_%s_%s_position\" />"
@@ -112,6 +113,7 @@ class WPropertyEditor extends BWidget
 			print(strval($data[self::DATA]));
 			print("</div>");
         }
+        print('</div>');
 		print("
 					</td>
 				</tr>
