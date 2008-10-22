@@ -78,7 +78,7 @@ class WContentLookup extends BWidget implements ISidebarWidget
 					$title = 'Not yet public ('.date('r',$pub).')';
 				}
 				$html .= '<option value="'.$alias.'" class="'.$class.'" title="'.$title.'">'.
-								htmlentities($ttl, ENT_QUOTES, 'UTF-8')
+								htmlentities($ttl, ENT_QUOTES, 'UTF-8').' ('.htmlentities($alias, ENT_QUOTES, 'UTF-8').')'
 						.'</option>';
 			}
 			$res->free();

@@ -81,11 +81,17 @@ abstract class BContent extends BObject
 	    try
 	    {
 	        $class = QBContent::getClass($alias);
-	        return call_user_func_array($class.'::Open', array($alias));
+	        if(class_exists($class, true))
+	        {
+	            return call_user_func_array($class.'::Open', array($alias));
+	        }
+	        else
+	        {
+	            throw new XInvalidDataException($class.' not found');
+	        }
 	    }
 	    catch(Exception $e)
 	    {
-	        
 	        return CError::Open(404);
 	    }
 	}

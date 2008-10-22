@@ -32,7 +32,7 @@ Classes(
     guid 
         VARCHAR(128) 
         UNIQUE
-        NULL,
+        NULL
 )
 ENGINE = InnoDB 
 CHARACTER SET utf8 

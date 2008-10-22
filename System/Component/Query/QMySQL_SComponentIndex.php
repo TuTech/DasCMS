@@ -19,7 +19,7 @@ class QSComponentIndex extends BQuery
         $ci = array();
         foreach ($classes as $cname => $cguid) 
         {
-            $cn = '"'.$DB->escape($cname).'"';
+            $cn = $DB->escape($cname);
             $cg = empty($cguid) ? 'NULL' : '"'.$DB->escape($cguid).'"';
         	$DB->queryExecute(sprintf($sql, $cn, $cg, $cn, $cg));
         }

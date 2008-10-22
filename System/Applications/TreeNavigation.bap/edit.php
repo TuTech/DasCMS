@@ -57,11 +57,11 @@ if($edit != null)
 				: htmlspecialchars($content->Title, ENT_QUOTES, 'utf-8');
 			if($isChild)
 			{
-				echo 'addChild(\''.$parentid.'\', \''.$tno->getAlias().'\', \''.$title.'\');';
+				echo 'addChild(\''.$parentid.'\', \''.$tno->getAlias().'\', \''.$title.' ('.$tno->getAlias().')\');';
 			}
 			else
 			{
-				echo 'addSibling(\''.$parentid.'\', \''.$tno->getAlias().'\', \''.$title.'\');';
+				echo 'addSibling(\''.$parentid.'\', \''.$tno->getAlias().'\', \''.$title.' ('.$tno->getAlias().')\');';
 			}
 			if($tno->hasChildren())
 			{

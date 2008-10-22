@@ -11,53 +11,147 @@ class SFeedKeeper
     const MATCH_ALL = 'MatchAll';
     const MATCH_NONE = 'MatchNone';
     
-    //cleanUpFeed
-	//cleanUpContent
-	//linkAll
-	//linkMatchingAllTags
-	//linkMatchingSomeTags
-	//linkNotMatchingAnyTags
-
 	public function HandleContentChangedEvent(EContentChangedEvent $e)
 	{
-	    if(get_class($e->Content) == 'CFeed')
+	    try
 	    {
-	        //do feed update
-            //TX start
-            //QSFeedKeeper::unlinkFeed(feed);
-            //QSFeedKeeper::getFeedType(feed)
-            //QSFeedKeeper::assignItemsUsing<filterType>(feed)
-            //commit TX
+	        $CID = $e->Content->Id;
+	        $DB = DSQL::alloc()->init();
+	        $DB->beginTransaction();
+    	    if(get_class($e->Content) == 'CFeed')
+    	    {
+    	        //remove all items from feed
+	            QSFeedKeeper::clearFeed($CID);
+	            //add all matching items for the current filter type
+	            $res = QSFeedKeeper::getFeedType($CID);
+	            list($type) = $res->fetch();
+	            $res->free();
+	            switch($type)
+	            {
+	                case self::ALL:
+	                    QSFeedKeeper::assignItemsUsingAll($CID);
+	                    break;
+	                case self::MATCH_ALL:
+	                    QSFeedKeeper::assignItemsUsingMatchAll($CID);
+	                    break;
+	                case self::MATCH_SOME:
+	                    QSFeedKeeper::assignItemsUsingMatchSome($CID);
+	                    break;
+	                case self::MATCH_NONE:
+	                    QSFeedKeeper::assignItemsUsingMatchNone($CID);
+	                    break;
+	            }
+	            QSFeedKeeper::updateStats($CID);
+    	    }
+    	    else
+    	    {
+    	        //remove item from all feeds
+	            QSFeedKeeper::unlinkItem($CID);
+	            $res = QSFeedKeeper::getFeedsWithTypeAndTags();
+	            $feedTags = array();
+	            $feedTypes = array();
+	            while($row = $res->fetch())
+	            {
+	                list($fid, $type, $tag) = $row;
+	                if(!isset($feedTags[$fid]))
+	                {
+	                    $feedTags[$fid] = array();
+	                }
+	                $feedTags[$fid][] = $tag;
+	                $feedTypes[$fid] = $type;
+	            }
+	            $res->free();
+	            //add item to all feeds with matching filter
+	            $itemsToAdd = array();
+	            foreach ($feedTypes as $fid => $type)
+	            {
+	                if($type != self::ALL)
+	                {
+	                    $matching = array_intersect($e->Content->Tags, $feedTags[$fid]);
+	                }
+    	            switch($type)
+    	            {
+    	                case self::ALL:
+    	                    $match = true;
+    	                    break;
+    	                case self::MATCH_ALL:
+    	                    $match = count($matching) == count($feedTags[$fid]);
+    	                    break;
+    	                case self::MATCH_SOME:
+    	                    $match = count($matching) >= 1;
+    	                    break;
+    	                case self::MATCH_NONE:
+    	                    $match = count($matching) == 0;
+    	                    break;
+    	            }  
+    	            if($match)
+    	            {
+    	                $itemsToAdd[] = $fid;
+    	            }
+	            }
+	            if(count($itemsToAdd) > 0)
+	            {
+	                QSFeedKeeper::linkItem($CID, $itemsToAdd);
+	            }
+	            //set feed update time and item count
+	            foreach ($itemsToAdd as $fid) 
+	            {
+	            	QSFeedKeeper::updateStats($fid);
+	            }
+    	    }
+    	    $DB->commit();
 	    }
-	    else
+	    catch(Exception $e)
 	    {
-	        //do content update for all feeds
-	        //TX start
-	        //QSFeedKeeper::unlinkItem(item);
-	        //QSFeedKeeper::getFeedsWithTypeAndTags()
-	        //QSFeedKeeper::linkItem(item, feeds[]);
-	        //QSFeedKeeper::updateStats(feed)
-            //commit TX
+	        $DB->rollback();
+	        throw $e;
 	    }
 	}
 	
 	public function HandleContentCreatedEvent(EContentCreatedEvent $e)
     {
-        if(get_class($e->Content) == 'CFeed')
-        {
-	        //set up data in Feeds
-	        //build linking
-            //QSFeedKeeper::setFeedType(feed, filterType)
-            //QSFeedKeeper::assignItemsUsing<filterType>(feed)
-            //QSFeedKeeper::updateStats(feed)
-        }
-        else
-        {
-	        //check filter for all feeds and add if matching
-	        //QSFeedKeeper::getFeedsWithType()
-	        //QSFeedKeeper::linkItem(item, feeds[]);
-	        //QSFeedKeeper::updateStats(feed)
-        }
+        try
+	    {
+	        $CID = $e->Content->Id;
+	        $DB = DSQL::alloc()->init();
+	        $DB->beginTransaction();
+            if(get_class($e->Content) == 'CFeed')
+            {
+    	        //set up data in "Feeds"
+    	        QSFeedKeeper::setFeedType($CID, self::ALL);
+    	        //add all items
+    	        QSFeedKeeper::assignItemsUsingAll($CID);
+    	        QSFeedKeeper::updateStats($CID);
+            }
+            else
+            {
+    	        //check filter for all feeds and add if matching
+    	        $res = QSFeedKeeper::getFeedsWithType();
+	            $feeds = array();
+	            while($row = $res->fetch())
+	            {
+	                if($row[1] == self::ALL)
+	                {
+	                    $feeds[] = $row[0];
+	                }
+	            }
+	            $res->free();
+	            if(count($feeds) > 0)
+	            {
+	                QSFeedKeeper::linkItem($CID, $feeds);
+	            }
+	            foreach ($feeds as $fid) 
+	            {
+	            	QSFeedKeeper::updateStats($fid);
+	            }
+            }
+    	    $DB->commit();
+	    }
+	    catch(Exception $e)
+	    {
+	        $DB->rollback();
+	        throw $e;
+	    }
 	}
 }
 ?>

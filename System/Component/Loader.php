@@ -88,6 +88,7 @@ function __autoload($className)
 	
 	if(array_key_exists($fc, $ComponentMap))
 	{
+	    //load queries for current database-engine
 	    if($fc == 'Q')
 	    {
 	        $dbEngine = LConfiguration::get('db_engine');
@@ -95,6 +96,7 @@ function __autoload($className)
 	        if(file_exists($file))
 	        {
 	            include_once($file);
+	            return;
 	        }
 	    }
 	    
