@@ -1,5 +1,5 @@
 <?php
-class QMySQL_WContentLookup extends BQuery 
+class QWContentLookup extends BQuery 
 {
     /**
      * @return DSQLResult

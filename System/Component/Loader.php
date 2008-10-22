@@ -88,6 +88,16 @@ function __autoload($className)
 	
 	if(array_key_exists($fc, $ComponentMap))
 	{
+	    if($fc == 'Q')
+	    {
+	        $dbEngine = LConfiguration::get('db_engine');
+	        $file = sprintf("./System/Component/%s/Q%s_%s.php", $ComponentMap[$fc], $dbEngine, substr($className,1));
+	        if(file_exists($file))
+	        {
+	            include_once($file);
+	        }
+	    }
+	    
 	    $file = sprintf("./System/Component/%s/%s.php", $ComponentMap[$fc], $className);
 		if(file_exists($file))
 		{

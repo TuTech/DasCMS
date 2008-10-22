@@ -1,5 +1,5 @@
 <?php
-class QMySQL_SAlias extends BQuery 
+class QSAlias extends BQuery 
 {
     
    /**
@@ -29,6 +29,10 @@ class QMySQL_SAlias extends BQuery
         return ($affected == 1);
     }
     
+    /**
+     * @param string $alias
+     * @return void
+     */
     public static function setActive($alias)
     {
         $DB = BQuery::Database();

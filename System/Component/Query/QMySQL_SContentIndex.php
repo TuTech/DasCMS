@@ -1,5 +1,5 @@
 <?php
-class QMySQL_SContentIndex extends BQuery 
+class QSContentIndex extends BQuery 
 {
     /**
      * @param string $alias
@@ -21,7 +21,7 @@ class QMySQL_SContentIndex extends BQuery
      * @param string $asType
      * @return boolean
      */
-    public static function exists($alias, $asType)
+    public static function exists($alias, $asType = null)
     {
         $DB = BQuery::Database();
         $join = '';

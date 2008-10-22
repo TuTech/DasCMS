@@ -1,5 +1,5 @@
 <?php
-class QMySQL_STag extends BQuery 
+class QSTag extends BQuery 
 {
    /**
      * @return DSQLResult
@@ -53,7 +53,7 @@ class QMySQL_STag extends BQuery
     /**
      * @return void
      */
-    public static function dumpNewTags($tags)
+    public static function dumpNewTags(array $tags)
     {
         BQuery::Database()->insert('Tags',array('tag'), $tags, true);
     }
@@ -61,7 +61,7 @@ class QMySQL_STag extends BQuery
     /**
      * @return void
      */
-    public static function linkTagsTo($tags, $dbcid)
+    public static function linkTagsTo(array $tags, $dbcid)
     {
         $DB = BQuery::Database();
         foreach ($tags as $tag) 

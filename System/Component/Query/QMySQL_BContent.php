@@ -1,11 +1,10 @@
 <?php
-class QMySQL_BContent extends BQuery 
+class QBContent extends BQuery 
 {
     
     public static function saveMetaData($id, $title, $pubDate, $description, $size)
     {
         $DB = BQuery::Database();
-echo '####saving2 new size is '.$size;
         $DB->beginTransaction();
         $sql = "
             UPDATE Contents 

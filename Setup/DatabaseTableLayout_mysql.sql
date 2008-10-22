@@ -3,7 +3,9 @@ SET FOREIGN_KEY_CHECKS = 0;
 
 DROP TABLE IF EXISTS Classes;
 DROP TABLE IF EXISTS Contents;
-DROP TABLE IF EXISTS ContentSummaries;
+DROP TABLE IF EXISTS Feeds;
+DROP TABLE IF EXISTS relFeedsContents;
+DROP TABLE IF EXISTS relFeedsTags;
 DROP TABLE IF EXISTS Changes;
 DROP TABLE IF EXISTS Aliases;
 DROP TABLE IF EXISTS Tags;
@@ -66,23 +68,6 @@ Contents(
     INDEX (type)
 )
 ENGINE = InnoDB 
-CHARACTER SET utf8 
-COLLATE utf8_unicode_ci;
-
--- external fulltext search table for contents
-CREATE TABLE IF NOT EXISTS 
-ContentSummaries(
-    contentID 
-        INTEGER 
-        UNIQUE 
-        NOT NULL,
-    summary 
-        TEXT 
-        NOT NULL 
-        DEFAULT '',
-    FULLTEXT INDEX contents_summary (summary)
-)
-ENGINE = MYISAM 
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
 
@@ -234,6 +219,93 @@ ENGINE = InnoDB
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
 
+-- feed to contents relation
+CREATE TABLE IF NOT EXISTS 
+relFeedsContents(
+    feedREL 
+        INTEGER 
+        NOT NULL,
+    contentREL 
+        INTEGER 
+        NOT NULL,
+    INDEX (feedREL),
+    INDEX (contentREL)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- feed to tags relation
+CREATE TABLE IF NOT EXISTS 
+relFeedsTags(
+    feedREL 
+        INTEGER 
+        NOT NULL,
+    tagREL 
+        INTEGER 
+        NOT NULL,
+    INDEX (feedREL),
+    INDEX (tagREL)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- feed type
+CREATE TABLE IF NOT EXISTS 
+Feeds(
+    contentREL 
+        INTEGER 
+		UNIQUE
+        NOT NULL,
+    filterType 
+        ENUM('All', 'MatchSome', 'MatchAll', 'MatchNone') 
+        NOT NULL,
+	lastUpdate
+		TIMESTAMP
+		NOT NULL 
+        DEFAULT CURRENT_TIMESTAMP,
+	associatedItems
+		INTEGER
+		NOT NULL
+		DEFAULT 0
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- Foreign keys for relFeedsTags
+ALTER TABLE 
+Feeds
+    ADD CONSTRAINT changed_feed FOREIGN KEY (contentREL)
+        REFERENCES Contents(contentID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION;
+
+-- Foreign keys for relFeedsTags
+ALTER TABLE 
+relFeedsTags
+    ADD FOREIGN KEY (feedREL)
+        REFERENCES Contents(contentID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION,
+    ADD FOREIGN KEY (tagREL)
+        REFERENCES Tags(tagID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION;
+
+-- Foreign keys for relFeedsContents
+ALTER TABLE 
+relFeedsContents
+    ADD FOREIGN KEY (feedREL)
+        REFERENCES Contents(contentID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION,
+    ADD FOREIGN KEY (contentREL)
+        REFERENCES Contents(contentID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION;
+
 -- Foreign keys for Contents
 ALTER TABLE 
 Contents
@@ -275,14 +347,6 @@ relContentsTags
         ON UPDATE NO ACTION,
     ADD CONSTRAINT tagged_with FOREIGN KEY (tagREL)
         REFERENCES Tags(tagID)
-        ON DELETE CASCADE
-        ON UPDATE NO ACTION;
-
--- Foreign keys for ContentSummaries
-ALTER TABLE 
-ContentSummaries
-    ADD CONSTRAINT content_relation FOREIGN KEY (contentID)
-        REFERENCES Contents(contentID)
         ON DELETE CASCADE
         ON UPDATE NO ACTION;
 

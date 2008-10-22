@@ -1,10 +1,11 @@
 <?php
-class QMySQL_NListNavigation extends BQuery 
+class QNListNavigation extends BQuery 
 {
     /**
+     * @param array $tags
      * @return DSQLResult
      */
-    public static function listTagged($tags)
+    public static function listTagged(array $tags)
     {
         if(count($tags) == 0)
         {

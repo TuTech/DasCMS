@@ -1,5 +1,5 @@
 <?php
-class QMySQL_SComponentIndex extends BQuery 
+class QSComponentIndex extends BQuery 
 {
     /**
      * @return void
