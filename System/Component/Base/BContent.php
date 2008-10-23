@@ -32,6 +32,9 @@ abstract class BContent extends BObject
 		$Description,//meta description - plain text
 		$Size
 		;
+	/**
+	 * @var QSpore
+	 */
 	protected $invokingQueryObject = null;
 		
 	protected function initBasicMetaFromDB($alias)

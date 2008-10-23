@@ -21,74 +21,186 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId
     const FOOTER = 2;
     const SETTINGS = 3;
     const HEADER_AND_FOOTER = 0;
+    
+    const PREFIX = 0;
+    const SUFFIX = 1;
+    
+    const OPTIONS = 2;
+    const ORDER = 1;
+    const CAPTIONS = 0; 
+    
     private $_contentLoaded = false;
     
     private $_data = array(
-        'captions' => array(),
-        'attributes' => array(),
-        'settings' => array()
-    );
-    private static $_setable_data = array(
-        'captions' => array(
-            self::HEADER_AND_FOOTER => array(
-                'NumberOfEndSuffix',
-                'NumberOfEndPrefix',
-                'NumberOfStartSuffix',
-                'NumberOfStartPrefix',
-                'FountItemsSuffix',
-                'FoundItemsPrefix',
-                'NextLink',
-                'PrevLink',
-                'PaginaPrefix',
-                'PaginaSuffix'
+        self::CAPTIONS => array(
+            self::HEADER => array(
+                'NumberOfEnd' => array('',''),
+                'NumberOfStart' => array('',''),
+                'FountItems' => array('',''),
+                'Link' => array('',''),
+                'Pagina' => array('','')
             ),
             self::ITEM => array(
-                'Link'
+                'Link' => array('',''),
+                'NoItemsFound' => array('','')
+            ),
+            self::FOOTER => array(
+                'NumberOfEnd' => array('',''),
+                'NumberOfStart' => array('',''),
+                'FountItems' => array('',''),
+                'Link' => array('',''),
+                'Pagina' => array('','')
             )
         ),
-        'attributes' => array(
-            self::HEADER_AND_FOOTER => array(
-                'PrevLink',
-                'NextLink',
-                'Pagina',
-                'NumberOfStart',
-                'NumberOfEnd',
-                'FoundItems'
+        self::ORDER => array(
+            self::HEADER => array(
+                'PrevLink' => 1,
+                'NextLink' => 3,
+                'Pagina' => 2,
+                'NumberOfStart' => null,
+                'NumberOfEnd' => null,
+                'FoundItems' => null
             ),
             self::ITEM => array(
-                'Desciption',
-                'Content',
-                'Link',
-                'Author',
-                'Tags',
-                'PubDate',
-                'ModDate',
-                'Title'
+                'Desciption' => 2,
+                'Content' => null,
+                'Link' => null,
+                'Author' => 3,
+                'Tags' => null,
+                'PubDate' => 4,
+                'ModDate' => null,
+                'Title' => 1
+            ),
+            self::FOOTER => array(
+                'PrevLink' => 1,
+                'NextLink' => 2,
+                'Pagina' => null,
+                'NumberOfStart' => null,
+                'NumberOfEnd' => null,
+                'FoundItems' => 3
             )
         ),
-        'settings' => array(
-            self::HEADER_AND_FOOTER => array(
-                'PaginaType' => 'b'
+        self::OPTIONS => array(
+            self::HEADER => array(
+                'PaginaType' => true
 			),
-            self::ITEM => array(
-                'ModDateFormat' => 's',
-                'PubDateFormat' => 's',
-                'LinkTitle' => 'b',
-                'LinkTags' => 'b'
+            self::FOOTER => array(
+                'PaginaType' => true
+			),
+			self::ITEM => array(
+                'ModDateFormat' => 'c',
+                'PubDateFormat' => 'c',
+                'LinkTitle' => true,
+                'LinkTags' => false
             ),
             self::SETTINGS => array(
-                'ElementsPerPage' => 'i',
-                'Filter' => 'a',
-                'FilterMethod' => 's',
-                'TargetView' => 's',
-                'SortOrder' => 'b',
-                'SortBy' => 's'
+                'ItemsPerPage' => 15,
+                'MaxPages' => null,
+                'Filter' => array(),
+                'FilterMethod' => 'All',
+                'TargetView' => '',
+                'SortOrder' => true,
+                'SortBy' => 'title'
                 
             )
         )
     );
     
+    private function _getConfVal($type, $target, $key)
+    {
+        if(!isset($this->_data[$type]) || !isset($this->_data[$type][$target]) || !isset($this->_data[$type][$target][$key]))
+        {
+            throw new XArgumentException(sprintf('key /%s/%s/%s not found', $type, $target, $key));
+        }
+        return $this->_data[$type][$target][$key];
+    }
     
+    //captions
+    public function changeCaption($forType, $andKey, $toPrefix, $andSuffix)
+    {
+        if(!isset($this->_data[self::CAPTIONS][$forType]) || !isset($this->_data[self::CAPTIONS][$forType][$andKey]))
+        {
+            throw new XArgumentException(sprintf('key /captions/%s/%s not found', $forType, $andKey));
+        }
+        $this->_data[self::CAPTIONS][$forType][$andKey][self::PREFIX] = $toPrefix;
+        $this->_data[self::CAPTIONS][$forType][$andKey][self::SUFFIX] = $andSuffix;
+    }
+    
+    public function caption($forType, $andKey)
+    {
+        if(!isset($this->_data[self::CAPTIONS][$forType]) || !isset($this->_data[self::CAPTIONS][$forType][$andKey]))
+        {
+            throw new XArgumentException(sprintf('key /captions/%s/%s not found', $forType, $andKey));
+        }
+        return $this->_data[self::CAPTIONS][$forType][$andKey]; 
+    }
+    
+    //order 1..n - unused are null
+	public function changeOrder($forType, array $toData)
+	{
+	    //right key
+        if(!isset($this->_data[self::ORDER][$forType]))
+        {
+            throw new XArgumentException(sprintf('key /order/%s not found', $forType));
+        }	    
+        //set to whatever data is given
+        foreach ($this->_data[self::ORDER][$forType] as $key => $pos) 
+	    {
+	    	$this->_data[self::ORDER][$forType][$key] = (isset($toData[$key]))
+	    	     ? $toData[$key]
+	    	     : null;
+	    }
+	    //order by given data
+	    asort($this->_data[self::ORDER][$forType]);
+	    //change data to correct numbers (1..n or null) 
+	    $i = 0;
+	    foreach ($this->_data[self::ORDER][$forType] as $key => $data) 
+	    {
+	    	$this->_data[self::ORDER][$forType] = ($key === null)
+	    	    ? null
+	    	    : ++$i;
+	    }
+	}
+	
+	public function order($forType)
+	{
+	    //right key
+        if(!isset($this->_data[self::ORDER][$forType]))
+        {
+            throw new XArgumentException(sprintf('key /order/%s not found', $forType));
+        }
+        return $this->_data[self::ORDER][$forType];
+	}
+
+    //options
+	public function changeOption($forType, $andKey, $toValue)
+	{
+        if(!isset($this->_data[self::OPTIONS][$forType]) || !isset($this->_data[self::OPTIONS][$forType][$andKey]))
+        {
+            throw new XArgumentException(sprintf('key /options/%s/%s not found', $forType, $andKey));
+        }
+        return $this->_data[self::OPTIONS][$forType][$andKey];
+	}
+    
+	public function option($forType, $andKey)
+	{
+	    if(!isset($this->_data[self::OPTIONS][$forType]) || !isset($this->_data[self::OPTIONS][$forType][$andKey]))
+        {
+            throw new XArgumentException(sprintf('key /options/%s/%s not found', $forType, $andKey));
+        }
+        return $this->_data[self::OPTIONS][$forType][$andKey]; 
+	}
+	
+	public function options($forType)
+	{
+	    if(!isset($this->_data[self::OPTIONS][$forType]))
+        {
+            throw new XArgumentException(sprintf('key /options/%s/%s not found', $forType, $andKey));
+        }
+        return $this->_data[self::OPTIONS][$forType]; 
+	}
+	//FIXME remove redundant redundancy
+	
     
 	/**
 	 * @return CFeed
@@ -154,73 +266,7 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId
 	    }
 	    $this->initBasicMetaFromDB($alias);
 	}
-	///////////////
-	
-	private function validateTarget($target)
-	{
-	    if(!($target == self::HEADER || $target == self::ITEM || $target == self::FOOTER))
-	    {
-	        throw new XArgumentException('not a valid target');
-	    }
-	}
-	
-	public function _setCaptions($target, $name, $caption)
-	{
-	    $this->validateTarget($target);
-	    //FIXME
-	}
-	
-	public function _getCaptions($target, $name)
-	{
-	    $this->validateTarget($target);
-	    //FIXME
-	}
-	
-	public function _setAttributeOrder($target, array $atts)
-	{
-	    
-	}
-	
-	public function _getAttributeOrder($target, array $atts)
-	{
-	    
-	}
-	
-	public function _getAvailableAttributes($target)
-	{
-	    
-	}
-	
-	public function isAttributeActive($target, $att)
-	{
-	    
-	}
-	
-	public function alterSettings(array $settings)
-	{
-	    
-	}
-	
-	public function _getSettings()
-	{
-	    
-	}
-	
-	public function _getSetting($setting)
-	{
-	    
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	//////////////
+
 	/**
 	 * Enter description here...
 	 *
@@ -228,11 +274,144 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId
 	 */
 	public function getContent()
 	{
-	    //FIXME invoking query object pagina
-	    //FIXME header
-	    //FIXME implement fetching
-        $res = QCFeed::getItemsForPage();
-        //FIXME footer  
+	    //fetch meta data
+	    $res = QCFeed::countItemsForFeed($this->getId());
+	    list($count) = $res->fetch();
+        $res->free();
+        
+        $hasMorePages = true;
+        
+        //max items per page
+        $itemsPerPage = $this->option(self::SETTINGS, 'ItemsPerPage');
+        
+        //available pages
+        $pages = 1+ceil($count/max(1,$itemsPerPage));
+        
+        //current page        
+        $currentPage = 1;
+        $iqo = $this->invokingQueryObject;
+        if($iqo != null && $iqo instanceof QSpore)
+        {
+            $currentPage = intval($iqo->GetParameter('page'));
+        }
+        
+        //last page
+        $maxPages = $this->option(self::SETTINGS, 'MaxPages') 
+            ? min($this->option(self::SETTINGS, 'MaxPages'), $pages) 
+            : $pages;
+        
+        //displayable items    
+        $maxItems = min($maxPages * $itemsPerPage, $count);
+        
+        //page to display
+        if($currentPage >= $maxPages)
+        {
+            $currentPage = min($currentPage, $maxPages);
+            $hasMorePages = false;
+        }
+        
+        //item count on page
+        $startItem = ($currentPage-1)*$itemsPerPage+1;
+        $endItem = min($startItem+$itemsPerPage-1, $maxItems);
+
+        
+        
+        //FIXME do header
+        
+        
+        
+        //which items to fetch?
+        $fetch = array();
+        foreach ($this->order(self::ITEM) as $prop => $rank) 
+        {
+        	if($rank != null)
+        	{
+        	    $fetch[] = $prop;
+        	}
+        }
+        
+        $res = QCFeed::getItemsForPage(
+            $this->getId(), 
+            $this->option(self::SETTINGS, 'SortBy'),
+            $this->option(self::SETTINGS, 'SortOrder'),
+            $currentPage,
+            $itemsPerPage,
+            $fetch
+            );
+        
+        //html building
+        $content = '<div id="CFeed_'.$this->getAlias().'" class="CFeed">';
+
+        if($count > 0)
+        {
+            while($row = $res->fetch())
+            {
+                $content .= $this->buildItemHtml($row);
+            }
+            $res->free();
+        }
+        else
+        {
+            $content .= '<p>'.implode('<br />', $this->caption(self::ITEM, 'NoItemsFound')).'</p>';
+        }
+        
+        //FIXME do footer
+        $content .= '</div>';
+        return $content;
+	}
+	
+	private function buildItemHtml(array $data)
+	{
+        $map = array(
+            'Title' => 0,
+            'Desciption' => 1,
+            'PubDate' => 2,
+            'Alias' => 3,
+            'Author' => 4,
+            'ModDate' => 5,
+            'Tags' => 6
+        );
+        $html = '<div class="CFeed_item">';
+        $tpl = '<%s class="CFeed_item_%s">%s</%s>';
+        foreach ($this->order(self::ITEM) as $key => $pos) 
+        {
+        	if(!$pos)
+        	{
+        	    continue;
+        	}
+        	$class = strtolower($key);
+        	$tag = 'span';
+        	switch ($key) 
+        	{
+                case 'Tags':
+        	    case 'Desciption':
+        		    $tag = 'div';
+        		    $content = htmlentities($data[$map[$key]], ENT_QUOTES, 'UTF-8');
+        		    break;
+                case 'Content':
+                    $tag = 'div';
+                    $content = 'not implemented';
+                    break;
+                case 'Link':
+        		    $content = sprintf('<a href="#%s">%s</a>', $data[$map['Alias']], implode($this->caption(self::ITEM,'Link')));
+        		    break;
+                case 'Author':
+                case 'PubDate':
+                case 'ModDate':
+        		    $content = htmlentities($data[$map[$key]], ENT_QUOTES, 'UTF-8');
+        		    break;
+                case 'Title':
+        		    $tag = 'h2';
+        		    $content = ($this->option(self::ITEM, 'LinkTitle')) 
+        		        ? sprintf('<a href="#%s">%s</a>', $data[$map['Alias']], htmlentities($data[$map[$key]], ENT_QUOTES, 'UTF-8'))
+        		        : htmlentities($data[$map[$key]], ENT_QUOTES, 'UTF-8');
+        		    break;
+                default:break;
+        	}
+        	$html .= sprintf($tpl, $tag, $class, $content, $tag);
+        }
+        $html .= '</div>';
+        return $html;
 	}
 	
 	public function setContent($value)
