@@ -7,7 +7,7 @@
  * @since 17.10.2008
  * @license GNU General Public License 3
  */
-class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId 
+class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGeneratesFeed 
 {
     const GUID = 'org.bambuscms.content.cfeed';
     
@@ -36,9 +36,9 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId
             self::HEADER => array(
                 'NumberOfEnd' => array('',''),
                 'NumberOfStart' => array('',''),
-                'FountItems' => array('',''),
-                'Link' => array('',''),
-                'Pagina' => array('','')
+                'FoundItems' => array('Found: ',' Items'),
+                'Link' => array('prev','next'),
+                'Pagina' => array('Page: ','')
             ),
             self::ITEM => array(
                 'Link' => array('',''),
@@ -47,9 +47,9 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId
             self::FOOTER => array(
                 'NumberOfEnd' => array('',''),
                 'NumberOfStart' => array('',''),
-                'FountItems' => array('',''),
-                'Link' => array('',''),
-                'Pagina' => array('','')
+                'FoundItems' => array('Found: ',' Items'),
+                'Link' => array('prev','next'),
+                'Pagina' => array('Page: ','')
             )
         ),
         self::ORDER => array(
@@ -94,8 +94,8 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId
                 'LinkTags' => false
             ),
             self::SETTINGS => array(
-                'ItemsPerPage' => 15,
-                'MaxPages' => null,
+                'ItemsPerPage' => 1,
+                'MaxPages' => 1000,
                 'Filter' => array(),
                 'FilterMethod' => 'All',
                 'TargetView' => '',
@@ -267,6 +267,30 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId
 	    $this->initBasicMetaFromDB($alias);
 	}
 
+	private function link($arg, $target = false)
+	{
+	    $iqo = $this->invokingQueryObject;
+	    if(!$target && $iqo != null && $iqo instanceof QSpore)
+	    {
+	        //link to self
+	        //only param page=
+            $iqo->SetLinkParameter('page', $arg, true);
+            $iqo->LinkTo($this->getAlias());
+            return strval($iqo);
+        }   
+        elseif($target && QSpore::isActive($target))
+        {
+            //link page to target view
+            $linker = new QSpore($target);
+            $linker->LinkTo($arg);
+            return strval($linker);
+        } 
+        else
+        {
+            return '#';        
+        }
+	}
+	
 	/**
 	 * Enter description here...
 	 *
@@ -285,7 +309,7 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId
         $itemsPerPage = $this->option(self::SETTINGS, 'ItemsPerPage');
         
         //available pages
-        $pages = 1+ceil($count/max(1,$itemsPerPage));
+        $pages = max(1,ceil($count/max(1,$itemsPerPage)));
         
         //current page        
         $currentPage = 1;
@@ -294,7 +318,7 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId
         {
             $currentPage = intval($iqo->GetParameter('page'));
         }
-        
+        $currentPage = max(1, $currentPage);
         //last page
         $maxPages = $this->option(self::SETTINGS, 'MaxPages') 
             ? min($this->option(self::SETTINGS, 'MaxPages'), $pages) 
@@ -314,12 +338,6 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId
         $startItem = ($currentPage-1)*$itemsPerPage+1;
         $endItem = min($startItem+$itemsPerPage-1, $maxItems);
 
-        
-        
-        //FIXME do header
-        
-        
-        
         //which items to fetch?
         $fetch = array();
         foreach ($this->order(self::ITEM) as $prop => $rank) 
@@ -341,25 +359,81 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId
         
         //html building
         $content = '<div id="CFeed_'.$this->getAlias().'" class="CFeed">';
-
         if($count > 0)
         {
+            $content .= $this->buildControlHtml(self::HEADER, $hasMorePages, $currentPage, $startItem, $endItem, $maxItems);
             while($row = $res->fetch())
             {
                 $content .= $this->buildItemHtml($row);
             }
             $res->free();
+            $content .= $this->buildControlHtml(self::FOOTER, $hasMorePages, $currentPage, $startItem, $endItem, $maxItems);
         }
         else
         {
             $content .= '<p>'.implode('<br />', $this->caption(self::ITEM, 'NoItemsFound')).'</p>';
         }
-        
-        //FIXME do footer
         $content .= '</div>';
         return $content;
 	}
 	
+	private function buildControlHtml($type, $hasMorePages, $Pagina, $NumberOfStart, $NumberOfEnd, $FoundItems)
+	{
+        $html = sprintf("\n\t<div class=\"CFeed_control CFeed_control_%s\">", ($type == self::HEADER) ? 'header' : 'footer');
+        $tpl = "\n\t\t<%s class=\"CFeed_control_%s\">%s</%s>";
+        
+        foreach ($this->order($type) as $key => $pos) 
+        {
+            $set = false;
+        	if(!$pos)
+        	{
+        	    continue;
+        	}
+        	$class = strtolower($key);
+        	$tag = 'div';
+        	switch ($key) 
+        	{
+        	    case 'NextLink' :
+        	        if($hasMorePages)
+        	        {
+        	            $set = true;
+                        $captions = $this->caption($type, 'Link');
+                        $caption = $captions[self::SUFFIX];
+                        $page = $Pagina + 1;
+                        $content = sprintf('<a href="%s">%s</a>', $this->link($page), $caption);
+        	        }
+                    break;
+    	        case 'PrevLink' :
+        	        if($Pagina > 1)
+        	        {
+        	            $set = true;
+                        $captions = $this->caption($type, 'Link');
+                        $caption = $captions[self::PREFIX];
+                        $page = $Pagina - 1;
+                        $content = sprintf('<a href="%s">%s</a>', $this->link($page), $caption);
+        	        }
+                    break;
+                case 'Pagina':
+                case 'NumberOfStart' :
+                case 'NumberOfEnd' :
+                case 'FoundItems' :
+                    $set = true;
+                    $captions = $this->caption($type, $key);
+        		    $content = $captions[self::PREFIX];
+        		    $content .= ${$key};
+        		    $content .= $captions[self::SUFFIX];
+        		    break;
+                default: continue;
+        	}
+        	if($set)
+        	{
+        	    $html .= sprintf($tpl, $tag, $class, $content, $tag);
+        	}
+        }
+        $html .= "\n\t</div>";
+        return $html;
+	}
+		
 	private function buildItemHtml(array $data)
 	{
         $map = array(
@@ -371,8 +445,9 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId
             'ModDate' => 5,
             'Tags' => 6
         );
-        $html = '<div class="CFeed_item">';
-        $tpl = '<%s class="CFeed_item_%s">%s</%s>';
+        $html = "\n\t<div class=\"CFeed_item\">";
+        //add all active attributes in order
+        $tpl = "\n\t\t<%s class=\"CFeed_item_%s\">%s</%s>";
         foreach ($this->order(self::ITEM) as $key => $pos) 
         {
         	if(!$pos)
@@ -406,11 +481,11 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId
         		        ? sprintf('<a href="#%s">%s</a>', $data[$map['Alias']], htmlentities($data[$map[$key]], ENT_QUOTES, 'UTF-8'))
         		        : htmlentities($data[$map[$key]], ENT_QUOTES, 'UTF-8');
         		    break;
-                default:break;
+                default: continue;
         	}
         	$html .= sprintf($tpl, $tag, $class, $content, $tag);
         }
-        $html .= '</div>';
+        $html .= "</div>\n";
         return $html;
 	}
 	
@@ -419,6 +494,27 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId
 	    throw new XPermissionDeniedException('feeds are generated');
 	}
 	
+	public function generateFeed()
+	{
+	    //build feed header
+	    //build feed items
+	    $xml = new SSimpleXMLWriter();
+	    $xml->openTag('data');
+	    $res = QCFeed::getItemsForFeed($this->getId());
+	    while($row = $res->fetch())
+	    {
+	        $xml->openTag('item');
+	        $xml->tag('title', array(), $row[0]);
+	        $xml->tag('desc', array(), $row[1]);
+	        $xml->tag('pubdate', array(), date('r', strtotime($row[2])));
+	        $xml->tag('link', array(), $row[3]);
+	        $xml->tag('lastmodified', array(), $row[4]);
+	        $xml->tag('categories', array(), $row[5]);
+	        $xml->closeTag();
+	    }
+	    $xml->closeTag();
+	    echo strval($xml);
+	}
 	
 	public function Save()
 	{

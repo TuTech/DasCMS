@@ -84,6 +84,11 @@ class WTemplate extends BWidget
         return $this->environment;
     }
     
+    public static function getGlobalEnvironment()
+    {
+        return self::$globalEnviornment;
+    }
+    
     /**
      * get render() output as string
      *

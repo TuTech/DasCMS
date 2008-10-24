@@ -26,7 +26,7 @@ abstract class BAppController
 	        throw new XPermissionDeniedException($appID);
 	    }
 	    
-	    //FIXME use some kind of config file
+	    //FIXME use db
 	    switch($appID)
 	    {
 	        case 'org.bambuscms.applications.websiteeditor':
@@ -43,7 +43,9 @@ abstract class BAppController
 	            return new AGroupManager();
             case 'org.bambuscms.applications.templates':
 	            return new ATemplates();
-	        default:
+            case 'org.bambuscms.applications.feeds':
+	            return new AFeeds();
+            default:
 	            throw new XUndefinedException('controller not found');
 	    }
 	}

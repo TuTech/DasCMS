@@ -48,25 +48,12 @@ if(!empty($stylesheets)){
 }
 WTemplate::globalSet('stylesheets', $stylesheetLinks);
 
-
-//////////////////////////////
-//QSpore
-//////////////////////////////
-
-$spores = QSpore::activeSpores();
-if(count($spores) > 0)
-{
-	$Parser = SParser::alloc()->init();
-	$Spore = new QSpore($spores[0]);
-	$content = $Spore->getContent();
-	if($content != null && $content instanceof BContent)
-	{
-		$e = new EContentAccessEvent($Spore, $content);
-		if($e->isCanceled())
-		{
-			$content = CError::Open(403);
-		}
-	}
-	echo $Parser->parse(implode('', file('Content/templates/page.tpl')), $content);
-}
+$tok = SProfiler::profile(__FILE__, __LINE__,'template engine');
+//FIXME template from conf
+$tpl = new TEngine('new_template', BTemplate::CONTENT, WTemplate::getGlobalEnvironment());
+SProfiler::finish($tok);
+$tok2 = SProfiler::profile(__FILE__, __LINE__,'template parsing');
+echo $tpl->execute(array());
+SProfiler::finish($tok2);
+SProfiler::finish($tok);
 ?>

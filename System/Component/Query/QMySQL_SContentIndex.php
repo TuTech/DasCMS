@@ -139,8 +139,7 @@ class QSContentIndex extends BQuery
     public static function deleteContent($dbid)
     {
         $DB = BQuery::Database();
-        $DB->query(sprintf("DELETE FROM Contents WHERE contentID = %d", $dbid));
-        $DB->query(sprintf("DELETE FROM ContentSummaries WHERE contentID = %d", $dbid));
+        $DB->queryExecute(sprintf("DELETE FROM Contents WHERE contentID = %d", $dbid));
     }    
     
 

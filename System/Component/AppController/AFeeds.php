@@ -1,12 +1,12 @@
 <?php
-class ATemplates
+class AFeeds
     extends 
         BAppController 
     implements 
         IACProviderOpenDialogData,
         IGlobalUniqueId  
 {
-    const GUID = 'org.bambuscms.applications.templates';
+    const GUID = 'org.bambuscms.applications.feeds';
     
     public function getGUID()
     {
@@ -25,7 +25,7 @@ class ATemplates
             throw new XPermissionDeniedException('view');
         }
         $SCI = SContentIndex::alloc()->init();
-        $IDindex = CTemplate::Index();
+        $IDindex = CFeed::Index();
         $items = array();
         foreach ($IDindex as $alias => $data) 
         {
@@ -35,8 +35,8 @@ class ATemplates
         $data = array(
             'title' => SLocalization::get('open'),
             'nrOfItems' => count($items),
-            'iconMap' => array('System/Icons/tango/large/mimetypes/CTemplate.png'),
-            'smallIconMap' => array('System/Icons/tango/extra-small/mimetypes/CTemplate.png'),
+            'iconMap' => array('System/Icons/tango/large/mimetypes/CFeed.png'),
+            'smallIconMap' => array('System/Icons/tango/extra-small/mimetypes/CFeed.png'),
             'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2, 'pubDate' => 3),//, 'tags' => 4
             'sortable' => array('title' => 'title', 'pubDate' => 'pubDate'),
             'items' => $items,

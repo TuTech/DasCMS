@@ -14,19 +14,38 @@ class SSimpleXMLWriter
 	private $standAlone;
 	private $stack = array();
 	private $xml = '';
-	
+	private $inputEncoding = 'UTF-8,ISO-8859-1,auto';
 	/**
 	 * create a new xml constructor
 	 * @param string $encoding
 	 * @param string $version version of xml 
 	 * @param bool $standAlone does not need dtd
 	 */
+	private $depth = 0;
 	public function __construct($encoding = 'UTF-8', $version = '1.0', $standAlone = false)
 	{
 		$this->nameSpace[0] = null;
 		$this->encoding = $encoding;
 		$this->version = $version;
 		$this->standAlone = empty($standAlone) ? 'no' : 'yes';
+	}
+	
+	public function setInputEncoding($encoding = 'UTF-8')
+	{
+	    $this->inputEncoding = $encoding;
+	}
+	
+	private function recode($string, $withHTMLEntities = false)
+	{
+	    if($this->encoding != $this->inputEncoding)
+	    {
+	        $string = mb_convert_encoding($string, $this->encoding, $this->inputEncoding);
+	    }
+	    if($withHTMLEntities)
+	    {
+	        $string = htmlentities($string, ENT_QUOTES, $this->encoding);
+	    }
+	    return $string;
 	}
 	
 	/**
@@ -44,8 +63,9 @@ class SSimpleXMLWriter
 		{
 			//use <tag />
 			$this->xml .= sprintf(
-				"<%s%s />"
-				,htmlentities($nodeName, ENT_QUOTES, $this->encoding)
+				"\n%s<%s%s />"
+				,str_repeat("\t", $this->depth)
+				,$this->recode($nodeName, true)
 				,$this->buildAttriburteString($attributes)
 			);
 		}
@@ -53,11 +73,14 @@ class SSimpleXMLWriter
 		{
 			//use <tag>value</tag>
 			$this->xml .= sprintf(
-				"<%s%s>%s</%s>"
-				,htmlentities($nodeName, ENT_QUOTES, $this->encoding)
+				"\n%s<%s%s>%s</%s>"
+				,str_repeat("\t", $this->depth)
+				,$this->recode($nodeName, true)
 				,$this->buildAttriburteString($attributes)
-				,($cdata) ? '<![CDATA['.$value.']]>': htmlentities($value, ENT_QUOTES, $this->encoding)
-				,htmlentities($nodeName, ENT_QUOTES, $this->encoding)
+				,($cdata) 
+				    ? '<![CDATA['.$this->recode($value).']]>'
+					: $this->recode($value, true)
+				,$this->recode($nodeName, true)
 			);
 		}
 	}
@@ -72,10 +95,12 @@ class SSimpleXMLWriter
 	{
 		array_push($this->stack, $nodeName);
 		$this->xml .= sprintf(
-			"<%s%s>"
-			,htmlentities($nodeName, ENT_QUOTES, $this->encoding)
+			"\n%s<%s%s>"
+			,str_repeat("\t", $this->depth)
+			,$this->recode($nodeName, true)
 			,$this->buildAttriburteString($attributes)
 		);
+		$this->depth++;
 	}
 	
 	/**
@@ -84,12 +109,13 @@ class SSimpleXMLWriter
 	 */
 	public function closeTag()
 	{
+	    $this->depth--;
 		if(count($this->stack) == 0)
 		{
 			throw new XUndefinedIndexException('not open tags on stack');
 		}
 		$tag = array_pop($this->stack);
-		$this->xml .= sprintf("</%s>",$tag);
+		$this->xml .= sprintf("\n%s</%s>",str_repeat("\t", $this->depth),$tag);
 	}
 	
 	/**
@@ -116,8 +142,8 @@ class SSimpleXMLWriter
 		{
 			$string = sprintf("%s %s=\"%s\""
 				,$string
-				,htmlentities($name,ENT_QUOTES,$this->encoding)
-				,htmlentities($value,ENT_QUOTES,$this->encoding)
+				,$this->recode($name)
+				,$this->recode($value, true)
 			);
 		}
 		return $string;

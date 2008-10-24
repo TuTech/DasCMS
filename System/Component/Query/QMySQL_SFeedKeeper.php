@@ -13,7 +13,7 @@ class QSFeedKeeper extends BQuery
     
     public static function setFeedType($feedId, $filterType)
     {
-        $type = array_search($filterType, array('All', 'MatchSome', 'MatchAll', 'MatchNone'));
+        $type = array_search($filterType, array('','All', 'MatchSome', 'MatchAll', 'MatchNone'));
         $sql = 
             "INSERT INTO Feeds 
 					(contentREL, filterType, lastUpdate, associatedItems)

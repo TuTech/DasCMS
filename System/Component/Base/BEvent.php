@@ -54,10 +54,20 @@ abstract class BEvent extends BObject
 		foreach ($listenerClasses as $eventListenerClass) 
 		{
 			$c = new $eventListenerClass();
-			
-			$eventListener = $c->alloc();//call_user_func_array(array($eventListenerClass, 'alloc'));
-			$eventListener->init();
-			$eventListener->{$handleEvent}($e);
+			if($c instanceof $handler)
+		    {
+    			$eventListener = $c->alloc();//call_user_func_array(array($eventListenerClass, 'alloc'));
+    			$eventListener->init();
+    			if(!method_exists($eventListener, $handleEvent))
+    			{
+    			    throw new Exception($eventListenerClass.' ['.get_class($eventListener).'::'.$handleEvent.'()]');
+    			}
+    			$eventListener->{$handleEvent}($e);
+		    }
+		    else
+		    {
+		        SNotificationCenter::report('warning', 'component index out of sync');
+		    }
 		}
 	}
 }

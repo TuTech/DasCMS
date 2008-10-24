@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<bambus>
+	<name>websites</name>
+	<description>edit_feeds</description>
+	<icon>app-preferences-feeds</icon>
+	<version>0.1.20081017</version>
+	<priority>2.0</priority>
+	<purpose>manage_content</purpose>
+	<tabs>
+		<tab icon="action-edit">edit</tab>
+	</tabs>
+	<application>
+		<controller>controller.php</controller>
+		<interface name="edit" src="edit.php">
+			<task type="button" hotkey="o" caption="open" icon="action-document-open" action="org.bambuscms.wopenfiledialog.show();" />
+			<task type="button" hotkey="s" caption="save" icon="action-document-save" action="EditorSave()" />
+			<task type="button" hotkey="S" caption="save_and_rename" icon="action-document-save-as" action="EditorSaveAs('filename')" />
+			<task type="button" hotkey="N" caption="new" icon="action-document-new" action="Create()" />
+			<task type="button" hotkey="X" caption="delete" icon="action-delete" action="Delete()" />
+		</interface>
+	</application>
+</bambus>

@@ -43,6 +43,8 @@ array objectid => spore
 	//the alias to link to
 	private $newMainParameter = '';
 	
+	private $target;
+	
 	//spores with names existing in $spores must not be created
 	//names must be ascii, must not begin with "_" and must not contain "-"
 	

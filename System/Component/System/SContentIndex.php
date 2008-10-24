@@ -55,7 +55,12 @@ class SContentIndex
 	{
 	    if($this->exists($alias, $from) && !empty($from))
 	    {
-	        $id = QSContentIndex::getDBID($alias);
+	        $res = QSContentIndex::getDBID($alias);
+	        if($res->getRowCount() != 1)
+	        {
+	            throw new XUndefinedException();
+	        }
+	        list($id) = $res->fetch();
 	        return QSContentIndex::deleteContent($id);
 	    }
 	    else

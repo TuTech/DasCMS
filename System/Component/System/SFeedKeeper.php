@@ -11,6 +11,34 @@ class SFeedKeeper
     const MATCH_ALL = 'MatchAll';
     const MATCH_NONE = 'MatchNone';
     
+	//IShareable
+	const CLASS_NAME = 'SFeedKeeper';
+	/**
+	 * @var SFeedKeeper
+	 */
+	public static $sharedInstance = NULL;
+	/**
+	 * @return SFeedKeeper
+	 */
+	public static function alloc()
+	{
+		$class = self::CLASS_NAME;
+		if(self::$sharedInstance == NULL && $class != NULL)
+		{
+			self::$sharedInstance = new $class();
+		}
+		return self::$sharedInstance;
+	}
+    
+	/**
+	 * @return SContentIndex
+	 */
+	function init()
+    {
+    	return $this;
+    }
+	//end IShareable
+    
 	public function HandleContentChangedEvent(EContentChangedEvent $e)
 	{
 	    try
