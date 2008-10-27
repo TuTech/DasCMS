@@ -21,6 +21,8 @@ lines	Zeilen
 pubDate	Freigabe
 asc	Auf
 desc	Ab
+ascending	Aufsteigend
+descending	Absteigend
 detail	Details
 icon	Symbol
 manage	Verwalten
