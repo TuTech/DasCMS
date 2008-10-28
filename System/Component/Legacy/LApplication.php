@@ -340,7 +340,7 @@ class LApplication extends BLegacy implements IShareable
         $Dir = opendir ('./');
         while ($item = readdir ($Dir)) 
         {
-            if(is_dir($item) && substr($item,0,1) != '.' && strtolower(DFileSystem::suffix($item)) == 'bap')
+            if(is_dir($item) && file_exists($item.'/Application.xml') && substr($item,0,1) != '.' && strtolower(DFileSystem::suffix($item)) == 'bap')
             {
                 $i++;
                 

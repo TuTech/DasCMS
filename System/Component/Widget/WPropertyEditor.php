@@ -14,15 +14,33 @@ class WPropertyEditor extends BWidget
     const ACTIVE = 2;
     
 	private $ID;
-
+	private $autotranslate = true; 
 	private $data = array();
 	
-	public function __construct($name)
+	public function __construct($name, $title = null)
 	{
-    	$this->ID = crc32($name);
+    	$this->ID = ($name);
+    	$this->setTitle($title);
 	}
-
-	/**
+	
+    public function setTitleTranslation($yn)
+    {
+        $this->autotranslate = $yn == true;
+    }
+	
+    public function setTitle($title = null)
+    {
+        if($title == null)
+        {
+            $this->title = null;
+        }
+        else
+        {
+            $this->title = $this->autotranslate ? SLocalization::get($title) : $title;
+        }
+    }
+	
+    /**
 	 * return rendered html
 	 * @return string
 	 */
@@ -38,27 +56,32 @@ class WPropertyEditor extends BWidget
 	 */
 	public function render()
 	{
+        if($this->title != null)
+        {
+            printf("<h3>%s</h3>\n", $this->title);
+        }
 	    printf("
             <table class=\"WPropertyEditor\" id=\"WPropertyEditor_%s\">
             	<tr>
                     <th class=\"WPE_left\"></th>
-                    <th>%s</th>
-                    <th class=\"WPE_mid\"></th>
+                    <th class=\"WPE_property\">%s</th>
                     <th>%s</th>
             	</tr>
             	<tr>
             		<td class=\"WPE_left\">
-            			<img src=\"%s\" alt=\"%s\" id=\"WPropertyEditor_%s_mv_up\" />
-            			<img src=\"%s\" alt=\"%s\" id=\"WPropertyEditor_%s_mv_down\" />
+            			<img src=\"%s\" alt=\"%s\" id=\"WPropertyEditor_%s_mv_up\" class=\"WPE_mv_up\" />
+            			<img src=\"%s\" alt=\"%s\" id=\"WPropertyEditor_%s_mv_down\" class=\"WPE_mv_down\" />
             		</td>
-            		<td>
+            		<td class=\"WPE_property\">
 						<select size=\"%d\" id=\"WPropertyEditor_%s_selector\">"
 			,$this->ID
     		,SLocalization::get('property')
             ,SLocalization::get('settings')
             ,WIcon::pathFor('move-up', 'action', WIcon::SMALL)
+            ,''
             ,$this->ID
             ,WIcon::pathFor('move-down', 'action', WIcon::SMALL)
+            ,''
             ,$this->ID
             ,count($this->data)
             ,$this->ID
@@ -67,19 +90,17 @@ class WPropertyEditor extends BWidget
 		foreach ($this->data as $name => $data) 
 		{
 			printf("
-							<option id=\"WPropertyEditor_%s_option_%s\" class=\"WPropertyEditor_%s\" value=\"%s\">%s</option>"
+							<option id=\"WPropertyEditor_%s_option_%s\" class=\"WPE_%s\" value=\"%s\">%s</option>"
 				,$this->ID
-			    ,crc32($name)
+			    ,($name)
 			    ,($data[self::ACTIVE] === false) ? 'inactive' : 'active'
-			    ,crc32($name)
-			    ,htmlentities($data[self::TITLE], ENT_QUOTES)
+			    ,($name)
+			    ,htmlentities($this->autotranslate ? (SLocalization::get($data[self::TITLE])) : mb_convert_encoding($data[self::TITLE], 'UTF-8', 'ISO-8859-1,UTF-8'), ENT_QUOTES, 'UTF-8')
 			);
 		}
-		
 		print("
 						</select>
 		    		</td>
-					<td class=\"WPE_mid\"></td>
 					<td>"
 		);	    
 		//props
@@ -89,25 +110,29 @@ class WPropertyEditor extends BWidget
             $i = 1;
         	printf("
 						<div id=\"WPropertyEditor_%s_option_%s_data\" class=\"WPropertyEditor_option\" style=\"display:none;\">
-						<input type=\"hidden\" name=\"WPropertyEditor_%s_%s_position\" value=\"%s\" id=\"WPropertyEditor_%s_%s_position\" />"
+						<input type=\"hidden\" name=\"WPropertyEditor_%s_%s_position\" value=\"%s\" id=\"WPropertyEditor_%s_%s_position\" />
+						<h4>%s</h4>"
 				,$this->ID
-			    ,crc32($name)
+			    ,($name)
 			    ,$this->ID
-			    ,crc32($name)
+			    ,($name)
 			    ,$i++
 				,$this->ID
-			    ,crc32($name)
+			    ,($name)
+			    ,htmlentities($this->autotranslate ? (SLocalization::get($data[self::TITLE])) : mb_convert_encoding($data[self::TITLE], 'UTF-8', 'ISO-8859-1,UTF-8'), ENT_QUOTES, 'UTF-8')
 			);
 			if($data[self::ACTIVE] !== null)
 			{
 			    printf("
-							<p><input type=\"checkbox\" name=\"WPropertyEditor_%s_option_%s_active\" id=\"WPropertyEditor_%s_option_%s_active\" %s/>%s</p>"
+							<p><input type=\"checkbox\" name=\"WPropertyEditor_%s_option_%s_active\" id=\"WPropertyEditor_%s_option_%s_active\" %s/><label for=\"WPropertyEditor_%s_option_%s_active\">%s</label></p>"
 					,$this->ID
-			        ,crc32($name)
+			        ,($name)
 					,$this->ID
-			        ,crc32($name)
+			        ,($name)
 			        ,$data[self::ACTIVE] ? 'checked="checked" ' : ''
-					, SLocalization::get('active')
+					,$this->ID
+			        ,($name)
+					, SLocalization::get('activate_item')
 		        );
 			}
 			print(strval($data[self::DATA]));
@@ -137,12 +162,12 @@ class WPropertyEditor extends BWidget
 	
 	public static function getPropPos($element, $property)
 	{
-	    return intval(RSent::get(sprintf('WPropertyEditor_%s_%s_position', crc32($element), crc32($property)))); 
+	    return intval(RSent::get(sprintf('WPropertyEditor_%s_%s_position', ($element), ($property)))); 
 	}
 	
 	public static function getPropStatus($element, $property)
 	{
-	    return strtolower(RSent::get(sprintf('WPropertyEditor_%s_option_%s_active', crc32($element), crc32($property)))) == 'on'; 
+	    return strtolower(RSent::get(sprintf('WPropertyEditor_%s_option_%s_active', ($element), ($property)))) == 'on'; 
 	}	
 }
 ?>

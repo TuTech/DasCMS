@@ -1,0 +1,65 @@
+@CHARSET "UTF-8";
+.WPropertyEditor{
+    border-width:0px;
+    width:100%;
+    font-size: 0.9em;
+    text-align:left;
+    empty-cells: show;
+}
+.WPropertyEditor td, .WPropertyEditor th{
+    border-width:0px;
+    border-bottom-width: 1px;
+    border-right-width: 1px;
+}
+.WPropertyEditor, .WPropertyEditor td, .WPropertyEditor th{
+    border-style: solid;
+    border-spacing: 0px;
+    border-color: #4e9a06;
+}
+.WPropertyEditor th
+{
+    background: #4e9a06 url(../../Images/iconbarbg.png) 50% 50%;
+    padding:2px;
+    border-top-width: 1px;
+    color:white;
+}
+.WPropertyEditor tr
+{
+	vertical-align: top;
+}
+.WPropertyEditor td
+{
+    background: #ffffff;
+}
+.WPropertyEditor th.WPE_mid, 
+.WPropertyEditor td.WPE_mid
+{
+	width:0px;
+}
+.WPropertyEditor th.WPE_left, 
+.WPropertyEditor td.WPE_left
+{
+	background: none;
+	border-top-width: 0px;
+	border-bottom-width:0px; 
+	width: 24px;
+}
+.WPropertyEditor select 
+{
+	display: block;
+	border-width: 0px;
+	width:100%;
+}
+.WPropertyEditor th.WPE_property,
+.WPropertyEditor td.WPE_property
+{
+	width:175px;
+}
+.WPropertyEditor p
+{
+	font-size: 11px;
+}
+.WPE_mv_down
+{
+	padding-top: 5px;
+}

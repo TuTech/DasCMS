@@ -9,15 +9,28 @@ org.bambuscms.wpropertyeditor =
 		for(var i = 0; i < org.bambuscms.wpropertyeditor._items.length; i++)
 		{
 			var item = org.bambuscms.wpropertyeditor._items[i];
-			org.bambuscms.gui.setEventHandler($('WPropertyEditor_'+item+'_mv_up'), 'click', function(){org.bambuscms.wpropertyeditor.up(item);});
-			org.bambuscms.gui.setEventHandler($('WPropertyEditor_'+item+'_mv_down'), 'click', function(){org.bambuscms.wpropertyeditor.down(item);});
-			org.bambuscms.gui.setEventHandler($('WPropertyEditor_'+item+'_selector'), 'change', function(){org.bambuscms.wpropertyeditor.selectProperty(item);});
+			org.bambuscms.gui.setEventHandler($('WPropertyEditor_'+item+'_mv_up'), 'click', function(){org.bambuscms.wpropertyeditor.up(org.bambuscms.wpropertyeditor._getItem(this));});
+			org.bambuscms.gui.setEventHandler($('WPropertyEditor_'+item+'_mv_down'), 'click', function(){org.bambuscms.wpropertyeditor.down(org.bambuscms.wpropertyeditor._getItem(this));});
+			org.bambuscms.gui.setEventHandler($('WPropertyEditor_'+item+'_selector'), 'change', function(){org.bambuscms.wpropertyeditor.selectProperty(org.bambuscms.wpropertyeditor._getItem(this));});
 			for(var x = 0; x < $('WPropertyEditor_'+item+'_selector').length; x++)
 			{
 				var att = $('WPropertyEditor_'+item+'_selector').options[x].value;
-				org.bambuscms.gui.setEventHandler($('WPropertyEditor_'+item+'_option_'+att+'_active'), 'change', function(){org.bambuscms.wpropertyeditor.changeActiveStatus(item, this.checked);});
+				var fx = function(){org.bambuscms.wpropertyeditor.changeActiveStatus(org.bambuscms.wpropertyeditor._getItem(this), this.checked);};
+				org.bambuscms.gui.setEventHandler($('WPropertyEditor_'+item+'_option_'+att+'_active'), 'click', fx);
+				org.bambuscms.gui.setEventHandler($('WPropertyEditor_'+item+'_option_'+att+'_active'), 'change', fx);
+			}
+			if($('WPropertyEditor_'+item+'_selector').options.length)
+			{
+				$('WPropertyEditor_'+item+'_selector').selectedIndex = 0;
+				org.bambuscms.wpropertyeditor.selectProperty(item);
 			}
 		}
+	},
+	
+	'_getItem': function(self)
+	{
+		var name = self.id.split("_");
+		return name[1];
 	},
 	
 	//register item
@@ -31,7 +44,7 @@ org.bambuscms.wpropertyeditor =
 	//move property up in list
 	'up':function(id)
 	{
-	throw new Error('not implemented');
+		throw new Error('not implemented');
 		//exchange selected element with the upper
 		org.bambuscms.wpropertyeditor.indexList(id);
 	},
@@ -39,7 +52,7 @@ org.bambuscms.wpropertyeditor =
 	//move property down in list
 	'down':function(id)
 	{
-	throw new Error('not implemented');
+		throw new Error('not implemented');
 		//exchange selected element with the lower
 		org.bambuscms.wpropertyeditor.indexList(id);
 	},
@@ -57,7 +70,7 @@ org.bambuscms.wpropertyeditor =
 			}
 		}
 		//show div matching select.selectedIndex
-		var select = $('WPropertyEditor_'+item+'_selector').options[$('WPropertyEditor_'+item+'_selector').selectedIndex].value;
+		var select = $('WPropertyEditor_'+id+'_selector').options[$('WPropertyEditor_'+id+'_selector').selectedIndex].value;
 		$('WPropertyEditor_'+id+'_option_'+select+'_data').style.display = 'block';
 	},
 	
@@ -65,7 +78,7 @@ org.bambuscms.wpropertyeditor =
 	'changeActiveStatus':function(id, stat)
 	{
 		//change class of element at selectedIndex
-		$('WPropertyEditor_'+item+'_selector').options[$('WPropertyEditor_'+item+'_selector').selectedIndex].className = stat ? 'active' : 'inactive';
+		$('WPropertyEditor_'+id+'_selector').options[$('WPropertyEditor_'+id+'_selector').selectedIndex].className = stat ? 'WPE_active' : 'WPE_inactive';
 	},
 	
 	//save the position of properties in hidden inputs

@@ -64,6 +64,8 @@ set_exception_handler('EX_Handler');
  */
 function __autoload($className)
 {
+    $cwd = getcwd();
+    chdir(BAMBUS_CMS_ROOTDIR);
 	$ComponentMap = array(
 		'A' => 'AppController',
 		'B' => 'Base',
@@ -107,13 +109,14 @@ function __autoload($className)
 		}
 		else
 		{
-		    throw new XFileNotFoundException('class file',  $file);
+		    die('File not found: '.  $file.' in '.getcwd());
 		}
 	}
 	else
 	{
 	    throw new Exception('class not found "'.$className.'"');
 	}
+	chdir($cwd);
 }
 if(!defined('BAMBUS_VERSION'))
     define ('BAMBUS_VERSION', '0.21.0-DEV20080909');

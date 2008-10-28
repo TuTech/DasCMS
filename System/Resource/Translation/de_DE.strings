@@ -19,12 +19,39 @@ php-scripts	PHP-Scripte
 css-scripts	CSS-Dateien
 lines	Zeilen
 pubDate	Freigabe
+do_not_link	Nicht verlinken
+unfiltered	Ungefiltert
+property	Eigenschaft
+link_title	Titel verlinken
+activate_item	Element aktivieren
+text_before	Text davor
+text_after	Text danach
+pagina_as_selection	Seitenzahl als Auswahl
+date_format_string	Datumformatierung
+link_tags	Tags verlinken
+header	Kopfzeile
+footer	Fußzeile
 asc	Auf
 desc	Ab
 ascending	Aufsteigend
 descending	Absteigend
+max_number_of_pages	Maximale Seitenzahl
+filter	Filter
+filter_method	Filtermethode
+caption	Beschriftung
 detail	Details
 icon	Symbol
+target_view	Ziel Ansicht
+sort_order	Sortierreihenfolge
+previous_link	Vorherige-Link
+next_link	Nächste-Link
+page_no	Seitenzahl
+number_of_start	Anfangsnummer
+number_of_end	Endnummer
+element_count	Anzahl der Elemente
+content	Inhalt
+modDate	Änderungsdatum
+sort_by	Sortieren nach
 manage	Verwalten
 configure	Konfigurieren
 session_timed_out	Session abgelaufen \n(Wenn Sie die aktuellen eingaben speichern wollen loggen Sie sich in einem anderen Browserfenster/-tab neu an)

@@ -28,8 +28,8 @@
 {
     background: #e7f8d7;
     font-weight:normal;
-    padding-top:0px;
-    padding-bottom:0px;
+    padding-top:2px;
+    padding-bottom:2px;
     color:black;
     width:15%;
 }
@@ -37,7 +37,10 @@
 {
     background: #cce4b5;
 }
-
+.WTable tr
+{
+	vertical-align: top;
+}
 .WTable td
 {
     background: #ffffff;
@@ -46,4 +49,12 @@
 {
     background: #f5f5ec;
 }
-
+.WPE_active
+{
+	color: black;
+}
+.WPE_inactive
+{
+	color: #888a85;
+	font-style: italic;
+}
