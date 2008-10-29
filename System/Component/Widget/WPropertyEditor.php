@@ -70,17 +70,13 @@ class WPropertyEditor extends BWidget
             	<tr>
             		<td class=\"WPE_left\">
             			<img src=\"%s\" alt=\"%s\" id=\"WPropertyEditor_%s_mv_up\" class=\"WPE_mv_up\" />
-            			<img src=\"%s\" alt=\"%s\" id=\"WPropertyEditor_%s_mv_down\" class=\"WPE_mv_down\" />
             		</td>
-            		<td class=\"WPE_property\">
+            		<td rowspan=\"2\" class=\"WPE_property\">
 						<select size=\"%d\" id=\"WPropertyEditor_%s_selector\">"
 			,$this->ID
     		,SLocalization::get('property')
             ,SLocalization::get('settings')
             ,WIcon::pathFor('move-up', 'action', WIcon::SMALL)
-            ,''
-            ,$this->ID
-            ,WIcon::pathFor('move-down', 'action', WIcon::SMALL)
             ,''
             ,$this->ID
             ,count($this->data)
@@ -101,17 +97,17 @@ class WPropertyEditor extends BWidget
 		print("
 						</select>
 		    		</td>
-					<td>"
+					<td rowspan=\"2\">"
 		);	    
 		//props
 		printf('<div id="WPropertyEditor_%s_options">', $this->ID);
+		$i = 1;
         foreach ($this->data as $name => $data) 
         {
-            $i = 1;
         	printf("
 						<div id=\"WPropertyEditor_%s_option_%s_data\" class=\"WPropertyEditor_option\" style=\"display:none;\">
-						<input type=\"hidden\" name=\"WPropertyEditor_%s_%s_position\" value=\"%s\" id=\"WPropertyEditor_%s_%s_position\" />
-						<h4>%s</h4>"
+							<input type=\"hidden\" name=\"WPropertyEditor_%s_%s_position\" value=\"%d\" id=\"WPropertyEditor_%s_%s_position\" />
+							<h4>%s</h4>"
 				,$this->ID
 			    ,($name)
 			    ,$this->ID
@@ -139,10 +135,18 @@ class WPropertyEditor extends BWidget
 			print("</div>");
         }
         print('</div>');
-		print("
+		printf("
+					</td>
+				</tr>
+				<tr class=\"highgravity\">
+					<td class=\"WPE_left\">
+            			<img src=\"%s\" alt=\"%s\" id=\"WPropertyEditor_%s_mv_down\" class=\"WPE_mv_down\" />
 					</td>
 				</tr>
 			</table>"
+            ,WIcon::pathFor('move-down', 'action', WIcon::SMALL)
+            ,''
+            ,$this->ID
 		);
 		echo strval(new WScript('org.bambuscms.wpropertyeditor.init("'.$this->ID.'");'));
 	}
@@ -167,7 +171,11 @@ class WPropertyEditor extends BWidget
 	
 	public static function getPropStatus($element, $property)
 	{
-	    return strtolower(RSent::get(sprintf('WPropertyEditor_%s_option_%s_active', ($element), ($property)))) == 'on'; 
+	    //want: WPropertyEditor_footerConfig_option_page_no_active
+	    //is:   WPropertyEditor_footerConfig_option_previous_link_active
+	    $elm = sprintf('WPropertyEditor_%s_option_%s_active', ($element), ($property));
+	    $val = RSent::get($elm);
+	    return strtolower($val) == 'on'; 
 	}	
 }
 ?>

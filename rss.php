@@ -20,6 +20,10 @@ try
     }
     if($content instanceof IGeneratesFeed)
     {
+        //FIXME let the rss be rendered by this page
+        //hasMoreItems()
+    	//getItemData()
+    	//getMetaData()
         $content->generateFeed();
     }
     else

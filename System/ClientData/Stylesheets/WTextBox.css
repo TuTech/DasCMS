@@ -7,11 +7,11 @@
 .WTextBox-wrapper td,
 .WTextBox-wrapper th
 {
-	background: #e7f8d7;
 	border-width: 0px;
 }
 .WTextBox-wrapper th
 {
+	background: #e7f8d7;
 	font-weight: normal;
 }
 .WTextBox-wrapper

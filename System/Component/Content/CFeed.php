@@ -15,6 +15,7 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
     {
         return self::GUID;
     }
+    const CLASS_NAME = 'CFeed';
     
     const HEADER = 0;
     const ITEM = 1;
@@ -30,6 +31,10 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
     const CAPTIONS = 0; 
     
     private $_contentLoaded = false;
+    /**
+     * @var DSQLResult
+     */
+    private $FeedDBRes = null;
     
     private $_data = array(
         self::CAPTIONS => array(
@@ -37,7 +42,7 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
                 'NumberOfEnd' => array('',''),
                 'NumberOfStart' => array('',''),
                 'FoundItems' => array('Found: ',' Items'),
-                'Link' => array('prev','next'),
+                'Link' => array('Previous page','Next page'),
                 'Pagina' => array('Page: ','')
             ),
             self::ITEM => array(
@@ -55,29 +60,29 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
         self::ORDER => array(
             self::HEADER => array(
                 'PrevLink' => 1,
-                'NextLink' => 3,
                 'Pagina' => 2,
+                'NextLink' => 3,
                 'NumberOfStart' => null,
                 'NumberOfEnd' => null,
                 'FoundItems' => null
             ),
             self::ITEM => array(
-                'Desciption' => 2,
+                'Title' => 1,
+                'Description' => 2,
+                'Author' => 3,
+                'PubDate' => 4,
                 'Content' => null,
                 'Link' => null,
-                'Author' => 3,
                 'Tags' => null,
-                'PubDate' => 4,
-                'ModDate' => null,
-                'Title' => 1
+                'ModDate' => null
             ),
             self::FOOTER => array(
                 'PrevLink' => 1,
                 'NextLink' => 2,
+                'FoundItems' => 3,
                 'Pagina' => null,
                 'NumberOfStart' => null,
-                'NumberOfEnd' => null,
-                'FoundItems' => 3
+                'NumberOfEnd' => null
             )
         ),
         self::OPTIONS => array(
@@ -97,7 +102,7 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
                 'ItemsPerPage' => 1,
                 'MaxPages' => 1000,
                 'Filter' => array(),
-                'FilterMethod' => 'All',
+                'FilterMethod' => 'all',
                 'TargetView' => '',
                 'SortOrder' => true,
                 'SortBy' => 'title'
@@ -122,22 +127,31 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
         {
             throw new XArgumentException(sprintf('key /captions/%s/%s not found', $forType, $andKey));
         }
+        $this->_modified = true;
         $this->_data[self::CAPTIONS][$forType][$andKey][self::PREFIX] = $toPrefix;
         $this->_data[self::CAPTIONS][$forType][$andKey][self::SUFFIX] = $andSuffix;
     }
     
-    public function caption($forType, $andKey)
+    public function caption($forType, $andKey, $item = null)
     {
         if(!isset($this->_data[self::CAPTIONS][$forType]) || !isset($this->_data[self::CAPTIONS][$forType][$andKey]))
         {
             throw new XArgumentException(sprintf('key /captions/%s/%s not found', $forType, $andKey));
         }
-        return $this->_data[self::CAPTIONS][$forType][$andKey]; 
+        if($item === null && ($item == 0 || $item == 1))
+        {
+            return $this->_data[self::CAPTIONS][$forType][$andKey];
+        }
+        else
+        {
+             return $this->_data[self::CAPTIONS][$forType][$andKey][$item];
+        }
     }
     
     //order 1..n - unused are null
 	public function changeOrder($forType, array $toData)
 	{
+	    $this->_modified = true;
 	    //right key
         if(!isset($this->_data[self::ORDER][$forType]))
         {
@@ -154,12 +168,24 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
 	    asort($this->_data[self::ORDER][$forType]);
 	    //change data to correct numbers (1..n or null) 
 	    $i = 0;
+	    $ordered = array();
+	    $nulled = array();
 	    foreach ($this->_data[self::ORDER][$forType] as $key => $data) 
 	    {
-	    	$this->_data[self::ORDER][$forType] = ($key === null)
-	    	    ? null
-	    	    : ++$i;
+	        if($data == null)
+	        {
+	            $nulled[$key] = null;
+	        }
+	        else
+	        {
+	            $ordered[$key] = ++$i;
+	        }
 	    }
+	    foreach ($nulled as $k => $n) 
+	    {
+	    	$ordered[$k] = null;
+	    }
+	    $this->_data[self::ORDER][$forType] = $ordered;
 	}
 	
 	public function order($forType)
@@ -175,11 +201,12 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
     //options
 	public function changeOption($forType, $andKey, $toValue)
 	{
+	    $this->_modified = true;
         if(!isset($this->_data[self::OPTIONS][$forType]) || !isset($this->_data[self::OPTIONS][$forType][$andKey]))
         {
             throw new XArgumentException(sprintf('key /options/%s/%s not found', $forType, $andKey));
         }
-        return $this->_data[self::OPTIONS][$forType][$andKey];
+        $this->_data[self::OPTIONS][$forType][$andKey] = $toValue;
 	}
     
 	public function option($forType, $andKey)
@@ -265,6 +292,11 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
 	        throw new XArgumentException('content not found');
 	    }
 	    $this->initBasicMetaFromDB($alias);
+	    $dataFile = $this->StoragePath($this->Id);
+	    if(file_exists($dataFile))
+	    {
+	        $this->_data = DFileSystem::LoadData($dataFile);
+	    }
 	}
 
 	private function link($arg, $target = false)
@@ -494,34 +526,58 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
 	    throw new XPermissionDeniedException('feeds are generated');
 	}
 	
-	public function generateFeed()
+//	public function generateFeed()
+//	{
+//	    //build feed header
+//	    //build feed items
+//	    $xml = new SSimpleXMLWriter();
+//	    $xml->openTag('data');
+//	    $res = QCFeed::getItemsForFeed($this->getId());
+//	    while($row = $res->fetch())
+//	    {
+//	        $xml->openTag('item');
+//	        $xml->tag('title', array(), $row[0]);
+//	        $xml->tag('desc', array(), $row[1]);
+//	        $xml->tag('pubdate', array(), date('r', strtotime($row[2])));
+//	        $xml->tag('link', array(), $row[3]);
+//	        $xml->tag('lastmodified', array(), $row[4]);
+//	        $xml->tag('categories', array(), $row[5]);
+//	        $xml->closeTag();
+//	    }
+//	    $xml->closeTag();
+//	    echo strval($xml);
+//	}
+    
+    public function startFeedReading()
+    {
+        
+    }
+	
+    public function getFeedMetaData()
 	{
-	    //build feed header
-	    //build feed items
-	    $xml = new SSimpleXMLWriter();
-	    $xml->openTag('data');
-	    $res = QCFeed::getItemsForFeed($this->getId());
-	    while($row = $res->fetch())
-	    {
-	        $xml->openTag('item');
-	        $xml->tag('title', array(), $row[0]);
-	        $xml->tag('desc', array(), $row[1]);
-	        $xml->tag('pubdate', array(), date('r', strtotime($row[2])));
-	        $xml->tag('link', array(), $row[3]);
-	        $xml->tag('lastmodified', array(), $row[4]);
-	        $xml->tag('categories', array(), $row[5]);
-	        $xml->closeTag();
-	    }
-	    $xml->closeTag();
-	    echo strval($xml);
+	    
+	}
+    
+	public function hasMoreFeedItems()
+	{
+	    
+	}
+	public function getFeedItemData()
+	{ 
+	    
 	}
 	
-	public function Save()
+    public function finishFeedReading()
+    {
+        
+    }
+	
+    public function Save()
 	{
 		//save content
-		if($this->_contentLoaded)
+		if($this->isModified())
 		{
-			//FIXME DFileSystem::Save(SPath::TEMPLATES.$this->Id.'.php',$this->RAWContent);
+			DFileSystem::SaveData($this->StoragePath($this->Id),$this->_data);
 		}
 		$this->saveMetaToDB();
 		new EContentChangedEvent($this, $this);

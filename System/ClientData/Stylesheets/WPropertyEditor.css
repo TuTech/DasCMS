@@ -42,7 +42,7 @@
 	background: none;
 	border-top-width: 0px;
 	border-bottom-width:0px; 
-	width: 24px;
+	width: 22px;
 }
 .WPropertyEditor select 
 {
@@ -62,4 +62,8 @@
 .WPE_mv_down
 {
 	padding-top: 5px;
+}
+.WPropertyEditor tr.highgravity 
+{
+	vertical-align: bottom;
 }

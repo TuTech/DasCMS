@@ -43,6 +43,7 @@ abstract class BContent extends BObject
 	    $this->Id = $id;
 	    $this->Title = $ttl;
 	    $this->PubDate = strtotime($pd);
+	    $this->_origPubDate = $this->PubDate;
 	    $this->Description = $desc;
 	    $this->Tags = $tags;
 	    $this->Alias = $alias;

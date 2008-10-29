@@ -44,16 +44,42 @@ org.bambuscms.wpropertyeditor =
 	//move property up in list
 	'up':function(id)
 	{
-		throw new Error('not implemented');
-		//exchange selected element with the upper
+		var sel = $('WPropertyEditor_'+id+'_selector');
+		var i = sel.selectedIndex;
+		if(i > 0)
+		{
+			var cur = [sel.options[i].text, sel.options[i].value];
+			var prec = [sel.options[i-1].text, sel.options[i-1].value];
+
+			sel.options[i].text = prec[0];
+			sel.options[i].value = prec[1];
+
+			sel.options[i-1].text = cur[0];
+			sel.options[i-1].value = cur[1];
+			
+			sel.selectedIndex = i-1;
+		}
 		org.bambuscms.wpropertyeditor.indexList(id);
 	},
 	
 	//move property down in list
 	'down':function(id)
 	{
-		throw new Error('not implemented');
-		//exchange selected element with the lower
+		var sel = $('WPropertyEditor_'+id+'_selector');
+		var i = sel.selectedIndex;
+		if(i < sel.options.length-1)
+		{
+			var cur = [sel.options[i].text, sel.options[i].value];
+			var next = [sel.options[i+1].text, sel.options[i+1].value];
+
+			sel.options[i].text = next[0];
+			sel.options[i].value = next[1];
+
+			sel.options[i+1].text = cur[0];
+			sel.options[i+1].value = cur[1];
+			
+			sel.selectedIndex = i+1;
+		}
 		org.bambuscms.wpropertyeditor.indexList(id);
 	},
 	

@@ -16,8 +16,8 @@
 			<task caption="open" hotkey="o" icon="action-document-open" type="button" action="org.bambuscms.wopenfiledialog.show();" />
 			<task caption="save" hotkey="s" icon="action-document-save" type="button" action="EditorSave()" />
 			<task type="spacer" name="manage_navigation"/>
-			<task type="button" caption="new" hotkey="N" icon="action-document-new-navigation" action="Create()" />
-			<task type="button" caption="delete" hotkey="X" icon="action-delete" action="Delete()" />
+			<task type="button" caption="new" hotkey="N" icon="action-document-new" action="Create()" />
+			<task type="button" caption="delete" hotkey="X" icon="action-edit-delete" action="Delete()" />
 		</interface>
 	</application>
 </bambus>
