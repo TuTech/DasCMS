@@ -124,7 +124,7 @@ SELECT alias
     WHERE 
     	contentREL = (SELECT contentREL FROM Aliases WHERE alias = '%s')
     	AND aliasID = primaryAlias
-",$DB->escape($alias)));
+",$DB->escape($someAlias)), DSQL::NUM);
         if($res->getRowCount() == 1)
         {
             list($erg) = $res->fetch();

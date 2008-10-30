@@ -6,11 +6,6 @@ class SFeedKeeper
         HContentChangedEventHandler,
         HContentCreatedEventHandler 
 {
-    const ALL = 'All';
-    const MATCH_SOME = 'MatchSome';
-    const MATCH_ALL = 'MatchAll';
-    const MATCH_NONE = 'MatchNone';
-    
 	//IShareable
 	const CLASS_NAME = 'SFeedKeeper';
 	/**
@@ -56,16 +51,16 @@ class SFeedKeeper
 	            $res->free();
 	            switch($type)
 	            {
-	                case self::ALL:
+	                case CFeed::ALL:
 	                    QSFeedKeeper::assignItemsUsingAll($CID);
 	                    break;
-	                case self::MATCH_ALL:
+	                case CFeed::MATCH_ALL:
 	                    QSFeedKeeper::assignItemsUsingMatchAll($CID);
 	                    break;
-	                case self::MATCH_SOME:
+	                case CFeed::MATCH_SOME:
 	                    QSFeedKeeper::assignItemsUsingMatchSome($CID);
 	                    break;
-	                case self::MATCH_NONE:
+	                case CFeed::MATCH_NONE:
 	                    QSFeedKeeper::assignItemsUsingMatchNone($CID);
 	                    break;
 	            }
@@ -93,22 +88,22 @@ class SFeedKeeper
 	            $itemsToAdd = array();
 	            foreach ($feedTypes as $fid => $type)
 	            {
-	                if($type != self::ALL)
+	                if($type != CFeed::ALL)
 	                {
 	                    $matching = array_intersect($e->Content->Tags, $feedTags[$fid]);
 	                }
     	            switch($type)
     	            {
-    	                case self::ALL:
+    	                case CFeed::ALL:
     	                    $match = true;
     	                    break;
-    	                case self::MATCH_ALL:
+    	                case CFeed::MATCH_ALL:
     	                    $match = count($matching) == count($feedTags[$fid]);
     	                    break;
-    	                case self::MATCH_SOME:
+    	                case CFeed::MATCH_SOME:
     	                    $match = count($matching) >= 1;
     	                    break;
-    	                case self::MATCH_NONE:
+    	                case CFeed::MATCH_NONE:
     	                    $match = count($matching) == 0;
     	                    break;
     	            }  
@@ -146,7 +141,7 @@ class SFeedKeeper
             if(get_class($e->Content) == 'CFeed')
             {
     	        //set up data in "Feeds"
-    	        QSFeedKeeper::setFeedType($CID, self::ALL);
+    	        QSFeedKeeper::setFeedType($CID, CFeed::ALL);
     	        //add all items
     	        QSFeedKeeper::assignItemsUsingAll($CID);
     	        QSFeedKeeper::updateStats($CID);
@@ -158,7 +153,7 @@ class SFeedKeeper
 	            $feeds = array();
 	            while($row = $res->fetch())
 	            {
-	                if($row[1] == self::ALL)
+	                if($row[1] == CFeed::ALL)
 	                {
 	                    $feeds[] = $row[0];
 	                }

@@ -44,10 +44,10 @@ if(PAuthorisation::has('org.bambuscms.content.cfeed.change') && isset($Feed) && 
         new WMultipleChoice(
             'so_FilterMethod',
             array(
-                'all' => 'unfiltered', 
-                'match_all' => 'match_all_in_list',
-                'match_any' => 'match_any_in_list',
-                'match_none' => 'match_items_not_tagged_with_any_of_list'
+                CFeed::ALL => 'unfiltered', 
+                CFeed::MATCH_ALL => 'match_all_in_list',
+                CFeed::MATCH_SOME => 'match_any_in_list',
+                CFeed::MATCH_NONE => 'match_items_not_tagged_with_any_of_list'
     		),
             $Feed->option(CFeed::SETTINGS, 'FilterMethod'),
             WMultipleChoice::SELECT

@@ -72,6 +72,7 @@ function __autoload($className)
 		'C' => 'Content',
 		'D' => 'Driver',
 		'E' => 'Event',
+		'F' => 'Feed',
 		'H' => 'EventHandler',
 		'I' => 'Interface',
         'L' => 'Legacy',
@@ -119,7 +120,7 @@ function __autoload($className)
 	chdir($cwd);
 }
 if(!defined('BAMBUS_VERSION'))
-    define ('BAMBUS_VERSION', '0.21.0-DEV20080909');
+    define ('BAMBUS_VERSION', 'Bambus CMS 0.90.0.20081030-ALPHA');
         
 if(!defined('BAMBUS_CMS_ROOTDIR'))
     define('BAMBUS_CMS_ROOTDIR',getcwd());

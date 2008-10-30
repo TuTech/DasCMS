@@ -98,9 +98,16 @@ class SLink
      * @param array $withAdditionalData
      * @return string
      */
-    public static function buildURL(array $withAdditionalData = array())
+    public static function buildURL(array $withAdditionalData = array(), $clean = false)
     {
-        $data = self::merge($withAdditionalData);
+        if($clean)
+        {
+            $data = $withAdditionalData;
+        }
+        else
+        {
+            $data = self::merge($withAdditionalData);
+        }
         $tok = '?';
         $url = ''; 
         foreach ($data as $k => $v) 
@@ -117,9 +124,16 @@ class SLink
      * @param array $withAdditionalData
      * @return string
      */
-    public static function buildPath(array $withAdditionalData = array())
+    public static function buildPath(array $withAdditionalData = array(), $clean = false)
     {
-        $data = self::merge($withAdditionalData);
+        if($clean)
+        {
+            $data = $withAdditionalData;
+        }
+        else
+        {
+            $data = self::merge($withAdditionalData);
+        }
         $url = ''; 
         foreach ($data as $k => $v) 
         {
@@ -134,20 +148,20 @@ class SLink
      * @param array $withAdditionalData
      * @return string
      */
-    public static function link(array $withAdditionalData = array(), $file = '')
+    public static function link(array $withAdditionalData = array(), $file = '', $clean = false)
     {
         $wfu = LConfiguration::get('wellformed_urls');
         if(self::isManagement())
         {
-            $url =  'Management/'.$file.self::buildURL($withAdditionalData);
+            $url =  'Management/'.$file.self::buildURL($withAdditionalData, $clean);
         }
         elseif(empty($wfu))
         {
-            $url =  $file.self::buildURL($withAdditionalData);
+            $url =  $file.self::buildURL($withAdditionalData, $clean);
         }
         else
         {
-            $url =  ($file == '' ? 'index.php' : $file).self::buildPath($withAdditionalData);
+            $url =  ($file == '' ? 'index.php' : $file).self::buildPath($withAdditionalData, $clean);
         }
         return $url;
     }

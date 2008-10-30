@@ -334,6 +334,10 @@ array objectid => spore
 	public function LinkTo($target)
 	{
 		$this->target = $target;
+		if($clean)
+		{
+		    $this->newParameters = array();
+		}
 		return $this;
 	}
 	

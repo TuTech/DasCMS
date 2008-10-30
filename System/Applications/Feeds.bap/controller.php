@@ -130,7 +130,11 @@ if(isset($Feed) && $Feed instanceof CFeed && PAuthorisation::has('org.bambuscms.
                     $set = true;
                     break;
                 case 'FilterMethod':
-                    $set = in_array($value, array('all', 'match_all', 'match_any', 'match_none'));
+                    $set = in_array($value, array(
+                        CFeed::ALL, 
+                        CFeed::MATCH_ALL, 
+                        CFeed::MATCH_SOME, 
+                        CFeed::MATCH_NONE));
                     break;
                 case 'TargetView':
                     $set = QSpore::exists($value);

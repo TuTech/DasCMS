@@ -154,9 +154,12 @@ class SAlias
 	 * @param BContent $content
 	 * @return string
 	 */
-	public static function getCurrent(BContent $content)
+	public static function getCurrent($content)
 	{
-		return QSAlias::getPrimaryAlias($content->Alias);
+	    $alias = (is_object($content) && $content instanceof BContent) 
+	        ? $content->Alias 
+	        : $content;
+		return QSAlias::getPrimaryAlias($alias);
 	}
 
 	/**

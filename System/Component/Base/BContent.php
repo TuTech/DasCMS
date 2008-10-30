@@ -79,8 +79,11 @@ abstract class BContent extends BObject
 	    throw new Exception('not implemented');
 	    //FIXME
 	}
-		
-	public static function Open($alias)
+
+	/**
+	 * @return BContent
+	 */
+	public static function Open($alias, $allowFail = false)
 	{
 	    try
 	    {
@@ -96,7 +99,14 @@ abstract class BContent extends BObject
 	    }
 	    catch(Exception $e)
 	    {
-	        return CError::Open(404);
+	        if($allowFail)
+	        {
+	            throw $e;
+	        }
+	        else
+	        {
+	            return CError::Open(404);
+	        }
 	    }
 	}
 	

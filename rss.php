@@ -20,11 +20,7 @@ try
     }
     if($content instanceof IGeneratesFeed)
     {
-        //FIXME let the rss be rendered by this page
-        //hasMoreItems()
-    	//getItemData()
-    	//getMetaData()
-        $content->generateFeed();
+        echo new FRSS2($content);
     }
     else
     {

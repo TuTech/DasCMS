@@ -19,6 +19,7 @@ class SComponentIndex
 		'C' => 'Content',
 		'D' => 'Driver',
 		'E' => 'Event',
+		'F' => 'Feed',
 		'H' => 'EventHandler',
 		'I' => 'Interface',
         'L' => 'Legacy',

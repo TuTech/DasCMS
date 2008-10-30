@@ -20,7 +20,8 @@ $values = array(
         "cms_text_color"        => array("cms_text_color",  "fullinput"),
         "date_format"           => array("dateformat",      "fullinput"),
         "logout_on_exit"        => array("logout_on_exit",  "checkbox"),
-        "confirm_for_exit"      => array("confirm_for_exit","checkbox")
+        "confirm_for_exit"      => array("confirm_for_exit","checkbox"),
+        "template_for_page_rendering"=> array("generator_content", '::CTemplate')
 	),
 	/////
 	"database_settings" => array(
@@ -80,6 +81,21 @@ foreach($values as $title => $settings)
                     ,SLocalization::get('change_'.$key)
                 );
                 break;
+            default:
+                if(substr($type, 0,2) == '::')
+                {
+                    $SCI = SContentIndex::alloc()->init();
+                    $current = SAlias::getCurrent(LConfiguration::get($key));
+                    $class = substr($type,2);
+                    $options = $SCI->getIndex($class, false);
+                    $input = sprintf("<select name=\"%s\">\n", $key);
+                    foreach ($options as $alias => $data) 
+                    {
+                        $sel = ($alias == $current) ? ' selected="selected"' : '';
+                    	$input .= sprintf("\t<option value=\"%s\"%s>%s (%s)</option>\n", $alias, $sel,  htmlentities($data[0], ENT_QUOTES, 'UTF-8'), $alias);
+                    }
+                    $input .= "</select>\n";
+                }
 		}
 		$label = sprintf($labeltag, $key, $key, SLocalization::get($name));
 		$tbl->addRow(array($label, $input));

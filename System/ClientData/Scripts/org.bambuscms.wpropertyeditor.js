@@ -111,10 +111,10 @@ org.bambuscms.wpropertyeditor =
 	'indexList':function(id)
 	{
 		//loop select: fill hidden inputs with pos
-		for(var x = 0; x < $('WPropertyEditor_'+item+'_selector').length; x++)
+		for(var x = 0; x < $('WPropertyEditor_'+id+'_selector').length; x++)
 		{
-			var att = $('WPropertyEditor_'+item+'_selector').options[x].value;
-			$('WPropertyEditor_'+item+'_'+att+'_position').value = x+1;
+			var att = $('WPropertyEditor_'+id+'_selector').options[x].value;
+			$('WPropertyEditor_'+id+'_'+att+'_position').value = x+1;
 		}
 	}
 };

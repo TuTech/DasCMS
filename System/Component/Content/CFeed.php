@@ -17,6 +17,11 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
     }
     const CLASS_NAME = 'CFeed';
     
+    const ALL = 'all';
+    const MATCH_SOME = 'match_any';
+    const MATCH_ALL = 'match_all';
+    const MATCH_NONE = 'match_none';
+    
     const HEADER = 0;
     const ITEM = 1;
     const FOOTER = 2;
@@ -299,10 +304,10 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
 	    }
 	}
 
-	private function link($arg, $target = false)
+	private function link($arg, $inTargetView = false)
 	{
 	    $iqo = $this->invokingQueryObject;
-	    if(!$target && $iqo != null && $iqo instanceof QSpore)
+	    if(!$inTargetView && $iqo != null && $iqo instanceof QSpore)
 	    {
 	        //link to self
 	        //only param page=
@@ -310,10 +315,10 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
             $iqo->LinkTo($this->getAlias());
             return strval($iqo);
         }   
-        elseif($target && QSpore::isActive($target))
+        elseif($inTargetView)
         {
             //link page to target view
-            $linker = new QSpore($target);
+            $linker = new QSpore($this->option(self::SETTINGS, 'TargetView'));
             $linker->LinkTo($arg);
             return strval($linker);
         } 
@@ -500,7 +505,7 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
                     $content = 'not implemented';
                     break;
                 case 'Link':
-        		    $content = sprintf('<a href="#%s">%s</a>', $data[$map['Alias']], implode($this->caption(self::ITEM,'Link')));
+        		    $content = sprintf('<a href="%s">%s</a>', $this->link($data[$map['Alias']], true), implode($this->caption(self::ITEM,'Link')));
         		    break;
                 case 'Author':
                 case 'PubDate':
@@ -510,7 +515,7 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
                 case 'Title':
         		    $tag = 'h2';
         		    $content = ($this->option(self::ITEM, 'LinkTitle')) 
-        		        ? sprintf('<a href="#%s">%s</a>', $data[$map['Alias']], htmlentities($data[$map[$key]], ENT_QUOTES, 'UTF-8'))
+        		        ? sprintf('<a href="%s">%s</a>', $this->link($data[$map['Alias']], true), htmlentities($data[$map[$key]], ENT_QUOTES, 'UTF-8'))
         		        : htmlentities($data[$map[$key]], ENT_QUOTES, 'UTF-8');
         		    break;
                 default: continue;
@@ -526,50 +531,64 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
 	    throw new XPermissionDeniedException('feeds are generated');
 	}
 	
-//	public function generateFeed()
-//	{
-//	    //build feed header
-//	    //build feed items
-//	    $xml = new SSimpleXMLWriter();
-//	    $xml->openTag('data');
-//	    $res = QCFeed::getItemsForFeed($this->getId());
-//	    while($row = $res->fetch())
-//	    {
-//	        $xml->openTag('item');
+    public function startFeedReading()
+    {
+        $this->FeedDBRes = QCFeed::getItemsForFeed($this->getId());
+    }
+	
+    public function getFeedMetaData()
+	{
+	    if($this->FeedDBRes == null || !$this->FeedDBRes instanceof DSQLResult)
+        {
+            throw new XDatabaseException('feed query not initialized');
+        }
+        $spore = $this->option(self::SETTINGS, 'TargetView');
+        $url = SLink::base().SLink::link(array($spore => $this->getAlias()), '', true);  
+        return array(
+            BFeed::TITLE => $this->getTitle(),
+            BFeed::LINK => $url,
+            BFeed::DESCRIPTION => $this->getDescription()
+        );
+	}
+    
+	public function hasMoreFeedItems()
+	{
+	    if($this->FeedDBRes == null || !$this->FeedDBRes instanceof DSQLResult)
+        {
+            throw new XDatabaseException('feed query not initialized');
+        }
+        return $this->FeedDBRes->hasNext();
+	}
+	
+	public function getFeedItemData()
+	{ 
+	    if($this->FeedDBRes == null || !$this->FeedDBRes instanceof DSQLResult)
+        {
+            throw new XDatabaseException('feed query not initialized');
+        }
 //	        $xml->tag('title', array(), $row[0]);
 //	        $xml->tag('desc', array(), $row[1]);
 //	        $xml->tag('pubdate', array(), date('r', strtotime($row[2])));
 //	        $xml->tag('link', array(), $row[3]);
 //	        $xml->tag('lastmodified', array(), $row[4]);
 //	        $xml->tag('categories', array(), $row[5]);
-//	        $xml->closeTag();
-//	    }
-//	    $xml->closeTag();
-//	    echo strval($xml);
-//	}
-    
-    public function startFeedReading()
-    {
-        
-    }
+	    $row = $this->FeedDBRes->fetch();
+	    $spore = $this->option(self::SETTINGS, 'TargetView');
+	    return array(
+	        BFeed::TITLE => $row[0],
+	        BFeed::DESCRIPTION  => $row[1],
+	        BFeed::PUB_DATE  => $row[2],
+	        BFeed::LINK  => SLink::base().SLink::link(array($spore => $row[3]), '', true)
+	    );
 	
-    public function getFeedMetaData()
-	{
-	    
-	}
-    
-	public function hasMoreFeedItems()
-	{
-	    
-	}
-	public function getFeedItemData()
-	{ 
-	    
 	}
 	
     public function finishFeedReading()
     {
-        
+        if($this->FeedDBRes != null && $this->FeedDBRes instanceof DSQLResult)
+        {
+            $this->FeedDBRes->free();
+        }
     }
 	
     public function Save()

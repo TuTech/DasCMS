@@ -59,7 +59,7 @@ class SSimpleXMLWriter
 	public function tag($nodeName, array $attributes = array(), $value = null, $cdata = false)
 	{
 		//if (value == null )build <tag /> else <tag></tag>
-		if($value == null)
+		if($value === null)
 		{
 			//use <tag />
 			$this->xml .= sprintf(
