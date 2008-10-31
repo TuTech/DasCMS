@@ -41,7 +41,7 @@ class QSFeedKeeper extends BQuery
             {
                 continue;
             }
-        	$sql = sprintf('%s (%d, %d)', $sep, $id, $itemId);
+        	$sql .= sprintf('%s (%d, %d)', $sep, $id, $itemId);
         	$sep = ',';
         }
         BQuery::Database()->queryExecute($sql);
@@ -56,7 +56,7 @@ class QSFeedKeeper extends BQuery
     public static function unlinkItem($itemId)
     {
         $sql = "DELETE FROM relFeedsContents WHERE contentREL = %d";
-        BQuery::Database()->queryExecute(sprintf($sql, $feedId));
+        BQuery::Database()->queryExecute(sprintf($sql, $itemId));
     }
     
     /**

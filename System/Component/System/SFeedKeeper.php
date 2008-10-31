@@ -36,6 +36,7 @@ class SFeedKeeper
     
 	public function HandleContentChangedEvent(EContentChangedEvent $e)
 	{
+	    
 	    try
 	    {
 	        $CID = $e->Content->Id;
@@ -63,6 +64,7 @@ class SFeedKeeper
 	                case CFeed::MATCH_NONE:
 	                    QSFeedKeeper::assignItemsUsingMatchNone($CID);
 	                    break;
+	                default:SNotificationCenter::report('warning', 'unknown_type '.$type);
 	            }
 	            QSFeedKeeper::updateStats($CID);
     	    }

@@ -2,7 +2,7 @@
 <bambus>
 	<name>design</name>
 	<description>edit_templates</description>
-	<icon>app-utilities-editor-template</icon>
+	<icon>app-utilities-editor-foo</icon>
 	<version>0.1.20080923</version>
 	<priority>1.9</priority>
 	<purpose>manage_content</purpose>

@@ -52,7 +52,7 @@ if(isset($Feed) && $Feed instanceof CFeed && PAuthorisation::has('org.bambuscms.
 {
 	if(RSent::has('filename'))
 	{
-		$Feed->Title = RSent::get('filename');
+		$Feed->Title = RSent::get('filename', 'UTF-8');
 		//////////////
 		//reading data
 		//////////////
@@ -74,7 +74,7 @@ if(isset($Feed) && $Feed instanceof CFeed && PAuthorisation::has('org.bambuscms.
     	    CFeed::SETTINGS => array()
     	);
     	
-    	foreach (RSent::data() as $key => $value) 
+    	foreach (RSent::data('UTF-8') as $key => $value) 
     	{
     	    //read captions: icp_name -> item caption prefix for name
     		if(substr($key,1,1) == 'c' && substr($key,3,1) == '_')

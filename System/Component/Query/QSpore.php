@@ -4,7 +4,7 @@
  * @subpackage CommandQueries 
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 28.04.2008
+ * @since 2008-04-28
  * @license GNU General Public License 3
  */
 class QSpore extends BQuery 
@@ -222,6 +222,13 @@ array objectid => spore
 		{
 			$this->content = CError::Open(404);
 		}
+		$e = new EWillAccessContentEvent($this, $this->content);
+		if($e->hasContentBeenSubstituted())
+		{
+		    $this->content = $e->Content;
+		}
+		$e = new EContentAccessEvent($this, $this->content);
+		
 		//do once
 	}
 	
@@ -334,10 +341,6 @@ array objectid => spore
 	public function LinkTo($target)
 	{
 		$this->target = $target;
-		if($clean)
-		{
-		    $this->newParameters = array();
-		}
 		return $this;
 	}
 	

@@ -83,31 +83,29 @@ abstract class BContent extends BObject
 	/**
 	 * @return BContent
 	 */
-	public static function Open($alias, $allowFail = false)
+	public static function Open($alias)
 	{
 	    try
 	    {
-	        $class = QBContent::getClass($alias);
-	        if(class_exists($class, true))
-	        {
-	            return call_user_func_array($class.'::Open', array($alias));
-	        }
-	        else
-	        {
-	            throw new XInvalidDataException($class.' not found');
-	        }
+	        return self::OpenIfPossible($alias);
 	    }
 	    catch(Exception $e)
 	    {
-	        if($allowFail)
-	        {
-	            throw $e;
-	        }
-	        else
-	        {
-	            return CError::Open(404);
-	        }
+            return CError::Open(404);
 	    }
+	}
+	
+	public static function OpenIfPossible($alias)
+	{
+        $class = QBContent::getClass($alias);
+        if(class_exists($class, true))
+        {
+            return call_user_func_array($class.'::Open', array($alias));
+        }
+        else
+        {
+            throw new XInvalidDataException($class.' not found');
+        }
 	}
 	
 	/**

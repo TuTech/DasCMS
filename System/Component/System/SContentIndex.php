@@ -11,8 +11,7 @@ class SContentIndex
 	extends 
 	    BSystem 
 	implements 	
-	    IShareable, 
-		HContentAccessEventHandler 
+	    IShareable
 {
 	//IShareable
 	const CLASS_NAME = 'SContentIndex';
@@ -148,18 +147,6 @@ class SContentIndex
 			$index = array();
 		}
 		return $index;
-	}
-	
-	/**
-	 * @param EContentAccessEvent $e
-	 */
-	public function HandleContentAccessEvent(EContentAccessEvent $e)
-	{
-		$pubDate = $e->Content->PubDate;
-		if(empty($pubDate) || $pubDate > time())
-		{
-			$e->Cancel();
-		}
 	}
 }
 ?>

@@ -10,7 +10,7 @@ PAuthentication::required();
 try
 {
     $feed = RURL::get('feed');
-    $content = BContent::Open($feed);
+    $content = BContent::OpenIfPossible($feed);
     $pubDate = $content->getPubDate();
     if(empty($pubDate) || $pubDate > time())
     {

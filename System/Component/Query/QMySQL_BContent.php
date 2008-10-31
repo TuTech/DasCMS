@@ -17,7 +17,7 @@ class QBContent extends BQuery
         $DB->queryExecute(sprintf(
                 $sql, 
                 $DB->escape($title), 
-                $DB->escape(date('Y-m-d H:i:s', $pubDate)), 
+                $DB->escape($pubDate > 0 ? date('Y-m-d H:i:s', $pubDate) : '0000-00-00 00:00:00'), 
                 $DB->escape($description),
                 $id)
             , DSQL::NUM);

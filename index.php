@@ -52,8 +52,15 @@ $tok = SProfiler::profile(__FILE__, __LINE__,'template engine');
 $generatorAlias = LConfiguration::get('generator_content');
 try
 {
-    $pageGenerator = BContent::Open($generatorAlias);
-    echo $pageGenerator->getContent();
+    $pageGenerator = BContent::OpenIfPossible($generatorAlias);
+    if ($pageGenerator instanceof IPageGenerator) 
+    {
+    	echo $pageGenerator->generatePage(WTemplate::getGlobalEnvironment());
+    }
+    else
+    {
+        echo $pageGenerator->getContent();
+    }
 }
 catch(Exception $e)
 {

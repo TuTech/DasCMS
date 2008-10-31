@@ -72,93 +72,75 @@ class SComponentIndex
 		$errarr = array();
 		self::$_interfaceIndex = array();
 		self::$_classIndex = array();
+		if($verbose)print('<ol>');
 		foreach (self::$_components as $prefix => $var) 
 		{
 			if($verbose)printf("<h3>Component '%s'</h3>\n", $var);
 			$comp = DFileSystem::FilesOf('System/Component/'.$var.'/');
 			foreach ($comp as $c) 
 			{
+			    if($verbose)print('<li>');
 				if($verbose)print('<ul>');
 				try
 				{
-//					ob_start();
-//					echo '<div style="display:block; border:1px solid red;padding:5px;">';
-//					$sys = system('php --syntax-check System/Component/'.$var.'/'.$c, $OKis0);
-//					echo '</div>';
-//					$ob = ob_get_contents();
-//					ob_end_clean();
-					if(true)//$OKis0 == 0)
+					$c = substr($c,0,-4);
+					if(interface_exists($c, true))
 					{
-						$c = substr($c,0,-4);
-						if(interface_exists($c, true))
-						{
-							if($verbose)printf("Interface '<i>%s</i>'<br />", $c);
-							self::$_interfaceIndex[$c] = 1;
-						}
-						elseif(class_exists($c, true))
-						{
-							self::$_classIndex[$c] = array(self::INTERFACES => array(), self::EXTENSIONS => array());
-							if($verbose)printf("Class '<b>%s</b>'<ul><u>implements:</u><ol>", $c);
-							$impl = class_implements($c);
-							foreach ($impl as $itf) 
-							{
-								if($verbose)printf("<li>%s</li>", $itf);
-								self::$_classIndex[$c][self::INTERFACES][$itf] = 1;
-							}
-							////
-							if($verbose)print("</ol><u>extends:</u><ol>");
-							$ext = class_parents($c);
-							foreach ($ext as $par) 
-							{
-								if($verbose)printf("<li>%s </li>", $par);
-								self::$_classIndex[$c][self::EXTENSIONS][$par] = 1;
-							}
-							////
-							if($verbose)print("</ol><u>Functions:</u><ol>");
-							$impl = get_class_methods($c);
-							foreach ($impl as $itf) 
-							{
-								if($verbose)printf("<li>%s</li>", $itf);
-							}
-							////
-							if($verbose)print("</ol><u>Static vars:</u><ol>");
-							$impl = get_class_vars($c);
-							foreach ($impl as $itf => $bla) 
-							{
-								if($verbose)printf("<li>%s</li>", $itf);
-							}
-							if($verbose)print("</ol></ul>");
-							////DB stuff
-							$guid = '';
-							if(isset(self::$_classIndex[$c][self::INTERFACES]['IGlobalUniqueId']))
-							{
-							    $guid = constant($c.'::GUID');
-							}
-							$db_class_index[$c] = $guid;
-						}
-						else
-						{
-							if($verbose)printf("Undefined '<s>%s</s>'<br />", $c);
-						}
+						if($verbose)printf("Interface '<i>%s</i>'<br />", $c);
+						self::$_interfaceIndex[$c] = 1;
 					}
-					else 
+					elseif(class_exists($c, true))
 					{
-						if($verbose)
+						self::$_classIndex[$c] = array(self::INTERFACES => array(), self::EXTENSIONS => array());
+						if($verbose)printf("Class '<b>%s</b>'<ul><u>implements:</u><ol>", $c);
+						$impl = class_implements($c);
+						foreach ($impl as $itf) 
 						{
-							echo '<a name="BADF00D'.$err.'"></a><strong style="color:red">System/Component/'.$var.'/'.$c.' not indexed!<br />Here is why:</strong>';
-							echo $ob;
-							echo var_dump($OKis0);
+							if($verbose)printf("<li>%s</li>", $itf);
+							self::$_classIndex[$c][self::INTERFACES][$itf] = 1;
 						}
-						$errarr[$err] = $var.'/'.$c;
-						$err++;
+						////
+						if($verbose)print("</ol><u>extends:</u><ol>");
+						$ext = class_parents($c);
+						foreach ($ext as $par) 
+						{
+							if($verbose)printf("<li>%s </li>", $par);
+							self::$_classIndex[$c][self::EXTENSIONS][$par] = 1;
+						}
+						////
+						if($verbose)print("</ol><u>Functions:</u><ol>");
+						$impl = get_class_methods($c);
+						foreach ($impl as $itf) 
+						{
+							if($verbose)printf("<li>%s</li>", $itf);
+						}
+						////
+						if($verbose)print("</ol><u>Static vars:</u><ol>");
+						$impl = get_class_vars($c);
+						foreach ($impl as $itf => $bla) 
+						{
+							if($verbose)printf("<li>%s</li>", $itf);
+						}
+						if($verbose)print("</ol></ul>");
+						////DB stuff
+						$guid = '';
+						if(isset(self::$_classIndex[$c][self::INTERFACES]['IGlobalUniqueId']))
+						{
+						    $guid = constant($c.'::GUID');
+						}
+						$db_class_index[$c] = $guid;
 					}
-					
+					else
+					{
+						if($verbose)printf("Undefined '<s>%s</s>'<br />", $c);
+					}
 				}
 				catch(Exception $e)
 				{
 					//ignore the misfits!
 				}
 				if($verbose)print('</ul>');
+				if($verbose)print('</li>');
 			}
 			if($verbose && $err > 0)
 			{
@@ -172,6 +154,7 @@ class SComponentIndex
 				
 			}
 		}
+		if($verbose)print('</ol>');
 		DFileSystem::SaveData($this->StoragePath('classes'), self::$_classIndex);
 		DFileSystem::SaveData($this->StoragePath('interfaces'), self::$_interfaceIndex);
 		$dbEngine = LConfiguration::get('db_engine');

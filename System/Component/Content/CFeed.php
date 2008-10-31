@@ -17,10 +17,10 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
     }
     const CLASS_NAME = 'CFeed';
     
-    const ALL = 'all';
-    const MATCH_SOME = 'match_any';
-    const MATCH_ALL = 'match_all';
-    const MATCH_NONE = 'match_none';
+    const ALL = 'All';
+    const MATCH_SOME = 'MatchSome';
+    const MATCH_ALL = 'MatchAll';
+    const MATCH_NONE = 'MatchNone';
     
     const HEADER = 0;
     const ITEM = 1;
@@ -475,7 +475,7 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
 	{
         $map = array(
             'Title' => 0,
-            'Desciption' => 1,
+            'Description' => 1,
             'PubDate' => 2,
             'Alias' => 3,
             'Author' => 4,
@@ -496,9 +496,12 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
         	switch ($key) 
         	{
                 case 'Tags':
-        	    case 'Desciption':
         		    $tag = 'div';
         		    $content = htmlentities($data[$map[$key]], ENT_QUOTES, 'UTF-8');
+        		    break;
+                case 'Description':
+        		    $tag = 'div';
+        		    $content = $data[$map[$key]];
         		    break;
                 case 'Content':
                     $tag = 'div';

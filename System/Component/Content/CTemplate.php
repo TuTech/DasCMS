@@ -7,7 +7,12 @@
  * @since 17.10.2008
  * @license GNU General Public License 3
  */
-class CTemplate extends BContent implements ISupportsSidebar, IGlobalUniqueId 
+class CTemplate 
+    extends BContent 
+    implements 
+        ISupportsSidebar, 
+        IGlobalUniqueId,
+        IPageGenerator  
 {
     const GUID = 'org.bambuscms.content.ctemplate';
     public function getGUID()
@@ -91,8 +96,20 @@ class CTemplate extends BContent implements ISupportsSidebar, IGlobalUniqueId
 	{
 	    //run template
 	    try {
-        $tpl = new TEngine($this->Id.'.php', BTemplate::CONTENT, array());
-		return $tpl->execute(array());
+            $tpl = new TEngine($this->Id.'.php', BTemplate::CONTENT, array());
+    		return $tpl->execute(array());
+	    }
+	    catch (Exception $e)
+	    {
+	        return '';
+	    }
+	}
+	
+	public function generatePage(array $environment)
+	{
+	    try {
+            $tpl = new TEngine($this->Id.'.php', BTemplate::CONTENT, LConfiguration::as_array());
+    		return $tpl->execute($environment);
 	    }
 	    catch (Exception $e)
 	    {

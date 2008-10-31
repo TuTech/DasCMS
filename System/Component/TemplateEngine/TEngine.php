@@ -42,19 +42,19 @@ class TEngine extends BTemplate
             throw new XTemplateException('template closed');
         }
         //run()
-        $parsed = '';
+        $parsed = array();
         foreach ($this->executionStack as $object) 
         {
         	if(is_object($object) && $object instanceof ITemplateCommand)
         	{
-    	        $parsed .= $object->run($environment);
+    	        $parsed[] = $object->run($environment);
         	}
         	else
         	{
-        	    $parsed .= strval($object);
+        	    $parsed[] = $object;
         	}
         }      
-        return $parsed;
+        return implode($parsed);
     }
     
     public function close()

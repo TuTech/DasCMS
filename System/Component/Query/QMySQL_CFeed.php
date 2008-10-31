@@ -29,7 +29,7 @@ class QCFeed extends BQuery
      * @param array $props
      * @return DSQLResult
      */
-    public static function getItemsForPage($feedID, $orderBY, $orderDesc ,$page, $itemsPerPage, array $props)
+    public static function getItemsForPage($feedID, $orderBY, $order ,$page, $itemsPerPage, array $props)
     {
         //FIXME optimize join and where for given props
         $sql = 
@@ -58,7 +58,7 @@ class QCFeed extends BQuery
             $sql
             ,$feedID
             ,strtolower($orderBY) == 'title' ? 'Contents.title' : 'Contents.pubDate'
-			,$orderDesc ? 'DESC' : 'ASC'
+			,$order ? 'ASC' : 'DESC'
 			,$itemsPerPage
             ,($page-1)*$itemsPerPage 
         );
