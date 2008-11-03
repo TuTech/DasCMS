@@ -42,7 +42,7 @@ if(RSent::hasValue('writeconfig') && PAuthorisation::has('org.bambuscms.configur
     {
         if($key != 'db_password' || RSent::hasValue('chdbpasswd'))
         {
-            LConfiguration::set($key, trim(RSent::get($key)));
+            LConfiguration::set($key, RSent::get($key));
         }
     }
     SNotificationCenter::report('message', 'configuration_saved-file_has_been_overwritten');

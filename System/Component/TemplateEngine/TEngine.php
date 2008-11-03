@@ -47,13 +47,16 @@ class TEngine extends BTemplate
         {
         	if(is_object($object) && $object instanceof ITemplateCommand)
         	{
+        	    printf("\n<!-- running %s ->\n", get_class($object));
     	        $parsed[] = $object->run($environment);
         	}
         	else
         	{
+        	    printf("\n<!-- adding html ->\n");
         	    $parsed[] = $object;
         	}
         }      
+        echo "\n <!-- done --> \n";
         return implode($parsed);
     }
     

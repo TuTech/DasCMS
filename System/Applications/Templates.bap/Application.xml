@@ -35,8 +35,6 @@
 			<task type="spacer" name="text_modifier" />
 			<task type="button" caption="link" action="EditorFormat('link');" icon="action-link-gray" /> 
 			<task type="button" caption="unlink" action="EditorFormat('unlink');" icon="action-unlink-gray" /> 
-			<task type="spacer" />
-			<task type="button" hotkey="o" caption="open" icon="place-folder" action="top.location = 'Management/?editor=Websites.bap&amp;tab=manage';" />
 		</interface>
 	</application>
 </bambus>

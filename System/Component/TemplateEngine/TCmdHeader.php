@@ -19,6 +19,32 @@ class TCmdHeader
     
     public function run(array $environment)
     {
+        return $this;
+    }
+    
+    private function encode($val)
+    {
+        return htmlentities(mb_convert_encoding($val,'UTF-8','iso-8859-1,utf-8,auto'), ENT_QUOTES, 'UTF-8');
+    }
+    
+    public function tearDown()
+    {
+    }
+
+    public function __sleep()
+    {
+        //$this->data = array($this->request);
+        return array();//'data'
+    }
+    
+    public function __wakeup()
+    {
+        //$this->request = $this->data[0];
+        $this->data = array();
+    }
+    
+    public function __toString()
+    {
         $contents = SContentWatch::accessedContent();
         $descriptions = array();
         $titles = array();
@@ -26,7 +52,7 @@ class TCmdHeader
         foreach ($contents as $c) 
         {
         	$titles[] = $c->Title;
-        	$tags[] = array_merge($tags, $c->Tags);
+        	$tags = array_merge($tags, $c->Tags);
         	$descriptions[] = $c->Description;
         }
         sort($tags, SORT_LOCALE_STRING);
@@ -63,27 +89,6 @@ class TCmdHeader
 			,filemtime('Content/stylesheets/default.css')
             ,0
         );
-    }
-    
-    private function encode($val)
-    {
-        return htmlentities(mb_convert_encoding($val,'UTF-8','iso-8859-1,utf-8,auto'), ENT_QUOTES, 'UTF-8');
-    }
-    
-    public function tearDown()
-    {
-    }
-
-    public function __sleep()
-    {
-        //$this->data = array($this->request);
-        return array();//'data'
-    }
-    
-    public function __wakeup()
-    {
-        //$this->request = $this->data[0];
-        $this->data = array();
     }
 }
 ?>
