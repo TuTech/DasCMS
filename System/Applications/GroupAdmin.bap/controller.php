@@ -49,56 +49,8 @@ else
 //////////////////
 //process inputs//
 //////////////////
-
 if(RSent::hasValue('action'))
 {
-	/////////////////////
-	//edit user profile//
-	/////////////////////
-	
-	if(RSent::get('action') == 'edit_user_data' && PAuthorisation::has('org.bambuscms.credentials.user.change'))
-	{
-		$SUsersAndGroups->setUserRealName($victim, RSent::get('realName'));
-		$SUsersAndGroups->setUserEmail($victim, RSent::get('email'));
-		$SUsersAndGroups->setUserAttribute($victim, 'company', RSent::get('att_company'));
-		SNotificationCenter::report('message', 'user_profile_saved');
-		if(PAuthorisation::isInGroup('Administrator'))
-		{
-			if(RSent::hasValue('adm_set_password') && RSent::hasValue('adm_set_password_confirm') && RSent::get('adm_set_password_confirm') == RSent::get('adm_set_password'))
-			{
-				$SUsersAndGroups->setUserPassword($victim, RSent::get('adm_set_password'));
-			}
-			if(RSent::hasValue('adm_set_password_confirm') && RSent::hasValue('adm_set_password') && md5(RSent::get('adm_set_password_confirm')) == $SUsersAndGroups->getPasswordHash($victim))
-			{
-				SNotificationCenter::report('message', 'new_password_set');
-			}
-			elseif(RSent::hasValue('adm_set_password'))
-			{
-				SNotificationCenter::report('alert', 'passwords_do_not_match');
-			}
-		}
-		else
-		{
-			if(
-				(RSent::hasValue('change_password_from_old') && $SUsersAndGroups->isValidUser($victim, RSent::get('change_password_from_old')))
-				&&
-				(RSent::hasValue('change_password_to_new') && RSent::hasValue('change_password_confirm') && RSent::get('change_password_to_new') == RSent::get('change_password_confirm'))
-			  )
-			{
-				$SUsersAndGroups->setUserPassword($victim, RSent::get('change_password_to_new'));
-				SNotificationCenter::report('message', 'password_changed');
-			}
-			elseif(RSent::hasValue('change_password_from_old') && $SUsersAndGroups->isValidUser($victim, RSent::get('change_password_from_old')))
-			{
-				SNotificationCenter::report('alert', 'passwords_do_not_match');
-			}
-		}
-	}
-
-	/////////////////
-	//group actions//
-	/////////////////
-	
 	if(RSent::get('action') == 'create_new_group' && PAuthorisation::has('org.bambuscms.credentials.group.create'))
 	{
 		if(RSent::hasValue('new_group_name') && RSent::has('new_group_description'))
@@ -112,59 +64,6 @@ if(RSent::hasValue('action'))
 		else
 		{
 			SNotificationCenter::report('warning', 'no_group_name_specified');
-		}
-	}
-	////////////////
-	//user actions//
-	////////////////
-	
-	if(RSent::get('action') == 'create_new_user' && PAuthorisation::has('org.bambuscms.credentials.user.create'))
-	{
-		if(
-		  	(RSent::hasValue('new_user_name')) &&
-		  	(RSent::hasValue('new_user_password')) &&
-		  	(RSent::hasValue('new_user_password_check')) &&
-		  	(!$SUsersAndGroups->isUser(RSent::get('new_user_name'))) &&
-		  	(RSent::get('new_user_password') == RSent::get('new_user_password_check'))
-		  )
-		{
-			///////////////
-			//create user//
-			///////////////
-			
-			$SUsersAndGroups->addUser(RSent::get('new_user_name'), RSent::get('new_user_password'), RSent::get('new_user_name_and_surname'), RSent::get('new_user_email'));
-			SNotificationCenter::report('message', 'user_created');
-			$victim = RSent::get('new_user_name');
-			$edit_mode = 'usr';
-			SLink::set('edit', $victim);
-			SLink::set('mode', 'usr');
-		}
-		else
-		{
-			/////////////////////////
-			//display error message//
-			/////////////////////////
-			
-			if(RSent::get('new_user_password') != RSent::get('new_user_password_check'))
-			{
-				SNotificationCenter::report('warning', 'passwords_not_equal');
-			}
-			elseif($SUsersAndGroups->isUser(RSent::get('new_user_name')))
-			{
-				SNotificationCenter::report('warning', 'user_already_exists');
-			}
-			elseif(RSent::hasValue('new_user_name'))
-			{
-				SNotificationCenter::report('warning', 'username_has_to_be_set');
-			}
-			elseif(RSent::hasValue('new_user_password'))
-			{
-				SNotificationCenter::report('warning', 'password_has_to_be_set');
-			}
-			else
-			{
-				SNotificationCenter::report('warning', 'failed_to_create_user');
-			}
 		}
 	}
 	
@@ -183,7 +82,7 @@ if(RSent::hasValue('action'))
 			//change system group settings//
 			////////////////////////////////
 			
-			if(RSent::hasValue('join_group_Administrator'))
+			if(!RSent::hasValue('join_group_Administrator'))
 			{
 				//no administrator 
 				foreach($SUsersAndGroups->listSystemGroups() as $systemGroup)
@@ -237,11 +136,10 @@ if(RSent::hasValue('action'))
 		//security check//
 		//////////////////
 		//remove all changes the current user is not allowed to do
-		
-		foreach($SUsersAndGroups->listSystemGroups() as $systemGroup)
+		if(!PAuthorisation::has('org.bambuscms.credentials.group.change'))
 		{
-			if(!constant('BAMBUS_GRP_'.strtoupper($systemGroup)))
-			{
+		    foreach($SUsersAndGroups->listSystemGroups() as $systemGroup)
+		    {
 				unset($join[$systemGroup]);
 				unset($leave[$systemGroup]);
 			}
@@ -254,60 +152,6 @@ if(RSent::hasValue('action'))
  		SNotificationCenter::report('message', 'group_assignment_saved');
 	}
 	
-	///////////////////////////
-	//save editor permissions//
-	///////////////////////////
-	
-	if(RSent::get('action') == 'save_editor_permissions' && PAuthorisation::has('org.bambuscms.credentials.user.change') && $victim != PAuthentication::getUserID())
-	{
-		//list the applications
-	    chdir(SPath::SYSTEM_APPLICATIONS);
-	    $Dir = opendir ('./'); 
-	    $items = array();
-	    while ($item = readdir ($Dir)) {
-	        if((is_dir($item)) 
-	        		&& (substr($item,0,1) != '.') 
-	        		&& (strtolower(substr($item,-4)) == '.bap')){
-	            $items[] = substr($item,0,-4);
-	        }
-	    }
-	    closedir($Dir);
-		chdir(constant('BAMBUS_CMS_ROOTDIR'));
-	    $grantPermission = array();
-	    $rejectPermission = array();
-	    foreach($items as $item)
-	    {
-	    	//all admins and the current user must have access to this app
-	    	if(!(($victim == PAuthentication::getUserID() || $SUsersAndGroups->isMemberOf($victim, 'Administrator')) && $item == BAMBUS_APPLICATION))
-	    	{
-		    	if(RSent::hasValue('editor_'.md5($item)) && ($SUsersAndGroups->hasPermission(PAuthentication::getUserID(), $item) || PAuthorisation::isInGroup('Administrator')))
-		    	{
-		    		//we are allowed to change the value and we like this app -> activate it
-		    		$grantPermission[] = $item;
-		    	}
-		    	elseif($SUsersAndGroups->hasPermission(PAuthentication::getUserID(), $item) || PAuthorisation::isInGroup('Administrator'))
-		    	{
-		    		//changing allowed but this app stinks -> deactivate it
-		    		$rejectPermission[] = $item;
-		    	}
-	    	}
-	    	elseif($SUsersAndGroups->isMemberOf($victim, 'Administrator'))
-	    	{
-	    		//admins are foced to love me (the shiny user-administration)
-	    		$grantPermission[] = $item;
-	    	}
-	    }
-	    //set the beloved apps
-	    $SUsersAndGroups->grantUserPermissions($victim, $grantPermission);
-	    //send the others to hell
-	    $SUsersAndGroups->rejectUserPermissions($victim, $rejectPermission);
-	    SNotificationCenter::report('message', 'permissions_saved');
-	}
-	if(RSent::get('action') == 'save_editor_group_permissions' && PAuthorisation::has('org.bambuscms.credentials.group.change'))
-	{
-		SNotificationCenter::report('alert', 'not_implemented');
-	}
-	
 	//update user & group data in database if it cares
 	$dbNeedsUpdate = true;
 	
@@ -315,8 +159,6 @@ if(RSent::hasValue('action'))
 
 if(RURL::get('_action') == 'delete')
 {
-	
-	
 	
 	////////////////
 	//delete group//
@@ -336,34 +178,6 @@ if(RURL::get('_action') == 'delete')
 			SNotificationCenter::report('warning', 'this_group_cannot_be_deleted');
 		}
 		
-	}
-	///////////////
-	//delete user//
-	///////////////
-	
-	elseif($edit_mode == 'usr' && PAuthorisation::has('org.bambuscms.credentials.user.delete'))
-	{
-		if($SUsersAndGroups->isUser($victim) && $victim != PAuthentication::getUserID())
-		{
-			$result = $SUsersAndGroups->removeUser($victim);
-			if($result)
-			{
-				SNotificationCenter::report('message', 'message');
-				$victim = PAuthentication::getUserID();
-			}
-			elseif($result == -1)
-			{
-				SNotificationCenter::report('warning', 'you_cannot_delete_the_last_administrator');
-			}
-			else
-			{
-				SNotificationCenter::report('warning', 'failed_to_delete_this_user');
-			}
-		}
-		else
-		{
-			SNotificationCenter::report('warning', 'you_do_not_have_the_permission_to_delete_this_user');
-		}
 	}
 	$dbNeedsUpdate = true;
 }

@@ -61,17 +61,17 @@ class SBambusSessionAuth
     {
         $user = '';
         $password = '';
-        if(RSession::hasValue('bambus_cms_username'))
-        {
-            $user = RSession::get('bambus_cms_username');
-            $password = RSession::get('bambus_cms_password');
-        }
-        elseif(RSent::hasValue('bambus_cms_username'))
+        if(RSent::hasValue('bambus_cms_username'))
         {
             $user = RSent::get('bambus_cms_username');
             $password = RSent::get('bambus_cms_password');
             RSession::set('bambus_cms_username', $user);
             RSession::set('bambus_cms_password', $password);
+        }
+        elseif(RSession::hasValue('bambus_cms_username'))
+        {
+            $user = RSession::get('bambus_cms_username');
+            $password = RSession::get('bambus_cms_password');
         }
         $uag = SUsersAndGroups::alloc()->init();
         if($uag->isValidUser($user, $password))

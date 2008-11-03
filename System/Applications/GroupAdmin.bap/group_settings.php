@@ -22,7 +22,7 @@ echo "\n";
 echo new WScript('var action_add_group = function(){'.$jsCreate.'};');
 if(PAuthorisation::has('org.bambuscms.credentials.user.change') || PAuthorisation::has('org.bambuscms.credentials.group.change'))
 {
-	echo LGui::beginForm(array('edit' => $victim), 'documentform');
+	echo LGui::beginForm(array('edit' => ($edit_mode == 'usr' ? 'u:' : 'g:').$victim), 'documentform');
 }
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
@@ -34,6 +34,7 @@ if($edit_mode == 'usr')
     $intro->setIcon('mimetype-user');
     echo $intro;
     //group assignment
+	print('<input type="hidden" name="action" value="save_assignment_of_groups" />');
 	
     $group_tbl = new WTable(WTable::HEADING_TOP|WTable::HEADING_LEFT, 'group_memberships');
     $group_tbl->addRow(array(
@@ -95,7 +96,7 @@ if($edit_mode == 'usr')
 	foreach($SUsersAndGroups->listSystemGroups() as $sysgroup)
 	{
 		$desc = SLocalization::get('SystemGroupDescription_'.$sysgroup);
-		if($victim != PAuthentication::getUserID() && constant('BAMBUS_GRP_'.strtoupper($sysgroup)))
+		if($victim != PAuthentication::getUserID() && PAuthorisation::has('org.bambuscms.credentials.group.change'))
 		{
 		    //editable
 		    $label = sprintf(

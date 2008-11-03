@@ -4,7 +4,7 @@
  * @subpackage Widgets
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 29.04.2008
+ * @since 2008-04-29
  * @license GNU General Public License 3
  */
 class WApplications extends BWidget 

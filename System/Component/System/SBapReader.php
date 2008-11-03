@@ -73,7 +73,7 @@ class SBapReader
 			{
 				$data = self::getAttributesOf($appPath.$item, array('name', 'description', 'icon', 'tabs'));
 				//@todo remove old uag-binding
-				if($UAG->hasPermission(PAuthentication::getUserID(), $item) || $UAG->isMemberOf(PAuthentication::getUserID(), 'Administrator'))
+				if($UAG->hasPermission(PAuthentication::getUserID(), substr($item,0,((strlen(DFileSystem::suffix($item))+1) * -1))) || $UAG->isMemberOf(PAuthentication::getUserID(), 'Administrator'))
 				{
 					$available[$item] = array(
 						 'name' => $data['name']
@@ -116,7 +116,7 @@ class SBapReader
 	const CLASS_NAME = 'SBapReader';
 	public static $sharedInstance = NULL;
 	/**
-	 * @return SApplication
+	 * @return SBapReader
 	 */
 	public static function alloc()
 	{
@@ -129,7 +129,7 @@ class SBapReader
 	}
     
 	/**
-	 * @return SApplication
+	 * @return SBapReader
 	 */
 	function init()
     {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <bambus>
-	<name>websites</name>
+	<name>templates</name>
 	<description>edit_templates</description>
 	<icon>app-utilities-editor-template</icon>
 	<version>0.1.20081017</version>

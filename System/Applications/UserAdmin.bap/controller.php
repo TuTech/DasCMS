@@ -261,7 +261,7 @@ if(RSent::hasValue('action'))
 	//save editor permissions//
 	///////////////////////////
 	
-	if(RSent::get('action') == 'save_editor_permissions' && PAuthorisation::has('org.bambuscms.credentials.user.change') && $victim != PAuthentication::getUserID())
+	if(RSent::get('action_2') == 'save_editor_permissions' && PAuthorisation::has('org.bambuscms.credentials.user.change') && $victim != PAuthentication::getUserID())
 	{
 		//list the applications
 	    chdir(SPath::SYSTEM_APPLICATIONS);
@@ -283,7 +283,7 @@ if(RSent::hasValue('action'))
 	    	//all admins and the current user must have access to this app
 	    	if(!(($victim == PAuthentication::getUserID() || $SUsersAndGroups->isMemberOf($victim, 'Administrator')) && $item == BAMBUS_APPLICATION))
 	    	{
-		    	if(!RSent::hasValue('editor_'.md5($item)) && ($SUsersAndGroups->hasPermission(PAuthentication::getUserID(), $item) || PAuthorisation::isInGroup('Administrator')))
+		    	if(RSent::hasValue('editor_'.md5($item)) && ($SUsersAndGroups->hasPermission(PAuthentication::getUserID(), $item) || PAuthorisation::isInGroup('Administrator')))
 		    	{
 		    		//we are allowed to change the value and we like this app -> activate it
 		    		$grantPermission[] = $item;
@@ -305,10 +305,6 @@ if(RSent::hasValue('action'))
 	    //send the others to hell
 	    $SUsersAndGroups->rejectUserPermissions($victim, $rejectPermission);
 	    SNotificationCenter::report('message', 'permissions_saved');
-	}
-	if(RSent::get('action') == 'save_editor_group_permissions' && PAuthorisation::has('org.bambuscms.credentials.group.change'))
-	{
-		SNotificationCenter::report('alert', 'not_implemented');
 	}
 	
 	//update user & group data in database if it cares

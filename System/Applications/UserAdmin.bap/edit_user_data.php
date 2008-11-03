@@ -57,16 +57,11 @@ echo new WScript('var action_change_password = function(){'.$jsCreate.'};');
 
 if(PAuthorisation::has('org.bambuscms.credentials.user.change') || PAuthorisation::has('org.bambuscms.credentials.group.change'))
 {
-	echo LGui::beginForm(array('edit' => $victim), 'documentform');
+	echo LGui::beginForm(array('edit' => ($edit_mode == 'usr' ? 'u:' : 'g:').$victim), 'documentform');
 }
 
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
-
-if(PAuthorisation::has('org.bambuscms.credentials.user.change') || PAuthorisation::has('org.bambuscms.credentials.group.change'))
-{
-	echo LGui::beginForm(array('edit' => $victim), 'documentform');
-}
 $intro = new WIntroduction();
 $intro->setTitle($victim, false);
 $intro->setIcon('mimetype-user');
@@ -84,7 +79,7 @@ if($edit_mode == 'usr')
 		: "%s\n";
 
 	$prof_tbl->addRow(array('login_name', htmlentities($victim)));
-	$prof_tbl->addRow(array('last_management_login', date('r',($SUsersAndGroups->getUserAttribute($victim, 'last_management_login')))));
+	$prof_tbl->addRow(array('last_management_login', @date('r',($SUsersAndGroups->getUserAttribute($victim, 'last_management_login')))));
 	$prof_tbl->addRow(array('management_login_count', htmlentities($SUsersAndGroups->getUserAttribute($victim, 'management_login_count'))));
 	$prof_tbl->addRow(array(
 	    'real_name', 
@@ -118,6 +113,7 @@ if($edit_mode == 'usr')
 
     
     /////////////////////////////EX PERMS
+	print('<input type="hidden" name="action_2" value="save_editor_permissions" />');
     echo '<br />';
     $myDir = getcwd();//nice place... remember it
     chdir(SPath::SYSTEM_APPLICATIONS);

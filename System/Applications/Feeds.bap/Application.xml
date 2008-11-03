@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <bambus>
-	<name>websites</name>
+	<name>feeds</name>
 	<description>edit_feeds</description>
 	<icon>app-preferences-feeds</icon>
 	<version>0.1.20081017</version>
