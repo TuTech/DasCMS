@@ -148,7 +148,7 @@ class LApplication extends BLegacy implements IShareable
                             $action = $task['action'];
                             if(!empty($task['confirm']))
                             {
-                                $action = sprintf("if(confirm('%s')){%s}", utf8_encode(html_entity_decode(SLocalization::get($task['confirm']))), $action);
+                                $action = sprintf("if(confirm('%s')){%s}", SLocalization::get($task['confirm']), $action);
                             }
                         }
                         else

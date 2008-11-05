@@ -38,7 +38,6 @@ class SContentWatch
     
     public function HandleContentAccessEvent(EContentAccessEvent $e)
     {
-        printf("\n<!-- content accessed: %d:%s -->", $e->Content->Id, $e->Content->Title);
         self::$accessedContents[$e->Content->Id] = $e->Content;
     }
     

@@ -1,6 +1,5 @@
 @CHARSET "UTF-8";
 .WFlowLayout{
-    border: 1px solid #4e9a06;
     display:block;
     overflow:auto;
     padding:5px;

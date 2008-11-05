@@ -122,10 +122,12 @@ class QSContentIndex extends BQuery
             SELECT 
             		Contents.title AS Title,
             		Contents.pubDate AS PubDate,
-            		Aliases.alias AS Alias
+            		Aliases.alias AS Alias,
+					Mimetypes.mimetype
             	FROM Contents 
             	LEFT JOIN Aliases ON (Contents.primaryAlias = Aliases.aliasID)
 				LEFT JOIN Classes ON (Contents.type = Classes.classID)
+				LEFT JOIN Mimetypes ON (Contents.mimetypeREL = Mimetypes.mimetypeID)
             	WHERE 
 					Classes.class = '%s'
 				ORDER BY Contents.title ASC";
@@ -139,7 +141,7 @@ class QSContentIndex extends BQuery
     public static function deleteContent($dbid)
     {
         $DB = BQuery::Database();
-        $DB->queryExecute(sprintf("DELETE FROM Contents WHERE contentID = %d", $dbid));
+        return $DB->queryExecute(sprintf("DELETE FROM Contents WHERE contentID = %d", $dbid));
     }    
     
 

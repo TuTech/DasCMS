@@ -63,6 +63,35 @@ class WIcon extends BWidget
         }
     }
     
+    /**
+     * @param string $icon
+     * @param string $type
+     * @param int $size
+     */
+    public static function pathForMimeIcon($icon, $size = null)
+    {
+        $type = 'mimetypes';
+        $icon = str_replace('+', '_', $icon);
+        list($spec, $name) = explode('/', $icon);
+        $check = array($spec.'-'.$name, $name, $spec, 'file');
+        $path = array();
+        $path[0] = sprintf('%s/%s/mimetypes/%%s.png', SPath::SYSTEM_ICONS, self::$sizes[$size]);
+        $path[1] = sprintf('%s../%dx%d/mimetypes/%%s.png', SPath::SYSTEM_ICONS,$size,$size);
+        $found = null;
+        foreach ($check as $item) 
+        {
+            foreach ($path as $ptpl) 
+            {
+            	$p = sprintf($ptpl, $item);
+            	if(file_exists($p))
+            	{
+            	    return $p;
+            	}
+            }
+        }
+        return '';
+    }
+    
     public function getType()
     {
         return  $this->type;

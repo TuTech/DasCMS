@@ -11,7 +11,8 @@ class CFile
     extends BContent 
     implements 
         ISupportsSidebar, 
-        IGlobalUniqueId
+        IGlobalUniqueId,
+        IFileContent 
 {
     const GUID = 'org.bambuscms.content.cfile';
     public function getGUID()
@@ -20,31 +21,37 @@ class CFile
     }
     protected $RAWContent;
     private $_contentLoaded = false;
-    
+    private $metadata;
 	/**
 	 * @return CFile
 	 */
 	public static function Create($title)
 	{
 	    //FIXME RFiles::tempName(CFile)
-	    
-	    if(!is_uploaded_file($_FILES['CFile']['tmp_name']))
+	    $title = empty($title) ? RFiles::getName('CFile') : $title;
+	    if(!RFiles::hasFile('CFile'))
 	    {
 	        throw new XFileNotFoundException('no uploaded file', 'CFile');
 	    }
 	    $SCI = SContentIndex::alloc()->init();
-	    list($dbid, $alias) = $SCI->createContent('CFile', $_FILES['CFile']['name']);
-	    if(!move_uploaded_file($_FILES['CFile']['tmp_name'], '/Content/CFile/'.$dbid.'.data'))
+	    list($dbid, $alias) = $SCI->createContent('CFile', $title);
+	    if(!RFiles::move('CFile', './Content/CFile/'.$dbid.'.data'))
 	    {
 	        throw new XUndefinedException('upload not moveable');
 	    }
-	    DFileSystem::SaveData('/Content/CFile/'.$dbid.'.meta',array(
-	        'filename' => $_FILES['CFile']['name'], 
-	        'type' => $_FILES['CFile']['type'],
-	        'md5' => md5_file('/Content/CFile/'.$dbid.'.data',false),
-	        'size' => $_FILES['CFile']['size']
-        ));
+	    $metadata = array(
+	        'filename' => RFiles::getName('CFile'), 
+	        'type' => RFiles::getType('CFile'),
+	        'md5' => md5_file('./Content/CFile/'.$dbid.'.data',false),
+	        'size' => RFiles::getSize('CFile'),
+	        'suffix' => DFileSystem::suffix(RFiles::getName('CFile'))
+        );
+        BContent::setMimeType($alias, RFiles::getType('CFile'));
+	    DFileSystem::SaveData('./Content/CFile/'.$dbid.'.meta.php',$metadata);
 	    $file = new CFile($alias);
+	    $file->Size = $metadata['size'];
+	    $file->PubDate = time();
+	    $file->saveMetaToDB();
 	    new EContentCreatedEvent($file, $file);
 	    return $file;
 	}
@@ -52,7 +59,18 @@ class CFile
 	public static function Delete($alias)
 	{
 	    $SCI = SContentIndex::alloc()->init();
-	    return $SCI->deleteContent($alias, 'CFile');
+	    $file = new CFile($alias);
+	    $dbid = $file->getId();
+	    unset($file);
+	    $succ = $SCI->deleteContent($alias, 'CFile');
+	    if($succ)
+	    {
+	        echo 'delete: ./Content/CFile/'.$dbid.'.data -';
+	        echo 'delete: ./Content/CFile/'.$dbid.'.meta.php';
+	        @unlink('./Content/CFile/'.$dbid.'.data');
+	        @unlink('./Content/CFile/'.$dbid.'.meta.php');
+	    }
+	    return $succ;
 	}
 	
 	public static function Exists($alias)
@@ -98,6 +116,8 @@ class CFile
 	        throw new XArgumentException('content not found');
 	    }
 	    $this->initBasicMetaFromDB($alias);
+	    $this->metadata = DFileSystem::LoadData('./Content/CFile/'.$this->getId().'.meta.php');
+	    $this->Size = $this->metadata['size'];
 	}
 	
 	/**
@@ -105,20 +125,32 @@ class CFile
 	 */
 	public function getContent()
 	{
-        return sprintf('<div class="CFile"><a href="bin.php?file=%s">%s</a></div>', $this->getAlias(), $this->getTitle());
+        return sprintf('<div class="CFile">'.
+                ''.
+                    '<img src="%s" alt="%s" />'.
+                    '<p>File name: %s</p>'.
+                    '<p>Size: %s</p>'.
+                    '<p><a href="file.php?get=%s">%s</a></p>'.
+                ''.
+            '</div>'
+            ,WIcon::pathForMimeIcon($this->getMimeType(), WIcon::MEDIUM)
+            ,$this->getMimeType()
+            ,$this->getFileName()
+            ,DFileSystem::formatSize($this->getSize())
+            ,$this->getAlias()
+            ,SLocalization::get('download')
+        );
+	}
+	
+	public function enclosureURL()
+	{
+	    return sprintf('%sfile.php?get=%s',SLink::base(),$this->getAlias());
+	    
 	}
 	
 	public function setContent($value)
 	{
-	    throw new XPermissionDeniedException('compiled templates are read only');
-	}
-	
-	public function setRAWContent($value)
-	{
-	    //save and compile
-		$this->Size = strlen($value);
-		$this->_contentLoaded = true;
-		$this->RAWContent = $value;
+	    throw new XPermissionDeniedException('files are read only');
 	}
 	
 	public function Save()
@@ -133,6 +165,47 @@ class CFile
 		}
 	}
 	
+	//IFileContent
+	public function getFileName()
+	{
+	    return $this->metadata['filename'];
+	}
+	
+    public function getType()
+    {
+        return $this->metadata['suffix'];
+    }
+    
+    public function getExtraSmallIcon()
+    {
+        WIcon::pathFor($this->getType(), 'mimetype', WIcon::EXTRA_SMALL);
+    }
+    
+    public function getSmallIcon()
+    {
+        WIcon::pathFor($this->getType(), 'mimetype', WIcon::SMALL);
+    }
+    
+    public function getMediumIcon()
+    {
+        WIcon::pathFor($this->getType(), 'mimetype', WIcon::MEDIUM);
+    }
+    
+    public function getLargeIcon()
+    {
+        WIcon::pathFor($this->getType(), 'mimetype', WIcon::LARGE);
+    }
+	
+    public function getDownloadMetaData()
+    {
+        return array($this->metadata['filename'], $this->metadata['type'], $this->metadata['size']);
+    }
+    
+    public function sendFileContent()
+    {
+        readfile('./Content/CFile/'.$this->getId().'.data');
+    }
+    
 	//ISupportsSidebar
 	public function wantsWidgetsOfCategory($category)
 	{

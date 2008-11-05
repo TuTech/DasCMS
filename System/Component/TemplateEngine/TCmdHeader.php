@@ -49,11 +49,16 @@ class TCmdHeader
         $descriptions = array();
         $titles = array();
         $tags = array();
+        $feeds = array();
         foreach ($contents as $c) 
         {
         	$titles[] = $c->Title;
         	$tags = array_merge($tags, $c->Tags);
         	$descriptions[] = $c->Description;
+        	if($c instanceof IGeneratesFeed)
+        	{
+        	    $feeds[$c->Alias] = $c->Title;
+        	}
         }
         sort($tags, SORT_LOCALE_STRING);
         $title = LConfiguration::get('sitename').implode(', ', $titles);
@@ -62,6 +67,17 @@ class TCmdHeader
         $copyright = LConfiguration::get('copyright');
         $publisher = LConfiguration::get('publisher');
         $generator = BAMBUS_VERSION;
+        $feedTags = '';
+        foreach ($feeds as $alias => $title) 
+        {
+        	$feedTags .= sprintf("            <link rel=\"alternate\" type=\"application/rss+xml\"".
+        	                    "title=\"%s\" href=\"%s\" />\n"
+				,htmlentities($title, ENT_QUOTES, 'UTF-8')
+                ,BFeed::getURLForFeed($alias)
+			);
+        }
+        
+       
         
         return sprintf("
         <head>
@@ -75,7 +91,7 @@ class TCmdHeader
             <meta name=\"generator\" content=\"%s\" />
             <meta name=\"keywords\" content=\"%s\" />
             <link rel=\"icon\" href=\"%s\" />
-            <link rel=\"stylesheet\" href=\"./css.php?v=%d.css\" type=\"text/css\" />
+            <link rel=\"stylesheet\" href=\"./css.php?v=%d.css\" type=\"text/css\" />%s
         </head>"//<script type=\"text/javascript\" src=\"./js.php?v=%d.js\"></script>
 			,$this->encode($title)
             ,$this->encode($title)
@@ -87,7 +103,7 @@ class TCmdHeader
             ,$this->encode($keywords)
             ,'favicon.ico'
 			,filemtime('Content/stylesheets/default.css')
-            ,0
+            ,$feedTags
         );
     }
 }

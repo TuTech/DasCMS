@@ -35,6 +35,12 @@ abstract class BFeed extends BObject
 	const CATEGORY = 22;
 		
 	abstract function __construct(BContent $datasource);
+	
 	abstract function __toString();
+	
+	public static function getURLForFeed($alias)
+	{
+	    return sprintf('%srss.php?feed=%s', SLink::base(), $alias);
+	}
 }
 ?>

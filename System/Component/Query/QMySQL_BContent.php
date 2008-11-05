@@ -11,7 +11,8 @@ class QBContent extends BQuery
             	SET 
             		title = '%s',
             		pubDate = '%s',
-            		description = '%s'
+            		description = '%s',
+					size = %d
             	WHERE
             		contentID = %d";
         $DB->queryExecute(sprintf(
@@ -19,6 +20,7 @@ class QBContent extends BQuery
                 $DB->escape($title), 
                 $DB->escape($pubDate > 0 ? date('Y-m-d H:i:s', $pubDate) : '0000-00-00 00:00:00'), 
                 $DB->escape($description),
+                $size,
                 $id)
             , DSQL::NUM);
         $sql = "
@@ -49,6 +51,18 @@ class QBContent extends BQuery
         return $class;
     }
     	    
+    public static function setMimeType($alias, $mime)
+    {
+        $DB = DSQL::alloc()->init();
+        $sql = "INSERT IGNORE INTO Mimetypes (mimetype) VALUES ('%s')";
+        $DB->queryExecute(sprintf($sql, $DB->escape($mime)));
+        $sql = 
+            "UPDATE Contents 
+				SET mimetypeREL = (SELECT mimetypeID from Mimetypes WHERE mimetype = '%s')
+				WHERE contentID = (SELECT contentREL FROM Aliases WHERE alias = '%s')";
+		$DB->queryExecute(sprintf($sql, $DB->escape($mime), $DB->escape($alias)));
+    }
+    
     public static function getAdditionalMetaData($alias)
     {
         $sql = "
@@ -88,9 +102,12 @@ class QBContent extends BQuery
             		Contents.contentID,
             		Contents.title,
             		Contents.pubDate,
-            		Contents.description
+            		Contents.description,
+					Mimetypes.mimetype,
+					Contents.size
             	FROM Contents
             	LEFT JOIN Aliases ON (Contents.contentID = Aliases.contentREL)
+				LEFT JOIN Mimetypes ON (Contents.mimetypeREL = Mimetypes.mimetypeID)
             		WHERE Aliases.alias = '%s'";
         $DB = BQuery::Database();
         $res = $DB->query(sprintf($sql, $DB->escape($alias)), DSQL::NUM);
@@ -98,7 +115,7 @@ class QBContent extends BQuery
         {
             throw new XUndefinedIndexException();
         }
-        list($id, $ttl, $pd, $desc) = $res->fetch();
+        list($id, $ttl, $pd, $desc, $mt, $sz) = $res->fetch();
         $sql = "
             SELECT tag 
             	FROM Tags 
@@ -111,7 +128,7 @@ class QBContent extends BQuery
         	$tags[] = $row[0];
         }
         return array(
-            $id, $ttl, $pd, $desc, $tags
+            $id, $ttl, $pd, $desc, $tags, $mt, $sz
         );
     }
 }

@@ -40,6 +40,10 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
      * @var DSQLResult
      */
     private $FeedDBRes = null;
+    /**
+     * @var SComponentIndex
+     */
+    private $SCI;
     
     private $_data = array(
         self::CAPTIONS => array(
@@ -537,6 +541,7 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
     public function startFeedReading()
     {
         $this->FeedDBRes = QCFeed::getItemsForFeed($this->getId());
+        $this->SCI = SComponentIndex::alloc()->init();
     }
 	
     public function getFeedMetaData()
@@ -577,13 +582,21 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
 //	        $xml->tag('categories', array(), $row[5]);
 	    $row = $this->FeedDBRes->fetch();
 	    $spore = $this->option(self::SETTINGS, 'TargetView');
-	    return array(
+	    $arr = array(
 	        BFeed::TITLE => $row[0],
 	        BFeed::DESCRIPTION  => $row[1],
 	        BFeed::PUB_DATE  => $row[2],
 	        BFeed::LINK  => SLink::base().SLink::link(array($spore => $row[3]), '', true)
 	    );
-	
+	    if($this->SCI->IsImplementation($row[6], 'IFileContent'))
+	    {
+	        $arr[BFeed::ENCLOSURE] = array($row[0], array(
+                BFeed::URL => sprintf(IFileContent::ENCLOSURE_URL, SLink::base(), $row[3]),
+                BFeed::TYPE => $row[7],
+                BFeed::LENGTH => $row[8]
+            ));
+	    }
+	    return $arr;
 	}
 	
     public function finishFeedReading()

@@ -53,9 +53,17 @@ Contents(
     type 
         INTEGER 
         NOT NULL,
+	mimetypeREL
+		INTEGER
+		NOT NULL
+		DEFAULT 1,
     title 
         VARCHAR(255) 
         NOT NULL,
+	size
+		INT
+		NOT NULL
+		DEFAULT 0,
     pubDate 
         DATETIME 
         NOT NULL 
@@ -65,7 +73,9 @@ Contents(
         NOT NULL 
         DEFAULT '',
     INDEX contents_title_desc (title, description(32)),
-    INDEX (type)
+    INDEX (type),
+    INDEX (mimetype),
+    INDEX (pubDate)
 )
 ENGINE = InnoDB 
 CHARACTER SET utf8 
@@ -274,6 +284,23 @@ ENGINE = InnoDB
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
 
+-- mimetypes
+CREATE TABLE IF NOT EXISTS 
+Mimetypes(
+    mimetypeID 
+        INTEGER 
+		PRIMARY KEY
+		AUTO_INCREMENT
+        NOT NULL,
+    mimetype 
+        VARCHAR(64)
+		UNIQUE
+        NOT NULL
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
 -- Foreign keys for relFeedsTags
 ALTER TABLE 
 Feeds
@@ -311,6 +338,10 @@ ALTER TABLE
 Contents
     ADD CONSTRAINT content_class FOREIGN KEY (type)
         REFERENCES Classes(classID)
+        ON DELETE RESTRICT
+        ON UPDATE RESTRICT,
+    ADD CONSTRAINT content_mimetype FOREIGN KEY (mimetypeREL)
+        REFERENCES Mimetypes(mimetypeID)
         ON DELETE RESTRICT
         ON UPDATE RESTRICT,
     ADD CONSTRAINT primary_alias FOREIGN KEY (primaryAlias) 

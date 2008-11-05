@@ -81,12 +81,17 @@ class QCFeed extends BQuery
     				Contents.pubDate,
     				Aliases.alias,
 					Contents.pubDate AS 'Changes.date',
-    				GROUP_CONCAT(DISTINCT Tags.tag ORDER BY Tags.tag ASC SEPARATOR ', ')
+    				GROUP_CONCAT(DISTINCT Tags.tag ORDER BY Tags.tag ASC SEPARATOR ', '),
+					Classes.class,
+					Mimetypes.mimetype,
+					Contents.size
 				FROM relFeedsContents
     				LEFT JOIN Contents ON (relFeedsContents.contentREL = Contents.contentID)
     				LEFT JOIN Aliases ON (Contents.primaryAlias = Aliases.aliasID)
     				LEFT JOIN relContentsTags ON (Contents.contentID = relContentsTags.contentREL)
     				LEFT JOIN Tags ON (relContentsTags.tagREL = Tags.tagID)
+    				LEFT JOIN Classes ON (Contents.type = Classes.classID)
+    				LEFT JOIN Mimetypes ON (Contents.mimetypeREL = Mimetypes.mimetypeID)
 				WHERE
 					relFeedsContents.feedREL = %d
 					AND Contents.pubDate > 0

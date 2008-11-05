@@ -136,8 +136,8 @@ class SContentIndex
 			$index = array();
 			while ($arr = $res->fetch())
 			{
-			    list($title, $pubdate, $alias) = $arr; 
-				$index[$alias] = $simple ? $title : array($title, $pubdate);
+			    list($title, $pubdate, $alias, $type) = $arr; 
+				$index[$alias] = $simple ? $title : array($title, $pubdate, $type);
 			}
 			$res->free();
 		}

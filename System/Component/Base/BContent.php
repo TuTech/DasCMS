@@ -30,7 +30,8 @@ abstract class BContent extends BObject
 		$Source,	//where does it come from local|url
 		$Tags,	
 		$Description,//meta description - plain text
-		$Size
+		$Size,
+		$MimeType
 		;
 	/**
 	 * @var QSpore
@@ -39,7 +40,7 @@ abstract class BContent extends BObject
 		
 	protected function initBasicMetaFromDB($alias)
 	{
-	    list($id, $ttl, $pd, $desc, $tags) = QBContent::getBasicMetaData($alias);
+	    list($id, $ttl, $pd, $desc, $tags, $mt, $sz) = QBContent::getBasicMetaData($alias);
 	    $this->Id = $id;
 	    $this->Title = $ttl;
 	    $this->PubDate = strtotime($pd);
@@ -47,6 +48,8 @@ abstract class BContent extends BObject
 	    $this->Description = $desc;
 	    $this->Tags = $tags;
 	    $this->Alias = $alias;
+	    $this->MimeType = $mt;
+	    $this->Size = $sz;
 	}
 	
 	protected function initAdditionalMetaFromDB($alias)
@@ -57,10 +60,11 @@ abstract class BContent extends BObject
 	    $this->CreateDate = strtotime($cd);
 	    $this->ModifiedBy = $mb;
 	    $this->ModifyDate = strtotime($md);
-	    if(empty($this->Size))
-	    {
-	        $this->Size = $sz;
-	    }
+	}
+	
+	protected static function setMimeType($alias, $mime)
+	{
+	    QBContent::setMimeType($alias, $mime);
 	}
 	
 	protected function saveMetaToDB()
@@ -68,7 +72,7 @@ abstract class BContent extends BObject
 	    QBContent::saveMetaData($this->Id, $this->Title, $this->PubDate, $this->Description, $this->Size);
 	}
 	
-	protected $_loadLazyData = array('CreatedBy', 'CreateDate', 'ModifiedBy', 'ModifyDate', 'Size');
+	protected $_loadLazyData = array('CreatedBy', 'CreateDate', 'ModifiedBy', 'ModifyDate');
 	
 	/**
 	 * [alias => [title, pubdate]]
@@ -194,6 +198,14 @@ abstract class BContent extends BObject
 	}
 	
 	/**
+	 * @return string
+	 */
+	public function getMimeType()
+	{
+		return $this->MimeType;
+	}
+	
+	/**
 	 * @param string $value
 	 */
 	public function setTitle($value)
@@ -249,15 +261,22 @@ abstract class BContent extends BObject
 		return $this->CreatedBy;
 	}
 	
-		/**
+	/**
 	 * @return string
 	 */
 	public function getModifiedBy()
 	{
 		return $this->ModifiedBy;
 	}
+	/**
+	 * @return int
+	 */
+	public function getSize()
+	{
+		return $this->Size;
+	}
 	
-/**
+	/**
 	 * @return int
 	 */
 	public function getPubDate()
