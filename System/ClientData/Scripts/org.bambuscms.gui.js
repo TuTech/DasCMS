@@ -106,4 +106,15 @@ org.bambuscms.gui.switchButtonClick = function(id, state, clickedElement)
 		org.bambuscms.gui.switchButtonCallBacks[name][state](clickedElement);
 	}
 }
+org.bambuscms.gui.hideCommandPanels = function(panels)
+{
+	for(var i = 0; i < panels.length; i++)
+	{
+		var pan = 'CommandBarPanel_'+panels[i];
+		if($(pan))
+		{
+			$(pan).style.display = 'none';
+		}
+	}
+}
 

@@ -45,6 +45,8 @@ abstract class BAppController
 	            return new ATemplates();
             case 'org.bambuscms.applications.feeds':
 	            return new AFeeds();
+            case 'org.bambuscms.applications.files':
+	            return new AFiles();
             default:
 	            throw new XUndefinedException('controller not found');
 	    }

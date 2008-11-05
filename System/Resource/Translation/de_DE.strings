@@ -534,6 +534,11 @@ use_database	Datenbank benutzen
 database_table_prefix	Tabellen Präfix
 config_saved	Konfiguration gesichert
 download	Herunterladen
+attribute	Eigenschaft
+attributes	Eigenschaften
+md5_sum	MD5 Prüfsumme
+mime_type	MIME-Typ
+original_file_name	Ursprünglicher Dateiname
 describe_site	Webseite
 css_saved	CSS gespeichert
 describe_jump	Sprungmarke (Linkt zu &lt;a name=&quot;xyz&quot;&gt;&lt;/a&gt;)

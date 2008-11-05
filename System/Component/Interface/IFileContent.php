@@ -3,7 +3,6 @@ interface IFileContent
 {
     const ENCLOSURE_URL = '%sfile.php?get=%s';
     public function getFileName();// style.css
-    public function getMimeType();// text/css
     public function getType();// css
     public function getExtraSmallIcon();// 16x16 image url
     public function getSmallIcon();// 22x22 image url

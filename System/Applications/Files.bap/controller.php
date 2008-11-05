@@ -1,4 +1,6 @@
 <?php
+$AppController = BAppController::getControllerForID('org.bambuscms.applications.files');
+
 $succesfullUpload = false;
 if(RFiles::has('CFile') && PAuthorisation::has('org.bambuscms.content.cfile.create')){ 
 //create here
@@ -31,4 +33,32 @@ if(RSent::get('action') == 'delete' && PAuthorisation::has('org.bambuscms.conten
 		}
 	}
 }
+$File = null;
+if(RURL::hasValue('edit'))
+{
+    try{
+        $File = CFile::Open(RURL::get('edit'));
+    }catch (Exception $e){/*$File stays null*/}
+}
+printf(
+    '<form method="post" id="documentform" name="documentform" action="%s">'
+	,SLink::link(array('edit' => (isset($File) && $File instanceof CFile)? $File->Alias :''))
+);
+if($File != null && $File instanceof BContent)
+{
+	try{
+		echo new WSidebar($File);
+		if($File->isModified())
+		{
+			$File->Save();
+		}
+	}
+	catch(Exception $e){
+		echo $e->getTraceAsString();
+	}	
+}
+
+$ofd = new WOpenDialog($AppController, $File);
+$ofd->autoload(false);
+echo $ofd;
 ?>

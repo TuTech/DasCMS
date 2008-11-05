@@ -87,14 +87,27 @@ class WSettings extends BWidget implements ISidebarWidget
 		$meta = array('Alias', 'PubDate','ModifyDate','ModifiedBy', 'CreateDate', 'CreatedBy', 'Size');
 		foreach ($meta as $key) 
 		{
+		    $val = '-';
+		    if(isset($this->targetObject->{$key}) && strlen($this->targetObject->{$key}) > 0) 
+		    {
+		        if(substr($key,-4) == 'Date') 
+		        {
+		            $val = date('r',$this->targetObject->{$key});
+		        }
+		        elseif(substr($key,-4) == 'Size')
+		        {
+		            $val = DFileSystem::formatSize($this->targetObject->{$key});
+		        }
+		        else
+		        {
+		            $val = htmlentities($this->targetObject->{$key}, ENT_QUOTES, 'UTF-8');
+		        }
+		    }
 			$html .= sprintf(
 				"<tr><th>%s</th><td>%s</td></tr>\n"
 				, $key
-				, (isset($this->targetObject->{$key}) && strlen($this->targetObject->{$key}) > 0) 
-					? (substr($key,-4) == 'Date' 
-						? date('r',$this->targetObject->{$key}) 
-						: $this->targetObject->{$key})
-					: '-');
+				, $val
+			);
 		}
 		
 		$html .= '</table>';

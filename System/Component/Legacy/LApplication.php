@@ -129,6 +129,7 @@ class LApplication extends BLegacy implements IShareable
                 {
                     case('spacer'):
                         $panelName = isset($task['name']) ?  SLocalization::get($task['name']) : '';
+                        $panelID = isset($task['name']) ?  $task['name'] : '';
                         if(!$closed)
                         {
                             $CommandBar .= '</tr></table>';
@@ -169,8 +170,8 @@ class LApplication extends BLegacy implements IShareable
                         if($closed)
                         {
                             $CommandBar .= sprintf(
-                                '<table cellspacing="0" id="%s" class="CommandBarPanel" title="%s"><tr><th class="CommandBarPanelStart"></th>'
-                                ,$panelName
+                                '<table cellspacing="0" id="CommandBarPanel_%s" class="CommandBarPanel" title="%s"><tr><th class="CommandBarPanelStart"></th>'
+                                ,$panelID
                                 ,htmlentities($panelName, ENT_QUOTES, 'UTF-8')
                             );
                             $closed = false;

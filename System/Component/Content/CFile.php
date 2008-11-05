@@ -50,7 +50,6 @@ class CFile
 	    DFileSystem::SaveData('./Content/CFile/'.$dbid.'.meta.php',$metadata);
 	    $file = new CFile($alias);
 	    $file->Size = $metadata['size'];
-	    $file->PubDate = time();
 	    $file->saveMetaToDB();
 	    new EContentCreatedEvent($file, $file);
 	    return $file;
@@ -165,6 +164,11 @@ class CFile
 		}
 	}
 	
+    public function getMD5Sum()
+    {
+        return $this->metadata['md5'];
+    }
+    
 	//IFileContent
 	public function getFileName()
 	{

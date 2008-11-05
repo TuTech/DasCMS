@@ -58,7 +58,7 @@ class QCFeed extends BQuery
             $sql
             ,$feedID
             ,strtolower($orderBY) == 'title' ? 'Contents.title' : 'Contents.pubDate'
-			,$order ? 'ASC' : 'DESC'
+			,$order ? 'DESC' : 'ASC'
 			,$itemsPerPage
             ,($page-1)*$itemsPerPage 
         );
