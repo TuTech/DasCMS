@@ -30,7 +30,6 @@ class CTemplate
 	    $SCI = SContentIndex::alloc()->init();
 	    list($dbid, $alias) = $SCI->createContent('CTemplate', $title);
 	    DFileSystem::Save(SPath::TEMPLATES.$dbid.'.php', ' ');
-	    //FIXME compile new tpl
 	    $tpl = new CTemplate($alias);
 	    new EContentCreatedEvent($tpl, $tpl);
 	    return $tpl;

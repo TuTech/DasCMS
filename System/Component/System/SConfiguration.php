@@ -168,7 +168,7 @@ class SConfiguration
      * @param string $key
      * @param mixed $value
      * @return bool success
-     * @todo add throws
+     * @throws XUndefinedIndexException
      */
     public function Set($key, $value)
     {
@@ -250,7 +250,6 @@ class SConfiguration
      */
     public function OptionsFor($key)
     {
-    	//TODO entend & interface workaround
     	$t = self::$types[self::$typeof[$key]];
     	if($t == 'implementation')
     	{
@@ -278,7 +277,7 @@ class SConfiguration
      * @param string $type
      * @param string $defaultValue
      * @param array $options
-     * @todo add throws
+     * @throws Exception
      */
 	public function Create($key, $type, $defaultValue = null, $options = null)
 	{

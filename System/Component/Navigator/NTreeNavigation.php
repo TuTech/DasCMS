@@ -146,7 +146,7 @@ class NTreeNavigation
     	return array_keys(self::$index);
     }
     
-    //@todo split nav data - one file per nav 
+    //FIXME split nav data - one file per nav 
     
     public static function Save()
     {

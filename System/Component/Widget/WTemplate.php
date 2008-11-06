@@ -22,8 +22,6 @@ class WTemplate extends BWidget
     private $environment = array();
     private static $globalEnviornment = array();
     
-    //@todo WTemplate::available(WTemplate::SYSTEM);
-    
     public function __construct($target, $scope = null)
     {       
         $this->ID = ++parent::$CurrentWidgetID;

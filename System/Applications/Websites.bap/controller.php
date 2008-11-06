@@ -72,7 +72,6 @@ if(isset($Page))
 		echo new WSidebar($Page);
 		if($Page instanceof CPage && $Page->isModified())
 		{
-			//FIXME - do not do allways
 			$Page->Save();
 		}
 	}

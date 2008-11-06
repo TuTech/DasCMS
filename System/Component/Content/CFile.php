@@ -124,16 +124,19 @@ class CFile
 	 */
 	public function getContent()
 	{
-        return sprintf('<div class="CFile">'.
-                ''.
-                    '<img src="%s" alt="%s" />'.
+        return sprintf(
+            '<div class="CFile">'.
+                '<img class="CFile-icon"src="%s" alt="%s" />'.
+                '<div class="CFile-description">%s</div>'.
+                '<div class="CFile-meta">'.
                     '<p>File name: %s</p>'.
                     '<p>Size: %s</p>'.
                     '<p><a href="file.php?get=%s">%s</a></p>'.
-                ''.
+                '</div>'.
             '</div>'
             ,WIcon::pathForMimeIcon($this->getMimeType(), WIcon::MEDIUM)
             ,$this->getMimeType()
+            ,$this->getDescription()
             ,$this->getFileName()
             ,DFileSystem::formatSize($this->getSize())
             ,$this->getAlias()

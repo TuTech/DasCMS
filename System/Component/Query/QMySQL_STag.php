@@ -72,7 +72,8 @@ class QSTag extends BQuery
 				array(
 					$DB->escape($dbcid),
 					"(SELECT tagID FROM Tags WHERE tag = '".$DB->escape($tag)."')"
-				)
+				),
+				true
 			);
 		}
     }

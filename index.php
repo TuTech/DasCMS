@@ -8,7 +8,6 @@
 * Description: Bambus Website generator
 * Version:     0.13.0
 ************************************************/
-//Bambus uses UTF-8 and sessions will allways be active... TODO: check if sessions are necessary
 header('Content-Type: text/html; charset=utf-8');
 require_once('./System/Component/Loader.php');
 RSession::start();
@@ -66,11 +65,5 @@ catch(Exception $e)
 {
     echo 'failed to load page generator';
 }
-////FIXME template from conf
-//$tpl = new TEngine('new_template', BTemplate::CONTENT, WTemplate::getGlobalEnvironment());
-//SProfiler::finish($tok);
-//$tok2 = SProfiler::profile(__FILE__, __LINE__,'template parsing');
-//echo $tpl->execute(array());
-//SProfiler::finish($tok2);
 SProfiler::finish($tok);
 ?>

@@ -33,7 +33,6 @@ class WSettings extends BWidget implements ISidebarWidget
 	 */
 	public function supportsObject($object)
 	{
-		//@todo remove chimera
 		return ($object !== null && ($object instanceof BContent));
 	}
 	

@@ -123,6 +123,7 @@ class LApplication extends BLegacy implements IShareable
             $closed = true;
             $panelName = '';
             $CommandBar = '<div class="CommandBar">';
+            $panelID = '';
             foreach($tasks as $task)
             {
                 switch($task['type'])

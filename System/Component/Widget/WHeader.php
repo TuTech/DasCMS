@@ -105,7 +105,6 @@ class WHeader extends BWidget
 	
 	public static function setBase($to)
 	{
-		//@todo validate url
 		self::$base = $to;
 	}
 	

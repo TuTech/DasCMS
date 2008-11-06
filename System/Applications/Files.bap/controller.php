@@ -47,6 +47,10 @@ printf(
 if($File != null && $File instanceof BContent)
 {
 	try{
+    	if(RSent::has('filename'))
+    	{
+    		$File->Title = RSent::get('filename');
+    	}
 		echo new WSidebar($File);
 		if($File->isModified())
 		{

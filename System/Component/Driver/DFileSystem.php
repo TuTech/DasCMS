@@ -65,15 +65,11 @@ class DFileSystem extends BDriver
 		chdir(constant('BAMBUS_CMS_ROOTDIR'));
 		//open path and return fp
 		//wait for locked 
-		
 		$openFile = null;
 		if(!file_exists($file) && $write == false)
 		{
 			throw new XFileNotFoundException('open failed',$file);
 		}
-		
-		
-		//FIXME FOPEN etc works? (was r+)
 		$openFile = @fopen($file,$write ? 'w+' : 'r+');
 		if(!$openFile)
 		{
@@ -185,17 +181,12 @@ class DFileSystem extends BDriver
 		{
 			throw new XFileNotFoundException('open failed',$dataFile);
 		}
-		
-		
-		//FIXME FOPEN etc works? (was r+)
 		$fp = @fopen($dataFile,'r');
 		if(!$fp)
 		{
 			throw new XFileLockedException('open failed ',$dataFile);
 		}
-		
 		self::lock($fp);
-		
 		$bin = null;
 		if(filesize($dataFile) > 0)
 		{

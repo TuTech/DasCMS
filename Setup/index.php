@@ -14,7 +14,6 @@ require_once('../System/Component/Loader.php');
 
 
 chdir(dirname(__FILE__));
-//FIXME in production: chdir('..');
 
 //is disable possible
 $self = file(__FILE__);
@@ -38,13 +37,12 @@ if(!$ENABLED)
 //disable self
 $self[9] = "\$ENABLED = false;\n";
 
-//FIXME debug: off
-//$fps = @fopen(__FILE__, 'w+');
-//if(!is_resource($fps) || !fwrite($fps,implode($self)))
-//{
-//	throw new Exception('Cound not write to setup-file. Script aborted for security reasons. You might need a new script.');
-//}
-//fclose($fps);
+$fps = @fopen(__FILE__, 'w+');
+if(!is_resource($fps) || !fwrite($fps,implode($self)))
+{
+	throw new Exception('Cound not write to setup-file. Script aborted for security reasons. You might need a new script.');
+}
+fclose($fps);
 
 
 /**

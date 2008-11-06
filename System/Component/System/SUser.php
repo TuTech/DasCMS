@@ -87,9 +87,10 @@ class SUser
             //null every key we got
             foreach($keyOrKeysOrNothing as$key)
             {
-                //TODO: check permissions
                 if(isset($this->applicationPreferences[$application][$key]))
+                {
                     unset($this->applicationPreferences[$application][$key]);
+                }
             }
         }
     }

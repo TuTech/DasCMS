@@ -132,7 +132,7 @@ class DSQL_MySQL extends DSQL
 			throw new Exception('no data given');
 		}
 		$sql .= implode(', ', $parts);
-		return $this->queryExecute($sql);//FIXME
+		return $this->queryExecute($sql);
 	}
 	
 	

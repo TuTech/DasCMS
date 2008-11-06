@@ -111,7 +111,7 @@ abstract class DSQL extends BDriver implements IShareable
 			}
 			$escapedValues[] = $block;
 		}
-		return $this->insertUnescaped($into,$escapedNames, $escapedValues);
+		return $this->insertUnescaped($into,$escapedNames, $escapedValues, $ignore);
 	}
 
 	/**

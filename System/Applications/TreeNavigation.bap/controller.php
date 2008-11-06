@@ -69,7 +69,6 @@ if($edit != null && RSent::has('1_p') && RSent::get('1_p') == '0')//parent of fi
 	catch(Exception $e)
 	{
 		SNotificationCenter::report('warning', $e->getMessage());
-		//@todo: report error
 	}
 }
 if(RSent::has('new_nav_name'))

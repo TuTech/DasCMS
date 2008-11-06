@@ -81,7 +81,7 @@ abstract class BContent extends BObject
 	public static function Index()
 	{
 	    throw new Exception('not implemented');
-	    //FIXME
+	    //FIXME BContent::Index() not implemented
 	}
 
 	/**

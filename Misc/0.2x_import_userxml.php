@@ -212,7 +212,6 @@ class CFSGroup{
 	 * plain array of other groups  
 	 * wildcard * allowed at end of names e.g. APP_* 
 	 * inherits all permissions
-	 * TODO check recursion on implement 
 	 *
 	 * @var array
 	 */
