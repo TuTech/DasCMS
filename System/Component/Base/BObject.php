@@ -9,6 +9,8 @@
  */
 abstract class BObject
 {
+    private static $_classIndex = null;
+    
 	/**
 	 * load a controller for given app id
 	 *
@@ -19,32 +21,15 @@ abstract class BObject
 	 */
 	public static function InvokeObjectByID($ID)
 	{
-	    //FIXME use some kind of config file
-	    switch($ID)
+	    if(self::$_classIndex == null)
 	    {
-	        case 'org.bambuscms.applications.websiteeditor':
-	            return new AWebsiteEditor();
-	        case 'org.bambuscms.applications.templateeditor':
-	            return new ATemplateEditor();
-	        case 'org.bambuscms.applications.stylesheeteditor':
-	            return new AStylesheetEditor();
-	        case 'org.bambuscms.applications.treenavigationeditor':
-	            return new ATreeNavigationEditor();
-	        case 'org.bambuscms.applications.usereditor':
-	            return new AUserEditor();
-	        case 'org.bambuscms.applications.groupmanager':
-	            return new AGroupManager();
-	        case 'org.bambuscms.view.spore':
-	            return new VSpore();
-	        case 'org.bambuscms.navigation.treenavigation':
-	            return NTreeNavigation::alloc()->init();
-	        case 'org.bambuscms.navigation.listnavigation':
-	            return NListNavigation::alloc()->init();
-	        case 'org.bambuscms.applications.templates':
-	            return new ATemplates();
-            default:
-	            throw new XUndefinedException('controller not found');
+	        self::$_classIndex = QBObject::preloadClassLookup();
 	    }
+	    if(!array_key_exists($ID, self::$_classIndex))
+	    {
+	        throw new XUndefinedIndexException('class id not indexed');
+	    }
+	    return self::InvokeObjectByDynClass(self::$_classIndex[$ID]);
 	}
 
 	//do path resolve

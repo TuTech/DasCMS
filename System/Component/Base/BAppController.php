@@ -25,31 +25,12 @@ abstract class BAppController
 	    {
 	        throw new XPermissionDeniedException($appID);
 	    }
-	    
-	    //FIXME use db
-	    switch($appID)
+	    $appObject = BObject::InvokeObjectByID($appID);
+	    if (!$appObject instanceof BAppController) 
 	    {
-	        case 'org.bambuscms.applications.websiteeditor':
-	            return new AWebsiteEditor();
-	        case 'org.bambuscms.applications.templateeditor':
-	            return new ATemplateEditor();
-	        case 'org.bambuscms.applications.stylesheeteditor':
-	            return new AStylesheetEditor();
-	        case 'org.bambuscms.applications.treenavigationeditor':
-	            return new ATreeNavigationEditor();
-	        case 'org.bambuscms.applications.usereditor':
-	            return new AUserEditor();
-	        case 'org.bambuscms.applications.groupmanager':
-	            return new AGroupManager();
-            case 'org.bambuscms.applications.templates':
-	            return new ATemplates();
-            case 'org.bambuscms.applications.feeds':
-	            return new AFeeds();
-            case 'org.bambuscms.applications.files':
-	            return new AFiles();
-            default:
-	            throw new XUndefinedException('controller not found');
+	    	throw new XUndefinedException('not an app controller');
 	    }
+	    return $appObject;
 	}
 	
 	/**
