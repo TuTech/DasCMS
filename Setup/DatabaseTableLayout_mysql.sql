@@ -74,7 +74,7 @@ Contents(
         DEFAULT '',
     INDEX contents_title_desc (title, description(32)),
     INDEX (type),
-    INDEX (mimetype),
+    INDEX (mimetypeREL),
     INDEX (pubDate)
 )
 ENGINE = InnoDB 
@@ -183,6 +183,10 @@ Users(
         varchar(100)
         NOT NULL
         DEFAULT '-',
+	email
+        varchar(100)
+        NOT NULL
+        DEFAULT '',
     primaryGroup
         INTEGER 
         NOT NULL,
@@ -300,6 +304,88 @@ Mimetypes(
 ENGINE = InnoDB 
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
+
+-- permission tags
+CREATE TABLE IF NOT EXISTS 
+PermissionTags(
+    permissionTagID 
+        INTEGER 
+		PRIMARY KEY
+		AUTO_INCREMENT
+        NOT NULL,
+    tagREL 
+		INTEGER
+		NOT NULL,
+	INDEX (tagREL)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- user and group relation
+CREATE TABLE IF NOT EXISTS 
+relPermissionTagsGroups(
+    permissionTagREL 
+        INTEGER 
+        NOT NULL,
+    groupREL 
+        INTEGER 
+        NOT NULL,
+    INDEX (permissionTagREL),
+    INDEX (groupREL)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- user and group relation
+CREATE TABLE IF NOT EXISTS 
+relPermissionTagsUsers(
+    permissionTagREL 
+        INTEGER 
+        NOT NULL,
+    userREL 
+        INTEGER 
+        NOT NULL,
+    INDEX (permissionTagREL),
+    INDEX (userREL)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- -------------------
+-- Foreign keys for relPermissionTagsUsers
+ALTER TABLE 
+relPermissionTagsUsers
+    ADD FOREIGN KEY (permissionTagREL)
+        REFERENCES PermissionTags(permissionTagID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION,
+    ADD FOREIGN KEY (userREL)
+        REFERENCES Users(userID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION;
+
+-- Foreign keys for relPermissionTagsGroups
+ALTER TABLE 
+relPermissionTagsGroups
+    ADD FOREIGN KEY (permissionTagREL)
+        REFERENCES PermissionTags(permissionTagID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION,
+    ADD FOREIGN KEY (groupREL)
+        REFERENCES Groups(groupID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION;
+
+-- Foreign keys for PermissionTags
+ALTER TABLE 
+PermissionTags
+    ADD FOREIGN KEY (tagREL)
+        REFERENCES Tags(tagID)
+        ON DELETE RESTRICT
+        ON UPDATE NO ACTION;
 
 -- Foreign keys for relFeedsTags
 ALTER TABLE 
