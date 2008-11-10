@@ -1,5 +1,5 @@
 <?php
-class TCmdHeader
+class TCmdStats
     extends 
         BTemplate
     implements 
@@ -45,16 +45,22 @@ class TCmdHeader
     
     public function __toString()
     {
+        global $_SERVER;
+        list($a, $b, $c, $d) = explode('.', $_SERVER['REMOTE_ADDR']);
+        
+        $num = (sprintf('0x%02x%02x%02x%02x',$a, $b, $c, $d));
         return sprintf("
 <!-- #Stats#
-	%12s%10d
-	%12s%10d
-	%12s%10d
+	%12s%s
+	%12s%s
+	%12s%s
+	%12s%s
  -->
 "
-			,'Mem:',memory_get_usage()
-			,'Mem (real):',memory_get_usage(true)
-			,'Mem (peak):',memory_get_peak_usage(true)
+			,'Mem: ',DFileSystem::formatSize(memory_get_usage())
+			,'Mem (real): ',DFileSystem::formatSize(memory_get_usage(true))
+			,'Mem (peak): ',DFileSystem::formatSize(memory_get_peak_usage(true))
+			,'ipnum: ', $num
 			);
     }
 }

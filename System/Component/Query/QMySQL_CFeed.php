@@ -36,19 +36,39 @@ class QCFeed extends BQuery
     public static function setFilterTags($feedId, array $tags)
     {
         $DB = BQuery::Database();
-         $DB->queryExecute(sprintf("DELETE FROM relFeedsTags WHERE feedREL = %d",$feedId));
-        foreach ($tags as $tag) 
-		{
-			$DB->insertUnescaped(
-				'relFeedsTags',
-				array('feedREL', 'tagREL'),
-				array(
-					$DB->escape($feedId),
-					"(SELECT tagID FROM Tags WHERE tag = '".$DB->escape($tag)."')"
-				),
-				true
-			);
-		}        
+        try{
+            $DB->queryExecute(sprintf("DELETE FROM relFeedsTags WHERE feedREL = %d",$feedId));
+			
+            $tagval = array();
+			foreach ($tags as $tag) 
+			{
+				$tagval[] = array($tag);
+			}
+			if(count($tagval) > 0)
+			{
+				BQuery::Database()->insert('Tags',array('tag'),$tagval, true);
+			}	
+				
+            foreach ($tags as $tag) 
+    		{
+    			$DB->insertUnescaped(
+    				'relFeedsTags',
+    				array('feedREL', 'tagREL'),
+    				array(
+    					$DB->escape($feedId),
+    					"(SELECT tagID FROM Tags WHERE tag = '".$DB->escape($tag)."')"
+    				),
+    				true
+    			);
+    		}       
+        }
+        catch (Exception $e)
+	    {
+	        echo "\n\n<!--Exception\n".$e->getFile().'@'.$e->getLine()."\n";
+	        echo $e->getMessage()."\n";
+	        echo $e->getTraceAsString();
+	        echo " -->\n";
+	    } 
     }
     
     /**

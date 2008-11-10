@@ -36,7 +36,6 @@ class SFeedKeeper
     
 	public function HandleContentChangedEvent(EContentChangedEvent $e)
 	{
-	    
 	    try
 	    {
 	        $CID = $e->Content->Id;

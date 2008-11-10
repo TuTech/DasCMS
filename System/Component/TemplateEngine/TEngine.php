@@ -27,7 +27,6 @@ class TEngine extends BTemplate
     	        $object->setUp($environment);
         	}
         }
-        
     }
     
     /**

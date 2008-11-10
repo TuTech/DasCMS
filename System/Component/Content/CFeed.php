@@ -132,6 +132,7 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
     //captions
     public function changeCaption($forType, $andKey, $toPrefix, $andSuffix)
     {
+        
         if(!isset($this->_data[self::CAPTIONS][$forType]) || !isset($this->_data[self::CAPTIONS][$forType][$andKey]))
         {
             throw new XArgumentException(sprintf('key /captions/%s/%s not found', $forType, $andKey));
