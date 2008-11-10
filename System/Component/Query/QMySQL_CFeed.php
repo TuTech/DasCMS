@@ -13,9 +13,42 @@ class QCFeed extends BQuery
 					LEFT JOIN Contents ON (relFeedsContents.contentREL = Contents.contentID)
 				WHERE 
 					relFeedsContents.feedREL = %d
+					AND relFeedsContents.feedREL != relFeedsContents.contentREL
 					AND Contents.pubDate > 0
 					AND Contents.pubDate <= NOW()";
         return BQuery::Database()->query(sprintf($sql, $feedID), DSQL::NUM);
+    }
+    
+    public static function setFeedType($feedId, $filterType)
+    {
+        $type = array_search($filterType, array('',CFeed::ALL, CFeed::MATCH_SOME, CFeed::MATCH_ALL, CFeed::MATCH_NONE));
+        $sql = 
+            "INSERT INTO Feeds 
+					(contentREL, filterType, lastUpdate, associatedItems)
+				VALUES 
+					(%d, %d, NOW(), 0)
+				ON DUPLICATE KEY UPDATE 
+                    filterType = %d,
+                    lastUpdate = NOW()";
+        BQuery::Database()->queryExecute(sprintf($sql, $feedId, $type, $type));
+    }
+    
+    public static function setFilterTags($feedId, array $tags)
+    {
+        $DB = BQuery::Database();
+         $DB->queryExecute(sprintf("DELETE FROM relFeedsTags WHERE feedREL = %d",$feedId));
+        foreach ($tags as $tag) 
+		{
+			$DB->insertUnescaped(
+				'relFeedsTags',
+				array('feedREL', 'tagREL'),
+				array(
+					$DB->escape($feedId),
+					"(SELECT tagID FROM Tags WHERE tag = '".$DB->escape($tag)."')"
+				),
+				true
+			);
+		}        
     }
     
     /**
@@ -48,6 +81,7 @@ class QCFeed extends BQuery
     				LEFT JOIN Tags ON (relContentsTags.tagREL = Tags.tagID)
 				WHERE
 					relFeedsContents.feedREL = %d
+					AND relFeedsContents.feedREL != relFeedsContents.contentREL
 					AND Contents.pubDate > 0
 					AND Contents.pubDate <= NOW()
 				GROUP BY Aliases.alias
@@ -94,6 +128,7 @@ class QCFeed extends BQuery
     				LEFT JOIN Mimetypes ON (Contents.mimetypeREL = Mimetypes.mimetypeID)
 				WHERE
 					relFeedsContents.feedREL = %d
+					AND relFeedsContents.feedREL != relFeedsContents.contentREL
 					AND Contents.pubDate > 0
 					AND Contents.pubDate <= NOW()
 				GROUP BY Aliases.alias

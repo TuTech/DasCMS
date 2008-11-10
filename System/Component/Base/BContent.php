@@ -112,6 +112,18 @@ abstract class BContent extends BObject
         }
 	}
 	
+	public static function Access($alias, BObject $from)
+	{
+	    $o = self::Open($alias);
+	    $e = new EWillAccessContentEvent($from, $o);
+	    if($e->hasContentBeenSubstituted())
+	    {
+	        $o = $e->Content;
+	    }
+	    $e = new EContentAccessEvent($from, $o);
+	    return $o;
+	}
+	
 	/**
 	 * Forwarder for getter functions
 	 *

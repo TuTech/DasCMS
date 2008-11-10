@@ -108,10 +108,10 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
                 'LinkTags' => false
             ),
             self::SETTINGS => array(
-                'ItemsPerPage' => 1,
+                'ItemsPerPage' => 10,
                 'MaxPages' => 1000,
                 'Filter' => array(),
-                'FilterMethod' => 'all',
+                'FilterMethod' => CFeed::ALL,
                 'TargetView' => '',
                 'SortOrder' => true,
                 'SortBy' => 'title'
@@ -507,8 +507,9 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
         		    $content = $data[$map[$key]];
         		    break;
                 case 'Content':
+                    $co = BContent::Access($data[$map['Alias']], $this);
                     $tag = 'div';
-                    $content = 'not implemented';
+                    $content = $co->getContent();
                     break;
                 case 'Link':
         		    $content = sprintf('<a href="%s">%s</a>', $this->link($data[$map['Alias']], true), implode($this->caption(self::ITEM,'Link')));
@@ -612,14 +613,16 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
 		if($this->isModified())
 		{
 			DFileSystem::SaveData($this->StoragePath($this->Id),$this->_data);
-		}
-		$this->saveMetaToDB();
-		new EContentChangedEvent($this, $this);
-		if($this->_origPubDate != $this->PubDate)
-		{
-			$e = ($this->__get('PubDate') == 0)
-				? new EContentRevokedEvent($this, $this)
-				: new EContentPublishedEvent($this, $this);
+    		QCFeed::setFeedType($this->Id,$this->option(CFeed::SETTINGS, 'FilterMethod'));
+    		QCFeed::setFilterTags($this->Id, $this->option(CFeed::SETTINGS, 'Filter'));
+    		$this->saveMetaToDB();
+    		new EContentChangedEvent($this, $this);
+    		if($this->_origPubDate != $this->PubDate)
+    		{
+    			$e = ($this->__get('PubDate') == 0)
+    				? new EContentRevokedEvent($this, $this)
+    				: new EContentPublishedEvent($this, $this);
+    		}
 		}
 	}
 	

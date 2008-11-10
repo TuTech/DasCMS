@@ -69,7 +69,7 @@ class CError extends BContent implements IGlobalUniqueId
 			'PubDate' => time(),
 			'Size' => 0,
 			'Title' => 'ERROR '.$this->Id.' - '.$dat[$this->Id],
-			'Content' => sprintf('<div class="%s"><h1>ERROR %d - %s</h1></div>',get_class($this),$this->Id,$dat[$this->Id])
+			'Content' => sprintf('<div class="%s"><b>ERROR %d - %s</b></div>',get_class($this),$this->Id,$dat[$this->Id])
 		);
 		foreach ($defaults as $var => $default) 
 		{

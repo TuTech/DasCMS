@@ -45,6 +45,7 @@ class TCmdHeader
     
     public function __toString()
     {
+        //TODO not working properly with content feeds
         $contents = SContentWatch::accessedContent();
         $descriptions = array();
         $titles = array();
@@ -52,7 +53,7 @@ class TCmdHeader
         $feeds = array();
         foreach ($contents as $c) 
         {
-        	$titles[] = $c->Title;
+        	$titles[$c->Alias] = $c->Title;
         	$tags = array_merge($tags, $c->Tags);
         	$descriptions[] = $c->Description;
         	if($c instanceof IGeneratesFeed)
@@ -91,7 +92,7 @@ class TCmdHeader
             <meta name=\"generator\" content=\"%s\" />
             <meta name=\"keywords\" content=\"%s\" />
             <link rel=\"icon\" href=\"%s\" />
-            <link rel=\"stylesheet\" href=\"./css.php?v=%d.css\" type=\"text/css\" />%s
+            <link rel=\"stylesheet\" href=\"./css.php?v=%d.css\" type=\"text/css\" />\n%s
         </head>"//<script type=\"text/javascript\" src=\"./js.php?v=%d.js\"></script>
 			,$this->encode($title)
             ,$this->encode($title)

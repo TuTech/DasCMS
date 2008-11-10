@@ -9,7 +9,7 @@ RSession::start();
 PAuthentication::required();
 try
 {
-    $feed = RURL::get('feed');
+    $feed = RURL::get('rss');
     $content = BContent::OpenIfPossible($feed);
     $pubDate = $content->getPubDate();
     if(empty($pubDate) || $pubDate > time())

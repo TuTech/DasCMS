@@ -1,7 +1,7 @@
 <?php
 interface IFileContent
 {
-    const ENCLOSURE_URL = '%sfile.php?get=%s';
+    const ENCLOSURE_URL = '%sfile.php/get/%s';
     public function getFileName();// style.css
     public function getType();// css
     public function getExtraSmallIcon();// 16x16 image url

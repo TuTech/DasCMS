@@ -227,7 +227,7 @@ relUsersGroups(
         INTEGER 
         NOT NULL,
     INDEX (userREL),
-    INDEX (groupREL)
+    UNIQUE (groupREL, userREL)
 )
 ENGINE = InnoDB 
 CHARACTER SET utf8 

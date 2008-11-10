@@ -13,7 +13,7 @@ class QSFeedKeeper extends BQuery
     
     public static function setFeedType($feedId, $filterType)
     {
-        $type = array_search($filterType, array('','All', 'MatchSome', 'MatchAll', 'MatchNone'));
+        $type = array_search($filterType, array('',CFeed::ALL, CFeed::MATCH_SOME, CFeed::MATCH_ALL, CFeed::MATCH_NONE));
         $sql = 
             "INSERT INTO Feeds 
 					(contentREL, filterType, lastUpdate, associatedItems)
@@ -129,24 +129,24 @@ class QSFeedKeeper extends BQuery
             "INSERT
 				INTO relFeedsContents
 				SELECT %d AS feedREL, contentREL
-					FROM 
-					(
-						SELECT contentREL, COUNT(*) AS nrOfTags
-							FROM relContentsTags
-							WHERE tagREL IN
-							(
-								SELECT tagREL 
-									FROM relFeedsTags
-									WHERE feedREL = %d
-							)
-							GROUP BY nrOfTags
-					)
-					WHERE nrOfTags = 
-					(
-						SELECT COUNT(*) 
-							FROM relFeedsTags
-							WHERE feedREL = %d
-					)";
+                    FROM 
+                    (
+                        SELECT contentREL, COUNT(*) AS nrOfTags
+                            FROM relContentsTags
+                            WHERE tagREL IN
+                            (
+                                SELECT tagREL 
+                                FROM relFeedsTags	
+                                WHERE feedREL = %d
+                            )
+                            GROUP BY contentREL
+                    ) AS derived
+                    WHERE derived.nrOfTags = 
+                    (
+                        SELECT COUNT(*) 
+                        FROM relFeedsTags
+                        WHERE feedREL = %d
+                    )";
         BQuery::Database()->queryExecute(sprintf($sql, $feedId, $feedId, $feedId));
     }
     
@@ -156,14 +156,17 @@ class QSFeedKeeper extends BQuery
         $sql = 
             "INSERT 
 				INTO relFeedsContents
-				SELECT %d AS feedREL, contentREL
-					FROM relContentsTags
-					WHERE tagREL NOT IN
-					(
-						SELECT tagREL 
-							FROM relFeedsTags
-							WHERE feedREL = %d
-					)";
+				SELECT DISTINCT %d AS feedREL, contentID AS contentREL 
+					FROM Contents LEFT 
+					JOIN relContentsTags ON (Contents.contentID = relContentsTags.contentREL)
+					WHERE 
+    					ISNULL(tagREL) 
+    					OR tagREL NOT IN
+    					(
+    						SELECT tagREL 
+    							FROM relFeedsTags
+    							WHERE feedREL = %d
+    					)";
         BQuery::Database()->queryExecute(sprintf($sql, $feedId, $feedId));
     }
 }

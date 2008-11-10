@@ -53,15 +53,19 @@ class SFeedKeeper
 	            switch($type)
 	            {
 	                case CFeed::ALL:
+	                    SNotificationCenter::report('message','assignItemsUsingAll');
 	                    QSFeedKeeper::assignItemsUsingAll($CID);
 	                    break;
 	                case CFeed::MATCH_ALL:
+	                    SNotificationCenter::report('message','assignItemsUsingMatchAll');
 	                    QSFeedKeeper::assignItemsUsingMatchAll($CID);
 	                    break;
 	                case CFeed::MATCH_SOME:
+	                    SNotificationCenter::report('message','assignItemsUsingMatchSome');
 	                    QSFeedKeeper::assignItemsUsingMatchSome($CID);
 	                    break;
 	                case CFeed::MATCH_NONE:
+	                    SNotificationCenter::report('message','assignItemsUsingMatchNone');
 	                    QSFeedKeeper::assignItemsUsingMatchNone($CID);
 	                    break;
 	                default:SNotificationCenter::report('warning', 'unknown_type '.$type);

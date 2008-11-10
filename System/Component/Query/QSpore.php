@@ -213,21 +213,8 @@ array objectid => spore
 			$alias = self::$spores[$this->name][self::ERROR_CONTENT];
 			$content = SAlias::resolve($alias);
 		}
-		$this->content = $content;
-		if($this->content instanceof BContent)
-		{
-			$this->content->InvokedByQueryObject($this);
-		}
-		else
-		{
-			$this->content = CError::Open(404);
-		}
-		$e = new EWillAccessContentEvent($this, $this->content);
-		if($e->hasContentBeenSubstituted())
-		{
-		    $this->content = $e->Content;
-		}
-		$e = new EContentAccessEvent($this, $this->content);
+		$this->content = BContent::Access($content->Alias, $this);
+		$this->content->InvokedByQueryObject($this);
 		
 		//do once
 	}
