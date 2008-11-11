@@ -34,16 +34,22 @@ class QSUsersAndGroups extends BQuery
     
     public static function setUserData($user, $name, $email)
     {
+        $DB = BQuery::Database();
+        if(!$name && !$email)
+        {
+            return ;
+        }
+        $s = array();
+        if($name !== null) $s[] = sprintf("name = '%s'",$DB->escape($name));
+        if($email !== null) $s[] = sprintf("email = '%s'",$DB->escape($email));
         $sql = 
             "UPDATE Users 
-				SET name = '%s',
-					email = '%s'
+				SET 
+					%s 
 				WHERE login = '%s'";
-        $DB = BQuery::Database();
         return $DB->queryExecute(sprintf(
             $sql
-            ,$DB->escape($name)
-            ,$DB->escape($email)
+            ,implode(',', $s)
             ,$DB->escape($user)
         ));
     }
@@ -60,18 +66,23 @@ class QSUsersAndGroups extends BQuery
             ,$DB->escape($primaryGroup)
             ,$DB->escape($user)
         ));
-        $sql = 
-            "REPLACE INTO relUsersGroups 
-				(userREL, groupREL)
-			VALUES
-				((SELECT userID FROM Users WHERE user = '%s'),
-				(SELECT groupID FROM Groups WHERE groupName = '%s'))";
-        return $DB->queryExecute(sprintf(
-            $sql
-            ,$DB->escape($user)
-            ,$DB->escape($primaryGroup)
-        ));
-            
+        list($exists) = $DB->query(sprintf(
+            "SELECT COUNT(*) FROM Groups WHERE groupName = '%s'", 
+            $DB->escape($primaryGroup)))->fetch();
+        if($exists)
+        {
+            $sql = 
+                "REPLACE INTO relUsersGroups 
+    				(userREL, groupREL)
+    			VALUES
+    				((SELECT userID FROM Users WHERE login = '%s'),
+    				(SELECT groupID FROM Groups WHERE groupName = '%s'))";
+            return $DB->queryExecute(sprintf(
+                $sql
+                ,$DB->escape($user)
+                ,$DB->escape($primaryGroup)
+            ));
+        }   
     }
             
     public static function setGroupDescription($group, $description)
@@ -138,7 +149,7 @@ class QSUsersAndGroups extends BQuery
             foreach ($groups as $grp) 
             {
             	$sql .= sprintf("
-					%s((SELECT userID FROM Users WHERE user = '%s'),
+					%s((SELECT userID FROM Users WHERE login = '%s'),
 					(SELECT groupID FROM Groups WHERE groupName = '%s'))"
 					,$tok
 					,$DB->escape($user)

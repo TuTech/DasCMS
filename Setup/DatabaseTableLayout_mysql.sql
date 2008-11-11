@@ -189,7 +189,7 @@ Users(
         DEFAULT '',
     primaryGroup
         INTEGER 
-        NOT NULL,
+        NULL,
     INDEX (primaryGroup)
 )
 ENGINE = InnoDB 

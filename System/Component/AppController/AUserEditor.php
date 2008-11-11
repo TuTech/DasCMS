@@ -30,7 +30,7 @@ class AUserEditor
         $users = $SUsersAndGroups->listUsers();
         foreach(array_keys($users) as $item)
         {
-            $items[] = array($item, 'u:'.$item, 0, $SUsersAndGroups->getRealName($item));
+            $items[] = array(utf8_encode($item), 'u:'.utf8_encode($item), 0, utf8_encode($SUsersAndGroups->getRealName($item)));
         }
         $groups = $SUsersAndGroups->listGroups();
         foreach($groups as $item => $desc)
@@ -39,7 +39,7 @@ class AUserEditor
             {
                 continue;
             }
-            $items[] = array($item, 'g:'.$item, 1, $desc);
+            $items[] = array(utf8_encode($item), 'g:'.utf8_encode($item), 1, utf8_encode($desc));
         }
         $data = array(
             'title' => SLocalization::get('open'),

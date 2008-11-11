@@ -214,7 +214,9 @@ class SUser
         if(in_array($group, $this->groups))
         {
             $this->primaryGroup = $group;
+            return true;
         }
+        return false;
     }
     
     public function getPrimaryGroup()

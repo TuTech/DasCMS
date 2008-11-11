@@ -75,6 +75,7 @@ class SUsersAndGroups
         if(!isset($grouplist[$name]))
         {
             $grouplist[$name] = $description;
+            QSUsersAndGroups::createGroup($name, $description);
             $this->saveGroups();
             return true;
         }
@@ -93,6 +94,7 @@ class SUsersAndGroups
         {
             unset($grouplist[$name]);
             $this->saveGroups();
+            QSUsersAndGroups::deleteGroup($name);
             return true;
         }
         else
@@ -110,6 +112,7 @@ class SUsersAndGroups
         {
             $grouplist[$group]['description'] = $description;
             $this->saveGroups();
+            QSUsersAndGroups::setGroupDescription($group, $description);
             return true;
         }
         else
@@ -155,10 +158,31 @@ class SUsersAndGroups
             if($this->isUser($user))
             {
                 $userlist[$user]->joinGroups($this->checkGroups($groups));
+                
             }
         }
         $this->saveUsers();
+        $this->dbGroupUpdate($user);
         return true;
+    }
+    
+    private function dbGroupUpdate($user)
+    {
+        $groups = $this->userlist[$user]->listGroups();
+        $add = array();
+        foreach ($groups as $grp) 
+        {
+        	if(!$this->isSystemGroup($grp))
+        	{
+        	    $add[] = $grp;
+        	}
+        }
+        $pri = $this->userlist[$user]->getPrimaryGroup();
+        if(!$this->isGroup($pri))
+        {
+            $pri = '';
+        }
+        QSUsersAndGroups::setGroups($user, $add, $pri);
     }
     
     public function setPrimaryGroup($userOrUsers, $group)
@@ -173,7 +197,10 @@ class SUsersAndGroups
             {
                 if($this->isUser($user))
                 {
-                    $userlist[$user]->setPrimaryGroup($group);
+                    if($userlist[$user]->setPrimaryGroup($group))
+                    {
+                        QSUsersAndGroups::setPrimaryGroup($user, $group);
+                    }
                 }
             }
             $this->saveUsers();
@@ -241,6 +268,7 @@ class SUsersAndGroups
             }
         }
         $this->saveUsers();
+        $this->dbGroupUpdate($user);
         return true;    
     }
     
@@ -423,6 +451,7 @@ class SUsersAndGroups
         {
             $res = $userlist[$username]->setEmail($email);
             $this->saveUsers();
+            QSUsersAndGroups::setUserData($username, null, $email);
             return $res;
         }
         return false;
@@ -445,6 +474,7 @@ class SUsersAndGroups
         {
             $res = $userlist[$username]->setRealName($realName);
             $this->saveUsers();
+            QSUsersAndGroups::setUserData($username, $realName, null);
             return $res;
         }
         return false;
@@ -469,6 +499,7 @@ class SUsersAndGroups
         {
             //let the sublass do the work
             $userlist[$name] = new SUser($password,  $realName, $email, $this->checkGroups($groups), $permissions);
+            QSUsersAndGroups::createUser($name, $realName, $email, '');
             $this->saveUsers();
             return true;
         }
@@ -489,6 +520,7 @@ class SUsersAndGroups
             {
                 unset($userlist[$name]);
                 $this->saveUsers();
+                QSUsersAndGroups::deleteUser($name);
                 return true;
             }
             else
@@ -500,6 +532,7 @@ class SUsersAndGroups
                     {
                         unset($userlist[$name]);
                         $this->saveUsers();
+                        QSUsersAndGroups::deleteUser($name);
                         return true;
                     }
                 }
