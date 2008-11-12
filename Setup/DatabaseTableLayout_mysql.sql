@@ -315,8 +315,8 @@ PermissionTags(
         NOT NULL,
     tagREL 
 		INTEGER
-		NOT NULL,
-	INDEX (tagREL)
+		UNIQUE
+		NOT NULL
 )
 ENGINE = InnoDB 
 CHARACTER SET utf8 
@@ -332,7 +332,7 @@ relPermissionTagsGroups(
         INTEGER 
         NOT NULL,
     INDEX (permissionTagREL),
-    INDEX (groupREL)
+    UNIQUE (groupREL, permissionTagREL)
 )
 ENGINE = InnoDB 
 CHARACTER SET utf8 
@@ -348,7 +348,7 @@ relPermissionTagsUsers(
         INTEGER 
         NOT NULL,
     INDEX (permissionTagREL),
-    INDEX (userREL)
+    UNIQUE (userREL, permissionTagREL)
 )
 ENGINE = InnoDB 
 CHARACTER SET utf8 

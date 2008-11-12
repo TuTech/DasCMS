@@ -197,6 +197,8 @@
 	<true/>
 	<key>displayTimes</key>
 	<true/>
+	<key>endDate</key>
+	<string>20090202 11:00</string>
 	<key>flatNumbering</key>
 	<false/>
 	<key>groupTaskStyle</key>
@@ -504,6 +506,8 @@
 		<key>hoursPerYear</key>
 		<real>1920</real>
 	</dict>
+	<key>startDate</key>
+	<string>20081110 08:00</string>
 	<key>taskBarLabels</key>
 	<dict>
 		<key>Gantt View</key>
@@ -570,7 +574,7 @@
 	<key>taskDifferenceEngine</key>
 	<dict>
 		<key>nextId</key>
-		<integer>52</integer>
+		<integer>58</integer>
 	</dict>
 	<key>taskUserKeys</key>
 	<array/>
@@ -579,6 +583,7 @@
 		<dict>
 			<key>children</key>
 			<array>
+				<integer>52</integer>
 				<integer>7</integer>
 				<integer>13</integer>
 				<integer>15</integer>
@@ -609,6 +614,14 @@
 			<real>7200</real>
 			<key>effortDone</key>
 			<real>7200</real>
+			<key>forcedStart</key>
+			<string>20081110080000</string>
+			<key>isEffortFixed</key>
+			<false/>
+			<key>lockedEndDate</key>
+			<string>20081110080000</string>
+			<key>lockedStartDate</key>
+			<string>20081110080000</string>
 			<key>objectId</key>
 			<integer>1</integer>
 			<key>task</key>
@@ -630,8 +643,18 @@
 					<real>1</real>
 				</dict>
 			</array>
+			<key>doneSeconds</key>
+			<real>21600</real>
 			<key>effort</key>
-			<real>57600</real>
+			<real>21600</real>
+			<key>effortDone</key>
+			<real>21600</real>
+			<key>isEffortFixed</key>
+			<false/>
+			<key>lockedEndDate</key>
+			<string>20081112080000</string>
+			<key>lockedStartDate</key>
+			<string>20081112080000</string>
 			<key>objectId</key>
 			<integer>2</integer>
 			<key>prerequisites</key>
@@ -645,10 +668,12 @@
 			</array>
 			<key>task</key>
 			<string>SPermissionKeeper</string>
+			<key>workDone</key>
+			<real>6</real>
 			<key>workSeconds</key>
-			<real>57600</real>
+			<real>21600</real>
 			<key>workTime</key>
-			<real>16</real>
+			<real>6</real>
 		</dict>
 		<dict>
 			<key>assignments</key>
@@ -667,11 +692,24 @@
 			<key>effortDone</key>
 			<real>7200</real>
 			<key>forcedStart</key>
-			<string>T0:10:0:0</string>
+			<string>20081110100000</string>
+			<key>isEffortFixed</key>
+			<false/>
+			<key>lockedEndDate</key>
+			<string>20081110100000</string>
 			<key>lockedStartDate</key>
-			<string>T0:10:0:0</string>
+			<string>20081110100000</string>
 			<key>objectId</key>
 			<integer>3</integer>
+			<key>prerequisites</key>
+			<array>
+				<dict>
+					<key>id</key>
+					<integer>1</integer>
+					<key>kind</key>
+					<integer>2</integer>
+				</dict>
+			</array>
 			<key>task</key>
 			<string>User &amp; Group Table</string>
 			<key>workDone</key>
@@ -692,16 +730,14 @@
 				</dict>
 			</array>
 			<key>effort</key>
-			<real>12600</real>
-			<key>forcedStart</key>
-			<string>T8:8:0:0</string>
+			<real>14400</real>
 			<key>objectId</key>
 			<integer>4</integer>
 			<key>prerequisites</key>
 			<array>
 				<dict>
 					<key>id</key>
-					<integer>5</integer>
+					<integer>54</integer>
 					<key>kind</key>
 					<integer>2</integer>
 				</dict>
@@ -709,9 +745,9 @@
 			<key>task</key>
 			<string>Login</string>
 			<key>workSeconds</key>
-			<real>12600</real>
+			<real>14400</real>
 			<key>workTime</key>
-			<real>3.5</real>
+			<real>4</real>
 		</dict>
 		<dict>
 			<key>assignments</key>
@@ -723,39 +759,37 @@
 					<real>1</real>
 				</dict>
 			</array>
+			<key>doneSeconds</key>
+			<real>7200</real>
 			<key>effort</key>
-			<real>57600</real>
-			<key>forcedStart</key>
-			<string>T3:17:15:0</string>
+			<real>7200</real>
+			<key>effortDone</key>
+			<real>7200</real>
+			<key>isEffortFixed</key>
+			<false/>
+			<key>lockedEndDate</key>
+			<string>20081112150000</string>
+			<key>lockedStartDate</key>
+			<string>20081112150000</string>
 			<key>objectId</key>
 			<integer>5</integer>
 			<key>prerequisites</key>
 			<array>
 				<dict>
 					<key>id</key>
-					<integer>1</integer>
-					<key>kind</key>
 					<integer>2</integer>
-				</dict>
-				<dict>
-					<key>id</key>
-					<integer>2</integer>
-					<key>kind</key>
-					<integer>2</integer>
-				</dict>
-				<dict>
-					<key>id</key>
-					<integer>3</integer>
 					<key>kind</key>
 					<integer>2</integer>
 				</dict>
 			</array>
 			<key>task</key>
 			<string>Permission Tag Editor</string>
+			<key>workDone</key>
+			<real>2</real>
 			<key>workSeconds</key>
-			<real>57600</real>
+			<real>7200</real>
 			<key>workTime</key>
-			<real>16</real>
+			<real>2</real>
 		</dict>
 		<dict>
 			<key>children</key>
@@ -765,11 +799,23 @@
 				<integer>9</integer>
 				<integer>2</integer>
 				<integer>5</integer>
+				<integer>54</integer>
 				<integer>4</integer>
 				<integer>43</integer>
 			</array>
+			<key>forcedStart</key>
+			<string>20081110080000</string>
 			<key>objectId</key>
 			<integer>7</integer>
+			<key>prerequisites</key>
+			<array>
+				<dict>
+					<key>id</key>
+					<integer>52</integer>
+					<key>kind</key>
+					<integer>2</integer>
+				</dict>
+			</array>
 			<key>task</key>
 			<string>0.92</string>
 		</dict>
@@ -790,7 +836,13 @@
 			<key>effortDone</key>
 			<real>28800</real>
 			<key>forcedStart</key>
-			<string>T1:8:0:0</string>
+			<string>20081111080000</string>
+			<key>isEffortFixed</key>
+			<false/>
+			<key>lockedEndDate</key>
+			<string>20081111080000</string>
+			<key>lockedStartDate</key>
+			<string>20081111080000</string>
 			<key>objectId</key>
 			<integer>9</integer>
 			<key>prerequisites</key>
@@ -957,8 +1009,6 @@
 			</array>
 			<key>effort</key>
 			<real>43200</real>
-			<key>forcedStart</key>
-			<string>T15:8:0:0</string>
 			<key>objectId</key>
 			<integer>17</integer>
 			<key>prerequisites</key>
@@ -1001,8 +1051,6 @@
 			</array>
 			<key>effort</key>
 			<real>28800</real>
-			<key>forcedStart</key>
-			<string>T16:13:0:0</string>
 			<key>objectId</key>
 			<integer>18</integer>
 			<key>prerequisites</key>
@@ -1260,8 +1308,6 @@
 			</array>
 			<key>effort</key>
 			<real>28800</real>
-			<key>forcedStart</key>
-			<string>T10:13:0:0</string>
 			<key>objectId</key>
 			<integer>25</integer>
 			<key>prerequisites</key>
@@ -1337,8 +1383,6 @@
 			</array>
 			<key>effort</key>
 			<real>57600</real>
-			<key>forcedStart</key>
-			<string>T35:8:0:0</string>
 			<key>objectId</key>
 			<integer>27</integer>
 			<key>prerequisites</key>
@@ -1587,8 +1631,6 @@
 			</array>
 			<key>effort</key>
 			<real>144000</real>
-			<key>forcedStart</key>
-			<string>T65:12:0:0</string>
 			<key>objectId</key>
 			<integer>34</integer>
 			<key>style</key>
@@ -1622,8 +1664,6 @@
 			</array>
 			<key>effort</key>
 			<real>144000</real>
-			<key>forcedStart</key>
-			<string>T73:0:0:0</string>
 			<key>objectId</key>
 			<integer>35</integer>
 			<key>prerequisites</key>
@@ -1699,8 +1739,6 @@
 				<integer>35</integer>
 				<integer>41</integer>
 			</array>
-			<key>forcedStart</key>
-			<string>T65:12:0:0</string>
 			<key>objectId</key>
 			<integer>40</integer>
 			<key>prerequisites</key>
@@ -1971,8 +2009,6 @@
 			</array>
 			<key>effort</key>
 			<real>0.0</real>
-			<key>lockedStartDate</key>
-			<string>T52:17:0:0</string>
 			<key>objectId</key>
 			<integer>48</integer>
 			<key>prerequisites</key>
@@ -2074,6 +2110,55 @@
 			</dict>
 			<key>task</key>
 			<string>0.99 release</string>
+		</dict>
+		<dict>
+			<key>completionPercentage</key>
+			<real>1</real>
+			<key>effort</key>
+			<real>0.0</real>
+			<key>isEffortFixed</key>
+			<false/>
+			<key>lockedEndDate</key>
+			<string>20081110080000</string>
+			<key>lockedStartDate</key>
+			<string>20081110080000</string>
+			<key>objectId</key>
+			<integer>52</integer>
+			<key>style</key>
+			<dict>
+				<key>gantt-fill-color</key>
+				<dict>
+					<key>b</key>
+					<string>0.320877</string>
+					<key>g</key>
+					<string>1</string>
+					<key>r</key>
+					<string>0.672228</string>
+				</dict>
+			</dict>
+			<key>task</key>
+			<string>0.91</string>
+		</dict>
+		<dict>
+			<key>effort</key>
+			<real>28800</real>
+			<key>objectId</key>
+			<integer>54</integer>
+			<key>prerequisites</key>
+			<array>
+				<dict>
+					<key>id</key>
+					<integer>5</integer>
+					<key>kind</key>
+					<integer>2</integer>
+				</dict>
+			</array>
+			<key>task</key>
+			<string>Tag Permission Widget</string>
+			<key>workSeconds</key>
+			<real>28800</real>
+			<key>workTime</key>
+			<real>8</real>
 		</dict>
 	</array>
 	<key>topResources</key>
