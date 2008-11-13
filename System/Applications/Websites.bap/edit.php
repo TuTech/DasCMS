@@ -7,8 +7,10 @@
 * Description: css editor interface
 ************************************************/
 //document title
-echo '<div id="objectInspectorActiveFullBox">';
-//editing allowed?
+if(isset($panel) && $panel->hasWidgets())
+{
+    echo '<div id="objectInspectorActiveFullBox">';
+}//editing allowed?
 	
 if(PAuthorisation::has('org.bambuscms.content.cpage.change') && isset($Page) && $Page instanceof CPage)
 {
@@ -22,5 +24,7 @@ if(PAuthorisation::has('org.bambuscms.content.cpage.change') && isset($Page) && 
 	echo LGui::endEditorWrapper();
 }
 echo LGui::endForm();
-echo '</div>';
-?>
+if(isset($panel) && $panel->hasWidgets())
+{
+    echo '</div>';
+}?>

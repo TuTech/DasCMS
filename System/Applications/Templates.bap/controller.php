@@ -67,14 +67,24 @@ printf(
 if(isset($Tpl))
 {
 	try{
-		echo new WSidebar($Tpl);
+		$panel = new WSidePanel();
+		$panel->setMode(
+		    WSidePanel::MEDIA_LOOKUP|
+		    WSidePanel::CONTENT_LOOKUP|
+		    WSidePanel::PROPERTY_EDIT|
+		    WSidePanel::HELPER|
+		    WSidePanel::PERMISSIONS);
+		$panel->setTargetContent($Tpl);
+		echo $panel;
 		if($Tpl instanceof CTemplate && $Tpl->isModified())
 		{
 			$Tpl->Save();
 		}
 	}
 	catch(Exception $e){
-		//echo $e->getTraceAsString();
+	    echo "\n\n";
+	    echo $e->getMessage();
+		echo $e->getTraceAsString();
 		SNotificationCenter::report('warning', 'invalid_template_not_executeable');
 	}	
 }

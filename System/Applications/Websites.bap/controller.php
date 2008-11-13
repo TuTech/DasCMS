@@ -69,7 +69,15 @@ printf(
 if(isset($Page))
 {
 	try{
-		echo new WSidebar($Page);
+		$panel = new WSidePanel();
+		$panel->setMode(
+		    WSidePanel::MEDIA_LOOKUP|
+		    WSidePanel::CONTENT_LOOKUP|
+		    WSidePanel::PROPERTY_EDIT|
+		    WSidePanel::HELPER|
+		    WSidePanel::PERMISSIONS);
+		$panel->setTargetContent($Page);
+		echo $panel;
 		if($Page instanceof CPage && $Page->isModified())
 		{
 			$Page->Save();

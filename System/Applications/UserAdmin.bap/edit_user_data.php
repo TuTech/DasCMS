@@ -6,7 +6,10 @@
 * Copyright:   Lutz Selke/TuTech Innovation GmbH 
 * Description: css editor interface
 ************************************************/
-
+if(isset($panel) && $panel->hasWidgets())
+{
+    echo '<div id="objectInspectorActiveFullBox">';
+}
 //user creation
 $jsCreate = "alert('permission denied');";
 if(PAuthorisation::has('org.bambuscms.credentials.user.create'))
@@ -289,5 +292,9 @@ ROW;
 	echo LGui::endTableRow();
 	echo LGui::endTable();
 	
+}
+if(isset($panel) && $panel->hasWidgets())
+{
+    echo '</div>';
 }
 ?>

@@ -178,7 +178,11 @@ echo '<form method="post" id="documentform" name="documentform" action="'
 if(BAMBUS_APPLICATION_TAB != 'manage')
 {
 	try{
-		echo new WSidebar(null);
+		$panel = new WSidePanel();
+		$panel->setMode(
+		    WSidePanel::MEDIA_LOOKUP|
+		    WSidePanel::HELPER);
+		echo $panel;
 	}
 	catch(Exception $e){
 		echo $e->getTraceAsString();

@@ -7,7 +7,7 @@
  * @since 11.04.2008
  * @license GNU General Public License 3
  */
-class WFiles extends BWidget implements ISidebarWidget 
+class WFiles extends BWidget //implements ISidebarWidget 
 {
 	/**
 	 * get category of this widget

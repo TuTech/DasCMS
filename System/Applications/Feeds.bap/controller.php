@@ -258,7 +258,13 @@ printf(
 if(isset($Feed))
 {
 	try{
-		echo new WSidebar($Feed);
+		$panel = new WSidePanel();
+		$panel->setMode(
+		    WSidePanel::PROPERTY_EDIT|
+		    WSidePanel::HELPER|
+		    WSidePanel::PERMISSIONS);
+		$panel->setTargetContent($Feed);
+		echo $panel;
 		if($Feed instanceof CFeed && $Feed->isModified())
 		{
 			$Feed->Save();

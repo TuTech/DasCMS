@@ -11,34 +11,27 @@ class WSettings extends BWidget implements ISidebarWidget
 {
 	private $targetObject = null;
 	/**
-	 * get category of this widget
-	 * @return string
-	 */
-	public function getCategory()
-	{
-		return 'Settings';
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getName()
-	{
-		return 'Search settings';
-	}
-	/**
 	 * get an array of string of all supported classes 
 	 * if it supports BObject, it supports all cms classes
 	 * @return array
 	 */
-	public function supportsObject($object)
+	public static function isSupported(WSidePanel $sidepanel)
 	{
-		return ($object !== null && ($object instanceof BContent));
+	    return (
+	        $sidepanel->hasTarget()
+	        && $sidepanel->isTargetObject()
+	        && $sidepanel->isMode(WSidePanel::PROPERTY_EDIT)
+	    );
 	}
 	
-	public function __construct($target)
+	public function getName()
 	{
-		$this->targetObject = $target;
+	    return 'content_properties';
+	}
+	
+	public function __construct(WSidePanel $sidepanel)
+	{
+		$this->targetObject = $sidepanel->getTarget();
 		if(RSent::has('WSearch-Tags'))
 		{
 			$tagstr = RSent::get('WSearch-Tags');
@@ -110,17 +103,7 @@ class WSettings extends BWidget implements ISidebarWidget
 		}
 		
 		$html .= '</table>';
-		//		if($this->targetObject instanceof BContent)
-//		{
-//			$html .= "<br /><strong><label for=\"WSearch-Alias\">Current Alias</label></strong>";
-//			$html .= sprintf('<input type="text" id="WSearch-Alias"readonly="readonly" value="%s" />'
-//				, SAlias::alloc()->init()->prepareForURL($this->targetObject)); 
-//		}
-		
 		$html .= '</div>';
-		
-		//@todo tag autocomplete
-		
 		return $html;
 	}
 }

@@ -8,21 +8,25 @@
  */
 interface ISidebarWidget
 {
+    /**
+     * @param WSidePanel $sidepanel
+     */
+    public function __construct(WSidePanel $sidepanel); 
+    
+    /**
+     * @param WSidePanel $sidepanel
+     * @return boolean
+     */
+    public static function isSupported(WSidePanel $sidepanel);
 	/**
 	 * get category of this widget
 	 * @return string
-	 */
+	 *
 	public function getCategory();
 	
 	/**
 	 * @return string
 	 */
 	public function getName();
-	/**
-	 * get an array of string of all supported classes 
-	 * if it supports BObject, it supports all cms classes
-	 * @return array
-	 */
-	public function supportsObject($object);
 }
 ?>

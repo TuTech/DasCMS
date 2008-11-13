@@ -15,11 +15,13 @@ if(PAuthorisation::has('org.bambuscms.layout.navigation.ntreenavigation.change')
 }
 if($edit != null)
 {
-	
+    if(isset($panel) && $panel->hasWidgets())
+    {
+        echo '<div id="objectInspectorActiveFullBox">';
+    }
 	
 	?>
 	
-	<div id="objectInspectorActiveFullBox">
 		<h2><?php echo htmlspecialchars($edit,ENT_QUOTES, 'utf-8'); ?></h2>
 		<h3><?php SLocalization::out('set_target_view'); ?></h3>
 		<select name="set_spore">
@@ -41,7 +43,6 @@ if($edit != null)
 				<input type="hidden" name="1_p" id="1_p" value="0" />
 			</div>
 		</div>
-	</div>
 	<script type="text/javascript">
 		function buildNav()
 		{
@@ -87,6 +88,10 @@ if($edit != null)
 	</script>
 
 <?php	
+}
+if(isset($panel) && $panel->hasWidgets())
+{
+    echo '</div>';
 }
 if(PAuthorisation::has('org.bambuscms.layout.navigation.ntreenavigation.change'))
 {

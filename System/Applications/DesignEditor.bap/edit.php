@@ -7,7 +7,10 @@
 * Description: css editor interface
 ************************************************/
 //document title
-
+if(isset($panel) && $panel->hasWidgets())
+{
+    echo '<div id="objectInspectorActiveFullBox">';
+}
 //editing allowed?
 if($FileOpened)
 {
@@ -29,6 +32,10 @@ if($FileOpened)
 	echo LGui::editorTextarea($fileContent);
 	echo LGui::endEditorWrapper();
 	echo new WScript('org.bambuscms.wcodeeditor.run(document.getElementById("editorianid"));');
+}
+if(isset($panel) && $panel->hasWidgets())
+{
+    echo '</div>';
 }
 echo '</form>';
 ?>

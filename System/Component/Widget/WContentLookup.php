@@ -11,32 +11,21 @@ class WContentLookup extends BWidget implements ISidebarWidget
 {
     const CLASS_NAME = 'WContentLookup';
 	/**
-	 * get category of this widget
-	 * @return string
-	 */
-	public function getCategory()
-	{
-		return 'Content';
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getName()
-	{
-		return 'Content Index';
-	}
-	/**
 	 * get an array of string of all supported classes 
 	 * if it supports BObject, it supports all cms classes
 	 * @return array
 	 */
-	public function supportsObject($object)
+	public static function isSupported(WSidePanel $sidepanel)
 	{
-		return true;
+		return $sidepanel->isMode(WSidePanel::CONTENT_LOOKUP);
 	}
 	
-	public function __construct($target = null)
+	public function getName()
+	{
+	    return 'content_lookup';
+	}
+	
+	public function __construct(WSidePanel $sidepanel)
 	{
 	}
 	

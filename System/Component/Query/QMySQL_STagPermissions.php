@@ -12,10 +12,9 @@ class QSTagPermissions extends BQuery
             "SELECT COUNT(*) AS FailedPermissions
                 FROM Contents
                      LEFT JOIN relContentsTags ON (Contents.contentID = relContentsTags.contentREL)
-                     LEFT JOIN PermissionTags ON (relContentsTags.tagREL = PermissionTags.tagREL)
+                     LEFT JOIN PermissionTags ON (relContentsTags.tagREL = PermissionTags.permissionTagREL)
                 WHERE Contents.contentID = %d
-                      AND NOT ISNULL(PermissionTags.permissionTagID)
-                      AND PermissionTags.permissionTagID  NOT IN 
+                      AND PermissionTags.permissionTagREL  NOT IN 
                       (
                         SELECT DISTINCT PTID FROM 
                             (
@@ -45,7 +44,7 @@ class QSTagPermissions extends BQuery
         $sql = 
             "SELECT Tags.tag
 				FROM PermissionTags
-				LEFT JOIN Tags ON (PermissionTags.tagREL = Tags.tagID)";
+				LEFT JOIN Tags ON (PermissionTags.permissionTagREL = Tags.tagID)";
         return BQuery::Database()->query($sql, DSQL::NUM);
     }
     
@@ -62,8 +61,8 @@ class QSTagPermissions extends BQuery
 			$DB->insert('Tags',array('tag'),$tagval, true);
             $sql =
                 "INSERT IGNORE INTO PermissionTags 
-    				(tagREL) 
-    					SELECT tagID as tagREL
+    				(permissionTagREL) 
+    					SELECT tagID as permissionTagREL
     						FROM Tags
     						WHERE %s";
             $tsql = array();
@@ -77,7 +76,7 @@ class QSTagPermissions extends BQuery
         	$sql = 
         	    "DELETE 
     				FROM PermissionTags
-    				WHERE tagREL NOT IN 
+    				WHERE permissionTagREL NOT IN 
     				(
     					SELECT tagID 
     						FROM Tags
@@ -115,9 +114,9 @@ class QSTagPermissions extends BQuery
                                 ) AS u
                                 LEFT JOIN
                                 (
-                                    SELECT 1 AS link, PermissionTags.permissionTagID AS ptagID
+                                    SELECT 1 AS link, PermissionTags.permissionTagREL AS ptagID
                                         FROM Tags
-                                            LEFT JOIN PermissionTags ON (Tags.tagID = PermissionTags.tagREL)
+                                            LEFT JOIN PermissionTags ON (Tags.tagID = PermissionTags.permissionTagREL)
                                         WHERE 
                                             %s
                                 ) AS pt
@@ -142,8 +141,8 @@ class QSTagPermissions extends BQuery
             "SELECT	Tags.tag
 				FROM Users
     				LEFT JOIN relPermissionTagsUsers ON (relPermissionTagsUsers.userREL = Users.userID)
-    				LEFT JOIN PermissionTags ON (relPermissionTagsUsers.permissionTagREL = PermissionTags.permissionTagID)
-    				LEFT JOIN Tags ON (PermissionTags.tagREL = Tags.tagID)
+    				LEFT JOIN PermissionTags USING (permissionTagREL)
+    				LEFT JOIN Tags ON (PermissionTags.permissionTagREL = Tags.tagID)
 				WHERE Users.login = '%s'";
         return $DB->query(sprintf($sql, $DB->escape($name)), DSQL::NUM);
     }
@@ -167,9 +166,9 @@ class QSTagPermissions extends BQuery
                                 ) AS g
                                 LEFT JOIN
                                 (
-                                    SELECT 1 AS link, PermissionTags.permissionTagID AS ptagID
+                                    SELECT 1 AS link, PermissionTags.permissionTagREL AS ptagID
                                         FROM Tags
-                                            LEFT JOIN PermissionTags ON (Tags.tagID = PermissionTags.tagREL)
+                                            LEFT JOIN PermissionTags ON (Tags.tagID = PermissionTags.permissionTagREL)
                                         WHERE 
                                             %s
                                 ) AS pt
@@ -194,8 +193,8 @@ class QSTagPermissions extends BQuery
             "SELECT	Tags.tag
 				FROM Groups
     				LEFT JOIN relPermissionTagsGroups ON (relPermissionTagsGroups.groupREL = Groups.groupID)
-    				LEFT JOIN PermissionTags ON (relPermissionTagsGroups.permissionTagREL = PermissionTags.permissionTagID)
-    				LEFT JOIN Tags ON (PermissionTags.tagREL = Tags.tagID)
+    				LEFT JOIN PermissionTags USING (permissionTagREL)
+    				LEFT JOIN Tags ON (PermissionTags.permissionTagREL = Tags.tagID)
 				WHERE Groups.groupName = '%s'";
         return $DB->query(sprintf($sql, $DB->escape($name)), DSQL::NUM);
     }

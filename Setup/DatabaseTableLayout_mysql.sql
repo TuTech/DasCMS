@@ -308,12 +308,7 @@ COLLATE utf8_unicode_ci;
 -- permission tags
 CREATE TABLE IF NOT EXISTS 
 PermissionTags(
-    permissionTagID 
-        INTEGER 
-		PRIMARY KEY
-		AUTO_INCREMENT
-        NOT NULL,
-    tagREL 
+    permissionTagREL 
 		INTEGER
 		UNIQUE
 		NOT NULL
@@ -359,7 +354,7 @@ COLLATE utf8_unicode_ci;
 ALTER TABLE 
 relPermissionTagsUsers
     ADD FOREIGN KEY (permissionTagREL)
-        REFERENCES PermissionTags(permissionTagID)
+        REFERENCES PermissionTags(permissionTagREL)
         ON DELETE CASCADE
         ON UPDATE NO ACTION,
     ADD FOREIGN KEY (userREL)
@@ -371,7 +366,7 @@ relPermissionTagsUsers
 ALTER TABLE 
 relPermissionTagsGroups
     ADD FOREIGN KEY (permissionTagREL)
-        REFERENCES PermissionTags(permissionTagID)
+        REFERENCES PermissionTags(permissionTagREL)
         ON DELETE CASCADE
         ON UPDATE NO ACTION,
     ADD FOREIGN KEY (groupREL)
@@ -382,7 +377,7 @@ relPermissionTagsGroups
 -- Foreign keys for PermissionTags
 ALTER TABLE 
 PermissionTags
-    ADD FOREIGN KEY (tagREL)
+    ADD FOREIGN KEY (permissionTagREL)
         REFERENCES Tags(tagID)
         ON DELETE RESTRICT
         ON UPDATE NO ACTION;

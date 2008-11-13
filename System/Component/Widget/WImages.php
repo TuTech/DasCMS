@@ -7,7 +7,7 @@
  * @since 11.04.2008
  * @license GNU General Public License 3
  */
-class WImages extends BWidget implements ISidebarWidget 
+class WImages extends BWidget //implements ISidebarWidget 
 {
 	private $targetClass = null;
 	/**

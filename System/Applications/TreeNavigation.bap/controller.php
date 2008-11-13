@@ -104,7 +104,9 @@ if(RSent::has('new_nav_name'))
 ////////////////////	
 try
 {
-	echo new WSidebar(null);
+	$panel = new WSidePanel();
+	$panel->setMode(WSidePanel::CONTENT_LOOKUP);
+	echo $panel;
 }
 catch (Exception $e)
 {

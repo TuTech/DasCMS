@@ -13,8 +13,11 @@ if(PAuthorisation::has('org.bambuscms.resolver.qspore.change'))
 		'<form method="post" id="documentform" name="documentform" action="%s"><input type="hidden" name="posted" value="1" />', SLink::link()
 	);
 }
+if(isset($panel) && $panel->hasWidgets())
+{
+    echo '<div id="objectInspectorActiveFullBox">';
+}
 ?>
-<div id="objectInspectorActiveFullBox">
 <h3><?php SLocalization::out('create_new_view'); ?></h3>
 <table id="spores" cellspacing="0" class="borderedtable full">
 	<tr>
@@ -138,9 +141,10 @@ else
 {
 	echo '<h3>', SLocalization::get('please_add_at_least_one_-_you_need_them_for_viewing_any_content,_really'),'</h3>';
 }
-?>
-</div>
-<?php
+if(isset($panel) && $panel->hasWidgets())
+{
+    echo '</div>';
+}
 if(PAuthorisation::has('org.bambuscms.resolver.qspore.change'))
 {
 	echo '</form>';

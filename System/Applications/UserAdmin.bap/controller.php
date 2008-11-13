@@ -367,7 +367,20 @@ if(RURL::get('_action') == 'delete')
 	$dbNeedsUpdate = true;
 }
 
-
+if($SUsersAndGroups->isUser($victim))
+{
+	try{
+		$panel = new WSidePanel();
+		$panel->setMode(
+		    WSidePanel::PERMISSIONS);
+	    $panel->setTarget($victim, 'cms/'.($edit_mode == 'usr' ? 'user' : 'group'));
+		echo $panel;
+	}
+	catch(Exception $e){
+		echo $e->getTraceAsString();
+		
+	}	
+}
 $AppController = BAppController::getControllerForID('org.bambuscms.applications.usereditor');
 echo new WOpenDialog($AppController, $hasVictim);
 

@@ -18,6 +18,7 @@ class WSidebar extends BWidget
 	//loads all components 
 	public function __construct($target)
 	{
+	    throw new Exception('deprecated');
 		//load all ISidebarWidget
 		$ci = SComponentIndex::alloc()->init();
 		if($target != null && $target instanceof ISupportsSidebar)
