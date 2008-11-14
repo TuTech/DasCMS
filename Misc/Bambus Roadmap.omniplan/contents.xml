@@ -30,9 +30,9 @@
 			<key>GanttGroupShading</key>
 			<true/>
 			<key>GanttVisibleRect</key>
-			<string>{{-17, 0}, {1117, 727}}</string>
+			<string>{{-17, 0}, {1117, 743}}</string>
 			<key>OutlineVisibleRect</key>
-			<string>{{0, 0}, {384, 727}}</string>
+			<string>{{0, 0}, {384, 743}}</string>
 			<key>ScaleWidths</key>
 			<dict>
 				<key>Automatic</key>
@@ -180,7 +180,7 @@
 			<key>side</key>
 			<real>0.74670183658599854</real>
 			<key>window</key>
-			<string>{{2, 317}, {1525, 861}}</string>
+			<string>{{29, 286}, {1525, 877}}</string>
 		</dict>
 	</array>
 	<key>displaySeconds</key>
@@ -198,7 +198,7 @@
 	<key>displayTimes</key>
 	<true/>
 	<key>endDate</key>
-	<string>20090202 11:00</string>
+	<string>20090202 16:00</string>
 	<key>flatNumbering</key>
 	<false/>
 	<key>groupTaskStyle</key>
@@ -729,8 +729,18 @@
 					<real>1</real>
 				</dict>
 			</array>
+			<key>doneSeconds</key>
+			<real>14400</real>
 			<key>effort</key>
 			<real>14400</real>
+			<key>effortDone</key>
+			<real>14400</real>
+			<key>isEffortFixed</key>
+			<false/>
+			<key>lockedEndDate</key>
+			<string>20081114130000</string>
+			<key>lockedStartDate</key>
+			<string>20081114130000</string>
 			<key>objectId</key>
 			<integer>4</integer>
 			<key>prerequisites</key>
@@ -744,6 +754,8 @@
 			</array>
 			<key>task</key>
 			<string>Login</string>
+			<key>workDone</key>
+			<real>4</real>
 			<key>workSeconds</key>
 			<real>14400</real>
 			<key>workTime</key>
@@ -1817,8 +1829,16 @@
 					<real>1</real>
 				</dict>
 			</array>
+			<key>completionPercentage</key>
+			<real>1</real>
 			<key>effort</key>
 			<real>0.0</real>
+			<key>isEffortFixed</key>
+			<false/>
+			<key>lockedEndDate</key>
+			<string>20081114170000</string>
+			<key>lockedStartDate</key>
+			<string>20081114170000</string>
 			<key>objectId</key>
 			<integer>43</integer>
 			<key>prerequisites</key>
@@ -2140,8 +2160,18 @@
 			<string>0.91</string>
 		</dict>
 		<dict>
+			<key>doneSeconds</key>
+			<real>43200</real>
 			<key>effort</key>
-			<real>28800</real>
+			<real>43200</real>
+			<key>effortDone</key>
+			<real>43200</real>
+			<key>isEffortFixed</key>
+			<false/>
+			<key>lockedEndDate</key>
+			<string>20081113080000</string>
+			<key>lockedStartDate</key>
+			<string>20081113080000</string>
 			<key>objectId</key>
 			<integer>54</integer>
 			<key>prerequisites</key>
@@ -2155,10 +2185,12 @@
 			</array>
 			<key>task</key>
 			<string>Tag Permission Widget</string>
+			<key>workDone</key>
+			<real>12</real>
 			<key>workSeconds</key>
-			<real>28800</real>
+			<real>43200</real>
 			<key>workTime</key>
-			<real>8</real>
+			<real>12</real>
 		</dict>
 	</array>
 	<key>topResources</key>

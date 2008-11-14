@@ -11,7 +11,7 @@
 header('Content-Type: text/html; charset=utf-8');
 require_once('./System/Component/Loader.php');
 RSession::start();
-
+define('BAMBUS_HTML_ACCESS', '1');
 //now we have a running session we might want to kill it
 if(RURL::has('_destroy_session') || RURL::has('_bambus_logout'))
 {
@@ -22,7 +22,6 @@ if(RSent::has('bambus_cms_login') && RSent::has('bambus_cms_username') && RSent:
     $triedToLogin = true;
 }
 PAuthentication::required();
- 
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
 

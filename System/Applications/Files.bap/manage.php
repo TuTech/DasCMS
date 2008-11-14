@@ -9,8 +9,11 @@
 
 if($File != null && $File instanceof BContent)
 {
+    if(isset($panel) && $panel->hasWidgets())
+    {
+        echo '<div id="objectInspectorActiveFullBox">';
+    }
     echo new WScript("org.bambuscms.gui.hideCommandPanels(['multi_delete', 'multi_select', 'multi_view']);");
-    echo '<div id="objectInspectorActiveFullBox">';
 	printf('<input type="hidden" id="filename" size="30" name="filename" value="%s"/><h2>%s</h2><img src="%s" alt="" />'
     	, htmlentities($File->Title, ENT_QUOTES, 'UTF-8')
     	, htmlentities($File->Title, ENT_QUOTES, 'UTF-8')
@@ -27,7 +30,10 @@ if($File != null && $File instanceof BContent)
 	$tbl->addRow(array('mime_type',$File->MimeType));
 	$tbl->addRow(array('md5_sum',$File->MD5Sum));
 	$tbl->render();
-	echo '</div>';
+    if(isset($panel) && $panel->hasWidgets())
+    {
+        echo '</div>';
+    }
 }
 else
 {

@@ -11,6 +11,7 @@ try
 {
     $feed = RURL::get('rss');
     $content = BContent::OpenIfPossible($feed);
+    $content = BContent::Access($feed, $content);
     $pubDate = $content->getPubDate();
     if(empty($pubDate) || $pubDate > time())
     {
@@ -21,12 +22,6 @@ try
     if($content instanceof IGeneratesFeed)
     {
         echo new FRSS2($content);
-    }
-    else
-    {
-        header('HTTP/1.1 405 Method Not Allowed');
-        header('Status: 405 Method Not Allowed');
-        exit();
     }
 }
 catch(Exception $e)

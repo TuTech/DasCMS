@@ -193,8 +193,24 @@ if(strpos(RURL::get('tab'),'manage_')===false)
         $EditingObject = sprintf('%s.%s', $victim, (($SUsersAndGroups->isMemberOf($victim, 'Administrator')) ? SLocalization::get('administrator') : 'user'));
     }
 }
-
-
+if(PAuthorisation::has('org.bambuscms.credentials.user.change') || PAuthorisation::has('org.bambuscms.credentials.group.change'))
+{
+	echo LGui::beginForm(array('edit' => ($edit_mode == 'usr' ? 'u:' : 'g:').$victim), 'documentform');
+}
+if($SUsersAndGroups->isGroup($victim))
+{
+	try{
+		$panel = new WSidePanel();
+		$panel->setMode(
+		    WSidePanel::PERMISSIONS);
+	    $panel->setTarget($victim, 'cms/'.($edit_mode == 'usr' ? 'user' : 'group'));
+		echo $panel;
+	}
+	catch(Exception $e){
+		echo $e->getTraceAsString();
+		
+	}	
+}
 $AppController = BAppController::getControllerForID('org.bambuscms.applications.groupmanager');
 echo new WOpenDialog($AppController, $hasVictim);
 

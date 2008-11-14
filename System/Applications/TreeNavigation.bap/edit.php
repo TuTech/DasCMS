@@ -7,12 +7,7 @@
 * Description: 
 ************************************************/
 
-if(PAuthorisation::has('org.bambuscms.layout.navigation.ntreenavigation.change'))
-{
-	printf(
-		'<form method="post" id="documentform" name="documentform" action="%s"><input type="hidden" name="posted" value="1" />', SLink::link()
-	);
-}
+
 if($edit != null)
 {
     if(isset($panel) && $panel->hasWidgets())

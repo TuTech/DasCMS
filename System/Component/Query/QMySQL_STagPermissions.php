@@ -8,6 +8,7 @@ class QSTagPermissions extends BQuery
      */
     public static function isPermitted($contentId, $user)
     {
+        $DB = BQuery::Database();
         $sql = 
             "SELECT COUNT(*) AS FailedPermissions
                 FROM Contents
@@ -30,8 +31,8 @@ class QSTagPermissions extends BQuery
                                     WHERE Users.login = '%s'
                             ) AS sub
                         )";
-        $DB = BQuery::Database();
-		$res = $DB->query(sprintf($sql, $contentId, $DB->escape($user), $DB->escape($user)), DSQL::NUM);
+        $sql = sprintf($sql, $contentId, $DB->escape($user), $DB->escape($user));
+		$res = $DB->query($sql, DSQL::NUM);
 		list($failed) = $res->fetch();
 		return ($failed == 0);
     }
@@ -136,6 +137,7 @@ class QSTagPermissions extends BQuery
      */
     public static function getUserPermissionTags($name)
     {
+        $DB = BQuery::Database();
         //resolve rels
         $sql = 
             "SELECT	Tags.tag
@@ -149,6 +151,7 @@ class QSTagPermissions extends BQuery
     
     public static function setGroupPermissions($name, array $tags)
     {
+        $DB = BQuery::Database();
         $sql = "DELETE FROM relPermissionTagsGroups WHERE groupREL = (SELECT groupID FROM Groups WHERE groupName = '%s')";
         $DB->queryExecute(sprintf($sql, $DB->escape($name)));
         //create new rels
@@ -188,6 +191,7 @@ class QSTagPermissions extends BQuery
      */
     public static function getGroupPermissionTags($name)
     {
+        $DB = BQuery::Database();
         //resolve rels
         $sql = 
             "SELECT	Tags.tag

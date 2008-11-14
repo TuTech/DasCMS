@@ -36,7 +36,7 @@
 #WSidebar-body {
 	margin-top: 42px;
 }
-#WSidebar-body input,
+#WSidebar-body input[type=text],
 #WSidebar-body select,
 #WSidebar-body textarea{
 	display:block;

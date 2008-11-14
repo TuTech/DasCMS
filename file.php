@@ -9,6 +9,7 @@ try
 {
     $feed = RURL::get('get');
     $content = BContent::OpenIfPossible($feed);
+    $content = BContent::Access($feed, $content);
     $pubDate = $content->getPubDate();
     if((empty($pubDate) || $pubDate > time()) && !PAuthorisation::has('org.bambuscms.content.cfile.view'))
     {
@@ -26,12 +27,6 @@ try
         header("Content-Description: File Transfer");             
         header("Content-Length: " . $size);
         $content->sendFileContent();
-    }
-    else
-    {
-        header('HTTP/1.1 405 Method Not Allowed');
-        header('Status: 405 Method Not Allowed');
-        die('405 Method Not Allowed for '.get_class($content));
     }
 }
 catch(Exception $e)

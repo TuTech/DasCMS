@@ -61,17 +61,25 @@ class SBambusSessionAuth
     {
         $user = '';
         $password = '';
-        if(RSent::hasValue('bambus_cms_username'))
+        if(!RURL::has('_destroy_session') && !RURL::has('_bambus_logout'))
         {
-            $user = RSent::get('bambus_cms_username');
-            $password = RSent::get('bambus_cms_password');
-            RSession::set('bambus_cms_username', $user);
-            RSession::set('bambus_cms_password', $password);
-        }
-        elseif(RSession::hasValue('bambus_cms_username'))
-        {
-            $user = RSession::get('bambus_cms_username');
-            $password = RSession::get('bambus_cms_password');
+            if(RSent::hasValue('bambus_cms_username'))
+            {
+                $user = RSent::get('bambus_cms_username');
+                $password = RSent::get('bambus_cms_password');
+                RSession::set('bambus_cms_username', $user);
+                RSession::set('bambus_cms_password', $password);
+            }
+            elseif(!empty($_SERVER['PHP_AUTH_USER']))
+            {
+                $user = $_SERVER['PHP_AUTH_USER'];
+                $password = $_SERVER['PHP_AUTH_PW'];
+            }
+            elseif(RSession::hasValue('bambus_cms_username'))
+            {
+                $user = RSession::get('bambus_cms_username');
+                $password = RSession::get('bambus_cms_password');
+            }
         }
         $uag = SUsersAndGroups::alloc()->init();
         if($uag->isValidUser($user, $password))

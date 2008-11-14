@@ -51,7 +51,13 @@ if($File != null && $File instanceof BContent)
     	{
     		$File->Title = RSent::get('filename');
     	}
-		echo new WSidebar($File);
+		$panel = new WSidePanel();
+		$panel->setMode(
+		    WSidePanel::PROPERTY_EDIT|
+		    WSidePanel::HELPER|
+		    WSidePanel::PERMISSIONS);
+		$panel->setTargetContent($File);
+		echo $panel;
 		if($File->isModified())
 		{
 			$File->Save();

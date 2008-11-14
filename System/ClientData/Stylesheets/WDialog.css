@@ -29,7 +29,8 @@
 {
 	border: 1px solid #4e9a06;
 }
-#WDialog_container .WDialog input
+#WDialog_container .WDialog input[type=text],
+#WDialog_container .WDialog input[type=password]
 {
 	width:338px;
 }
@@ -77,7 +78,8 @@
 	border-bottom: 1px solid #d3d7cf;
 }
 
-#WDialog_container .WDialog_labeled input,
+#WDialog_container .WDialog_labeled input[type=text],
+#WDialog_container .WDialog_labeled input[type=password],
 #WDialog_container .WDialog_labeled select
 {
 	width:250px;

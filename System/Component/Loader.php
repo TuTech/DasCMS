@@ -120,7 +120,7 @@ function __autoload($className)
 	chdir($cwd);
 }
 if(!defined('BAMBUS_VERSION'))
-    define ('BAMBUS_VERSION', 'Bambus CMS 0.91.0.20081105-ALPHA');
+    define ('BAMBUS_VERSION', 'Bambus CMS 0.92.0.20081114-ALPHA');
         
 if(!defined('BAMBUS_CMS_ROOTDIR'))
     define('BAMBUS_CMS_ROOTDIR',getcwd());

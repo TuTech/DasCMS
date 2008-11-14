@@ -58,10 +58,7 @@ echo new WScript('var action_change_password = function(){'.$jsCreate.'};');
 
 
 
-if(PAuthorisation::has('org.bambuscms.credentials.user.change') || PAuthorisation::has('org.bambuscms.credentials.group.change'))
-{
-	echo LGui::beginForm(array('edit' => ($edit_mode == 'usr' ? 'u:' : 'g:').$victim), 'documentform');
-}
+
 
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
@@ -233,7 +230,7 @@ EOX;
     	        		$id,
     	        		$id,
     	        		$id,
-    	        		new WIcon($editor['icon'], '', null, 'app'),
+    	        		new WIcon($editor['icon'], '', WIcon::MEDIUM, 'app'),
     	        		SLocalization::get($editor['name']),
     	        		SLocalization::get($editor['desc']),
     	        		''

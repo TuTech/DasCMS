@@ -97,8 +97,16 @@ if(RSent::has('new_nav_name'))
 	}
 	NTreeNavigation::set($newNav,$spore,new NTreeNavigationObject('', null,null,null));
 	NTreeNavigation::Save();
+	RURL::alter('edit', $newNav);
 	$EditingObject = $newNav.'.nav';
 	$edit = $newNav;
+}
+if(PAuthorisation::has('org.bambuscms.layout.navigation.ntreenavigation.change'))
+{
+	printf(
+		'<form method="post" id="documentform" name="documentform" action="%s"><input type="hidden" name="posted" value="1" />', 
+		SLink::link(array('edit' => $edit))
+	);
 }
 //side bar
 ////////////////////	

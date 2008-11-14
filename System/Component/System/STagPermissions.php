@@ -12,6 +12,9 @@ class STagPermissions
 	 * @var STagPermissions
 	 */
 	public static $sharedInstance = NULL;
+	
+	private static $_permCache = array();
+	
 	/**
 	 * @return STagPermissions
 	 */
@@ -34,6 +37,15 @@ class STagPermissions
     }
 	//end IShareable
     
+	private function checkPermissions($id)
+	{
+	    if(!isset(self::$_permCache[$id]))
+	    {
+	        self::$_permCache[$id] = QSTagPermissions::isPermitted($id, PAuthentication::getUserID());
+	    }
+	    return self::$_permCache[$id];
+	}
+	
 	/**
 	 * before accessing content this event happens
 	 * we can substitute content here 
@@ -43,9 +55,9 @@ class STagPermissions
 	public function HandleWillAccessContentEvent(EWillAccessContentEvent $e)
 	{
 	    $id = $e->Content->Id;
-	    if(!QSTagPermissions::isPermitted($id, PAuthentication::getUserID()))
+	    if(!$this->checkPermissions($id))
 	    {
-	        $e->substitute(CError::Open(403));
+	        $e->substitute(CError::Open(401));
 	    }
 	}
 
@@ -58,21 +70,25 @@ class STagPermissions
 	public function HandleContentAccessEvent(EContentAccessEvent $e)
 	{
 	    $id = $e->Content->Id;
-	    if(!QSTagPermissions::isPermitted($id, PAuthentication::getUserID()))
+	    if(!$this->checkPermissions($id))
 	    {
 	        $e->Cancel();
 	        throw new XPermissionDeniedException('access to content not allowed');
 	    }
 	}
 	
-	/////////
-
+	/**
+	 * @return array
+	 */
 	public static function getProtectedTags()
 	{
 	    $erg = QSTagPermissions::getProtectedTags();
 	    return self::fetchTags($erg);
 	}
 	
+	/**
+	 * @return void
+	 */
 	public static function setProtectedTags(array $tags)
 	{
 	    QSTagPermissions::setProtectedTags($tags);
@@ -80,22 +96,34 @@ class STagPermissions
 	
 	/////////
 	
+	/**
+	 * @return void
+	 */
 	public static function setUserPermissions($name, array $tags)
 	{
 	    QSTagPermissions::setUserPermissions($name, $tags); 
 	}
 	
+	/**
+	 * @return array
+	 */
 	public static function getUserPermissionTags($name)
 	{
 	    $erg = QSTagPermissions::getUserPermissionTags($name);
 	    return self::fetchTags($erg);
 	}
 	
+	/**
+	 * @return void
+	 */
 	public static function setGroupPermissions($name, array $tags)
 	{
 	    QSTagPermissions::setGroupPermissions($name, $tags); 
 	}
 	
+	/**
+	 * @return array
+	 */
 	public static function getGroupPermissionTags($name)
 	{
 	    $erg = QSTagPermissions::getGroupPermissionTags($name);
@@ -104,6 +132,9 @@ class STagPermissions
 	
 	/////////
 	
+	/**
+	 * @return array
+	 */
 	private static function fetchTags(DSQLResult $erg)
 	{
 	    $tags = array();

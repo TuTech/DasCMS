@@ -44,6 +44,18 @@ class CError extends BContent implements IGlobalUniqueId
 	public static function Open($alias)
 	{
 	    $alias = SHTTPStatus::validate($alias);
+	    if($alias == 401)
+	    {
+	        if(SConfiguration::Get('login_form_template') && defined('BAMBUS_HTML_ACCESS'))
+	        {
+	            //FIXME OPEN CONTENT
+	        }
+            else
+            {
+	            header("HTTP/1.0 401 Authorization Required");
+	            header("WWW-Authenticate: Basic realm=\"BambusCMS\"");
+	        }
+	    }
         return new CError($alias == null ? 501 : $alias);
 	}
 	

@@ -9,7 +9,10 @@
  */
 class WTagPermissions extends BWidget implements ISidebarWidget 
 {
-	/**
+	private $target;
+	private $type;
+	
+    /**
 	 * @return string
 	 */
 	public function getName()
@@ -32,38 +35,66 @@ class WTagPermissions extends BWidget implements ISidebarWidget
 	
 	public function __construct(WSidePanel $sidepanel)
 	{
+	    $this->type = $sidepanel->getTargetMimeType();
+	    $this->target = $sidepanel->getTarget();
+	    
 	    //DO SAVE
-
-
-//		$this->targetObject = $sidepanel->getTarget();
-//		if(RSent::has('WSearch-WTagPermissions'))
-//		{
-//			$tagstr = RSent::get('WSearch-Tags');
-//			$chk = RSent::get('WSearch-Tags-chk');
-//			if($chk != md5($tagstr)) 
-//			{
-//				$this->targetObject->Tags = $tagstr;
-//			}
-//		}
-//		if(RSent::has('WSearch-PubDate'))
-//		{
-//			$dat = RSent::get('WSearch-PubDate');
-//			$chk = $this->targetObject->PubDate;
-//			if($chk != $dat) 
-//			{
-//				$this->targetObject->PubDate = $dat;
-//			}
-//		}
-//		$desc = RSent::get('WSearch-Desc');
-//		if(RSent::has('WSearch-Desc') && $desc != $this->targetObject->Description)
-//		{
-//			$this->targetObject->Description = $desc;
-//		}
+	    if(RSent::hasValue('WTagPermissions_target'))
+	    {
+	        $name = RSent::get('WTagPermissions_target');
+	        $type = RSent::get('WTagPermissions_type');
+	        $tags = STagPermissions::getProtectedTags();
+	        $setTags = array();
+	        foreach ($tags as $tag) 
+	        {
+	            $chksum = md5($tag);
+	        	if(RSent::hasValue('WTagPermissions_'.$chksum))
+	        	{
+	        	    $setTags[] = $tag;
+	        	}
+	        }
+	        if($type == 'cms/group')
+	        {
+	            STagPermissions::setGroupPermissions($name, $setTags);
+	        }
+	        else
+	        {
+	            STagPermissions::setUserPermissions($name, $setTags);
+	        }
+	    }
 	}
 	
 	public function __toString()
 	{
 		$html = '<div id="WTagPermissions">';
+		$html .= LGui::hiddenInput('WTagPermissions_target', $this->target);
+		$html .= LGui::hiddenInput('WTagPermissions_type', $this->type);
+		$tags = STagPermissions::getProtectedTags();
+		$permitted = ($this->type == 'cms/user')
+		    ? (STagPermissions::getUserPermissionTags($this->target))
+		    : (STagPermissions::getGroupPermissionTags($this->target));
+		$wt = new WTable(WTable::HEADING_TOP);
+		$wt->addRow(array('', 'restricted_tags'));
+		foreach ($tags as $tag) 
+		{
+		    $check = in_array($tag, $permitted) ? 'checked="checked" ' : '';
+		    $chksum = md5($tag);
+		    $wt->addRow(
+		        array(
+		            sprintf("<input type=\"checkbox\" %sname=\"WTagPermissions_%s\" id=\"WTagPermissions_%s\" />", $check, $chksum, $chksum),
+		            sprintf("<label for=\"WTagPermissions_%s\">%s</label>", $chksum, htmlentities($tag, ENT_QUOTES, 'UTF-8'))
+		        )
+		    );
+		}
+		$html .= strval($wt);
+		$html .= sprintf(
+		    "<div class=\"WTagPermissions_controls\">".
+		        "<a href=\"javascript:org.bambuscms.wtagpermissions.selectAll()\">%s</a>".
+		        "<a href=\"javascript:org.bambuscms.wtagpermissions.selectNone()\">%s</a>".
+	        "</div>"
+			,SLocalization::get('select_all')
+			,SLocalization::get('select_none')
+        );
 		$html .= '</div>';
 		return $html;
 	}
