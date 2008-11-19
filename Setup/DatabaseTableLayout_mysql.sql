@@ -349,6 +349,76 @@ ENGINE = InnoDB
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
 
+-- Jobs
+CREATE TABLE IF NOT EXISTS 
+Jobs(
+    jobID 
+        INTEGER 
+        PRIMARY KEY
+        AUTO_INCREMENT
+        NOT NULL,
+    classREL 
+        INTEGER 
+        NOT NULL,
+    start 
+        DATETIME 
+        NULL,
+    stop 
+        DATETIME 
+        NULL,
+    rescheduleInterval 
+        INTEGER 
+        NOT NULL,
+    UNIQUE (classREL)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- JobSchedules
+CREATE TABLE IF NOT EXISTS 
+JobSchedules(
+	jobREL
+        INTEGER 
+        NOT NULL,
+	scheduled
+		TIMESTAMP
+		DEFAULT 0
+		NOT NULL,
+	started
+		TIMESTAMP
+		NULL,
+	finished
+		TIMESTAMP
+		NULL,
+	exitCode
+		INTEGER
+		NULL,
+	exitMessage
+		VARCHAR(64)
+		NULL,
+	INDEX (jobREL)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- Foreign keys for PermissionTags
+ALTER TABLE 
+JobSchedules
+    ADD FOREIGN KEY (jobREL)
+        REFERENCES Jobs(jobID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION;
+
+-- Foreign keys for PermissionTags
+ALTER TABLE 
+Jobs
+    ADD FOREIGN KEY (classREL)
+        REFERENCES Classes(classID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION;
+
 -- -------------------
 -- Foreign keys for relPermissionTagsUsers
 ALTER TABLE 

@@ -30,9 +30,9 @@
 			<key>GanttGroupShading</key>
 			<true/>
 			<key>GanttVisibleRect</key>
-			<string>{{-17, 0}, {1117, 743}}</string>
+			<string>{{-17, 6}, {1117, 743}}</string>
 			<key>OutlineVisibleRect</key>
-			<string>{{0, 0}, {384, 743}}</string>
+			<string>{{0, 6}, {384, 743}}</string>
 			<key>ScaleWidths</key>
 			<dict>
 				<key>Automatic</key>
@@ -87,7 +87,7 @@
 			<key>calendarController</key>
 			<dict>
 				<key>OutlineVisibleRect</key>
-				<string>{{0, 0}, {270, 643}}</string>
+				<string>{{0, 0}, {254, 556}}</string>
 				<key>activeColumnIdentifiers</key>
 				<array>
 					<string>IM</string>
@@ -110,7 +110,7 @@
 				</dict>
 			</dict>
 			<key>calendarSplit</key>
-			<real>0.82287132740020752</real>
+			<real>0.82255935668945312</real>
 			<key>columnWidths</key>
 			<dict>
 				<key>Effort</key>
@@ -125,13 +125,13 @@
 			<key>dayWidth</key>
 			<real>54</real>
 			<key>resourceSplit</key>
-			<real>0.811684250831604</real>
+			<real>0.81200528144836426</real>
 			<key>resourcesController</key>
 			<dict>
 				<key>DayWidth</key>
 				<real>25</real>
 				<key>OutlineVisibleRect</key>
-				<string>{{0, 0}, {288, 830}}</string>
+				<string>{{0, 0}, {270, 743}}</string>
 				<key>ScaleWidths</key>
 				<dict>
 					<key>Automatic</key>
@@ -154,7 +154,7 @@
 				<key>SelectedScale</key>
 				<string>Automatic</string>
 				<key>TimelineVisibleRect</key>
-				<string>{{-112, 0}, {1263, 830}}</string>
+				<string>{{-112, 0}, {1188, 743}}</string>
 				<key>activeColumnIdentifiers</key>
 				<array>
 					<string>IM</string>
@@ -172,7 +172,7 @@
 					<key>Notes</key>
 					<real>20</real>
 					<key>Resource</key>
-					<real>119</real>
+					<real>101</real>
 					<key>Type</key>
 					<real>48</real>
 				</dict>
@@ -198,7 +198,7 @@
 	<key>displayTimes</key>
 	<true/>
 	<key>endDate</key>
-	<string>20090202 16:00</string>
+	<string>20090209 16:00</string>
 	<key>flatNumbering</key>
 	<false/>
 	<key>groupTaskStyle</key>
@@ -248,7 +248,7 @@
 	<key>resourceDifferenceEngine</key>
 	<dict>
 		<key>nextId</key>
-		<integer>3</integer>
+		<integer>4</integer>
 	</dict>
 	<key>resourceUserKeys</key>
 	<array/>
@@ -273,6 +273,14 @@
 			<dict>
 				<key>exceptions</key>
 				<array>
+					<dict>
+						<key>date</key>
+						<string>20081120</string>
+					</dict>
+					<dict>
+						<key>date</key>
+						<string>20081121</string>
+					</dict>
 					<dict>
 						<key>date</key>
 						<string>20081215</string>
@@ -574,7 +582,7 @@
 	<key>taskDifferenceEngine</key>
 	<dict>
 		<key>nextId</key>
-		<integer>58</integer>
+		<integer>60</integer>
 	</dict>
 	<key>taskUserKeys</key>
 	<array/>
@@ -878,7 +886,8 @@
 		<dict>
 			<key>children</key>
 			<array>
-				<integer>14</integer>
+				<integer>59</integer>
+				<integer>58</integer>
 				<integer>25</integer>
 				<integer>44</integer>
 			</array>
@@ -907,39 +916,6 @@
 			</dict>
 			<key>task</key>
 			<string>0.93</string>
-		</dict>
-		<dict>
-			<key>assignments</key>
-			<array>
-				<dict>
-					<key>id</key>
-					<integer>1</integer>
-					<key>units</key>
-					<real>1</real>
-				</dict>
-			</array>
-			<key>effort</key>
-			<real>57600</real>
-			<key>objectId</key>
-			<integer>14</integer>
-			<key>style</key>
-			<dict>
-				<key>gantt-fill-color</key>
-				<dict>
-					<key>b</key>
-					<string>0.898039</string>
-					<key>g</key>
-					<string>0.792157</string>
-					<key>r</key>
-					<string>0.219608</string>
-				</dict>
-			</dict>
-			<key>task</key>
-			<string>RSS Reader Plugin</string>
-			<key>workSeconds</key>
-			<real>57600</real>
-			<key>workTime</key>
-			<real>16</real>
 		</dict>
 		<dict>
 			<key>children</key>
@@ -1326,7 +1302,7 @@
 			<array>
 				<dict>
 					<key>id</key>
-					<integer>14</integer>
+					<integer>58</integer>
 					<key>kind</key>
 					<integer>2</integer>
 				</dict>
@@ -2192,6 +2168,80 @@
 			<key>workTime</key>
 			<real>12</real>
 		</dict>
+		<dict>
+			<key>assignments</key>
+			<array>
+				<dict>
+					<key>id</key>
+					<integer>1</integer>
+					<key>units</key>
+					<real>1</real>
+				</dict>
+			</array>
+			<key>effort</key>
+			<real>57600</real>
+			<key>objectId</key>
+			<integer>58</integer>
+			<key>prerequisites</key>
+			<array>
+				<dict>
+					<key>id</key>
+					<integer>59</integer>
+					<key>kind</key>
+					<integer>2</integer>
+				</dict>
+			</array>
+			<key>style</key>
+			<dict>
+				<key>gantt-fill-color</key>
+				<dict>
+					<key>b</key>
+					<string>0.898039</string>
+					<key>g</key>
+					<string>0.792157</string>
+					<key>r</key>
+					<string>0.219608</string>
+				</dict>
+			</dict>
+			<key>task</key>
+			<string>RSS Reader Plugin</string>
+			<key>workSeconds</key>
+			<real>57600</real>
+			<key>workTime</key>
+			<real>16</real>
+		</dict>
+		<dict>
+			<key>doneSeconds</key>
+			<real>28800</real>
+			<key>effort</key>
+			<real>28800</real>
+			<key>effortDone</key>
+			<real>28800</real>
+			<key>forcedStart</key>
+			<string>20081119080000</string>
+			<key>objectId</key>
+			<integer>59</integer>
+			<key>style</key>
+			<dict>
+				<key>gantt-fill-color</key>
+				<dict>
+					<key>b</key>
+					<string>0.898039</string>
+					<key>g</key>
+					<string>0.792157</string>
+					<key>r</key>
+					<string>0.219608</string>
+				</dict>
+			</dict>
+			<key>task</key>
+			<string>Scheduler</string>
+			<key>workDone</key>
+			<real>8</real>
+			<key>workSeconds</key>
+			<real>28800</real>
+			<key>workTime</key>
+			<real>8</real>
+		</dict>
 	</array>
 	<key>topResources</key>
 	<array>
@@ -2202,7 +2252,7 @@
 		<integer>-1</integer>
 	</array>
 	<key>uuid</key>
-	<string>741B3522-FC99-449A-A53A-4E18C8FEBA9D</string>
+	<string>1DB4E221-C10B-4E0E-BB43-4DB3F0DC640E</string>
 	<key>version</key>
 	<integer>2</integer>
 </dict>

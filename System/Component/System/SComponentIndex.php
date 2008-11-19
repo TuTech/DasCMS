@@ -22,6 +22,7 @@ class SComponentIndex
 		'F' => 'Feed',
 		'H' => 'EventHandler',
 		'I' => 'Interface',
+		'J' => 'Job',
         'L' => 'Legacy',
 		'N' => 'Navigator',
 		'P' => 'Provider',
