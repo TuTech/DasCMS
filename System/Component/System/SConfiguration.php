@@ -18,6 +18,9 @@ class SConfiguration
 	const CLASS_NAME = 'SConfiguration';
 	public static $sharedInstance = NULL;
 	private static $initializedInstance = false;
+	/**
+	 * @return SConfiguration
+	 */
 	public static function alloc()
 	{
 		$class = self::CLASS_NAME;
@@ -26,7 +29,10 @@ class SConfiguration
 		return self::$sharedInstance;
 	}
     
-    function init()
+	/**
+	 * @return SConfiguration
+	 */
+	function init()
     {
     	if(!self::$initDone)
     	{

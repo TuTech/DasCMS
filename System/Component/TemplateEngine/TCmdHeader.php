@@ -45,7 +45,6 @@ class TCmdHeader
     
     public function __toString()
     {
-        //TODO not working properly with content feeds
         $contents = SContentWatch::accessedContent();
         $descriptions = array();
         $titles = array();
@@ -53,12 +52,12 @@ class TCmdHeader
         $feeds = array();
         foreach ($contents as $c) 
         {
-        	$titles[$c->Alias] = $c->Title;
-        	$tags = array_merge($tags, $c->Tags);
-        	$descriptions[] = $c->Description;
+        	$titles[$c->getAlias()] = $c->getTitle();
+        	$tags = array_merge($tags, $c->getTags());
+        	$descriptions[] = $c->getDescription();
         	if($c instanceof IGeneratesFeed)
         	{
-        	    $feeds[$c->Alias] = $c->Title;
+        	    $feeds[$c->getAlias()] = $c->getTitle();
         	}
         }
         sort($tags, SORT_LOCALE_STRING);

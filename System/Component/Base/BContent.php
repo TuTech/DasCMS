@@ -28,7 +28,7 @@ abstract class BContent extends BObject
 		$ModifyDate,//timestamp: last modified
 		$ModifiedBy, 
 		$Source,	//where does it come from local|url
-		$Tags,	
+		$Tags = array(),	
 		$Description,//meta description - plain text
 		$Size,
 		$MimeType

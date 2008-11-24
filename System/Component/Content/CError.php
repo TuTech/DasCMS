@@ -44,9 +44,10 @@ class CError extends BContent implements IGlobalUniqueId
 	public static function Open($alias)
 	{
 	    $alias = SHTTPStatus::validate($alias);
+	    $SConf = SConfiguration::alloc()->init();
 	    if($alias == 401)
 	    {
-	        if(SConfiguration::Get('login_form_template') && defined('BAMBUS_HTML_ACCESS'))
+	        if($SConf->Get('login_form_template') && defined('BAMBUS_HTML_ACCESS'))
 	        {
 	            //FIXME OPEN CONTENT
 	        }
@@ -80,6 +81,7 @@ class CError extends BContent implements IGlobalUniqueId
 			'ModifiedBy' => 'System',
 			'PubDate' => time(),
 			'Size' => 0,
+			'Tags' => array(),
 			'Title' => 'ERROR '.$this->Id.' - '.$dat[$this->Id],
 			'Content' => sprintf('<div class="%s"><b>ERROR %d - %s</b></div>',get_class($this),$this->Id,$dat[$this->Id])
 		);
