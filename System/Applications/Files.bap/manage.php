@@ -17,7 +17,7 @@ if($File != null && $File instanceof BContent)
 	printf('<input type="hidden" id="filename" size="30" name="filename" value="%s"/><h2>%s</h2><img src="%s" alt="" />'
     	, htmlentities($File->Title, ENT_QUOTES, 'UTF-8')
     	, htmlentities($File->Title, ENT_QUOTES, 'UTF-8')
-    	, WIcon::pathForMimeIcon($File->Type, WIcon::LARGE)
+    	, WIcon::pathForMimeIcon($File->MimeType, WIcon::LARGE)
 	);
 	printf(
 	    '<input type="checkbox" style="display:none;" name="select_%s" id="select_%s" checked="checked" />'

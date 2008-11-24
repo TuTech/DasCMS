@@ -54,7 +54,9 @@ class RSession extends BRequest
     public static function set($key, $value)
     {
         self::init();
+        global $_SESSION;
         self::$session[$key] = $value;
+        $_SESSION[$key] = $value;
     }
     
     public static function data()

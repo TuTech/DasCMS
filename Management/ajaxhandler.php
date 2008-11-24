@@ -80,6 +80,7 @@ catch(Exception $e)
         $user = '(null)';
     }
     $err = array(
+        'error' 	=> 1,
         'exception' => get_class($e),
         'message' 	=> $e->getMessage(),
         'code' 		=> $e->getCode(),

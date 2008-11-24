@@ -44,7 +44,6 @@ class SBambusSessionAuth
                 '*.change'      => $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Edit'),
                 'org.bambuscms.login'=> $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'CMS'),
             );     
-           // $applications = $SUsersAndGroups->      
         }
         return $rigths;
     }
@@ -67,8 +66,6 @@ class SBambusSessionAuth
             {
                 $user = RSent::get('bambus_cms_username');
                 $password = RSent::get('bambus_cms_password');
-                RSession::set('bambus_cms_username', $user);
-                RSession::set('bambus_cms_password', $password);
             }
             elseif(!empty($_SERVER['PHP_AUTH_USER']))
             {
@@ -80,6 +77,8 @@ class SBambusSessionAuth
                 $user = RSession::get('bambus_cms_username');
                 $password = RSession::get('bambus_cms_password');
             }
+            RSession::set('bambus_cms_username', $user);
+            RSession::set('bambus_cms_password', $password);
         }
         $uag = SUsersAndGroups::alloc()->init();
         if($uag->isValidUser($user, $password))

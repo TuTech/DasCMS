@@ -67,7 +67,12 @@ org.bambuscms.http.fetchJSONObject = function(url, asyncHandler)
 	{
 		var hdl = function(request)
 		{
-			asyncHandler(json_parse(request.responseText))
+			var obj = json_parse(request.responseText);
+			if(obj.error)
+			{
+				alert('ERROR\n'+request.responseText);
+			}
+			asyncHandler(obj);
 		};
 		org.bambuscms.http.fetch(url, hdl);
 	}
@@ -77,7 +82,12 @@ org.bambuscms.http.fetchJSONObject = function(url, asyncHandler)
 		//alert(request.responseText);
 		try
 		{
-			return json_parse(request.responseText);
+			var obj = json_parse(request.responseText);
+			if(obj.error)
+			{
+				alert('ERROR\n'+request.responseText);
+			}
+			return obj;
 		}
 		catch(e)
 		{
