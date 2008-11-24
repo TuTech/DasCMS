@@ -7,7 +7,6 @@
 * Version      0.9.0
 ************************************************/
 header('Content-Type: text/html; charset=utf-8');
-setlocale (LC_ALL, 'de_DE');
 //load the mighty bambus
 chdir('..');
 if(!defined('ERROR_TEMPLATE'))
@@ -24,7 +23,6 @@ if(!defined('ERROR_TEMPLATE'))
 }');
 }
 require_once('./System/Component/Loader.php');
-
 RSession::start();
 PAuthentication::required();
 try
@@ -73,6 +71,14 @@ try
 }
 catch(Exception $e)
 {
+    try
+    {
+        $user = PAuthentication::getUserID();
+    }
+    catch (Exception $e)
+    {
+        $user = '(null)';
+    }
     $err = array(
         'exception' => get_class($e),
         'message' 	=> $e->getMessage(),
@@ -80,6 +86,7 @@ catch(Exception $e)
         'trace' 	=> $e->getTraceAsString(),
         'file' 		=> $e->getFile(),
         'line' 		=> $e->getLine(),
+        'user'		=> $user,
         '_GET' 		=> $_GET
     );
     echo json_encode($err);
