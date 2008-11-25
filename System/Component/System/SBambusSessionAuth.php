@@ -72,13 +72,17 @@ class SBambusSessionAuth
                 $user = $_SERVER['PHP_AUTH_USER'];
                 $password = $_SERVER['PHP_AUTH_PW'];
             }
-            elseif(RSession::hasValue('bambus_cms_username'))
+            if(!empty($user))
+            {
+                RSession::reset();
+                RSession::set('bambus_cms_username', $user);
+                RSession::set('bambus_cms_password', $password);
+            }
+            if(RSession::hasValue('bambus_cms_username'))
             {
                 $user = RSession::get('bambus_cms_username');
                 $password = RSession::get('bambus_cms_password');
             }
-            RSession::set('bambus_cms_username', $user);
-            RSession::set('bambus_cms_password', $password);
         }
         $uag = SUsersAndGroups::alloc()->init();
         if($uag->isValidUser($user, $password))

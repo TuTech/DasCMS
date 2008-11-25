@@ -6,12 +6,23 @@
 * Description: Standard CSS for the CMS 
 ************************************************/
 /*TODO: clean up */
+#BambusRightInfo
+{
+	float: right;
+	text-align: right;
+}
 #BambusVersionInfo
 {
 	font-size:8px;
 	font-weight: bold;
 	color:#888a85;
-	float:right;
+	padding-right: 4px;
+}
+#BambusLogout
+{
+	font-size:12px;
+	font-weight: bold;
+	color:#2e3436;
 	padding-right: 4px;
 }
 #BambusContentArea

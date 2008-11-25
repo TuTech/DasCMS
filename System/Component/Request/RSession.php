@@ -24,8 +24,12 @@ class RSession extends BRequest
     public static function destroy()
     {
         session_destroy();
-        session_start();
         self::$session = array();
+    }
+    
+    public static function reset()
+    {
+        session_regenerate_id(true);
     }
     
     public static function get($key)

@@ -21,6 +21,7 @@ if(RURL::has('logout')){
 PAuthentication::required();
 
 WTemplate::globalSet('bcms_version', BAMBUS_VERSION);
+WTemplate::globalSet('logout_text', SLocalization::get('logout'));
 WTemplate::globalSet('WApplications', '');
 WTemplate::globalSet('SNotificationCenter', SNotificationCenter::alloc()->init());
 WTemplate::globalSet('bambus_my_uri', SLink::link());
