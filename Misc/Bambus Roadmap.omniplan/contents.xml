@@ -30,7 +30,7 @@
 			<key>GanttGroupShading</key>
 			<true/>
 			<key>GanttVisibleRect</key>
-			<string>{{287, 0}, {1118, 924}}</string>
+			<string>{{-17, 0}, {1118, 924}}</string>
 			<key>OutlineVisibleRect</key>
 			<string>{{0, 0}, {384, 924}}</string>
 			<key>ScaleWidths</key>
@@ -198,7 +198,7 @@
 	<key>displayTimes</key>
 	<true/>
 	<key>endDate</key>
-	<string>20090211 16:00</string>
+	<string>20090218 16:00</string>
 	<key>flatNumbering</key>
 	<false/>
 	<key>groupTaskStyle</key>
@@ -2180,9 +2180,9 @@
 				</dict>
 			</array>
 			<key>effort</key>
-			<real>57600</real>
+			<real>172800</real>
 			<key>forcedStart</key>
-			<string>20081126080000</string>
+			<string>20081127073000</string>
 			<key>objectId</key>
 			<integer>58</integer>
 			<key>prerequisites</key>
@@ -2209,9 +2209,9 @@
 			<key>task</key>
 			<string>RSS Reader Plugin</string>
 			<key>workSeconds</key>
-			<real>57600</real>
+			<real>172800</real>
 			<key>workTime</key>
-			<real>16</real>
+			<real>48</real>
 		</dict>
 		<dict>
 			<key>doneSeconds</key>
@@ -2247,7 +2247,7 @@
 		</dict>
 		<dict>
 			<key>effort</key>
-			<real>57600</real>
+			<real>86400</real>
 			<key>forcedStart</key>
 			<string>20081124070000</string>
 			<key>objectId</key>
@@ -2267,9 +2267,9 @@
 			<key>task</key>
 			<string>Ajax destroys session in Firefox</string>
 			<key>workSeconds</key>
-			<real>57600</real>
+			<real>86400</real>
 			<key>workTime</key>
-			<real>16</real>
+			<real>24</real>
 		</dict>
 		<dict>
 			<key>children</key>

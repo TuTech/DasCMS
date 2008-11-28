@@ -58,11 +58,54 @@ function ER_Handler( $errno ,  $errstr ,  $errfile ,  $errline ,  $errcontext  )
 //set_error_handler('ER_Handler');
 set_exception_handler('EX_Handler');
 
+function __autoload($class)
+{
+    if(strpos($class, '_') !== false)
+    {
+        object_autoload($class);
+    }
+    else
+    {
+        component_autoload($className);
+    }
+}
+function object_autoload($class)
+{
+    $pfx = '';
+    $fileName = '';
+    $path = 'Object';
+    if(substr($class, 0, 1) == '_')
+    {
+        $pfx = '_';
+        $class = substr($class, 1);
+    }
+    $tree = explode('_', $class);
+    if(count($tree))
+    {
+        $fileName = array_pop($tree);
+        if($pfx == '_')
+        {
+            array_push($tree, $fileName);
+        }
+    }
+    array_unshift($tree, 'Object');
+    $path = implode('/', $tree);
+    $file = sprintf('./System/%s/%s%s.php', $path, $pfx, $fileName);
+    if(file_exists($file))
+    {
+        require_once($file);
+    }
+    else
+    {
+        die('File not found: '.  $file.' in '.getcwd());
+    }
+}
+
 /**
  * Class Autoloader (PHP magic function)
  * @param string $className 
  */
-function __autoload($className)
+function component_autoload($className)
 {
     $cwd = getcwd();
     chdir(BAMBUS_CMS_ROOTDIR);
