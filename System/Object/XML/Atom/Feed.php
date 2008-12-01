@@ -5,19 +5,19 @@
 class XML_Atom_Feed extends _XML_Atom 
 {
     protected
-        $author,
-        $category,
-        $contributor,
-        $generator,
-        $icon,
-        $id,
-        $link,
-        $logo,
-        $rights,
-        $subtitle,
-        $title,
-        $updated,
-        $entry;
+        $c__author,
+        $c__category,
+        $c__contributor,
+        $c__generator,
+        $c__icon,
+        $c__id,
+        $c__link,
+        $c__logo,
+        $c__rights,
+        $c__subtitle,
+        $c__title,
+        $c__updated,
+        $c__entry;
         
     protected static $_elements = array(
         'author' 		=> _XML::NONE_OR_MORE,
@@ -72,5 +72,84 @@ class XML_Atom_Feed extends _XML_Atom
         $feed->parseNodeElements($node, self::$_elements);
         return $feed;
     }
+            
+    /**
+     * @return Collection_List_Atom_Person
+     */
+    public function getAuthors()
+    {
+        return new Collection_List_Atom_Person($this->c__author);
+    } 
+    /**
+     * @return Collection_List_Atom_Person
+     */  
+    public function getContributors()
+    {
+        return new Collection_List_Atom_Person($this->c__contributor);
+    } 
+        
+    /**
+     * @return Collection_List_Atom_Category
+     */
+    public function getCategories()
+    {
+        return new Collection_List_Atom_Category($this->c__category);
+    } 
+        
+    /**
+     * @return Collection_List_Atom_Link
+     */
+    public function getLinks()
+    {
+        return new Collection_List_Atom_Link($this->c__link);
+    } 
+        
+    /**
+     * @return Collection_List_Atom_Entry
+     */
+    public function getEntries()
+    {
+        return new Collection_List_Atom_Entry($this->c__entry);
+    } 
+        
+    public function getGenerator()
+    {
+        return $this->getFirstChild('generator');
+    } 
+        
+    public function getId()
+    {
+        return $this->getFirstChild('id');
+    } 
+        
+    public function getIcon()
+    {
+        return $this->getFirstChild('icon');
+    }  
+       
+    public function getRights()
+    {
+        return $this->getFirstChild('rights');
+    }  
+       
+    public function getLogo()
+    {
+        return $this->getFirstChild('logo');
+    } 
+        
+    public function getSubTitle()
+    {
+        return $this->getFirstChild('subtitle');
+    } 
+        
+    public function getTitle()
+    {
+        return $this->getFirstChild('title');
+    }  
+       
+    public function getUpdated()
+    {
+        return $this->getFirstChild('updated');
+    }     
 }
 ?>

@@ -21,5 +21,15 @@ class XML_Atom_Content_OutOfLine extends _XML_Atom_Content
         $content->parseNodeAttributes($node, self::$_attributes);
         return $content;
     }
+    
+    public function getSource()
+    {
+        return $this->src;
+    } 
+    
+    public function __toString()
+    {
+        return '';
+    }
 }
 ?>

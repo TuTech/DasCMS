@@ -34,5 +34,20 @@ class XML_Atom_Category extends _XML_Atom
         }
         return $category;
     }
+    
+    public function getTerm()
+    {
+        return $this->term;
+    }     
+    
+    public function getScheme()
+    {
+        return $this->scheme;
+    }     
+    
+    public function getLabel()
+    {
+        return $this->label;
+    }     
 }
 ?>

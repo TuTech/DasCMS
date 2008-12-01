@@ -20,6 +20,28 @@ abstract class _XML_Atom extends _XML
         return array();
     }
     
+    protected function hasChildren($ofType)
+    {
+        return (is_array($this->{'c__'.$ofType}) && count($this->{'c__'.$ofType}) > 0);
+    }
+    
+    protected function getFirstChild($ofType)
+    {
+        if($this->hasChildren($ofType))
+        {
+            return $this->{'c__'.$ofType}[0];
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
+    protected function getChildMap($forType)
+    {
+        //FIXME
+    }
+    
     /**
      * get all elements and parse them 
      *
@@ -52,10 +74,10 @@ abstract class _XML_Atom extends _XML
                 $this->debug_log('skipping');
                 continue;
             }
-            $this->{$element} = array();
+            $this->{'c__'.$element} = array();
             foreach($elements[$element] as $elementNode)
             {
-                $this->{$element}[] = call_user_func($elementParsers[$element].'::fromNode', $elementNode);
+                $this->{'c__'.$element}[] = call_user_func($elementParsers[$element].'::fromNode', $elementNode);
             }
         }
     }

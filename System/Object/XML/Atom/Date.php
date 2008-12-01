@@ -29,5 +29,20 @@ class XML_Atom_Date extends _XML_Atom
     {
         return strval(date('c', $this->timestamp));
     }
+    
+    public function getDateString()
+    {
+        return $this->string;
+    }     
+    
+    public function getCDate()
+    {
+        return date('c', $this->timestamp);
+    }     
+    
+    public function getTimestamp()
+    {
+        return $this->timestamp;
+    }     
 }
 ?>

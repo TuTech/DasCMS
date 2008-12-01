@@ -36,5 +36,35 @@ class XML_Atom_Link extends _XML_Atom
         $link->parseNodeAttributes($node, self::$_attributes);
         return $link;
     }
+    
+    public function getHRef()
+    {
+        return $this->href;
+    }     
+    
+    public function getRel()
+    {
+        return $this->rel;
+    }     
+    
+    public function getType()
+    {
+        return $this->type;
+    }     
+    
+    public function getHRefLang()
+    {
+        return $this->hreflang;
+    }     
+    
+    public function getTitle()
+    {
+        return $this->title;
+    }     
+    
+    public function getLength()
+    {
+        return $this->length;
+    }     
 }
 ?>

@@ -4,9 +4,9 @@
  */
 class XML_Atom_Person extends _XML_Atom 
 {
-    protected $name;
-    protected $email = null;
-    protected $uri = null;
+    protected $c__name;
+    protected $c__email = null;
+    protected $c__uri = null;
     
     protected static $_elements = array(
         'name' 	=> _XML::EXACTLY_ONE,
@@ -41,5 +41,20 @@ class XML_Atom_Person extends _XML_Atom
         $person->parseNodeElements($node, self::$_elements);
         return $person;
     }
+    
+    public function getName()
+    {
+        return $this->getFirstChild('name');
+    }     
+    
+    public function getEMail()
+    {
+        return $this->getFirstChild('email');
+    }     
+    
+    public function getURI()
+    {
+        return $this->getFirstChild('uri');
+    }     
 }
 ?>

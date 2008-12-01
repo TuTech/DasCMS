@@ -9,5 +9,15 @@ class _XML_Atom_Content extends _XML_Atom
     );
     protected $type = 'text'; 
     protected $data;
+    
+    public function getType()
+    {
+        return $this->type;
+    }
+    
+    public function __toString()
+    {
+        return strval($this->data);
+    }
 }
 ?>

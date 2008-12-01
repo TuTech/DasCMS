@@ -30,5 +30,20 @@ class XML_Atom_Generator extends _XML_Atom
         $generator->text = $node->textContent;
         return $generator;
     }
+    
+    public function getURI()
+    {
+        return $this->uri;
+    }     
+    
+    public function getVersion()
+    {
+        return $this->version;
+    }     
+    
+    public function getText()
+    {
+        return $this->text;
+    }     
 }
 ?>

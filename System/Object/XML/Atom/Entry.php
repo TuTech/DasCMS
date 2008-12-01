@@ -1,9 +1,23 @@
 <?php
 /**
- * Atom feed element
+ * Atom entry element
  */
 class XML_Atom_Entry extends _XML_Atom 
 {
+    protected 
+        $c__author,
+        $c__category,
+        $c__content,
+        $c__contributor,
+        $c__id,
+        $c__link,
+        $c__published,
+        $c__rights,
+        $c__source,
+        $c__summary,
+        $c__title,
+        $c__updated;
+        
     protected function __construct()
     {
     }
@@ -55,5 +69,77 @@ class XML_Atom_Entry extends _XML_Atom
         $feed->parseNodeElements($node, self::$_elements);
         return $feed;
     }
+        
+    /**
+     * @return Collection_List_Atom_Person
+     */
+    public function getAuthors()
+    {
+        return new Collection_List_Atom_Person($this->c__author);
+    } 
+    /**
+     * @return Collection_List_Atom_Person
+     */  
+    public function getContributors()
+    {
+        return new Collection_List_Atom_Person($this->c__contributor);
+    } 
+        
+    /**
+     * @return Collection_List_Atom_Category
+     */
+    public function getCategories()
+    {
+        return new Collection_List_Atom_Category($this->c__category);
+    } 
+        
+    /**
+     * @return Collection_List_Atom_Link
+     */
+    public function getLinks()
+    {
+        return new Collection_List_Atom_Link($this->c__link);
+    } 
+        
+    public function getContent()
+    {
+        return $this->getFirstChild('content');
+    } 
+        
+    public function getId()
+    {
+        return $this->getFirstChild('id');
+    } 
+        
+    public function getPublished()
+    {
+        return $this->getFirstChild('published');
+    }  
+       
+    public function getRights()
+    {
+        return $this->getFirstChild('rights');
+    }  
+       
+    public function getSource()
+    {
+        return $this->getFirstChild('source');
+    } 
+        
+    public function getSummary()
+    {
+        return $this->getFirstChild('summary');
+    } 
+        
+    public function getTitle()
+    {
+        return $this->getFirstChild('title');
+    }  
+       
+    public function getUpdated()
+    {
+        return $this->getFirstChild('updated');
+    }     
+    
 }
 ?>

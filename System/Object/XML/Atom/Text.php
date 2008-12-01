@@ -1,6 +1,6 @@
 <?php
 /**
- * Atom feed element
+ * Atom text element
  */
 class XML_Atom_Text extends _XML_Atom 
 {
@@ -49,6 +49,16 @@ class XML_Atom_Text extends _XML_Atom
         }
         return $text;
     }
+    
+    public function getType()
+    {
+        return $this->type;
+    }
+    
+    public function getText()
+    {
+        return $this->data;
+    }    
     
     public function __toString()
     {

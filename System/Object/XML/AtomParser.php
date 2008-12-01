@@ -10,6 +10,8 @@ class XML_AtomParser extends _XML
      */
     protected $ObjectTree;
     
+    protected $type;
+    
     /**
      * constructor for parser
      *
@@ -18,16 +20,16 @@ class XML_AtomParser extends _XML
     public function __construct(DOMDocument $doc)
     {
         $this->DOMDocument = $doc;
-        $root = $doc->documentElement->localName;
-        if($root == 'feed')
+        $this->type = $doc->documentElement->localName;
+        if($this->type == 'feed')
         {
             $this->debug_log('loading feed');
             $this->ObjectTree = XML_Atom_Feed::fromNode($doc->documentElement);
         }
-        elseif($root == 'entry')
+        elseif($this->type == 'entry')
         {
             $this->debug_log('loading entry');
-             $this->ObjectTree = XML_Atom_Entry::fromNode($doc->documentElement);
+            $this->ObjectTree = XML_Atom_Entry::fromNode($doc->documentElement);
         }
         else
         {
@@ -42,6 +44,35 @@ class XML_AtomParser extends _XML
      */
     public function getObjectTree()
     {
+        return $this->ObjectTree;
+    }
+    
+    public function getType()
+    {
+        return $this->type;
+    }
+    
+    /**
+     * @return XML_Atom_Feed
+     */
+    public function getFeedTree()
+    {
+        if($this->type != 'feed')
+        {
+            throw new Exception('not a feed');
+        }
+        return $this->ObjectTree;
+    }
+    
+    /**
+     * @return XML_Atom_Entry
+     */
+    public function getEntryTree()
+    {
+        if($this->type != 'entry')
+        {
+            throw new Exception('not an entry');
+        }
         return $this->ObjectTree;
     }
     

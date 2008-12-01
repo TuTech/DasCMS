@@ -17,5 +17,10 @@ class XML_Atom_Content_InlineXHTML extends _XML_Atom_Content
         $content->data = strval($node->nodeValue);
         return $content;
     } 
+    
+    public function getText()
+    {
+        return $this->data;
+    } 
 }
 ?>
