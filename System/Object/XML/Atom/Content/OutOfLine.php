@@ -1,4 +1,7 @@
 <?php
+/**
+ * external content
+ */
 class XML_Atom_Content_OutOfLine extends _XML_Atom_Content
 {
     protected $src = null; 
@@ -7,7 +10,7 @@ class XML_Atom_Content_OutOfLine extends _XML_Atom_Content
         'src' => _XML::NONE_OR_MORE
     );
     /**
-     * create a XML_Atom_Feed by feed-node
+     * create a XML_Atom_Content_Other by node
      *
      * @param DOMNode $node
      * @return XML_Atom_Content_Other

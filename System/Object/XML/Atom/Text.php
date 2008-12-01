@@ -4,20 +4,18 @@
  */
 class XML_Atom_Text extends _XML_Atom 
 {
+    /**
+     * the text
+     *  
+     * @var string
+     */
     protected $data = '';
+    /**
+     * the text type 
+     * 
+     * @var string
+     */
     protected $type = 'text';    
-    
-    
-    protected static $_elements = array(
-    );
-     
-    private static $_elementParser = array(
-    );
-     
-    protected function getElementParsers()
-    {
-        return self::$_elementParser;
-    }
     
     protected static $_attributes = array('type' => _XML::NONE_OR_MORE);
     
@@ -26,7 +24,7 @@ class XML_Atom_Text extends _XML_Atom
     }
     
     /**
-     * create a XML_Atom_Feed by feed-node
+     * create a XML_Atom_Feed by node
      *
      * @param DOMNode $node
      * @return XML_Atom_Text
@@ -54,7 +52,7 @@ class XML_Atom_Text extends _XML_Atom
     
     public function __toString()
     {
-        return strval($this->data);
+        return $this->data;
     }
 }
 ?>

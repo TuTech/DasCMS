@@ -42,7 +42,7 @@ abstract class _XML extends _
     {
         //load file, read xml, throw ex if invalid
         $dom = new DOMDocument('1.0');
-        if(!@$dom->loadXML($file))
+        if(!@$dom->loadXML($xml))
         {
             throw new Exception('could not load xml', 1);
         }    
@@ -50,7 +50,7 @@ abstract class _XML extends _
     }
     
     /**
-     * given a node and an array (elementName => childMode) 
+     * given a DOMNode and an array (elementName => childMode) 
      * this funktion will return an array (elementName => array(elements))
      * 
      * @param DOMNode $node
@@ -69,6 +69,14 @@ abstract class _XML extends _
         return $result;
     }
         
+    /**
+     * get child nodes with the name $elementName from DOMNode $node
+     *
+     * @param DOMNode $node
+     * @param string $elementName
+     * @param string $childMode a _XML:: const
+     * @return array
+     */
     protected function getNamedChildElements(DOMNode $node, $elementName, $childMode = _XML::NONE_OR_MORE)
     {
         $children = array();
@@ -107,6 +115,14 @@ abstract class _XML extends _
         return $result;
     }
         
+    /**
+     * get attribute with the name $attributeName from the DOMNode $node
+     *
+     * @param DOMNode $node
+     * @param string $attributeName
+     * @param string $childMode
+     * @return string|null
+     */
     protected function getNamedChildAttributes(DOMNode $node, $attributeName, $childMode = _XML::NONE_OR_MORE)
     {
         $this->debug_log('looking for '.$attributeName);
@@ -126,6 +142,13 @@ abstract class _XML extends _
         }
     }
     
+    /**
+     * throws exception if the namespace of $node does not match $namespace
+     *
+     * @param DOMNode $node
+     * @param sring $namespace
+     * @throws Exception
+     */
     protected function assertNamespace(DOMNode $node, $namespace)
     {
         if($node->namespaceURI != $namespace)
@@ -134,12 +157,18 @@ abstract class _XML extends _
         }
     }
         
+    /**
+     * throws exception if the $childCount conflicts with $childMode
+     *
+     * @param string $childMode
+     * @param integer $childCount
+     */
     protected function assertChildMode($childMode, $childCount)
     {
         $msg = 'Invalid child failed. %d children found but %s expected';
         if(!in_array($childMode, array(_XML::EXACTLY_ONE, _XML::NONE_OR_MORE, _XML::NONE_OR_ONE, _XML::ONE_OR_MORE)))
         {
-            throw new Exception('Invalid child mode given');
+            throw new Exception('Invalid child mode');
         }
         if($childMode == _XML::EXACTLY_ONE && $childCount != 1)
         {

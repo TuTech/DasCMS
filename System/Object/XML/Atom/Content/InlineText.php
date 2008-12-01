@@ -1,8 +1,12 @@
 <?php
+/**
+ * Inline text content
+ *
+ */
 class XML_Atom_Content_InlineText extends _XML_Atom_Content
 {
     /**
-     * create a XML_Atom_Feed by feed-node
+     * create a XML_Atom_Content_InlineText by node
      *
      * @param DOMNode $node
      * @return XML_Atom_Content_InlineText

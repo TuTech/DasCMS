@@ -1,4 +1,7 @@
 <?php
+/**
+ * universal atom parsing functions 
+ */
 abstract class _XML_Atom extends _XML 
 {
     /*  
@@ -8,8 +11,35 @@ abstract class _XML_Atom extends _XML
 	* */
     const NAMESPACE = 'http://www.w3.org/2005/Atom';
     
-    abstract protected function getElementParsers();
+    /**
+     * list of child nodes
+     * @return array
+     */
+    protected function getElementParsers()
+    {
+        return array();
+    }
     
+    /**
+     * get all elements and parse them 
+     *
+     * @param DOMNode $node
+     * @param array $withElements
+     */
+    protected function parseNodeElements(DOMNode $node, array $withElements)
+    {
+        $this->debug_log('parsing node');
+        $this->assertNamespace($node, _XML_Atom::NAMESPACE);
+        $elements = $this->fetchElements($node, $withElements);
+        $this->applyElementParser($elements);
+    }
+    
+    /**
+     * map parsed children to object properties
+     * array: (element => parser-object)
+     *
+     * @param array $elements
+     */
     protected function applyElementParser(array $elements)
     {
         $elementParsers = $this->getElementParsers();
@@ -17,7 +47,7 @@ abstract class _XML_Atom extends _XML
         foreach($elementParsers as $element => $parser)
         {
             $this->debug_log('parsing '.$element);
-            if($parser == null)
+            if($parser == null || !class_exists($parser, true))
             {
                 $this->debug_log('skipping');
                 continue;
@@ -29,15 +59,26 @@ abstract class _XML_Atom extends _XML
             }
         }
     }
-    
-    protected function parseNodeElements(DOMNode $node, array $withElements)
+        
+    /**
+     * get and parse all attributes
+     *
+     * @param DOMNode $node
+     * @param array $withAttributes
+     */
+    protected function parseNodeAttributes(DOMNode $node, array $withAttributes)
     {
         $this->debug_log('parsing node');
         $this->assertNamespace($node, _XML_Atom::NAMESPACE);
-        $elements = $this->fetchElements($node, $withElements);
-        $this->applyElementParser($elements);
+        $attributes = $this->fetchAttributes($node, $withAttributes);
+        $this->applyAttributeParser($attributes);
     }
     
+    /**
+     * map attributes to object properties
+     *
+     * @param array $attributes
+     */
     protected function applyAttributeParser(array $attributes)
     {
         $this->debug_log('adding attributes');
@@ -48,14 +89,6 @@ abstract class _XML_Atom extends _XML
                 $this->{$attribute} = $value;
             }
         }
-    }
-    
-    protected function parseNodeAttributes(DOMNode $node, array $withAttributes)
-    {
-        $this->debug_log('parsing node');
-        $this->assertNamespace($node, _XML_Atom::NAMESPACE);
-        $attributes = $this->fetchAttributes($node, $withAttributes);
-        $this->applyAttributeParser($attributes);
     }
 }
 ?>

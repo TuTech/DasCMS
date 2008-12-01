@@ -14,17 +14,12 @@ class XML_Atom_Category extends _XML_Atom
         'label' => _XML::NONE_OR_MORE
     );
     
-    protected function getElementParsers()
-    {
-        return array();
-    }
-    
     protected function __construct()
     {
     }
     
     /**
-     * create a XML_Atom_Feed by feed-node
+     * create a XML_Atom_Category by node
      *
      * @param DOMNode $node
      * @return XML_Atom_Category

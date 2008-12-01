@@ -30,7 +30,7 @@ class XML_Atom_Person extends _XML_Atom
     }
     
     /**
-     * create a XML_Atom_Feed by feed-node
+     * create a XML_Atom_Person by node
      *
      * @param DOMNode $node
      * @return XML_Atom_Person

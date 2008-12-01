@@ -1,6 +1,6 @@
 <?php
 /**
- * Atom source element
+ * Atom source element - preserves the meta data from an other feed
  */
 class XML_Atom_Source extends XML_Atom_Feed 
 {
@@ -9,7 +9,7 @@ class XML_Atom_Source extends XML_Atom_Feed
     }
     
     /**
-     * create a XML_Atom_Feed by feed-node
+     * create a XML_Atom_Source by node
      *
      * @param DOMNode $node
      * @return XML_Atom_Source

@@ -1,9 +1,11 @@
 <?php
+/**
+ * Inline XHTML
+ */
 class XML_Atom_Content_InlineXHTML extends _XML_Atom_Content
 {
-    protected $data;
     /**
-     * create a XML_Atom_Feed by feed-node
+     * create a XML_Atom_Content_InlineXHTML by node
      *
      * @param DOMNode $node
      * @return XML_Atom_Content_InlineXHTML

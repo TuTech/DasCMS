@@ -1,10 +1,21 @@
 <?php
 class XML_AtomParser extends _XML
 {
+    /**
+     * @var DOMDocument
+     */
     protected $DOMDocument;
+    /**
+     * @var _XML_Atom
+     */
     protected $ObjectTree;
     
-    protected function __construct(DOMDocument $doc)
+    /**
+     * constructor for parser
+     *
+     * @param DOMDocument $doc
+     */
+    public function __construct(DOMDocument $doc)
     {
         $this->DOMDocument = $doc;
         $root = $doc->documentElement->localName;
@@ -25,14 +36,18 @@ class XML_AtomParser extends _XML
     }
     
     /**
+     * get the parsed tree
+     * 
      * @return _XML_Atom
      */
     public function getObjectTree()
     {
-        return  $this->ObjectTree;
+        return $this->ObjectTree;
     }
     
     /**
+     * create a XML_AtomParser for a xml-string
+     * 
      * @param string $string
      * @return XML_AtomParser
      */
@@ -42,6 +57,8 @@ class XML_AtomParser extends _XML
     }
     
     /**
+     * create a XML_AtomParser for a xml-file
+     * 
      * @param string $file
      * @return XML_AtomParser
      */

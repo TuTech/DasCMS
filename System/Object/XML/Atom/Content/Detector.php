@@ -1,5 +1,7 @@
 <?php
-//detect content type and create a matching object
+/**
+ * detect content type and create a matching _XML_Atom_Content object
+ */
 class XML_Atom_Content_Detector extends _XML_Atom_Content 
 {
     protected $src = null; 
@@ -7,8 +9,9 @@ class XML_Atom_Content_Detector extends _XML_Atom_Content
         'type' => _XML::NONE_OR_MORE,
         'src' => _XML::NONE_OR_MORE
         );
+        
     /**
-     * create a XML_Atom_Feed by feed-node
+     * create a _XML_Atom_Content by node
      *
      * @param DOMNode $node
      * @return _XML_Atom_Content

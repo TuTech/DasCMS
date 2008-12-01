@@ -7,24 +7,12 @@ class XML_Atom_Date extends _XML_Atom
     protected $timestamp = 0;
     protected $string = '';    
     
-    
-    protected static $_elements = array(
-    );
-     
-    private static $_elementParser = array(
-    );
-     
-    protected function getElementParsers()
-    {
-        return self::$_elementParser;
-    }
-    
     protected function __construct()
     {
     }
     
     /**
-     * create a XML_Atom_Feed by feed-node
+     * create a XML_Atom_Date by node
      *
      * @param DOMNode $node
      * @return XML_Atom_Date

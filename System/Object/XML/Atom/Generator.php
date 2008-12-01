@@ -9,21 +9,16 @@ class XML_Atom_Generator extends _XML_Atom
     protected $text = '';    
     
     protected static $_attributes = array(
-        'uri' => _XML::NONE_OR_MORE,
+        'uri' 	  => _XML::NONE_OR_MORE,
         'version' => _XML::NONE_OR_MORE
     );
-    
-    protected function getElementParsers()
-    {
-        return array();
-    }
     
     protected function __construct()
     {
     }
     
     /**
-     * create a XML_Atom_Feed by feed-node
+     * create a XML_Atom_Generator by node
      *
      * @param DOMNode $node
      * @return XML_Atom_Generator

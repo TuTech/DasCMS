@@ -1,8 +1,11 @@
 <?php
+/**
+ * Some other inline content
+ */
 class XML_Atom_Content_Other extends _XML_Atom_Content
 {
     /**
-     * create a XML_Atom_Feed by feed-node
+     * create a XML_Atom_Content_Other by node
      *
      * @param DOMNode $node
      * @return XML_Atom_Content_Other
