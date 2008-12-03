@@ -8,7 +8,7 @@ class AStylesheetEditor
 {
     const GUID = 'org.bambuscms.applications.stylesheeteditor';
     
-    public function getGUID()
+    public function getClassGUID()
     {
         return self::GUID;
     }

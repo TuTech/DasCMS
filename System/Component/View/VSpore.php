@@ -8,7 +8,7 @@ class VSpore
 {
     const GUID = 'org.bambuscms.view.spore';
     
-    public function getGUID()
+    public function getClassGUID()
     {
         return self::GUID;
     }

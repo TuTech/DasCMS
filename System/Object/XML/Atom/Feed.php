@@ -112,41 +112,65 @@ class XML_Atom_Feed extends _XML_Atom
         return new Collection_List_Atom_Entry($this->c__entry);
     } 
         
+    /**
+     * @return XML_Atom_Generator
+     */
     public function getGenerator()
     {
         return $this->getFirstChild('generator');
     } 
         
+    /**
+     * @return XML_Atom_Text
+     */
     public function getId()
     {
         return $this->getFirstChild('id');
     } 
         
+    /**
+     * @return XML_Atom_Text
+     */
     public function getIcon()
     {
         return $this->getFirstChild('icon');
     }  
        
+    /**
+     * @return XML_Atom_Text
+     */
     public function getRights()
     {
         return $this->getFirstChild('rights');
     }  
        
+    /**
+     * @return XML_Atom_Text
+     */
     public function getLogo()
     {
         return $this->getFirstChild('logo');
     } 
         
+    /**
+     * @return XML_Atom_Text
+     */
     public function getSubTitle()
     {
         return $this->getFirstChild('subtitle');
     } 
         
+    /**
+     * @return XML_Atom_Text
+     */
     public function getTitle()
     {
         return $this->getFirstChild('title');
     }  
        
+    /**
+     * @return XML_Atom_Date
+     */
     public function getUpdated()
     {
         return $this->getFirstChild('updated');

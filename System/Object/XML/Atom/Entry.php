@@ -101,41 +101,65 @@ class XML_Atom_Entry extends _XML_Atom
         return new Collection_List_Atom_Link($this->c__link);
     } 
         
+    /**
+     * @return _XML_Atom_Content
+     */
     public function getContent()
     {
         return $this->getFirstChild('content');
     } 
         
+    /**
+     * @return XML_Atom_Text
+     */
     public function getId()
     {
         return $this->getFirstChild('id');
     } 
         
+    /**
+     * @return XML_Atom_Date
+     */
     public function getPublished()
     {
         return $this->getFirstChild('published');
     }  
        
+    /**
+     * @return XML_Atom_Text
+     */
     public function getRights()
     {
         return $this->getFirstChild('rights');
     }  
        
+    /**
+     * @return XML_Atom_Source
+     */
     public function getSource()
     {
         return $this->getFirstChild('source');
     } 
         
+    /**
+     * @return XML_Atom_Text
+     */
     public function getSummary()
     {
         return $this->getFirstChild('summary');
     } 
         
+    /**
+     * @return XML_Atom_Text
+     */
     public function getTitle()
     {
         return $this->getFirstChild('title');
     }  
        
+    /**
+     * @return XML_Atom_Date
+     */
     public function getUpdated()
     {
         return $this->getFirstChild('updated');

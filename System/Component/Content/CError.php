@@ -10,7 +10,7 @@
 class CError extends BContent implements IGlobalUniqueId 
 {
     const GUID = 'org.bambuscms.content.cerror';
-    public function getGUID()
+    public function getClassGUID()
     {
         return self::GUID;
     }

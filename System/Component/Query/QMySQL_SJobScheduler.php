@@ -75,7 +75,8 @@ class QSJobScheduler extends BQuery
             "UPDATE JobSchedules
 				SET 
 					exitCode = %d,
-					exitMessage = '%s'
+					exitMessage = '%s',
+					finished = NOW()
 				WHERE 
 					jobREL = %d
 					AND scheduled = '%s'";

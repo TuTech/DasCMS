@@ -8,7 +8,7 @@ class AWebsiteEditor
 {
     const GUID = 'org.bambuscms.applications.websiteeditor';
     
-    public function getGUID()
+    public function getClassGUID()
     {
         return self::GUID;
     }

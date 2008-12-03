@@ -8,7 +8,7 @@ class ATemplates
 {
     const GUID = 'org.bambuscms.applications.templates';
     
-    public function getGUID()
+    public function getClassGUID()
     {
         return self::GUID;
     }

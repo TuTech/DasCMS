@@ -30,7 +30,7 @@ class WOpenDialog extends BWidget
     {
         $script =
             'org.bambuscms.wopenfiledialog.setSource({'.
-                '\'controller\':\''.$this->editor->getGUID().'\','.
+                '\'controller\':\''.$this->editor->getClassGUID().'\','.
                 '\'call\':\'provideOpenDialogData\''.
             '});'.
             'org.bambuscms.wopenfiledialog.prepareLinks("'.

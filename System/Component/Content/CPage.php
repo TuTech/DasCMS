@@ -10,7 +10,7 @@
 class CPage extends BContent implements ISupportsSidebar, IGlobalUniqueId 
 {
     const GUID = 'org.bambuscms.content.cpage';
-    public function getGUID()
+    public function getClassGUID()
     {
         return self::GUID;
     }
@@ -106,8 +106,7 @@ class CPage extends BContent implements ISupportsSidebar, IGlobalUniqueId
 	    $this->_contentLoaded = true;
 		$this->Content = $value;
 		$this->Size = strlen($value);
-		$this->Description = $this->createSummary($value);
-		
+		//$this->Description = $this->createSummary($value);
 	}
 	
 	public function Save()

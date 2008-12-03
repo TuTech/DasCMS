@@ -15,7 +15,7 @@ class CFile
         IFileContent 
 {
     const GUID = 'org.bambuscms.content.cfile';
-    public function getGUID()
+    public function getClassGUID()
     {
         return self::GUID;
     }

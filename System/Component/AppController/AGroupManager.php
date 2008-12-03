@@ -8,7 +8,7 @@ class AGroupManager
 {
     const GUID = 'org.bambuscms.applications.groupmanager';
     
-    public function getGUID()
+    public function getClassGUID()
     {
         return self::GUID;
     }

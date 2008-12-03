@@ -2,7 +2,7 @@
 /**
  * Inline XHTML
  */
-class XML_Atom_Content_InlineXHTML extends _XML_Atom_Content
+class XML_Atom_Content_InlineXHTML extends _XML_Atom_Content implements Interface_XML_Atom_TextContent 
 {
     /**
      * create a XML_Atom_Content_InlineXHTML by node

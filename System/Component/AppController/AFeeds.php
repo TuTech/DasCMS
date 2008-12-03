@@ -8,7 +8,7 @@ class AFeeds
 {
     const GUID = 'org.bambuscms.applications.feeds';
     
-    public function getGUID()
+    public function getClassGUID()
     {
         return self::GUID;
     }

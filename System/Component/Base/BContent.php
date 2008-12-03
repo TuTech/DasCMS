@@ -18,6 +18,7 @@ abstract class BContent extends BObject
 	//Properties - to be handled in __get() & __set()
 	protected 
 		$Id, 		//class unique id
+		$GUID,      //Global Unique ID
 		$Title, 	//title of object
 		$Content,	//content and content type e.g. html, mp3, gif ...
 		$Text, 		//Text representation of the object for search indexers
@@ -40,7 +41,7 @@ abstract class BContent extends BObject
 		
 	protected function initBasicMetaFromDB($alias)
 	{
-	    list($id, $ttl, $pd, $desc, $tags, $mt, $sz) = QBContent::getBasicMetaData($alias);
+	    list($id, $ttl, $pd, $desc, $tags, $mt, $sz, $guid) = QBContent::getBasicMetaData($alias);
 	    $this->Id = $id;
 	    $this->Title = $ttl;
 	    $this->PubDate = strtotime($pd);
@@ -50,6 +51,7 @@ abstract class BContent extends BObject
 	    $this->Alias = $alias;
 	    $this->MimeType = $mt;
 	    $this->Size = $sz;
+	    $this->GUID = $guid;
 	}
 	
 	protected function initAdditionalMetaFromDB($alias)
@@ -199,6 +201,14 @@ abstract class BContent extends BObject
 	public function getId()
 	{
 		return $this->Id;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getGUID()
+	{
+		return $this->GUID;
 	}
 	
 	/**

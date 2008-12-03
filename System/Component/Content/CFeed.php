@@ -11,7 +11,7 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
 {
     const GUID = 'org.bambuscms.content.cfeed';
     
-    public function getGUID()
+    public function getClassGUID()
     {
         return self::GUID;
     }

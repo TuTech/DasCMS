@@ -41,7 +41,7 @@ abstract class BAppController
 	 */
 	protected function isPermitted($action)
 	{
-	    return PAuthorisation::has($this->getGUID().'.'.$action);
+	    return PAuthorisation::has($this->getClassGUID().'.'.$action);
 	}
 }
 ?>

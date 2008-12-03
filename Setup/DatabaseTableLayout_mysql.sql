@@ -50,6 +50,10 @@ Contents(
         INTEGER 
         UNIQUE
         NULL,
+    GUID 
+        INTEGER 
+        UNIQUE
+        NULL,
     type 
         INTEGER 
         NOT NULL,
@@ -403,6 +407,64 @@ ENGINE = InnoDB
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
 
+-- AtomImports
+CREATE TABLE IF NOT EXISTS 
+AtomImports(
+	atomSourceREL
+        INTEGER 
+        NOT NULL,
+	guid
+		VARCHAR(128)
+		NOT NULL,
+	lastUpdate
+		DATETIME
+		NOT NULL,
+	contentREL
+		INTEGER
+		NOT NULL,
+	UNIQUE (guid),
+	INDEX (atomSourceREL),
+	INDEX (contentREL)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- Atom Sources
+CREATE TABLE IF NOT EXISTS 
+AtomSources(
+	atomSourceID
+        INTEGER 
+		PRIMARY KEY
+		AUTO_INCREMENT
+        NOT NULL,
+	name
+		VARCHAR(32)
+		NOT NULL,
+	url
+		VARCHAR(255)
+		NOT NULL,
+	lastFetched
+		TIMESTAMP
+		NULL
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+
+-- foreign keys for atom imports
+ALTER TABLE 
+AtomImports
+    ADD FOREIGN KEY (atomSourceREL)
+        REFERENCES AtomSources(atomSourceID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION,
+    ADD FOREIGN KEY (contentREL)
+        REFERENCES Contents(contentID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION;
+
 -- Foreign keys for PermissionTags
 ALTER TABLE 
 JobSchedules
@@ -498,7 +560,11 @@ Contents
     ADD CONSTRAINT primary_alias FOREIGN KEY (primaryAlias) 
         REFERENCES Aliases(aliasID)
         ON DELETE CASCADE
-        ON UPDATE NO ACTION;
+        ON UPDATE NO ACTION,
+    ADD CONSTRAINT content_guid FOREIGN KEY (GUID) 
+        REFERENCES Aliases(aliasID)
+        ON DELETE RESTRICT
+        ON UPDATE RESTRICT;
 
 -- Foreign keys for Aliases
 ALTER TABLE 

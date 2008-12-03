@@ -9,7 +9,7 @@ class ATreeNavigationEditor
     const GUID = 'org.bambuscms.applications.treenavigationeditor';
     
     
-    public function getGUID()
+    public function getClassGUID()
     {
         return self::GUID;
     }

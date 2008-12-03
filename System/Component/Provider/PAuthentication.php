@@ -14,6 +14,7 @@ class PAuthentication extends BProvider
     private static $userEmail;
     private static $userStatus;
     
+    private static $daemonRun = false;
     
     private static $active = false;
     
@@ -40,6 +41,24 @@ class PAuthentication extends BProvider
         {
             throw new Exception(self::CLASS_NAME.'::required() must be called before this function');
         }
+    }
+    
+    public static function daemonRun()
+    {
+        if(!self::$active)
+        {
+            self::$userID = 0;
+            self::$userName = 'system';
+            self::$userEmail = '';
+            self::$userStatus = self::VALID_USER;
+            self::$daemonRun = true;
+            self::$active = true;
+        }
+    }
+    
+    public static function isDaemon()
+    {
+        return self::$daemonRun;
     }
     
     /**

@@ -15,7 +15,7 @@ class CTemplate
         IPageGenerator  
 {
     const GUID = 'org.bambuscms.content.ctemplate';
-    public function getGUID()
+    public function getClassGUID()
     {
         return self::GUID;
     }

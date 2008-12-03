@@ -219,22 +219,25 @@ class QSContentIndex extends BQuery
             INSERT INTO Aliases
             	(alias, contentREL)
             	VALUES
-            	('%s', %d)";
-        $DB->queryExecute(sprintf($sql, $DB->escape(md5($type.':'.$id)), $id));
+            	(UUID(), %d)";
+        $DB->queryExecute(sprintf($sql, $id));
         $aliasID = $DB->lastInsertID();
         $sql = "
 			UPDATE Contents
-				SET primaryAlias = %d
+				SET primaryAlias = %d,
+					GUID = %d
 				WHERE contentID = %d";
-        $DB->queryExecute(sprintf($sql, $aliasID, $id));
+        $DB->queryExecute(sprintf($sql, $aliasID, $aliasID, $id));
         $sql = "
 			INSERT INTO Changes
 				(contentREL, title, size, userREL)
 				VALUES
 				(%d, '%s', 0, (SELECT userID FROM Users WHERE login = '%s'))";
         $DB->queryExecute(sprintf($sql, $id, $DB->escape($title), $DB->escape(PAuthentication::getUserID())));
+        $sql = sprintf("SELECT alias FROM Aliases WHERE aliasID = %d", $aliasID);
+        list($UUID) = $DB->query($sql, DSQL::NUM)->fetch();
         $DB->commit();
-        return array($id, md5($type.':'.$id));
+        return array($id, $UUID);
     }
 }
 ?>

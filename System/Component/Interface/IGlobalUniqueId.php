@@ -4,6 +4,6 @@ interface IGlobalUniqueId
     /**
      * @return string
      */
-    public function getGUID();
+    public function getClassGUID();
 }
 ?>

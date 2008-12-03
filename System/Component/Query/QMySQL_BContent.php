@@ -104,9 +104,11 @@ class QBContent extends BQuery
             		Contents.pubDate,
             		Contents.description,
 					Mimetypes.mimetype,
-					Contents.size
+					Contents.size,
+					GUIDs.alias
             	FROM Contents
             	LEFT JOIN Aliases ON (Contents.contentID = Aliases.contentREL)
+            	LEFT JOIN Aliases AS GUIDs ON (Contents.GUID = GUIDs.aliasID)
 				LEFT JOIN Mimetypes ON (Contents.mimetypeREL = Mimetypes.mimetypeID)
             		WHERE Aliases.alias = '%s'";
         $DB = BQuery::Database();
@@ -115,7 +117,7 @@ class QBContent extends BQuery
         {
             throw new XUndefinedIndexException();
         }
-        list($id, $ttl, $pd, $desc, $mt, $sz) = $res->fetch();
+        list($id, $ttl, $pd, $desc, $mt, $sz, $guid) = $res->fetch();
         $sql = "
             SELECT tag 
             	FROM Tags 
@@ -128,7 +130,7 @@ class QBContent extends BQuery
         	$tags[] = $row[0];
         }
         return array(
-            $id, $ttl, $pd, $desc, $tags, $mt, $sz
+            $id, $ttl, $pd, $desc, $tags, $mt, $sz, $guid
         );
     }
 }

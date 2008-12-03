@@ -9,7 +9,7 @@ class AUserEditor
     const GUID = 'org.bambuscms.applications.usereditor';
     
     
-    public function getGUID()
+    public function getClassGUID()
     {
         return self::GUID;
     }

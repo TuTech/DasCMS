@@ -17,7 +17,7 @@ class NTreeNavigation
 {
     const GUID = 'org.bambuscms.navigation.treenavigation';
     
-    public function getGUID()
+    public function getClassGUID()
     {
         return self::GUID;
     }

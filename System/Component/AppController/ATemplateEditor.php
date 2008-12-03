@@ -9,7 +9,7 @@ class ATemplateEditor
     const GUID = 'org.bambuscms.applications.templateeditor';
     
     
-    public function getGUID()
+    public function getClassGUID()
     {
         return self::GUID;
     }

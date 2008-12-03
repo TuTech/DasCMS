@@ -1,15 +1,15 @@
 <?php
+$_GET = array();
+$_POST = array();
+$_REQUEST = array();
 require_once('./System/Component/Loader.php');
-header('Content-Type: image/png;');
+PAuthentication::daemonRun();
 header("Expires: ".date('r', 0));
 header("Cache-Control: max-age=0, public");
-
-if(SJobScheduler::runJob())
+$img = (SJobScheduler::runJob()) ? 'ok.png': 'fail.png';
+if(!headers_sent())
 {
-    readfile(SPath::SYSTEM_IMAGES.'ok.png');
-}
-else
-{
-    readfile(SPath::SYSTEM_IMAGES.'fail.png');
+    header('Content-Type: image/png;');
+    readfile(SPath::SYSTEM_IMAGES.$img);
 }
 ?>

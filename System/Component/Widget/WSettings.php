@@ -69,14 +69,11 @@ class WSettings extends BWidget implements ISidebarWidget
 		$html .= "<br /><strong><label for=\"WSearch-Tags\">Tags</label></strong>";
 		$html .= sprintf('<textarea id="WSearch-Tags" name="WSearch-Tags">%s</textarea>', htmlentities($tagstr, ENT_QUOTES, 'utf-8'));
 		$html .= sprintf('<input type="hidden" class="hidden" name="WSearch-Tags-chk" value="%s" />', md5($tagstr));
-		if(get_class($this->targetObject) != 'CPage')
-		{
-			$html .= "<br /><strong>Description</strong>";
-			$html .= sprintf('<textarea id="WSearch-Desc" name="WSearch-Desc">%s</textarea>', htmlentities($this->targetObject->Description, ENT_QUOTES, 'utf-8'));
-		}
+		$html .= "<br /><strong>Description</strong>";
+		$html .= sprintf('<textarea id="WSearch-Desc" name="WSearch-Desc">%s</textarea>', htmlentities($this->targetObject->Description, ENT_QUOTES, 'utf-8'));
 		$html .= "<br /><strong>Meta</strong>";
 		$html .= '<table border="0">';
-		$meta = array('Alias', 'PubDate','ModifyDate','ModifiedBy', 'CreateDate', 'CreatedBy', 'Size');
+		$meta = array('Alias','GUID', 'PubDate','ModifyDate','ModifiedBy', 'CreateDate', 'CreatedBy', 'Size');
 		foreach ($meta as $key) 
 		{
 		    $val = '-';

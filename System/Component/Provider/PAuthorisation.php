@@ -36,24 +36,35 @@ class PAuthorisation extends BProvider
     {
         if(!self::$active)
         {
-            try
+            if(PAuthentication::isDaemon())
             {
-                $implementor = self::instance()->getImplementor();
+                self::$permissions = array('*' => PAuthorisation::PERMIT);//load perms of self and anonymous
+                self::$objectPermissions = array();//load perms of self and anonymous
+                self::$groups = array();//load perms of self and anonymous
+                self::$primaryGroup = '';//load perms of self and anonymous
+                self::$active = true;
             }
-            catch(XUndefinedException $e)
-            {
-                throw new XPermissionDeniedException('no authentication class found');
+            else
+            {    
+                try
+                {
+                    $implementor = self::instance()->getImplementor();
+                }
+                catch(XUndefinedException $e)
+                {
+                    throw new XPermissionDeniedException('no authentication class found');
+                }
+                self::$active = true;
+                $relay = BObject::InvokeObjectByDynClass($implementor);
+                if(!$relay instanceof IAuthorize)
+                {
+                    throw new XPermissionDeniedException('authentication class failed');
+                }
+                self::$permissions = $relay->getPermissions();//load perms of self and anonymous
+                self::$objectPermissions = $relay->getObjectPermissions();//load perms of self and anonymous
+                self::$groups = $relay->getGroups();//load perms of self and anonymous
+                self::$primaryGroup = $relay->getPrimaryGroup();//load perms of self and anonymous
             }
-            self::$active = true;
-            $relay = BObject::InvokeObjectByDynClass($implementor);
-            if(!$relay instanceof IAuthorize)
-            {
-                throw new XPermissionDeniedException('authentication class failed');
-            }
-            self::$permissions = $relay->getPermissions();//load perms of self and anonymous
-            self::$objectPermissions = $relay->getObjectPermissions();//load perms of self and anonymous
-            self::$groups = $relay->getGroups();//load perms of self and anonymous
-            self::$primaryGroup = $relay->getPrimaryGroup();//load perms of self and anonymous
         }
     }
     

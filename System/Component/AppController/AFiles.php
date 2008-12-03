@@ -8,7 +8,7 @@ class AFiles
 {
     const GUID = 'org.bambuscms.applications.files';
     
-    public function getGUID()
+    public function getClassGUID()
     {
         return self::GUID;
     }

@@ -17,7 +17,7 @@ class NListNavigation
 {
     const GUID = 'org.bambuscms.navigation.listnavigation';
     
-    public function getGUID()
+    public function getClassGUID()
     {
         return self::GUID;
     }

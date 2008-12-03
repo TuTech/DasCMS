@@ -47,6 +47,10 @@ class XML_AtomParser extends _XML
         return $this->ObjectTree;
     }
     
+    /**
+     * returns 'feed' or 'entry'
+     * @return string
+     */
     public function getType()
     {
         return $this->type;

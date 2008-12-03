@@ -60,14 +60,17 @@ set_exception_handler('EX_Handler');
 
 function __autoload($class)
 {
+    $cwd = getcwd();
+    chdir(BAMBUS_CMS_ROOTDIR);
     if(strpos($class, '_') !== false)
     {
         object_autoload($class);
     }
-    else
+    if(!class_exists($class, false))
     {
-        component_autoload($className);
+        component_autoload($class);
     }
+    chdir($cwd);
 }
 function object_autoload($class)
 {
@@ -93,11 +96,7 @@ function object_autoload($class)
     $file = sprintf('./System/%s/%s%s.php', $path, $pfx, $fileName);
     if(file_exists($file))
     {
-        require_once($file);
-    }
-    else
-    {
-        die('File not found: '.  $file.' in '.getcwd());
+        include_once($file);
     }
 }
 
@@ -107,8 +106,7 @@ function object_autoload($class)
  */
 function component_autoload($className)
 {
-    $cwd = getcwd();
-    chdir(BAMBUS_CMS_ROOTDIR);
+    
 	$ComponentMap = array(
 		'A' => 'AppController',
 		'B' => 'Base',
@@ -143,7 +141,6 @@ function component_autoload($className)
 	        if(file_exists($file))
 	        {
 	            include_once($file);
-	            return;
 	        }
 	    }
 	    
@@ -152,16 +149,7 @@ function component_autoload($className)
 		{
 		    include_once($file);
 		}
-		else
-		{
-		    die('File not found: '.  $file.' in '.getcwd());
-		}
 	}
-	else
-	{
-	    throw new Exception('class not found "'.$className.'"');
-	}
-	chdir($cwd);
 }
 if(!defined('BAMBUS_VERSION'))
     define ('BAMBUS_VERSION', 'Bambus CMS 0.92.0.20081114-ALPHA');
