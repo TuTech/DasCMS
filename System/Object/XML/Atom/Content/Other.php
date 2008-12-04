@@ -2,7 +2,7 @@
 /**
  * Some other inline content
  */
-class XML_Atom_Content_Other extends _XML_Atom_Content
+class XML_Atom_Content_Other extends _XML_Atom_Content implements Interface_XML_Atom_ToDOMXML
 {
     /**
      * create a XML_Atom_Content_Other by node

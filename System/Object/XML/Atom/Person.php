@@ -2,7 +2,7 @@
 /**
  * Atom person element
  */
-class XML_Atom_Person extends _XML_Atom 
+class XML_Atom_Person extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
 {
     protected $c__name;
     protected $c__email = null;
@@ -23,6 +23,16 @@ class XML_Atom_Person extends _XML_Atom
     protected function getElementParsers()
     {
         return self::$_elementParser;
+    }
+    
+    protected function getElementDefinition()
+    {
+        return self::$_elements;
+    }
+    
+    protected function getAttributeDefinition()
+    {
+        return array();
     }
     
     protected function __construct()
@@ -56,5 +66,8 @@ class XML_Atom_Person extends _XML_Atom
     {
         return $this->getFirstChild('uri');
     }     
+    
+    //FIXME to _XML
+
 }
 ?>

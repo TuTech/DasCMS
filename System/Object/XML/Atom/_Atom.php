@@ -2,7 +2,7 @@
 /**
  * universal atom parsing functions 
  */
-abstract class _XML_Atom extends _XML 
+abstract class _XML_Atom extends _XML
 {
     /*  
 	* common attributes
@@ -37,9 +37,71 @@ abstract class _XML_Atom extends _XML
         }
     }
     
-    protected function getChildMap($forType)
+    abstract protected function getAttributeDefinition();
+    
+    abstract protected function getElementDefinition();
+    
+    protected function isDataNode()
     {
-        //FIXME
+        return false;
+    }
+    
+    protected function getNodeData()
+    {
+        return null;
+    }
+    
+    protected function ignoreAttribute($nodeName, $attributeName, $value)
+    {
+        return false;
+    }
+    
+    public function toXML(DOMDocument $doc, $elementName)
+    {
+        $node = $doc->createElement($elementName);
+        //add attributes
+        foreach ($this->getAttributeDefinition() as $att => $mode) 
+        {
+            if($mode == _XML::EXACTLY_ONE || !empty($this->{$att}))
+            {
+                if(!$this->ignoreAttribute($elementName, $att, $this->{$att}))
+                {
+                    $node->setAttribute($att, $this->{$att});
+                }
+            }
+        }
+        if($this->isDataNode())
+        {
+            $data = $doc->createTextNode($this->getNodeData());
+            $node->appendChild($data);
+        }
+        else
+        {
+            //add elements
+            foreach ($this->getElementDefinition() as $elm => $mode) 
+            {
+                if($mode == _XML::EXACTLY_ONE && count($this->{'c__'.$elm}) == 0)
+                {
+                    $this->{'c__'.$elm}[] = '';
+                }
+                if(($mode == _XML::EXACTLY_ONE || $mode == _XML::ONE_OR_MORE) && count($this->{'c__'.$elm}) > 1)
+                {
+                    $this->{'c__'.$elm} = array($this->{'c__'.$elm}[0]);
+                }
+        	    foreach ($this->{'c__'.$elm} as $sub) 
+        	    {
+        	        if($sub instanceof Interface_XML_Atom_ToDOMXML)
+        	        {
+        	            $node->appendChild($sub->toXML($doc, $elm));
+        	        }
+        	        else
+        	        {
+        	            $node->appendChild($doc->createElement($elm, strval($sub))); 
+        	        }
+        	    }
+            }
+        }
+        return $node;
     }
     
     /**

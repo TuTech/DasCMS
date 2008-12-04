@@ -2,7 +2,7 @@
 /**
  * Atom category element
  */
-class XML_Atom_Category extends _XML_Atom 
+class XML_Atom_Category extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
 {
     protected $term;
     protected $scheme = null;    
@@ -16,6 +16,16 @@ class XML_Atom_Category extends _XML_Atom
     
     protected function __construct()
     {
+    }
+    
+    protected function getElementDefinition()
+    {
+        return array();
+    }
+    
+    protected function getAttributeDefinition()
+    {
+        return self::$_attributes;
     }
     
     /**

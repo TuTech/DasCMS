@@ -2,8 +2,12 @@
 /**
  * Atom feed element
  */
-class XML_Atom_Feed extends _XML_Atom 
+class XML_Atom_Feed extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
 {
+    //attributes
+    protected 
+        $xmlns = "http://www.w3.org/2005/Atom";
+    //elements
     protected
         $c__author,
         $c__category,
@@ -54,6 +58,16 @@ class XML_Atom_Feed extends _XML_Atom
     protected function getElementParsers()
     {
         return self::$_elementParser;
+    }
+    
+    protected function getElementDefinition()
+    {
+        return self::$_elements;
+    }
+    
+    protected function getAttributeDefinition()
+    {
+        return array('xmlns' => _XML::EXACTLY_ONE);
     }
     
     protected function __construct()

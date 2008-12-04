@@ -2,7 +2,7 @@
 /**
  * Atom link element
  */
-class XML_Atom_Link extends _XML_Atom 
+class XML_Atom_Link extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
 {
     protected $href;
     protected $rel = null;    
@@ -22,6 +22,24 @@ class XML_Atom_Link extends _XML_Atom
     
     protected function __construct()
     {
+    }
+    
+    protected function getElementDefinition()
+    {
+        return array();
+    }
+    
+    protected function getAttributeDefinition()
+    {
+        return self::$_attributes;
+    }
+    
+    public static function createSelfLink($selfUrl)
+    {
+        $link = new XML_Atom_Link();
+        $link->rel = 'self';
+        $link->href = $selfUrl;
+        return $link;
     }
     
     /**

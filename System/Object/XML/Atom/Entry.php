@@ -2,7 +2,7 @@
 /**
  * Atom entry element
  */
-class XML_Atom_Entry extends _XML_Atom 
+class XML_Atom_Entry extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
 {
     protected 
         $c__author,
@@ -55,6 +55,16 @@ class XML_Atom_Entry extends _XML_Atom
     protected function getElementParsers()
     {
         return self::$_elementParser;
+    }
+    
+    protected function getElementDefinition()
+    {
+        return self::$_elements;
+    }
+    
+    protected function getAttributeDefinition()
+    {
+        return array();
     }
     
     /**

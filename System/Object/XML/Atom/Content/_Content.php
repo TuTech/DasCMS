@@ -19,5 +19,26 @@ abstract class _XML_Atom_Content extends _XML_Atom
     {
         return strval($this->data);
     }
+
+    protected function getElementDefinition()
+    {
+        return array();
+    }
+    
+    protected function getAttributeDefinition()
+    {
+        return self::$_attributes;
+    }
+    
+    protected function isDataNode()
+    {
+        return true;
+    }
+    
+    protected function getNodeData()
+    {
+        return $this->data;
+    }
+    
 }
 ?>

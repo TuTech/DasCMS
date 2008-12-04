@@ -2,13 +2,33 @@
 /**
  * Atom date element
  */
-class XML_Atom_Date extends _XML_Atom 
+class XML_Atom_Date extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
 {
     protected $timestamp = 0;
     protected $string = '';    
     
     protected function __construct()
     {
+    }
+    
+    protected function getElementDefinition()
+    {
+        return array();
+    }
+    
+    protected function getAttributeDefinition()
+    {
+        return array();
+    }
+    
+    protected function isDataNode()
+    {
+        return true;
+    }
+    
+    protected function getNodeData()
+    {
+        return $this->getCDate();
     }
     
     /**

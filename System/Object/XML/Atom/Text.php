@@ -2,7 +2,7 @@
 /**
  * Atom text element
  */
-class XML_Atom_Text extends _XML_Atom 
+class XML_Atom_Text extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
 {
     /**
      * the text
@@ -21,6 +21,33 @@ class XML_Atom_Text extends _XML_Atom
     
     protected function __construct()
     {
+    }
+    
+    protected function ignoreAttribute($nodeName, $attributeName, $value)
+    {
+        return (
+            $nodeName == 'id' || 
+            ($attributeName == 'type' && $value == 'text'));
+    }
+    
+    protected function getElementDefinition()
+    {
+        return array();
+    }
+    
+    protected function getAttributeDefinition()
+    {
+        return self::$_attributes;
+    }
+    
+    protected function isDataNode()
+    {
+        return true;
+    }
+    
+    protected function getNodeData()
+    {
+        return $this->data;
     }
     
     /**

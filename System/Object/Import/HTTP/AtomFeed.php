@@ -48,6 +48,13 @@ class Import_HTTP_AtomFeed extends _Import_HTTP
                 {
                     $content->setPubDate($pubDate->getTimestamp());
                 }
+                $categories = $e->getCategories();
+                $cats = array();
+                for($categories->startIteration();$categories->valid(); $categories->next())
+                {
+                    $cats[] = $categories->get()->getTerm();
+                }
+                $content->setTags($cats);
                 $content->setContent($e_content->getText());
                 QImportHTTPAtomFeed::setImport($feedID, $e->getId()->getText(), $e->getUpdated()->getTimestamp(), $content->getId());
                 $content->Save();

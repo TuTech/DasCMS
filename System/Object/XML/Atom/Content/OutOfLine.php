@@ -2,13 +2,29 @@
 /**
  * external content
  */
-class XML_Atom_Content_OutOfLine extends _XML_Atom_Content
+class XML_Atom_Content_OutOfLine extends _XML_Atom_Content implements Interface_XML_Atom_ToDOMXML
 {
     protected $src = null; 
     protected static $_attributes = array(
         'type' => _XML::NONE_OR_MORE,
         'src' => _XML::NONE_OR_MORE
     );
+
+    protected function getAttributeDefinition()
+    {
+        return self::$_attributes;
+    }
+    
+    protected function isDataNode()
+    {
+        return false;
+    }
+    
+    protected function getNodeData()
+    {
+        return null;
+    }
+    
     /**
      * create a XML_Atom_Content_Other by node
      *

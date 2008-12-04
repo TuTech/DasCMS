@@ -2,7 +2,7 @@
 /**
  * Atom source element - preserves the meta data from an other feed
  */
-class XML_Atom_Source extends XML_Atom_Feed 
+class XML_Atom_Source extends XML_Atom_Feed implements Interface_XML_Atom_ToDOMXML
 {
     protected function __construct()
     {

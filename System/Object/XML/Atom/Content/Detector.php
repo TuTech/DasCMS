@@ -10,6 +10,11 @@ class XML_Atom_Content_Detector extends _XML_Atom_Content
         'src' => _XML::NONE_OR_MORE
         );
         
+    protected function getAttributeDefinition()
+    {
+        return self::$_attributes;
+    }
+        
     /**
      * create a _XML_Atom_Content by node
      *
