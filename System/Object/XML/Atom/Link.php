@@ -20,6 +20,25 @@ class XML_Atom_Link extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
         'length' 	=> _XML::NONE_OR_MORE
     );
     
+    /**
+     * @param string $href
+     * @param string $rel optional
+     * @param string $type optional
+     * @param string $hreflang optional
+     * @param string $title optional
+     * @param string $length optional
+     * @return XML_Atom_Link
+     */
+    public static function create($href, $rel = null, $type = null, $hreflang = null, $title = null, $length = null)
+    {
+        $o = new XML_Atom_Link();
+        foreach (self::$_attributes as $att => $mode) 
+        {
+        	if(${$att})$o->{$att} = ${$att};
+        }
+        return $o;
+    }
+    
     protected function __construct()
     {
     }
@@ -34,11 +53,11 @@ class XML_Atom_Link extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
         return self::$_attributes;
     }
     
-    public static function createSelfLink($selfUrl)
+    public static function createSelfLink()
     {
         $link = new XML_Atom_Link();
         $link->rel = 'self';
-        $link->href = $selfUrl;
+        $link->href = SLink::selfURI();
         return $link;
     }
     

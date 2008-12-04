@@ -69,7 +69,7 @@ class QBContent extends BQuery
             SELECT 
             		Changes.changeDate,
             		Changes.size,
-            		Users.login
+            		IF(ISNULL(Users.login), 'unknown', Users.login) as user
             	FROM Changes 
             	LEFT JOIN Users ON (Changes.userREL = Users.userID)
             	LEFT JOIN Aliases ON (Changes.contentREL = Aliases.contentREL)

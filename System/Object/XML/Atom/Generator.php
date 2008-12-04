@@ -13,6 +13,18 @@ class XML_Atom_Generator extends _XML_Atom implements Interface_XML_Atom_ToDOMXM
         'version' => _XML::NONE_OR_MORE
     );
     
+    /**
+     * @return XML_Atom_Generator
+     */
+    public static function create($text, $version = null, $uri = null)
+    {
+        $o = new XML_Atom_Generator();
+        $o->text = $text;
+        if($version)$o->version = $version;
+        if($uri)$o->uri = $uri;
+        return $o;
+    }
+    
     protected function __construct()
     {
     }

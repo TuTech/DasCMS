@@ -4,9 +4,9 @@
  */
 class XML_Atom_Person extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
 {
-    protected $c__name;
-    protected $c__email = null;
-    protected $c__uri = null;
+    protected $c__name = array();
+    protected $c__email = array();
+    protected $c__uri = array();
     
     protected static $_elements = array(
         'name' 	=> _XML::EXACTLY_ONE,
@@ -20,6 +20,18 @@ class XML_Atom_Person extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
         'uri'	=> 'XML_Atom_Text'
     );
      
+    /**
+     * @return XML_Atom_Person
+     */
+    public static function create($name, $email = null, $uri = null)
+    {
+        $o = new XML_Atom_Person();
+        $o->c__name = array($name);
+        if($email)$o->c__email = array($email);
+        if($uri)$o->c__uri = array($uri);
+        return $o;
+    }
+        
     protected function getElementParsers()
     {
         return self::$_elementParser;

@@ -68,6 +68,43 @@ class XML_Atom_Entry extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
     }
     
     /**
+     * @param CFeed $feed
+     * @param BContent $content
+     * @return XML_Atom_Entry
+     */
+    public static function fromContent(CFeed $feed, BContent $content)
+    {
+        $o = new XML_Atom_Entry();
+        $o->c__author = array(XML_Atom_Person::create($content->getCreatedBy()));
+        $o->c__id = array(XML_Atom_Text::create(SLink::base().$content->getGUID()));
+        $o->c__category = array();
+        foreach ($content->getTags() as $tag) 
+        {
+        	if(!empty($tag))$o->c__category[] = XML_Atom_Category::create($tag);
+        }
+        $q = $feed->option(CFeed::SETTINGS, 'TargetView');
+        $linker = $content->getAlias();
+        if(QSpore::exists($q))
+        {
+            $linker = new QSpore($q);
+            $linker->LinkTo($content->getAlias());
+        }
+        $o->c__link = array(
+            XML_Atom_Link::create(SLink::base().strval($linker), 'alternate', 'application/xml+xhtml')
+        );
+        if($content instanceof IFileContent)
+        {
+            list($filename, $type, $size) = $content->getDownloadMetaData();
+            $o->c__link[] = XML_Atom_Link::create($filename, 'enclosure', $type, null, $content->getFileName(), $size);
+        }
+        $o->c__title = array(XML_Atom_Text::create($content->getTitle()));
+        $o->c__updated = array(XML_Atom_Date::create($content->getModifyDate()));
+        $o->c__published = array(XML_Atom_Date::create($content->getPubDate()));
+        $o->c__summary = array(XML_Atom_Text::create($content->getDescription(),'html'));
+        return $o;
+    }
+    
+    /**
      * create a XML_Atom_Entry by node
      *
      * @param DOMNode $node

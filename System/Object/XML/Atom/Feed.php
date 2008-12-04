@@ -9,19 +9,19 @@ class XML_Atom_Feed extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
         $xmlns = "http://www.w3.org/2005/Atom";
     //elements
     protected
-        $c__author,
-        $c__category,
-        $c__contributor,
-        $c__generator,
-        $c__icon,
-        $c__id,
-        $c__link,
-        $c__logo,
-        $c__rights,
-        $c__subtitle,
-        $c__title,
-        $c__updated,
-        $c__entry;
+        $c__author = array(),
+        $c__category = array(),
+        $c__contributor = array(),
+        $c__generator = array(),
+        $c__icon = array(),
+        $c__id = array(),
+        $c__link = array(),
+        $c__logo = array(),
+        $c__rights = array(),
+        $c__subtitle = array(),
+        $c__title = array(),
+        $c__updated = array(),
+        $c__entry = array();
         
     protected static $_elements = array(
         'author' 		=> _XML::NONE_OR_MORE,
@@ -72,6 +72,65 @@ class XML_Atom_Feed extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
     
     protected function __construct()
     {
+    }
+    
+    /**
+     * @param CFeed $content
+     * @return XML_Atom_Feed
+     */
+    public static function fromContent(CFeed $content)
+    {
+        $o = new XML_Atom_Feed();
+        $o->c__author = array(XML_Atom_Person::create($content->getCreatedBy()));
+        $o->c__generator = array(XML_Atom_Generator::create(BAMBUS_VERSION, BAMBUS_VERSION_NUMBER, 'http://www.bambus-cms.org'));
+        $o->c__id = array(XML_Atom_Text::create(SLink::base().$content->getGUID()));
+        $o->c__category = array();
+        foreach ($content->getTags() as $tag) 
+        {
+        	if(!empty($tag))$o->c__category[] = XML_Atom_Category::create($tag);
+        }
+        $q = $content->option(CFeed::SETTINGS, 'TargetView');
+        $linker = $content->getAlias();
+        if(QSpore::exists($q))
+        {
+            $linker = new QSpore($q);
+            $linker->LinkTo($content->getAlias());
+        }
+        $o->c__link = array(
+            XML_Atom_Link::create(SLink::base().strval($linker), 'alternate', 'application/xml+xhtml'),
+            XML_Atom_Link::createSelfLink()
+        );
+        $copyright = LConfiguration::get('copyright');
+        if(!empty($copyright))
+        {
+            $o->c__rights = array(XML_Atom_Text::create($copyright));
+        }
+        $o->c__title = array(XML_Atom_Text::create($content->getTitle()));
+        $o->c__subtitle = array(XML_Atom_Text::create($content->getDescription(),'html'));
+        $o->c__updated = array(XML_Atom_Date::create($content->getModifyDate()));
+        $o->c__entry = array();
+        return $o;
+    }
+    
+    public function appendEntry(XML_Atom_Entry $entry)
+    {
+        $eguid = $entry->getId()->getText();
+        $hasEntry = $this->c__id[0]->getText() == $eguid;
+        foreach ($this->c__entry as $currententry) 
+        {        
+        	$hasEntry = $hasEntry || $currententry->getId()->getText() == $eguid;
+        	if($hasEntry)break;
+        }
+        if(!$hasEntry)
+        {
+            $updated = $this->getFirstChild('updated')->getTimestamp();
+            $childUpdated = $entry->getUpdated()->getTimestamp();
+            if($updated < $childUpdated)
+            {
+                $o->c__updated = array(XML_Atom_Date::create($childUpdated));
+            }
+            $this->c__entry[] = $entry;
+        }
     }
     
     /**

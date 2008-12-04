@@ -61,12 +61,12 @@ set_exception_handler('EX_Handler');
 function __autoload($class)
 {
     $cwd = getcwd();
-    chdir(BAMBUS_CMS_ROOTDIR);
+    chdir(constant('BAMBUS_CMS_ROOTDIR'));
     if(strpos($class, '_') !== false)
     {
         object_autoload($class);
     }
-    if(!class_exists($class, false))
+    if(!class_exists($class, false) && !interface_exists($class, false))
     {
         component_autoload($class);
     }
@@ -151,8 +151,11 @@ function component_autoload($className)
 		}
 	}
 }
+if(!defined('BAMBUS_VERSION_NUMBER'))
+    define ('BAMBUS_VERSION_NUMBER', '0.92.1.20081204a');
+        
 if(!defined('BAMBUS_VERSION'))
-    define ('BAMBUS_VERSION', 'Bambus CMS 0.92.0.20081114-ALPHA');
+    define ('BAMBUS_VERSION', 'Bambus CMS '.BAMBUS_VERSION_NUMBER);
         
 if(!defined('BAMBUS_CMS_ROOTDIR'))
     define('BAMBUS_CMS_ROOTDIR',getcwd());

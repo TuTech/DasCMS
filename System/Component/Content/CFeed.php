@@ -332,6 +332,17 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
         }
 	}
 	
+	public function getFeedItemAliases()
+	{
+	    $aliases = array();
+	    $res = QCFeed::getAliasesForFeed($this->Id);
+	    while ($row = $res->fetch()) 
+	    {
+	    	$aliases[] = $row[0];
+	    }
+	    return $aliases;
+	}
+	
 	/**
 	 * Enter description here...
 	 *

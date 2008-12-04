@@ -19,6 +19,17 @@ class XML_Atom_Text extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
     
     protected static $_attributes = array('type' => _XML::NONE_OR_MORE);
     
+    /**
+     * @return XML_Atom_Text
+     */
+    public static function create($text, $type = null)
+    {
+        $o = new XML_Atom_Text();
+        if($type)$o->type = $type;
+        $o->data = $text;
+        return $o;
+    }
+    
     protected function __construct()
     {
     }

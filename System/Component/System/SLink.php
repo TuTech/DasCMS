@@ -20,6 +20,19 @@ class SLink
      * 
      * @return string
      */
+    public static function selfURI()
+    {
+        global $_SERVER;
+        $http = (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off') ? 'http' : 'https';
+        $server = $_SERVER['SERVER_NAME'];
+        $script = $_SERVER['PHP_SELF'];
+        return sprintf('%s://%s%s', $http, $server, $script);
+    }
+    /**
+     * link base
+     * 
+     * @return string
+     */
     public static function base()
     {
         global $_SERVER;

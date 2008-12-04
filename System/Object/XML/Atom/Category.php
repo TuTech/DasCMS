@@ -14,6 +14,18 @@ class XML_Atom_Category extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
         'label' => _XML::NONE_OR_MORE
     );
     
+    /**
+     * @return XML_Atom_Category
+     */
+    public static function create($term, $label = null, $scheme = null)
+    {
+        $o = new XML_Atom_Category();
+        if($label)$o->label = $label;
+        if($scheme)$o->scheme = $scheme;
+        $o->term = $term;
+        return $o;
+    }
+    
     protected function __construct()
     {
     }

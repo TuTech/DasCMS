@@ -100,7 +100,9 @@ abstract class BContent extends BObject
             return CError::Open(404);
 	    }
 	}
-	
+	/**
+	 * @return BContent
+	 */
 	public static function OpenIfPossible($alias)
 	{
         $class = QBContent::getClass($alias);
@@ -280,6 +282,7 @@ abstract class BContent extends BObject
 	 */
 	public function getCreatedBy()
 	{
+	    $this->initAdditionalMetaFromDB($this->Alias);
 		return $this->CreatedBy;
 	}
 	
@@ -288,6 +291,7 @@ abstract class BContent extends BObject
 	 */
 	public function getModifiedBy()
 	{
+	    $this->initAdditionalMetaFromDB($this->Alias);
 		return $this->ModifiedBy;
 	}
 	/**
@@ -338,6 +342,7 @@ abstract class BContent extends BObject
 	 */
 	public function getCreateDate()
 	{
+	    $this->initAdditionalMetaFromDB($this->Alias);
 		return $this->CreateDate;
 	}
 	
@@ -346,6 +351,7 @@ abstract class BContent extends BObject
 	 */
 	public function getModifyDate()
 	{
+	    $this->initAdditionalMetaFromDB($this->Alias);
 		return $this->ModifyDate;
 	}
 	

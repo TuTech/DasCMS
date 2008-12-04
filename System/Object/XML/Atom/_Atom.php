@@ -80,6 +80,10 @@ abstract class _XML_Atom extends _XML
             //add elements
             foreach ($this->getElementDefinition() as $elm => $mode) 
             {
+                if(!is_array($this->{'c__'.$elm}))
+                {
+                    $this->{'c__'.$elm} = array();
+                }
                 if($mode == _XML::EXACTLY_ONE && count($this->{'c__'.$elm}) == 0)
                 {
                     $this->{'c__'.$elm}[] = '';

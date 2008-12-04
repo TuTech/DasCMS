@@ -11,6 +11,16 @@ class XML_Atom_Date extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
     {
     }
     
+    /**
+     * @return XML_Atom_Date
+     */
+    public static function create($timestamp)
+    {
+        $o = new XML_Atom_Date();
+        $o->timestamp = $timestamp;
+        return $o;
+    }
+    
     protected function getElementDefinition()
     {
         return array();
@@ -50,7 +60,7 @@ class XML_Atom_Date extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
         return strval(date('c', $this->timestamp));
     }
     
-    public function getDateString()
+    public function getOriginalDateString()
     {
         return $this->string;
     }     

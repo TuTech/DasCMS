@@ -156,6 +156,30 @@ class QCFeed extends BQuery
 				LIMIT 15";
         $sql = sprintf($sql, $feedID);
         return BQuery::Database()->query($sql, DSQL::NUM);
+    }    
+    /**
+     * Contents.title, Contents.description, Contents.pubDate, Aliases.alias, Changes.date, concat(Tags.tag, ', ') 
+     * 
+     * @param int $feedID
+     * @return DSQLResult
+     */
+    public static function getAliasesForFeed($feedID)
+    {
+        $sql = 
+            "SELECT DISTINCT
+    				Aliases.alias
+				FROM relFeedsContents
+    				LEFT JOIN Contents ON (relFeedsContents.contentREL = Contents.contentID)
+    				LEFT JOIN Aliases ON (Contents.primaryAlias = Aliases.aliasID)
+				WHERE
+					relFeedsContents.feedREL = %d
+					AND relFeedsContents.feedREL != relFeedsContents.contentREL
+					AND Contents.pubDate > 0
+					AND Contents.pubDate <= NOW()
+				ORDER BY Contents.pubDate DESC
+				LIMIT 15";
+        $sql = sprintf($sql, $feedID);
+        return BQuery::Database()->query($sql, DSQL::NUM);
     }
 }
 ?>
