@@ -13,7 +13,7 @@ class CTemplate
         ISupportsSidebar, 
         IGlobalUniqueId,
         IPageGenerator, 
-        Interface_XML_Atom_ProvidesInlineXHTML 
+        Interface_XML_Atom_ProvidesInlineText 
 {
     const GUID = 'org.bambuscms.content.ctemplate';
     public function getClassGUID()
@@ -104,12 +104,18 @@ class CTemplate
 	        return '';
 	    }
 	}
-	//Interface_XML_Atom_ProvidesInlineXHTML
-	public function getInlineXHTML()
-	{
-	    return $this->getContent();
-	}
 	
+	//Interface_XML_Atom_ProvidesInlineText
+    public function getInlineTextType()
+    {
+        return 'html';
+    }
+    public function getInlineText()
+    {
+        return $this->getContent();
+    }
+	//end Interface_XML_Atom_ProvidesInlineText
+		
 	public function generatePage(array $environment)
 	{
 	    try {
