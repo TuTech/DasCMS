@@ -70,7 +70,7 @@ class TCmdHeader
         $feedTags = '';
         foreach ($feeds as $alias => $title) 
         {
-        	$feedTags .= sprintf("            <link rel=\"alternate\" type=\"application/rss+xml\"".
+        	$feedTags .= sprintf("            <link rel=\"alternate\" type=\"application/atom+xml\"".
         	                    "title=\"%s\" href=\"%s\" />\n"
 				,htmlentities($title, ENT_QUOTES, 'UTF-8')
                 ,BFeed::getURLForFeed($alias)

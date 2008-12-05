@@ -47,5 +47,16 @@ class XML_Atom_Content_OutOfLine extends _XML_Atom_Content implements Interface_
     {
         return '';
     }
+    
+    /**
+     * @return XML_Atom_Content_OutOfLine
+     */
+    public static function create($mimetype, $srcURI)
+    {
+        $o = new XML_Atom_Content_OutOfLine();
+        $o->src = $srcURI;
+        $o->type = $mimetype;
+        return $o;
+    }
 }
 ?>

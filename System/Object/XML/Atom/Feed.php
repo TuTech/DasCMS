@@ -82,7 +82,7 @@ class XML_Atom_Feed extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
     {
         $o = new XML_Atom_Feed();
         $o->c__author = array(XML_Atom_Person::create($content->getCreatedBy()));
-        $o->c__generator = array(XML_Atom_Generator::create(BAMBUS_VERSION, BAMBUS_VERSION_NUMBER, 'http://www.bambus-cms.org'));
+        $o->c__generator = array(XML_Atom_Generator::create(BAMBUS_VERSION_NAME, BAMBUS_VERSION_NUMBER, 'http://www.bambus-cms.org'));
         $o->c__id = array(XML_Atom_Text::create(SLink::base().$content->getGUID()));
         $o->c__category = array();
         foreach ($content->getTags() as $tag) 
@@ -127,7 +127,7 @@ class XML_Atom_Feed extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
             $childUpdated = $entry->getUpdated()->getTimestamp();
             if($updated < $childUpdated)
             {
-                $o->c__updated = array(XML_Atom_Date::create($childUpdated));
+                $this->c__updated[0] = XML_Atom_Date::create($childUpdated);
             }
             $this->c__entry[] = $entry;
         }

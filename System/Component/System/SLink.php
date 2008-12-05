@@ -26,7 +26,8 @@ class SLink
         $http = (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off') ? 'http' : 'https';
         $server = $_SERVER['SERVER_NAME'];
         $script = $_SERVER['PHP_SELF'];
-        return sprintf('%s://%s%s', $http, $server, $script);
+        $pathinfo = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
+        return sprintf('%s://%s%s%s', $http, $server, $script, $pathinfo);
     }
     /**
      * link base

@@ -7,7 +7,7 @@
  * @since 28.11.2007
  * @license GNU General Public License 3
  */
-class CPage extends BContent implements ISupportsSidebar, IGlobalUniqueId 
+class CPage extends BContent implements ISupportsSidebar, IGlobalUniqueId, Interface_XML_Atom_ProvidesInlineText 
 {
     const GUID = 'org.bambuscms.content.cpage';
     public function getClassGUID()
@@ -79,7 +79,16 @@ class CPage extends BContent implements ISupportsSidebar, IGlobalUniqueId
 	    }
 	    $this->initBasicMetaFromDB($alias);
 	}
-	
+	//Interface_XML_Atom_ProvidesInlineText
+    public function getInlineTextType()
+    {
+        return 'html';
+    }
+    public function getInlineText()
+    {
+        return $this->getContent();
+    }
+	//end Interface_XML_Atom_ProvidesInlineText
 	/**
 	 * Enter description here...
 	 *

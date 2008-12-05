@@ -22,5 +22,28 @@ class XML_Atom_Content_InlineXHTML extends _XML_Atom_Content implements Interfac
     {
         return $this->data;
     } 
+    
+    /**
+     * @return XML_Atom_Content_InlineXHTML
+     */
+    public static function create($data)
+    {
+        $o = new XML_Atom_Content_InlineXHTML();
+        $o->data = $data;
+        return $o;
+    }
+    
+    public function toXML(DOMDocument $doc, $elementName)
+    {
+        $node = $doc->createElement($elementName);
+        $frac = $doc->createDocumentFragment();
+        @$frac->appendXML('<div xmlns="http://www.w3.org/1999/xhtml">'.$this->data.'</div>');
+        $ent = $frac->entries;
+        if($ent && $ent->item(0))
+        {
+            $node->appendChild($ent->item(0));
+        }
+        return $node;
+    }
 }
 ?>

@@ -40,7 +40,7 @@ abstract class BFeed extends BObject
 	
 	public static function getURLForFeed($alias)
 	{
-	    return sprintf('%sfeed.php/rss/%s', SLink::base(), $alias);
+	    return sprintf('%sAtom.php/%s', SLink::base(), $alias);
 	}
 }
 ?>

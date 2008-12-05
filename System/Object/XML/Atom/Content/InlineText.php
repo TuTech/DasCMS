@@ -22,6 +22,17 @@ class XML_Atom_Content_InlineText extends _XML_Atom_Content implements Interface
     public function getText()
     {
         return $this->data;
-    }     
+    }    
+    
+    /**
+     * @return XML_Atom_Content_InlineText
+     */
+    public static function create($data, $type = 'text')
+    {
+        $o = new XML_Atom_Content_InlineText();
+        $o->data = $data;
+        $o->type = $type;
+        return $o;
+    } 
 }
 ?>

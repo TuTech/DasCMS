@@ -154,8 +154,11 @@ function component_autoload($className)
 if(!defined('BAMBUS_VERSION_NUMBER'))
     define ('BAMBUS_VERSION_NUMBER', '0.92.1.20081204a');
         
-if(!defined('BAMBUS_VERSION'))
-    define ('BAMBUS_VERSION', 'Bambus CMS '.BAMBUS_VERSION_NUMBER);
+if(!defined('BAMBUS_VERSION_NAME'))
+    define ('BAMBUS_VERSION_NAME', 'Bambus CMS');
+        
+    if(!defined('BAMBUS_VERSION'))
+    define ('BAMBUS_VERSION', BAMBUS_VERSION_NAME.' '.BAMBUS_VERSION_NUMBER);
         
 if(!defined('BAMBUS_CMS_ROOTDIR'))
     define('BAMBUS_CMS_ROOTDIR',getcwd());

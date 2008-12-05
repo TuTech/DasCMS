@@ -12,7 +12,8 @@ class CFile
     implements 
         ISupportsSidebar, 
         IGlobalUniqueId,
-        IFileContent 
+        IFileContent,
+        Interface_XML_Atom_ProvidesOutOfLineContent
 {
     const GUID = 'org.bambuscms.content.cfile';
     public function getClassGUID()
@@ -170,6 +171,17 @@ class CFile
     public function getMD5Sum()
     {
         return $this->metadata['md5'];
+    }
+    
+    //Interface_XML_Atom_ProvidesOutOfLineContent
+    public function getOutOfLineType()
+    {
+        return $this->getMimeType();
+    }
+    
+    public function getOutOfLineURI()
+    {
+        return sprintf(IFileContent::ENCLOSURE_URL, SLink::base(), $this->getAlias());
     }
     
 	//IFileContent

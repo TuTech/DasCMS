@@ -12,7 +12,8 @@ class CTemplate
     implements 
         ISupportsSidebar, 
         IGlobalUniqueId,
-        IPageGenerator  
+        IPageGenerator, 
+        Interface_XML_Atom_ProvidesInlineXHTML 
 {
     const GUID = 'org.bambuscms.content.ctemplate';
     public function getClassGUID()
@@ -102,6 +103,11 @@ class CTemplate
 	    {
 	        return '';
 	    }
+	}
+	//Interface_XML_Atom_ProvidesInlineXHTML
+	public function getInlineXHTML()
+	{
+	    return $this->getContent();
 	}
 	
 	public function generatePage(array $environment)

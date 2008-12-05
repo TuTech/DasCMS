@@ -75,13 +75,30 @@ class XML_Atom_Entry extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
     public static function fromContent(CFeed $feed, BContent $content)
     {
         $o = new XML_Atom_Entry();
+        //author?
         $o->c__author = array(XML_Atom_Person::create($content->getCreatedBy()));
+        //id
         $o->c__id = array(XML_Atom_Text::create(SLink::base().$content->getGUID()));
+        //category*
         $o->c__category = array();
         foreach ($content->getTags() as $tag) 
         {
         	if(!empty($tag))$o->c__category[] = XML_Atom_Category::create($tag);
         }
+        //content?
+        if($content instanceof Interface_XML_Atom_ProvidesInlineXHTML)
+        {
+            $o->c__content = array(XML_Atom_Content_InlineXHTML::create($content->getInlineXHTML()));
+        }
+        elseif($content instanceof Interface_XML_Atom_ProvidesInlineText)
+        {
+            $o->c__content = array(XML_Atom_Content_InlineText::create($content->getInlineText(), $content->getInlineTextType()));
+        }
+        elseif($content instanceof Interface_XML_Atom_ProvidesOutOfLineContent)
+        {
+            $o->c__content = array(XML_Atom_Content_OutOfLine::create($content->getOutOfLineType(), $content->getOutOfLineURI()));
+        }
+        //link*
         $q = $feed->option(CFeed::SETTINGS, 'TargetView');
         $linker = $content->getAlias();
         if(QSpore::exists($q))
@@ -97,9 +114,13 @@ class XML_Atom_Entry extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
             list($filename, $type, $size) = $content->getDownloadMetaData();
             $o->c__link[] = XML_Atom_Link::create($filename, 'enclosure', $type, null, $content->getFileName(), $size);
         }
+        //title
         $o->c__title = array(XML_Atom_Text::create($content->getTitle()));
+        //updated
         $o->c__updated = array(XML_Atom_Date::create($content->getModifyDate()));
+        //published?
         $o->c__published = array(XML_Atom_Date::create($content->getPubDate()));
+        //summary?
         $o->c__summary = array(XML_Atom_Text::create($content->getDescription(),'html'));
         return $o;
     }
