@@ -19,6 +19,7 @@ php-scripts	PHP-Scripte
 css-scripts	CSS-Dateien
 lines	Zeilen
 pubDate	Freigabe
+unassigned_files	Nicht zugeordnet
 do_not_link	Nicht verlinken
 unfiltered	Ungefiltert
 property	Eigenschaft

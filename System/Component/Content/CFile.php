@@ -22,7 +22,7 @@ class CFile
     }
     protected $RAWContent;
     private $_contentLoaded = false;
-    private $metadata;
+    private $metadata = array();
 	/**
 	 * @return CFile
 	 */
@@ -40,6 +40,12 @@ class CFile
 	    {
 	        throw new XUndefinedException('upload not moveable');
 	    }
+	    QCFile::saveFileMeta(
+	        $dbid,
+	        RFiles::getName('CFile'), 
+	        DFileSystem::suffix(RFiles::getName('CFile')),
+	        md5_file('./Content/CFile/'.$dbid.'.data',false)
+        );
 	    $metadata = array(
 	        'filename' => RFiles::getName('CFile'), 
 	        'type' => RFiles::getType('CFile'),
@@ -48,7 +54,7 @@ class CFile
 	        'suffix' => DFileSystem::suffix(RFiles::getName('CFile'))
         );
         BContent::setMimeType($alias, RFiles::getType('CFile'));
-	    DFileSystem::SaveData('./Content/CFile/'.$dbid.'.meta.php',$metadata);
+	    //DFileSystem::SaveData('./Content/CFile/'.$dbid.'.meta.php',$metadata);
 	    $file = new CFile($alias);
 	    $file->Size = $metadata['size'];
 	    $file->saveMetaToDB();
@@ -65,10 +71,7 @@ class CFile
 	    $succ = $SCI->deleteContent($alias, 'CFile');
 	    if($succ)
 	    {
-	        echo 'delete: ./Content/CFile/'.$dbid.'.data -';
-	        echo 'delete: ./Content/CFile/'.$dbid.'.meta.php';
 	        @unlink('./Content/CFile/'.$dbid.'.data');
-	        @unlink('./Content/CFile/'.$dbid.'.meta.php');
 	    }
 	    return $succ;
 	}
@@ -102,6 +105,30 @@ class CFile
 	    }
 	}
 	
+	protected function loadFileMetaData()
+	{
+	    if(count($this->metadata) == 0)
+	    {
+	        $metadata = array(
+	            'folder' => '',
+	            'folderID' => '',
+	            'filename' => '', 
+    	        'type' => '',
+    	        'md5' => '',
+    	        'size' => '',
+    	        'suffix' => ''
+	        );
+	        $res = QCFile::getMetaData($this->Id);
+	        list(
+	            $metadata['folder'],
+	            $metadata['filename'],
+	            $metadata['suffix'],
+	            $metadata['md5'],
+	            $metadata['folderID']
+            ) = $res->fetch();
+            $this->metadata = $metadata;
+	    }
+	}
 	
 	/**
 	 * @param string $alias
@@ -116,8 +143,7 @@ class CFile
 	        throw new XArgumentException('content not found');
 	    }
 	    $this->initBasicMetaFromDB($alias);
-	    $this->metadata = DFileSystem::LoadData('./Content/CFile/'.$this->getId().'.meta.php');
-	    $this->Size = $this->metadata['size'];
+	    //$this->metadata = DFileSystem::LoadData('./Content/CFile/'.$this->getId().'.meta.php');
 	}
 	
 	/**
@@ -170,6 +196,7 @@ class CFile
 	
     public function getMD5Sum()
     {
+        $this->loadFileMetaData();
         return $this->metadata['md5'];
     }
     
@@ -187,11 +214,13 @@ class CFile
 	//IFileContent
 	public function getFileName()
 	{
+	    $this->loadFileMetaData();
 	    return $this->metadata['filename'];
 	}
 	
     public function getType()
     {
+        $this->loadFileMetaData();
         return $this->metadata['suffix'];
     }
     
@@ -217,7 +246,8 @@ class CFile
 	
     public function getDownloadMetaData()
     {
-        return array($this->metadata['filename'], $this->metadata['type'], $this->metadata['size']);
+        $this->loadFileMetaData();
+        return array($this->metadata['filename'], $this->getMimeType(), $this->getSize());
     }
     
     public function sendFileContent()
@@ -230,5 +260,42 @@ class CFile
 	{
 		return in_array(strtolower($category), array('binary', 'data', 'settings', 'information', 'search'));
 	}
+	
+	//file management
+	public static function getFolders()
+	{
+	    $folders = array('0' => SLocalization::get('unassigned_files'));
+	    $res = QCFile::getChildFolders();
+	    while($row = $res->fetch())
+	    {
+	        $folders[$row[0]] = $row[1];
+	    }
+	    $res->free();
+	    return $folders;
+	}
+	
+	public static function getFilesOfFolder($fid)
+	{
+	    $aliases = array();
+	    $res = QCFile::getFolderContents(($fid == 0 ? null : $fid));
+	    while($row = $res->fetch())
+	    {
+	        $aliases[] = $row[0];
+	    }
+	    $res->free();
+	    return $aliases;
+	}
+	
+	public static function createFolder($name)
+	{
+	    QCFile::createFolder($name);
+	}
+	
+	public static function deleteFolder($fid)
+	{
+	    QCFile::deleteFolder($fid);
+	}
+	
+	
 }
 ?>

@@ -1,6 +1,11 @@
 <?php
 $AppController = BAppController::getControllerForID('org.bambuscms.applications.files');
 
+if(RSent::get('delete') != '' && PAuthorisation::has('org.bambuscms.content.cfile.delete'))
+{
+	CFile::Delete(RURL::get('edit'));
+}
+
 $succesfullUpload = false;
 if(RFiles::has('CFile') && PAuthorisation::has('org.bambuscms.content.cfile.create')){ 
 //create here
@@ -20,7 +25,7 @@ if(RSent::get('action') == 'delete' && PAuthorisation::has('org.bambuscms.conten
 	$files = array_keys(CFile::Index());
 	foreach($files as $file)
 	{
-		if(RSent::hasValue('select_'.$file))
+		if(RSent::hasValue('select_'.md5($file)))
 		{
 		    //delete here
 	        if(CFile::Delete($file)){

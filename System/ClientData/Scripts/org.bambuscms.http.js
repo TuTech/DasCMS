@@ -33,15 +33,21 @@ org.bambuscms.http.requestFactory = function()
 };
 
 //read data from url
-org.bambuscms.http.fetch = function(url, asyncHandler)
+org.bambuscms.http.fetch = function(url, asyncHandler, data)
 {
 	if(typeof url == 'object')
 	{
 		url = org.bambuscms.http.managementRequestURL(url);
 	}
+	var method = 'POST';
+	if(!data)
+	{
+		method = 'GET';
+		data = null;
+	}
 	async = asyncHandler && typeof asyncHandler == 'function';
 	var request = org.bambuscms.http.requestFactory();
-	request.open("GET", url, async);
+	request.open(method, url, async);
 	request.setRequestHeader("User-Agent", "Bambus CMS XMLHttpRequest");
 	if(async)
 	{
@@ -52,15 +58,15 @@ org.bambuscms.http.fetch = function(url, asyncHandler)
 				asyncHandler(request);
 			}
 		}
-		request.send(null);
+		request.send(data);
 	}
 	else
 	{
-		request.send(null);
+		request.send(data);
 		return request;
 	}
 };
-org.bambuscms.http.fetchJSONObject = function(url, asyncHandler)
+org.bambuscms.http.fetchJSONObject = function(url, asyncHandler, data)
 {
 	async = asyncHandler && typeof asyncHandler == 'function';
 	if(async)
@@ -74,12 +80,11 @@ org.bambuscms.http.fetchJSONObject = function(url, asyncHandler)
 			}
 			asyncHandler(obj);
 		};
-		org.bambuscms.http.fetch(url, hdl);
+		org.bambuscms.http.fetch(url, hdl, data);
 	}
 	else
 	{
-		var request = org.bambuscms.http.fetch(url);
-		//alert(request.responseText);
+		var request = org.bambuscms.http.fetch(url, null, data);
 		try
 		{
 			var obj = json_parse(request.responseText);

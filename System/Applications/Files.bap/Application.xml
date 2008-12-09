@@ -11,7 +11,9 @@
 	</tabs>
 	<application>
 		<controller>controller.php</controller>
-		<interface name="manage" src="manage.php" search="filter">
+		<interface name="manage" src="jsManager.php" search="filter">
+			<task type="button" hotkey="F" caption="updateFolders" icon="action-refresh" action="updateFolderView();" />
+			<task type="spacer" name="foo"/>
 			<task type="button" hotkey="o" caption="open" icon="action-document-open" action="org.bambuscms.wopenfiledialog.show();" />
 			<task type="spacer" name="singe_object_edit"/>
 			<task type="button" hotkey="s" caption="save" icon="action-document-save" action="EditorSave()" />

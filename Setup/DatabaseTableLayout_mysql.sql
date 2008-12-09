@@ -453,6 +453,73 @@ CHARACTER SET utf8
 COLLATE utf8_unicode_ci;
 
 
+-- Meta data for CFile
+CREATE TABLE IF NOT EXISTS 
+FileAttributes(
+	contentREL
+		INTEGER 
+		NOT NULL,
+	folderREL
+		INTEGER
+		NULL,
+	originalFileName
+		VARCHAR(255)
+		NOT NULL,
+	suffix
+		VARCHAR(12)
+		NOT NULL,
+	md5sum
+		CHAR(32)
+		NOT NULL
+		DEFAULT '',
+	UNIQUE(contentREL),
+	INDEX(folderREL)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- folders for cfiles
+CREATE TABLE IF NOT EXISTS 
+Folders(
+	folderID
+        INTEGER 
+		PRIMARY KEY
+		AUTO_INCREMENT
+        NOT NULL,
+	parentFolderREL
+		INTEGER
+		NULL,
+	name
+		VARCHAR(128)
+		NOT NULL,
+	UNIQUE(parentFolderREL, name)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- foreign keys for cfile folders
+ALTER TABLE 
+Folders
+    ADD FOREIGN KEY (parentFolderREL)
+        REFERENCES Folders(folderID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION;
+
+-- foreign keys for cfile attributes
+ALTER TABLE 
+FileAttributes
+    ADD FOREIGN KEY (contentREL)
+        REFERENCES Contents(contentID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION,
+    ADD FOREIGN KEY (folderREL)
+        REFERENCES CFileFolders(folderID)
+        ON DELETE SET NULL
+        ON UPDATE NO ACTION;
+
+
 -- foreign keys for atom imports
 ALTER TABLE 
 AtomImports

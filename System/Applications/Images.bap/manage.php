@@ -25,8 +25,8 @@ echo new WScript('var Upload = function(){'.$jsCreate.'};');
 echo LGui::beginForm(array(), 'documentform');
 echo LGui::hiddenInput('action', 'delete');
 $files = DFileSystem::FilesOf(SPath::IMAGES, '/\.('.implode('|', $allowed).')/i');
-
-$flowLayout = new WFlowLayout('images');
+printf('<h2>%s</h2>', SLocalization::get('images'));
+$flowLayout = new WFlowLayout();
 $flowLayout->setAdditionalCSSClasses('WFlowLayoutImage');
 $itemTemplate = 
 "<a name=\"{id}\" title=\"{title}\" id=\"{id}\" href=\"javascript:selectImage('{id}');\">

@@ -46,7 +46,8 @@ else
         <input type=\"checkbox\" name=\"select_{id}\" id=\"select_{id}\" />
         {name}
     </a>";
-    $flowLayout = new WFlowLayout('files');
+    printf('<h2>%s</h2>', SLocalization::get('files'));
+    $flowLayout = new WFlowLayout();
     $flowLayout->setAdditionalCSSClasses('WFlowLayoutFile');
     foreach($files as $alias => $data){
         $suffix = 'CFile';
@@ -54,7 +55,7 @@ else
         $output = array('realname'  => htmlentities($data[0], ENT_QUOTES, 'UTF-8'),
             'icon' =>WIcon::pathForMimeIcon($data[2], WIcon::LARGE),
             'linktarget' => '_blank',
-            'id' => $alias,
+            'id' => md5($alias),
             'title' => htmlentities($data[0], ENT_QUOTES, 'UTF-8'),
             'name' => htmlentities($data[0], ENT_QUOTES, 'UTF-8')
         );

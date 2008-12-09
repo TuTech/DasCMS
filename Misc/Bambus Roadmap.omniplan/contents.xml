@@ -30,7 +30,7 @@
 			<key>GanttGroupShading</key>
 			<true/>
 			<key>GanttVisibleRect</key>
-			<string>{{-17, 0}, {1118, 924}}</string>
+			<string>{{1214, 0}, {1118, 924}}</string>
 			<key>OutlineVisibleRect</key>
 			<string>{{0, 0}, {384, 924}}</string>
 			<key>ScaleWidths</key>
@@ -198,7 +198,7 @@
 	<key>displayTimes</key>
 	<true/>
 	<key>endDate</key>
-	<string>20090218 16:00</string>
+	<string>20090216 11:00</string>
 	<key>flatNumbering</key>
 	<false/>
 	<key>groupTaskStyle</key>
@@ -324,67 +324,22 @@
 					<dict>
 						<key>date</key>
 						<string>20081229</string>
-						<key>spans</key>
-						<array>
-							<dict>
-								<key>endTime</key>
-								<real>61200</real>
-								<key>startTime</key>
-								<real>46800</real>
-							</dict>
-						</array>
 					</dict>
 					<dict>
 						<key>date</key>
 						<string>20081230</string>
-						<key>spans</key>
-						<array>
-							<dict>
-								<key>endTime</key>
-								<real>61200</real>
-								<key>startTime</key>
-								<real>46800</real>
-							</dict>
-						</array>
 					</dict>
 					<dict>
 						<key>date</key>
 						<string>20081231</string>
-						<key>spans</key>
-						<array>
-							<dict>
-								<key>endTime</key>
-								<real>61200</real>
-								<key>startTime</key>
-								<real>46800</real>
-							</dict>
-						</array>
 					</dict>
 					<dict>
 						<key>date</key>
 						<string>20090101</string>
-						<key>spans</key>
-						<array>
-							<dict>
-								<key>endTime</key>
-								<real>61200</real>
-								<key>startTime</key>
-								<real>46800</real>
-							</dict>
-						</array>
 					</dict>
 					<dict>
 						<key>date</key>
 						<string>20090102</string>
-						<key>spans</key>
-						<array>
-							<dict>
-								<key>endTime</key>
-								<real>61200</real>
-								<key>startTime</key>
-								<real>46800</real>
-							</dict>
-						</array>
 					</dict>
 				</array>
 			</dict>
@@ -582,7 +537,7 @@
 	<key>taskDifferenceEngine</key>
 	<dict>
 		<key>nextId</key>
-		<integer>62</integer>
+		<integer>65</integer>
 	</dict>
 	<key>taskUserKeys</key>
 	<array/>
@@ -596,7 +551,6 @@
 				<integer>7</integer>
 				<integer>13</integer>
 				<integer>15</integer>
-				<integer>20</integer>
 				<integer>24</integer>
 				<integer>30</integer>
 				<integer>31</integer>
@@ -888,8 +842,9 @@
 			<key>children</key>
 			<array>
 				<integer>59</integer>
-				<integer>58</integer>
 				<integer>25</integer>
+				<integer>58</integer>
+				<integer>63</integer>
 				<integer>44</integer>
 			</array>
 			<key>objectId</key>
@@ -1113,114 +1068,6 @@
 			<real>8</real>
 		</dict>
 		<dict>
-			<key>children</key>
-			<array>
-				<integer>21</integer>
-				<integer>22</integer>
-				<integer>46</integer>
-			</array>
-			<key>objectId</key>
-			<integer>20</integer>
-			<key>prerequisites</key>
-			<array>
-				<dict>
-					<key>id</key>
-					<integer>15</integer>
-					<key>kind</key>
-					<integer>2</integer>
-				</dict>
-			</array>
-			<key>style</key>
-			<dict>
-				<key>gantt-fill-color</key>
-				<dict>
-					<key>b</key>
-					<string>0.219608</string>
-					<key>g</key>
-					<string>0.796078</string>
-					<key>r</key>
-					<string>0.898039</string>
-				</dict>
-			</dict>
-			<key>task</key>
-			<string>0.95</string>
-		</dict>
-		<dict>
-			<key>assignments</key>
-			<array>
-				<dict>
-					<key>id</key>
-					<integer>1</integer>
-					<key>units</key>
-					<real>1</real>
-				</dict>
-			</array>
-			<key>effort</key>
-			<real>72000</real>
-			<key>objectId</key>
-			<integer>21</integer>
-			<key>style</key>
-			<dict>
-				<key>gantt-fill-color</key>
-				<dict>
-					<key>b</key>
-					<string>0.219608</string>
-					<key>g</key>
-					<string>0.796078</string>
-					<key>r</key>
-					<string>0.898039</string>
-				</dict>
-			</dict>
-			<key>task</key>
-			<string>CImport</string>
-			<key>workSeconds</key>
-			<real>72000</real>
-			<key>workTime</key>
-			<real>20</real>
-		</dict>
-		<dict>
-			<key>assignments</key>
-			<array>
-				<dict>
-					<key>id</key>
-					<integer>1</integer>
-					<key>units</key>
-					<real>1</real>
-				</dict>
-			</array>
-			<key>effort</key>
-			<real>72000</real>
-			<key>objectId</key>
-			<integer>22</integer>
-			<key>prerequisites</key>
-			<array>
-				<dict>
-					<key>id</key>
-					<integer>21</integer>
-					<key>kind</key>
-					<integer>2</integer>
-				</dict>
-			</array>
-			<key>style</key>
-			<dict>
-				<key>gantt-fill-color</key>
-				<dict>
-					<key>b</key>
-					<string>0.219608</string>
-					<key>g</key>
-					<string>0.796078</string>
-					<key>r</key>
-					<string>0.898039</string>
-				</dict>
-			</dict>
-			<key>task</key>
-			<string>RSS Import</string>
-			<key>workSeconds</key>
-			<real>72000</real>
-			<key>workTime</key>
-			<real>20</real>
-		</dict>
-		<dict>
 			<key>assignments</key>
 			<array>
 				<dict>
@@ -1265,7 +1112,7 @@
 			<array>
 				<dict>
 					<key>id</key>
-					<integer>20</integer>
+					<integer>45</integer>
 					<key>kind</key>
 					<integer>2</integer>
 				</dict>
@@ -1286,24 +1133,25 @@
 			<string>0.96</string>
 		</dict>
 		<dict>
-			<key>assignments</key>
-			<array>
-				<dict>
-					<key>id</key>
-					<integer>1</integer>
-					<key>units</key>
-					<real>1</real>
-				</dict>
-			</array>
+			<key>doneSeconds</key>
+			<real>14400</real>
 			<key>effort</key>
-			<real>28800</real>
+			<real>14400</real>
+			<key>effortDone</key>
+			<real>14400</real>
+			<key>isEffortFixed</key>
+			<false/>
+			<key>lockedEndDate</key>
+			<string>20081120080000</string>
+			<key>lockedStartDate</key>
+			<string>20081120080000</string>
 			<key>objectId</key>
 			<integer>25</integer>
 			<key>prerequisites</key>
 			<array>
 				<dict>
 					<key>id</key>
-					<integer>58</integer>
+					<integer>59</integer>
 					<key>kind</key>
 					<integer>2</integer>
 				</dict>
@@ -1322,10 +1170,12 @@
 			</dict>
 			<key>task</key>
 			<string>CPage optimize auto summary</string>
+			<key>workDone</key>
+			<real>4</real>
 			<key>workSeconds</key>
-			<real>28800</real>
+			<real>14400</real>
 			<key>workTime</key>
-			<real>8</real>
+			<real>4</real>
 		</dict>
 		<dict>
 			<key>assignments</key>
@@ -1852,15 +1702,23 @@
 					<real>1</real>
 				</dict>
 			</array>
+			<key>completionPercentage</key>
+			<real>1</real>
 			<key>effort</key>
 			<real>0.0</real>
+			<key>isEffortFixed</key>
+			<false/>
+			<key>lockedEndDate</key>
+			<string>20081205170000</string>
+			<key>lockedStartDate</key>
+			<string>20081205170000</string>
 			<key>objectId</key>
 			<integer>44</integer>
 			<key>prerequisites</key>
 			<array>
 				<dict>
 					<key>id</key>
-					<integer>25</integer>
+					<integer>63</integer>
 					<key>kind</key>
 					<integer>2</integer>
 				</dict>
@@ -1917,44 +1775,6 @@
 			</dict>
 			<key>task</key>
 			<string>0.94 release</string>
-		</dict>
-		<dict>
-			<key>assignments</key>
-			<array>
-				<dict>
-					<key>id</key>
-					<integer>1</integer>
-					<key>units</key>
-					<real>1</real>
-				</dict>
-			</array>
-			<key>effort</key>
-			<real>0.0</real>
-			<key>objectId</key>
-			<integer>46</integer>
-			<key>prerequisites</key>
-			<array>
-				<dict>
-					<key>id</key>
-					<integer>22</integer>
-					<key>kind</key>
-					<integer>2</integer>
-				</dict>
-			</array>
-			<key>style</key>
-			<dict>
-				<key>gantt-fill-color</key>
-				<dict>
-					<key>b</key>
-					<string>0.101961</string>
-					<key>g</key>
-					<string>0.101961</string>
-					<key>r</key>
-					<string>0.101961</string>
-				</dict>
-			</dict>
-			<key>task</key>
-			<string>0.95 release</string>
 		</dict>
 		<dict>
 			<key>assignments</key>
@@ -2179,17 +1999,27 @@
 					<real>1</real>
 				</dict>
 			</array>
+			<key>doneSeconds</key>
+			<real>230400</real>
 			<key>effort</key>
-			<real>172800</real>
+			<real>230400</real>
+			<key>effortDone</key>
+			<real>230400</real>
 			<key>forcedStart</key>
-			<string>20081127073000</string>
+			<string>20081121080000</string>
+			<key>isEffortFixed</key>
+			<false/>
+			<key>lockedEndDate</key>
+			<string>20081121080000</string>
+			<key>lockedStartDate</key>
+			<string>20081121080000</string>
 			<key>objectId</key>
 			<integer>58</integer>
 			<key>prerequisites</key>
 			<array>
 				<dict>
 					<key>id</key>
-					<integer>59</integer>
+					<integer>25</integer>
 					<key>kind</key>
 					<integer>2</integer>
 				</dict>
@@ -2207,11 +2037,13 @@
 				</dict>
 			</dict>
 			<key>task</key>
-			<string>RSS Reader Plugin</string>
+			<string>Atom Import </string>
+			<key>workDone</key>
+			<real>64</real>
 			<key>workSeconds</key>
-			<real>172800</real>
+			<real>230400</real>
 			<key>workTime</key>
-			<real>48</real>
+			<real>64</real>
 		</dict>
 		<dict>
 			<key>doneSeconds</key>
@@ -2221,7 +2053,13 @@
 			<key>effortDone</key>
 			<real>28800</real>
 			<key>forcedStart</key>
-			<string>20081119080000</string>
+			<string>20081119073000</string>
+			<key>isEffortFixed</key>
+			<false/>
+			<key>lockedEndDate</key>
+			<string>20081119073000</string>
+			<key>lockedStartDate</key>
+			<string>20081119073000</string>
 			<key>objectId</key>
 			<integer>59</integer>
 			<key>style</key>
@@ -2293,6 +2131,53 @@
 			<key>task</key>
 			<string>Bugfixes</string>
 		</dict>
+		<dict>
+			<key>doneSeconds</key>
+			<real>57600</real>
+			<key>effort</key>
+			<real>57600</real>
+			<key>effortDone</key>
+			<real>57600</real>
+			<key>forcedStart</key>
+			<string>20081204073000</string>
+			<key>isEffortFixed</key>
+			<false/>
+			<key>lockedEndDate</key>
+			<string>20081204073000</string>
+			<key>lockedStartDate</key>
+			<string>20081204073000</string>
+			<key>objectId</key>
+			<integer>63</integer>
+			<key>prerequisites</key>
+			<array>
+				<dict>
+					<key>id</key>
+					<integer>58</integer>
+					<key>kind</key>
+					<integer>2</integer>
+				</dict>
+			</array>
+			<key>style</key>
+			<dict>
+				<key>gantt-fill-color</key>
+				<dict>
+					<key>b</key>
+					<string>0.898039</string>
+					<key>g</key>
+					<string>0.792157</string>
+					<key>r</key>
+					<string>0.219608</string>
+				</dict>
+			</dict>
+			<key>task</key>
+			<string>Atom Feed</string>
+			<key>workDone</key>
+			<real>16</real>
+			<key>workSeconds</key>
+			<real>57600</real>
+			<key>workTime</key>
+			<real>16</real>
+		</dict>
 	</array>
 	<key>topResources</key>
 	<array>
@@ -2303,7 +2188,7 @@
 		<integer>-1</integer>
 	</array>
 	<key>uuid</key>
-	<string>1567C434-7DB7-46EC-8BE2-CA0B7FC63EBB</string>
+	<string>E647A43B-25C8-4C42-A849-D7173CEB26A9</string>
 	<key>version</key>
 	<integer>2</integer>
 </dict>

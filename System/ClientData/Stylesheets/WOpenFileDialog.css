@@ -6,7 +6,7 @@
 	z-index: 5000;
 	position:absolute;
 	left:0px;
-	top:58px;
+	top:94px;
 }
 #WOpenFileDialog-closer{
 	display:block;
@@ -57,6 +57,7 @@
 	height:24px;
 	border: 1px solid #000;
 	margin:10px;
+	background: none;
 	float:left;
 }
 

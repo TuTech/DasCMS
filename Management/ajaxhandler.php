@@ -49,17 +49,17 @@ try
             $Interface = 'IACCapability'.ucfirst($function);
         }
         $controller = BAppController::getControllerForID($appCtrlID);
-        if(in_array($Interface, class_implements($controller)))
+        if(in_array($Interface, class_implements($controller)) || method_exists($controller, $function))
         {
-            $paramStr = file_get_contents('php://input');
+            $paramStr = implode(file('php://input'));
             $parameters = null;
             if(!empty($paramStr))
             {
-                $parameters = @json_decode($paramStr);
+                $parameters = @json_decode($paramStr, true);
             }
             if(!is_array($parameters))
             {
-                $parameters = array();
+                $parameters = array('strData' => $paramStr);
             }
             echo json_encode(call_user_func_array(array($controller, $function), array($parameters)));
         }

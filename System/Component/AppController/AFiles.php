@@ -70,6 +70,31 @@ class AFiles
         return $data;
     }
     
+    public function getFolders(array $param)
+    {
+        if(!$this->isPermitted('view'))
+        {
+            throw new XPermissionDeniedException('view');
+        }
+        //sleep(2);
+        $data =  CFile::getFolders();
+        return array(
+            'folders' => array_values($data), 
+            'folderIds' => array_keys($data));
+    }
+    
+    public function getFiles(array $params)
+    {
+        $folder = isset($params['folder']) ? $params['folder'] : null;
+        return array(
+            'ids' => array(1), 
+            'items' => array('test-ajax'),
+            'types' => array(0),
+            'typeNames' => array($folder),
+            'typeIcons' => array('ajax')
+        );
+    }
+    
     /**
      * delete a bunch of items
      */

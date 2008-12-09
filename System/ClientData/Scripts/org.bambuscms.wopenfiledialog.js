@@ -283,7 +283,7 @@ org.bambuscms.wopenfiledialog._build = function()
 	dialog.appendChild(header);
 	dialog.appendChild(filecontainer);
 	document.body.appendChild(dialog);
-	org.bambuscms.display.setAutosize("WOpenFileDialog",0,-58, true);
+	org.bambuscms.display.setAutosize("WOpenFileDialog",0,-94, true);
 	dialog.style.display = 'block';
 	
 	

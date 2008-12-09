@@ -10,6 +10,7 @@ if(PAuthorisation::has('org.bambuscms.configuration.set'))
 {
 	echo LGui::beginForm(array(), 'documentform');
 }
+printf('<h2>%s</h2>', SLocalization::get('system'));
 $values = array(
 	"settings" => array(
         "pagetitle"             => array("sitename",        "fullinput"),
@@ -45,7 +46,6 @@ $password  = "\n\t\t\t<input class=\"fullinput\" type=\"password\" size=\"40\" n
              "\n\t\t\t<br />\n\t\t\t<input type=\"checkbox\" name=\"chdbpasswd\" />%s\n\t\t";
 $checkbox  = "\n\t\t\t<input type=\"checkbox\" name=\"%s\" id=\"%s\" %s/>\n\t\t";
 $labeltag  = "\n\t\t\t<label title=\"{%s}\" for=\"%s\">%s</label>\n\t\t";
-
 foreach($values as $title => $settings)
 {
     $tbl = new WTable(WTable::HEADING_TOP|WTable::HEADING_LEFT, $title);
@@ -101,6 +101,53 @@ foreach($values as $title => $settings)
 		$tbl->addRow(array($label, $input));
 	}
     $tbl->render();
+}
+$imageSizes = array(
+    'description' => 'image_size_in_description',
+    'content' => 'image_size_in_content',
+    'download' => 'image_size_for_download'
+);
+printf('<br /><h2>%s</h2>', SLocalization::get('images'));
+foreach ($imageSizes as $imageSize => $imageSizeTitle) 
+{
+    $maintbl = new WTable(null, SLocalization::get($imageSizeTitle));
+    $maintbl->setCellAlteration('','');
+    $tbl = new WTable(WTable::HEADING_TOP|WTable::HEADING_LEFT);
+    $restbl = new WTable(WTable::HEADING_TOP);
+    
+    $tbl->addRow(array('description', 'value'));
+    $tbl->addRow(array('width_in_pixel', sprintf('<input type=\"text\" name=\"img_%s_width\" size=\"4\" />', $imageSize)));
+    $tbl->addRow(array('height_in_pixel', sprintf('<input type=\"text\" name=\"img_%s_height\" size=\"4\" />', $imageSize)));
+    $tbl->addRow(array('background-color', sprintf('#<input type=\"text\" name=\"img_%s_color\" size=\"6\" />', $imageSize)));
+    $methods = array(
+        'krfs' => 'keep_ratio_fixed_size',
+		'kr' =>   'keep_ratio',
+		'fs' =>   'fixed_size'
+		
+	);
+	$html = '';
+	foreach ($methods as $method => $title) 
+	{
+		$html .= sprintf(
+		   "<div class=\"img_resize_method\">
+				<input type=\"radio\" name=\"img_%s_method\" id=\"img_%s_%s_method\" value=\"%s\" />
+				<label for=\"img_%s_%s_method\"><img src=\"./System/Images/resize_%s.png\" alt=\"%s\" title=\"%s\" /></label>
+			</div>"
+		   ,$imageSize
+		   ,$imageSize
+		   ,$method
+		   ,$method
+		   ,$imageSize
+		   ,$method
+		   ,$title
+		   ,SLocalization::get($title)
+		   ,SLocalization::get($title)
+	   );
+	}
+	$restbl->addRow(array('resize-method'));
+	$restbl->addRow(array($html));
+	$maintbl->addRow(array($tbl, $restbl));
+	$maintbl->render();
 }
 if(PAuthorisation::has('org.bambuscms.configuration.set'))
 {

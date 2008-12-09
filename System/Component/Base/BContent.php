@@ -56,12 +56,15 @@ abstract class BContent extends BObject
 	
 	protected function initAdditionalMetaFromDB($alias)
 	{
-	    $this->_loadLazyData = array();
-	    list($cb, $cd, $mb, $md, $sz) = QBContent::getAdditionalMetaData($alias);
-	    $this->CreatedBy = $cb;
-	    $this->CreateDate = strtotime($cd);
-	    $this->ModifiedBy = $mb;
-	    $this->ModifyDate = strtotime($md);
+	    if(count($this->_loadLazyData))
+	    {
+    	    $this->_loadLazyData = array();
+    	    list($cb, $cd, $mb, $md, $sz) = QBContent::getAdditionalMetaData($alias);
+    	    $this->CreatedBy = $cb;
+    	    $this->CreateDate = strtotime($cd);
+    	    $this->ModifiedBy = $mb;
+    	    $this->ModifyDate = strtotime($md);
+	    }
 	}
 	
 	protected static function setMimeType($alias, $mime)
