@@ -14,20 +14,6 @@
 		<interface name="manage" src="jsManager.php" search="filter">
 			<task type="button" hotkey="F" caption="updateFolders" icon="action-refresh" action="updateFolderView();" />
 			<task type="spacer" name="foo"/>
-			<task type="button" hotkey="o" caption="open" icon="action-document-open" action="org.bambuscms.wopenfiledialog.show();" />
-			<task type="spacer" name="singe_object_edit"/>
-			<task type="button" hotkey="s" caption="save" icon="action-document-save" action="EditorSave()" />
-			<task type="button" hotkey="S" caption="save_and_rename" icon="action-document-save-as" action="EditorSaveAs('filename')" />
-			<task type="button" hotkey="X" caption="delete" icon="action-edit-delete" action="Delete()" />
-			<task type="spacer" name="multi_delete"/>
-			<task type="button" hotkey="X" caption="delete_selected" icon="action-list-remove" action="EditorSave();" confirm="do_you_really_want_to_delete_the_selected_images" />
-			<task type="spacer" name="multi_select"/>
-			<task type="button" hotkey="a" caption="select_all" icon="action-edit-select-all" action="selectItems(true);" />
-			<task type="button" hotkey="e" caption="select_none" icon="action-edit-select-none" action="selectItems(false);" />
-			<task type="spacer" name="multi_view"/>
-			<task type="button" hotkey="i" caption="icon_view" icon="action-view-large" action="viewMode('thumbnail');" />
-			<task type="button" hotkey="l" caption="list_view" icon="action-view-list" action="viewMode('listView');" />
-			<task type="button" hotkey="d" caption="detail_view" icon="action-view-details" action="viewMode('detailView');" />
 			<task type="spacer" />
 			<task type="button" hotkey="D" caption="download_selected" icon="action-transfer-download" action="downloadSelected('download');" />
 			<task type="button" hotkey="U" caption="upload" icon="action-transfer-upload" action="Upload();" />

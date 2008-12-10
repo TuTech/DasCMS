@@ -89,7 +89,7 @@ class WIcon extends BWidget
             	}
             }
         }
-        return '';
+        return sprintf('%s../%dx%d/mimetypes/file.png', SPath::SYSTEM_ICONS,$size,$size);
     }
     
     public function getType()

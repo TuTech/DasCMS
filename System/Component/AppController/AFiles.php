@@ -86,13 +86,35 @@ class AFiles
     public function getFiles(array $params)
     {
         $folder = isset($params['folder']) ? $params['folder'] : null;
-        return array(
-            'ids' => array(1), 
-            'items' => array('test-ajax'),
-            'types' => array(0),
-            'typeNames' => array($folder),
-            'typeIcons' => array('ajax')
+        //Contents.contentID => [Aliases.alias, Contents.title, Contents.size, Mimetypes.mimetype]
+        $contents = CFile::getFilesOfFolder($folder);
+        $typeMap = array();
+        $out = array(
+            'ids' => array(), 
+            'items' => array(),
+            'types' => array(),
+            'typeNames' => array(),
+            'typeIcons' => array()
         );
+        foreach ($contents as $id => $data) 
+        {
+            $nr = count($out['ids']);
+        	$out['ids'][$nr] = $id;
+        	$out['items'][$nr] = $data[1];
+        	if(array_key_exists($data[3], $typeMap))
+        	{
+        	    $out['types'][$nr] = $typeMap[$data[3]];
+        	}
+        	else
+        	{
+        	    $tnr = count($typeMap);
+        	    $typeMap[$data[3]] = $tnr;
+        	    $out['types'][$nr] = $tnr;
+        	    $out['typeNames'][$tnr] = $data[3];
+        	    $out['typeIcons'][$tnr] = WIcon::pathForMimeIcon($data[3], WIcon::EXTRA_SMALL);
+        	}
+        }
+        return $out;
     }
     
     /**

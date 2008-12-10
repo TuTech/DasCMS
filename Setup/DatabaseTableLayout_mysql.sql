@@ -515,7 +515,7 @@ FileAttributes
         ON DELETE CASCADE
         ON UPDATE NO ACTION,
     ADD FOREIGN KEY (folderREL)
-        REFERENCES CFileFolders(folderID)
+        REFERENCES Folders(folderID)
         ON DELETE SET NULL
         ON UPDATE NO ACTION;
 

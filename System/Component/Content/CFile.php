@@ -276,14 +276,15 @@ class CFile
 	
 	public static function getFilesOfFolder($fid)
 	{
-	    $aliases = array();
+	    $contents = array();
+	    //Contents.contentID, Aliases.alias, Contents.title, Contents.size Mimetypes.mimetype
 	    $res = QCFile::getFolderContents(($fid == 0 ? null : $fid));
 	    while($row = $res->fetch())
 	    {
-	        $aliases[] = $row[0];
+	        $contents[$row[0]] = array($row[1], $row[2], $row[3], $row[4]);
 	    }
 	    $res->free();
-	    return $aliases;
+	    return $contents;
 	}
 	
 	public static function createFolder($name)

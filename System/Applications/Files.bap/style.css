@@ -14,7 +14,7 @@
 	overflow:auto;	
 }
 .fullWidth{
-	margin-top:100px;
+	margin-top:98px;
 }
 #folderViewFrame, #fileViewFrame
 {
@@ -25,6 +25,11 @@
 	background: #ffffff url(../../Images/processing.gif) 50% 50% no-repeat;
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
+}
+.fileItem, .folderItem{
+	display:block;
+	width:100%;
+	overflow:hidden;
 }
 .folderItem a{
 	background: #ffffff url(../../Images/inactiveListItem.png) 50% 100% repeat-x;
@@ -59,4 +64,23 @@
 	padding-left: 22px;
 	font-size: 12px;
 	display:block;
+}
+.fileInfoIconFrame{
+	display:block;
+	border: 1px solid #babdb6;
+	padding:4px;
+	width:128px;
+	height:128px;
+	margin: 0px auto;
+}
+.fileInfoIcon{
+	width:128px;
+	height:128px;
+	display:block;
+}
+.fileInfoBox{
+	padding:10px;
+}
+#infoView{
+	text-align: center;
 }

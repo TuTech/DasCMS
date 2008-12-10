@@ -25,6 +25,11 @@ function drawFolderView(dataObject)
 			$('folderView').appendChild(folderNode(dataObject.folderIds[i], dataObject.folders[i]));
 		}
 	}
+	if($('folderItem_'+$('selectedFolder').value))
+	{
+		updateFileView($('selectedFolder').value);
+		activateIdIn($('selectedFolder').value, 'folderView', 'folderItem_');
+	}
 }
 
 function noOp(){}
@@ -45,15 +50,22 @@ function folderNode(id, name)
 	return c;
 }
 
+function activateIdIn(id, view, pfx)
+{
+	var elms = $(view).getElementsByTagName('a');
+	for(var i = 0; i < elms.length; i++)
+	{
+		elms[i].className =  '';//(id == i) ? 'active' :
+	}
+	$(pfx+id).className = 'active';
+}
+
 function openAssignedFileList(event)
 {
 	var id = this.id.substr(11);
+	$('selectedFolder').value = id;
 	updateFileView(id);
-	var elms = $('folderView').getElementsByTagName('a');
-	for(var i = 0; i < elms.length; i++)
-	{
-		elms[i].className = (id == i) ? 'active' : '';
-	}
+	activateIdIn(id, 'folderView', 'folderItem_');
 }
 
 function updateFileView(folder)
@@ -72,7 +84,6 @@ function updateFileView(folder)
 			drawFileView,
 			'{"folder":"'+folder+'"}'
 		);
-		//drawFileView({'ids':[0], 'items':['test'], 'types':[0], 'typeNames':['test'], 'typeIcons':['test']});
 	}
 }
 
@@ -100,14 +111,44 @@ function fileNode(id, name, type, icon)
 	c.className = 'fileItem';
 	var a = document.createElement('a');
 	a.id = 'fileItem_'+id;
-	//org.bambuscms.gui.setEventHandler(a, 'click', openAssignedFileInfo);
+	a.href= 'javascript:noOp();';
+	org.bambuscms.gui.setEventHandler(a, 'click', openAssignedFileInfo);
 	var s = document.createElement('span');
-	var t = document.createTextNode(id+': '+name+' ['+type+'#'+icon+']');
+	var t = document.createTextNode(name);
+	s.style.backgroundImage = 'url('+icon+')';
 	s.appendChild(t);
 	a.appendChild(s);
 	c.appendChild(a);
 	return c;
 }
+
+function openAssignedFileInfo(event)
+{
+	var id = this.id.substr(9);
+	$('selectedFile').value = id;
+	updateFileInfo(id);
+	activateIdIn(id, 'fileView', 'fileItem_');
+}
+
+function updateFileInfo(id)
+{
+	$('infoView').innerHTML = '';
+	var box = document.createElement('div');
+	var d = document.createElement('div');
+	var i = document.createElement('img');
+	var ttl = document.createElement('h3');
+	var ttltxt = document.createTextNode(id);
+	i.src = 'image.php/id/'+id;
+	box.className = 'fileInfoBox';	
+	d.className = 'fileInfoIconFrame';	
+	i.className = 'fileInfoIcon';	
+	d.appendChild(i);
+	ttl.appendChild(ttltxt);
+	box.appendChild(d);
+	box.appendChild(ttl);
+	$('infoView').appendChild(box);
+}
+
 org.bambuscms.autorun.register(updateFolderView);
 
 

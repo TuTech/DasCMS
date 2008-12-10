@@ -98,11 +98,15 @@ class QCFile extends BQuery
     public static function getFolderContents($folderID)
     {
         $sql = 
-            "SELECT Aliases.alias 
+            "SELECT Contents.contentID, Aliases.alias, Contents.title, Contents.size, Mimetypes.mimetype  
 				FROM FileAttributes 
 					LEFT JOIN Contents ON (FileAttributes.contentREL = Contents.contentID)
 					LEFT JOIN Aliases ON (Contents.primaryAlias = Aliases.aliasID) 
-				WHERE FileAttributes.folderREL = %d";
+					LEFT JOIN Mimetypes ON (Contents.mimetypeREL = Mimetypes.mimetypeID)
+				WHERE ".
+                (($folderID == null) 
+                    ? 'ISNULL(FileAttributes.folderREL)' 
+					: 'FileAttributes.folderREL = %d');
         return BQuery::Database()->query(sprintf($sql, $folderID), DSQL::NUM);
     }
     
