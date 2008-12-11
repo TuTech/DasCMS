@@ -630,7 +630,7 @@ Contents
         ON UPDATE NO ACTION,
     ADD CONSTRAINT content_guid FOREIGN KEY (GUID) 
         REFERENCES Aliases(aliasID)
-        ON DELETE RESTRICT
+        ON DELETE CASCADE
         ON UPDATE RESTRICT;
 
 -- Foreign keys for Aliases

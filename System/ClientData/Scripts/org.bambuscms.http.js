@@ -103,14 +103,18 @@ org.bambuscms.http.fetchJSONObject = function(url, asyncHandler, data)
 org.bambuscms.http.managementRequestURL = function(data)
 {
 	var url = 'Management/ajaxhandler.php';
-	if(typeof data == 'object')
+	if(typeof data != 'object')
 	{
-		var sep = '?';
-		for(key in data)
-		{
-			url += sep+encodeURIComponent(key)+'='+encodeURIComponent(data[key]);
-			sep = '&';
-		}
+		data = {};
+	}
+	var sessidEx = /(^|&)PHPSESSID=([^&]+)/;
+	var res = sessidEx.exec(document.cookie);
+	data.PHPSESSID = res[2];
+	var sep = '?';
+	for(key in data)
+	{
+		url += sep+encodeURIComponent(key)+'='+encodeURIComponent(data[key]);
+		sep = '&';
 	}
 	return url;
 };
