@@ -102,7 +102,11 @@ org.bambuscms.http.fetchJSONObject = function(url, asyncHandler, data)
 };
 org.bambuscms.http.managementRequestURL = function(data)
 {
-	var url = 'Management/ajaxhandler.php';
+	var l = self.location;
+	var u = l.protocol + '//' +	
+			l.host +
+			l.pathname;
+	var url = u+'ajaxhandler.php';
 	if(typeof data != 'object')
 	{
 		data = {};
