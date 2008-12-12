@@ -34,11 +34,11 @@ class RSent extends BRequest
         }
         if($encoding == "ISO-8859-1")
         {
-            return utf8_decode(self::$data[$key]);
+            return utf8_decode($ret);
         }
         if(strtolower($encoding) == 'utf-8')
         {
-            return self::$data[$key];
+            return $ret;
         }
         return mb_convert_encoding($ret, $encoding, 'UTF-8');
     }

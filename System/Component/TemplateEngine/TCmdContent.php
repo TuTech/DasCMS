@@ -1,0 +1,64 @@
+<?php
+class TCmdContent
+    extends 
+        BTemplate
+    implements 
+        ITemplateCommand 
+{
+    private $alias;
+    private $property = 'Content';
+    private static $contents = array();
+    public $data = array();
+    
+    public function __construct(DOMNode $node)
+    {
+        $atts = $node->attributes;
+        $getNode = $atts->getNamedItem('alias');
+        $propNode = $atts->getNamedItem('property');
+        if(!$getNode)
+        {
+            return;
+        }
+        $this->alias = $getNode->nodeValue;
+        if(!$propNode)
+        {
+            return;
+        }
+        $this->property = $propNode->nodeValue;
+    }
+    
+    public function setUp(array $environment)
+    {
+        if(!array_key_exists($this->alias, self::$contents))
+        {
+            self::$contents[$this->alias] = BContent::Access($this->alias, $this);
+        }
+    }
+    
+    public function run(array $environment)
+    {
+        if(isset(self::$contents[$this->alias]->{$this->property}))
+        {
+            return self::$contents[$this->alias]->{$this->property};
+        }
+        return '';
+    }
+    
+    public function tearDown()
+    {
+    }
+
+    public function __sleep()
+    {
+        $this->data = array($this->alias, $this->property);
+        return array('data');
+    }
+    
+    public function __wakeup()
+    {
+        $this->alias = $this->data[0];
+        $this->property = $this->data[1];
+        $this->data = array();
+    }
+}
+?>
