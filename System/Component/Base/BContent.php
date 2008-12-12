@@ -44,7 +44,7 @@ abstract class BContent extends BObject
 	    list($id, $ttl, $pd, $desc, $tags, $mt, $sz, $guid) = QBContent::getBasicMetaData($alias);
 	    $this->Id = $id;
 	    $this->Title = $ttl;
-	    $this->PubDate = strtotime($pd);
+	    $this->PubDate = ($pd == '0000-00-00 00:00:00' ? 0 : strtotime($pd));
 	    $this->_origPubDate = $this->PubDate;
 	    $this->Description = $desc;
 	    $this->Tags = $tags;
