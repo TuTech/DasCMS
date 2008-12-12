@@ -1,9 +1,9 @@
 <?php
 $AppController = BAppController::getControllerForID('org.bambuscms.applications.files');
 
-if(RSent::get('delete') != '' && PAuthorisation::has('org.bambuscms.content.cfile.delete'))
+if(RSent::get('delete', 'utf-8') != '' && PAuthorisation::has('org.bambuscms.content.cfile.delete'))
 {
-	CFile::Delete(RURL::get('edit'));
+	CFile::Delete(RURL::get('edit', 'utf-8'));
 }
 
 $succesfullUpload = false;
@@ -20,7 +20,7 @@ if(RFiles::has('CFile') && PAuthorisation::has('org.bambuscms.content.cfile.crea
 	    echo $e->getTraceAsString();
 	}
 }
-if(RSent::get('action') == 'delete' && PAuthorisation::has('org.bambuscms.content.cfile.delete'))
+if(RSent::get('action', 'utf-8') == 'delete' && PAuthorisation::has('org.bambuscms.content.cfile.delete'))
 {
 	$files = array_keys(CFile::Index());
 	foreach($files as $file)
@@ -54,7 +54,7 @@ if($File != null && $File instanceof BContent)
 	try{
     	if(RSent::has('filename'))
     	{
-    		$File->Title = RSent::get('filename');
+    		$File->Title = RSent::get('filename', 'utf-8');
     	}
 		$panel = new WSidePanel();
 		$panel->setMode(

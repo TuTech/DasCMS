@@ -97,7 +97,7 @@ if(isset($_FILES['bambus_image_file']['name']) && PAuthorisation::has('org.bambu
 			//content changed?
 			if(RSent::has('content'))
 			{
-			   	if(RSent::get('content') != $fileContent)
+			   	if(RSent::get('content','utf-8') != $fileContent)
 			   	{
 			        //do the save operation
 			        if(DFileSystem::Save(SPath::DESIGN.$File, RSent::get('content', 'utf-8')))
@@ -157,7 +157,7 @@ if(isset($_FILES['bambus_image_file']['name']) && PAuthorisation::has('org.bambu
 		
 		if(PAuthorisation::has('org.bambuscms.layout.stylesheet.create') && PAuthorisation::has('org.bambuscms.layout.stylesheet.delete') && $allowEdit && $FileOpened)
 		{
-		    if(RSent::hasValue('filename') && $FileName != RSent::get('filename') && $FileName != 'default.css' && file_exists(SPath::DESIGN.$File))
+		    if(RSent::hasValue('filename') && $FileName != RSent::get('filename')&& '' != RSent::get('filename') && $FileName != 'default.css' && file_exists(SPath::DESIGN.$File))
 		    {
 				rename(SPath::DESIGN.$File, SPath::DESIGN.basename(RSent::get('filename')).'.css');
 				$FileName = basename(RSent::get('filename'));

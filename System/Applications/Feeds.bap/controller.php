@@ -17,14 +17,14 @@ $editExist = (RURL::has('edit')) && CFeed::Exists(RURL::get('edit'));
  */
 $Feed = null;
 //delete
-if($editExist && RSent::get('delete') != '' && PAuthorisation::has('org.bambuscms.content.cfeed.delete'))
+if($editExist && RSent::get('delete', 'utf-8') != '' && PAuthorisation::has('org.bambuscms.content.cfeed.delete'))
 {
 	CFeed::Delete(RURL::get('edit'));
 	$editExist = false;
 }
 if(RSent::get('action') == 'delete' && PAuthorisation::has('org.bambuscms.content.cfeed.delete'))
 {
-	foreach (RSent::data() as $k => $v) 
+	foreach (RSent::data('utf-8') as $k => $v) 
 	{
 		if(substr($k,0,7) == 'select_' && !empty($v))
 		{
@@ -37,7 +37,7 @@ if(RSent::get('action') == 'delete' && PAuthorisation::has('org.bambuscms.conten
 //create
 elseif(RSent::hasValue('create') && PAuthorisation::has('org.bambuscms.content.cfeed.create'))
 {
-	$Title = RSent::get('create');
+	$Title = RSent::get('create', 'utf-8');
 	$Feed = CFeed::Create($Title);
 }
 

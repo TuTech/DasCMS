@@ -24,13 +24,21 @@ class RSent extends BRequest
         }
     }
     
-    public static function get($key, $encoding = "ISO-8859-15")
+    public static function get($key, $encoding = "ISO-8859-1")
     {
         self::init();
         $ret = '';
         if(array_key_exists($key, self::$data))
         {
             $ret = self::$data[$key];
+        }
+        if($encoding == "ISO-8859-1")
+        {
+            return utf8_decode(self::$data[$key]);
+        }
+        if(strtolower($encoding) == 'utf-8')
+        {
+            return self::$data[$key];
         }
         return mb_convert_encoding($ret, $encoding, 'UTF-8');
     }

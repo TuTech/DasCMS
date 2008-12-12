@@ -56,7 +56,7 @@ class WTextEditor extends BWidget
 			if(RSent::has($this->target->Id."-Content"))
 			{
 				//@todo check permissions 
-				$this->target->Content = RSent::get($this->target->Id."-Content");
+				$this->target->Content = RSent::get($this->target->Id."-Content", 'utf-8');
 			}
 		}
 	}

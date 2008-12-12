@@ -15,14 +15,14 @@ $SCI = SContentIndex::alloc()->init();
 $editExist = (RURL::has('edit')) && CPage::Exists(RURL::get('edit'));
 $Page = null;
 //delete
-if($editExist && RSent::get('delete') != '' && PAuthorisation::has('org.bambuscms.content.cpage.delete'))
+if($editExist && RSent::get('delete', 'utf-8') != '' && PAuthorisation::has('org.bambuscms.content.cpage.delete'))
 {
-	CPage::Delete(RURL::get('edit'));
+	CPage::Delete(RURL::get('edit', 'utf-8'));
 	$editExist = false;
 }
 if(RSent::get('action') == 'delete' && PAuthorisation::has('org.bambuscms.content.cpage.delete'))
 {
-	foreach (RSent::data() as $k => $v) 
+	foreach (RSent::data('utf-8') as $k => $v) 
 	{
 		if(substr($k,0,7) == 'select_' && !empty($v))
 		{
@@ -35,7 +35,7 @@ if(RSent::get('action') == 'delete' && PAuthorisation::has('org.bambuscms.conten
 //create
 elseif(RSent::hasValue('create') && PAuthorisation::has('org.bambuscms.content.cpage.create'))
 {
-	$Title = RSent::get('create');
+	$Title = RSent::get('create', 'utf-8');
 	$Page = CPage::Create($Title);
 	$Page->Content = $Title;
 }
@@ -43,7 +43,7 @@ elseif(RSent::hasValue('create') && PAuthorisation::has('org.bambuscms.content.c
 //open for editing
 elseif($editExist && PAuthorisation::has('org.bambuscms.content.cpage.change'))
 {
-	$Page = CPage::Open(RURL::get('edit'));
+	$Page = CPage::Open(RURL::get('edit', 'utf-8'));
 }
 
 //save data
@@ -51,11 +51,11 @@ if(isset($Page) && $Page instanceof CPage && PAuthorisation::has('org.bambuscms.
 {
 	if(RSent::has('content'))
 	{
-		$Page->Content = RSent::get('content');
+		$Page->Content = RSent::get('content', 'utf-8');
 	}
 	if(RSent::has('filename'))
 	{
-		$Page->Title = RSent::get('filename');
+		$Page->Title = RSent::get('filename', 'utf-8');
 	}
 	
 }

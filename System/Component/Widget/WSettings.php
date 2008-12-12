@@ -34,8 +34,8 @@ class WSettings extends BWidget implements ISidebarWidget
 		$this->targetObject = $sidepanel->getTarget();
 		if(RSent::has('WSearch-Tags'))
 		{
-			$tagstr = RSent::get('WSearch-Tags');
-			$chk = RSent::get('WSearch-Tags-chk');
+			$tagstr = RSent::get('WSearch-Tags', 'utf-8');
+			$chk = RSent::get('WSearch-Tags-chk', 'utf-8');
 			if($chk != md5($tagstr)) 
 			{
 				$this->targetObject->Tags = $tagstr;
@@ -50,7 +50,7 @@ class WSettings extends BWidget implements ISidebarWidget
 				$this->targetObject->PubDate = $dat;
 			}
 		}
-		$desc = RSent::get('WSearch-Desc');
+		$desc = RSent::get('WSearch-Desc', 'utf-8');
 		if(RSent::has('WSearch-Desc') && $desc != $this->targetObject->Description)
 		{
 			$this->targetObject->Description = $desc;

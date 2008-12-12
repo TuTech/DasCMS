@@ -64,7 +64,7 @@ if(count($Files) > 0)
 	//////////////////
 	//mass delete//
 	//////////////////
-	if(RSent::hasValue('action') && RSent::get('action') == 'delete' && PAuthorisation::has('org.bambuscms.image.file.delete'))
+	if(RSent::hasValue('action') && RSent::get('action', 'utf-8') == 'delete' && PAuthorisation::has('org.bambuscms.image.file.delete'))
 	{
 		foreach($Files as $file)
 		{

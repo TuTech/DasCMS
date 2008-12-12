@@ -237,6 +237,7 @@ abstract class BContent extends BObject
 	 */
 	public function setTitle($value)
 	{
+	    echo 'setting title to "'.$value.'"';
 		if(strlen($value) > 0)
 		{
 			$this->Title = $value;

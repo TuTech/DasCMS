@@ -41,8 +41,8 @@ class WTagPermissions extends BWidget implements ISidebarWidget
 	    //DO SAVE
 	    if(RSent::hasValue('WTagPermissions_target'))
 	    {
-	        $name = RSent::get('WTagPermissions_target');
-	        $type = RSent::get('WTagPermissions_type');
+	        $name = RSent::get('WTagPermissions_target', 'utf-8');
+	        $type = RSent::get('WTagPermissions_type', 'utf-8');
 	        $tags = STagPermissions::getProtectedTags();
 	        $setTags = array();
 	        foreach ($tags as $tag) 

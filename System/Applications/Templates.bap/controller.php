@@ -11,17 +11,17 @@ $AppController = BAppController::getControllerForID('org.bambuscms.applications.
 $allowEdit = true;
 $FileOpened = false;
 
-$editExist = (RURL::has('edit')) && CTemplate::Exists(RURL::get('edit'));
+$editExist = (RURL::has('edit')) && CTemplate::Exists(RURL::get('edit','utf-8'));
 $Tpl = null;
 //delete
-if($editExist && RSent::get('delete') != '' && PAuthorisation::has('org.bambuscms.content.ctemplate.delete'))
+if($editExist && RSent::get('delete','utf-8') != '' && PAuthorisation::has('org.bambuscms.content.ctemplate.delete'))
 {
-	CTemplate::Delete(RURL::get('edit'));
+	CTemplate::Delete(RURL::get('edit','utf-8'));
 	$editExist = false;
 }
 if(RSent::get('action') == 'delete' && PAuthorisation::has('org.bambuscms.content.ctemplate.delete'))
 {
-	foreach (RSent::data() as $k => $v) 
+	foreach (RSent::data('utf-8') as $k => $v) 
 	{
 		if(substr($k,0,7) == 'select_' && !empty($v))
 		{
@@ -34,14 +34,14 @@ if(RSent::get('action') == 'delete' && PAuthorisation::has('org.bambuscms.conten
 //create
 elseif(RSent::hasValue('create') && PAuthorisation::has('org.bambuscms.content.ctemplate.create'))
 {
-	$Title = RSent::get('create');
+	$Title = RSent::get('create','utf-8');
 	$Tpl = CTemplate::Create($Title);
 }
 
 //open for editing
 elseif($editExist && PAuthorisation::has('org.bambuscms.content.ctemplate.change'))
 {
-	$Tpl = CTemplate::Open(RURL::get('edit'));
+	$Tpl = CTemplate::Open(RURL::get('edit','utf-8'));
 }
 
 //save data
@@ -49,13 +49,12 @@ if(isset($Tpl) && $Tpl instanceof CTemplate && PAuthorisation::has('org.bambuscm
 {
 	if(RSent::has('content'))
 	{
-		$Tpl->RAWContent = RSent::get('content');
+		$Tpl->RAWContent = RSent::get('content','utf-8');
 	}
 	if(RSent::has('filename'))
 	{
-		$Tpl->Title = RSent::get('filename');
+		$Tpl->Title = RSent::get('filename','utf-8');
 	}
-	
 }
 echo new WOpenDialog($AppController, $Tpl);
 

@@ -8,7 +8,7 @@
 ************************************************/
 if(RSent::has('content') && PAuthorisation::has('org.bambuscms.system.permissions.tags.change'))
 {
-    $tags = STag::parseTagStr(RSent::get('content'));
+    $tags = STag::parseTagStr(RSent::get('content', 'utf-8'));
     STagPermissions::setProtectedTags($tags);
 }
 ?>
