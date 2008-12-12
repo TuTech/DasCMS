@@ -81,7 +81,8 @@ class WSettings extends BWidget implements ISidebarWidget
 		    {
 		        if(substr($key,-4) == 'Date') 
 		        {
-		            $val = date('r',$this->targetObject->{$key});
+		            $date = $this->targetObject->{$key};
+		            $val = $date > 0 ? date('r',$this->targetObject->{$key}) : '';
 		        }
 		        elseif(substr($key,-4) == 'Size')
 		        {
