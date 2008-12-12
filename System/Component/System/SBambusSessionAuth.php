@@ -67,7 +67,7 @@ class SBambusSessionAuth
                 $user = RSent::get('bambus_cms_username');
                 $password = RSent::get('bambus_cms_password');
             }
-            elseif(!empty($_SERVER['PHP_AUTH_USER']))
+            elseif(!RSession::has('bambus_cms_username') && !empty($_SERVER['PHP_AUTH_USER']))
             {
                 $user = $_SERVER['PHP_AUTH_USER'];
                 $password = $_SERVER['PHP_AUTH_PW'];
