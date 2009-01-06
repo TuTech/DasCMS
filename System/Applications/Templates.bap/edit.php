@@ -11,7 +11,8 @@ if(isset($panel) && $panel->hasWidgets())
 {
     echo '<div id="objectInspectorActiveFullBox">';
 }//editing allowed?
-	
+echo $ex;	
+
 if(PAuthorisation::has('org.bambuscms.content.ctemplate.change') && isset($Tpl) && $Tpl instanceof CTemplate )
 {
 		

@@ -62,6 +62,7 @@ abstract class BTemplate extends BObject
                     $this->htmlTagEnd($node);
                 }
         		break;
+        	case XML_DTD_NODE:
         	case XML_TEXT_NODE:
         	case XML_PI_NODE:
         	case XML_NOTATION_NODE:

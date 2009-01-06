@@ -23,7 +23,8 @@ class TCompiler extends BTemplate
         $path = sprintf('%s%s', $path, $template);
         if(!@$this->template->load($path))
         {
-            throw new XArgumentException('invalid template');
+            $err = error_get_last();
+            throw new XArgumentException($err['message'], $err['type']);
         }
         //analyse template 
         $this->analyze($this->template->documentElement);

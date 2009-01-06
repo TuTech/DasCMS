@@ -63,6 +63,7 @@ printf(
     '<form method="post" id="documentform" name="documentform" action="%s">'
 	,SLink::link(array('edit' => (isset($Tpl) && $Tpl instanceof CTemplate)? $Tpl->Alias :''))
 );
+$ex = '';
 if(isset($Tpl))
 {
 	try{
@@ -81,9 +82,8 @@ if(isset($Tpl))
 		}
 	}
 	catch(Exception $e){
-	    echo "\n\n";
-	    echo $e->getMessage();
-		echo $e->getTraceAsString();
+	    $ex = '<div class="TemplateError"><h4>%s</h4><p><b>%s thrown in %s at line %d</b></p><p%s<br /><code>%s</code></p></div>';
+	    $ex = sprintf($ex, $e->getMessage(), get_class($e), $e->getFile(), $e->getLine(), $e->getMessage(), $e->getTraceAsString());
 		SNotificationCenter::report('warning', 'invalid_template_not_executeable');
 	}	
 }

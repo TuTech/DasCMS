@@ -1,23 +1,21 @@
 <?php
-class TCmdView
+class TCmdTreenavigation
     extends 
         BTemplate
     implements 
         ITemplateCommand 
 {
-    private $for, $show;
+    private $show;
     public $data = array();
     
     public function __construct(DOMNode $node)
     {
         $atts = $node->attributes;
-        $for = $atts->getNamedItem('for');
         $show = $atts->getNamedItem('show');
-        if(!$for || !$show)
+        if(!$show)
         {
             return;
         }
-        $this->for = $for->nodeValue;
         $this->show = $show->nodeValue;
     }
     
@@ -28,10 +26,10 @@ class TCmdView
     public function run(array $environment)
     {
         $res = '';
-        $v = new VSpore();
-        if($v->TemplateCallable($this->show))
+        $n = new NTreeNavigation();
+        if($n->TemplateCallable('embed'))
         {
-            $res = $v->TemplateCall($this->show, array('view' => $this->for));
+            $res = $n->TemplateCall('embed', array('name' => $this->show));
         }
         return $res;
     }
@@ -42,14 +40,13 @@ class TCmdView
 
     public function __sleep()
     {
-        $this->data = array($this->for, $this->show);
+        $this->data = array($this->show);
         return array('data');
     }
     
     public function __wakeup()
     {
-        $this->for = $this->data[0];
-        $this->show = $this->data[1];
+        $this->show = $this->data[0];
         $this->data = array();
     }
 }

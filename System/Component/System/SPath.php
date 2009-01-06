@@ -18,6 +18,8 @@ class SPath
     const SYSTEM_IMAGES = './System/Images/';
     const SYSTEM_TEMPLATES = './System/Resource/Templates/';
     const SYSTEM_APPLICATIONS = './System/Applications/';
+    const SYSTEM_RESOURCES = './System/Resource/';
+    const SYSTEM_RESOURCE_STRINGS = './System/Resource/Strings/';
     
     const CONTENT = './Content/';
     const TEMPLATES = './Content/CTemplate/';
