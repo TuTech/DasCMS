@@ -211,7 +211,7 @@ array objectid => spore
 		if(!$content instanceof BContent)
 		{
 			$alias = self::$spores[$this->name][self::ERROR_CONTENT];
-			$content = SAlias::resolve($alias);
+			$content = BContent::Open($alias);
 		}
 		$this->content = BContent::Access($content->Alias, $this);
 		$this->content->InvokedByQueryObject($this);
@@ -233,7 +233,7 @@ array objectid => spore
 	public function getErrorContent()
 	{
 		$alias = self::$spores[$this->name][self::ERROR_CONTENT];
-		return SAlias::resolve($alias);
+		return BContent::Open($alias);
 	}
 	
 	public function hasContent()

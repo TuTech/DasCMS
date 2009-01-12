@@ -59,7 +59,14 @@ class SAlias
 	 */
 	public static function resolve($alias)
 	{
-		return BContent::Open($alias);
+		if(QSAlias::reloveAliasToID($alias) === null)
+		{
+		    return null;
+		}
+		else
+		{
+		    return BContent::Open($alias);
+		}
 	}
 	
 	/**
@@ -170,7 +177,7 @@ class SAlias
 	 */
 	public function exists($alias)
 	{
-		
+		return QSAlias::reloveAliasToID($alias) === null;
 	}
 
 	//begin IShareable

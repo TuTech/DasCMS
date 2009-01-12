@@ -29,6 +29,45 @@ if($edit != null && RSent::has('1_p') && RSent::get('1_p') == '0')//parent of fi
 	//got data
 	$data = array(1 => new NTreeNavigationObject('', null, null, null));
 	$i = 2;
+	//remove empty next pointers
+	while(RSent::has($i.'_n'))
+	{
+	    $next = RSent::get($i.'_n');
+	    $nextAlias = RSent::get($next.'_cid');
+	    while(empty($nextAlias) && RSent::has($next.'_n'))
+	    {
+	        $next = RSent::get($next.'_n');
+	        $nextAlias = RSent::get($next.'_cid');
+	    }
+	    if(!empty($nextAlias))
+	    {
+	        RSent::alter($i.'_n', $next);
+	    }
+	    $i++;
+	}
+	$i = 2;
+	//remove empty first-child pointers 
+	while(RSent::has($i.'_fc'))
+	{
+	    //get the first child of element i
+	    $fc = RSent::get($i.'_fc');//5
+	    $origFc = $fc;
+	    //get its alias
+	    $fcAlias = RSent::get($fc.'_cid');
+	    //if the alias is not set promote the first sibling of the first child with an alias to the first child position 
+	    while(empty($fcAlias) && !empty($fc))
+	    {
+	        $fc = RSent::get($fc.'_n');
+	        $fcAlias = RSent::get($fc.'_cid');
+	    }
+	    if($origFc != $fc && !empty($fcAlias))
+	    {
+	        RSent::alter($i.'_fc', $fc);
+	    }
+	    $i++;
+	}
+	$i = 2;
+
 	//get all nav objects 
 	while(RSent::has($i.'_p'))
 	{

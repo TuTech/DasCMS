@@ -14,18 +14,29 @@ if($edit != null)
     {
         echo '<div id="objectInspectorActiveFullBox">';
     }
-	
+	try
+	{
+	    $cSpore = NTreeNavigation::sporeOf($edit);
+	    $sporeName = $cSpore->GetName();
+	}
+	catch (Exception $e)
+	{
+	    $sporeName = SLocalization::get('not_set');
+	}
 	?>
 	
 		<h2><?php echo htmlspecialchars($edit,ENT_QUOTES, 'utf-8'); ?></h2>
 		<h3><?php SLocalization::out('set_target_view'); ?></h3>
 		<select name="set_spore">
-			<option value=""><?php SLocalization::out('dont_change'); ?></option>
+			<option value=""><?php echo $sporeName; ?></option>
 		<?php
 		$spores = QSpore::activeSpores();
 		foreach ($spores as $spore) 
 		{
-			echo '<option>',htmlentities($spore, ENT_QUOTES,'UTF-8'),'</option>';
+			if($spore != $sporeName)
+			{
+		        echo '<option>',htmlentities($spore, ENT_QUOTES,'UTF-8'),'</option>';
+			}
 		}
 		
 			?>
@@ -46,27 +57,31 @@ if($edit != null)
 		function createNavJS(NTreeNavigationObject $tno, $parentid, $isChild = true)
 		{
 			global $id;
-			$myid = ++$id;
+			$myid = $id;
 			$content = SAlias::resolve($tno->getAlias());
-			$title = ($content == null) 
-				? '' 
-				: htmlspecialchars($content->Title, ENT_QUOTES, 'utf-8');
-			if($isChild)
+			if($content != null)
 			{
-				echo 'addChild(\''.$parentid.'\', \''.$tno->getAlias().'\', \''.$title.' ('.$tno->getAlias().')\');';
+    			$myid = ++$id;
+    			$title = ($content == null) 
+    				? '' 
+    				: htmlspecialchars($content->Title, ENT_QUOTES, 'utf-8');
+    		    if($isChild)
+    			{
+    				echo 'addChild(\''.$parentid.'\', \''.$tno->getAlias().'\', \''.$title.' ('.$tno->getAlias().')\');';
+    			}
+    			else
+    			{
+    				echo 'addSibling(\''.$parentid.'\', \''.$tno->getAlias().'\', \''.$title.' ('.$tno->getAlias().')\');';
+    			}
+    			if($tno->hasChildren())
+    			{
+    				createNavJS($tno->getFirstChild(), $myid, true);
+    			}
 			}
-			else
-			{
-				echo 'addSibling(\''.$parentid.'\', \''.$tno->getAlias().'\', \''.$title.' ('.$tno->getAlias().')\');';
-			}
-			if($tno->hasChildren())
-			{
-				createNavJS($tno->getFirstChild(), $myid, true);
-			}
-			if($tno->hasNext())
-			{
-				createNavJS($tno->getNext(), $myid, false);
-			}
+    		if($tno->hasNext())
+    		{
+    			createNavJS($tno->getNext(), $myid, false);
+    		}
 		}
 		$root = NTreeNavigation::getRoot($edit);
 		if($root->hasChildren())
