@@ -68,24 +68,22 @@ function cleanHTML(){
     html = html.replace(/>/g, ">\n");
     html = html.replace(/\/>/g, "\/>\n");
 
-	//xhtml
+	//xhtml - add tailing "/" to some elements
 	while(html.match(/(<(hr|br|wbr|input|img)[\s]*[^\/]*)>/g))
 	{
 		html = html.replace(/(<(hr|br|wbr|input|img)[\s]*[^\/]*)>/g, "$1 />");
 	}
     //MSOffice crap
-    html = html.replace(/<o:/g, "<");
+    html = html.replace(/<o:/g, "<");//remove office namespace prefix
     html = html.replace(/<\/o:/g, "</");
-    html = html.replace(/[\s]+class="MsoNormal"/g, "");
-    html = html.replace(/[\s]+style="text-align: justify;"/g, "");
+    html = html.replace(/[\s]+class="MsoNormal"/g, "");//remove office class
+    html = html.replace(/[\s]+style="text-align: justify;"/g, "");//text align should be set in css file
     while(html.match(/(<[a-zA-Z0-9-_:]+)(|[\s]+[^>]+)[\s]+[a-zA-Z0-9-_]+=['"]{1}[\s]*['"]{1}/g))
     {
     	html = html.replace(/(<[a-zA-Z0-9-_:]+)(|[\s]+[^>]+)[\s]+[a-zA-Z0-9-_]+=['"]{1}[\s]*['"]{1}/g, "$1 $2");
     }
-    html = html.replace(/[\9\32]+/g, " ");
-	html = html.replace(/[\s]+>/g, ">");
-
-    html = html.replace(/[\n]+[\s]* /g, "\n");
+	html = html.replace(/[\s]+>/g, ">");//tailing space in tag
+    html = html.replace(/[\n]+[\s]* /g, "\n");//remove empty lines
 	
 
 	//remove <p><br></p>
@@ -102,20 +100,20 @@ function cleanHTML(){
    	var erg = "";
    	var nlflag = false;
    	var firstInTag = false;
-   	for(var i = 0;i < lines.length;i++)//>
+   	for(var i = 0;i < lines.length;i++)
    	{
    		intend = "";
    		if(lines[i].substr(0,1) == '<' && lines[i].substr(1,1) != '!' && lines[i].substr(1,1) == '/')
    		{
 			intendcount--;
-	   		for(var h = 0;h < intendcount;h++)//>
+	   		for(var h = 0;h < intendcount;h++)
    			{
    				intend += intendspace;
    			}
    		}
    		else if(lines[i].substr(0,1) == '<' && lines[i].substr(1,1) != '!' && lines[i].substr(1,1) != '/')
    		{
-	   		for(var h = 0;h < intendcount;h++)//>
+	   		for(var h = 0;h < intendcount;h++)
    			{
    				intend += intendspace;
    			}
@@ -127,7 +125,7 @@ function cleanHTML(){
    		}
    		else
    		{
-	   		for(var h = 0;h < intendcount;h++)//>
+	   		for(var h = 0;h < intendcount;h++)
    			{
    				intend += intendspace;
    			}   			
