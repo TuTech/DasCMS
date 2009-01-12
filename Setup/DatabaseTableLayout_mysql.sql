@@ -499,6 +499,25 @@ ENGINE = InnoDB
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
 
+-- auth log
+CREATE TABLE IF NOT EXISTS 
+AuthorisationLog(
+	LoginTime 
+		TIMESTAMP 
+		DEFAULT CURRENT_TIMESTAMP 
+		NOT NULL,
+	IPAdr
+		INTEGER 
+		NOT NULL,
+	UserName
+		VARCHAR(32)
+		NOT NULL,
+	INDEX(LoginTime, IPAdr, UserName)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
 -- foreign keys for cfile folders
 ALTER TABLE 
 Folders
