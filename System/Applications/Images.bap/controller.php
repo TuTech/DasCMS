@@ -68,7 +68,7 @@ if(count($Files) > 0)
 	{
 		foreach($Files as $file)
 		{
-			if(!RSent::hasValue('select_'.md5($file)))
+			if(RSent::hasValue('select_'.md5($file)))
 			{
 		        if(@unlink(SPath::IMAGES.$file)){
 		        	SNotificationCenter::report('message', 'file_deleted');
