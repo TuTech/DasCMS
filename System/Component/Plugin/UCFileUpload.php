@@ -70,18 +70,22 @@ class UCFileUpload
     
     public function uploadForm($param)
     {
-        if(!is_array($param))
+        $html = '';
+        if(PAuthorisation::has('org.bambuscms.content.cfile.create'))
         {
-            $param = array();
+            if(!is_array($param))
+            {
+                $param = array();
+            }
+            $maxSize = (array_key_exists('maxSize', $param)) ? $param['maxSize'] : '1000000000';
+            $html = '<div class="UCFileUpload_form">';
+            $html .= sprintf('<p>%s</p>', (array_key_exists('text', $param)) ? $param['text'] : '');
+            $html .= sprintf('<form action="%s" method="post"  enctype="multipart/form-data">', SLink::buildURL());
+            $html .= sprintf('<input type="hidden" name="MAX_FILE_SIZE" value="%s" />', $maxSize);
+            $html .= '<input type="file" name="CFile" />';
+            $html .= sprintf('<input type="submit" value="%s" />', (array_key_exists('submitText', $param)) ? $param['submitText'] : 'OK');
+            $html .= '</form></div>';
         }
-        $maxSize = (array_key_exists('maxSize', $param)) ? $param['maxSize'] : '1000000000';
-        $html = '<div class="UCFileUpload_form">';
-        $html .= sprintf('<p>%s</p>', (array_key_exists('text', $param)) ? $param['text'] : '');
-        $html .= sprintf('<form action="%s" method="post"  enctype="multipart/form-data">', SLink::buildURL());
-        $html .= sprintf('<input type="hidden" name="MAX_FILE_SIZE" value="%s" />', $maxSize);
-        $html .= '<input type="file" name="CFile" />';
-        $html .= sprintf('<input type="submit" value="%s" />', (array_key_exists('submitText', $param)) ? $param['submitText'] : 'OK');
-        $html .= '</form></div>';
         return $html;
     }
     
