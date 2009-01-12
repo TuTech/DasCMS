@@ -6,6 +6,10 @@
  * @license GNU General Public License 3
  * @since 2008-09-09
  */
+if(!defined('CMS_START_TIME'))
+{
+    define('CMS_START_TIME', microtime(true));
+}
 if(!defined('ERROR_TEMPLATE'))
 {
     define('ERROR_TEMPLATE', '<div style="font-family:sans-serif;border:1px solid #a40000;">

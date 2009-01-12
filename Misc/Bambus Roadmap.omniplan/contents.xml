@@ -30,9 +30,9 @@
 			<key>GanttGroupShading</key>
 			<true/>
 			<key>GanttVisibleRect</key>
-			<string>{{1214, 0}, {1118, 924}}</string>
+			<string>{{2978, 0}, {948, 964}}</string>
 			<key>OutlineVisibleRect</key>
-			<string>{{0, 0}, {384, 924}}</string>
+			<string>{{0, 0}, {252, 964}}</string>
 			<key>ScaleWidths</key>
 			<dict>
 				<key>Automatic</key>
@@ -118,7 +118,7 @@
 				<key>Notes</key>
 				<real>20</real>
 				<key>Title</key>
-				<real>269</real>
+				<real>137</real>
 				<key>Violations</key>
 				<real>20</real>
 			</dict>
@@ -178,9 +178,9 @@
 				</dict>
 			</dict>
 			<key>side</key>
-			<real>0.74686884880065918</real>
+			<real>0.79259258508682251</real>
 			<key>window</key>
-			<string>{{29, 105}, {1526, 1058}}</string>
+			<string>{{18, 74}, {1224, 1098}}</string>
 		</dict>
 	</array>
 	<key>displaySeconds</key>
@@ -198,7 +198,7 @@
 	<key>displayTimes</key>
 	<true/>
 	<key>endDate</key>
-	<string>20090216 11:00</string>
+	<string>20090225 11:00</string>
 	<key>flatNumbering</key>
 	<false/>
 	<key>groupTaskStyle</key>
@@ -920,6 +920,8 @@
 			</array>
 			<key>effort</key>
 			<real>43200</real>
+			<key>forcedStart</key>
+			<string>20090107080000</string>
 			<key>objectId</key>
 			<integer>16</integer>
 			<key>style</key>
@@ -2188,7 +2190,7 @@
 		<integer>-1</integer>
 	</array>
 	<key>uuid</key>
-	<string>E647A43B-25C8-4C42-A849-D7173CEB26A9</string>
+	<string>76413FC5-6DD1-4C36-8711-001629E53B3E</string>
 	<key>version</key>
 	<integer>2</integer>
 </dict>

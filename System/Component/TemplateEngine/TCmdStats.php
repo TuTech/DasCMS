@@ -55,12 +55,14 @@ class TCmdStats
 	%12s%s
 	%12s%s
 	%12s%s
+	%12s%s
  -->
 "
 			,'Mem: ',DFileSystem::formatSize(memory_get_usage())
 			,'Mem (real): ',DFileSystem::formatSize(memory_get_usage(true))
 			,'Mem (peak): ',DFileSystem::formatSize(memory_get_peak_usage(true))
-			,'ipnum: ', $num
+			,'ipnum: ', $num,
+			'time: ', round(microtime(true) - CMS_START_TIME, 5).'s'
 			);
     }
 }
