@@ -178,7 +178,11 @@ class NTreeNavigation
     				$navigation = "<!-- spore not found or not active '".$sporeName."' -->";
     			}
     		}
-    		$navigation = '<div id="Navigation-'.htmlentities($NavigationName, ENT_QUOTES, 'utf-8').'">'."\n".strval($navigation).'</div>'."\n";
+    		$navigation = sprintf(
+    			"\n<div id=\"Navigation-%s\">\n%s</div>\n"
+    		    ,htmlentities($NavigationName, ENT_QUOTES, 'utf-8')
+    		    ,strval($navigation)
+		    );
     	}
     	return $navigation;
     }

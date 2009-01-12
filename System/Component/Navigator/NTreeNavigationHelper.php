@@ -135,7 +135,9 @@ class NTreeNavigationHelper
     	{
     		throw new XUndefinedIndexException('not initialized');
     	}
-    	return SAlias::match($tno->getAlias(), $this->content->Alias);
+    	$res = SAlias::match($tno->getAlias(), $this->content->Alias);
+    	echo "\n\n<!-- \ncmp: ", $tno->getAlias(), "\nto:  ", $this->content->Alias, "\nres: ", ($res ? 'true' : 'false'), " -->\n";
+    	return $res;
     }
     
     /**

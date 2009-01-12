@@ -9,6 +9,8 @@
  */
 class NTreeNavigationObject
 {
+    static $indent = 1;
+    
 	//tree struct
 	public $parent = null;
 	public $next = null;
@@ -147,10 +149,22 @@ class NTreeNavigationObject
 	 */
 	private function rootString()
 	{
-		return sprintf(
-			"<div class=\"NavigationRoot\">\n%s</div>\n"
-			,($this->hasChildren()) ? strval($this->firstChild) : ''
-		);
+		return $this->hasChildren()  
+		        ? sprintf("\t<div class=\"NavigationRoot\">\n%s\t</div>\n" ,strval($this->firstChild) )
+		        : '';
+	}
+	
+	private static function indent($in = true)
+	{
+	    if($in)
+	    {
+	        self::$indent++;
+	    }
+	    else
+	    {
+	        self::$indent--;
+	    }
+	    return str_repeat("\t", self::$indent);
 	}
 	
 	/**
@@ -165,27 +179,37 @@ class NTreeNavigationObject
 			throw new XInvalidDataException('no NTreeNavigation assigned');
 		}
 		$html = '';
+		$pfx = self::indent();
 		if($this->Navigation->isAccessable($this))//$this->accessable)
 		{
+		    $selected = $this->Navigation->isSelectedElement($this);
 			$html = sprintf(
-				"<div class=\"NavigationObject%s%s%s\">\n\t<a href=\"%s\">%s</a>\t"
+				"%s<div class=\"NavigationObject%s%s%s\">\n\t%s<a%s href=\"%s\">%s</a>\n"
+				,$pfx
 				,($this->hasChildren())
 					? ($this->Navigation->isAccessable($this->getFirstChild()) 
 						? ' ExpandedNavigationObject' 
 						: ' ExpandableNavigationObject')
 					:''
-				,($this->Navigation->isSelectedElement($this)) 
+				,($selected) 
 					? ' SelectedNavigationObject' 
 					: ''
 				,' NavigationAlias-'.preg_replace('/[^a-zA-Z0-9_-]/', '_', $this->Navigation->getAlias($this))
+				,$pfx
+				,($selected) 
+					? ' class="SelectedNavigationLink"' 
+					: ''
 				,$this->Navigation->LinkTo($this)
 				,htmlentities($this->Navigation->getTitle($this), ENT_QUOTES, 'utf-8')
 			);		
+			$pfx = self::indent();
 			$html .= ($this->hasChildren())
-				? sprintf("<div class=\"Children\">%s</div>\n\t",strval($this->firstChild))
+				? sprintf("%s<div class=\"Children\">\n%s%s</div>\n\t",$pfx,strval($this->firstChild),$pfx)
 				: '';
-			$html .= "</div>\n";
+			$pfx = self::indent(false);
+			$html .= $pfx."</div>\n";
 		}
+		$pfx = self::indent(false);
 		$html .= ($this->hasNext())
 			? strval($this->next)
 			: '';

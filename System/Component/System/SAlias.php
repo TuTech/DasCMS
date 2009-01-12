@@ -134,6 +134,10 @@ class SAlias
 	 */
 	public static function match($alias_a,$alias_b)
 	{
+	    if($alias_a == $alias_b)
+	    {
+	        return true;
+	    }
 	    $res = QSAlias::match($alias_a,$alias_b);
 	    if($res->getRowCount() != 1)
 	    {

@@ -61,8 +61,8 @@ class TCmdStats
 			,'Mem: ',DFileSystem::formatSize(memory_get_usage())
 			,'Mem (real): ',DFileSystem::formatSize(memory_get_usage(true))
 			,'Mem (peak): ',DFileSystem::formatSize(memory_get_peak_usage(true))
-			,'ipnum: ', $num,
-			'time: ', round(microtime(true) - CMS_START_TIME, 5).'s'
+			,'ipadr: ', $num,
+			'gentime: ', round(microtime(true) - CMS_START_TIME, 5).'s'
 			);
     }
 }
