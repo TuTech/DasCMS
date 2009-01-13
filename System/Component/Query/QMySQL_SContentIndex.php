@@ -40,7 +40,7 @@ class QSContentIndex extends BQuery
 					Aliases.alias = '%s'
 					%s";
         
-        $res = $DB->query(sprintf($sql, $join, $DB->escape($alias)), $where, DSQL::NUM);
+        $res = $DB->query(sprintf($sql, $join, $DB->escape($alias), $where), DSQL::NUM);
         list($num) = $res->fetch();
         $res->free();
         return $num;

@@ -70,9 +70,16 @@ class SContentIndex
 	
 	public static function exists($alias, $asType = null)
 	{
-	    $res = QSContentIndex::getDBID($alias);
-	    $erg = $res->getRowCount();
-	    $res->free();
+	    if($asType)
+	    {
+	        $erg = QSContentIndex::exists($alias, $asType);
+	    }
+	    else
+	    {
+	        $res = QSContentIndex::getDBID($alias);
+	        $erg = $res->getRowCount();
+	        $res->free();
+	    }
 	    return $erg == 1;
 	}
 
