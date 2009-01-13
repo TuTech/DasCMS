@@ -71,62 +71,60 @@ class SFeedKeeper
 	            }
 	            QSFeedKeeper::updateStats($CID);
     	    }
-    	    else
-    	    {
-    	        //remove item from all feeds
-	            QSFeedKeeper::unlinkItem($CID);
-	            $res = QSFeedKeeper::getFeedsWithTypeAndTags();
-	            $feedTags = array();
-	            $feedTypes = array();
-	            while($row = $res->fetch())
+    	    //feeds may be in other feeds.. so this is for all
+	        //remove item from all feeds
+            QSFeedKeeper::unlinkItem($CID);
+            $res = QSFeedKeeper::getFeedsWithTypeAndTags();
+            $feedTags = array();
+            $feedTypes = array();
+            while($row = $res->fetch())
+            {
+                list($fid, $type, $tag) = $row;
+                if(!isset($feedTags[$fid]))
+                {
+                    $feedTags[$fid] = array();
+                }
+                $feedTags[$fid][] = $tag;
+                $feedTypes[$fid] = $type;
+            }
+            $res->free();
+            //add item to all feeds with matching filter
+            $itemsToAdd = array();
+            foreach ($feedTypes as $fid => $type)
+            {
+                if($type != CFeed::ALL)
+                {
+                    $matching = array_intersect($e->Content->Tags, $feedTags[$fid]);
+                }
+	            switch($type)
 	            {
-	                list($fid, $type, $tag) = $row;
-	                if(!isset($feedTags[$fid]))
-	                {
-	                    $feedTags[$fid] = array();
-	                }
-	                $feedTags[$fid][] = $tag;
-	                $feedTypes[$fid] = $type;
-	            }
-	            $res->free();
-	            //add item to all feeds with matching filter
-	            $itemsToAdd = array();
-	            foreach ($feedTypes as $fid => $type)
+	                case CFeed::ALL:
+	                    $match = true;
+	                    break;
+	                case CFeed::MATCH_ALL:
+	                    $match = count($matching) == count($feedTags[$fid]);
+	                    break;
+	                case CFeed::MATCH_SOME:
+	                    $match = count($matching) >= 1;
+	                    break;
+	                case CFeed::MATCH_NONE:
+	                    $match = count($matching) == 0;
+	                    break;
+	            }  
+	            if($match)
 	            {
-	                if($type != CFeed::ALL)
-	                {
-	                    $matching = array_intersect($e->Content->Tags, $feedTags[$fid]);
-	                }
-    	            switch($type)
-    	            {
-    	                case CFeed::ALL:
-    	                    $match = true;
-    	                    break;
-    	                case CFeed::MATCH_ALL:
-    	                    $match = count($matching) == count($feedTags[$fid]);
-    	                    break;
-    	                case CFeed::MATCH_SOME:
-    	                    $match = count($matching) >= 1;
-    	                    break;
-    	                case CFeed::MATCH_NONE:
-    	                    $match = count($matching) == 0;
-    	                    break;
-    	            }  
-    	            if($match)
-    	            {
-    	                $itemsToAdd[] = $fid;
-    	            }
+	                $itemsToAdd[] = $fid;
 	            }
-	            if(count($itemsToAdd) > 0)
-	            {
-	                QSFeedKeeper::linkItem($CID, $itemsToAdd);
-	            }
-	            //set feed update time and item count
-	            foreach ($itemsToAdd as $fid) 
-	            {
-	            	QSFeedKeeper::updateStats($fid);
-	            }
-    	    }
+            }
+            if(count($itemsToAdd) > 0)
+            {
+                QSFeedKeeper::linkItem($CID, $itemsToAdd);
+            }
+            //set feed update time and item count
+            foreach ($itemsToAdd as $fid) 
+            {
+            	QSFeedKeeper::updateStats($fid);
+            }
     	    $DB->commit();
 	    }
 	    catch(Exception $e)
