@@ -22,6 +22,9 @@ class SNotificationCenter
 	
 	//IShareable
 	const CLASS_NAME = 'SNotificationCenter';
+	const TYPE_WARNING = 'warning';
+	const TYPE_MESSAGE = 'message';
+	const TYPE_ALERT = 'alert';
 	private static $sharedInstance = NULL;
 	private static $initializedInstance = false;
 	private static $notifications = array(); 
@@ -125,7 +128,7 @@ class SNotificationCenter
                 "%s<div class=\"%s\">%s</div>\n"
                 ,$msgs
                 ,$ntf[0]
-                ,$ntf[1].($ntf[2] > 1 ? ' ('.$ntf[2].')':'')
+                ,SLocalization::get($ntf[1]).($ntf[2] > 1 ? ' ('.$ntf[2].')':'')
             );
         }
         $msgs .= '</div>';

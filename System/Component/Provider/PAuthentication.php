@@ -9,9 +9,9 @@ class PAuthentication extends BProvider
     protected $Interface = 'IAuthenticate';
     private static $instance = null;
     
-    private static $userID;
-    private static $userName;
-    private static $userEmail;
+    private static $userID = '';
+    private static $userName = '';
+    private static $userEmail = '';
     private static $userStatus;
     
     private static $daemonRun = false;
@@ -61,6 +61,8 @@ class PAuthentication extends BProvider
         return self::$daemonRun;
     }
     
+    
+    
     /**
      * function to mark a "authentication required" section
      * @return void
@@ -69,6 +71,7 @@ class PAuthentication extends BProvider
     {
         if(!self::$active)
         {
+            //get the class assigned to do the authentication
             try
             {
                 $implementor = self::instance()->getImplementor();
@@ -77,17 +80,75 @@ class PAuthentication extends BProvider
             {
                 throw new XPermissionDeniedException('no authentication class found');
             }
+            
+            //stop this from running again
             self::$active = true;
+            
+            //instanciate class
             $relay = BObject::InvokeObjectByDynClass($implementor);
+            
+            //check class
             if(!$relay instanceof IAuthenticate)
             {
                 throw new XPermissionDeniedException('authentication class failed');
             }
+            
+            //run class
             $relay->authenticate();
-            self::$userID = $relay->getUserID();
-            self::$userName = $relay->getUserName();
-            self::$userEmail = $relay->getUserEmail();
             self::$userStatus = $relay->getAuthenticationState();
+            
+            //log failed attempts
+            if(self::$userStatus == self::FAILED_LOGIN)
+            {
+                QPAuthentication::logAccess(
+                    RServer::getNumericRemoteAddress(), 
+                    $relay->getAttemptedUserID(), 
+                    self::$userStatus == self::VALID_USER
+                );
+            }
+            
+            //check the failed login count of the last 15 minutes
+            $res = QPAuthentication::latestFails(RServer::getNumericRemoteAddress(), $relay->getAttemptedUserID());
+            list($fails) = $res->fetch();
+            $res->free();
+            
+            //deny access if count exceeds 5 even if login was correct
+            if($fails > 5)
+            {
+                SNotificationCenter::report(
+                    SNotificationCenter::TYPE_WARNING, 
+                    'exceeded_5_failed_login_attempts_in_the_last_15_minutes_access_denied'
+                );
+                
+                //mark as failed
+                self::$userStatus = self::FAILED_LOGIN;
+            }
+            else
+            {
+                //everything ok - get the rest
+                self::$userID = $relay->getUserID();
+                self::$userName = $relay->getUserName();
+                self::$userEmail = $relay->getUserEmail();
+                
+                //get login history
+                $res = QPAuthentication::countUserFails($relay->getAttemptedUserID());
+                list($userFails) = $res->fetch();
+                $res->free();
+                $res = QPAuthentication::countIPAdrFails(RServer::getNumericRemoteAddress());
+                list($ipadrFails) = $res->fetch();
+                $res->free();
+                
+                //calculate punishment delay
+                $punishment = min(10, $userFails)+min(15, $ipadrFails*2);
+                if($punishment)
+                {
+                    SNotificationCenter::report(
+                        SNotificationCenter::TYPE_WARNING, 
+                        'output_delayed_'.$punishment.'_seconds'
+                    );
+                    sleep($punishment);
+                }
+            }
         }
     }
     

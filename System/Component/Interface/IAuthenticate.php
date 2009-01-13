@@ -21,6 +21,12 @@ interface IAuthenticate
     public function getUserID();
     
     /**
+     * user login name
+     * @return string
+     */
+    public function getAttemptedUserID();
+    
+    /**
      * users real name
      *
      * @return string

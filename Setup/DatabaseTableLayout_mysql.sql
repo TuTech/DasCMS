@@ -512,7 +512,11 @@ AuthorisationLog(
 	UserName
 		VARCHAR(32)
 		NOT NULL,
-	INDEX(LoginTime, IPAdr, UserName)
+	Status
+		ENUM('FAIL', 'SUCCESS')
+		NOT NULL,
+	INDEX(`IPAdr`, `UserName`, `Status`),
+	INDEX (`LoginTime`)
 )
 ENGINE = InnoDB 
 CHARACTER SET utf8 

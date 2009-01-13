@@ -52,6 +52,7 @@ class SBambusSessionAuth
     
     private $user;
     private $status;
+    private $attemptedUserID = '';
     /**
      * try authentication 
      * @return void
@@ -62,28 +63,34 @@ class SBambusSessionAuth
         $password = '';
         if(!RURL::has('_destroy_session') && !RURL::has('_bambus_logout'))
         {
+            //there might be something useful in here
+            if(!RSession::has('bambus_cms_username') && !empty($_SERVER['PHP_AUTH_USER']))
+            {
+                $user = $_SERVER['PHP_AUTH_USER'];
+                $password = $_SERVER['PHP_AUTH_PW'];
+            }            
+            //this has priority
             if(RSent::hasValue('bambus_cms_username'))
             {
                 $user = RSent::get('bambus_cms_username');
                 $password = RSent::get('bambus_cms_password');
             }
-            elseif(!RSession::has('bambus_cms_username') && !empty($_SERVER['PHP_AUTH_USER']))
-            {
-                $user = $_SERVER['PHP_AUTH_USER'];
-                $password = $_SERVER['PHP_AUTH_PW'];
-            }
+            //save user name and password
             if(!empty($user))
             {
                 RSession::reset();
                 RSession::set('bambus_cms_username', $user);
                 RSession::set('bambus_cms_password', $password);
             }
+            //get username and password for later use
             if(RSession::hasValue('bambus_cms_username'))
             {
                 $user = RSession::get('bambus_cms_username');
                 $password = RSession::get('bambus_cms_password');
             }
         }
+        $this->attemptedUserID = $user;
+        //check login data
         $uag = SUsersAndGroups::alloc()->init();
         if($uag->isValidUser($user, $password))
         {
@@ -113,6 +120,15 @@ class SBambusSessionAuth
     public function getUserID()
     {
         return $this->user;
+    }
+    
+    /**
+     * user login name
+     * @return string
+     */
+    public function getAttemptedUserID()
+    {
+        return $this->attemptedUserID;
     }
     
     /**
