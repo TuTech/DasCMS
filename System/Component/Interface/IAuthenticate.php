@@ -8,7 +8,7 @@ interface IAuthenticate
     public function authenticate();
     
     /**
-     * returned value is PAuthentication::FAILED_LOGIN or PAuthentication::NO_LOGIN or PAuthentication::VALID_USER;
+     * returned value is PAuthentication::FAILED_LOGIN or PAuthentication::NO_LOGIN or PAuthentication::VALID_USER or PAuthentication::CONTINUED_SESSION;
      * 
      * @return int
      */

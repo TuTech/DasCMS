@@ -61,6 +61,7 @@ class SBambusSessionAuth
     {
         $user = '';
         $password = '';
+        $newLogin = false;
         if(!RURL::has('_destroy_session') && !RURL::has('_bambus_logout'))
         {
             //there might be something useful in here
@@ -78,6 +79,7 @@ class SBambusSessionAuth
             //save user name and password
             if(!empty($user))
             {
+                $newLogin = true;
                 RSession::reset();
                 RSession::set('bambus_cms_username', $user);
                 RSession::set('bambus_cms_password', $password);
@@ -95,7 +97,7 @@ class SBambusSessionAuth
         if($uag->isValidUser($user, $password))
         {
             $this->user = $user;
-            $this->status = PAuthentication::VALID_USER;
+            $this->status = $newLogin ? (PAuthentication::VALID_USER) : (PAuthentication::CONTINUED_SESSION);
         }
         else
         {
@@ -104,7 +106,7 @@ class SBambusSessionAuth
     }  
     
     /**
-     * returned value is PAuthentication::FAILED_LOGIN or PAuthentication::NO_LOGIN or PAuthentication::VALID_USER;
+     * returned value is PAuthentication::FAILED_LOGIN or PAuthentication::NO_LOGIN or PAuthentication::VALID_USER or PAuthentication::CONTINUED_SESSION;
      * 
      * @return int
      */
@@ -138,7 +140,7 @@ class SBambusSessionAuth
      */
     public function getUserName()
     {
-        return ($this->status == PAuthentication::VALID_USER) 
+        return ($this->status >= PAuthentication::VALID_USER) 
             ? SUsersAndGroups::alloc()->init()->getRealName($this->user)
             : '';
     }
@@ -150,7 +152,7 @@ class SBambusSessionAuth
      */
     public function getUserEmail()
     {
-        return ($this->status == PAuthentication::VALID_USER) 
+        return ($this->status >= PAuthentication::VALID_USER) 
             ? SUsersAndGroups::alloc()->init()->getEmail($this->user)
             : '';
     }
@@ -162,7 +164,7 @@ class SBambusSessionAuth
      */
     public function isAuthenticated()
     {
-        return ($this->status == PAuthentication::VALID_USER);
+        return ($this->status >= PAuthentication::VALID_USER);
     }
     
 }

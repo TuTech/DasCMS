@@ -5,7 +5,7 @@ class PAuthentication extends BProvider
     const FAILED_LOGIN = -1;
     const NO_LOGIN = 0;
     const VALID_USER = 1;
-    
+    const CONTINUED_SESSION = 2;
     protected $Interface = 'IAuthenticate';
     private static $instance = null;
     
@@ -103,7 +103,7 @@ class PAuthentication extends BProvider
                 QPAuthentication::logAccess(
                     RServer::getNumericRemoteAddress(), 
                     $relay->getAttemptedUserID(), 
-                    self::$userStatus == self::VALID_USER
+                    self::$userStatus >= self::VALID_USER 
                 );
             }
             
@@ -130,30 +130,34 @@ class PAuthentication extends BProvider
                 self::$userName = $relay->getUserName();
                 self::$userEmail = $relay->getUserEmail();
                 
-                //get login history
-                $res = QPAuthentication::countUserFails($relay->getAttemptedUserID());
-                list($userFails) = $res->fetch();
-                $res->free();
-                $res = QPAuthentication::countIPAdrFails(RServer::getNumericRemoteAddress());
-                list($ipadrFails) = $res->fetch();
-                $res->free();
-                
-                //calculate punishment delay
-                $punishment = min(10, $userFails)+min(15, $ipadrFails*2);
-                if($punishment)
+                //punish only new logins - not continued session
+                if(self::$userStatus != self::CONTINUED_SESSION && self::$userStatus != self::NO_LOGIN)
                 {
-                    SNotificationCenter::report(
-                        SNotificationCenter::TYPE_WARNING, 
-                        'output_delayed_'.$punishment.'_seconds'
-                    );
-                    sleep($punishment);
+                    //get login history
+                    $res = QPAuthentication::countUserFails($relay->getAttemptedUserID());
+                    list($userFails) = $res->fetch();
+                    $res->free();
+                    $res = QPAuthentication::countIPAdrFails(RServer::getNumericRemoteAddress());
+                    list($ipadrFails) = $res->fetch();
+                    $res->free();
+                    
+                    //calculate punishment delay
+                    $punishment = min(10, $userFails)+min(15, $ipadrFails*2);
+                    if($punishment)
+                    {
+                        SNotificationCenter::report(
+                            SNotificationCenter::TYPE_WARNING, 
+                            'output_delayed_'.$punishment.'_seconds'
+                        );
+                        sleep($punishment);
+                    }
                 }
             }
         }
     }
     
     /**
-     * get status of authentication FAILED_LOGIN/NO_LOGIN/VALID_USER
+     * get status of authentication FAILED_LOGIN/NO_LOGIN/VALID_USER/CONTINUED_SESSION
      * @return string
      */
     public static function getAuthenticationState()
@@ -199,7 +203,7 @@ class PAuthentication extends BProvider
     public static function isAuthenticated()
     {
         self::checkActive();
-        return self::$userStatus == self::VALID_USER;
+        return self::$userStatus >= self::VALID_USER;
     }
         
 }
