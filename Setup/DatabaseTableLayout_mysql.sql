@@ -522,6 +522,128 @@ ENGINE = InnoDB
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
 
+-- IMAP Flags
+CREATE TABLE IF NOT EXISTS 
+MailImportFlags(
+	mailImportFlagID 
+		INTEGER 
+		PRIMARY KEY
+		AUTO_INCREMENT
+		NOT NULL,
+	label
+		VARCHAR(32)
+		NOT NULL,
+	flag
+		VARCHAR(24)
+		NOT NULL
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- IMAP Accounts
+CREATE TABLE IF NOT EXISTS 
+MailImportAccounts(
+	mailImportAccountID 
+		INTEGER 
+		PRIMARY KEY
+		AUTO_INCREMENT
+		NOT NULL,
+	label
+		VARCHAR(64)
+		NOT NULL,
+	server
+		VARCHAR(128)
+		NOT NULL,
+	username
+		VARCHAR(64)
+		NOT NULL,
+	password
+		VARCHAR(64)
+		NOT NULL,
+	updated
+		TIMESTAMP
+		NULL,
+	status
+		Enum('DISABLED', 'ENABLED')
+		NOT NULL
+		DEFAULT 1
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- IMAP Account flags
+CREATE TABLE IF NOT EXISTS 
+relMailImportAccountsMailImportFlags(
+	mailImportAccountREL
+		INTEGER 
+		NOT NULL,
+	mailImportFlagREL
+		INTEGER
+		NOT NULL
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- IMAP Mails
+CREATE TABLE IF NOT EXISTS 
+MailImportMails(
+	mailImportMailID 
+		INTEGER 
+		PRIMARY KEY
+		AUTO_INCREMENT
+		NOT NULL,
+	mailImportAccountREL
+		INTEGER 
+		NOT NULL,
+	imapID
+		INTEGER 
+		NOT NULL,
+	messageID
+		VARCHAR(256)
+		UNIQUE
+		NOT NULL,
+	sender
+		VARCHAR(128)
+		NOT NULL,
+	updated
+		TIMESTAMP
+		NOT NULL,
+	contentREL
+		INTEGER 
+		NULL,
+	UNIQUE(mailImportAccountREL, imapID)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- foreign keys for IMAP Account flags
+ALTER TABLE 
+MailImportMails
+    ADD FOREIGN KEY (mailImportAccountREL)
+        REFERENCES MailImportAccounts(mailImportAccountID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION,
+    ADD FOREIGN KEY (contentREL)
+        REFERENCES Contents(contentID)
+        ON DELETE SET NULL
+        ON UPDATE SET NULL;
+
+-- foreign keys for IMAP Account flags
+ALTER TABLE 
+relMailImportAccountsMailImportFlags
+    ADD FOREIGN KEY (mailImportAccountREL)
+        REFERENCES MailImportAccounts(mailImportAccountID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION,
+    ADD FOREIGN KEY (mailImportFlagREL)
+        REFERENCES MailImportFlags(mailImportFlagID)
+        ON DELETE SET NULL
+        ON UPDATE NO ACTION;
+
 -- foreign keys for cfile folders
 ALTER TABLE 
 Folders
