@@ -101,13 +101,18 @@ class Import_IMAP_MailBox extends _Import_IMAP
     
     private function updatePage(CPage $page, $withMailId)
     {
-        throw new Exception('not implemented');
-        //load mail
-        //set pubdate
-        //set tags
-        //set title
-        //set content
-        //$page->Save();
+        $mail = $this->getMail($mailID);
+        $headParts = explode('#', $mail->getSubject());
+        $page->Title = trim(array_shift($headParts));
+        $page->Tags = $headParts;
+        $page->Content = $mail->getText();
+        $page->PubDate = $mail->getDate();
+        $page->Save();
+    }
+    
+    public function getAccounts()
+    {
+        //...
     }
     
     /**
@@ -159,6 +164,34 @@ class Import_IMAP_MailBox extends _Import_IMAP
         }
         $this->flagMails($updated, true);
         $this->close();
+    }
+    
+    /**
+     * open mail by imap id
+     * @param $id
+     * @return Import_IMAP_Mail
+     */
+    private function getMail($id)
+    {
+        $nr = imap_msgno($id);
+        $header = imap_header($this->connection, $nr);
+        $struct = imap_fetchstructure($this->connection, $nr);
+        if($struct->type == 1)
+        {
+            $body = imap_fetchbody($this->connection, $nr,'2');
+        }
+        else
+        {
+            $body = imap_body($this->connection, $nr);
+        }
+        return new Import_IMAP_Mail(
+            $header->from,
+            isset($header->to) ? $header->to : null,
+            $header->date,
+            $header->message_id,
+            $header->subject,
+            $body
+        );
     }
     
     /**
