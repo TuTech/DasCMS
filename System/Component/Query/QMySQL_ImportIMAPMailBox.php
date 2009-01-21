@@ -12,21 +12,27 @@ class QImportIMAPMailBox extends BQuery
         //label, server, port, mailBox, user, password
         $DB = BQuery::Database();
         $sql = "SELECT 
-                	CONCAT(
-                		'{', 
-                			MailImportAccounts.server, ':', CAST(MailImportAccounts.port AS CHAR), 
-                			GROUP_CONCAT(DISTINCT MailImportFlags.flag SEPARATOR ''), 
-            			'}', 
-            			MailImportAccounts.mailBox
-                	), 
+                    CONCAT(
+                        '{', 
+                        MailImportAccounts.server, 
+                        ':',     
+                        CAST(MailImportAccounts.port AS CHAR), 
+                        IF(
+                            ISNULL(GROUP_CONCAT(DISTINCT MailImportFlags.flag SEPARATOR '')), 
+                                '', 
+                                GROUP_CONCAT(DISTINCT MailImportFlags.flag SEPARATOR '')
+                            ),
+                        '}', 
+                        MailImportAccounts.mailBox
+                    ), 
                     MailImportAccounts.username,
                     MailImportAccounts.password,
                     MailImportAccounts.updated,
                     MailImportAccounts.status
-            	FROM MailImportAccounts 
-            		LEFT JOIN relMailImportAccountsMailImportFlags ON (mailImportAccountREL = mailImportAccountID)
-            		LEFT JOIN MailImportFlags ON (mailImportFlagREL = mailImportFlagID)
-            	WHERE MailImportAccounts.mailImportAccountID = %d";
+                FROM MailImportAccounts 
+                    LEFT JOIN relMailImportAccountsMailImportFlags ON (mailImportAccountREL = mailImportAccountID)
+                    LEFT JOIN MailImportFlags ON (mailImportFlagREL = mailImportFlagID)
+                WHERE MailImportAccounts.mailImportAccountID = %d";
         return  $DB->query(sprintf($sql, $id), DSQL::NUM);
     }
     
@@ -55,9 +61,19 @@ class QImportIMAPMailBox extends BQuery
         return  $DB->query(sprintf($sql, $accountID, implode(',', $valid)), DSQL::NUM);
     }
     
-    public static function linkMailToContent($mailId, $contentId)
+    public static function linkMailToContent($accountId, $mailId, $messageId, $sender, $contentId)
     {
-        
+        $DB = BQuery::Database();
+        $sql = "INSERT INTO mailImportMails (
+        				mailImportAccountREL, imapID, messageID, sender,updated,contentREL
+    				) VALUES (%d, %d, '%s', '%s', NOW(), %d) 
+    				ON DUPLICATE KEY UPDATE						
+    					updated = NOW(), contentREL = %d
+					";//
+         $messageId = $DB->escape($messageId);
+         $sender = $DB->escape($sender);
+         $sql = sprintf($sql, $accountId, $mailId, $messageId, $sender, $contentId, $contentId);
+         $DB->queryExecute($sql);
     }
 }
 ?>

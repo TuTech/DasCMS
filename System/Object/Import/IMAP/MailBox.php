@@ -21,7 +21,8 @@ class Import_IMAP_MailBox extends _Import_IMAP
         $this->connection = @imap_open($connectionString, $username, $password);
         if(!$this->connection)
         {
-            throw new Exception(array_pop(imap_errors()));
+            $tmp = array_pop(imap_errors());
+            throw new Exception($tmp);
         }
     }
     
@@ -47,7 +48,8 @@ class Import_IMAP_MailBox extends _Import_IMAP
         foreach ($hdrs as $head) 
         {
             //New or Unread
-            if(preg_match("/^[A-Z\\s]*[NU][A-Z\\s]*([1-9][0-9]*)/",$head, $matches))
+        	if(preg_match("/^[A-EG-Z\\s]*([1-9][0-9]*)\\)/",$head, $matches))
+            //if(preg_match("/^[A-Z\\s]*[NU][A-Z\\s]*([1-9][0-9]*)/",$head, $matches))
         	{
         	    $numbers[$matches[1]] = imap_uid($this->connection, $matches[1]);
         	}
@@ -99,15 +101,21 @@ class Import_IMAP_MailBox extends _Import_IMAP
         }    
     }
     
+    /**
+     * @param CPage $page
+     * @param int $withMailId
+     * @return Import_IMAP_Mail
+     */
     private function updatePage(CPage $page, $withMailId)
     {
-        $mail = $this->getMail($mailID);
+        $mail = $this->getMail($withMailId);
         $headParts = explode('#', $mail->getSubject());
         $page->Title = trim(array_shift($headParts));
         $page->Tags = $headParts;
         $page->Content = $mail->getText();
         $page->PubDate = $mail->getDate();
         $page->Save();
+        return $mail;
     }
     
     public function getAccounts()
@@ -125,9 +133,9 @@ class Import_IMAP_MailBox extends _Import_IMAP
      */
     public function import($accountID)
     {    
-         $this->errors = array();
-         $this->connection = null;
-         $this->contentMap = array();
+        $this->errors = array();
+        $this->connection = null;
+        $this->contentMap = array();
         //get account login data //connectionString, username, password, updated, status
         $res = QImportIMAPMailBox::getDataForID($accountID);
         if($res->getRowCount() != 1)
@@ -155,12 +163,13 @@ class Import_IMAP_MailBox extends _Import_IMAP
                 {
                     $content = CPage::Create('mail import '.date('c'));
                 }
-                $this->updatePage($content, $mailID);
-                QImportIMAPMailBox::linkMailToContent($mailID, $content->getId());
+                $mail = $this->updatePage($content, $mailID);
+                QImportIMAPMailBox::linkMailToContent($accountID, $mailID, '', $mail->getFrom(), $content->getId());
                 $updated[] = $mailID;
             }
             catch (Exception $e)
-            {/* this mail will not be flagged - perhaps next import succeeds*/}
+            {/* this mail will not be flagged - perhaps next import succeeds*/
+            throw $e;}
         }
         $this->flagMails($updated, true);
         $this->close();
@@ -173,7 +182,16 @@ class Import_IMAP_MailBox extends _Import_IMAP
      */
     private function getMail($id)
     {
-        $nr = imap_msgno($id);
+        if(empty($id))
+        {
+            throw new Exception('empty id');
+        }
+        $nr = imap_msgno($this->connection, $id);
+        if(empty($nr))
+        {
+            throw new Exception('mail not found');
+        }
+        printf('<p> updating nr %s from %s</p>', $nr, $id);
         $header = imap_header($this->connection, $nr);
         $struct = imap_fetchstructure($this->connection, $nr);
         if($struct->type == 1)

@@ -30,7 +30,7 @@
 			<key>GanttGroupShading</key>
 			<true/>
 			<key>GanttVisibleRect</key>
-			<string>{{2978, 0}, {948, 964}}</string>
+			<string>{{3087, 0}, {948, 964}}</string>
 			<key>OutlineVisibleRect</key>
 			<string>{{0, 0}, {252, 964}}</string>
 			<key>ScaleWidths</key>
@@ -87,7 +87,7 @@
 			<key>calendarController</key>
 			<dict>
 				<key>OutlineVisibleRect</key>
-				<string>{{0, 0}, {254, 737}}</string>
+				<string>{{0, 0}, {200, 777}}</string>
 				<key>activeColumnIdentifiers</key>
 				<array>
 					<string>IM</string>
@@ -110,7 +110,7 @@
 				</dict>
 			</dict>
 			<key>calendarSplit</key>
-			<real>0.82267636060714722</real>
+			<real>0.82304525375366211</real>
 			<key>columnWidths</key>
 			<dict>
 				<key>Effort</key>
@@ -125,13 +125,13 @@
 			<key>dayWidth</key>
 			<real>54</real>
 			<key>resourceSplit</key>
-			<real>0.81212919950485229</real>
+			<real>0.81234568357467651</real>
 			<key>resourcesController</key>
 			<dict>
 				<key>DayWidth</key>
 				<real>25</real>
 				<key>OutlineVisibleRect</key>
-				<string>{{0, 0}, {270, 924}}</string>
+				<string>{{0, 0}, {213, 964}}</string>
 				<key>ScaleWidths</key>
 				<dict>
 					<key>Automatic</key>
@@ -154,7 +154,7 @@
 				<key>SelectedScale</key>
 				<string>Automatic</string>
 				<key>TimelineVisibleRect</key>
-				<string>{{-112, 0}, {1189, 924}}</string>
+				<string>{{-112, 0}, {944, 964}}</string>
 				<key>activeColumnIdentifiers</key>
 				<array>
 					<string>IM</string>
@@ -172,7 +172,7 @@
 					<key>Notes</key>
 					<real>20</real>
 					<key>Resource</key>
-					<real>101</real>
+					<real>100</real>
 					<key>Type</key>
 					<real>48</real>
 				</dict>
@@ -550,8 +550,8 @@
 				<integer>52</integer>
 				<integer>7</integer>
 				<integer>13</integer>
-				<integer>15</integer>
 				<integer>24</integer>
+				<integer>15</integer>
 				<integer>30</integer>
 				<integer>31</integer>
 				<integer>32</integer>
@@ -1079,7 +1079,11 @@
 					<real>1</real>
 				</dict>
 			</array>
+			<key>doneSeconds</key>
+			<real>144000</real>
 			<key>effort</key>
+			<real>144000</real>
+			<key>effortDone</key>
 			<real>144000</real>
 			<key>objectId</key>
 			<integer>23</integer>
@@ -1097,6 +1101,8 @@
 			</dict>
 			<key>task</key>
 			<string>Mail Import</string>
+			<key>workDone</key>
+			<real>40</real>
 			<key>workSeconds</key>
 			<real>144000</real>
 			<key>workTime</key>
@@ -1788,6 +1794,8 @@
 					<real>1</real>
 				</dict>
 			</array>
+			<key>completionPercentage</key>
+			<real>1</real>
 			<key>effort</key>
 			<real>0.0</real>
 			<key>objectId</key>
@@ -2190,7 +2198,7 @@
 		<integer>-1</integer>
 	</array>
 	<key>uuid</key>
-	<string>76413FC5-6DD1-4C36-8711-001629E53B3E</string>
+	<string>EE082C9F-AF03-461F-85D5-633D74945469</string>
 	<key>version</key>
 	<integer>2</integer>
 </dict>

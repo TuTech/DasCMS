@@ -108,7 +108,8 @@ class Import_IMAP_Mail extends _Import_IMAP
                 $text .= $line;
                 $quoteLvl = $q;
             }
-            str_repeat('</div>', $quoteLvl+1);
+            str_repeat('</div>', $quoteLvl);
+            $text .= '</div>';
         }
         //@todo add qoute tags for ">cite"
         $this->text = $text;
