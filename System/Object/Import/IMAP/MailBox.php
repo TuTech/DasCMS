@@ -164,7 +164,7 @@ class Import_IMAP_MailBox extends _Import_IMAP
                     $content = CPage::Create('mail import '.date('c'));
                 }
                 $mail = $this->updatePage($content, $mailID);
-                QImportIMAPMailBox::linkMailToContent($accountID, $mailID, '', $mail->getFrom(), $content->getId());
+                QImportIMAPMailBox::linkMailToContent($accountID, $mailID, $accountID.':'.$mailID, $mail->getFrom(), $content->getId());
                 $updated[] = $mailID;
             }
             catch (Exception $e)

@@ -60,17 +60,19 @@ class Import_IMAP_Mail extends _Import_IMAP
 //        echo '</pre><hr>';
         $this->subject = mb_convert_encoding($subject, 'UTF-8',"utf-8, auto");
         $text = mb_convert_encoding($text, 'UTF-8',"utf-8, auto");
+        $orig = $text;
         $text = preg_replace('/=(\r\n|\r|\n)/misu', '', $text);
-        $text = preg_replace_callback(
-        	'/=([A-Z0-9][A-Z0-9])/misu', 
-            create_function('$m' ,'$a = hexdec($m[1]);return mb_convert_encoding(sprintf("%c",$a),"utf-8", "iso-8859-15, auto");'),
-            $text);
         
         $this->rawText = $text;
         //html
         //printf('<h2>%s</h2>', $this->subject);
         if(preg_match('/<html/misu', $text))
         {
+            $text = preg_replace_callback(
+            	'/=([A-Z0-9][A-Z0-9])/misu', 
+                create_function('$m' ,'$a = hexdec($m[1]);return mb_convert_encoding(sprintf("%c",$a),"utf-8", "iso-8859-15, auto");'),
+                $text);
+            
             //strip <body...> and things before it
             $text = preg_replace('/\A.*<body[^>]*>/misu', '', $text);
             //strip </body> and things after it
@@ -81,6 +83,7 @@ class Import_IMAP_Mail extends _Import_IMAP
         else
         //text
         {
+            //remove signature
             $text = preg_replace('/[\r\n]--[\s]*[\r\n].*\D/misu', '', $text);
             //replace \r and \r\n with \n
             $text = preg_replace('/\r\n?/misu', "\n", $text);
@@ -110,11 +113,24 @@ class Import_IMAP_Mail extends _Import_IMAP
             }
             str_repeat('</div>', $quoteLvl);
             $text .= '</div>';
+            //link links
+            $text = preg_replace(
+            	'{\b'.
+                    '('.
+                        '(https?|file|ftp):'.
+                        "[\\w/\\#~:.?+=&%@!\\-]+?".
+                    ")".
+                    "(?=".
+                        "[.:?\\-]*".
+                        "(?:[^\\w/\\#~:.?+=&%@!\\-]|$)".
+                    ")".
+                "}x",
+                "<a href=\"$1\">$1</a>",
+                $text
+            );
+            //$text = $text.' <!-- '.$orig.' //--> ';
         }
-        //@todo add qoute tags for ">cite"
         $this->text = $text;
-//        $text = preg_replace('/(<\/[^>]>)[\s]*</', "$1\n<", $text);
-//        echo ($text);
     }
     
 }
