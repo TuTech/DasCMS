@@ -170,7 +170,7 @@ if(!defined('BAMBUS_CMS_ROOTDIR'))
 if(!defined('BAMBUS_EXEC_START'))
     define ('BAMBUS_EXEC_START', microtime(true));
 
-date_default_timezone_set('Europe/Berlin');
-setlocale(LC_ALL, 'de_DE@euro', 'de_DE', 'de', 'ge');
+date_default_timezone_set(LConfiguration::get('timezone'));
+setlocale(LC_ALL, LConfiguration::get('locale'));
 error_reporting(E_ALL|E_STRICT);
 ?>

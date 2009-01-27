@@ -12,19 +12,22 @@ if(PAuthorisation::has('org.bambuscms.configuration.set'))
 }
 printf('<h2>%s</h2>', SLocalization::get('system'));
 $values = array(
-	"settings" => array(
+	"website" => array(
         "pagetitle"             => array("sitename",        "fullinput"),
-        "pagelogo"              => array("logo",            "fullinput"),
         "webmaster_email"       => array("webmaster",       "fullinput"),
         "copyright"             => array("copyright",       "fullinput"),
-        "cms_color"             => array("cms_color",       "fullinput"),
-        "cms_text_color"        => array("cms_text_color",  "fullinput"),
+        "template_for_page_rendering"=> array("generator_content", '::CTemplate'),
+        "meta_keywords"         => array("meta_keywords",   "fullinput"),
+        "meta_description"      => array("meta_description","fullinput")
+    ),
+	"system" => array(
         "date_format"           => array("dateformat",      "fullinput"),
         "logout_on_exit"        => array("logout_on_exit",  "checkbox"),
         "confirm_for_exit"      => array("confirm_for_exit","checkbox"),
-        "template_for_page_rendering"=> array("generator_content", '::CTemplate')
+        "log_page_changes"      => array("logChanges",      "checkbox"),
+        "timezone"              => array("timezone",      "tz"),
+        "locale"                => array("locale",      "ISO639-2")
 	),
-	/////
 	"database_settings" => array(
         "use_database"          => array("use_db",          "checkbox"),
         "server"                => array("db_server",       "fullinput"),
@@ -32,14 +35,7 @@ $values = array(
         "password"              => array("db_password",     "password"),
         "database_name"         => array("db_name",         "fullinput"),
         "database_table_prefix" => array("db_table_prefix", "fullinput")
-	),
-	"meta_data" => array(
-        "meta_keywords"         => array("meta_keywords",   "fullinput"),
-        "meta_description"      => array("meta_description","fullinput")
-	),
-	"logs" => array(
-        "page_changes"          => array("logChanges",      "checkbox")
-	),
+	)
 );
 $fullinput = "\n\t\t\t<input class=\"fullinput\" type=\"text\" size=\"40\" name=\"%s\" id=\"%s\" value=\"%s\" />\n\t\t";
 $password  = "\n\t\t\t<input class=\"fullinput\" type=\"password\" size=\"40\" name=\"%s\" id=\"%s\" value=\"%s\" />".
@@ -80,6 +76,26 @@ foreach($values as $title => $settings)
                     ,(trim(LConfiguration::get($key)) != '') ? '#######' : '' 
                     ,SLocalization::get('change_'.$key)
                 );
+                break;
+            case 'ISO639-2':
+                $fp = fopen(SPath::SYSTEM_RESOURCES.'ISO-639-2_utf-8.txt', 'r');
+                $input = '<select name ="'.$key.'">';
+                while($row = fgetcsv($fp,1024,'|'))
+                {
+                    $input .= sprintf('<option value="%s"%s>%s (%s)</option>%s',$row[0] , (LConfiguration::get($key) == $row[0] ? ' selected="selected"' : '') ,$row[3], $row[0] ,"\n");
+                }
+                $input .= '</select>';
+                fclose($fp);
+                break;            
+            case 'tz':
+                $fp = fopen(SPath::SYSTEM_RESOURCES.'timezones.txt', 'r');
+                $input = '<select name ="'.$key.'">';
+                while($row = fgets($fp,255))
+                {
+                    $row = trim($row);
+                    $input .= sprintf('<option%s>%s</option>%s',(LConfiguration::get($key) == $row ? ' selected="selected"' : ''),$row ,"\n");
+                }
+                $input .= '</select>';
                 break;
             default:
                 if(substr($type, 0,2) == '::')
