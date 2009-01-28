@@ -48,8 +48,8 @@ class TCmdScheduler
         return sprintf(
         	"<img src=\"scheduler.php\" alt=\"scheduler\" id=\"bcms-scheduler\"/>".
         	"<script type=\"text/javascript\">".
-        	"var i = 1;org.bambuscms.scheduler = function(){document.getElementById(\"bcms-scheduler\").src = \"scheduler.php?\"+(i++);}".
-        	"window.setInterval(\"org.bambuscms.scheduler()\", %d);</script>", $this->int);
+        	"var i = 1;org_bambuscms_scheduler = function(){document.getElementById(\"bcms-scheduler\").src = \"scheduler.php?\"+(i++);};".
+        	"window.setInterval(\"org_bambuscms_scheduler()\", %d);</script>", $this->int);
     }
 }
 ?>

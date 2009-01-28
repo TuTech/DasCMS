@@ -18,27 +18,29 @@ class JImportAtomFeeds extends BJob
      */
     public function run()
     {
-        echo 'hello!<br />';
+        $stat = 'ok';
         $DB = DSQL::alloc()->init();
         $DB->beginTransaction();
         $res = QJImportAtomFeeds::getNextFeedURL();
         $url = null;
         if($res->getRowCount())
         {
-            echo "got rows <br />";
+            //echo "got rows <br />";
             list($id, $url) = $res->fetch();
-            echo 'feed nr ',$id, ': ', $url, ' found <br />';
+            //echo 'feed nr ',$id, ': ', $url, ' found <br />';
             $res->free();
             QJImportAtomFeeds::getUpdateFetchDate($id);
         }
         $DB->commit();
         if($url)
         {
-            echo 'importing <br />';
+            //echo 'importing <br />';
             $importer = new Import_HTTP_AtomFeed();
             $fail = $importer->import($id, $url);
-            echo $fail, ' failed<br />';
+            //echo $fail, ' failed<br />';
+            $stat = $fail ? 'stopped' : 'new';
         }
+        return $stat;        
     }
     
     /**

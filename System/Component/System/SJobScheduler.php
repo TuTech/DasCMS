@@ -10,7 +10,7 @@ class SJobScheduler extends BSystem
         $res = QSJobScheduler::hasAnyJobs();
         list($jobs) = $res->fetch();
         $res->free();
-        if($jobs == 0 && class_exists('JJobJanitor'))
+        if($jobs == 0 && class_exists('JJobJanitor', true))
         {
             $job = new JJobJanitor();
             $job->run();
@@ -41,7 +41,7 @@ class SJobScheduler extends BSystem
                     {
                     	throw new Exception('Job not a valid job', 2);
                     }
-                    $jobObj->run();
+                    $ok = $jobObj->run();
                     $ergNo = $jobObj->getStatusCode();
                     $ergStr = $jobObj->getStatusMessage();
                 }
@@ -49,7 +49,7 @@ class SJobScheduler extends BSystem
                 {
                     $ergNo = $e->getCode();
                     $ergStr = $e->getMessage();
-                    $ok = false;
+                    $ok = 'stopped';
                 }
                 QSJobScheduler::finishJob($jobId,$scheduled,$ergNo, $ergStr);
             }

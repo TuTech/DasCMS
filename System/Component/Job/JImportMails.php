@@ -19,9 +19,10 @@ class JImportMails extends BJob
     public function run()
     {
         //begin
+        $stat = 'ok';
         try
         {
-            echo 'update for mail account ';
+            //echo 'update for mail account ';
             $account = null;
             $DB = DSQL::alloc()->init();
             $DB->beginTransaction();
@@ -38,26 +39,29 @@ class JImportMails extends BJob
             //update account
             if($account != null)
             {
-                echo $account;
+                //echo $account;
                 $importer = new Import_IMAP_MailBox();
                 $importer->import($account);
-            }else echo ' not available';
+                $stat = 'new';
+            }//else echo ' not available';
         }
         catch (Exception $e)
         {
-            printf(
-            	'<h1>%s (%d)</h1><h2>%s@%d</h2><p>%s</p><p><pre>%s</pre></p>',
-            	get_class($e),
-            	$e->getCode(),
-            	$e->getFile(),
-            	$e->getLine(),
-            	$e->getMessage(),
-            	$e->getTraceAsString()
-            );
+//            printf(
+//            	'<h1>%s (%d)</h1><h2>%s@%d</h2><p>%s</p><p><pre>%s</pre></p>',
+//            	get_class($e),
+//            	$e->getCode(),
+//            	$e->getFile(),
+//            	$e->getLine(),
+//            	$e->getMessage(),
+//            	$e->getTraceAsString()
+//            );
             //report errors
             $this->message = $e->getMessage();
             $this->code = $e->getCode();
+            $stat = 'stopped';
         }
+        return $stat;
     }
     
     /**

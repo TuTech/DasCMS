@@ -6,10 +6,14 @@ require_once('./System/Component/Loader.php');
 PAuthentication::daemonRun();
 header("Expires: ".date('r', 0));
 header("Cache-Control: max-age=0, public");
-$img = (SJobScheduler::runJob()) ? 'ok.png': 'fail.png';
+$stat = SJobScheduler::runJob();
+if(is_bool($stat))
+{
+    $stat = ($stat) ? 'ok': 'stopped';
+}
 if(!headers_sent())
 {
     header('Content-Type: image/png;');
-    readfile(SPath::SYSTEM_IMAGES.$img);
+    readfile(WIcon::pathFor($stat, 'status', WIcon::EXTRA_SMALL));
 }
 ?>
