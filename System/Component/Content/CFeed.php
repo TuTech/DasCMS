@@ -83,7 +83,8 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
                 'Content' => null,
                 'Link' => null,
                 'Tags' => null,
-                'ModDate' => null
+            	'ModDate' => null,
+                'Icon' => null
             ),
             self::FOOTER => array(
                 'PrevLink' => 1,
@@ -105,8 +106,9 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
                 'ModDateFormat' => 'c',
                 'PubDateFormat' => 'c',
                 'LinkTitle' => true,
-                'LinkTags' => false
-            ),
+                'LinkTags' => false,
+                'IconSize' => 48
+			),
             self::SETTINGS => array(
                 'ItemsPerPage' => 10,
                 'MaxPages' => 1000,
@@ -115,7 +117,6 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
                 'TargetView' => '',
                 'SortOrder' => true,
                 'SortBy' => 'title'
-                
             )
         )
     );
@@ -497,6 +498,8 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
             'ModDate' => 5,
             'Tags' => 6
         );
+        $contentObject = null;
+        
         $html = "\n\t<div class=\"CFeed_item\">";
         //add all active attributes in order
         $tpl = "\n\t\t<%s class=\"CFeed_item_%s\">%s</%s>";
@@ -518,8 +521,15 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
         		    $tag = 'div';
         		    $content = $data[$map[$key]];
         		    break;
-                case 'Content':
-                    $co = BContent::Access($data[$map['Alias']], $this);
+                case 'Icon':
+        		    $co = $contentObject ? $contentObject : BContent::Open($data[$map['Alias']]);
+        		    //do not cache content - it was not accessed here
+                    $tag = 'div';
+                    $content = $co->getIcon()->asSize($this->option(self::ITEM, 'IconSize')); 
+                    break;
+    		    case 'Content':
+                    $co = $contentObject ? $contentObject : BContent::Access($data[$map['Alias']], $this);
+                    $contentObject = $co;//cache accessed content
                     $tag = 'div';
                     $content = $co->getContent();
                     break;
@@ -636,6 +646,24 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
     				: new EContentPublishedEvent($this, $this);
     		}
 		}
+	}
+	
+	/**
+	 * Icon for this filetype
+	 * @return WIcon
+	 */
+	public static function defaultIcon()
+	{
+	    return new WIcon('CFeed', 'content', WIcon::LARGE, 'mimetype');
+	}
+	
+	/**
+	 * Icon for this object
+	 * @return WIcon
+	 */
+	public function getIcon()
+	{
+	    return CFeed::defaultIcon();
 	}
 	
 	//ISupportsSidebar

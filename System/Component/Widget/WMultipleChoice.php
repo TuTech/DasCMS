@@ -21,6 +21,13 @@ class WMultipleChoice extends BWidget
     private $type;
     private $translateTitles = true;
     
+    /**
+     * @param string $name
+     * @param array $choices
+     * @param string $selected
+     * @param int $type
+     * @param boolean $autoTranslate
+     */
     public function __construct($name, array $choices, $selected, $type = self::SELECT, $autoTranslate = true)
     {       
         $this->ID = ++parent::$CurrentWidgetID;
@@ -33,8 +40,7 @@ class WMultipleChoice extends BWidget
 
     public function setSelected($choice)
     {
-    	$ck = array_keys($this->choices);
-        $this->selected = (array_key_exists($choice, $this->choices)) ? $choice : null;
+        $this->selected = isset($this->choices[$choice]) ? $choice : null;
     }
     
     public function setTranslateTitles($yn)
@@ -69,9 +75,9 @@ class WMultipleChoice extends BWidget
         		{
         			printf(
         			    "\n\t<option value=\"%s\"%s>%s</option>"
-						,htmlentities(mb_convert_encoding($name, 'UTF-8', 'ISO-8859-1,UTF-8'), ENT_QUOTES, 'UTF-8')
-        			    ,($name === $this->selected) ? ' selected="selected"' : ''
-						,htmlentities(mb_convert_encoding(($this->translateTitles ? SLocalization::get($title) : $title), 'UTF-8', 'ISO-8859-1,UTF-8'), ENT_QUOTES, 'UTF-8')
+						,$this->convent($name)
+        			    ,($name == $this->selected && $this->selected !== null) ? ' selected="selected"' : ''
+						,htmlentities(($this->translateTitles ? SLocalization::get($title) : mb_convert_encoding($title, 'UTF-8', 'ISO-8859-1,UTF-8')), ENT_QUOTES, 'UTF-8')
 					);
         		}
         		printf("\n</select>");
@@ -79,7 +85,7 @@ class WMultipleChoice extends BWidget
         	case self::RADIO:
         		printf(
     		        "\n<div id=\"%s_%s\">"
-					,htmlentities(mb_convert_encoding($this->name, 'UTF-8', 'ISO-8859-1,UTF-8'), ENT_QUOTES, 'UTF-8')
+					,$this->convent($this->name)
 					,self::CLASS_NAME
 					,$this->ID
 				);
@@ -90,19 +96,19 @@ class WMultipleChoice extends BWidget
 						//div class
 						,self::CLASS_NAME						
 					    //input id
-        			    ,htmlentities(mb_convert_encoding($this->name, 'UTF-8', 'ISO-8859-1,UTF-8'), ENT_QUOTES, 'UTF-8')
-						,htmlentities(mb_convert_encoding($name, 'UTF-8', 'ISO-8859-1,UTF-8'), ENT_QUOTES, 'UTF-8')
+        			    ,$this->convent($this->name)
+						,$this->convent($name)
 						//input name
-						,htmlentities(mb_convert_encoding($this->name, 'UTF-8', 'ISO-8859-1,UTF-8'), ENT_QUOTES, 'UTF-8')
+						,$this->convent($this->name)
 						//input value
-						,htmlentities(mb_convert_encoding($name, 'UTF-8', 'ISO-8859-1,UTF-8'), ENT_QUOTES, 'UTF-8')
+						,$this->convent($name)
 						//input selected
-						,($name === $this->selected) ? ' checked="checked"' : ''
+						,($name == $this->selected && $this->selected !== null) ? ' checked="checked"' : ''
 						//label for
-						,htmlentities(mb_convert_encoding($this->name, 'UTF-8', 'ISO-8859-1,UTF-8'), ENT_QUOTES, 'UTF-8')
-						,htmlentities(mb_convert_encoding($name, 'UTF-8', 'ISO-8859-1,UTF-8'), ENT_QUOTES, 'UTF-8')
+						,$this->convent($this->name)
+						,$this->convent($name)
 						//label text
-						,htmlentities(mb_convert_encoding(($this->translateTitles ? SLocalization::get($title) : $title), 'UTF-8', 'ISO-8859-1,UTF-8'), ENT_QUOTES, 'UTF-8')
+						,($this->translateTitles ? SLocalization::get($title) : $this->convent($title))
 					);
         		}
         		printf("\n</div>");
@@ -113,6 +119,11 @@ class WMultipleChoice extends BWidget
         	break;
         }
         
+    }
+    
+    private function convent($str)
+    {
+        return htmlentities(mb_convert_encoding($str, 'UTF-8', 'ISO-8859-1,UTF-8'), ENT_QUOTES, 'UTF-8');
     }
     
     public function run()

@@ -1,4 +1,3 @@
-@CHARSET "UTF-8";
 .WTable{
     border-width:0px;
     border-top-width: 1px;
@@ -16,17 +15,17 @@
 .WTable, .WTable td, .WTable th{
     border-style: solid;
     border-spacing: 0px;
-    border-color: #4e9a06;
+    border-color: #9fbc4a;
 }
 .WTable th
 {
-    background: #4e9a06 url(../../Images/iconbarbg.png) 50% 50%;
+    background: #4e9a06 url(../../Images/header_background.png) 00% 00%;
     padding:2px;
     color:white;
 }
 .WTable th[scope=row]
 {
-    background: #e7f8d7;
+    background: #ecf0de;
     font-weight:normal;
     padding-top:2px;
     padding-bottom:2px;
@@ -35,7 +34,7 @@
 }
 .WTable tr.alt_a th[scope=row]
 {
-    background: #cce4b5;
+    background: #e4f0b8;
 }
 .WTable tr
 {
@@ -47,7 +46,7 @@
 }
 .WTable tr.alt_a td
 {
-    background: #f5f5ec;
+    background: #eff9cc;
 }
 .WPE_active
 {

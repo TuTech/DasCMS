@@ -163,7 +163,8 @@ if(isset($Feed) && $Feed instanceof CFeed && PAuthorisation::has('org.bambuscms.
                     $value = strtolower($value) == 'on';
 			    case 'ModDateFormat':
                 case 'PubDateFormat':
-			        $set = true;
+                case 'IconSize':
+                    $set = true;
 			        break;
 			    default:break;
 			}
@@ -212,7 +213,8 @@ if(isset($Feed) && $Feed instanceof CFeed && PAuthorisation::has('org.bambuscms.
         	'title' => 'Title', 
         	'description' => 'Description', 
         	'author' => 'Author', 
-        	'pubDate' => 'PubDate' 
+        	'pubDate' => 'PubDate',
+    		'icon' => 'Icon'  
 		);
     	$items = array(
     	    CFeed::HEADER => $hf_items,

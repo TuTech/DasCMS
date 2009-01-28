@@ -217,6 +217,24 @@ abstract class BContent extends BObject
 	}
 	
 	/**
+	 * Icon for this filetype
+	 * @return WIcon
+	 */
+	public static function defaultIcon()
+	{
+	    return new WIcon('BContent', 'content', WIcon::LARGE, 'mimetype');
+	}
+	
+	/**
+	 * Icon for this object
+	 * @return WIcon
+	 */
+	public function getIcon()
+	{
+	    return BContent::defaultIcon();
+	}
+	
+	/**
 	 * @return string
 	 */
 	public function getTitle()

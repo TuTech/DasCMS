@@ -1,3 +1,7 @@
+extra_small_icons	Ganz kleine Icons (16x16px)
+small_icons	Kleine Icons (22x22px)
+medium_icons	Mittlere Icons (32x32px)
+large_icons	Große Icons (48x48px)
 edit_navigations	Navigationen bearbeiten
 edit_and_manage_websites	Webseiten bearbeiten und verwalten
 edit_and_manage_designs	Design bearbeiten und verwalten

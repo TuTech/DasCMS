@@ -211,6 +211,25 @@ class CFile
         return sprintf(IFileContent::ENCLOSURE_URL, SLink::base(), $this->getAlias());
     }
     
+    	/**
+	 * Icon for this filetype
+	 * @return WIcon
+	 */
+	public static function defaultIcon()
+	{
+	    return new WIcon('BContent', 'content', WIcon::LARGE, 'mimetype');
+	}
+	
+	/**
+	 * Icon for this object
+	 * @return WIcon
+	 */
+	public function getIcon()
+	{
+	    return new WIcon($this->getType(), 'content', WIcon::LARGE, 'mimetype');
+	}
+	
+    
 	//IFileContent
 	public function getFileName()
 	{
@@ -224,26 +243,6 @@ class CFile
         return $this->metadata['suffix'];
     }
     
-    public function getExtraSmallIcon()
-    {
-        WIcon::pathFor($this->getType(), 'mimetype', WIcon::EXTRA_SMALL);
-    }
-    
-    public function getSmallIcon()
-    {
-        WIcon::pathFor($this->getType(), 'mimetype', WIcon::SMALL);
-    }
-    
-    public function getMediumIcon()
-    {
-        WIcon::pathFor($this->getType(), 'mimetype', WIcon::MEDIUM);
-    }
-    
-    public function getLargeIcon()
-    {
-        WIcon::pathFor($this->getType(), 'mimetype', WIcon::LARGE);
-    }
-	
     public function getDownloadMetaData()
     {
         $this->loadFileMetaData();

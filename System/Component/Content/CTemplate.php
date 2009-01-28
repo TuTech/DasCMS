@@ -88,8 +88,24 @@ class CTemplate
 	}
 	
 	/**
-	 * Enter description here...
-	 *
+	 * Icon for this filetype
+	 * @return WIcon
+	 */
+	public static function defaultIcon()
+	{
+	    return new WIcon('CTemplate', 'content', WIcon::LARGE, 'mimetype');
+	}
+	
+	/**
+	 * Icon for this object
+	 * @return WIcon
+	 */
+	public function getIcon()
+	{
+	    return CTemplate::defaultIcon();
+	}
+	
+	/**
 	 * @return string
 	 */
 	public function getContent()

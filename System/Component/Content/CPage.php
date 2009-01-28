@@ -89,9 +89,26 @@ class CPage extends BContent implements ISupportsSidebar, IGlobalUniqueId, Inter
         return $this->getContent();
     }
 	//end Interface_XML_Atom_ProvidesInlineText
+	
 	/**
-	 * Enter description here...
-	 *
+	 * Icon for this filetype
+	 * @return WIcon
+	 */
+	public static function defaultIcon()
+	{
+	    return new WIcon('CPage', 'content', WIcon::LARGE, 'mimetype');
+	}
+	
+	/**
+	 * Icon for this object
+	 * @return WIcon
+	 */
+	public function getIcon()
+	{
+	    return CPage::defaultIcon();
+	}
+    
+	/**
 	 * @return string
 	 */
 	public function getContent()

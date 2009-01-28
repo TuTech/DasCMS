@@ -11,14 +11,13 @@
 }
 h2
 {
-    font-size: 20px;
+    font-size: 24px;
     font-weight:normal;
-    color: #555753;
+    color: #888a85;
     margin:0px;
 	padding-top:2px;
 	padding-bottom:2px;
     display:block;
-    background: #4e9a06 url(../../Images/header_background.png) 0px -10px;
 }
 h2 img
 {
@@ -115,7 +114,7 @@ h4
 	font-size:10px;
 	width:70px;
 	z-index:100001;
-	background:url(../../Images/iconbarbg_selected.png) 50% 50%;
+	background:url(../../Images/iconbarbg_selected.png) 0% 0%;
 	border:1px solid #2e3436;
 	border-top-width:0px;
 	color:white;

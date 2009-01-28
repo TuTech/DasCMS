@@ -89,7 +89,7 @@ Main Headline
 {
 	border-style: solid;
 	border-color: #4e9a06;
-	background: #4e9a06 url(../../Images/iconbarbg.png) 50% 50%;
+	background: #4e9a06 url(../../Images/header_background.png) 0% 0%;
 	color: #fff;
 }
 

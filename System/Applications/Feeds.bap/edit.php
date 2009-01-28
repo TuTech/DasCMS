@@ -183,7 +183,8 @@ if(PAuthorisation::has('org.bambuscms.content.cfeed.change') && isset($Feed) && 
         'Title' => 'title',
         'Description' => 'description',
         'Author' => 'author',
-        'PubDate' => 'pubDate'
+        'PubDate' => 'pubDate',
+        'Icon' => 'icon'
     );
     foreach ($Feed->order(CFeed::ITEM) as $option => $pos) 
     {
@@ -205,6 +206,19 @@ if(PAuthorisation::has('org.bambuscms.content.cfeed.change') && isset($Feed) && 
             case 'Content':
             case 'Author':
                 $items->add($itemMap[$option], $itemMap[$option], '', $pos !== null);
+                break;
+            case 'Icon':
+                $items->add($itemMap[$option], $itemMap[$option], 
+                    new WMultipleChoice('io_IconSize', array(
+                                WIcon::EXTRA_SMALL => 'extra_small_icons', 
+                                WIcon::SMALL => 'small_icons', 
+                                WIcon::MEDIUM => 'medium_icons', 
+                                WIcon::LARGE => 'large_icons'
+                            ),
+                            intval($Feed->option(CFeed::ITEM, 'IconSize'))
+                            ,WMultipleChoice::RADIO
+                        )
+                , $pos !== null);
                 break;
             case 'PubDate':
                 $items->add($itemMap[$option], $itemMap[$option], new WList(array(

@@ -110,6 +110,12 @@ class WIcon extends BWidget
         }
     }
     
+    public function asSize($size)
+    {
+        $this->setSize($size);
+        return $this;
+    }
+    
     public function __toString()
     {
         return sprintf(

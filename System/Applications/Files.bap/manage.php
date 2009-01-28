@@ -14,10 +14,10 @@ if($File != null && $File instanceof BContent)
         echo '<div id="objectInspectorActiveFullBox">';
     }
     echo new WScript("org.bambuscms.gui.hideCommandPanels(['multi_delete', 'multi_select', 'multi_view']);");
-	printf('<input type="hidden" id="filename" size="30" name="filename" value="%s"/><h2>%s</h2><img src="%s" alt="" />'
+	printf('<input type="hidden" id="filename" size="30" name="filename" value="%s"/><h2>%s</h2>%s'
     	, htmlentities($File->Title, ENT_QUOTES, 'UTF-8')
     	, htmlentities($File->Title, ENT_QUOTES, 'UTF-8')
-    	, WIcon::pathForMimeIcon($File->MimeType, WIcon::LARGE)
+    	, $File->Icon
 	);
 	printf(
 	    '<input type="checkbox" style="display:none;" name="select_%s" id="select_%s" checked="checked" />'

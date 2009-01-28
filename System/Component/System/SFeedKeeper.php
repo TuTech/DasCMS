@@ -77,6 +77,7 @@ class SFeedKeeper
             $res = QSFeedKeeper::getFeedsWithTypeAndTags();
             $feedTags = array();
             $feedTypes = array();
+            //build array with type string and tag array for each feed
             while($row = $res->fetch())
             {
                 list($fid, $type, $tag) = $row;
@@ -92,30 +93,35 @@ class SFeedKeeper
             $itemsToAdd = array();
             foreach ($feedTypes as $fid => $type)
             {
-                if($type != CFeed::ALL)
+                if($type == CFeed::ALL)
+                {
+                    $itemsToAdd[] = $fid;
+                }
+                else
                 {
                     $matching = array_intersect($e->Content->Tags, $feedTags[$fid]);
+    	            switch($type)
+    	            {
+    	                case CFeed::ALL:
+    	                    $match = true;
+    	                    break;
+    	                case CFeed::MATCH_ALL:
+    	                    $match = count($matching) == count($feedTags[$fid]);
+    	                    break;
+    	                case CFeed::MATCH_SOME:
+    	                    $match = count($matching) >= 1;
+    	                    break;
+    	                case CFeed::MATCH_NONE:
+    	                    $match = count($matching) == 0;
+    	                    break;
+    	            }  
+    	            if($match)
+    	            {
+    	                $itemsToAdd[] = $fid;
+    	            }
                 }
-	            switch($type)
-	            {
-	                case CFeed::ALL:
-	                    $match = true;
-	                    break;
-	                case CFeed::MATCH_ALL:
-	                    $match = count($matching) == count($feedTags[$fid]);
-	                    break;
-	                case CFeed::MATCH_SOME:
-	                    $match = count($matching) >= 1;
-	                    break;
-	                case CFeed::MATCH_NONE:
-	                    $match = count($matching) == 0;
-	                    break;
-	            }  
-	            if($match)
-	            {
-	                $itemsToAdd[] = $fid;
-	            }
             }
+            //add this item to all matching feeds
             if(count($itemsToAdd) > 0)
             {
                 QSFeedKeeper::linkItem($CID, $itemsToAdd);
