@@ -184,7 +184,8 @@ if(PAuthorisation::has('org.bambuscms.content.cfeed.change') && isset($Feed) && 
         'Description' => 'description',
         'Author' => 'author',
         'PubDate' => 'pubDate',
-        'Icon' => 'icon'
+        'Icon' => 'icon',
+        'PreviewImage' => 'previewImage'
     );
     foreach ($Feed->order(CFeed::ITEM) as $option => $pos) 
     {
@@ -219,6 +220,9 @@ if(PAuthorisation::has('org.bambuscms.content.cfeed.change') && isset($Feed) && 
                             ,WMultipleChoice::RADIO
                         )
                 , $pos !== null);
+                break;
+            case 'PreviewImage':
+                $items->add($itemMap[$option], $itemMap[$option], '', $pos !== null);
                 break;
             case 'PubDate':
                 $items->add($itemMap[$option], $itemMap[$option], new WList(array(

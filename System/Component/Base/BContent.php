@@ -235,6 +235,15 @@ abstract class BContent extends BObject
 	}
 	
 	/**
+	 * Icon for this object
+	 * @return WIcon
+	 */
+	public function getPreviewImage()
+	{
+	    return new WImage($this);
+	}
+	
+	/**
 	 * @return string
 	 */
 	public function getTitle()

@@ -124,11 +124,10 @@ class Import_IMAP_Mail extends _Import_IMAP
                         "[.:?\\-]*".
                         "(?:[^\\w/\\#~:.?+=&%@!\\-]|$)".
                     ")".
-                "}x",
+                "}xui",
                 "<a href=\"$1\">$1</a>",
                 $text
             );
-            //$text = $text.' <!-- '.$orig.' //--> ';
         }
         $this->text = $text;
     }

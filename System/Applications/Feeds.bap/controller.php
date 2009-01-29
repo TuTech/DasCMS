@@ -214,7 +214,8 @@ if(isset($Feed) && $Feed instanceof CFeed && PAuthorisation::has('org.bambuscms.
         	'description' => 'Description', 
         	'author' => 'Author', 
         	'pubDate' => 'PubDate',
-    		'icon' => 'Icon'  
+    		'icon' => 'Icon',
+    		'previewImage' => 'PreviewImage'  
 		);
     	$items = array(
     	    CFeed::HEADER => $hf_items,

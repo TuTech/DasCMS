@@ -84,7 +84,8 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
                 'Link' => null,
                 'Tags' => null,
             	'ModDate' => null,
-                'Icon' => null
+                'Icon' => null,
+                'PreviewImage' => null
             ),
             self::FOOTER => array(
                 'PrevLink' => 1,
@@ -500,7 +501,7 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
         );
         $contentObject = null;
         
-        $html = "\n\t<div class=\"CFeed_item\">";
+        $html = "\n\t<div class=\"CFeed_item\">\n\t\t<span class=\"CFeed_begin_item\"></span>";
         //add all active attributes in order
         $tpl = "\n\t\t<%s class=\"CFeed_item_%s\">%s</%s>";
         foreach ($this->order(self::ITEM) as $key => $pos) 
@@ -521,11 +522,14 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
         		    $tag = 'div';
         		    $content = $data[$map[$key]];
         		    break;
+                case 'PreviewImage':
                 case 'Icon':
-        		    $co = $contentObject ? $contentObject : BContent::Open($data[$map['Alias']]);
+                    $co = $contentObject ? $contentObject : BContent::Open($data[$map['Alias']]);
         		    //do not cache content - it was not accessed here
                     $tag = 'div';
-                    $content = $co->getIcon()->asSize($this->option(self::ITEM, 'IconSize')); 
+                    $content = ($key == 'Icon')
+                        ? $co->getIcon()->asSize($this->option(self::ITEM, 'IconSize'))
+                        : $co->getPreviewImage()/*->scale(...scale opts...)*/; 
                     break;
     		    case 'Content':
                     $co = $contentObject ? $contentObject : BContent::Access($data[$map['Alias']], $this);
@@ -551,7 +555,7 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
         	}
         	$html .= sprintf($tpl, $tag, $class, $content, $tag);
         }
-        $html .= "</div>\n";
+        $html .= "\n\t\t<span class=\"CFeed_end_item\"></span>\n</div>\n";
         return $html;
 	}
 	
