@@ -28,7 +28,9 @@ class WImage extends BWidget
     private $mode = '';
     private $forceType = '';
     private $fillColor = '';
-        
+    private $scaleHash = '0';
+    private $imageID = '_';//default cms preview image
+    
     /**
      * create image for output
      * @param IFileContent$content
@@ -43,9 +45,16 @@ class WImage extends BWidget
             if($kind == 'image' && in_array($enc, array('jpg','jpeg','png','gif')))
             {
                 //render this image
+                $this->imageID = 'c'.$content->getId();
             }
         }
-        $this->imageData = SPath::SYSTEM_IMAGES.'inet-180.jpg';
+       /* elseif ($content instanceof ISelectablePreviewImage)
+        {
+        ISelectablePreviewImage:
+        -getPreviewImageID
+        -setPreviewImageID
+           //$this->imageID = 'p'.$c->getPreviewImageID() 
+        }*/
     }
     
     /**
@@ -57,20 +66,39 @@ class WImage extends BWidget
      * @param string $fillColor 3 or 6 digit hex code (#136 or #123456)
      * @return WImage
      */
-    public function scale($width, $heigth, $mode = self::MODE_SCALE_TO_MAX, $forceType = self::FORCE_BY_FILL, $fillColor = '#ffffff')
+    public function scaled($width, $heigth, $mode = self::MODE_SCALE_TO_MAX, $forceType = self::FORCE_BY_FILL, $fillColor = '#ffffff')
     {
-        //build scale config string
-        //send to db and get $id
-        //link to render.php?file=:Alias&mode=$id
-        $this->setSize($size);
+        $matches = array();
+        //split 3 and 6 letter hex-color-codes into r,g and b 
+        preg_match('/^#?(([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})|([0-9A-Fa-f])([0-9A-Fa-f])([0-9A-Fa-f]))$/',$fillColor,$matches);
+        $r = $g = $b = 'ff';
+        if($matches)
+        {
+            list($n, $il, $r,$g, $b) = $matches;
+        }
+        $this->scaleHash = sprintf(
+            '%s-%x-%x-%1d-%1s-%s-%s-%s',
+            $this->imageID,
+            $width,
+            $heigth,
+            $mode,
+            $forceType,
+            $r,$g,$b
+        );
+        //permit rendering this image
+        if(!file_exists(SPath::TEMP.'scale.render.'.$this->scaleHash))
+        {
+            touch(SPath::TEMP.'scale.permit.'.$this->scaleHash);
+        }
         return $this;
     }
     
     public function __toString()
     {
         return sprintf(
-            "<img src=\"%s\" alt=\"%s\" title=\"%s\" />"
-            ,$this->imageData
+            "<img src=\"%s?key=%s\" alt=\"%s\" title=\"%s\" />"
+            ,SPath::SYSTEM_IMAGES.'inet-180.jpg'//FIXME image renderer path here
+            ,base64_encode($this->scaleHash)
             ,htmlentities($this->content->getTitle(), ENT_QUOTES, 'UTF-8')
             ,htmlentities($this->content->getTitle(), ENT_QUOTES, 'UTF-8')
         );

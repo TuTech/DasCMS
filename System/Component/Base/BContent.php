@@ -236,7 +236,7 @@ abstract class BContent extends BObject
 	
 	/**
 	 * Icon for this object
-	 * @return WIcon
+	 * @return WImage
 	 */
 	public function getPreviewImage()
 	{

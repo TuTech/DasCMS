@@ -132,7 +132,10 @@ class CPage extends BContent implements ISupportsSidebar, IGlobalUniqueId, Inter
 	    $this->_contentLoaded = true;
 		$this->Content = $value;
 		$this->Size = strlen($value);
-		//$this->Description = $this->createSummary($value);
+		if(empty($this->Description))
+		{
+		    $this->setDescription($this->createSummary($value));
+		}
 	}
 	
 	public function Save()
