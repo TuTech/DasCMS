@@ -6,5 +6,6 @@ interface IFileContent
     public function getType();// css
 	public function getDownloadMetaData();//[filename, type, size]
 	public function sendFileContent();
+	public function getRawDataPath();
 }
 ?>

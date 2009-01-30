@@ -254,6 +254,11 @@ class CFile
         readfile('./Content/CFile/'.$this->getId().'.data');
     }
     
+    public function getRawDataPath()
+    {
+        return './Content/CFile/'.$this->getId().'.data';
+    }
+    
 	//ISupportsSidebar
 	public function wantsWidgetsOfCategory($category)
 	{

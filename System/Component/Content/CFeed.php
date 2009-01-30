@@ -529,7 +529,7 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
                     $tag = 'div';
                     $content = ($key == 'Icon')
                         ? $co->getIcon()->asSize($this->option(self::ITEM, 'IconSize'))
-                        : $co->getPreviewImage()->scaled(10,10); 
+                        : $co->getPreviewImage()->scaled(100,100, WImage::MODE_FORCE,WImage::FORCE_BY_CROP, '#4e9a06'); 
                     break;
     		    case 'Content':
                     $co = $contentObject ? $contentObject : BContent::Access($data[$map['Alias']], $this);

@@ -10,9 +10,7 @@
 class WImage extends BWidget 
 {
     const MODE_SCALE_TO_MAX = 0;
-    const MODE_FORCE_WITH = 1;
-    const MODE_FORCE_HEIGTH = 2;
-    const MODE_FORCE_BOTH = 3;
+    const MODE_FORCE = 1;
     
     const FORCE_BY_STRETCH = 's';
     const FORCE_BY_CROP = 'c';
@@ -61,23 +59,23 @@ class WImage extends BWidget
      * set scale method
      * @param int $width
      * @param int $heigth
-     * @param int $mode MODE_SCALE_TO_MAX, MODE_FORCE_WITH, MODE_FORCE_HEIGTH or MODE_FORCE_BOTH
+     * @param int $mode MODE_SCALE_TO_MAX or MODE_FORCE
      * @param string $forceType FORCE_BY_STRETCH, FORCE_BY_CROP or FORCE_BY_FILL
-     * @param string $fillColor 3 or 6 digit hex code (#136 or #123456)
+     * @param string $fillColor 6 digit hex code #123456
      * @return WImage
      */
     public function scaled($width, $heigth, $mode = self::MODE_SCALE_TO_MAX, $forceType = self::FORCE_BY_FILL, $fillColor = '#ffffff')
     {
         $matches = array();
         //split 3 and 6 letter hex-color-codes into r,g and b 
-        preg_match('/^#?(([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})|([0-9A-Fa-f])([0-9A-Fa-f])([0-9A-Fa-f]))$/',$fillColor,$matches);
+        preg_match('/^#?(([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})([0-9A-Fa-f]{2}))$/',$fillColor,$matches);
         $r = $g = $b = 'ff';
         if($matches)
         {
-            list($n, $il, $r,$g, $b) = $matches;
+            list($n, $full, $r,$g, $b) = $matches;
         }
         $this->scaleHash = sprintf(
-            '%s-%x-%x-%1d-%1s-%s-%s-%s',
+            '%s-%x-%x-%01d-%1s-%02s-%02s-%02s',
             $this->imageID,
             $width,
             $heigth,
@@ -96,8 +94,8 @@ class WImage extends BWidget
     public function __toString()
     {
         return sprintf(
-            "<img src=\"%s?key=%s\" alt=\"%s\" title=\"%s\" />"
-            ,SPath::SYSTEM_IMAGES.'inet-180.jpg'//FIXME image renderer path here
+            "<img src=\"image.php/%s/%s\" alt=\"%s\" title=\"%s\" />"
+            ,$this->content->getAlias()//FIXME image renderer path here
             ,base64_encode($this->scaleHash)
             ,htmlentities($this->content->getTitle(), ENT_QUOTES, 'UTF-8')
             ,htmlentities($this->content->getTitle(), ENT_QUOTES, 'UTF-8')
