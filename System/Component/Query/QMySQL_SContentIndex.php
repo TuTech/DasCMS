@@ -123,7 +123,8 @@ class QSContentIndex extends BQuery
             		Contents.title AS Title,
             		Contents.pubDate AS PubDate,
             		Aliases.alias AS Alias,
-					Mimetypes.mimetype
+					Mimetypes.mimetype,
+					Contents.contentID
             	FROM Contents 
             	LEFT JOIN Aliases ON (Contents.primaryAlias = Aliases.aliasID)
 				LEFT JOIN Classes ON (Contents.type = Classes.classID)

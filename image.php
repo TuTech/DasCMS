@@ -1,7 +1,9 @@
 <?php
 //header('Content-type: image/jpg');
 require_once('./System/Component/Loader.php');
-error_reporting(255);
+header('Content-type: image/jpeg;');
+header("Expires: ".date('r', strtotime('tomorrow')));
+error_reporting(0);
 RSession::start();
 PAuthentication::required();
 if(!empty($_SERVER['PATH_INFO']))
@@ -46,33 +48,41 @@ if(!empty($_SERVER['PATH_INFO']))
                 //default img
                 $img = Image_GD::load(SPath::SYSTEM_IMAGES.'inet-180.jpg');
             }
-            else
+            elseif($type == 'c')
             {
                 $c = BContent::OpenIfPossible($alias);
-                //load image data from file content 
-                if($type == 'c' && $c instanceof IFileContent)
+                if($c instanceof IFileContent)
                 {
                     $img = Image_GD::load($c->getRawDataPath(), $c->getType());
                 }
+            }
                 //load preview image
-                else//if($type == 'p')
+            elseif($type == 'p')
+            {
+                $alias = WImage::resolvePreviewId($id);
+                if(!empty($alias))
                 {
-                    $img = Image_GD::create($width, $height);
-                    $img->fill($img->makeColor($r, $g, $b)); 
+                    $c = BContent::OpenIfPossible($alias);
+                    $img = Image_GD::load($c->getRawDataPath(), $c->getType());
                 }
+            }
+            if(!$img)
+            {
+                $img = Image_GD::create($width, $height);
+                    $img->fill($img->makeColor($r, $g, $b)); 
             }
             if($mode)
             {
                 //forced
-                if($force = WImage::FORCE_BY_CROP)
+                if($force == WImage::FORCE_BY_CROP)
                 {
                     $img = $img->cropscale($width, $height);
                 }
-                elseif($force = WImage::FORCE_BY_FILL)
+                elseif($force == WImage::FORCE_BY_FILL)
                 {
                     $img = $img->fillscale($width, $height, $img->makeColor($r,$g,$b));
                 }
-                elseif($force = WImage::FORCE_BY_STRETCH)
+                elseif($force == WImage::FORCE_BY_STRETCH)
                 {
                     $img = $img->stretchscale($width, $height);
                 }
@@ -81,7 +91,7 @@ if(!empty($_SERVER['PATH_INFO']))
             {
                 $img = $img->scaletofit($width, $height); 
             }
-            $img->save(SPath::TEMP.'scale.render.'.$key, 75, 'jpg');
+            //$img->save(SPath::TEMP.'scale.render.'.$key, 75, 'jpg');
             $img->generate('jpg');
         }
     }

@@ -26,7 +26,8 @@
     margin-left:16px;
     margin-right:16px;
 }
-.WFlowLayoutFile img{
+
+.WFlowLayoutFile img, .WFlowLayoutImage img.mime-icon{
     display:block;
     width:48px;
     height:48px;
@@ -34,4 +35,9 @@
     margin-right:40px;
     margin-top:10px;
     margin-bottom:10px;
+}
+.WFlowLayoutImage img.mime-icon
+{
+	margin-top:24px;
+	margin-bottom:24px;
 }

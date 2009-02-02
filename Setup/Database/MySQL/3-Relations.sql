@@ -1,5 +1,39 @@
 -- feed to contents relation
 CREATE TABLE IF NOT EXISTS 
+relContentsPreviewImages(
+    contentREL 
+        INTEGER 
+        UNIQUE
+        NOT NULL,
+    previewREL 
+        INTEGER 
+        NOT NULL,
+    INDEX (previewREL)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+
+
+CREATE TABLE IF NOT EXISTS 
+relContentsTags(
+	contentREL
+		INTEGER
+		NOT NULL,
+	tagREL
+		INTEGER
+		NOT NULL,
+	INDEX (contentREL),
+	INDEX (tagREL)
+) 
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+
+-- feed to contents relation
+CREATE TABLE IF NOT EXISTS 
 relFeedsContents(
     feedREL 
         INTEGER 

@@ -240,7 +240,7 @@ abstract class BContent extends BObject
 	 */
 	public function getPreviewImage()
 	{
-	    return new WImage($this);
+	    return WImage::forContent($this);
 	}
 	
 	/**

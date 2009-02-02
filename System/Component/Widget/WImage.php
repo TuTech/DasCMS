@@ -16,14 +16,17 @@ class WImage extends BWidget
     const FORCE_BY_CROP = 'c';
     const FORCE_BY_FILL = 'f';
     
+    private static $retainCounts = null;
+    
     private $width = null;
     private $height = null;
     /**
      * @var BContent
      */
-    private $content = '';
+    private $content = null;
     private $imageData;
     private $mode = '';
+    private $alias = '';
     private $forceType = '';
     private $fillColor = '';
     private $scaleHash = '0';
@@ -34,25 +37,73 @@ class WImage extends BWidget
      * @param IFileContent$content
      * @return unknown_type
      */
-    public function __construct(BContent $content)
+    public static function forContent(BContent $content)
     {
-        $this->content = $content;
+        $img = new WImage();
+        $img->content = $content;
         if ($content instanceof IFileContent) 
         {
-            list($kind, $enc) = explode('/',strtolower($content->getMimeType()));
-            if($kind == 'image' && in_array($enc, array('jpg','jpeg','png','gif')))
+            if(self::supportedMimeType($content->getMimeType()))
             {
                 //render this image
-                $this->imageID = 'c'.$content->getId();
+                $img->imageID = 'c'.$content->getId();
             }
         }
-       /* elseif ($content instanceof ISelectablePreviewImage)
+        else
         {
-        ISelectablePreviewImage:
-        -getPreviewImageID
-        -setPreviewImageID
-           //$this->imageID = 'p'.$c->getPreviewImageID() 
-        }*/
+            $res = QWImage::getPreviewAlias($content->getId());
+            if($res->getRowCount() == 1)
+            {
+                list($pid) = $res->fetch(); 
+                $img->imageID = 'p'.$pid;
+            }
+            $res->free();
+        }
+        return $img;
+    }
+    
+    public static function resolvePreviewId($id)
+    {
+        $alias = null;
+        $res = QWImage::idToAlias($id);
+        if($res->getRowCount())
+        {
+            list($alias) = $res->fetch();
+        }
+        $res->free();
+        return $alias;
+    }
+    
+    public static function supportedMimeType($type)
+    {
+        list($kind, $enc) = explode('/',strtolower($type));
+        return ($kind == 'image' && in_array($enc, array('jpg','jpeg','png','gif')));
+    }
+    
+    public static function getRetainCounts()
+    {
+        if(self::$retainCounts == null)
+        { 
+            $res = QWImage::getRetainCounts();
+            self::$retainCounts = array();
+            while($row = $res->fetch())
+            {
+                self::$retainCounts[$row[0]] = $row[1];
+            }
+        }
+        return self::$retainCounts;
+    }
+    
+    public static function forCFileData($id, $type, $alias, $title)
+    {
+        $img = new WImage();
+        $img->alias = $alias;
+        $img->title = $title;
+        if(self::supportedMimeType($type))
+        {
+            $img->imageID = 'c'.$id;
+        }
+        return $img;
     }
     
     /**
@@ -95,10 +146,10 @@ class WImage extends BWidget
     {
         return sprintf(
             "<img src=\"image.php/%s/%s\" alt=\"%s\" title=\"%s\" />"
-            ,$this->content->getAlias()//FIXME image renderer path here
+            ,empty($this->content) ? $this->alias : $this->content->getAlias()//FIXME image renderer path here
             ,base64_encode($this->scaleHash)
-            ,htmlentities($this->content->getTitle(), ENT_QUOTES, 'UTF-8')
-            ,htmlentities($this->content->getTitle(), ENT_QUOTES, 'UTF-8')
+            ,htmlentities(empty($this->content) ? $this->title : $this->content->getTitle(), ENT_QUOTES, 'UTF-8')
+            ,htmlentities(empty($this->content) ? $this->title : $this->content->getTitle(), ENT_QUOTES, 'UTF-8')
         );
     }
 }

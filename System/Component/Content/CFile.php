@@ -83,7 +83,7 @@ class CFile
 	}
 	
 	/**
-	 * [alias => [title, pubdate]]
+	 * [alias => [title, pubdate, type, id]]
 	 * @return array
 	 */
 	public static function Index()
@@ -91,7 +91,7 @@ class CFile
 	    $SCI = SContentIndex::alloc()->init();
 	    return $SCI->getIndex('CFile', false);
 	}
-		
+	
 	public static function Open($alias)
 	{
 	    $SCI = SContentIndex::alloc()->init();
@@ -153,7 +153,7 @@ class CFile
 	{
 	    if(in_array($this->getType(), array('jpg','jpeg','png','gif')))
 	    {
-	        $img = new WImage($this);
+	        $img = WImage::forContent($this);
 	        $img = $img->scaled(640,480);
 	    }
         return sprintf(

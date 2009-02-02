@@ -42,19 +42,26 @@ else
     $files = CFile::Index();
     
     $itemTemplate = "<a name=\"{id}\" title=\"{title}\" id=\"{id}\" href=\"javascript:selectImage('{id}');\">
-        <img src=\"{icon}\" title=\"{title}\" id=\"img_{id}\" />
+        {retainCount}{preview}
         <input type=\"checkbox\" name=\"select_{id}\" id=\"select_{id}\" />
         {name}
     </a>";
     printf('<h2>%s</h2>', SLocalization::get('files'));
     $flowLayout = new WFlowLayout();
-    $flowLayout->setAdditionalCSSClasses('WFlowLayoutFile');
+    $flowLayout->setAdditionalCSSClasses('WFlowLayoutImage');
+    $retains = WImage::getRetainCounts();
     foreach($files as $alias => $data){
+        list($Dtitle, $Dpubdate, $Dtype, $Did) = $data;
         $suffix = 'CFile';
         $bigIcon = (file_exists(WIcon::pathFor($suffix, 'mimetype', WIcon::LARGE))) ? $suffix : 'file';
-        $output = array('realname'  => htmlentities($data[0], ENT_QUOTES, 'UTF-8'),
-            'icon' =>WIcon::pathForMimeIcon($data[2], WIcon::LARGE),
+        $prev = (WImage::supportedMimeType($Dtype))
+            ? (WImage::forCFileData($Did,$Dtype,$alias,$Dtitle)->scaled(128, 128,WImage::MODE_FORCE,WImage::FORCE_BY_FILL))
+            : sprintf('<img src="%s" class="mime-icon" alt="%s" />', WIcon::pathForMimeIcon($Dtype, WIcon::LARGE), $Dtype);
+        $output = array('realname'  => htmlentities($Dtitle, ENT_QUOTES, 'UTF-8'),
+            'icon' =>WIcon::pathForMimeIcon($Dtype, WIcon::LARGE),
+            'preview' => $prev,
             'linktarget' => '_blank',
+            'retainCount' => isset($retains[$Did]) ? sprintf('<span class="retainBatch retainBatch-%d">%s</span>', strlen($retains[$Did]), $retains[$Did]) : '',
             'id' => md5($alias),
             'title' => htmlentities($data[0], ENT_QUOTES, 'UTF-8'),
             'name' => htmlentities($data[0], ENT_QUOTES, 'UTF-8')

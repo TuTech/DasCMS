@@ -40,7 +40,11 @@ class Image_GD extends _Image
         	case 'png':
         	    $img->imgRes = imagecreatefrompng($file);
         		break;
-        	case 'bmp':
+        	case 'gif':
+        	    $img->imgRes = imagecreatefromgif($file);
+        	    break;
+    		break;
+        		case 'bmp':
         	    $img->imgRes = imagecreatefromwbmp($file);
         		break;
         	case 'xbm':
@@ -49,6 +53,16 @@ class Image_GD extends _Image
         	default:
         		throw new Exception('unsupported image');
         	break;
+        }
+        if(!imageistruecolor($img->imgRes))
+        {
+            //convert to true color
+            $w = imagesx($img->imgRes);
+            $h = imagesy($img->imgRes);
+            $tmp = imagecreatetruecolor($w, $h);
+            imagecopy($tmp,$img->imgRes,0,0,0,0,$w,$h);
+            imagedestroy($img->imgRes);
+            $img->imgRes = $tmp;
         }
         return $img;
     }
