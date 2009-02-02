@@ -151,9 +151,21 @@ class CFile
 	 */
 	public function getContent()
 	{
+	    if(in_array($this->getType(), array('jpg','jpeg','png','gif')))
+	    {
+	        $img = new WImage($this);
+	        $img = $img->scaled(640,480);
+	    }
         return sprintf(
             '<div class="CFile">'.
-                '<img class="CFile-icon"src="%s" alt="%s" />'.
+                (in_array($this->getType(), array('jpg','jpeg','png','gif'))
+                    ? '<div class="CFile-preview">'.strval($img).'</div>'
+                    : sprintf(
+                    	'<img class="CFile-icon"src="%s" alt="%s" />',
+                        WIcon::pathForMimeIcon($this->getMimeType(), WIcon::MEDIUM)
+                        ,$this->getMimeType()
+                    )
+                ).
                 '<div class="CFile-description">%s</div>'.
                 '<div class="CFile-meta">'.
                     '<p>File name: %s</p>'.
@@ -161,8 +173,7 @@ class CFile
                     '<p><a href="file.php?get=%s">%s</a></p>'.
                 '</div>'.
             '</div>'
-            ,WIcon::pathForMimeIcon($this->getMimeType(), WIcon::MEDIUM)
-            ,$this->getMimeType()
+            
             ,$this->getDescription()
             ,$this->getFileName()
             ,DFileSystem::formatSize($this->getSize())

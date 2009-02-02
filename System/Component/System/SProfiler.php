@@ -64,31 +64,30 @@ class SProfiler
     	}
     	ksort($this->profilings);
     	global $_SERVER;
-    	$data="\n\n##############".
-		    	"\n##Profilings##".
-		    	"\n##############".
-                "\n#timestamp: ".date('c').
-                "\n#url:       ".$_SERVER["REQUEST_URI"].
-                "\n#from:      ".$_SERVER["REMOTE_ADDR"]." ".(isset($_SERVER["REMOTE_HOST"]) ? $_SERVER["REMOTE_HOST"] : '').
-                "\n#run-time:  ".number_format(((microtime(true) - $this->startTime)*1000),2)."ms".
-                "\n#mem-peak:  ".number_format(memory_get_peak_usage())."bytes".
-                "\n#mem:       ".number_format(memory_get_usage())."bytes".
-                "\n\n";
+    	$xml = new SSimpleXMLWriter('utf-8','1.0',true);
+    	$xml->openTag('profile');
+    	$xml->openTag('info');
+    	$xml->tag('timestamp',array(),date('c'));
+    	$xml->tag('url',array(),$_SERVER["REQUEST_URI"]);
+    	$xml->tag('from',array(),$_SERVER["REMOTE_ADDR"]." ".(isset($_SERVER["REMOTE_HOST"]) ? $_SERVER["REMOTE_HOST"] : ''));
+    	$xml->tag('runTime',array(),number_format(((microtime(true) - $this->startTime)*1000),2)."ms");
+    	$xml->tag('memPeak',array(),number_format(memory_get_peak_usage())."bytes");
+    	$xml->tag('mem',array(),number_format(memory_get_usage())."bytes");
+    	$xml->closeTag();
+    	$xml->openTag('measurements');
     	foreach ($this->profilings as $nr => $pfl) 
     	{
     		list($file, $line, $desc, $time, $mem) = $pfl;
-            $data .= "##############".
-                "\n#nr:       ".$nr.
-                "\n#file:     ".$file.
-                "\n#line:     ".$line.
-                "\n#run-time: ".number_format(($time*1000),2)."ms".
-                "\n#mem-diff: ".number_format($mem)."bytes".
-                "\n".$desc.
-                "\n\n";
+    		$xml->openTag('measurement',array('nr' => $nr, 'file' => $file, 'line' => $line));
+    		$xml->tag('runTime',array(),number_format(($time*1000),2)."ms");
+            $xml->tag('memDiff',array(),number_format($mem)."bytes");
+            $xml->tag('desc',array(),$desc,true);
+            $xml->closeTag();
     	}
-    	$file = $this->myDir.'/Content/logs/profilings.log';
-    	$fp = fopen($file, 'a+');
-    	fwrite($fp, $data);
+    	$xml->closeAll();
+    	$file = sprintf('%s/Content/logs/profile-%s-%s.xml',$this->myDir,$_SERVER["REMOTE_ADDR"],$this->startTime*100);
+    	$fp = fopen($file, 'w+');
+    	fwrite($fp, strval($xml));
     	fclose($fp);
     }
 	
