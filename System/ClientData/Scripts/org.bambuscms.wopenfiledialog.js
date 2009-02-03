@@ -84,6 +84,10 @@ org.bambuscms.wopenfiledialog = {
 				items[i].setAttribute('style', 'display:none');
 			}
 		}
+	},
+	'openAlias':function(alias)
+	{
+		top.location.href = org.bambuscms.wopenfiledialog.linkPrefix + alias + org.bambuscms.wopenfiledialog.linkSuffix;
 	}
 };
 

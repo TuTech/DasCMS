@@ -24,6 +24,7 @@ if(!empty($_SERVER['PATH_INFO']))
     {
         if(file_exists(SPath::TEMP.'scale.render.'.$key))
         {
+            header('Last-modified: '.date('r',filemtime(SPath::TEMP.'scale.render.'.$key)));
             readfile(SPath::TEMP.'scale.render.'.$key);
             exit;
         }
@@ -48,7 +49,7 @@ if(!empty($_SERVER['PATH_INFO']))
                 //default img
                 $img = Image_GD::load(SPath::SYSTEM_IMAGES.'inet-180.jpg');
             }
-            elseif($type == 'c')
+            elseif($type == 'c')//content itself
             {
                 $c = BContent::OpenIfPossible($alias);
                 if($c instanceof IFileContent)
@@ -56,8 +57,7 @@ if(!empty($_SERVER['PATH_INFO']))
                     $img = Image_GD::load($c->getRawDataPath(), $c->getType());
                 }
             }
-                //load preview image
-            elseif($type == 'p')
+            elseif($type == 'p')//preview for content
             {
                 $alias = WImage::resolvePreviewId($id);
                 if(!empty($alias))
@@ -91,7 +91,9 @@ if(!empty($_SERVER['PATH_INFO']))
             {
                 $img = $img->scaletofit($width, $height); 
             }
-            //$img->save(SPath::TEMP.'scale.render.'.$key, 75, 'jpg');
+            $img->save(SPath::TEMP.'scale.render.'.$key, 75, 'jpg');
+            unlink(SPath::TEMP.'scale.permit.'.$key);
+            header('Last-modified: '.date('r'));
             $img->generate('jpg');
         }
     }

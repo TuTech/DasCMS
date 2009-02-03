@@ -23,3 +23,27 @@
 	background: url(../../Images/batch-4.png) 50% 50% no-repeat;
 	width:25px;
 }
+.previewImage img{
+	border:1px solid #555753;
+	margin:auto;
+	display:block;
+}
+.helper{
+	display: block;
+	z-Index:10;
+	margin:auto;
+	display:none;
+	position: absolute;
+}
+.helper span{
+	border:1px solid #babdb6;
+	width:22px;
+	display:block;
+	height:22px;
+}
+.editHelper{
+	background: #eeeeec url(../../Icons/22x22/actions/edit.png) 50% 50% no-repeat;
+}
+.WFlowLayoutImage a:hover .helper{
+	display: none;
+}

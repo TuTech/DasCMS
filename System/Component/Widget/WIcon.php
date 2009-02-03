@@ -71,9 +71,11 @@ class WIcon extends BWidget
     public static function pathForMimeIcon($icon, $size = null)
     {
         $type = 'mimetypes';
-        $icon = str_replace('+', '_', $icon);
+        $icon = str_replace('+', '_', strtolower($icon));
         list($spec, $name) = explode('/', $icon);
-        $check = array($spec.'-'.$name, $name, $spec, 'file');
+        $check = array($spec.'-'.$name, $name);
+        $tmp = explode('-',$name);//x-pdf to pdf
+        $check[] = array_pop($tmp);
         $path = array();
         $path[0] = sprintf('%s/%s/mimetypes/%%s.png', SPath::SYSTEM_ICONS, self::$sizes[$size]);
         $path[1] = sprintf('%s../%dx%d/mimetypes/%%s.png', SPath::SYSTEM_ICONS,$size,$size);

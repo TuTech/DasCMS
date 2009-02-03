@@ -235,7 +235,7 @@ class Image_GD extends _Image
                 //get x and y scale factor
         $oldWidth = imagesx($this->imgRes);
         $oldHeight = imagesy($this->imgRes);
-        if($width != $oldWidth || $heigth != $oldHeight)
+        if($width < $oldWidth || $heigth < $oldHeight)
         {
             //scale
             $xscale = $width/$oldWidth;
