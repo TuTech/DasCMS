@@ -6,6 +6,7 @@
  * @author Lutz Selke <selke@tutech.de>
  * @since 17.10.2008
  * @license GNU General Public License 3
+ * @todo better config 
  */
 class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGeneratesFeed 
 {
@@ -62,7 +63,7 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
                 'NumberOfEnd' => array('',''),
                 'NumberOfStart' => array('',''),
                 'FoundItems' => array('Found: ',' Items'),
-                'Link' => array('prev','next'),
+                'Link' => array('Previous page','Next page'),
                 'Pagina' => array('Page: ','')
             )
         ),
@@ -108,7 +109,11 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
                 'PubDateFormat' => 'c',
                 'LinkTitle' => true,
                 'LinkTags' => false,
-                'IconSize' => 48
+                'IconSize' => 48,
+			    'PreviewImageWidth' => 100,
+			    'PreviewImageHeight' => 100,
+			    'PreviewImageMode' => '1c',//force crop
+			    'PreviewImageBgColor' => '#ffffff'
 			),
             self::SETTINGS => array(
                 'ItemsPerPage' => 10,
@@ -523,13 +528,23 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
         		    $content = $data[$map[$key]];
         		    break;
                 case 'PreviewImage':
+                    $co = $contentObject ? $contentObject : BContent::Open($data[$map['Alias']]);
+        		    //do not cache content - it was not accessed here
+                    $tag = 'div';
+                    $content = $co->getPreviewImage()->scaled(
+                        $this->option(self::ITEM, 'PreviewImageWidth'),
+                        $this->option(self::ITEM, 'PreviewImageHeight'),
+                        substr($this->option(self::ITEM, 'PreviewImageMode'),0,1),
+                        substr($this->option(self::ITEM, 'PreviewImageMode'),1,1),
+                        $this->option(self::ITEM, 'PreviewImageBgColor')
+                    );
+                    //100,100, WImage::MODE_FORCE,WImage::FORCE_BY_CROP, '#4e9a06');
+                    break;
                 case 'Icon':
                     $co = $contentObject ? $contentObject : BContent::Open($data[$map['Alias']]);
         		    //do not cache content - it was not accessed here
                     $tag = 'div';
-                    $content = ($key == 'Icon')
-                        ? $co->getIcon()->asSize($this->option(self::ITEM, 'IconSize'))
-                        : $co->getPreviewImage()->scaled(100,100, WImage::MODE_FORCE,WImage::FORCE_BY_CROP, '#4e9a06'); 
+                    $content = $co->getIcon()->asSize($this->option(self::ITEM, 'IconSize'));
                     break;
     		    case 'Content':
                     $co = $contentObject ? $contentObject : BContent::Access($data[$map['Alias']], $this);

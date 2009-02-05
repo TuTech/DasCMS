@@ -222,7 +222,20 @@ if(PAuthorisation::has('org.bambuscms.content.cfeed.change') && isset($Feed) && 
                 , $pos !== null);
                 break;
             case 'PreviewImage':
-                $items->add($itemMap[$option], $itemMap[$option], '', $pos !== null);
+                $piConf = new WTable(WTable::HEADING_LEFT, 'preview_scaling_config');
+                $piConf->addRow(array('width', new WTextBox('io_PreviewImageWidth', $Feed->option(CFeed::ITEM, 'PreviewImageWidth'), WTextBox::NUMERIC)));
+                $piConf->addRow(array('height', new WTextBox('io_PreviewImageHeight', $Feed->option(CFeed::ITEM, 'PreviewImageHeight'), WTextBox::NUMERIC)));
+                $piConf->addRow(array('background_color_hex', new WTextBox('io_PreviewImageBgColor', $Feed->option(CFeed::ITEM, 'PreviewImageBgColor'), WTextBox::TEXT)));
+                $piConf->addRow(array('scale_method', new WMultipleChoice('io_PreviewImageMode', array(
+                                '0c' => 'scale_aspect_to_fit_in_boundaries', 
+                                '1c' => 'scale_aspect_and_crop', 
+                                '1f' => 'scale_aspect_and_fill_background', 
+                                '1s' => 'scale_by_stretch'
+                            ),
+                            $Feed->option(CFeed::ITEM, 'PreviewImageMode')
+                            ,WMultipleChoice::SELECT
+                        )));
+                $items->add($itemMap[$option], $itemMap[$option], $piConf, $pos !== null);
                 break;
             case 'PubDate':
                 $items->add($itemMap[$option], $itemMap[$option], new WList(array(

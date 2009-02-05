@@ -55,6 +55,11 @@ class WSettings extends BWidget implements ISidebarWidget
 		{
 			$this->targetObject->Description = $desc;
 		}
+		if(RSent::has('WSearch-PreviewImage-Alias'))
+		{
+		    $prevAlias = RSent::get('WSearch-PreviewImage-Alias', 'utf-8');
+		    $this->targetObject->PreviewImage = $prevAlias;
+		}
 	}
 	
 	public function __toString()
@@ -62,19 +67,29 @@ class WSettings extends BWidget implements ISidebarWidget
 		$tags = $this->targetObject->Tags;
 		$tagstr = (is_array($tags)) ? implode(', ', $tags) : '';
 		$html = '<div id="WSearch">';
-		$html .= "<strong><label for=\"WSearch-PubDate\">PubDate</label></strong>";
+		$prev = $this->targetObject->PreviewImage;
+		$html .= sprintf('<div id="WSearch-PreviewImage"><strong>%s</strong>%s</div>'
+		    , SLocalization::get('preview_image')
+		    ,$prev->scaled(128,96,WImage::MODE_SCALE_TO_MAX)
+		    );
+		$alias = $prev->getAlias();
+		if($alias !== null)
+		{
+		    $html .= sprintf('<input type="hidden" name="WSearch-PreviewImage-Alias" id="WSearch-PreviewImage-Alias" value="%s" />', htmlentities($alias, ENT_QUOTES, 'utf-8'));
+		}
+		$html .= sprintf("<strong><label for=\"WSearch-PubDate\">%s</label></strong>", SLocalization::get('pubDate'));
 		$pubDate = $this->targetObject->PubDate;
 		$html .= sprintf('<input type="text" onfocus="this.select();" id="WSearch-PubDate" name="WSearch-PubDate" value="%s" />', (is_numeric($pubDate) && !empty($pubDate))? date('r', $this->targetObject->PubDate) : '');
 		
-		$html .= "<br /><strong><label for=\"WSearch-Tags\">Tags</label></strong>";
+		$html .= sprintf("<strong><label for=\"WSearch-Tags\">%s</label></strong>", SLocalization::get('tags'));
 		$html .= sprintf('<textarea id="WSearch-Tags" name="WSearch-Tags">%s</textarea>', htmlentities($tagstr, ENT_QUOTES, 'utf-8'));
 		$html .= sprintf('<input type="hidden" class="hidden" name="WSearch-Tags-chk" value="%s" />', md5($tagstr));
-		$html .= "<br /><strong>Description</strong>";
+		$html .= sprintf("<strong>%s</strong>", SLocalization::get('description'));
 		$html .= sprintf('<textarea id="WSearch-Desc" name="WSearch-Desc">%s</textarea>', htmlentities($this->targetObject->Description, ENT_QUOTES, 'utf-8'));
-		$html .= "<br /><strong>Meta</strong>";
+		$html .= sprintf("<strong>%s</strong>",SLocalization::get('meta_data'));
 		$html .= '<table border="0">';
-		$meta = array('Alias','GUID', 'PubDate','ModifyDate','ModifiedBy', 'CreateDate', 'CreatedBy', 'Size');
-		foreach ($meta as $key) 
+		$meta = array('Alias' => 'alias','GUID' => 'id', 'PubDate' => 'pubDate','ModifyDate' => 'modified','ModifiedBy' => 'modified_by', 'CreateDate' => 'created', 'CreatedBy' => 'created_by', 'Size' => 'size');
+		foreach ($meta as $key => $name) 
 		{
 		    $val = '-';
 		    if(isset($this->targetObject->{$key}) && strlen($this->targetObject->{$key}) > 0) 
@@ -95,7 +110,7 @@ class WSettings extends BWidget implements ISidebarWidget
 		    }
 			$html .= sprintf(
 				"<tr><th>%s</th><td>%s</td></tr>\n"
-				, $key
+				, SLocalization::get($name)
 				, $val
 			);
 		}

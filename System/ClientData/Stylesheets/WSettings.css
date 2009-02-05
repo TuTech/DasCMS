@@ -1,0 +1,15 @@
+#WSearch-PreviewImage 
+{
+	background:white;
+	text-align: center;
+}
+#WSearch-PreviewImage img
+{
+	margin:auto;
+	margin:5px;
+	border: 1px solid #555753;
+}
+#WSearch-PreviewImage strong 
+{
+	text-align: left;
+}

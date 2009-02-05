@@ -61,7 +61,27 @@ class WImage extends BWidget
         }
         return $img;
     }
-    
+    /**
+     * returns 
+     * 	a) the alias of the preview image
+     * 	b) an empty string if no preview is set
+     * 	c) null if preview can not be set
+     * @return string
+     */
+    public function getAlias()
+    {
+        $type = substr($this->imageID,0,1);
+        switch($type)
+        {
+            case 'p':
+                return self::resolvePreviewId(substr($this->imageID,1));
+            case '_':
+                return '';
+            case 'c':
+            default:
+                return null;
+        }
+    }    
     public static function resolvePreviewId($id)
     {
         $alias = null;
@@ -72,6 +92,23 @@ class WImage extends BWidget
         }
         $res->free();
         return $alias;
+    }
+    
+    public static function setPreview($contentAlias, $previewAlias)
+    {
+        $res = QWImage::getpreviewId($previewAlias);
+        //is the content assigned to $previewAlias a valid preview? (mimetype image/(jpe?g|png|gif)) 
+        if($res->getRowCount())
+        {
+            list($pid) = $res->fetch();
+            //link cid to pid
+            QWImage::setPreview($contentAlias, $pid);
+        }
+        else
+        {
+            QWImage::removePreview($contentAlias);
+        }
+        $res->free();
     }
     
     public static function supportedMimeType($type)

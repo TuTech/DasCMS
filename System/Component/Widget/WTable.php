@@ -68,6 +68,10 @@ class WTable extends BWidget
         }
     }
     
+    /**
+     * @param int $headings
+     * @param string $title
+     */
     public function __construct($headings = 0, $title = null)
     {
         $this->setHeadings($headings);

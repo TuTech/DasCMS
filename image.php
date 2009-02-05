@@ -28,11 +28,12 @@ if(!empty($_SERVER['PATH_INFO']))
             readfile(SPath::TEMP.'scale.render.'.$key);
             exit;
         }
-        if(!file_exists(SPath::TEMP.'scale.permit.'.$key))
+        $userHasPermission = PAuthorisation::has('org.bambuscms.bcontent.previewimage.create');
+        if(!$userHasPermission && !file_exists(SPath::TEMP.'scale.permit.'.$key))
         {
             sleep(1);
         }
-        if(file_exists(SPath::TEMP.'scale.permit.'.$key))
+        if($userHasPermission || file_exists(SPath::TEMP.'scale.permit.'.$key))
         {     
             //scale!
             //1st copy dummy

@@ -43,7 +43,11 @@
 	width:250px;
 	margin:0px;
 	border-width: 0px;
-	border-bottom-width: 1px;
+}
+#WSidebar-body input[type=text]
+{
+	padding-top:3px;
+	padding-bottom:3px;
 }
 #WSidebar-body textarea{
 	height:150px;

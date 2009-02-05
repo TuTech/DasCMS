@@ -243,6 +243,11 @@ abstract class BContent extends BObject
 	    return WImage::forContent($this);
 	}
 	
+	public function setPreviewImage($previewAlias)
+	{
+	    WImage::setPreview($this->getAlias(), $previewAlias);
+	}
+	
 	/**
 	 * @return string
 	 */

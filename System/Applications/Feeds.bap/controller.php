@@ -164,6 +164,10 @@ if(isset($Feed) && $Feed instanceof CFeed && PAuthorisation::has('org.bambuscms.
 			    case 'ModDateFormat':
                 case 'PubDateFormat':
                 case 'IconSize':
+                case 'PreviewImageWidth':
+                case 'PreviewImageHeight':
+                case 'PreviewImageBgColor':
+                case 'PreviewImageMode':
                     $set = true;
 			        break;
 			    default:break;
