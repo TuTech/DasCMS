@@ -16,6 +16,28 @@ class QWImage extends BQuery
     /**
      * @return DSQLResult
      */
+    public static function getPreviewContents()
+    {
+        $DB = BQuery::Database();
+        $sql = 
+        	"SELECT DISTINCT Aliases.alias, Contents.title FROM Contents 
+        		LEFT JOIN Aliases ON (Aliases.aliasID = Contents.GUID)
+        		LEFT JOIN MimeTypes ON (Contents.mimetypeREL = Mimetypes.mimetypeID)
+				WHERE 
+    				MimeTypes.mimetype LIKE 'image/%'
+    				AND (
+    					MimeTypes.mimetype LIKE '%/jpeg'
+    					OR MimeTypes.mimetype LIKE '%/jpg'
+    					OR MimeTypes.mimetype LIKE '%/png'
+    					OR MimeTypes.mimetype LIKE '%/gif'
+					)
+				ORDER BY Contents.title ASC";
+		return $DB->query($sql, DSQL::NUM);
+    }
+    
+    /**
+     * @return DSQLResult
+     */
     public static function getRetainCounts()
     {
 		$sql = "SELECT 
@@ -47,12 +69,12 @@ class QWImage extends BQuery
         		LEFT JOIN Contents ON (Aliases.contentREL = Contents.contentID)
         		LEFT JOIN MimeTypes ON (Contents.mimetypeREL = Mimetypes.mimetypeID)
 				WHERE Aliases.alias = '%s'
-				AND MimeTypes.mimetype LIKE 'image/%%'
-				AND (
-					MimeTypes.mimetype LIKE '%%/jpeg'
-					OR MimeTypes.mimetype LIKE '%%/jpg'
-					OR MimeTypes.mimetype LIKE '%%/png'
-					OR MimeTypes.mimetype LIKE '%%/gif'
+    				AND MimeTypes.mimetype LIKE 'image/%%'
+    				AND (
+    					MimeTypes.mimetype LIKE '%%/jpeg'
+    					OR MimeTypes.mimetype LIKE '%%/jpg'
+    					OR MimeTypes.mimetype LIKE '%%/png'
+    					OR MimeTypes.mimetype LIKE '%%/gif'
 					)"
 			,$DB->escape($alias)			
 		);

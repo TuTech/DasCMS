@@ -28,20 +28,25 @@ function DialogContainer(Ttitle, TDesc, Dcontent, confirmCaption, abortCaption, 
 	form.appendChild(Dcontent);
 	
 	dialogue.appendChild(form);
-	
-	a_ok = document.createElement('a');
-	a_ok.setAttribute('href', 'javascript:confirmDialog();');
-	a_ok.appendChild(document.createTextNode(confirmCaption));
-
-	a_Cancel = document.createElement('a');
-	a_Cancel.setAttribute('href', 'javascript:closeDialog();');
-	a_Cancel.appendChild(document.createTextNode(abortCaption));
-
+	if(confirmCaption)
+	{
+		a_ok = document.createElement('a');
+		a_ok.setAttribute('href', 'javascript:confirmDialog();');
+		a_ok.className = 'dialog_ok';
+		a_ok.appendChild(document.createTextNode(confirmCaption));
+		dialogue.appendChild(a_ok);
+	}
+	if(abortCaption)
+	{
+		a_Cancel = document.createElement('a');
+		a_Cancel.className = 'dialog_cancel';
+		a_Cancel.setAttribute('href', 'javascript:closeDialog();');
+		a_Cancel.appendChild(document.createTextNode(abortCaption));
+		dialogue.appendChild(a_Cancel);
+	}
 	end = document.createElement('br');
 	end.setAttribute('class', 'clear');
 
-	dialogue.appendChild(a_ok);
-	dialogue.appendChild(a_Cancel);
 	dialogue.appendChild(end);
 	while(container.hasChildNodes())
 	{
@@ -49,6 +54,7 @@ function DialogContainer(Ttitle, TDesc, Dcontent, confirmCaption, abortCaption, 
 	}
 	container.appendChild(dialogue);
 	container.className = 'show';
+	return dialogue;
 }
 function confirmDialog()
 {

@@ -31,11 +31,42 @@ class WImage extends BWidget
     private $fillColor = '';
     private $scaleHash = '0';
     private $imageID = '_';//default cms preview image
+    private $allowsPreview = true;
+    
     
     /**
      * create image for output
      * @param IFileContent$content
-     * @return unknown_type
+     * @return string
+     */
+    public static function getPreviewIdForContent(BContent $content)
+    {
+        if ($content instanceof IFileContent) 
+        {
+            if(self::supportedMimeType($content->getMimeType()))
+            {
+                //render this image
+                $img = $content->getId();
+            }
+        }
+        else
+        {
+            $res = QWImage::getPreviewAlias($content->getId());
+            $img = '_';
+            if($res->getRowCount() == 1)
+            {
+                list($pid) = $res->fetch(); 
+                $img = $pid;
+            }
+            $res->free();
+        }
+        return $img;
+    }  
+      
+    /**
+     * create image for output
+     * @param IFileContent$content
+     * @return WImage
      */
     public static function forContent(BContent $content)
     {
@@ -46,7 +77,8 @@ class WImage extends BWidget
             if(self::supportedMimeType($content->getMimeType()))
             {
                 //render this image
-                $img->imageID = 'c'.$content->getId();
+                $img->imageID = $content->getId();
+                $img->allowsPreview = false;
             }
         }
         else
@@ -55,7 +87,7 @@ class WImage extends BWidget
             if($res->getRowCount() == 1)
             {
                 list($pid) = $res->fetch(); 
-                $img->imageID = 'p'.$pid;
+                $img->imageID = $pid;
             }
             $res->free();
         }
@@ -70,16 +102,13 @@ class WImage extends BWidget
      */
     public function getAlias()
     {
-        $type = substr($this->imageID,0,1);
-        switch($type)
+        if($this->allowsPreview)
         {
-            case 'p':
-                return self::resolvePreviewId(substr($this->imageID,1));
-            case '_':
-                return '';
-            case 'c':
-            default:
-                return null;
+            return self::resolvePreviewId($this->imageID);
+        }
+        else
+        {
+            return null;
         }
     }    
     public static function resolvePreviewId($id)
@@ -131,6 +160,18 @@ class WImage extends BWidget
         return self::$retainCounts;
     }
     
+    public static function getAllPreviewContents()
+    {
+        //alias => title
+        $ret = array();
+        $res = QWImage::getPreviewContents();
+        while($row = $res->fetch())
+        {
+            $ret[$row[0]] = $row[1];
+        }
+        return $ret;
+    } 
+    
     public static function forCFileData($id, $type, $alias, $title)
     {
         $img = new WImage();
@@ -138,7 +179,7 @@ class WImage extends BWidget
         $img->title = $title;
         if(self::supportedMimeType($type))
         {
-            $img->imageID = 'c'.$id;
+            $img->imageID = $id;
         }
         return $img;
     }
@@ -154,6 +195,17 @@ class WImage extends BWidget
      */
     public function scaled($width, $heigth, $mode = self::MODE_SCALE_TO_MAX, $forceType = self::FORCE_BY_FILL, $fillColor = '#ffffff')
     {
+        $this->scaleHash = self::createScaleHash($width, $heigth, $mode, $forceType, $fillColor);
+        //permit rendering this image
+        if(!file_exists(SPath::TEMP.'scale.render.'.$this->imageID.'-'.$this->scaleHash))
+        {
+            touch(SPath::TEMP.'scale.permit.'.$this->imageID.'-'.$this->scaleHash);
+        }
+        return $this;
+    }
+    
+    public static function createScaleHash($width, $heigth, $mode = self::MODE_SCALE_TO_MAX, $forceType = self::FORCE_BY_FILL, $fillColor = '#ffffff')
+    {
         $matches = array();
         //split 3 and 6 letter hex-color-codes into r,g and b 
         preg_match('/^#?(([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})([0-9A-Fa-f]{2}))$/',$fillColor,$matches);
@@ -162,21 +214,15 @@ class WImage extends BWidget
         {
             list($n, $full, $r,$g, $b) = $matches;
         }
-        $this->scaleHash = sprintf(
-            '%s-%x-%x-%01d-%1s-%02s-%02s-%02s',
-            $this->imageID,
+        return sprintf(
+            '%x-%x-%01d-%1s-%02s-%02s-%02s',
             $width,
             $heigth,
             $mode,
             $forceType,
             $r,$g,$b
         );
-        //permit rendering this image
-        if(!file_exists(SPath::TEMP.'scale.render.'.$this->scaleHash))
-        {
-            touch(SPath::TEMP.'scale.permit.'.$this->scaleHash);
-        }
-        return $this;
+        
     }
     
     public function __toString()
@@ -184,7 +230,7 @@ class WImage extends BWidget
         return sprintf(
             "<img src=\"image.php/%s/%s\" alt=\"%s\" title=\"%s\" />"
             ,empty($this->content) ? $this->alias : $this->content->getAlias()//FIXME image renderer path here
-            ,base64_encode($this->scaleHash)
+            ,$this->scaleHash
             ,htmlentities(empty($this->content) ? $this->title : $this->content->getTitle(), ENT_QUOTES, 'UTF-8')
             ,htmlentities(empty($this->content) ? $this->title : $this->content->getTitle(), ENT_QUOTES, 'UTF-8')
         );

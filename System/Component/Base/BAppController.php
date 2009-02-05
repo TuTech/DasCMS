@@ -43,5 +43,15 @@ abstract class BAppController
 	{
 	    return PAuthorisation::has($this->getClassGUID().'.'.$action);
 	}
+	
+	//provide preview image list
+	public function getAvailablePreviewImages(array $param)
+	{
+	    return array(
+	    	'renderer' => 'image.php',
+	        'scaleHash' => WImage::createScaleHash(128, 96, WImage::MODE_SCALE_TO_MAX),
+	        'images' => WImage::getAllPreviewContents()
+	    );
+	}
 }
 ?>

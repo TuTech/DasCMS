@@ -1,5 +1,5 @@
 <?php
-//header('Content-type: image/jpg');
+//header('Content-type: text/css');
 require_once('./System/Component/Loader.php');
 header('Content-type: image/jpeg;');
 header("Expires: ".date('r', strtotime('tomorrow')));
@@ -10,10 +10,10 @@ if(!empty($_SERVER['PATH_INFO']))
 {
     $path = substr($_SERVER['PATH_INFO'],1);
     list($alias, $key) = explode('/', $path);
-    $key = base64_decode($key);
+    $key = basename($key);
     if(preg_match(
-        	'/^(_|c|p)'.//render type
-        	'([0-9A-Fa-f]*)-'.//render id 
+        	'/^'.//'(_|c|p)'.//render type
+        	//'([0-9A-Fa-f]*)-'.//render id 
         	'([0-9A-Fa-f]+)-'.//width in hex
         	'([0-9A-Fa-f]+)-'.//height in hex
         	'([0-9])-'.//mode
@@ -22,43 +22,41 @@ if(!empty($_SERVER['PATH_INFO']))
             ,$key, $match)
         )
     {
+        //get the id of the preview image 
+        $id = WImage::getPreviewIdForContent(BContent::Open($alias));
+        if(empty($id))
+        {
+            $id = '_';
+        }
+        $key = $id.'-'.$key;
         if(file_exists(SPath::TEMP.'scale.render.'.$key))
         {
+            //image cached
             header('Last-modified: '.date('r',filemtime(SPath::TEMP.'scale.render.'.$key)));
             readfile(SPath::TEMP.'scale.render.'.$key);
             exit;
         }
+        //permitted to scale?
         $userHasPermission = PAuthorisation::has('org.bambuscms.bcontent.previewimage.create');
         if(!$userHasPermission && !file_exists(SPath::TEMP.'scale.permit.'.$key))
         {
+            //slow file system? retry in 1 sec
             sleep(1);
         }
-        if($userHasPermission || file_exists(SPath::TEMP.'scale.permit.'.$key))
+        if(file_exists(SPath::TEMP.'scale.permit.'.$key) || $userHasPermission)
         {     
-            //scale!
-            //1st copy dummy
-            //         [1] => _ [2] => [3] => a [4] => a [5] => 0 [6] => f [7] => ff [8] => ff [9] => ff 
-            list($nil, $type,   $id,   $width,  $height, $mode,   $force,  $r,       $g,       $b) = $match;
+            list($nil, $width, $height, $mode, $force, $r, $g, $b) = $match;
             //unhex
             foreach(array('width', 'height', 'r', 'g', 'b') as $var)
             {
                 ${$var} = hexdec(${$var});
             }
-            //load cms default image 
-            if($type == '_')
+            if($id == '_')//load cms default image 
             {
                 //default img
                 $img = Image_GD::load(SPath::SYSTEM_IMAGES.'inet-180.jpg');
             }
-            elseif($type == 'c')//content itself
-            {
-                $c = BContent::OpenIfPossible($alias);
-                if($c instanceof IFileContent)
-                {
-                    $img = Image_GD::load($c->getRawDataPath(), $c->getType());
-                }
-            }
-            elseif($type == 'p')//preview for content
+            else //render preview
             {
                 $alias = WImage::resolvePreviewId($id);
                 if(!empty($alias))
@@ -67,12 +65,13 @@ if(!empty($_SERVER['PATH_INFO']))
                     $img = Image_GD::load($c->getRawDataPath(), $c->getType());
                 }
             }
+            //no preview... make image with bg-color
             if(!$img)
             {
                 $img = Image_GD::create($width, $height);
-                    $img->fill($img->makeColor($r, $g, $b)); 
+                $img->fill($img->makeColor($r, $g, $b)); 
             }
-            if($mode)
+            if($mode)//resize to fixed size img
             {
                 //forced
                 if($force == WImage::FORCE_BY_CROP)
@@ -88,14 +87,18 @@ if(!empty($_SERVER['PATH_INFO']))
                     $img = $img->stretchscale($width, $height);
                 }
             }
-            else
+            else //resite image to fit in boundaries
             {
                 $img = $img->scaletofit($width, $height); 
             }
+            //save and send image
             $img->save(SPath::TEMP.'scale.render.'.$key, 75, 'jpg');
             unlink(SPath::TEMP.'scale.permit.'.$key);
             header('Last-modified: '.date('r'));
             $img->generate('jpg');
+        }
+        else
+        {
         }
     }
     else
