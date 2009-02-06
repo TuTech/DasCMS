@@ -10,6 +10,7 @@ set_exception_handler('exception_handler');
 require_once('./System/Component/Loader.php');
 RSession::start();
 PAuthentication::required();
+//FIXME check for right
 $SCI = SComponentIndex::alloc()->init();
 $SCI->Index();
 ?>

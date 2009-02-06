@@ -26,8 +26,9 @@ class SLink
         $http = (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off') ? 'http' : 'https';
         $server = $_SERVER['SERVER_NAME'];
         $script = $_SERVER['PHP_SELF'];
+        $port = ($_SERVER['SERVER_PORT'] != 80) ? ':'.$_SERVER['SERVER_PORT'] : '';
         $pathinfo = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
-        return sprintf('%s://%s%s%s', $http, $server, $script, $pathinfo);
+        return sprintf('%s://%s%s%s%s', $http, $server, $port, $script, $pathinfo);
     }
     /**
      * link base
@@ -43,7 +44,7 @@ class SLink
             $script = $_SERVER['SCRIPT_NAME'];
             $server = $_SERVER['SERVER_NAME'];
             $http = (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off') ? 'http' : 'https';
-            
+            $port = ($_SERVER['SERVER_PORT'] != 80) ? ':'.$_SERVER['SERVER_PORT'] : '';
             //calculate path to cms root
             $path = explode('/', dirname($script));
             $optimizedPath = array();
@@ -58,7 +59,7 @@ class SLink
             	    $optimizedPath[] = $step;
             	}
             }
-            self::$base = sprintf('%s://%s/%s/', $http, $server, implode('/', $optimizedPath));
+            self::$base = sprintf('%s://%s%s/%s/', $http, $server, $port, implode('/', $optimizedPath));
         }
         return self::$base;
     }
