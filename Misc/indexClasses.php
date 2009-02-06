@@ -8,6 +8,8 @@ function exception_handler($exception) {
 }
 set_exception_handler('exception_handler');
 require_once('./System/Component/Loader.php');
+RSession::start();
+PAuthentication::required();
 $SCI = SComponentIndex::alloc()->init();
 $SCI->Index();
 ?>

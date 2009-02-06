@@ -30,9 +30,9 @@
 			<key>GanttGroupShading</key>
 			<true/>
 			<key>GanttVisibleRect</key>
-			<string>{{3087, 0}, {948, 964}}</string>
+			<string>{{4115, 0}, {1644, 998}}</string>
 			<key>OutlineVisibleRect</key>
-			<string>{{0, 0}, {252, 964}}</string>
+			<string>{{0, 0}, {252, 998}}</string>
 			<key>ScaleWidths</key>
 			<dict>
 				<key>Automatic</key>
@@ -87,7 +87,7 @@
 			<key>calendarController</key>
 			<dict>
 				<key>OutlineVisibleRect</key>
-				<string>{{0, 0}, {200, 777}}</string>
+				<string>{{0, 0}, {200, 811}}</string>
 				<key>activeColumnIdentifiers</key>
 				<array>
 					<string>IM</string>
@@ -110,7 +110,7 @@
 				</dict>
 			</dict>
 			<key>calendarSplit</key>
-			<real>0.82304525375366211</real>
+			<real>0.88749343156814575</real>
 			<key>columnWidths</key>
 			<dict>
 				<key>Effort</key>
@@ -125,13 +125,13 @@
 			<key>dayWidth</key>
 			<real>54</real>
 			<key>resourceSplit</key>
-			<real>0.81234568357467651</real>
+			<real>0.88069075345993042</real>
 			<key>resourcesController</key>
 			<dict>
 				<key>DayWidth</key>
 				<real>25</real>
 				<key>OutlineVisibleRect</key>
-				<string>{{0, 0}, {213, 964}}</string>
+				<string>{{0, 0}, {213, 998}}</string>
 				<key>ScaleWidths</key>
 				<dict>
 					<key>Automatic</key>
@@ -154,7 +154,7 @@
 				<key>SelectedScale</key>
 				<string>Automatic</string>
 				<key>TimelineVisibleRect</key>
-				<string>{{-112, 0}, {944, 964}}</string>
+				<string>{{-112, 0}, {1640, 998}}</string>
 				<key>activeColumnIdentifiers</key>
 				<array>
 					<string>IM</string>
@@ -178,9 +178,9 @@
 				</dict>
 			</dict>
 			<key>side</key>
-			<real>0.79259258508682251</real>
+			<real>0.86813187599182129</real>
 			<key>window</key>
-			<string>{{18, 74}, {1224, 1098}}</string>
+			<string>{{0, 46}, {1920, 1132}}</string>
 		</dict>
 	</array>
 	<key>displaySeconds</key>
@@ -198,7 +198,7 @@
 	<key>displayTimes</key>
 	<true/>
 	<key>endDate</key>
-	<string>20090225 11:00</string>
+	<string>20090313 11:30</string>
 	<key>flatNumbering</key>
 	<false/>
 	<key>groupTaskStyle</key>
@@ -537,7 +537,7 @@
 	<key>taskDifferenceEngine</key>
 	<dict>
 		<key>nextId</key>
-		<integer>65</integer>
+		<integer>66</integer>
 	</dict>
 	<key>taskUserKeys</key>
 	<array/>
@@ -882,6 +882,8 @@
 				<integer>19</integer>
 				<integer>45</integer>
 			</array>
+			<key>lockedStartDate</key>
+			<string>20090107080000</string>
 			<key>objectId</key>
 			<integer>15</integer>
 			<key>prerequisites</key>
@@ -918,9 +920,19 @@
 					<real>1</real>
 				</dict>
 			</array>
+			<key>doneSeconds</key>
+			<real>288000</real>
 			<key>effort</key>
-			<real>43200</real>
+			<real>288000</real>
+			<key>effortDone</key>
+			<real>288000</real>
 			<key>forcedStart</key>
+			<string>20090107080000</string>
+			<key>isEffortFixed</key>
+			<false/>
+			<key>lockedEndDate</key>
+			<string>20090107080000</string>
+			<key>lockedStartDate</key>
 			<string>20090107080000</string>
 			<key>objectId</key>
 			<integer>16</integer>
@@ -938,10 +950,12 @@
 			</dict>
 			<key>task</key>
 			<string>CImage</string>
+			<key>workDone</key>
+			<real>80</real>
 			<key>workSeconds</key>
-			<real>43200</real>
+			<real>288000</real>
 			<key>workTime</key>
-			<real>12</real>
+			<real>80</real>
 		</dict>
 		<dict>
 			<key>assignments</key>
@@ -953,8 +967,18 @@
 					<real>1</real>
 				</dict>
 			</array>
+			<key>doneSeconds</key>
+			<real>73800</real>
 			<key>effort</key>
-			<real>43200</real>
+			<real>73800</real>
+			<key>effortDone</key>
+			<real>73800</real>
+			<key>isEffortFixed</key>
+			<false/>
+			<key>lockedEndDate</key>
+			<string>20090121080000</string>
+			<key>lockedStartDate</key>
+			<string>20090121080000</string>
 			<key>objectId</key>
 			<integer>17</integer>
 			<key>prerequisites</key>
@@ -980,10 +1004,12 @@
 			</dict>
 			<key>task</key>
 			<string>Image editor</string>
+			<key>workDone</key>
+			<real>20.5</real>
 			<key>workSeconds</key>
-			<real>43200</real>
+			<real>73800</real>
 			<key>workTime</key>
-			<real>12</real>
+			<real>20.5</real>
 		</dict>
 		<dict>
 			<key>assignments</key>
@@ -995,8 +1021,18 @@
 					<real>1</real>
 				</dict>
 			</array>
+			<key>doneSeconds</key>
+			<real>72000</real>
 			<key>effort</key>
-			<real>28800</real>
+			<real>72000</real>
+			<key>effortDone</key>
+			<real>72000</real>
+			<key>isEffortFixed</key>
+			<false/>
+			<key>lockedEndDate</key>
+			<string>20090123133000</string>
+			<key>lockedStartDate</key>
+			<string>20090123133000</string>
 			<key>objectId</key>
 			<integer>18</integer>
 			<key>prerequisites</key>
@@ -1022,10 +1058,12 @@
 			</dict>
 			<key>task</key>
 			<string>Image resolution management</string>
+			<key>workDone</key>
+			<real>20</real>
 			<key>workSeconds</key>
-			<real>28800</real>
+			<real>72000</real>
 			<key>workTime</key>
-			<real>8</real>
+			<real>20</real>
 		</dict>
 		<dict>
 			<key>assignments</key>
@@ -1037,8 +1075,18 @@
 					<real>1</real>
 				</dict>
 			</array>
+			<key>doneSeconds</key>
+			<real>57600</real>
 			<key>effort</key>
-			<real>28800</real>
+			<real>57600</real>
+			<key>effortDone</key>
+			<real>57600</real>
+			<key>isEffortFixed</key>
+			<false/>
+			<key>lockedEndDate</key>
+			<string>20090128083000</string>
+			<key>lockedStartDate</key>
+			<string>20090128083000</string>
 			<key>objectId</key>
 			<integer>19</integer>
 			<key>prerequisites</key>
@@ -1064,10 +1112,12 @@
 			</dict>
 			<key>task</key>
 			<string>img.php</string>
+			<key>workDone</key>
+			<real>16</real>
 			<key>workSeconds</key>
-			<real>28800</real>
+			<real>57600</real>
 			<key>workTime</key>
-			<real>8</real>
+			<real>16</real>
 		</dict>
 		<dict>
 			<key>assignments</key>
@@ -1085,6 +1135,12 @@
 			<real>144000</real>
 			<key>effortDone</key>
 			<real>144000</real>
+			<key>isEffortFixed</key>
+			<false/>
+			<key>lockedEndDate</key>
+			<string>20090130083000</string>
+			<key>lockedStartDate</key>
+			<string>20090130083000</string>
 			<key>objectId</key>
 			<integer>23</integer>
 			<key>style</key>
@@ -1114,6 +1170,8 @@
 				<integer>23</integer>
 				<integer>47</integer>
 			</array>
+			<key>lockedStartDate</key>
+			<string>20090130083000</string>
 			<key>objectId</key>
 			<integer>24</integer>
 			<key>prerequisites</key>
@@ -1142,11 +1200,11 @@
 		</dict>
 		<dict>
 			<key>doneSeconds</key>
-			<real>14400</real>
+			<real>72000</real>
 			<key>effort</key>
-			<real>14400</real>
+			<real>72000</real>
 			<key>effortDone</key>
-			<real>14400</real>
+			<real>72000</real>
 			<key>isEffortFixed</key>
 			<false/>
 			<key>lockedEndDate</key>
@@ -1179,11 +1237,11 @@
 			<key>task</key>
 			<string>CPage optimize auto summary</string>
 			<key>workDone</key>
-			<real>4</real>
+			<real>20</real>
 			<key>workSeconds</key>
-			<real>14400</real>
+			<real>72000</real>
 			<key>workTime</key>
-			<real>4</real>
+			<real>20</real>
 		</dict>
 		<dict>
 			<key>assignments</key>
@@ -1195,7 +1253,11 @@
 					<real>1</real>
 				</dict>
 			</array>
+			<key>doneSeconds</key>
+			<real>10800</real>
 			<key>effort</key>
+			<real>10800</real>
+			<key>effortDone</key>
 			<real>10800</real>
 			<key>objectId</key>
 			<integer>26</integer>
@@ -1213,6 +1275,8 @@
 			</dict>
 			<key>task</key>
 			<string>Permission check for indexClasses.php</string>
+			<key>workDone</key>
+			<real>3</real>
 			<key>workSeconds</key>
 			<real>10800</real>
 			<key>workTime</key>
@@ -1756,8 +1820,16 @@
 					<real>1</real>
 				</dict>
 			</array>
+			<key>completionPercentage</key>
+			<real>1</real>
 			<key>effort</key>
 			<real>0.0</real>
+			<key>isEffortFixed</key>
+			<false/>
+			<key>lockedEndDate</key>
+			<string>20090130083000</string>
+			<key>lockedStartDate</key>
+			<string>20090130083000</string>
 			<key>objectId</key>
 			<integer>45</integer>
 			<key>prerequisites</key>
@@ -1798,6 +1870,12 @@
 			<real>1</real>
 			<key>effort</key>
 			<real>0.0</real>
+			<key>isEffortFixed</key>
+			<false/>
+			<key>lockedEndDate</key>
+			<string>20090206083000</string>
+			<key>lockedStartDate</key>
+			<string>20090206083000</string>
 			<key>objectId</key>
 			<integer>47</integer>
 			<key>prerequisites</key>
@@ -2010,19 +2088,19 @@
 				</dict>
 			</array>
 			<key>doneSeconds</key>
-			<real>230400</real>
+			<real>201600</real>
 			<key>effort</key>
-			<real>230400</real>
+			<real>201600</real>
 			<key>effortDone</key>
-			<real>230400</real>
+			<real>201600</real>
 			<key>forcedStart</key>
-			<string>20081121080000</string>
+			<string>20081125030000</string>
 			<key>isEffortFixed</key>
 			<false/>
 			<key>lockedEndDate</key>
-			<string>20081121080000</string>
+			<string>20081125030000</string>
 			<key>lockedStartDate</key>
-			<string>20081121080000</string>
+			<string>20081125030000</string>
 			<key>objectId</key>
 			<integer>58</integer>
 			<key>prerequisites</key>
@@ -2049,11 +2127,11 @@
 			<key>task</key>
 			<string>Atom Import </string>
 			<key>workDone</key>
-			<real>64</real>
+			<real>56</real>
 			<key>workSeconds</key>
-			<real>230400</real>
+			<real>201600</real>
 			<key>workTime</key>
-			<real>64</real>
+			<real>56</real>
 		</dict>
 		<dict>
 			<key>doneSeconds</key>
@@ -2198,7 +2276,7 @@
 		<integer>-1</integer>
 	</array>
 	<key>uuid</key>
-	<string>EE082C9F-AF03-461F-85D5-633D74945469</string>
+	<string>995EADD6-5F72-411D-84C2-54BED34B2CA6</string>
 	<key>version</key>
 	<integer>2</integer>
 </dict>
