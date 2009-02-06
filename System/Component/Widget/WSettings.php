@@ -68,11 +68,12 @@ class WSettings extends BWidget implements ISidebarWidget
 		$tagstr = (is_array($tags)) ? implode(', ', $tags) : '';
 		$html = '<div id="WSearch">';
 		$prev = $this->targetObject->PreviewImage;
-		$html .= sprintf('<div id="WSearch-PreviewImage"><strong>%s</strong>%s</div>'
+		$alias = $prev->getAlias();
+		$html .= sprintf('<div id="WSearch-PreviewImage"%s><strong>%s</strong>%s</div>'
+		    , ($alias === null) ? ' class="WSearch-PreviewImage-readonly"' : ''    
 		    , SLocalization::get('preview_image')
 		    ,$prev->scaled(128,96,WImage::MODE_SCALE_TO_MAX)
 		    );
-		$alias = $prev->getAlias();
 		if($alias !== null)
 		{
 		    $html .= sprintf('<input type="hidden" name="WSearch-PreviewImage-Alias" id="WSearch-PreviewImage-Alias" value="%s" />', htmlentities($alias, ENT_QUOTES, 'utf-8'));

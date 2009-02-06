@@ -22,14 +22,14 @@ class QWImage extends BQuery
         $sql = 
         	"SELECT DISTINCT Aliases.alias, Contents.title FROM Contents 
         		LEFT JOIN Aliases ON (Aliases.aliasID = Contents.GUID)
-        		LEFT JOIN MimeTypes ON (Contents.mimetypeREL = Mimetypes.mimetypeID)
+        		LEFT JOIN Mimetypes ON (Contents.mimetypeREL = Mimetypes.mimetypeID)
 				WHERE 
-    				MimeTypes.mimetype LIKE 'image/%'
+    				Mimetypes.mimetype LIKE 'image/%'
     				AND (
-    					MimeTypes.mimetype LIKE '%/jpeg'
-    					OR MimeTypes.mimetype LIKE '%/jpg'
-    					OR MimeTypes.mimetype LIKE '%/png'
-    					OR MimeTypes.mimetype LIKE '%/gif'
+    					Mimetypes.mimetype LIKE '%/jpeg'
+    					OR Mimetypes.mimetype LIKE '%/jpg'
+    					OR Mimetypes.mimetype LIKE '%/png'
+    					OR Mimetypes.mimetype LIKE '%/gif'
 					)
 				ORDER BY Contents.title ASC";
 		return $DB->query($sql, DSQL::NUM);
@@ -67,14 +67,14 @@ class QWImage extends BQuery
         $sql = sprintf(
         	"SELECT Aliases.contentREL FROM Aliases 
         		LEFT JOIN Contents ON (Aliases.contentREL = Contents.contentID)
-        		LEFT JOIN MimeTypes ON (Contents.mimetypeREL = Mimetypes.mimetypeID)
+        		LEFT JOIN Mimetypes ON (Contents.mimetypeREL = Mimetypes.mimetypeID)
 				WHERE Aliases.alias = '%s'
-    				AND MimeTypes.mimetype LIKE 'image/%%'
+    				AND Mimetypes.mimetype LIKE 'image/%%'
     				AND (
-    					MimeTypes.mimetype LIKE '%%/jpeg'
-    					OR MimeTypes.mimetype LIKE '%%/jpg'
-    					OR MimeTypes.mimetype LIKE '%%/png'
-    					OR MimeTypes.mimetype LIKE '%%/gif'
+    					Mimetypes.mimetype LIKE '%%/jpeg'
+    					OR Mimetypes.mimetype LIKE '%%/jpg'
+    					OR Mimetypes.mimetype LIKE '%%/png'
+    					OR Mimetypes.mimetype LIKE '%%/gif'
 					)"
 			,$DB->escape($alias)			
 		);

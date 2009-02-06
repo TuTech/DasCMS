@@ -23,8 +23,8 @@ class QBContent extends BQuery
                 $size,
                 $id)
             , DSQL::NUM);
-        $sql = "
-			INSERT INTO Changes
+        $sql = 
+        	"INSERT INTO Changes
 				(contentREL, title, size, userREL)
 				VALUES
 				(%d, '%s', %d, (SELECT userID FROM Users WHERE login = '%s'))";

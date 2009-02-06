@@ -177,7 +177,7 @@ Contents(
     pubDate 
         DATETIME 
         NOT NULL 
-        DEFAULT 0,
+        DEFAULT '0000-00-00 00:00:00',
     description 
         VARCHAR(255) 
         NOT NULL 

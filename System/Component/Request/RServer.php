@@ -69,6 +69,7 @@ class RServer extends BRequest
     public static function getNumericRemoteAddress()
     {
         self::init();
+        self::$data["REMOTE_ADDR"] = (strtolower(self::$data["REMOTE_ADDR"]) == 'localhost') ? '127.0.0.1' : self::$data["REMOTE_ADDR"];
         list($a, $b, $c, $d) = explode('.', self::$data["REMOTE_ADDR"]);
         return hexdec(sprintf('%02x%02x%02x%02x', $a, $b, $c, $d));
     }

@@ -68,10 +68,23 @@ class CFile
 	    $file = new CFile($alias);
 	    $dbid = $file->getId();
 	    unset($file);
-	    $succ = $SCI->deleteContent($alias, 'CFile');
-	    if($succ)
+	    try
 	    {
-	        @unlink('./Content/CFile/'.$dbid.'.data');
+    	    $succ = $SCI->deleteContent($alias, 'CFile');
+    	    if($succ)
+    	    {
+    	        @unlink('./Content/CFile/'.$dbid.'.data');
+    	    }
+	    }
+	    catch (XDatabaseException $d)
+	    {
+	        SNotificationCenter::report('warning', 'file_is_in_use_and_can_not_be_deleted');
+	        $succ = false;
+	    }
+	    catch (Exception $e)
+	    {
+	        SNotificationCenter::report('warning', 'cfile_delete_failed');
+	        $succ = false;
 	    }
 	    return $succ;
 	}

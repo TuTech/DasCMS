@@ -47,6 +47,7 @@ class WImage extends BWidget
             {
                 //render this image
                 $img = $content->getId();
+                $img->allowsPreview = false;
             }
         }
         else
@@ -113,7 +114,7 @@ class WImage extends BWidget
     }    
     public static function resolvePreviewId($id)
     {
-        $alias = null;
+        $alias = '';
         $res = QWImage::idToAlias($id);
         if($res->getRowCount())
         {

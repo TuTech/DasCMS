@@ -21,6 +21,11 @@ org.bambuscms.wsettings.setImage = function(e)
 
 org.bambuscms.wsettings.selectImage = function()
 {
+	if(!$('WSearch-PreviewImage-Alias'))
+	{
+		alert('cant change preview for this content type');
+		return;
+	}
 	var data = {
 			'controller':'org.bambuscms.applications.files',
 			'call':'getAvailablePreviewImages'
