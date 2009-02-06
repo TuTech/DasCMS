@@ -1,7 +1,5 @@
 <?php
-//header('Content-type: text/css');
 require_once('./System/Component/Loader.php');
-header('Content-type: image/jpeg;');
 header("Expires: ".date('r', strtotime('tomorrow')));
 error_reporting(0);
 RSession::start();
@@ -9,6 +7,14 @@ PAuthentication::required();
 if(!empty($_SERVER['PATH_INFO']))
 {
     $path = substr($_SERVER['PATH_INFO'],1);
+    if(empty($path))
+    {
+        exit;
+    }
+    $parts = explode('/', $path);
+    $alias = array_shift($parts);
+    //resize key?
+    $key = (count($parts)) ? array_shift($parts) : '';
     list($alias, $key) = explode('/', $path);
     $key = basename($key);
     if(preg_match(
@@ -22,6 +28,7 @@ if(!empty($_SERVER['PATH_INFO']))
             ,$key, $match)
         )
     {
+        header('Content-type: image/jpeg;');
         //get the id of the preview image 
         $id = WImage::getPreviewIdForContent(BContent::Open($alias));
         if(empty($id))
@@ -103,7 +110,24 @@ if(!empty($_SERVER['PATH_INFO']))
     }
     else
     {
-        readfile(SPath::SYSTEM_IMAGES.'inet-180.jpg');
+        $img = false;
+        $id = WImage::getPreviewIdForContent(BContent::Open($alias));
+        if($id != '_')//load cms default image 
+        {
+            $alias = WImage::resolvePreviewId($id);
+            if(!empty($alias))
+            {
+                $c = BContent::OpenIfPossible($alias);
+                header('Content-type: '.$c->getType());
+                $img = $c->getRawDataPath();
+            }
+        }
+        if(!$img)
+        {
+            header('Content-type: image/jpeg;');
+            $img = SPath::SYSTEM_IMAGES.'inet-180.jpg';
+        }
+        readfile($img);
     }
 }
 ?>

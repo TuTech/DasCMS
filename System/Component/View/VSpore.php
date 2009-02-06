@@ -22,7 +22,8 @@ class VSpore
         'pubdate' => array('view'),
         'author' => array('view'),
         'tags' => array('view'),
-        'property' => array('view', 'name')
+        'previewimage' => array('view'),
+    	'property' => array('view', 'name')
     );
     
     public function __construct()
@@ -61,6 +62,11 @@ class VSpore
     private function pubdate($spore)
     {
         return $this->sporeContent($spore)->getPubDate();
+    }
+    
+    private function previewimage($spore)
+    {
+        return $this->sporeContent($spore)->getPreviewImage();
     }
     
     private function author($spore)

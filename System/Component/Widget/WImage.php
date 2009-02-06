@@ -29,7 +29,7 @@ class WImage extends BWidget
     private $alias = '';
     private $forceType = '';
     private $fillColor = '';
-    private $scaleHash = '0';
+    private $scaleHash = '';
     private $imageID = '_';//default cms preview image
     private $allowsPreview = true;
     
