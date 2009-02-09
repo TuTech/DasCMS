@@ -145,6 +145,7 @@ if(isset($_FILES['bambus_image_file']['name']) && PAuthorisation::has('org.bambu
 			unlink(SPath::DESIGN.$File);
 		    SNotificationCenter::report('message', 'file_deleted');
 			$FileOpened = false;
+			$File = null;
 		}
 		elseif(PAuthorisation::has('org.bambuscms.layout.stylesheet.delete') && RURL::get('_action') == 'delete' && $File == 'default.css')
 		{

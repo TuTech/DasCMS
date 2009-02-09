@@ -113,6 +113,11 @@ if($edit != null && RSent::has('1_p') && RSent::get('1_p') == '0')//parent of fi
 if(RSent::has('new_nav_name'))
 {
 	$newNav = RSent::get('new_nav_name');
+    if(!preg_match('/^[a-zA-Z0-9\-_\.]+$/',$newNav))
+    {
+        SNotificationCenter::report('warning', 'navigation_name_not_valid');
+        return;
+    }
 	if(QSpore::exists($newNav))
 	{
 		//matching spore exists - use it

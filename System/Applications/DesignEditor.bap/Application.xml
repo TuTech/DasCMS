@@ -18,7 +18,7 @@
 			<task type="button" hotkey="s" caption="save" icon="action-document-save" action="EditorSave()" />
 			<task type="button" hotkey="S" caption="save_and_rename" icon="action-document-save-as" action="EditorSaveAs('filename')" />
 			<task type="button" hotkey="N" caption="new" icon="action-document-new" action="create" mode="html" />
-			<no_task type="button" hotkey="X" caption="delete" icon="action-edit-delete" action="delete" mode="html" confirm="do_you_really_want_to_delete_this_file" />
+			<task type="button" hotkey="X" caption="delete" icon="action-edit-delete" action="delete" mode="html" confirm="do_you_really_want_to_delete_this_file" />
 			<task type="spacer" />
 			<task type="button" hotkey="C" caption="cleanup" icon="action-edit-clean" action="cleanCSS()" />
 			<task type="button" hotkey="A" caption="sort" icon="action-edit-order" action="sortCSS('')" />
