@@ -14,69 +14,74 @@
 #WSidebar-head{
 	border-width:0px;
 	border-bottom-width: 1px;
-	position:fixed;
+	position:absolute;
 	z-index:500;
-	width:251px;
+	right:0px;
+	top:96px;
 	padding: 0px;
+	background: #9fbc4a;
+	border: 1px solid #888a85;
+	display:block;
+	width: 250px;
+	border-right-width: 0px;
 }
+
+
 #WSidebar-head select{
 	display:block;
-	width:245px;
 	font-size:14px;
 	display:block;
-	padding:3px;
+	width:100%;
+	padding-top:3px;
+	padding-bottom:3px;
 	margin:0px;
 	font-weight:bold;
 	border-width: 0px;
+	background: #9fbc4a;
 }
-#WSidebar-body .thumbnail{
-	height:96px;
-	background: none;
+#WSidebar-body{
+	margin-top:40px;
 }
-#WSidebar-body {
-	margin-top: 42px;
-}
-#WSidebar-body input[type=text],
-#WSidebar-body select,
-#WSidebar-body textarea{
-	display:block;
-	width:250px;
-	margin:0px;
-	border-width: 0px;
-}
-#WSidebar-body input[type=text]
-{
-	padding-top:3px;
-	padding-bottom:3px;
-}
-#WSidebar-body textarea{
-	height:150px;
-}
-#WSidebar-body .thumbnail img{
-	border-width: 1px;
-}
-#WSidebar-body .no-border img
-{
-	border-width:0px;
-}
-#WSidebar .hidden{
-	display:none;
-}
-#WSidebar-body strong{
-	display:block;
-	padding: 0px;
-	padding-top: 2px;
-	padding-bottom: 2px;
-	width:250px;
-	font-size: 12px;
+#WSidebar-body dt{
 	border-width:0px;
 	border-top-width:1px;
 	border-bottom-width:1px;
-	font-weight:normal;
+	border-style: solid;
+	border-color: #4e9a06;
+	background: #4e9a06 url(../../Images/header_background.png) 0% 0%;
+	color: #fff;
+	font-weight:bold;
 }
-#WSidebar-body table{
-	font-size: 10px;
-	width:250px;
-	overflow: auto;
+#WSidebar-body dd{
+	margin-left:10px;
+	margin-right:10px;
+}
+#WSidebar-body dt label{
+	padding:1px;
 	display: block;
 }
+#WSidebar-body dd input[type=text],
+#WSidebar-body dd select,
+#WSidebar-body dd textarea,
+#WSidebar-body dd dl
+{
+	display:block;
+	width:100%;
+	border:1px solid #555753;
+	margin: 5px 0px 5px 0px;
+	background: white;
+}
+#WSidebar-body dd textarea{
+	height: 100px;
+}
+#WSidebar-body dd dl{
+	border-top-width:0px; 
+	border-color:#9fbc4a;
+}
+#WSidebar-body dd dt{
+	border-color:#9fbc4a;
+	background: none;
+	color: #2e3436;
+	background:#eff9cc;
+}
+

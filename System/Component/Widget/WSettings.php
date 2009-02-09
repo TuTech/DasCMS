@@ -64,31 +64,52 @@ class WSettings extends BWidget implements ISidebarWidget
 	
 	public function __toString()
 	{
-		$tags = $this->targetObject->Tags;
-		$tagstr = (is_array($tags)) ? implode(', ', $tags) : '';
 		$html = '<div id="WSearch">';
+		
+		//init values
+		$Items = new WNamedList();
+		$Items->setTitleTranslation(false);
+	    $tags = $this->targetObject->Tags;
+		$tagstr = (is_array($tags)) ? implode(', ', $tags) : '';
 		$prev = $this->targetObject->PreviewImage;
 		$alias = $prev->getAlias();
-		$html .= sprintf('<div id="WSearch-PreviewImage"%s><strong>%s</strong>%s</div>'
-		    , ($alias === null) ? ' class="WSearch-PreviewImage-readonly"' : ''    
-		    , SLocalization::get('preview_image')
-		    ,$prev->scaled(128,96,WImage::MODE_SCALE_TO_MAX)
-		    );
+		$pubDate = $this->targetObject->PubDate;
+		
+		//preview
 		if($alias !== null)
 		{
 		    $html .= sprintf('<input type="hidden" name="WSearch-PreviewImage-Alias" id="WSearch-PreviewImage-Alias" value="%s" />', htmlentities($alias, ENT_QUOTES, 'utf-8'));
 		}
-		$html .= sprintf("<strong><label for=\"WSearch-PubDate\">%s</label></strong>", SLocalization::get('pubDate'));
-		$pubDate = $this->targetObject->PubDate;
-		$html .= sprintf('<input type="text" onfocus="this.select();" id="WSearch-PubDate" name="WSearch-PubDate" value="%s" />', (is_numeric($pubDate) && !empty($pubDate))? date('r', $this->targetObject->PubDate) : '');
-		
-		$html .= sprintf("<strong><label for=\"WSearch-Tags\">%s</label></strong>", SLocalization::get('tags'));
-		$html .= sprintf('<textarea id="WSearch-Tags" name="WSearch-Tags">%s</textarea>', htmlentities($tagstr, ENT_QUOTES, 'utf-8'));
+		//tags changed?		
 		$html .= sprintf('<input type="hidden" class="hidden" name="WSearch-Tags-chk" value="%s" />', md5($tagstr));
-		$html .= sprintf("<strong>%s</strong>", SLocalization::get('description'));
-		$html .= sprintf('<textarea id="WSearch-Desc" name="WSearch-Desc">%s</textarea>', htmlentities($this->targetObject->Description, ENT_QUOTES, 'utf-8'));
-		$html .= sprintf("<strong>%s</strong>",SLocalization::get('meta_data'));
-		$html .= '<table border="0">';
+		
+		
+		$Items->add(
+		    sprintf("<label>%s</label>", SLocalization::get('preview_image')),
+		    sprintf('<div id="WSearch-PreviewImage"%s>%s</div>'
+		        , ($alias === null) ? ' class="WSearch-PreviewImage-readonly"' : ''    
+		        ,$prev->scaled(128,96,WImage::MODE_SCALE_TO_MAX)
+		    )
+		);
+		$Items->add(
+		    sprintf("<label for=\"WSearch-PubDate\">%s</label>", SLocalization::get('pubDate')),
+		    sprintf(
+		    	'<input type="text" onfocus="this.select();" id="WSearch-PubDate" name="WSearch-PubDate" value="%s" />'
+		        , (is_numeric($pubDate) && !empty($pubDate))? date('r', $this->targetObject->PubDate) : ''
+	        )
+		);
+		$Items->add(   
+		    sprintf("<label for=\"WSearch-Tags\">%s</label>", SLocalization::get('tags')),
+		    sprintf('<textarea id="WSearch-Tags" name="WSearch-Tags">%s</textarea>', htmlentities($tagstr, ENT_QUOTES, 'utf-8'))
+	    );
+		
+		$Items->add(   
+		    sprintf("<label for=\"WSearch-Desc\">%s</label>", SLocalization::get('description')),
+		    sprintf('<textarea id="WSearch-Desc" name="WSearch-Desc">%s</textarea>', htmlentities($this->targetObject->Description, ENT_QUOTES, 'utf-8'))
+	    );
+		
+	    $MetaItems = new WNamedList();
+	    $MetaItems->setTitleTranslation(true);
 		$meta = array('Alias' => 'alias','GUID' => 'id', 'PubDate' => 'pubDate','ModifyDate' => 'modified','ModifiedBy' => 'modified_by', 'CreateDate' => 'created', 'CreatedBy' => 'created_by', 'Size' => 'size');
 		foreach ($meta as $key => $name) 
 		{
@@ -109,14 +130,13 @@ class WSettings extends BWidget implements ISidebarWidget
 		            $val = htmlentities($this->targetObject->{$key}, ENT_QUOTES, 'UTF-8');
 		        }
 		    }
-			$html .= sprintf(
-				"<tr><th>%s</th><td>%s</td></tr>\n"
-				, SLocalization::get($name)
-				, $val
-			);
+		    $MetaItems->add($name, $val);
 		}
-		
-		$html .= '</table>';
+		$Items->add(   
+		    sprintf("<label>%s</label>", SLocalization::get('meta_data')),
+		    $MetaItems
+	    );
+		$html .= $Items;
 		$html .= '</div>';
 		return $html;
 	}

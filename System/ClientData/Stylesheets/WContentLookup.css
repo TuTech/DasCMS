@@ -1,18 +1,17 @@
-@CHARSET "UTF-8";
 #WContentLookupFilter  {
 	background:#fff url(../../Icons/16x16/actions/search.png) 1px 50% no-repeat;
-	padding:3px;
 	font-size:12px;
-	padding-left:20px;
-	width:220px !important; 
 }
 #WCLSearchBox{
-	background: #fff;
-	border-bottom:1px solid #4e9a06;
 }
+#WCLSearchBox input{
+	display: block;
+	width:180px;
+}
+
 .unpublished{
 	color: #babdb6;
-	text-decoration: line-through;
+	font-style: italic;
 }
 .published{
 	color: #4e9a06;

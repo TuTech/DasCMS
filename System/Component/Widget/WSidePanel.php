@@ -146,7 +146,7 @@ class WSidePanel extends BWidget
 		{
 		    $selectedWidget = $this->selectWidget();
 			ksort($this->sidebarWidgets, SORT_LOCALE_STRING);
-			$html = "<div id=\"WSidebar\">\n<div class=\"side-scroll-body\">\n\t<div id=\"WSidebar-head\">\n";
+			$html = "<div id=\"WSidebar-head\">\n";
 			$html .= "\t\t<select name=\"WSidebar-selected\" onchange=\"org.bambuscms.wsidebar.show(this.options[this.selectedIndex].value);\">\n"; 
 			//select
 			foreach ($this->sidebarWidgets as $class => $object) 
@@ -158,7 +158,7 @@ class WSidePanel extends BWidget
 					, SLocalization::get($object->getName()));
 			}
 			
-			$html .= "\t\t</select>\n\t</div>\n\t<div id=\"WSidebar-body\">\n";
+			$html .= "\t\t</select>\n\t</div>\n<div id=\"WSidebar\">\n\t<div class=\"side-scroll-body\">\n\t<div id=\"WSidebar-body\">\n";
 			//widgets
 			foreach ($this->sidebarWidgets as $class => $object) 
 			{

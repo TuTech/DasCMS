@@ -31,11 +31,16 @@ class WContentLookup extends BWidget implements ISidebarWidget
 	
 	public function __toString()
 	{
-		$html = '<strong>All Contents</strong>';
-		$html .= '<div id="WCLSearchBox">'.
+	    $Items = new WNamedList();
+	    $Items->setTitleTranslation(false);
+	    $Items->add(
+	        sprintf("<label>%s</label>", SLocalization::get('search_contens')),
+	        '<div id="WCLSearchBox">'.
 		            '<input type="text" id="WContentLookupFilter" onchange="org.bambuscms.wcontentlookup.filter();" '.
-		            'onkeyup="org.bambuscms.wcontentlookup.filter();" /></div>';
-		
+		            'onkeyup="org.bambuscms.wcontentlookup.filter();" /></div>'
+	    );
+	    
+		$html = '';
 		try
 		{
 		    $res = QWContentLookup::fetchContentList();
@@ -66,7 +71,7 @@ class WContentLookup extends BWidget implements ISidebarWidget
 					$class = 'publicationScheduled';
 					$title = 'Not yet public ('.date('r',$pub).')';
 				}
-				$html .= '<option value="'.$alias.'" class="'.$class.'" title="'.$title.'">'.
+				$html .= '<option value="'.$alias.'" class="'.$class.'" title="'.$alias.' - '.$title.'">'.
 								htmlentities($ttl, ENT_QUOTES, 'UTF-8').' ('.htmlentities($alias, ENT_QUOTES, 'UTF-8').')'
 						.'</option>';
 			}
@@ -85,7 +90,11 @@ class WContentLookup extends BWidget implements ISidebarWidget
 		        ,$e->getMessage()
 			);
 		}
-		return $html;
+		$Items->add(
+	        sprintf("<label>%s</label>", SLocalization::get('content_list')),
+	        $html
+        );
+		return strval($Items);
 	}
 }
 ?>

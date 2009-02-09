@@ -72,14 +72,6 @@ br.CommandBarTerminator{
 }
 
 /**************/
-#WSidebar-head,
-#WSidebar-head select
-{
-	border-style: solid;
-	border-color: #555753;
-	background-color: #888a85;
-	color: #fff;
-}
 /*
 Main Headline
 */

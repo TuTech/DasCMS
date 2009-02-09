@@ -243,50 +243,11 @@ img
 }
 
 /******************************* Move to Application CSS *******************************/
-.td50{
-    width:50%;
-}
-.td50{
-    width:50%;
-}
-.td75{
-    width:75%;
-}
 .td20{
     width:20%;
 }
-.td90{
-    width:90%;
-}
-.td25{
-    width:25%;
-}
-.td10{
-    width:10%;
-}
-.tdx180{
-    width:180px;
-}
-.tdx120{
-    width:120px;
-}
-.tdx140{
-    width:140px;
-}
-.tdx100{
-    width:100px;
-}
 .tdicon{
     width: 18px;
-}
-.tdx50{
-    width: 50px;
-}
-.td10{
-    width:10%;
-}
-.td45{
-    width:45%;
 }
 #documentform .submitinput{
     display:none;
