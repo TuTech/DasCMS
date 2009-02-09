@@ -39,6 +39,15 @@ if($File != null && $File instanceof BContent)
 	$tbl->addRow(array('mime_type',$File->MimeType));
 	$tbl->addRow(array('md5_sum',$File->MD5Sum));
 	$tbl->addRow(array('retain_count',isset($retains[$File->Id]) ? $retains[$File->Id] : '0'));
+	if(WImage::supportedMimeType($File->MimeType))
+	{
+	    $info = getimagesize($File->getRawDataPath());
+	    if($info)
+	    {
+        	$tbl->addRow(array('width',$info[0].'px'));
+        	$tbl->addRow(array('height',$info[1].'px'));
+	    }
+	}
 	$tbl->render();
     if(isset($panel) && $panel->hasWidgets())
     {

@@ -12,7 +12,7 @@
 	<application>
 		<controller>controller.php</controller>
 		<interface name="manage" src="manage.php" search="filter">
-			<task type="button" hotkey="o" caption="open" icon="action-document-open" action="org.bambuscms.wopenfiledialog.show();" />
+			<task type="button" hotkey="o" caption="open" icon="action-document-open" action="org.bambuscms.wopenfiledialog.toggle();" />
 			<task type="spacer" name="singe_object_edit"/>
 			<task type="button" hotkey="s" caption="save" icon="action-document-save" action="EditorSave()" />
 			<task type="button" hotkey="S" caption="save_and_rename" icon="action-document-save-as" action="EditorSaveAs('filename')" />
