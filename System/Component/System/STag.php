@@ -147,7 +147,7 @@ class STag
 	}
 	
 	/**
-	 * Assign tags to a content-element defined by its controller and its id
+	 * Assign tags to a content-element
 	 *
 	 * @param BContent $content
 	 */
@@ -157,7 +157,7 @@ class STag
 	}
 	
 	/**
-	 * Assign tags to a content-element defined by its controller and its id
+	 * Assign tags to a content-element
 	 *
 	 * @param BContent $content
 	 * @param string $tagstr
@@ -168,7 +168,7 @@ class STag
 	}
 	
 	/**
-	 * Get all tags assigned to a content-element defined by its alias
+	 * Get all tags assigned to a content-element
 	 *
 	 * @param BContent $content
 	 * @return array

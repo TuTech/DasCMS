@@ -29,7 +29,7 @@ abstract class BContent extends BObject
 		$ModifyDate,//timestamp: last modified
 		$ModifiedBy, 
 		$Source,	//where does it come from local|url
-		$Tags = array(),	
+		$Tags = null,	
 		$Description,//meta description - plain text
 		$Size,
 		$MimeType
@@ -280,7 +280,7 @@ abstract class BContent extends BObject
 	 */
 	public function getTags()
 	{
-		if($this->Tags == null)
+		if($this->Tags === null)
 		{
 			$this->Tags = STag::alloc()->init()->get($this);
 		}
