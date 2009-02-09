@@ -13,7 +13,11 @@ org.bambuscms.wopenfiledialog = {
 		}
 	},
 	'_build':function(){},
-	'show':function(){org.bambuscms.wopenfiledialog._build();},
+	'show':function()
+	{
+		org.bambuscms.wopenfiledialog._build();
+		$('WOpenFileDialog-TitleSearch').focus();
+	},
 	'hide':function(){
 		if($("WOpenFileDialog"))
 		{
