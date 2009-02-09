@@ -8,7 +8,6 @@
 ************************************************/
 chdir('..');
 require_once('./System/Component/Loader.php');
-setlocale (LC_ALL, 'de_DE');
 
 RSession::start();
 PAuthentication::required();

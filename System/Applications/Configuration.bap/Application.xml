@@ -13,7 +13,7 @@
 		<controller>controller.php</controller>
 		<interface name="edit" src="edit.php">
 			<task type="button" hotkey="s" caption="save"
-				icon="action-document-save" action="EditorSave()" />
+				icon="action-document-save" action="org.bambuscms.app.document.save()" />
 		</interface>
 	</application>
 </bambus>

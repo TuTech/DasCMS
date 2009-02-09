@@ -14,7 +14,7 @@
 		
 		<interface name="edit" src="edit_user_data.php">
 			<task type="button" hotkey="o" caption="open" icon="action-document-open" action="org.bambuscms.wopenfiledialog.toggle();" />
-			<task type="button" hotkey="s" caption="save" icon="action-document-save" action="EditorSave()" />
+			<task type="button" hotkey="s" caption="save" icon="action-document-save" action="org.bambuscms.app.document.save()" />
 			<task type="spacer" />
 			<task type="button" hotkey="N" caption="new" icon="action-user-new" action="action_add_user()" />
 			<task type="button" hotkey="X" caption="delete" icon="action-list-remove" action="delete" mode="html" confirm="do_you_really_want_to_delete_this_user" />

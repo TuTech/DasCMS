@@ -42,7 +42,7 @@ function insertMedia(type, url, title)
 	switch(type)
 	{
 		case 'image':
-			insertText(' url("'+url+'")');
+			org.bambuscms.app.document.insertText(' url("'+url+'")');
 			break;
 	}
 }
@@ -55,7 +55,7 @@ function selectImage(id)
 	var select = document.getElementById('select_'+id);
 	if(!select.checked)
 	{
-		image.style.background = cSelectedObject;
+		image.style.background = org.bambuscms.app.primarySelectedObjectColor;
 		select.checked = true;
 	}
 	else
@@ -78,15 +78,16 @@ function hideInputs()
 }
 function selectItems(allOrNone)
 {
+	var check, background;
 	if(allOrNone)
 	{
-		var check = true;
-		var background = cSelectedObject;
+		check = true;
+		background = org.bambuscms.app.primarySelectedObjectColor;
 	}
 	else
 	{
-		var check = false;
-		var background = '#fff';
+		check = false;
+		background = '#fff';
 	}
 	inputs = document.getElementsByTagName('input');
 	var parent = '';
@@ -101,78 +102,6 @@ function selectItems(allOrNone)
 		}
 	}
 }
-
-function toggleGroup()
-{
-	spans = document.getElementsByTagName('span');
-	var span = '';
-	for(var i = 0; i < spans.length; i++)
-	{
-		if(spans[i].className == 'hiddenGroup')
-		{
-			spans[i].className = 'group';
-		}
-		else if(spans[i].className == 'group')
-		{
-			spans[i].className = 'hiddenGroup';
-		}
-	}
-}
-function filter(query)
-{
-	query = query.toLowerCase();
-	if(query == '')
-	{
-		selectItems(false);
-	}
-	else
-	{
-		inputs = document.getElementsByTagName('input');
-		var id,image,select;
-		for(var i = 0; i < inputs.length; i++)
-		{
-			if(inputs[i].name.substr(0,7) == 'select_')
-			{
-				id = inputs[i].name.replace(/select_/, "");
-				image = document.getElementById(id);
-				select = document.getElementById('select_'+id);
-				if(document.getElementById('img_'+id).title.toLowerCase().indexOf(query) != -1)
-				{
-					image.style.background = cSelectedObject;
-					select.checked = true;
-				}
-				else
-				{
-					image.style.background = '#fff';
-					select.checked = false;					
-				}
-			}
-		}		
-	}
-}
-function downloadSelected(path)
-{
-	inputs = document.getElementsByTagName('input');
-	if(!document.getElementById('downloadIFrames'))
-	{
-		document.getElementById("bambusJAX").innerHTML += '<div id="downloadIFrames" />';
-	}
-	else
-	{
-		document.getElementById('downloadIFrames').innerHTML = '';
-	}
-	var id;
-	for(var i = 0; i < inputs.length; i++)
-	{
-		if(inputs[i].name.substr(0,7) == 'select_' &&inputs[i].checked)
-		{
-			id = inputs[i].name.replace(/select_/, "");
-			document.getElementById('downloadIFrames').innerHTML += '<iframe src="Management/download.php?path=design&file='+id+'" class="downloadIFrame" />';
-		}
-	}	
-	//window.setTimeout("{document.getElementById('downloadIFrames').innerHTML = '';}",1000);
-}
-
 
 
 
@@ -192,8 +121,7 @@ function changePaletteTo(pID)
 }
 
 function cleanCSS(){
-	var msg = cleanupmesseage;
-    var cssElem =  document.getElementById('editorianid');
+    var cssElem =  $(org.bambuscms.app.document.editorElementId);
     var topScroll = cssElem.scrollTop;
     var leftScroll = cssElem.scrollLeft;
     var css = cssElem.value;
@@ -222,7 +150,7 @@ function sortCSS(msg){
 	}
 	isSorting = true;
 	document.getElementById('js_message').style.opacity = 1.0;
-    var editor = document.getElementById('editorianid');
+    var editor = $(org.bambuscms.app.document.editorElementId);
     var topScroll = editor.scrollTop;
     var leftScroll = editor.scrollLeft;
     

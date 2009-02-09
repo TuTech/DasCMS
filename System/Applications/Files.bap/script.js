@@ -1,161 +1,3 @@
-function updateFolderView()
-{
-	var data = {
-		'controller':'org.bambuscms.applications.files',
-		'call':'getFolders'
-	};
-	$('folderView').innerHTML = '';
-	$('folderViewFrame').className += ' waitingForData';
-	updateFileView(-1);
-	var qobj = org.bambuscms.http.managementRequestURL(data);
-	org.bambuscms.http.fetchJSONObject(
-		qobj,
-		drawFolderView
-	);
-}
-
-function drawFolderView(dataObject)
-{
-	var cn = $('folderViewFrame').className; 
-	$('folderViewFrame').className = cn.substr(0, cn.length-15);
-	if(dataObject.folders)
-	{
-		for(var i = 0; i < dataObject.folders.length; i++)
-		{	
-			$('folderView').appendChild(folderNode(dataObject.folderIds[i], dataObject.folders[i]));
-		}
-	}
-	if($('folderItem_'+$('selectedFolder').value))
-	{
-		updateFileView($('selectedFolder').value);
-		activateIdIn($('selectedFolder').value, 'folderView', 'folderItem_');
-	}
-}
-
-function noOp(){}
-
-function folderNode(id, name)
-{
-	var c = document.createElement('div');
-	c.className = 'folderItem';
-	var a = document.createElement('a');
-	a.id = 'folderItem_'+id;
-	a.href= 'javascript:noOp();';
-	org.bambuscms.gui.setEventHandler(a, 'click', openAssignedFileList);
-	var s = document.createElement('span');
-	var t = document.createTextNode(name);
-	s.appendChild(t);
-	a.appendChild(s);
-	c.appendChild(a);
-	return c;
-}
-
-function activateIdIn(id, view, pfx)
-{
-	var elms = $(view).getElementsByTagName('a');
-	for(var i = 0; i < elms.length; i++)
-	{
-		elms[i].className =  '';//(id == i) ? 'active' :
-	}
-	$(pfx+id).className = 'active';
-}
-
-function openAssignedFileList(event)
-{
-	var id = this.id.substr(11);
-	$('selectedFolder').value = id;
-	updateFileView(id);
-	activateIdIn(id, 'folderView', 'folderItem_');
-}
-
-function updateFileView(folder)
-{
-	$('fileView').innerHTML = '';
-	if(folder != -1)
-	{
-		var data = {
-			'controller':'org.bambuscms.applications.files',
-			'call':'getFiles'
-		};
-		$('fileViewFrame').className += ' waitingForData';
-		var qobj = org.bambuscms.http.managementRequestURL(data);
-		org.bambuscms.http.fetchJSONObject(
-			qobj,
-			drawFileView,
-			'{"folder":"'+folder+'"}'
-		);
-	}
-}
-
-function drawFileView(obj)
-{
-	var cn = $('fileViewFrame').className; 
-	$('fileViewFrame').className = cn.substr(0, cn.length-15);
-	if(obj.ids)
-	{
-		var id, name, type, icon;
-		for(var i = 0; i < obj.ids.length; i++)
-		{
-			id   = obj.ids[i];
-			name = obj.items[i];
-			type = obj.typeNames[obj.types[i]];
-			icon = obj.typeIcons[obj.types[i]];
-			$('fileView').appendChild(fileNode(id, name, type, icon));
-		}
-	}
-	
-}
-function fileNode(id, name, type, icon)
-{
-	var c = document.createElement('div');
-	c.className = 'fileItem';
-	var a = document.createElement('a');
-	a.id = 'fileItem_'+id;
-	a.href= 'javascript:noOp();';
-	org.bambuscms.gui.setEventHandler(a, 'click', openAssignedFileInfo);
-	var s = document.createElement('span');
-	var t = document.createTextNode(name);
-	s.style.backgroundImage = 'url('+icon+')';
-	s.appendChild(t);
-	a.appendChild(s);
-	c.appendChild(a);
-	return c;
-}
-
-function openAssignedFileInfo(event)
-{
-	var id = this.id.substr(9);
-	$('selectedFile').value = id;
-	updateFileInfo(id);
-	activateIdIn(id, 'fileView', 'fileItem_');
-}
-
-function updateFileInfo(id)
-{
-	$('infoView').innerHTML = '';
-	var box = document.createElement('div');
-	var d = document.createElement('div');
-	var i = document.createElement('img');
-	var ttl = document.createElement('h3');
-	var ttltxt = document.createTextNode(id);
-	i.src = 'image.php/id/'+id;
-	box.className = 'fileInfoBox';	
-	d.className = 'fileInfoIconFrame';	
-	i.className = 'fileInfoIcon';	
-	d.appendChild(i);
-	ttl.appendChild(ttltxt);
-	box.appendChild(d);
-	box.appendChild(ttl);
-	$('infoView').appendChild(box);
-}
-
-org.bambuscms.autorun.register(updateFolderView);
-
-
-///////////////////////////////////////
-
-
-
 function Upload()
 {
 	div = document.createElement('div');
@@ -204,13 +46,39 @@ function selectImage(id)
 	var select = document.getElementById('select_'+id);
 	if(!select.checked)
 	{
-		image.style.background = cSelectedObject;
+		image.style.background = org.bambuscms.app.primarySelectedObjectColor;
 		select.checked = true;
 	}
 	else
 	{
 		image.style.background = '#fff';
 		select.checked = false;
+	}
+}
+function selectItems(allOrNone)
+{
+	var check, background;
+	if(allOrNone)
+	{
+		check = true;
+		background = org.bambuscms.app.primarySelectedObjectColor;
+	}
+	else
+	{
+		check = false;
+		background = '#fff';
+	}
+	inputs = document.getElementsByTagName('input');
+	var parent = '';
+	for(var i = 0; i < inputs.length; i++)
+	{
+		if(inputs[i].name.substr(0,7) == 'select_')
+		{
+			inputs[i].checked = check;
+			parent = inputs[i].name;
+			parent = parent.replace(/select_/, "");
+			document.getElementById(parent).style.background = background;
+		}
 	}
 }
 function hideInputs()
@@ -226,79 +94,6 @@ function hideInputs()
 		if(inputs[i].name == 'searchFilter')
 		{
 			inputs[i].value = '';
-		}
-	}
-}
-function filter(query)
-{
-	query = query.toLowerCase();
-	if(query == '')
-	{
-		selectItems(false);
-	}
-	else
-	{
-		inputs = document.getElementsByTagName('input');
-		var id,image,select;
-		for(var i = 0; i < inputs.length; i++)
-		{
-			if(inputs[i].name.substr(0,7) == 'select_')
-			{
-				id = inputs[i].name.replace(/select_/, "");
-				image = document.getElementById(id);
-				select = document.getElementById('select_'+id);
-				if(document.getElementById('img_'+id).title.toLowerCase().indexOf(query) != -1)
-				{
-					image.style.background = cSelectedObject;
-					select.checked = true;
-				}
-				else
-				{
-					image.style.background = '#fff';
-					select.checked = false;					
-				}
-			}
-		}		
-	}
-}
-function selectItems(allOrNone)
-{
-	if(allOrNone)
-	{
-		var check = true;
-		var background = cSelectedObject;
-	}
-	else
-	{
-		var check = false;
-		var background = '#fff';
-	}
-	inputs = document.getElementsByTagName('input');
-	var parent = '';
-	for(var i = 0; i < inputs.length; i++)
-	{
-		if(inputs[i].name.substr(0,7) == 'select_')
-		{
-			inputs[i].checked = check;
-			parent = inputs[i].name;
-			parent = parent.replace(/select_/, "");
-			document.getElementById(parent).style.background = background;
-		}
-	}
-}
-function toggleGroup()
-{
-	spans = document.getElementsByTagName('span');
-	var span = '';
-	for(var i = 0; i < spans.length; i++)
-	{
-		if(spans[i].className == 'hiddenGroup')
-		{
-			spans[i].className = 'group';
-		}
-		else if(spans[i].className == 'group')
-		{
-			spans[i].className = 'hiddenGroup';
 		}
 	}
 }

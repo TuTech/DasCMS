@@ -11,14 +11,14 @@
 	</tabs>
 	<application>
 		<controller>controller.php</controller>
-		<interface name="manage" src="manage.php" search="filter">
+		<interface name="manage" src="manage.php" >
 			<task type="button" hotkey="o" caption="open" icon="action-document-open" action="org.bambuscms.wopenfiledialog.toggle();" />
 			<task type="spacer" name="singe_object_edit"/>
-			<task type="button" hotkey="s" caption="save" icon="action-document-save" action="EditorSave()" />
-			<task type="button" hotkey="S" caption="save_and_rename" icon="action-document-save-as" action="EditorSaveAs('filename')" />
+			<task type="button" hotkey="s" caption="save" icon="action-document-save" action="org.bambuscms.app.document.save()" />
+			<task type="button" hotkey="S" caption="save_and_rename" icon="action-document-save-as" action="org.bambuscms.app.document.saveAs('filename')" />
 			<task type="button" hotkey="X" caption="delete" icon="action-edit-delete" action="Delete()" />
 			<task type="spacer" name="multi_delete"/>
-			<task type="button" hotkey="X" caption="delete_selected" icon="action-list-remove" action="EditorSave();" confirm="do_you_really_want_to_delete_the_selected_images" />
+			<task type="button" hotkey="X" caption="delete_selected" icon="action-list-remove" action="org.bambuscms.app.document.save();" confirm="do_you_really_want_to_delete_the_selected_images" />
 			<task type="spacer" name="multi_select"/>
 			<task type="button" hotkey="a" caption="select_all" icon="action-edit-select-all" action="selectItems(true);" />
 			<task type="button" hotkey="e" caption="select_none" icon="action-edit-select-none" action="selectItems(false);" />

@@ -155,7 +155,7 @@ class LGui extends BLegacy
         $out .= sprintf(
         "<textarea  spellcheck=\"%s\" ".
         "name=\"content\" class=\"visibleEditor\" wrap=\"on\" ".
-        "id=\"editorianid\" cols=\"60\" rows=\"15\">"
+        "id=\"org_bambuscms_app_document_editorElementId\" cols=\"60\" rows=\"15\">"
             , $spellcheck ? 'true' : 'false'
         );
         $out .= htmlspecialchars($content, ENT_QUOTES, 'UTF-8');
@@ -163,11 +163,11 @@ class LGui extends BLegacy
         $resize = new WScript(
             '(function(){
             	var h = -190;
-                if($("editorianid").offsetTop)
+                if($(org.bambuscms.app.document.editorElementId).offsetTop)
                 {
-            		h = function(){return ($("editorianid").offsetTop+5)*-1;};
+            		h = function(){return ($(org.bambuscms.app.document.editorElementId).offsetTop+5)*-1;};
             	}
-                org.bambuscms.display.setAutosize("editorianid",0,h);
+                org.bambuscms.display.setAutosize(org.bambuscms.app.document.editorElementId,0,h);
             })();');
         $out .= $resize->__toString();
         return $out;

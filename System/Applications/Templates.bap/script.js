@@ -10,10 +10,8 @@ function insertMedia(type, url, title)
 			insert=(' <img src="'+url+'" alt="'+title+'" title="'+title+'" /> ');
 			break;
 	}
-	insertText(insert);
+	org.bambuscms.app.document.insertText(insert);
 }
-
-/*********************/
 function Create()
 {
 	input = document.createElement('input');

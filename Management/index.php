@@ -50,8 +50,14 @@ foreach ($jsPriorities as $js)
 	WHeader::useScript($path.$js);
 }
 $scripts = DFileSystem::FilesOf($path, '/\.js$/i');
-sort($scripts);//UC first
-foreach ($scripts as $script) 
+$orderedSrcipts = array();
+foreach($scripts as $script)
+{
+    $k = sprintf('%03d-%s', strlen($script), $script);
+    $orderedSrcipts[$k] = $script;
+}
+ksort($orderedSrcipts);//UC first
+foreach ($orderedSrcipts as $script) 
 {
     if(!in_array($script, $jsPriorities))
     {

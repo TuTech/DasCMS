@@ -8,40 +8,19 @@
 	<purpose>manage_content</purpose>
 	<tabs>
 		<tab icon="action-edit">edit_css</tab>
-		<tab icon="action-edit">edit_templates</tab>
-		<tab icon="place-folder">manage</tab>
 	</tabs>
 	<application>
 		<controller>controller.php</controller>
 		<interface name="edit_css" src="edit.php">
 			<task type="button" hotkey="o" caption="open" icon="action-document-open" action="org.bambuscms.wopenfiledialog.toggle();" />
-			<task type="button" hotkey="s" caption="save" icon="action-document-save" action="EditorSave()" />
-			<task type="button" hotkey="S" caption="save_and_rename" icon="action-document-save-as" action="EditorSaveAs('filename')" />
+			<task type="button" hotkey="s" caption="save" icon="action-document-save" action="org.bambuscms.app.document.save()" />
+			<task type="button" hotkey="S" caption="save_and_rename" icon="action-document-save-as" action="org.bambuscms.app.document.saveAs('filename')" />
 			<task type="button" hotkey="N" caption="new" icon="action-document-new" action="create" mode="html" />
 			<task type="button" hotkey="X" caption="delete" icon="action-edit-delete" action="delete" mode="html" confirm="do_you_really_want_to_delete_this_file" />
 			<task type="spacer" />
 			<task type="button" hotkey="C" caption="cleanup" icon="action-edit-clean" action="cleanCSS()" />
 			<task type="button" hotkey="A" caption="sort" icon="action-edit-order" action="sortCSS('')" />
-			<task type="button" hotkey="R" caption="search_and_replace" icon="action-edit-find-replace" action="EditorSearchAndReplace()" />
-			<task type="spacer" />
-			<task type="button" hotkey="o" caption="open" icon="place-folder" action="top.location = 'Management/?editor=DesignEditor.bap&amp;tab=manage';" />
-		</interface>
-		<interface name="manage" src="manage.php" search="filter">
-			<task type="button" hotkey="X" caption="delete_selected" icon="action-edit-delete" action="EditorSave();" confirm="do_you_really_want_to_delete_the_selected_files" />
-			<task type="spacer" />
-			<task type="button" hotkey="a" caption="select_all" icon="action-select-all" action="selectItems(true);" />
-			<task type="button" hotkey="e" caption="select_none" icon="action-select-none" action="selectItems(false);" />
-			<task type="spacer" />
-			<task type="button" hotkey="i" caption="icon_view" icon="action-view-large" action="viewMode('thumbnail');" />
-			<task type="button" hotkey="l" caption="list_view" icon="action-view-list" action="viewMode('listView');" />
-			<task type="button" hotkey="d" caption="detail_view" icon="action-view-details" action="viewMode('detailView');" />
-			<task type="spacer" />
-			<task type="button" hotkey="g" caption="groups" icon="action-view-grouped" action="toggleGroup();" />
-			<task type="spacer" />
-			<task type="button" hotkey="D" caption="download_selected" icon="action-download" action="downloadSelected('design');" />
-			<task type="button" hotkey="U" caption="upload" icon="action-upload" action="Upload();" />
-			<task type="spacer" />
-			<task type="button" hotkey="o" caption="open" icon="action-edit" action="top.location = 'Management/?editor=DesignEditor.bap&amp;tab=edit_css';" />
+			<task type="button" hotkey="R" caption="search_and_replace" icon="action-edit-find-replace" action="org.bambuscms.app.document.searchAndReplace()" />
 		</interface>
 	</application>
 </bambus>

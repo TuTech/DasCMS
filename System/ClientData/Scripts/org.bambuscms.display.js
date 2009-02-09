@@ -29,20 +29,23 @@ org.bambuscms.display = {
 	{
 		for(element in org.bambuscms.display._objects)
 		{
-			if(!$(element))
+			if($(element))
 			{
-				continue;
-			}
-			var resizer = org.bambuscms.display._objects[element];
-			if(resizer.width)
-			{
-				var width = (typeof resizer.width == 'function') ? resizer.width() : resizer.width;
-				$(element).style.width = ((width < 0) ? org.bambuscms.display.getDocumentWidth() + width : width)+'px';
-			}
-			if(resizer.height)
-			{
-				var height = (typeof resizer.height == 'function') ? resizer.height() : resizer.height;
-				$(element).style.height = ((height < 0) ? org.bambuscms.display.getDocumentHeight() + height : height)+'px';
+				var resizer = org.bambuscms.display._objects[element];
+				if(resizer.width)
+				{
+					var width = (typeof resizer.width == 'function') ? resizer.width() : resizer.width;
+					$(element).style.width = ((width < 0) ? org.bambuscms.display.getDocumentWidth() + width : width)+'px';
+				}
+				if(resizer.height)
+				{
+					var height = (typeof resizer.height == 'function') ? resizer.height() : resizer.height;
+					height = ((height < 0) ? org.bambuscms.display.getDocumentHeight() + height : height);
+					if(height > 0)
+					{
+						$(element).style.height = height+'px';
+					}
+				}
 			}
 		}
 	},

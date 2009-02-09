@@ -1,4 +1,4 @@
-
+//show create dialog
 function Create()
 {
 	input = document.createElement('input');
@@ -12,6 +12,7 @@ function Create()
 	DialogContainer('Create navigation', 'filename for the new navigation:', input, 'OK', 'Cancel');
 	input.focus();
 }
+//show delete dialog
 function Delete()
 {
 	input = document.createElement('input');
@@ -227,27 +228,13 @@ function setT(div, opt, value)
 	return false;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
+//////
 
 function removeContentFrom(id)
 {
 	document.getElementById(id+'_cid').value = '';
 	document.getElementById(id+'_ct').value = '';
 }
-
-
-
 
 var lastFocus = null;
 function insertMedia(type, id, title)

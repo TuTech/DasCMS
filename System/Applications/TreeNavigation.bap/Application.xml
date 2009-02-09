@@ -14,7 +14,7 @@
 		<interface name="edit" src="edit.php">
 			<task type="spacer" name="edit_navigation" />
 			<task caption="open" hotkey="o" icon="action-document-open" type="button" action="org.bambuscms.wopenfiledialog.toggle();" />
-			<task caption="save" hotkey="s" icon="action-document-save" type="button" action="EditorSave()" />
+			<task caption="save" hotkey="s" icon="action-document-save" type="button" action="org.bambuscms.app.document.save()" />
 			<task type="spacer" name="manage_navigation"/>
 			<task type="button" caption="new" hotkey="N" icon="action-document-new" action="Create()" />
 			<task type="button" caption="delete" hotkey="X" icon="action-edit-delete" action="Delete()" />

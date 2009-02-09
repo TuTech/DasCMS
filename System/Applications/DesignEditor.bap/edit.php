@@ -31,7 +31,7 @@ if($FileOpened)
 	echo LGui::beginEditorWrapper();
 	echo LGui::editorTextarea($fileContent);
 	echo LGui::endEditorWrapper();
-	echo new WScript('org.bambuscms.wcodeeditor.run(document.getElementById("editorianid"));');
+	echo new WScript('org.bambuscms.wcodeeditor.run($(org.bambuscms.app.document.editorElementId));');
 }
 if(isset($panel) && $panel->hasWidgets())
 {

@@ -13,13 +13,13 @@
 		<controller>controller.php</controller>
 		<interface name="edit" src="edit.php">
 			<task type="button" hotkey="o" caption="open" icon="action-document-open" action="org.bambuscms.wopenfiledialog.toggle();" />
-			<task type="button" hotkey="s" caption="save" icon="action-document-save" action="EditorSave()" />
-			<task type="button" hotkey="S" caption="save_and_rename" icon="action-document-save-as" action="EditorSaveAs('filename')" />
+			<task type="button" hotkey="s" caption="save" icon="action-document-save" action="org.bambuscms.app.document.save()" />
+			<task type="button" hotkey="S" caption="save_and_rename" icon="action-document-save-as" action="org.bambuscms.app.document.saveAs('filename')" />
 			<task type="button" hotkey="N" caption="new" icon="action-document-new" action="Create()" />
 			<task type="button" hotkey="X" caption="delete" icon="action-edit-delete" action="Delete()" />
 			<task type="spacer" />
-			<task type="button" hotkey="C" caption="cleanup" icon="action-edit-clean" action="cleanHTML('')" />
-			<task type="button" hotkey="R" caption="search_and_replace" icon="action-edit-find-replace" action="EditorSearchAndReplace()" />
+			<task type="button" hotkey="C" caption="cleanup" icon="action-edit-clean" action="org.bambuscms.app.document.cleanHTML('')" />
+			<task type="button" hotkey="R" caption="search_and_replace" icon="action-edit-find-replace" action="org.bambuscms.app.document.searchAndReplace()" />
 			<no_task type="spacer" name="char_format" />
 			<no_task type="button" caption="bold" action="EditorFormat('bold');" icon="action-format-bold-gray" /> 
 			<no_task type="button" caption="italic" action="EditorFormat('italic');" icon="action-format-italic-gray" /> 
