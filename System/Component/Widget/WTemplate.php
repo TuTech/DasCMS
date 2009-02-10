@@ -9,7 +9,7 @@
  */
 class WTemplate extends BWidget 
 {
-    const CLASS_NAME = "WScript";
+    const CLASS_NAME = "WTemplate";
     const AUTO = 0;
     const SYSTEM = 1;
     const CONTENT = 2;
@@ -136,11 +136,15 @@ class WTemplate extends BWidget
         return $dat;
     }
     
-    public function render()
+    public function renderString(array $withData = array())
     {
         $string = $this->getTemplateString();
         $data = self::$globalEnviornment;
         foreach($this->environment as $key => $value)
+        {
+            $data[$key] = $value;
+        }
+        foreach($withData as $key => $value)
         {
             $data[$key] = $value;
         }
@@ -150,7 +154,12 @@ class WTemplate extends BWidget
             $string = str_replace('{{'.$key.'}}', htmlentities($value, ENT_QUOTES, 'UTF-8'), $string);
             $string = str_replace('{'.$key.'}', $value, $string);
         }
-        echo $string;
+        return $string;
+    }
+    
+    public function render(array $withData = array())
+    {
+        echo $this->renderString($withData);
     }
     
     public function run()

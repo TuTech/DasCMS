@@ -27,7 +27,7 @@ $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 if($edit_mode == 'usr')
 {    
     $intro = new WIntroduction();
-    $intro->setTitle($victim, false);
+    $intro->setTitle(mb_convert_encoding($victim, 'utf-8', 'iso-8859-1'), false);
     $intro->setIcon('mimetype-user');
     echo $intro;
     //group assignment
@@ -133,7 +133,7 @@ else
 /////////////////////
 
     $intro = new WIntroduction();
-    $intro->setTitle($victim, false);
+    $intro->setTitle(mb_convert_encoding($victim, 'utf-8', 'iso-8859-1'), false);
     $intro->setIcon('mimetype-group');
     $intro->setDescription(htmlentities($SUsersAndGroups->getGroupDescription($victim)), false);
     echo $intro;
@@ -163,9 +163,6 @@ else
 
 if(PAuthorisation::has('org.bambuscms.credentials.user.change') || PAuthorisation::has('org.bambuscms.credentials.group.change'))
 {
-	?>
-	<input type="submit" class="submitinput" value="<?php SLocalization::out("save");?>" onmousedown="document.getElementById('scrollposinput').value = $(org.bambuscms.app.document.editorElementId).scrollTop;"/>
-	<?php
     echo LGui::endForm();
 }
 ?>

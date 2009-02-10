@@ -76,7 +76,7 @@ class WTable extends BWidget
     {
         $this->setHeadings($headings);
         $this->setTitle($title);
-        $this->id = ++parent::$CurrentWidgetID;
+        $this->id = 'WTable_'.(++parent::$CurrentWidgetID);
     }
     
     public function __toString()
@@ -88,6 +88,10 @@ class WTable extends BWidget
         return $out;
     }
     
+    public function setCSSId($newId)
+    {
+        $this->id = $newId;
+    }
     
     /**
      * process inputs etc
@@ -104,7 +108,7 @@ class WTable extends BWidget
         {
             printf("<h3>%s</h3>\n", $this->title);
         }
-        printf("<table class=\"WTable\" id=\"WTable_%d\">\n", $this->id);
+        printf("<table class=\"WTable\" id=\"%s\">\n", $this->id);
         $rows = count($this->data);
         $cols = $rows > 0 ? count($this->data[0]) : 0;
         $flip = false;
@@ -152,15 +156,17 @@ class WTable extends BWidget
                 }
                 echo "\t</tr>\n";
             }
+            $lineNo = 0;
             foreach ($this->data as $line) 
             {
                 $lineData = array(
                     $this->cssClasses[$flip]
                 );
+                $lineNo++;
             	for($i = 0; $i < $cols; $i++)
             	{
             	    $cell = isset($line[$i]) ? $line[$i] : '';
-                    $lineData[] = $i+1;
+                    $lineData[] = $lineNo;
                     $lineData[] = ($this->translateHeadings && (($this->leftIsHeader && $i == 0) || ($this->rightIsHeader && $i == $cols-1)))
                         ? (SLocalization::get($cell))
                         : $cell;

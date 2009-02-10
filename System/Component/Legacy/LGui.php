@@ -37,19 +37,6 @@ class LGui extends BLegacy
         return "</div>\n";
     }
 
-    //search input//
-    public static function search($function)//used: Application
-    {
-        $image ='';
-        $isSafari = false;
-        $input = self::createElement('input', false, array(
-        'type'      => ($isSafari) ? "search" : "text",
-        'id'        => ($isSafari) ? "searchsearchField" : "textsearchField",
-        'name'      => "searchFilter",
-        'onkeyup'   => $function."(this.value)"
-                    ));
-        return self::createElement('div', $input.$image, array('id' => "searchFieldBox"));
-    }
 
     public static function beginMultipartForm($_get_values = array(), $id = '')
     {
@@ -176,65 +163,6 @@ class LGui extends BLegacy
     public static function verticalSpace()
     {
         return "<br />";
-    }
-
-    public static function beginTable($id = '',$class = 'borderedtable full')
-    {
-        $table = "<table cellspacing=\"0\"";
-        if(!empty($id))
-        {
-            $table .= " id=\"".$id."\"";
-        }
-        if(!empty($class))
-        {
-            $table .= " class=\"".$class."\"";
-        }
-        $table .= ">\n";
-        return $table;
-    }
-
-    public static function beginTableRow($class = '', $tdclass = "")
-    {
-        if(!empty($class))
-        {
-            $class = ' class="'.$class.'"';
-        }
-        if(!empty($tdclass))
-        {
-            $tdclass = ' class="'.$tdclass.'"';
-        }
-        return "<tr valign=\"top\"".$class.">\n<td".$tdclass.">\n";
-    }
-
-    public static function endTableRow()
-    {
-        return "</td>\n</tr>\n";
-    }
-
-    public static function endTable()
-    {
-        return "</table>\n";
-    }
-
-    public static function tableHeader($cells = array())
-    {
-        $header = '';
-        if(is_array($cells) && count($cells) > 0)
-        {
-            $classes = array_keys($cells);
-            $header = "<tr>";
-            foreach($classes as $cellid)
-            {
-                $header .= "<th";
-                if(!is_numeric($cellid))
-                {
-                    $header .= " class=\"".trim($cellid)."\"";
-                }
-                $header .= ">".$cells[$cellid]."</th>";
-            }
-            $header .= "</tr>\n";
-        }
-        return $header;
     }
 }
 ?>

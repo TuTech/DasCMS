@@ -63,7 +63,7 @@ echo new WScript('var action_change_password = function(){'.$jsCreate.'};');
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
 $intro = new WIntroduction();
-$intro->setTitle($victim, false);
+$intro->setTitle(mb_convert_encoding($victim, 'utf-8', 'iso-8859-1'), false);
 $intro->setIcon('mimetype-user');
 echo $intro;
 
@@ -140,106 +140,62 @@ if($edit_mode == 'usr')
     }
     asort($editor_arr);
     $flip = 2;
-    if($edit_mode == 'grp')
-    {
-    /////////////////////
-    //group information// 
-    /////////////////////
-
-	$urow = <<<ROW
-<div class="group%sMember">
-	%s
-</div>
-
-ROW;
-    
-    	echo LGui::beginTable();
-    	echo LGui::tableHeader(array(SLocalization::get('description')));
-    	echo LGui::beginTableRow();
-    	echo htmlentities($SUsersAndGroups->getGroupDescription($victim));
-    	echo LGui::endTableRow();
-    	echo LGui::endTable();
-    	echo LGui::verticalSpace();
-    	echo LGui::beginTable();
-    	echo LGui::tableHeader(array(SLocalization::get('assigned_users')));
-    	echo LGui::beginTableRow();
-    	
-    	$assignedUsers = $SUsersAndGroups->listUsersOfGroup($victim);
-    	sort($assignedUsers, SORT_STRING);
-    	if(is_array($assignedUsers) && count($assignedUsers) > 0)
-    	{
-    		foreach($assignedUsers as $user)
-    		{
-    			printf(
-    					$urow
-    					,($SUsersAndGroups->isMemberOf($user, 'Administrator')) ? 'Gold' : ''
-    					,htmlentities($user)
-    				);
-    		}
-    	}
-    	
-    	echo '<br class="clear" />';
-    	echo LGui::endTableRow();
-    	echo LGui::endTable();
-    }
-    else
-    {
-    	echo LGui::verticalSpace();
-    	echo LGui::beginTable();
-    	printf('<tr><th></th><th colspan="2">%s</th></tr>', SLocalization::get('editor_permissions'));
-    	$line = <<<EOX
-    			<tr class="flip_%s">
-    				<th class="tdicon">
-    					<input type="checkbox" %s id="ckbx_%s" name="editor_%s" />
-    				</th>
-    				<td>
-    					<label for="ckbx_%s">
-    						%s
-    						%s
-    						<br />
-    						<small>
-    							<i>
-    								<p>
-    									%s
-    								</p>
-    								<p>	
-    									%s
-    								</p>
-    							</i>
-    					</small>
-    					</label>
-    				</td>
-    			</tr>
+	echo LGui::verticalSpace();
+	echo '<table cellspacing="0" class="borderedtable full">';
+	printf('<tr><th></th><th colspan="2">%s</th></tr>', SLocalization::get('editor_permissions'));
+	$line = <<<EOX
+			<tr class="flip_%s">
+				<th class="tdicon">
+					<input type="checkbox" %s id="ckbx_%s" name="editor_%s" />
+				</th>
+				<td>
+					<label for="ckbx_%s">
+						%s
+						%s
+						<br />
+						<small>
+							<i>
+								<p>
+									%s
+								</p>
+								<p>	
+									%s
+								</p>
+							</i>
+					</small>
+					</label>
+				</td>
+			</tr>
     	
 EOX;
 	
-    	foreach($available as $editor){
-    	    $flip = ($flip == '1') ? '2' : '1';
-    	    if(!empty($editor))
-    	    {
-    	        $app_name = substr($editor['item'],0,((strlen(DFileSystem::suffix($editor['item']))+1) * -1));
-    	        $id = md5($app_name);
-    	        $is_admin = $SUsersAndGroups->isMemberOf($victim, 'Administrator');
-    	        //printf('%s %s an administrator; ', $victim, ($is_admin) ? 'is' : 'is not');
-    	        $checked = ($is_admin || $SUsersAndGroups->hasPermission($victim, $app_name)) ? ' checked="checked"' : '';
-    	        $disabled = ($is_admin || ($app_name == BAMBUS_APPLICATION && $victim == PAuthentication::getUserID())) ? ' disabled="disabled"' : '';
-    	        	printf(
-    	        		$line,
-    	        		$flip,
-    	        		$checked.$disabled,
-    	        		$id,
-    	        		$id,
-    	        		$id,
-    	        		new WIcon($editor['icon'], '', WIcon::MEDIUM, 'app'),
-    	        		SLocalization::get($editor['name']),
-    	        		SLocalization::get($editor['desc']),
-    	        		''
-    	        	);
-    	    }
-    	}
-    	echo LGui::endTable();
-    	echo LGui::verticalSpace();
-    }
+	foreach($available as $editor)
+	{
+	    $flip = ($flip == '1') ? '2' : '1';
+	    if(!empty($editor))
+	    {
+	        $app_name = substr($editor['item'],0,((strlen(DFileSystem::suffix($editor['item']))+1) * -1));
+	        $id = md5($app_name);
+	        $is_admin = $SUsersAndGroups->isMemberOf($victim, 'Administrator');
+	        //printf('%s %s an administrator; ', $victim, ($is_admin) ? 'is' : 'is not');
+	        $checked = ($is_admin || $SUsersAndGroups->hasPermission($victim, $app_name)) ? ' checked="checked"' : '';
+	        $disabled = ($is_admin || ($app_name == BAMBUS_APPLICATION && $victim == PAuthentication::getUserID())) ? ' disabled="disabled"' : '';
+	        	printf(
+	        		$line,
+	        		$flip,
+	        		$checked.$disabled,
+	        		$id,
+	        		$id,
+	        		$id,
+	        		new WIcon($editor['icon'], '', WIcon::MEDIUM, 'app'),
+	        		SLocalization::get($editor['name']),
+	        		SLocalization::get($editor['desc']),
+	        		''
+	        	);
+	    }
+	}
+	echo '</table>';
+	echo LGui::verticalSpace();
     /////////////////////////////EOF EX PERMS
     
     if(PAuthorisation::has('org.bambuscms.credentials.user.change') || PAuthorisation::has('org.bambuscms.credentials.group.change'))
@@ -259,18 +215,8 @@ else
 </div>
 
 ROW;
-
-	echo LGui::beginTable();
-	echo LGui::tableHeader(array(SLocalization::get('description')));
-	echo LGui::beginTableRow();
-	echo htmlentities($SUsersAndGroups->getGroupDescription($victim));
-	echo LGui::endTableRow();
-	echo LGui::endTable();
-	echo LGui::verticalSpace();
-	echo LGui::beginTable();
-	echo LGui::tableHeader(array(SLocalization::get('assigned_users')));
-	echo LGui::beginTableRow();
-	
+	echo '<h3>',SLocalization::get('description'),'</h3><p>',htmlentities($SUsersAndGroups->getGroupDescription($victim)),'</p>';
+	echo '<h3>',SLocalization::get('assigned_users'),'</h3>';
 	$assignedUsers = $SUsersAndGroups->listUsersOfGroup($victim);
 	sort($assignedUsers, SORT_STRING);
 	if(is_array($assignedUsers) && count($assignedUsers) > 0)
@@ -286,8 +232,6 @@ ROW;
 	}
 	
 	echo '<br class="clear" />';
-	echo LGui::endTableRow();
-	echo LGui::endTable();
 	
 }
 if(isset($panel) && $panel->hasWidgets())

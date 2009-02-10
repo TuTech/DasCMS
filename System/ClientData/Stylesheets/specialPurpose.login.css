@@ -1,28 +1,12 @@
-#BCMSPathTabSect
-{
-	display:none;
-}
 #BambusHeader{display: none;}
 body
 {
-	background: #fff url(../../Images/boxfish-big.png) 100% 100% no-repeat;
+	background: #fff ;
 	color: #2e3436;
-}
-#appNavigator
-{
-	display:none;
 }
 #BambusHeader
 {
 	height:48px;
-}
-.editortoolbar{
-	text-align:right;
-	display:block;
-	width:350px; 
-	margin:auto;
-	background: #eeeeec;
-	border: 1px solid #d3d7cf;
 }
 .textinput
 {

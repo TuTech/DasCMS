@@ -165,7 +165,6 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
 }else{
     //Show Login
  
-    WTemplate::globalSet('appNavigator', '');
     WTemplate::globalSet('TaskBar','');
     define('BAMBUS_APPLICATION_TITLE', SLocalization::get('login'));
     define('BAMBUS_APPLICATION_ICON', WIcon::pathFor('login'));

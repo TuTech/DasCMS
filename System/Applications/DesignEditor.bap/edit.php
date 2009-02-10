@@ -18,16 +18,12 @@ if($FileOpened)
 		,SLocalization::get((BAMBUS_APPLICATION_TAB == 'edit_templates') ? 'template' : 'stylesheet')
 		,htmlspecialchars($FileName, ENT_QUOTES, 'utf-8'));
 		
-	if((((BAMBUS_APPLICATION_TAB == 'edit_templates') &&  PAuthorisation::has('org.bambuscms.layout.template.create') && PAuthorisation::has('org.bambuscms.layout.template.delete')) ||
-        ((BAMBUS_APPLICATION_TAB != 'edit_templates') && PAuthorisation::has('org.bambuscms.layout.stylesheet.create') && PAuthorisation::has('org.bambuscms.layout.stylesheet.delete')))
-	&& !in_array($File,array('default.css','header.tpl','footer.tpl','body.tpl')))
+	if((PAuthorisation::has('org.bambuscms.layout.stylesheet.create') 
+	    && PAuthorisation::has('org.bambuscms.layout.stylesheet.delete'))
+	    && $File != 'default.css')
 	{
 		printf('<input type="hidden" id="filename" size="30" name="filename" value="%s"/>', htmlentities($FileName));
 	}
-	//////////////
-	//css editor//
-	//////////////
-	
 	echo LGui::beginEditorWrapper();
 	echo LGui::editorTextarea($fileContent);
 	echo LGui::endEditorWrapper();

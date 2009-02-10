@@ -96,47 +96,19 @@ Sub Headline
 	color: #2e3436;
 }
 
-
-/*
-Command item
-*/
-#BCMSNavigator a,
-.editortoolbar a img, 
-.editortoolbar a:link img, 
-.editortoolbar a:visited img
-{
-	border-color: #555753;
-	border-style: none;
-	color: #2e3436;
-}
-
-/*
-Command item hover
-*/
-.editortoolbar a:hover img,
-#BCMSNavigator a:hover
-
-{
-	border-color: #555753;
-	border-style: solid;
-	background-color: #8ae234;
-	color:#2e3436;
-}
 /*
 Content frame
 */
 .borderedtable,
 .borderedtable td, 
 .borderedtable td td, 
-#WSidebar,
-#BCMSNavigator
+#WSidebar
 {
 	border-color: #4e9a06;
 	border-style: solid;
 	background-color: #eeeeec;
 	color: #2e3436;
 }
-#BCMSNavigator,
 #WSidebar{
 	border-color: #888a85;
 }

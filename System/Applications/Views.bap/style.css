@@ -1,23 +1,26 @@
+#newSporeTable input[type=text],
 #spores input[type=text]{
 	height:16px;
-	border-width: 1px;
+	border-width: 0px;
 	border-style: dashed;
-	border-top-color: transparent;
-	border-left-color: transparent;
-	border-right-color: transparent;
+	border-bottom-width: 1px;
+	border-color:#555753;
 	width:91%;
+	background: transparent;
 }
-
+#newSporeTable input[type=text]:focus,
 #spores input[type=text]:focus{
 	border: 1px solid #f57900;
 	background:white url(../../Icons/16x16/actions/edit.png) 1px 50% no-repeat;
 	padding-left:18px;
 	width:88%;
 }
+#newSporeTable input[type=text].validField:focus,
 #spores input[type=text].validField:focus{
 	border:1px solid #4e9a06;
 	background-color: #c7f19d;
 }
+#newSporeTable input[type=text].invalidField,
 #spores input[type=text].invalidField{
 	border: 1px solid #a40000;
 	background-color: #f68585;
@@ -25,4 +28,10 @@
 .removedSpore{
 	text-decoration: line-through;
 	font-style: italic;
+}
+table .cell_x2{
+	width:30px;
+}
+table .cell_x1{
+	width:20%;
 }

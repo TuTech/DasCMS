@@ -113,10 +113,6 @@ class LApplication extends BLegacy implements IShareable
         $CommandBar = '';
         if(!empty($applicationNode[0]))
         {
-            if(!empty($applicationNode[1]['search']))
-            {
-                $html .= LGui::search($applicationNode[1]['search']);
-            }
             $tasks = $this->getSCTagValues('task', $applicationNode[0]);
             $html .= LGui::beginTaskBar();
             $first = true;

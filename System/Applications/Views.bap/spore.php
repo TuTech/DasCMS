@@ -10,73 +10,73 @@
 if(PAuthorisation::has('org.bambuscms.resolver.qspore.change'))
 {
 	printf(
-		'<form method="post" id="documentform" name="documentform" action="%s"><input type="hidden" name="posted" value="1" />', SLink::link()
+		'<form method="post" id="documentform" name="documentform" action="%s"><input type="hidden" name="posted" value="1" />'
+	    ,SLink::link()
 	);
 }
 if(isset($panel) && $panel->hasWidgets())
 {
     echo '<div id="objectInspectorActiveFullBox">';
 }
-?>
-<h3><?php SLocalization::out('create_new_view'); ?></h3>
-<table id="spores" cellspacing="0" class="borderedtable full">
-	<tr>
-		<th class="td20">
-			<?php SLocalization::out('access_var'); ?>
-		</th>
-		<th class="tdicon">
-			<?php SLocalization::out('active'); ?>
-		</th>
-		<th colspan="1">
-			<?php SLocalization::out('default_content'); ?>
-		</th>
-		<th colspan="1">
-			<?php SLocalization::out('error_content'); ?>
-		</th>
-	</tr>
-	<tr class="flip_1" valign="top">
-		<td class="td20">
-			<input type="text" name="new_spore" value="" onkeyup="org.bambuscms.validators.spore(this);" onblur="org.bambuscms.validators.spore(this);" onchange="org.bambuscms.validators.spore(this);"/>
-		</td>
-		<td>
-			<input type="checkbox" name="new_actv" />
-		</td>
-		<td>
-			<a class="right" href="javascript:clearOpt('new_init');">
-				<img src="System/Icons/16x16/actions/delete.png" alt="remove" title="remove" />
-			</a>
-			<input readonly="readonly" type="hidden" onfocus="lastFocus = 'new_init';" id="new_init" name="new_init" value="" />
-			<input readonly="readonly" type="text"   onfocus="lastFocus = 'new_init';" id="new_init_t" value="" />
-		</td>
-		<td>
-			<a class="right" href="javascript:clearOpt('new_err');">
-				<img src="System/Icons/16x16/actions/delete.png" alt="remove" title="remove" />
-			</a>
-			<input readonly="readonly" type="hidden" onfocus="lastFocus = 'new_err';" id="new_err" name="new_err" value="" />
-			<input readonly="readonly" type="text"   onfocus="lastFocus = 'new_err';" id="new_err_t" value="" />
-		</td>
-	</tr>
-</table>
-<?php
+$cell1TPL = 
+	'<input type="text" name="%s" value="" onkeyup="org.bambuscms.validators.spore(this);" '.
+		'onblur="org.bambuscms.validators.spore(this);" onchange="org.bambuscms.validators.spore(this);"/>';
+$cell2TPL = 
+	'<input type="checkbox" name="%s" %s/>';
+$cell3and4TPL = 
+    new WTemplate(
+    	'<a class="right" href="javascript:clearOpt(\'{action}_{subject}\');">'.
+    		'<img src="System/Icons/16x16/actions/delete.png" alt="remove" title="remove" />'.
+    	'</a>'.
+        '<input readonly="readonly" type="hidden" onfocus="lastFocus = \'{action}_{subject}\';" id="{action}_{subject}" name="{action}_{subject}" value="{id}" />'.
+        '<input readonly="readonly" type="text"   onfocus="lastFocus = \'{action}_{subject}\';" id="{action}_{subject}_t" value="{title}" />',
+        WTemplate::STRING
+    );
+
+$tbl = new WTable(WTable::HEADING_TOP);
+$tbl->setTitle('create_new_view', true);
+$tbl->setHeaderTranslation(true);
+$tbl->setCSSId('newSporeTable');
+$tbl->addRow(array('access_var', 'active', 'default_content', 'error_content'));
+$tbl->addRow(array(
+    sprintf($cell1TPL, "new_spore"),
+    sprintf($cell2TPL, "new_actv", ""),
+    $cell3and4TPL->renderString(array(
+        'action' => 'new',
+        'subject' => 'init',
+        'id' => '',
+        'title' => ''
+    )),
+    $cell3and4TPL->renderString(array(
+        'action' => 'new',
+        'subject' => 'err',
+        'id' => '',
+        'title' => ''
+    ))
+));
+echo $tbl;
+
 $sporeData = QSpore::getSpores();
 $spores = array_keys($sporeData);
+
 if(count($spores) > 0)
 {
-	echo '<h3>',SLocalization::get('current_views'), '</h3>'
-		,'<table id="spores" cellspacing="0" class="borderedtable full">'
-		,'<tr><th class="td20">'
-			,SLocalization::get('access_var')
-		,'</th><th class="tdicon">'
-			,SLocalization::get('active')
-		,'</th><th>'
-			,SLocalization::get('default_content')
-		,'</th><th>'
-			,SLocalization::get('error_content')
-		,'</th></tr>'
-		; 
-
-	$flip = true;
-		
+    $cell1TPL = 
+        new WTemplate(
+        	'<a class="right" href="javascript:toggleSporeRemove(\'{spore}\');">'.
+        		'<img id="spore_{spore}_rm" src="System/Icons/16x16/actions/delete.png" alt="set remove flag" title="set remove flag" />'.
+        		'<img id="spore_{spore}_norm" style="display:none;" src="System/Icons/16x16/actions/refresh.png" alt="unset remove flag" title="unset remove flag" />'.
+        	'</a>'.
+        	'<span id="spore_{spore}_t">{spore}</span>'.
+        	'<input type="hidden" id="spore_{spore}" name="spore_{spore}"value="" />',
+            WTemplate::STRING
+        );
+    
+    $tbl = new WTable(WTable::HEADING_TOP);
+    $tbl->setTitle('current_views', true);
+    $tbl->setHeaderTranslation(true);
+    $tbl->setCSSId('spores');
+    $tbl->addRow(array('access_var', 'active', 'default_content', 'error_content'));
 	foreach ($sporeData as $spore => $data) 
 	{
 		$initCTitle = '';
@@ -100,42 +100,26 @@ if(count($spores) > 0)
 		}
 		
 		$check = ($data[QSpore::ACTIVE]) ? ' checked="checked"' : '';
-		
 		$outSpore = htmlentities($spore, ENT_QUOTES, 'utf-8');
-		echo 
-		'<tr class="flip_',($flip+1),'" valign="top">',
-			'<td>',
-				'<a class="right" href="javascript:toggleSporeRemove(\'',$outSpore,'\');">',
-					'<img id="spore_',$outSpore,'_rm" src="System/Icons/16x16/actions/delete.png" alt="set remove flag" title="set remove flag" />',
-					'<img id="spore_',$outSpore,'_norm" style="display:none;" src="System/Icons/16x16/actions/refresh.png" alt="unset remove flag" title="unset remove flag" />',
-				'</a>',
-				'<span id="spore_',$outSpore,'_t">',
-					$outSpore,
-				'</span>',
-				'<input type="hidden" id="spore_',$outSpore,'" name="spore_',$outSpore,'"value="" />',
-			'</td>',
-			'<td>',
-				'<input type="checkbox" name="actv_',$outSpore,'"',$check,' />',
-			'</td>',
-			'<td>',
-				'<a class="right" href="javascript:clearOpt(\'init_',$outSpore,'\');">',
-					'<img src="System/Icons/16x16/actions/delete.png" alt="remove" title="remove" />',
-				'</a>',
-				'<input readonly="readonly" type="hidden" onfocus="lastFocus = \'init_',$outSpore,'\';" id="init_',$outSpore,'" name="init_',$outSpore,'" value="',$initCID,'" />',
-				'<input readonly="readonly" type="text"   onfocus="lastFocus = \'init_',$outSpore,'\';" id="init_',$outSpore,'_t" value="',$initCTitle,'" />',
-			'</td>',
-			'<td>',
-				'<a class="right" href="javascript:clearOpt(\'err_',$outSpore,'\');">',
-					'<img src="System/Icons/16x16/actions/delete.png" alt="remove" title="remove" />',
-				'</a>',
-				'<input readonly="readonly" type="hidden" onfocus="lastFocus = \'err_',$outSpore,'\';" id="err_',$outSpore,'" name="err_',$outSpore,'" value="',$errCID,'" />',
-				'<input readonly="readonly" type="text"   onfocus="lastFocus = \'err_',$outSpore,'\';" id="err_',$outSpore,'_t" value="',$errCTitle,'" />',
-			'</td>',
-		'</tr>'
-		;
-		$flip = !$flip;
+		
+		$tbl->addRow(array(
+            $cell1TPL->renderString(array('spore' => $outSpore)),
+            sprintf($cell2TPL, "actv_".$outSpore, $check),
+            $cell3and4TPL->renderString(array(
+                'action' => 'init',
+                'subject' => $outSpore,
+                'id' => $initCID,
+                'title' => $initCTitle.' ('.$initCID.')'
+            )),
+            $cell3and4TPL->renderString(array(
+                'action' => 'err',
+                'subject' => $outSpore,
+                'id' => $errCID,
+                'title' => $errCTitle.' ('.$errCID.')'
+            ))
+        ));
 	}
-	echo '</table>';
+	echo $tbl;//'</table>';
 }
 else
 {
