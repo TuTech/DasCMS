@@ -1,21 +1,44 @@
-/************************************************ 
-* Bambus CMS 
-* Created: 12.06.2006 
-* License: GNU GPL Version 2 or later (http://www.gnu.org/copyleft/gpl.html) 
-* Copyright: TuTech Innovation GmbH 
-* Description: Standard CSS for the CMS 
-************************************************/
+h2
+{
+    font-size: 24px;
+    font-weight:normal;
+    color: #888a85;
+    margin:0px;
+	padding-top:2px;
+	padding-bottom:2px;
+    display:block;
+}
+h2 img
+{
+	float:left;
+	padding:2px;
+	margin:2px;
+}
+h3
+{
+    font-size: 14px;
+    color: #555753;
+    display:block;
+    padding-top:16px;
+    padding-bottom:1px;
+    margin:0px;
+    margin-left:0px;
+}
+h4
+{
+    font-size: 12px;
+    color: #555753;
+    display:block;
+    padding-top:3px;
+    padding-bottom:2px;
+    margin:0px;
+    margin-left:2px;
+}
 
-/*needed*/
 #BambusRightInfo{
 	float:right;
 	text-align: right;
 }
-
-
-
-
-/*TODO: clean up */
 #BambusVersionInfo
 {
 	font-size:8px;
@@ -66,49 +89,16 @@
     height:98px;
     overflow:hidden;
 }
-
-#BambusLogo{
-	margin:2px;
-	margin-left: 8px;
-}
-#BCMSSiteName{
-	font-size: 14px;
-	font-weight:bold;
-	vertical-align:middle;
-	padding:2px;
-	color:white;
-	height:47px;
-	width:100px;
-	overflow:hidden;
-	display:block;
-}
-
 .hidden{
 	display:none;
 }
 #objectInspectorActiveFullBox{
 	margin-right: 250px;
 }
-#editorwrapper textarea{
+#org_bambuscms_app_document_editorElementId{
 	border-width: 1px;
 }
 
-/*GUI CLASS STUFF*/
-.toolbutton
-{
-    border: 1px solid #555;
-    background: #dbdce5;
-    width:20px;
-    height:20px;
-    font-size: 14px;
-    text-align:center;
-    float:left;
-    position:relative;
-    top:0px;
-    left:0px;
-    margin:2px;
-    overflow:hidden;
-}
 .clear
 {
     clear:both;
@@ -166,12 +156,7 @@ body
     font-family:"Helvetica", "Arial", "Sans-Serif";
     background: #fff;
 }
-a:link
-{
-    color: black;
-    text-decoration:none;
-}
-a:visited
+a:link, a:visited
 {
     color: black;
     text-decoration:none;
@@ -211,12 +196,4 @@ img
 .show{
     display:block;
     visibility:visible;
-}
-
-/******************************* Move to Application CSS *******************************/
-.td20{
-    width:20%;
-}
-.tdicon{
-    width: 18px;
 }

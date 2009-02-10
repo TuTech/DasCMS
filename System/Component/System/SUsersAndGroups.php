@@ -308,18 +308,18 @@ class SUsersAndGroups
 //wrapper functions: current user and current application
     public function setMyPreference($withKey, $toValue)
     {
-        return $this->setUserApplicationPreference(PAuthentication::getUserID(), BAMBUS_APPLICATION, $withKey, $toValue);
+        return $this->setUserApplicationPreference(PAuthentication::getUserID(), LApplication::getName(), $withKey, $toValue);
     }
     
     public function resetMyPreference($withKeyOrKeys = false)
     {
         //false = reset all keys / string = reset one specific key / array of strings = reset all keys in array
-        return $this->resetUserApplicationPreference(PAuthentication::getUserID(), BAMBUS_APPLICATION, $withKeyOrKeys);
+        return $this->resetUserApplicationPreference(PAuthentication::getUserID(), LApplication::getName(), $withKeyOrKeys);
     }
     
     public function getMyPreference($withKey)
     {
-        return $this->getUserApplicationPreference(PAuthentication::getUserID(), BAMBUS_APPLICATION, $withKey);
+        return $this->getUserApplicationPreference(PAuthentication::getUserID(), LApplication::getName(), $withKey);
     }
     
     

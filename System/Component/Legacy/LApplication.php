@@ -15,6 +15,13 @@ class LApplication extends BLegacy implements IShareable
     public static $sharedInstance = NULL;
     private static $initializedInstance = false;
     
+    private static $appdata = array(
+        'icon' => '',
+        'dir' => '',
+        'title' => '',
+    	'name' => ''
+    );
+    
     /**
      * @return LApplication
      */
@@ -86,7 +93,7 @@ class LApplication extends BLegacy implements IShareable
     {
         //load controll php
         $valueAndAttributes = $this->getXMLPathValueAndAttributes('bambus/application/controller');
-        $path = BAMBUS_APPLICATION_DIRECTORY;
+        $path = self::getDirectory();
         if(!empty($valueAndAttributes[0][0]))
         {
             return($path.$valueAndAttributes[0][0]);
@@ -97,7 +104,7 @@ class LApplication extends BLegacy implements IShareable
     function run()
     {
         $applicationNode = $this->getXMLNodeByPathAndAttribute('bambus/application/interface', 'name',$this->tab);
-        $path = BAMBUS_APPLICATION_DIRECTORY;
+        $path = self::getDirectory();
         if(!empty($applicationNode[1]['src']))
         {
             //generate gui by php
@@ -195,7 +202,7 @@ class LApplication extends BLegacy implements IShareable
         
     function initApp()
     {
-        $path = BAMBUS_APPLICATION_DIRECTORY;
+        $path = self::getDirectory();
         $xmlfile = $path.'Application.xml';
         if(file_exists($xmlfile))
         {
@@ -391,11 +398,13 @@ class LApplication extends BLegacy implements IShareable
             && in_array(RURL::get('editor'), array_keys($pool))
             && file_exists(SPath::SYSTEM_APPLICATIONS.RURL::get('editor').'/Application.xml'))
         {
-            define('BAMBUS_APPLICATION',            RURL::get('editor'));
-            define('BAMBUS_APPLICATION_DIRECTORY',  SPath::SYSTEM_APPLICATIONS.BAMBUS_APPLICATION.'/');
-            define('BAMBUS_APPLICATION_ICON',       WIcon::pathFor($pool[RURL::get('editor')]['icon'],'app'));
-            define('BAMBUS_APPLICATION_TITLE',      SLocalization::get($pool[RURL::get('editor')]['name']));
-            define('BAMBUS_APPLICATION_DESCRIPTION',SLocalization::get($pool[RURL::get('editor')]['desc']));
+            
+            self::$appdata = array(
+                'icon' => WIcon::pathFor($pool[RURL::get('editor')]['icon'],'app'),
+                'dir' => SPath::SYSTEM_APPLICATIONS.RURL::get('editor').'/',
+                'title' => SLocalization::get($pool[RURL::get('editor')]['name']),
+            	'name' => RURL::get('editor')
+            );
 
             $tabs = $this->getXMLPathValueAndAttributes('bambus/tabs/tab');
             if(!isset($tabs[0]))
@@ -403,39 +412,39 @@ class LApplication extends BLegacy implements IShareable
                 $tabs[0] = array('edit', array('icon' => 'edit'));
             }
             $activeTab = $tabs[0];
-            foreach($tabs as $tab)
-            {
-                $barCompatibleTabs[$tab[0]] = array($tab[1]['icon'], SLocalization::get($tab[0]));
-                if($tab[0] == RURL::get('tab'))
-                    $activeTab = $tab;
-            }     
-
-            define('BAMBUS_APPLICATION_TAB',        $activeTab[0]);
-            define('BAMBUS_APPLICATION_TAB_ICON',   WIcon::pathFor($activeTab[1]['icon']));
-            define('BAMBUS_APPLICATION_TAB_TITLE',  SLocalization::get($activeTab[0]));
-        }
-        else
-        {
-            $constants = array(
-                'BAMBUS_APPLICATION',
-                'BAMBUS_APPLICATION_DIRECTORY',
-                'BAMBUS_APPLICATION_ICON',
-                'BAMBUS_APPLICATION_TITLE',
-                'BAMBUS_APPLICATION_DESCRIPTION',
-                'BAMBUS_APPLICATION_TAB',
-                'BAMBUS_APPLICATION_TAB_ICON',
-                'BAMBUS_APPLICATION_TAB_TITLE'
-            );
-            foreach($constants as $const)
-            {
-                if(!defined($const))
-                {
-                    define($const, '');
-                }
-            }
         }
         return $barCompatibleTabs;
     }
+    public static function setAppData(array $data)
+    {
+        foreach (self::$appdata as $k => $v) 
+        {
+            if(isset($data[$k]))
+            {
+                self::$appdata[$k] = $data[$k];
+            }
+        }
+    }
     
+    public static function getName()
+    {
+        return self::$appdata['name'];
+    }
+    
+    public static function getTitle()
+    {
+        return self::$appdata['title'];
+    }
+    
+    public static function getIcon()
+    {
+        return self::$appdata['icon'];
+    }
+    
+    public static function getDirectory()
+    {
+        return self::$appdata['dir'];
+    }
+        
 }
 ?>

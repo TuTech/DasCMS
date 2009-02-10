@@ -25,18 +25,6 @@ class LGui extends BLegacy
         return $element;
     }
 
-    //editor wrapper//
-
-    public static function beginEditorWrapper()
-    {
-        return "<div id=\"editorwrapper\">\n";
-    }
-
-    public static function endEditorWrapper()
-    {
-        return "</div>\n";
-    }
-
 
     public static function beginMultipartForm($_get_values = array(), $id = '')
     {

@@ -281,7 +281,7 @@ if(RSent::hasValue('action'))
 	    foreach($items as $item)
 	    {
 	    	//all admins and the current user must have access to this app
-	    	if(!(($victim == PAuthentication::getUserID() || $SUsersAndGroups->isMemberOf($victim, 'Administrator')) && $item == BAMBUS_APPLICATION))
+	    	if(!(($victim == PAuthentication::getUserID() || $SUsersAndGroups->isMemberOf($victim, 'Administrator')) && $item == LApplication::getName()))
 	    	{
 		    	if(RSent::hasValue('editor_'.md5($item)) && ($SUsersAndGroups->hasPermission(PAuthentication::getUserID(), $item) || PAuthorisation::isInGroup('Administrator')))
 		    	{

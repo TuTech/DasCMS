@@ -124,22 +124,10 @@ class SParser
             case 'gentime':
             case 'runtime':         
                 return round((microtime(true) - BAMBUS_EXEC_START),2);
-            case 'bambuslogo':      
-                return 'System/Images/BambusCMSLogo.png';
             case 'applicationlogo': 
-                return BAMBUS_APPLICATION_ICON;
+                return LApplication::getIcon();
             case 'applicationtitle': 
-                return BAMBUS_APPLICATION_TITLE;
-            case 'applicationtablogo':
-                return BAMBUS_APPLICATION_TAB_ICON;
-            case 'applicationtabtitle':
-                return BAMBUS_APPLICATION_TAB_TITLE;
-            case 'currentobject':   
-                return BAMBUS_CURRENT_OBJECT;
-            case 'currentobjecttitle':
-                return substr(BAMBUS_CURRENT_OBJECT,0,strlen(DFileSystem::suffix(BAMBUS_CURRENT_OBJECT))*-1-1);
-            case 'currentobjecticon':
-                return WIcon::pathFor(DFileSystem::suffix(BAMBUS_CURRENT_OBJECT),'mimetype');
+                return LApplication::getTitle();
             default:                
                 return '';
         }

@@ -253,7 +253,6 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
 	{
 	    $SCI = SContentIndex::alloc()->init();
 	    list($dbid, $alias) = $SCI->createContent('CFeed', $title);
-	    DFileSystem::Save(SPath::TEMPLATES.$dbid.'.php', ' ');
 	    $tpl = new CFeed($alias);
 	    new EContentCreatedEvent($tpl, $tpl);
 	    return $tpl;

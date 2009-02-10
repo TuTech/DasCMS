@@ -23,8 +23,6 @@ class SPath
     
     const CONTENT = './Content/';
     const TEMPLATES = './Content/CTemplate/';
-    const IMAGES = './Content/images/';
-    const DOWNLOADS = './Content/download/';
     const LOGS = './Content/logs/';
     const DESIGN = './Content/stylesheets/';
     const TEMP = './Content/temp/';

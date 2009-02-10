@@ -92,10 +92,9 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
     WTemplate::globalSet('WApplications',  new WApplications());
     
  	//2nd: load application
-    if(BAMBUS_APPLICATION == '')
+    if(LApplication::getName() == '')
 	{
 		WTemplate::globalSet('TaskBar','');
-		define('BAMBUS_CURRENT_OBJECT', '');
 		$headTpl = new WTemplate('header', WTemplate::SYSTEM);
     	$headTpl->render();
 		echo LGui::beginApplication();
@@ -110,31 +109,25 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
 		$appFiles = array('style.css' => 'screen','print.css'=>'print', 'script.js' => 'script');
 		foreach($appFiles as $file => $type)
 		{
-			if(!file_exists(BAMBUS_APPLICATION_DIRECTORY.$file))
+			if(!file_exists(LApplication::getDirectory().$file))
 				continue;
 			switch($type)
 			{
 				case 'script':
-					WHeader::useScript(BAMBUS_APPLICATION_DIRECTORY.$file);
+					WHeader::useScript(LApplication::getDirectory().$file);
 					break;
 				default: //css
-					WHeader::useStylesheet(BAMBUS_APPLICATION_DIRECTORY.$file);
+					WHeader::useStylesheet(LApplication::getDirectory().$file);
 			}
 		}
 	    
-	    WHeader::setTitle(BAMBUS_APPLICATION_TITLE.' - '.LConfiguration::get('sitename'));
-	    
-	    
-	    //load additional translations from the application
-	    
-	    
-	    
-	    
+	    WHeader::setTitle(LApplication::getTitle().' - '.LConfiguration::get('sitename'));
 	    
 	    //export the config into an array
     	//load application class
     	$controller = $Application->controller();
     	$EditingObject = '';
+    	$ob = '';
     	if($controller != false)
     	{
     		ob_start();
@@ -143,7 +136,6 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
     		ob_end_clean();
     		$Application->autorun();
     	}
-		define('BAMBUS_CURRENT_OBJECT', $EditingObject);
 		WTemplate::globalSet('TaskBar',$Application->generateTaskBar());
     	$headTpl = new WTemplate('header', WTemplate::SYSTEM);
         $headTpl->render();
@@ -166,9 +158,10 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
     //Show Login
  
     WTemplate::globalSet('TaskBar','');
-    define('BAMBUS_APPLICATION_TITLE', SLocalization::get('login'));
-    define('BAMBUS_APPLICATION_ICON', WIcon::pathFor('login'));
-	define('BAMBUS_CURRENT_OBJECT', '');
+    LApplication::setAppData(array(
+    	'title' => SLocalization::get('login'),
+        'icon' => WIcon::pathFor('login')
+    ));
 	
     LApplication::alloc()->init()->selectApplicationFromPool(array());
 

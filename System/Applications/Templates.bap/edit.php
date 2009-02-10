@@ -20,9 +20,7 @@ if(PAuthorisation::has('org.bambuscms.content.ctemplate.change') && isset($Tpl) 
 		, htmlentities($Tpl->Title, ENT_QUOTES, 'UTF-8')
 		, htmlentities($Tpl->Title, ENT_QUOTES, 'UTF-8')
 		);
-	echo LGui::beginEditorWrapper();
 	echo LGui::editorTextarea($Tpl->RAWContent);
-	echo LGui::endEditorWrapper();
 }
 echo LGui::endForm();
 if(isset($panel) && $panel->hasWidgets())

@@ -15,10 +15,8 @@ if(PAuthorisation::has('org.bambuscms.system.permissions.tags.change'))
         '<form method="post" id="documentform" name="documentform" action="%s">'
     	,SLink::link(array())
     );
-    echo LGui::beginEditorWrapper();
     echo new WIntroduction('define_restriction_tags', 'tags_listed_here_restrict_access_to_contents');
 	echo LGui::editorTextarea($tags);
-	echo LGui::endEditorWrapper();
 	echo LGui::endForm();
 }
 

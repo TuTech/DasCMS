@@ -145,7 +145,7 @@ if($edit_mode == 'usr')
 	printf('<tr><th></th><th colspan="2">%s</th></tr>', SLocalization::get('editor_permissions'));
 	$line = <<<EOX
 			<tr class="flip_%s">
-				<th class="tdicon">
+				<th style="width:18px;">
 					<input type="checkbox" %s id="ckbx_%s" name="editor_%s" />
 				</th>
 				<td>
@@ -179,7 +179,7 @@ EOX;
 	        $is_admin = $SUsersAndGroups->isMemberOf($victim, 'Administrator');
 	        //printf('%s %s an administrator; ', $victim, ($is_admin) ? 'is' : 'is not');
 	        $checked = ($is_admin || $SUsersAndGroups->hasPermission($victim, $app_name)) ? ' checked="checked"' : '';
-	        $disabled = ($is_admin || ($app_name == BAMBUS_APPLICATION && $victim == PAuthentication::getUserID())) ? ' disabled="disabled"' : '';
+	        $disabled = ($is_admin || ($app_name == LApplication::getName() && $victim == PAuthentication::getUserID())) ? ' disabled="disabled"' : '';
 	        	printf(
 	        		$line,
 	        		$flip,

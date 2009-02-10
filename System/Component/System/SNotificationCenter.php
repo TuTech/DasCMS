@@ -88,7 +88,7 @@ class SNotificationCenter
             ,'message_type' => $type
             ,'edit' => ''
             ,'user' => PAuthentication::getUserID()
-            ,'application' =>  defined('BAMBUS_APPLICATION') ? constant('BAMBUS_APPLICATION') : ''
+            ,'application' =>  LApplication::getName()
             ,'timestamp' => time()
             ,'ip_address' => getenv ("REMOTE_ADDR")
             ,'cms_root' =>  defined('BAMBUS_CMS_ROOTDIR') ? constant('BAMBUS_CMS_ROOTDIR') : ''

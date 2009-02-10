@@ -1,41 +1,3 @@
-function Upload()
-{
-    var div, finput, cinput, cdesc, br, minput;
-	div = document.createElement('div');
-	
-	finput = document.createElement('input');
-	finput.setAttribute('name','bambus_image_file');
-	finput.setAttribute('type','file');
-		
-	minput = document.createElement('input');
-	minput.setAttribute('name','MAX_FILE_SIZE');
-	minput.setAttribute('type','hidden');
-	minput.setAttribute('value','1000000000');
-	
-	cinput = document.createElement('input');
-	cinput.setAttribute('name','bambus_overwrite_image_file');
-	cinput.setAttribute('type','checkbox');
-	cinput.setAttribute('id', 'dlgcheck');
-
-	cdesc = document.createElement('label');
-	cdesc.setAttribute('for', 'dlgcheck');
-	cdesc.appendChild(document.createTextNode('overwrite'));
-
-	br = document.createElement('br');
-
-	div.appendChild(finput);
-	div.appendChild(minput);
-	div.appendChild(br);
-	div.appendChild(cinput);
-	div.appendChild(cdesc);
-	
-	DialogContainer('Upload file', 'file:', div, 'Upload', 'Cancel', true);
-}
-
-
-
-
-/******************/
 function insertMedia(type, url, title)
 {
 	var insert = '';
@@ -46,8 +8,6 @@ function insertMedia(type, url, title)
 			break;
 	}
 }
-
-
 
 function selectImage(id)
 {
@@ -102,10 +62,6 @@ function selectItems(allOrNone)
 		}
 	}
 }
-
-
-
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // CSS editor functions 

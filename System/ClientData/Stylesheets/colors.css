@@ -75,8 +75,6 @@ br.CommandBarTerminator{
 /*
 Main Headline
 */
-.borderedtable th,
-.borderedtable th th,
 #WSidebar-body strong
 {
 	border-style: solid;
@@ -86,22 +84,8 @@ Main Headline
 }
 
 /*
-Sub Headline
-*/
-.borderedtable th[scope=row]
-{
-	border-color: #4e9a06;
-	border-style: solid;
-	background-color: #d3d7cf;
-	color: #2e3436;
-}
-
-/*
 Content frame
 */
-.borderedtable,
-.borderedtable td, 
-.borderedtable td td, 
 #WSidebar
 {
 	border-color: #4e9a06;
@@ -119,26 +103,10 @@ Content element
 #WSearch input,
 #WSearch textarea,
 #WSidebar-body table,
-.borderedtable td input[type=text],
-.borderedtable td textarea, 
-.borderedtable td select,
-#editorwrapper textarea
+#org_bambuscms_app_document_editorElementId
 {
 	border-color: #4e9a06;
 	border-style: solid;
 	color: #2e3436;
 	background-color: #fff;
-}
-/*****************/
-.flip_1 td, .flip_1{
-    background: #fff;
-}
-.flip_2 td, .flip_2{
-    background: #ffffe7;
-}
-.flip_1 th{
-    background: #eeeeec;
-}
-.flip_2 th{
-    background: #f3f3e6;
 }
