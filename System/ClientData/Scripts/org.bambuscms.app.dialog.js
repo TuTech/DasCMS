@@ -1,16 +1,16 @@
-var disableDialogInput = false;
-
-function DialogContainer(Ttitle, TDesc, Dcontent, confirmCaption, abortCaption, doMultipart)
+org.bambuscms.app.dialog = {};
+org.bambuscms.app.dialog.disableInput = false;
+org.bambuscms.app.dialog.create = function(Ttitle, TDesc, Dcontent, confirmCaption, abortCaption, doMultipart)
 {
 	var container = document.getElementById("dialogues");
 	doMultipart = doMultipart!=undefined;
 	
-	dialogue = document.createElement('div');
-	dialogue.setAttribute('class', 'dialogue');
+	dialog = document.createElement('div');
+	dialog.setAttribute('class', 'dialogue');
 
 	title = document.createElement('h2');
 	title.appendChild(document.createTextNode(Ttitle));
-	dialogue.appendChild(title);
+	dialog.appendChild(title);
 	
 	form = document.createElement('form');
 	form.setAttribute('action', document.getElementById('documentform').getAttribute('action'));
@@ -27,45 +27,45 @@ function DialogContainer(Ttitle, TDesc, Dcontent, confirmCaption, abortCaption, 
 
 	form.appendChild(Dcontent);
 	
-	dialogue.appendChild(form);
+	dialog.appendChild(form);
 	if(confirmCaption)
 	{
 		a_ok = document.createElement('a');
-		a_ok.setAttribute('href', 'javascript:confirmDialog();');
+		a_ok.setAttribute('href', 'javascript:org.bambuscms.app.dialog.confirm();');
 		a_ok.className = 'dialog_ok';
 		a_ok.appendChild(document.createTextNode(confirmCaption));
-		dialogue.appendChild(a_ok);
+		dialog.appendChild(a_ok);
 	}
 	if(abortCaption)
 	{
 		a_Cancel = document.createElement('a');
 		a_Cancel.className = 'dialog_cancel';
-		a_Cancel.setAttribute('href', 'javascript:closeDialog();');
+		a_Cancel.setAttribute('href', 'javascript:org.bambuscms.app.dialog.cancel();');
 		a_Cancel.appendChild(document.createTextNode(abortCaption));
-		dialogue.appendChild(a_Cancel);
+		dialog.appendChild(a_Cancel);
 	}
 	end = document.createElement('br');
 	end.setAttribute('class', 'clear');
 
-	dialogue.appendChild(end);
+	dialog.appendChild(end);
 	while(container.hasChildNodes())
 	{
 		container.removeChild(container.firstChild);
 	}
-	container.appendChild(dialogue);
+	container.appendChild(dialog);
 	container.className = 'show';
-	return dialogue;
+	return dialog;
 }
-function confirmDialog()
+org.bambuscms.app.dialog.confirm = function()
 {
-	if(disableDialogInput)
+	if(org.bambuscms.app.dialog.disableInput)
 		return;
-	disableDialogInput = true;
+	org.bambuscms.app.dialog.disableInput = true;
 	document.getElementById('dialogueform').submit();
 }
-function closeDialog()
+org.bambuscms.app.dialog.cancel = function()
 {
-	if(disableDialogInput)
+	if(org.bambuscms.app.dialog.disableInput)
 		return;
 	var container = document.getElementById("dialogues");
 	while(container.hasChildNodes())
@@ -74,3 +74,5 @@ function closeDialog()
 	}
 	container.className = 'hide';
 }
+
+

@@ -10,7 +10,7 @@ org.bambuscms.wsettings.updateImage = function()
 org.bambuscms.wsettings.setImage = function(e)
 {
 	var select = this.alt;
-	closeDialog()
+	org.bambuscms.app.dialog.cancel()
 	if($('WSearch-PreviewImage-Alias'))
 	{
 		$('WSearch-PreviewImage-Alias').value = select;
@@ -38,7 +38,7 @@ org.bambuscms.wsettings.selectImage = function()
 	div = document.createElement('div');
 	div.setAttribute('id','wsettings_img_select');
 	div.innerHTML = '<img src="System/Icons/16x16/animations/loading.gif" style="margin:10px auto 10px auto;display:block;" alt="loading..." title="loading..." />';
-	var dlg = DialogContainer('Select preview image', '', div, false, 'Close');
+	var dlg = org.bambuscms.app.dialog.create('Select preview image', '', div, false, 'Close');
 	dlg.id = 'wsetting_image_picker';
 	dlg.style.top = '150px';
 	dlg.style.left = '225px';

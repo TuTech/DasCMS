@@ -21,7 +21,7 @@ function Create()
 	input.setAttribute('type','text');
 	input.setAttribute('value','');
 		
-	DialogContainer('Create new template', 'name of new template:', input, 'OK', 'Cancel');
+	org.bambuscms.app.dialog.create('Create new feed', 'name of new template:', input, 'OK', 'Cancel');
 	input.focus();
 }
 function Delete()
@@ -31,6 +31,6 @@ function Delete()
 	input.setAttribute('type','hidden');
 	input.setAttribute('value','yes');
 		
-	DialogContainer('Delete template', 'Do you really want to delete this template', input, 'Yes', 'No');
+	org.bambuscms.app.dialog.create('Delete feed', 'Do you really want to delete this template', input, 'Yes', 'No');
 }
 

@@ -28,7 +28,7 @@ function Upload()
 	div.appendChild(cinput);
 	div.appendChild(cdesc);
 	
-	DialogContainer('Upload file', 'file:', div, 'Upload', 'Cancel', true);
+	org.bambuscms.app.dialog.create('Upload file', 'file:', div, 'Upload', 'Cancel', true);
 }
 function Delete()
 {
@@ -37,7 +37,7 @@ function Delete()
 	input.setAttribute('type','hidden');
 	input.setAttribute('value','yes');
 		
-	DialogContainer('Delete website', 'Do you really want to delete this website', input, 'Yes', 'No');
+	org.bambuscms.app.dialog.create('Delete file', 'Do you really want to delete this website', input, 'Yes', 'No');
 }
 /*****************************/
 function selectImage(id)

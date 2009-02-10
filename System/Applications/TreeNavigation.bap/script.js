@@ -9,7 +9,7 @@ function Create()
 	input.setAttribute('type','text');
 	input.setAttribute('value','');
 		
-	DialogContainer('Create navigation', 'filename for the new navigation:', input, 'OK', 'Cancel');
+	org.bambuscms.app.dialog.create('Create navigation', 'filename for the new navigation:', input, 'OK', 'Cancel');
 	input.focus();
 }
 //show delete dialog
@@ -20,7 +20,7 @@ function Delete()
 	input.setAttribute('type','hidden');
 	input.setAttribute('value','yes');
 		
-	DialogContainer('Delete navigation', 'Do you really want to delete this navigation', input, 'Yes', 'No');
+	org.bambuscms.app.dialog.create('Delete navigation', 'Do you really want to delete this navigation', input, 'Yes', 'No');
 }
 
 

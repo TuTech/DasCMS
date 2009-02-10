@@ -17,7 +17,7 @@ function rebuildAliasDB()
 	div.appendChild(p);
 	div.appendChild(input);
 	
-	DialogContainer('Rebuild alias database', 'Do you really want to rebuild the alias database?', div, 'Yes', 'No');
+	org.bambuscms.app.dialog.create('Rebuild alias database', 'Do you really want to rebuild the alias database?', div, 'Yes', 'No');
 	
 }
 
