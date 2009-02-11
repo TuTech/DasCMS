@@ -1,4 +1,4 @@
-function insertMedia(type, url, title)
+org.bambuscms.app.document.insertMedia = function(type, id, title)
 {
 	var insert = '';
 	switch(type)
@@ -7,8 +7,7 @@ function insertMedia(type, url, title)
 			org.bambuscms.app.document.insertText(' url("'+url+'")');
 			break;
 	}
-}
-
+};
 function selectImage(id)
 {
 	var image = document.getElementById(id);

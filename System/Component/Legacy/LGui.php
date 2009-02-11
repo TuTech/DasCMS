@@ -56,20 +56,16 @@ class LGui extends BLegacy
     public static function taskButton($Action, $IsJSAction, $icon, $Caption, $hotkey = '')
     {
         $hotkeyinfo = '';
+        $image = new WIcon($icon, $Caption,WIcon::SMALL);
+        $Action = "javascript:".$Action;
+        $atts = array('href' => $Action, 'title' => $Caption.'');
         if (!empty($hotkey))
         {
-            $keyCode = ord($hotkey);
             self::$hotKeys[$hotkey] = array(($IsJSAction) ? $Action : str_replace('&amp;', '&', $Action), true);
-            if($keyCode >= 65 && $keyCode<=90) // A-Z
-            {
-                $hotkey = '^'.$hotkey;
-            }
-            $hotkeyinfo = self::createElement('span',$hotkey, array('class' => "hotkeyinfo"));
+            $hotkeyinfo = self::createElement('span','^'.$hotkey, array('class' => "hotkeyinfo"));
+            $atts['id'] = 'App-Hotkey-CTRL-'.$hotkey;
         }
-        $image = new WIcon($icon, $Caption,WIcon::SMALL);
-
-        $Action = "javascript:".$Action;
-        $a = self::createElement('a', $hotkeyinfo.$image, array('href' => $Action, 'title' => $Caption.''));
+        $a = self::createElement('a', $hotkeyinfo.$image, $atts);
         $e = self::createElement('div', $a, array('class' => "taskbutton"));
         return $e;
     }

@@ -77,6 +77,73 @@ org.bambuscms.wsettings.fillDialog = function (dataObject)
 	}
 }
 
+//WSearch-PubDate
+org.bambuscms.wsettings.pubDateHelper = null;
+org.bambuscms.wsettings.pubDateHelperTimeOut = null;
+org.bambuscms.wsettings.setPubDate = function()
+{
+	if(org.bambuscms.wsettings.pubDateHelperTimeOut)
+	{
+		window.clearTimeout(org.bambuscms.wsettings.pubDateHelperTimeOut);
+	}
+	$('WSearch-PubDate').value = (this.title); 
+	$('WSearch-PubDate').focus();
+}
+
+org.bambuscms.wsettings.showPubDateHelper = function()
+{
+	if(org.bambuscms.wsettings.pubDateHelper)
+		return;
+	var helps;
+	if($('WSearch-PubDate').value == '')
+	{
+		var d = new Date();
+		helps = {'publish now':d.toLocaleString()};
+	}
+	else
+	{
+		helps = {'revoke publication':''};
+	}
+	var content = document.createElement('div');
+	for(caption in helps)
+	{
+		var help = document.createElement('b');
+		help.title = helps[caption];
+		help.innerHTML = caption;
+		org.bambuscms.gui.setEventHandler(help, 'click', org.bambuscms.wsettings.setPubDate);
+		content.appendChild(help);
+	}
+	org.bambuscms.wsettings.pubDateHelper = org.bambuscms.app.helper.create('WSearch-PubDate', content);
+	org.bambuscms.wsettings.pubDateHelper.style.width = '200px';
+}
+
+org.bambuscms.wsettings.hidePubDateHelper = function()
+{
+	if(org.bambuscms.wsettings.pubDateHelper)
+	{
+		org.bambuscms.app.helper.remove(org.bambuscms.wsettings.pubDateHelper);
+		window.clearTimeout(org.bambuscms.wsettings.pubDateHelperTimeOut);
+		org.bambuscms.wsettings.pubDateHelper = null;
+	}
+}
+org.bambuscms.wsettings.scheduleHidePubDateHelper = function()
+{
+	if(org.bambuscms.wsettings.pubDateHelper)
+	{
+		org.bambuscms.wsettings.pubDateHelperTimeOut = 
+			window.setTimeout('org.bambuscms.wsettings.hidePubDateHelper()', 300);
+	}
+}
+
+org.bambuscms.autorun.register(function(){
+	if($('WSearch-PubDate'))
+	{
+		org.bambuscms.gui.setEventHandler($('WSearch-PubDate'), 'focus', org.bambuscms.wsettings.showPubDateHelper);
+		org.bambuscms.gui.setEventHandler($('WSearch-PubDate'), 'blur', org.bambuscms.wsettings.scheduleHidePubDateHelper);
+	}
+});
+
+//WSearch-PreviewImage
 org.bambuscms.autorun.register(function(){
 	if($('WSearch-PreviewImage'))
 	{

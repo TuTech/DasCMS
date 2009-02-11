@@ -179,7 +179,7 @@ Contents(
         NOT NULL 
         DEFAULT '0000-00-00 00:00:00',
     description 
-        VARCHAR(255) 
+        TEXT
         NOT NULL 
         DEFAULT '',
     INDEX contents_title_desc (title, description(32)),

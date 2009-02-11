@@ -115,20 +115,20 @@ class LApplication extends BLegacy implements IShareable
 
     function generateTaskBar()
     {//TASK- not Tab-Bar
-        $html = '';
         $applicationNode = $this->getXMLNodeByPathAndAttribute('bambus/application/interface', 'name', $this->tab);
         $CommandBar = '';
         if(!empty($applicationNode[0]))
         {
             $tasks = $this->getSCTagValues('task', $applicationNode[0]);
-            $html .= LGui::beginTaskBar();
             $first = true;
             $closed = true;
             $panelName = '';
-            $CommandBar = '<div class="CommandBar">';
+            $CommandBar = "<div class=\"CommandBar\">\n";
             $panelID = '';
+            $hotkeys = array();
             foreach($tasks as $task)
             {
+                $hotkeyID = '';
                 switch($task['type'])
                 {
                     case('spacer'):
@@ -136,18 +136,13 @@ class LApplication extends BLegacy implements IShareable
                         $panelID = isset($task['name']) ?  $task['name'] : '';
                         if(!$closed)
                         {
-                            $CommandBar .= '</tr></table>';
+                            $CommandBar .= "</tr>\n</table>\n";
                             $closed = true;
                         }
-                        $html .= LGui::taskSpacer();
-                        break;
-                    case('item'):
-                        
-                        $html .= LGui::taskSpacer();
                         break;
                     case('button'):
                         $doJS = (empty($task['mode']) || strtolower($task['mode']) == 'javascript');
-                        $hotkey = (!empty($task['hotkey'])) ? $task['hotkey'] : '';
+
                         if($doJS)
                         {
                             $action = $task['action'];
@@ -170,18 +165,24 @@ class LApplication extends BLegacy implements IShareable
                             }
                             $action .= sprintf("{top.location = '%s'%s;}", addslashes(SLink::link(array('_action' => $task['action']))), $prompt);
                         }
-                        $html .= LGui::taskButton($action, $doJS, $task['icon'], SLocalization::get($task['caption']),$hotkey);
+                        if(!empty($task['hotkey']))
+                        {
+                            $hotkeyID = 'id="App-Hotkey-CTRL-'.$task['hotkey'].'"';
+                            $hotkeys[$task['hotkey']] = $action;
+                        }
                         if($closed)
                         {
                             $CommandBar .= sprintf(
-                                '<table cellspacing="0" id="CommandBarPanel_%s" class="CommandBarPanel" title="%s"><tr><th class="CommandBarPanelStart"></th>'
+                                '<table cellspacing="0" id="CommandBarPanel_%s" class="CommandBarPanel" title="%s">'.
+                                "\n<tr>\n<th class=\"CommandBarPanelStart\">\n</th>\n"
                                 ,$panelID
                                 ,htmlentities($panelName, ENT_QUOTES, 'UTF-8')
                             );
                             $closed = false;
                         }                       
                         $CommandBar .= sprintf(
-                            '<td><a class="CommandBarPanelItem" title="%s" href="javascript:%s">%s</a></td>'
+                            "<td>\n<a class=\"CommandBarPanelItem\" %stitle=\"%s\" href=\"javascript:%s\">%s</a>\n</td>"
+                            ,$hotkeyID
                             ,SLocalization::get($task['caption'])
                             ,$action
                             ,new WIcon($task['icon'], SLocalization::get($task['caption']))
@@ -194,8 +195,13 @@ class LApplication extends BLegacy implements IShareable
             {
                 $CommandBar .= '</tr></table>';
             }
+            $hk = '';
+            foreach ($hotkeys as $key => $action)
+            {
+                $hk .= sprintf('org.bambuscms.app.hotkeys.register("CTRL-%s",function(){%s});%s',$key,$action,"\n");
+            }
+            $CommandBar .= new WScript($hk); 
             $CommandBar .= '<br class="CommandBarTerminator" /></div>';
-            $html .= LGui::endTaskBar();
         }
         return $CommandBar;
     }

@@ -1,0 +1,15 @@
+.org_bambuscms_app_helper_frame{
+	position:absolute;
+	background: #EFF9CC;
+	border:1px solid #9FBC4A;
+	padding:5px;
+	display:block;
+	z-index: 100000;
+	margin-top: -6px;
+}
+.org_bambuscms_app_helper_frame ul{
+	padding-left:15px;
+}
+.org_bambuscms_app_helper_frame li{
+	padding:2px;
+}

@@ -237,7 +237,7 @@ function removeContentFrom(id)
 }
 
 var lastFocus = null;
-function insertMedia(type, id, title)
+org.bambuscms.app.document.insertMedia = function(type, id, title)
 {
 	if(lastFocus != null)
 	{
@@ -247,5 +247,5 @@ function insertMedia(type, id, title)
 			document.getElementById(lastFocus+'_ct').value = title;
 		}
 		document.getElementById(lastFocus+'_ct').focus();
-	}//else alert('nofoc');
-}
+	}
+};

@@ -37,7 +37,7 @@ function Delete()
 	input.setAttribute('type','hidden');
 	input.setAttribute('value','yes');
 		
-	org.bambuscms.app.dialog.create('Delete file', 'Do you really want to delete this website', input, 'Yes', 'No');
+	org.bambuscms.app.dialog.create('Delete file', 'Do you really want to delete this file', input, 'Yes', 'No');
 }
 /*****************************/
 function selectImage(id)

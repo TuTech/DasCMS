@@ -19,6 +19,15 @@ org.bambuscms.wcodeeditor = {
 		}
 	},
 	'refresh':[],
+	'enableTabToSpace':function(){
+		org.bambuscms.app.hotkeys.register('TAB', function(){
+			org.bambuscms.app.document.insertText('    ');
+			return false;
+		});
+	},
+	'disableTabToSpace':function(){
+		org.bambuscms.app.hotkeys.unregister('TAB');
+	},
 	'updateInverval':null,
 	'update':function(){},
 	'updateTime':1000,
@@ -29,6 +38,8 @@ org.bambuscms.wcodeeditor = {
 			textarea = $(textarea);
 		} 
 		org.bambuscms.wcodeeditor.target = textarea;
+		org.bambuscms.gui.setEventHandler(textarea, 'focus', org.bambuscms.wcodeeditor.enableTabToSpace);
+		org.bambuscms.gui.setEventHandler(textarea, 'blur', org.bambuscms.wcodeeditor.disableTabToSpace);
 		org.bambuscms.gui.setEventHandler(textarea, 'keyup', org.bambuscms.wcodeeditor.keyup);
 		org.bambuscms.gui.setEventHandler(textarea, 'keydown', org.bambuscms.wcodeeditor.keydown);
 		org.bambuscms.gui.setEventHandler(textarea, 'mouseup', org.bambuscms.wcodeeditor.mouseup);

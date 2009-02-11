@@ -12,7 +12,7 @@ class NTreeNavigationHelper
 	public $spore = null;
 	public $root = null;
 	public $content = null;
-	
+	private $currentAlias = null;
 	private $_activeNodes = array();
 	
 	private $_nodeData = array();
@@ -25,25 +25,30 @@ class NTreeNavigationHelper
 	 */
 	public function __construct(NTreeNavigationObject $tno, QSpore $spore)
 	{
+	    //gather all aliases, 
+	    //NTreeNavigationHelper->getContentCMSID() = SAlias::getMatching(alias, aliases[])
+	    
 		$this->spore = $spore;
 		$this->root = $tno;
     	$content = $this->spore->getContent();
+    	//no content found?
     	if($content == null || !$content instanceof BContent)
     	{
-    		//echo 'content is null or no content<br />';
     		$content = $this->spore->getErrorContent();
     	}
+    	//no error content defined?
     	if($content == null || !$content instanceof BContent)
     	{
-    		//echo 'error content is null or no content also<br />';
     		$content = CError::Open(404);
     	}
-    	//echo get_class($content);
     	$this->content = $content;
+    	$allAliases = $this->root->getAllAliases($this);
+    	$this->currentAlias = SAlias::getMatching($this->content->Alias, $allAliases);
     	$this->root->InitTree($this);
     	if(count($this->_activeNodes) == 0 && $this->root->hasChildren())
     	{
-    		$this->_activeNodes[] = $this->root->getFirstChild();
+    	    //activate first element
+    	    $this->_activeNodes[] = $this->root->getFirstChild();
     	}
     	$initialNodes = $this->_activeNodes;//_active nodes will be afterwards but just activate initial
     	foreach ($initialNodes as $node) 
@@ -79,7 +84,7 @@ class NTreeNavigationHelper
     	{
     		throw new XUndefinedIndexException('not initialized');
     	}
-    	return $this->content->Alias;
+    	return $this->currentAlias;//$this->content->Alias;
     }
     
     /**
@@ -135,7 +140,7 @@ class NTreeNavigationHelper
     	{
     		throw new XUndefinedIndexException('not initialized');
     	}
-    	return SAlias::match($tno->getAlias(), $this->content->Alias);
+    	return $tno->getAlias() == $this->getContentCMSID();
     }
     
     /**

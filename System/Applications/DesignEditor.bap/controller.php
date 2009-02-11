@@ -95,13 +95,13 @@ if(count($Files) > 0)
 	    }
 	}
 }	
-if(count($Files) > 0)
+if(count($Files) > 0 && isset($File))
 {
 	$EditingObject = ($File == 'default.css') ? SLocalization::get('default.css').'.css' : $File;	
 }
 
 echo '<form method="post" id="documentform" name="documentform" action="'
-	,SLink::link(array('edit' => $File))
+	,SLink::link(array('edit' => isset($File) ? $File : ''))
 	,'">';
 
 try{
@@ -116,6 +116,6 @@ catch(Exception $e){
 	
 }	
 $AppController = BAppController::getControllerForID('org.bambuscms.applications.stylesheeteditor');
-echo new WOpenDialog($AppController, $File);
+echo new WOpenDialog($AppController, isset($File) ? $File : '');
 
 ?>

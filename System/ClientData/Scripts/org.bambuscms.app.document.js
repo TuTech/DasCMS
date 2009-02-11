@@ -2,6 +2,11 @@ org.bambuscms.app.document = {};
 org.bambuscms.app.document.editorElementId = 'org_bambuscms_app_document_editorElementId';
 org.bambuscms.app.document.formElementId = 'documentform';
 
+org.bambuscms.app.document.open = function(){org.bambuscms.wopenfiledialog.toggle()};
+org.bambuscms.app.document.createNew = function(){};
+org.bambuscms.app.document.deleteCurrent = function(){};
+org.bambuscms.app.document.orderContent = function(){};
+org.bambuscms.app.document.cleanContent = function(){};
 org.bambuscms.app.document.save = function()
 {
 	if(!document.documentform.submit())
@@ -157,18 +162,53 @@ org.bambuscms.app.document.cleanHTML = function(){
     htmlElem.scrollTop = topScroll;
     htmlElem.scrollLeft = leftScroll;
 };
-
+org.bambuscms.app.document.searchAndReplaceFormHelper = function()
+{
+	var r = $('org_bambuscms_app_document_replace').value;
+	var s = $('org_bambuscms_app_document_search').value;
+	org.bambuscms.app.dialog.cancel();
+	org.bambuscms.app.document.searchAndReplace(s,r);
+}
 org.bambuscms.app.document.searchAndReplace = function(lookFor, replaceWith)
 {
 	if(lookFor == undefined || lookFor == '')
-		lookFor = prompt('look_for', '');
+	{
+		var div = document.createElement('div');
+		var search = document.createElement('input'); 
+		var replace = document.createElement('input');
+		search.type = 'text';
+		search.id = 'org_bambuscms_app_document_search';
+		replace.type = 'text';
+		replace.id = 'org_bambuscms_app_document_replace'
+		var slabel = document.createElement('label');
+		slabel.setAttribute('for', 'org_bambuscms_app_document_search');
+		var rlabel = document.createElement('label');
+		rlabel.setAttribute('for', 'org_bambuscms_app_document_replace');
+		slabel.innerHTML = 'look for:';
+		rlabel.innerHTML = 'replace with:';
+		div.appendChild(slabel);
+		div.appendChild(search);
+		div.appendChild(rlabel);
+		div.appendChild(replace);
+		org.bambuscms.app.dialog.create(
+			'search and replace',
+			'',
+			div,
+			'replace all',
+			'abort',
+			false,
+			'org.bambuscms.app.document.searchAndReplaceFormHelper'
+		);
+	}
 	if(lookFor && lookFor.length > 0)
 	{
+		if(replaceWith == undefined)
+		{
+			replaceWith = '';
+		}
 		var textarea = document.getElementById(org.bambuscms.app.document.editorElementId);
         var txt = textarea.value;
 		var srchlen = lookFor.length;
-		if(replaceWith == undefined)
-			replaceWith = prompt('replace_with', '');
         for(var i = 0; i < txt.length; i++)
         {
             if(txt.substring(i, (i+srchlen)) == lookFor)
@@ -180,5 +220,20 @@ org.bambuscms.app.document.searchAndReplace = function(lookFor, replaceWith)
         textarea.value = txt;
 		textarea.focus();
 	}
+};
+
+org.bambuscms.app.document.insertMedia = function(type, url, title)
+{
+	var insert = '';
+	switch(type)
+	{
+		case 'file':
+			insert=(' <a href="'+url+'" target="_blank">'+title+'</a> ');
+			break;
+		case 'image':
+			insert=('<img src="'+url+'" alt="'+title+'" title="'+title+'" />');
+			break;
+	}
+	org.bambuscms.app.document.insertText(insert);
 };
 

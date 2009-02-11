@@ -147,6 +147,20 @@ class SAlias
 		return ($count == 2);
 	}
 	
+	public static function getMatching($alias, array $aliasesToMatch)
+	{
+	    if(count($aliasesToMatch) == 0)
+	    {
+	        return false;
+	    }
+	    $res = QSAlias::getMatching($alias, $aliasesToMatch);
+	    if($res->getRowCount() != 1)
+	    {
+	        return null;
+	    }
+	    list($match) = $res->fetch();
+		return $match;
+	}
 	
 	/**
 	 * Get all assigned aliases in an array

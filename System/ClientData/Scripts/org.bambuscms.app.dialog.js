@@ -1,9 +1,12 @@
 org.bambuscms.app.dialog = {};
 org.bambuscms.app.dialog.disableInput = false;
-org.bambuscms.app.dialog.create = function(Ttitle, TDesc, Dcontent, confirmCaption, abortCaption, doMultipart)
+org.bambuscms.app.dialog.create = function(Ttitle, TDesc, Dcontent, confirmCaption, abortCaption, doMultipart, okFunctionName, cancelFunctionName)
 {
 	var container = document.getElementById("dialogues");
-	doMultipart = doMultipart!=undefined;
+	doMultipart = (doMultipart == true);
+	
+	okFunctionName = (okFunctionName) ? okFunctionName :  'org.bambuscms.app.dialog.confirm';
+	cancelFunctionName = (cancelFunctionName) ? cancelFunctionName :  'org.bambuscms.app.dialog.cancel';
 	
 	dialog = document.createElement('div');
 	dialog.setAttribute('class', 'dialogue');
@@ -31,7 +34,7 @@ org.bambuscms.app.dialog.create = function(Ttitle, TDesc, Dcontent, confirmCapti
 	if(confirmCaption)
 	{
 		a_ok = document.createElement('a');
-		a_ok.setAttribute('href', 'javascript:org.bambuscms.app.dialog.confirm();');
+		a_ok.setAttribute('href', 'javascript:'+okFunctionName+'();');
 		a_ok.className = 'dialog_ok';
 		a_ok.appendChild(document.createTextNode(confirmCaption));
 		dialog.appendChild(a_ok);
@@ -40,7 +43,7 @@ org.bambuscms.app.dialog.create = function(Ttitle, TDesc, Dcontent, confirmCapti
 	{
 		a_Cancel = document.createElement('a');
 		a_Cancel.className = 'dialog_cancel';
-		a_Cancel.setAttribute('href', 'javascript:org.bambuscms.app.dialog.cancel();');
+		a_Cancel.setAttribute('href', 'javascript:'+cancelFunctionName+'();');
 		a_Cancel.appendChild(document.createTextNode(abortCaption));
 		dialog.appendChild(a_Cancel);
 	}

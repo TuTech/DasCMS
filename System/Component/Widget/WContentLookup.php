@@ -47,7 +47,7 @@ class WContentLookup extends BWidget implements ISidebarWidget
 			$rows = $res->getRowCount()+5;
 				
 			$html .= '<select id="WContentLookup" '.
-			            'onclick="insertMedia(\'content\', this.options[this.selectedIndex].value, '.
+			            'onclick="org.bambuscms.app.document.insertMedia(\'content\', this.options[this.selectedIndex].value, '.
 			            'this.options[this.selectedIndex].text)" size="'.$rows.'">';
 			
 			$lastMan = null;

@@ -23,7 +23,7 @@ function rebuildAliasDB()
 
 
 var lastFocus = null;
-function insertMedia(type, id, title)
+org.bambuscms.app.document.insertMedia = function(type, id, title)
 {
 	if(lastFocus != null)
 	{
@@ -34,7 +34,7 @@ function insertMedia(type, id, title)
 		}
 		document.getElementById(lastFocus+'_t').focus();
 	}
-}
+};
 function showTpl(options, selected, tplid)
 {
 	document.getElementById(tplid).disabled = (options[selected].value != 'template');

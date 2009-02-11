@@ -1,17 +1,3 @@
-function insertMedia(type, url, title)
-{
-	var insert = '';
-	switch(type)
-	{
-		case 'file':
-			insert=(' <a href="'+url+'" target="_blank">'+title+'</a> ');
-			break;
-		case 'image':
-			insert=(' <img src="'+url+'" alt="'+title+'" title="'+title+'" /> ');
-			break;
-	}
-	org.bambuscms.app.document.insertText(insert);
-}
 function Create()
 {
 	input = document.createElement('input');

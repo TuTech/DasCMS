@@ -233,6 +233,7 @@ class NTreeNavigationObject
 	{
 		$this->Navigation = $nav;
 		if($this->alias == $nav->getContentCMSID())
+		//if(SAlias::match($this->alias, $nav->getContentCMSID()))
 		{
 			//report all directly accessed nodes
 			$this->reportVisibility();
@@ -246,6 +247,29 @@ class NTreeNavigationObject
 			$this->next->InitTree($nav);
 		}
 	}
+	
+	/**
+	 * get a list of all aliases used in this navigation
+	 *
+	 * @param NTreeNavigationHelper $nav
+	 */
+	public function getAllAliases(NTreeNavigationHelper $nav)
+	{
+	    $alias = array($this->alias);
+	    $caliases = array();
+	    $naliases = array();
+		if($this->hasChildren())
+		{
+			$caliases = $this->firstChild->getAllAliases($nav);
+		}
+		if($this->hasNext())
+		{
+			$naliases = $this->next->getAllAliases($nav);
+		}
+		$aliases = array_merge($alias, $caliases, $naliases);
+		return $aliases;
+	}
+	
 	/**
 	 * tell the tree navigation that this is an active node
 	 */
