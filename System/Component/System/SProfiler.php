@@ -12,7 +12,7 @@ class SProfiler
 	private $token = 0;
 	private $enabled = false;
 	
-    public static function profile($file, $line, $desc)
+    public static function profile($file, $line, $desc, array $info = array())
     {
     	$my = self::alloc()->init();
         if(!$my->enabled)
@@ -21,7 +21,7 @@ class SProfiler
         }
     	$token = ++$my->token;
     	$mem = memory_get_usage();
-    	$my->runningProfilings[$token] = array($file, $line, $desc, microtime(true), $mem);
+    	$my->runningProfilings[$token] = array($file, $line, $desc, microtime(true), $mem, $info);
     	return $token;
     }
 	
@@ -32,10 +32,10 @@ class SProfiler
         {
             return;
         }
-    	list($file, $line, $desc, $time, $mem) = $my->runningProfilings[$token];
+    	list($file, $line, $desc, $time, $mem, $info) = $my->runningProfilings[$token];
         $time = microtime(true)-$time;
         $mem = memory_get_usage() - $mem;
-        $my->profilings[$token] = array($file, $line, $desc, $time, $mem);
+        $my->profilings[$token] = array($file, $line, $desc, $time, $mem, $info);
         unset($my->runningProfilings[$token]);
     }
     
@@ -77,11 +77,17 @@ class SProfiler
     	$xml->openTag('measurements');
     	foreach ($this->profilings as $nr => $pfl) 
     	{
-    		list($file, $line, $desc, $time, $mem) = $pfl;
+    		list($file, $line, $desc, $time, $mem, $info) = $pfl;
     		$xml->openTag('measurement',array('nr' => $nr, 'file' => $file, 'line' => $line));
     		$xml->tag('runTime',array(),number_format(($time*1000),2)."ms");
             $xml->tag('memDiff',array(),number_format($mem)."bytes");
             $xml->tag('desc',array(),$desc,true);
+            $xml->openTag('info',array());
+            foreach($info as $tagName => $data)
+            {
+                 $xml->tag($tagName,array(),$data,true);
+            }
+            $xml->closeTag();
             $xml->closeTag();
     	}
     	$xml->closeAll();

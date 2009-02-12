@@ -197,12 +197,22 @@ class DSQL_MySQL extends DSQL
     	return self::$DB->real_escape_string($string);
     }
 
+    
+    private function stripParams($sql)
+    {
+        $sql = preg_replace('/(\'([^\']|[\\][\'])*\'|"([^"]|[\\]["])*")/', '?', $sql);
+        $sql = preg_replace('/[\s\n\t\r]+/m', ' ', trim($sql));
+        $sql = preg_replace('/ ([\d]+|0x[a-fA-F0-9]+)([\s]|[\)]|$)/i', ' ?\2', $sql);
+        return preg_replace('/[\s\n\t\r]+/m', ' ', trim($sql));
+    }
+    
     /**
      * @return int affected rows
      */
     public function queryExecute($string)
     {
-    	$ptok = SProfiler::profile(__FILE__, __LINE__, $string);
+        $usql = $this->stripParams($string);
+    	$ptok = SProfiler::profile(__FILE__, __LINE__, $string, array('queryId' => md5($string), 'functionSQL' => $usql, 'functionId' => md5($usql)));
     	$res = self::$DB->query($string);
     	if(self::$DB->errno != 0)
     	{
@@ -222,7 +232,8 @@ class DSQL_MySQL extends DSQL
      */
     public function query($string, $mode = null)
     {
-    	$ptok = SProfiler::profile(__FILE__, __LINE__, $string);
+        $usql = $this->stripParams($string);
+    	$ptok = SProfiler::profile(__FILE__, __LINE__, $string, array('queryId' => md5($string), 'functionSQL' => $usql, 'functionId' => md5($usql)));
     	if ($mode != null) 
     	{
     		$res = self::$DB->query($string, $this->translateMode($mode));

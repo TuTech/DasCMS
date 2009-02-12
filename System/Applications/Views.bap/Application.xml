@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <bambus>
 	<name>views</name>
-	<description>edit_configuration</description>
+	<description>define_content_routes</description>
 	<icon>app-preferences-view</icon>
 	<version>0.10.20061011</version>
 	<priority>0.9</priority>
