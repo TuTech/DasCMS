@@ -120,7 +120,7 @@ class LGui extends BLegacy
         return "</div>\n";
     }
 
-    public static function editorTextarea($content, $spellcheck = false)
+    public static function editorTextarea($content, $spellcheck = false, $enableWYSIWYG = false)
     {
         $out = "<input type=\"hidden\" name=\"action\" value=\"save\" />\n";
         $out .= sprintf(
@@ -139,7 +139,9 @@ class LGui extends BLegacy
             		h = function(){return ($(org.bambuscms.app.document.editorElementId).offsetTop+5)*-1;};
             	}
                 org.bambuscms.display.setAutosize(org.bambuscms.app.document.editorElementId,0,h);
-            })();');
+            })();'.($enableWYSIWYG ? 'var editor = org.bambuscms.editor.wysiwyg.create(org.bambuscms.app.document.editorElementId, true);' : '')
+		
+		);
         $out .= $resize->__toString();
         return $out;
     }

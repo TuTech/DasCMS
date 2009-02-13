@@ -1,4 +1,6 @@
 org.bambuscms.editor.wysiwyg = {};
+org.bambuscms.editor.wysiwyg._index = 0;
+org.bambuscms.editor.wysiwyg.editors = [];
 org.bambuscms.editor.wysiwyg._editor = function(frame){
 	//the document
 	this._doc = null;
@@ -32,7 +34,16 @@ org.bambuscms.editor.wysiwyg._editor = function(frame){
 		return this._doc.body.innerHTML;
 	};
 };
-
+org.bambuscms.editor.wysiwyg.commitAll = function()
+{
+	for(var i = 0; i < org.bambuscms.editor.wysiwyg.editors.length; i++)
+	{
+		if(org.bambuscms.editor.wysiwyg.editors[i].commit)
+		{
+			org.bambuscms.editor.wysiwyg.editors[i].commit();
+		}
+	}
+}
 //org.bambuscms.autorun.register(org.bambuscms.editor.wysiwyg.activateWrapper);
 org.bambuscms.editor.wysiwyg._object = function(elements, wrapper)
 {
@@ -49,16 +60,38 @@ org.bambuscms.editor.wysiwyg._object = function(elements, wrapper)
 		for(func in commands)
 		{
 			var trigger = function(){_me.butClick(this.title);};
-			var but = document.createElement('button');
+			var but = document.createElement('img');
+			but.src = 'System/Icons/22x22/actions/format-'+commands[func]+'.png';
 			but.onclick = trigger;
 			but.title = func;
-			but.appendChild(document.createTextNode(commands[func]));
+			//but.appendChild(document.createTextNode(commands[func]));
 			cmdBar.appendChild(but);
 		}
 		this.elements.outer.insertBefore(cmdBar, this.elements.inner);
 		return cmdBar;
 	};
 
+	this.exec = function(cmd, arg)
+	{
+		switch(cmd.toLowerCase())
+		{
+			case 'createlink':
+				arg = arg || prompt('link please', 'http://');
+			default:
+				_wrap.exec(cmd, arg);
+		}
+	};
+	
+	this.commit = function()
+	{
+		_me.elements.source.value = _wrap.getText();
+	}
+	
+	//get the html from the wysiwyg editor
+	this.getText = function(){
+		return _wrap.getText();
+	};
+	
 	//button in command bar clicked? 
 	//read the action from title and tell the wrapper to execute it
 	this.butClick = function(action){
@@ -77,8 +110,9 @@ org.bambuscms.editor.wysiwyg._object = function(elements, wrapper)
 	};
 }
 
-org.bambuscms.editor.wysiwyg.create = function(textarea)
+org.bambuscms.editor.wysiwyg.create = function(textarea, fillScreen)
 {
+	var myIndex = ++org.bambuscms.editor.wysiwyg._index;
 	//get ref to textarea as source for our content
 	textarea = (typeof textarea == 'string') ? $(textarea) : textarea;
 	//container for all our html elements
@@ -91,18 +125,42 @@ org.bambuscms.editor.wysiwyg.create = function(textarea)
 	//build dom tree an insert before the textarea
 	elements.outer.appendChild(elements.inner);
 	elements.inner.appendChild(elements.editor);
-	elements.source.parentNode.insertBefore(elements.outer,elements.source);
+	if(elements.source.nextSibling)
+	{
+		elements.source.parentNode.insertBefore(elements.outer,elements.source.nextSibling);
+	}
+	else
+	{
+		elements.source.parentNode.appendChild(elements.outer);
+	}
+	
 	//give all our elements css classes for a nice design
 	for(elm in elements)
 	{
-		elements[elm].className = 'org_bambuscms_editor_wysiwyg_'+elm;
+		elements[elm].className += ' org_bambuscms_editor_wysiwyg_'+elm;
+		if(!elements[elm].id)
+		{
+			elements[elm].id = 'org_bambuscms_editor_wysiwyg_'+elm+'_'+myIndex;
+		}
 	}
+	//register in autosize as source
+	if(fillScreen)
+	{
+    	var h = -190;
+        if(elements.editor.offsetTop)
+        {
+    		h = function(){return (elements.editor.offsetTop+5)*-1;};
+    	}
+		org.bambuscms.display.setAutosize(elements.editor.id, 0, h, true);
+	}
+
 	//the wrapper will care for the command execution and browser compatibility
 	var wrapper = new org.bambuscms.editor.wysiwyg._editor(elements.editor);
 	//reutrn interface object
 	var editor = new org.bambuscms.editor.wysiwyg._object(elements, wrapper);
 	//activate wysiwyg ability
 	org.bambuscms.autorun.register(function(){editor.start();});
-	editor.buildToolbar({'bold':'B','italic':'i','underline':'u','strikethrough':'s','superscript':'sup','subscript':'sub'});
+	org.bambuscms.editor.wysiwyg.editors[org.bambuscms.editor.wysiwyg.editors.length] = editor;
+	//editor.buildToolbar({'bold':'bold','italic':'italic','underline':'underline','strikethrough':'strike','superscript':'sup','subscript':'sub'});
 	return editor;
 }

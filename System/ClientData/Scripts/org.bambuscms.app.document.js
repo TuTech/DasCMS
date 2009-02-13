@@ -9,6 +9,10 @@ org.bambuscms.app.document.orderContent = function(){};
 org.bambuscms.app.document.cleanContent = function(){};
 org.bambuscms.app.document.save = function()
 {
+	if(org.bambuscms.editor.wysiwyg.commitAll)
+	{
+		org.bambuscms.editor.wysiwyg.commitAll();
+	}
 	if(!document.documentform.submit())
 	{
 		$(org.bambuscms.app.document.formElementId).submit();

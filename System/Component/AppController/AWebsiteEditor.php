@@ -29,15 +29,15 @@ class AWebsiteEditor
         $items = array();
         foreach ($IDindex as $alias => $data) 
         {
-        	list($title, $pubdate) = $data;
-        	$items[] = array($title, $alias, 0, strtotime($pubdate));
+        	list($title, $pubdate, $type, $id) = $data;
+        	$items[] = array($title, $alias, 0, strtotime($pubdate), filesize('Content/CPage/'.$id.'.content.php'));
         }
         $data = array(
             'title' => SLocalization::get('open'),
             'nrOfItems' => count($items),
             'iconMap' => array(CPage::defaultIcon()->asSize(WIcon::LARGE)->getPath()),
             'smallIconMap' => array(CPage::defaultIcon()->asSize(WIcon::EXTRA_SMALL)->getPath()),
-            'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2, 'pubDate' => 3),//, 'tags' => 4
+            'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2, 'pubDate' => 3, 'size' => 4),//, 'tags' => 4
             'sortable' => array('title' => 'title', 'pubDate' => 'pubDate'),
             'items' => $items,
             'captions' => array(
@@ -50,7 +50,8 @@ class AWebsiteEditor
                 'pubDate' => SLocalization::get('pubDate'),
                 'notPublished' => SLocalization::get('not_published'),
                 'title' => SLocalization::get('title'),
-                'type' => SLocalization::get('type'),
+                'type' => SLocalization::get('type'),                
+                'size' => SLocalization::get('size'),
             )
         );
         return $data;

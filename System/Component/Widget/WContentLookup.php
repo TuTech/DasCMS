@@ -24,6 +24,13 @@ class WContentLookup extends BWidget implements ISidebarWidget
 	{
 	    return 'content_lookup';
 	}
+		
+	public function getIcon()
+	{
+	    return new WIcon('link','',WIcon::SMALL,'action');
+	}
+	
+	
 	
 	public function __construct(WSidePanel $sidepanel)
 	{
@@ -37,7 +44,7 @@ class WContentLookup extends BWidget implements ISidebarWidget
 	        sprintf("<label>%s</label>", SLocalization::get('search_contens')),
 	        '<div id="WCLSearchBox">'.
 		            '<input type="text" id="WContentLookupFilter" onchange="org.bambuscms.wcontentlookup.filter();" '.
-		            'onkeyup="org.bambuscms.wcontentlookup.filter();" /></div>'
+		            'onkeyup="org.bambuscms.wcontentlookup.filter();" /></div>'."\n"
 	    );
 	    
 		$html = '';
@@ -48,7 +55,7 @@ class WContentLookup extends BWidget implements ISidebarWidget
 				
 			$html .= '<select id="WContentLookup" '.
 			            'onclick="org.bambuscms.app.document.insertMedia(\'content\', this.options[this.selectedIndex].value, '.
-			            'this.options[this.selectedIndex].text)" size="'.$rows.'">';
+			            'this.options[this.selectedIndex].text)" size="'.$rows.'">'."\n";
 			
 			$lastMan = null;
 			while($erg = $res->fetch())
@@ -73,7 +80,7 @@ class WContentLookup extends BWidget implements ISidebarWidget
 				}
 				$html .= '<option value="'.$alias.'" class="'.$class.'" title="'.$alias.' - '.$title.'">'.
 								htmlentities($ttl, ENT_QUOTES, 'UTF-8').' ('.htmlentities($alias, ENT_QUOTES, 'UTF-8').')'
-						.'</option>';
+						.'</option>'."\n";
 			}
 			$res->free();
 			if($lastMan != null)  $html .= '</optgroup>';

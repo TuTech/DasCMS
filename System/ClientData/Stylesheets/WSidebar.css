@@ -12,8 +12,6 @@
 	overflow: auto;
 }
 #WSidebar-head{
-	border-width:0px;
-	border-bottom-width: 1px;
 	position:absolute;
 	z-index:500;
 	right:0px;
@@ -25,7 +23,29 @@
 	width: 250px;
 	border-right-width: 0px;
 }
+#WSidebar-select{
+	width:100%;
+	border-spacing: 0px;
+	padding:0px;
+	margin:0px;
+	border:0px;
+}
+#WSidebar-select a{
+	display:block;
+	padding:2px;
+	background: url(../../Images/header_background_gray.png) 0% 10%;
+}
+#WSidebar-select a.selectedWidget{
+	background: url(../../Images/header_background.png) 0% 10%;
+}
 
+#WSidebar-select td{
+	text-align: center;
+	padding:0px;
+	margin:0px;
+	border:0px;
+	border-right: 1px solid #888a85;
+}
 
 #WSidebar-head select{
 	display:block;

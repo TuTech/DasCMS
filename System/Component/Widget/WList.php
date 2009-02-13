@@ -20,7 +20,7 @@ class WList extends BWidget
 	private $wrapTag;
 	private $autotranslate = true;
 	
-	public function __construct(array $items, $itemTag = 'p', $wrapTag = null, $title = null)
+	public function __construct(array $items = array(), $itemTag = 'p', $wrapTag = null, $title = null)
 	{		
 		$this->ID = ++parent::$CurrentWidgetID;
 		$this->items = $items;

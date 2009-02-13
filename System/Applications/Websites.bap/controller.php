@@ -75,6 +75,7 @@ if(isset($Page))
 		    WSidePanel::CONTENT_LOOKUP|
 		    WSidePanel::PROPERTY_EDIT|
 		    WSidePanel::HELPER|
+		    WSidePanel::WYSIWYG|
 		    WSidePanel::PERMISSIONS);
 		$panel->setTargetContent($Page);
 		echo $panel;

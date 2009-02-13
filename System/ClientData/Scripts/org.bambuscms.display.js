@@ -49,14 +49,24 @@ org.bambuscms.display = {
 			}
 		}
 	},
-	'setAutosize':function(elementID, width, height, refresh)
+	'setAutosize':function(elementID, width, height, refreshNow)
 	{
 		org.bambuscms.display._objects[elementID] = {};
 		org.bambuscms.display._objects[elementID].width = width;
 		org.bambuscms.display._objects[elementID].height = height;
-		if(refresh)
+		if(refreshNow)
 		{
 			org.bambuscms.display._resize();
+		}
+	},
+	'getAutosize':function(elementID)
+	{
+		if(org.bambuscms.display._objects[elementID])
+		{
+			return {
+					'width':org.bambuscms.display._objects[elementID].width,
+					'height':org.bambuscms.display._objects[elementID].height
+				};
 		}
 	},
 	'getDocumentWidth':function(){return 0;},

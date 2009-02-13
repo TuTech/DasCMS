@@ -28,5 +28,9 @@ interface ISidebarWidget
 	 * @return string
 	 */
 	public function getName();
+	/**
+	 * @return WIcon
+	 */
+	public function getIcon();
 }
 ?>

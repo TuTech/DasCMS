@@ -1,0 +1,3 @@
+org.bambuscms.wwysiwygpanel = {
+	'target':{}
+};

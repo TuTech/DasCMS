@@ -20,6 +20,11 @@ class WTagPermissions extends BWidget implements ISidebarWidget
 		return 'tag_permissions';
 	}
 	
+	public function getIcon()
+	{
+	    return new WIcon('protect','',WIcon::SMALL,'action');
+	}
+	
 	public static function isSupported(WSidePanel $sidepanel)
 	{
 	    return (

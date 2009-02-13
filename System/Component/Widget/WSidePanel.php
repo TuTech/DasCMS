@@ -15,6 +15,7 @@ class WSidePanel extends BWidget
     const HELPER = 4;
     const MEDIA_LOOKUP = 8;
     const PERMISSIONS = 16;
+    const WYSIWYG = 32;
     
     private $mode = self::NONE;
     private $mimetype;
@@ -147,18 +148,30 @@ class WSidePanel extends BWidget
 		    $selectedWidget = $this->selectWidget();
 			ksort($this->sidebarWidgets, SORT_LOCALE_STRING);
 			$html = "<div id=\"WSidebar-head\">\n";
-			$html .= "\t\t<select name=\"WSidebar-selected\" onchange=\"org.bambuscms.wsidebar.show(this.options[this.selectedIndex].value);\">\n"; 
+			//$html .= "\t\t<select name=\"WSidebar-selected\" onchange=\"org.bambuscms.wsidebar.show(this.options[this.selectedIndex].value);\">\n"; 
 			//select
+			$html .= sprintf('<input type="hidden" name="WSidebar-selected" id="WSidebar-selected" value="" />',htmlentities($selectedWidget));
+			$html .= '<table id="WSidebar-select"><tr>'."\n";
 			foreach ($this->sidebarWidgets as $class => $object) 
 			{
-				$html .= sprintf(
-					"\t\t\t<option value=\"%s\"%s>%s</option>\n"
-					, $class
-					,($class == $selectedWidget) ? ' selected="selected"' : ''
-					, SLocalization::get($object->getName()));
+//				$html .= sprintf(
+//					"\t\t\t<option value=\"%s\"%s>%s</option>\n"
+//					, $class
+//					,($class == $selectedWidget) ? ' selected="selected"' : ''
+//					, SLocalization::get($object->getName()));
+		        $html .=  sprintf(
+		        	"<td><a href=\"javascript:org.bambuscms.wsidebar.show('%s')\" id=\"WSidebar-selector-%s\" title=\"%s\"%s>%s</a></td>\n"
+		        	,$class
+		        	,$class
+		        	,SLocalization::get($object->getName())
+		        	,($class == $selectedWidget) ? ' class="selectedWidget"' : ''
+		        	,$object->getIcon()
+		        );
 			}
 			
-			$html .= "\t\t</select>\n\t</div>\n<div id=\"WSidebar\">\n\t<div class=\"side-scroll-body\">\n\t<div id=\"WSidebar-body\">\n";
+			//$html .= "\t\t</select>";
+			$html .= '</tr></table>';
+			$html .= "\n\t</div>\n<div id=\"WSidebar\">\n\t<div class=\"side-scroll-body\">\n\t<div id=\"WSidebar-body\">\n";
 			//widgets
 			foreach ($this->sidebarWidgets as $class => $object) 
 			{
