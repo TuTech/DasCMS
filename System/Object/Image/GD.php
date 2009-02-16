@@ -138,7 +138,7 @@ class Image_GD extends _Image
         }
     }
     
-    private function setAntialias($imgRes, $on = true)
+    private function setAntialias(&$imgRes, $on = true)
     {
         if(function_exists('imageantialias'))
         {
