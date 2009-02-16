@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE bambus SYSTEM "../../Resource/DTD/application_v1.dtd">
 <bambus>
 	<name>files</name>
 	<description>manage_and_upload_files</description>
@@ -7,7 +8,7 @@
 	<priority>1.9</priority>
 	<purpose>edit_content</purpose>
 	<tabs>
-		<tab icon="place-folder">manage</tab>
+		<tab icon="place-folder">manage</tab> 
 	</tabs>
 	<application>
 		<controller>controller.php</controller>

@@ -1,0 +1,30 @@
+<!ELEMENT bambus (name, description, icon, version, priority, purpose, tabs, application)>
+    <!ELEMENT name          (#PCDATA)>
+    <!ELEMENT description   (#PCDATA)>
+    <!ELEMENT icon          (#PCDATA)>
+    <!ELEMENT version       (#PCDATA)>
+    <!ELEMENT priority      (#PCDATA)>
+    <!ELEMENT purpose       (#PCDATA)>
+	<!ELEMENT tabs    		(tab+)>
+		<!ELEMENT tab       (#PCDATA)>
+		<!ATTLIST tab 
+	        icon CDATA #REQUIRED
+	     >	
+	<!ELEMENT application 	(controller, interface+)>
+		<!ELEMENT controller (#PCDATA)>
+		<!ELEMENT interface  (task*)>
+	    <!ATTLIST interface 
+	        name CDATA #REQUIRED
+	        src  CDATA #REQUIRED
+	     >	
+		     <!ELEMENT task EMPTY>
+			 <!ATTLIST task 
+			    type (button|spacer) #REQUIRED
+			    hotkey  CDATA #IMPLIED
+			    caption CDATA #IMPLIED
+			    icon  	CDATA #IMPLIED
+			    action  CDATA #IMPLIED
+			    confirm CDATA #IMPLIED
+			    name    CDATA #IMPLIED
+			    mode    (html|js) #IMPLIED
+			 >		     
