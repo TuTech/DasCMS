@@ -49,7 +49,9 @@ class WWYSIWYGPanel extends BWidget implements ISidebarWidget
 	
 	private function makeList(array $ofItems, $title = null)
 	{
-	    $headList = new WList(array(),'li','ul',($title != null ? (SLocalization::get($title)) : ''));
+	    $headList = (in_array($title, array('char_formats', 'headings', 'paragraph_types', 'layout')))
+	        ? (new WList(array(),null,'div',($title != null ? (SLocalization::get($title)) : '')))
+	        : (new WList(array(),'li','ul',($title != null ? (SLocalization::get($title)) : '')));
 	    foreach($ofItems as $head => $item)
 	    {
 	        if(is_array($item))
@@ -70,18 +72,44 @@ class WWYSIWYGPanel extends BWidget implements ISidebarWidget
 	    switch($section)
 	    {
 	        case 'headings':
+	            return sprintf(
+	            	"<img src=\"%s\" alt=\"%s\" title=\"%s\" onclick=\"javascript:org.bambuscms.editor.wysiwyg.editors[0].exec('formatblock','<%s>')\">"
+	                ,WIcon::pathFor('format-'.$tag, 'action',WIcon::SMALL)
+	                ,$name
+	                ,$name
+	                ,$tag
+                );
 	        case 'paragraph_types':
+	            return sprintf(
+	            	"<img src=\"%s\" alt=\"%s\" title=\"%s\" onclick=\"javascript:org.bambuscms.editor.wysiwyg.editors[0].exec('formatblock','<%s>')\">"
+	                ,WIcon::pathFor('format-'.$name, 'action',WIcon::SMALL)
+	                ,$name
+	                ,$name
+	                ,$tag
+                );
+	        //case 'paragraph_types':
 	            return sprintf(
 	            	"<a href=\"javascript:org.bambuscms.editor.wysiwyg.editors[0].exec('formatblock','<%s>')\">%s</a>"
 	                ,$tag
 	                ,$name
 	            );
-	        case 'char_formats':
+	        case 'layout':
+                $icon = str_replace('justify', 'align-', $tag);
 	            return sprintf(
-	            	"<a href=\"javascript:org.bambuscms.editor.wysiwyg.editors[0].exec('%s')\">%s</a>"
+	            	"<img src=\"%s\" alt=\"%s\" title=\"%s\" onclick=\"javascript:org.bambuscms.editor.wysiwyg.editors[0].exec('%s')\">"
+	                ,WIcon::pathFor('format-'.$icon, 'action',WIcon::SMALL)
 	                ,$name
 	                ,$name
-	            );
+	                ,$tag
+                );	            
+            case 'char_formats':
+	            return sprintf(
+	            	"<img src=\"%s\" alt=\"%s\" title=\"%s\" onclick=\"javascript:org.bambuscms.editor.wysiwyg.editors[0].exec('%s')\">"
+	                ,WIcon::pathFor('format-'.$tag, 'action',WIcon::SMALL)
+	                ,$name
+	                ,$name
+	                ,$name
+                );	            
 	        case 'insert':
 	            return sprintf(
 	            	"<a href=\"javascript:org.bambuscms.editor.wysiwyg.editors[0].exec('%s')\">%s</a>"
@@ -89,11 +117,10 @@ class WWYSIWYGPanel extends BWidget implements ISidebarWidget
 	                ,$name
 	            );
             case 'commands':
-	            if($tag == 'source')
+	            if($tag == 'switchWYSIWYG')
 	            {
 	                return sprintf(
-    	            	"<a href=\"javascript:alert(org.bambuscms.editor.wysiwyg.editors[0].getText());\">%s</a>"
-    	                ,$tag
+    	            	"<a href=\"javascript:void(org.bambuscms.editor.wysiwyg.editors[0].switchWYSIWYG());\">%s</a>"
     	                ,$name
     	            );
 	            }
@@ -113,12 +140,13 @@ class WWYSIWYGPanel extends BWidget implements ISidebarWidget
 	private static function getStruct()
 	{
 	    return array(
-	        'commands' => array('removeformat' => 'remove format','unlink' => 'remove link','source' => 'show source'),
-	    	'headings' => array('H1'=>'huge','H2'=>'large','H3'=>'medium large','H4'=>'medium small','H5'=>'small','H6'=>'tiny'),
-	        'paragraph_types' => array('p'=>'paragraph','address'=>'address','pre'=>'prefromated text'),
+	    	'headings' => array('h1'=>'huge','h2'=>'large','h3'=>'medium large','h4'=>'medium small','h5'=>'small','h6'=>'tiny'),
+	        'paragraph_types' => array('p'=>'paragraph','address'=>'address'),
 	        //'paragraph_formats' => array('css here'),
-	        'char_formats' => array('bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript'),
-	        'insert'=> array('createlink' => 'external link'/*, 'link to content', 'embed image'*/)
+	        'char_formats' => array('bold' => 'bold', 'italic' => 'italic', 'underline' => 'underline', 'strike' => 'strikethrough', 'sup' => 'superscript', 'sub' => 'subscript'),
+	        'layout'=> array('justifyleft' => 'align left','justifycenter' => 'align center','justifyright' => 'align right', 'indent' => 'indent', 'outdent' => 'outdent'),
+	        'insert'=> array('createlink' => 'external link'/*, 'link to content', 'embed image'*/),
+	    	'commands' => array('removeformat' => 'remove format','unlink' => 'remove link','switchWYSIWYG' => 'show code view'),
 	    );
 	}
 	
@@ -127,16 +155,11 @@ class WWYSIWYGPanel extends BWidget implements ISidebarWidget
 	{
 	    echo '<div id="WWYSIWYGPanel">';
 	    print('<script type="text/javascript">org.bambuscms.wwysiwygpanel.target = null;org.bambuscms.autorun.register(function(){org.bambuscms.wwysiwygpanel.target = org.bambuscms.editor.wysiwyg.editors[0];});</script>');
+	    echo '<div id="WWYSIWYGPanel-Design">';
 	    echo $this->makeList(self::getStruct());
-//	    $pTypes = new WList(array(),'li', 'ul',SLocalization::get('paragraph_types'));
-//	    $pTypes->add(new WList(array('H1','H2','H3','H4','H5','H6'), 'li', 'ul', 'headings'));
-//	    $pTypes->add(new WList(array('paragraph','address','code','quote','without_type'), 'li', 'ul', 'other'));
-//	    echo $pTypes;
-//	    $pTypes = new WList(array(),'li', 'ul',SLocalization::get('paragraph_formats'));
-//	    printf('<h3>%s</h3>', SLocalization::get('paragraph_formats'));
-//	    printf('<h3>%s</h3>', SLocalization::get('char_formats'));
-//	    printf('<h3>%s</h3>', SLocalization::get('insert'));
-	    echo '</div>';
+	    echo '</div><div id="WWYSIWYGPanel-Code" style="display:none">';
+	    echo $this->makeList(array('commands' => array('switchWYSIWYG' => 'show design view')));
+	    echo '</div></div>';
 	}
 }
 ?>

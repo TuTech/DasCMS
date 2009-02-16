@@ -12,6 +12,7 @@ org.bambuscms.editor.wysiwyg._editor = function(frame){
 		this._doc.execCommand(cmd, false, arg);
 		this._target.contentWindow.focus();
 	};
+	this.wysiwygOn = true;
 	//enablke wysiwyg (must be called on body.onload)
 	this.makeEditable = function(){
 		if(this._target.contentWindow)
@@ -25,6 +26,26 @@ org.bambuscms.editor.wysiwyg._editor = function(frame){
 			this._doc.contentEditable = 'true';
 		}
 	};
+	this.switchWYSIWYG = function()
+	{
+		if(this.wysiwygOn)
+		{
+			var source = this._doc.body.innerHTML;
+			this._doc.body.innerHTML = '';
+			this._doc.body.appendChild(document.createTextNode(source));
+			this._doc.body.style.whiteSpace = 'pre';
+		}
+		else
+		{
+			var source = this._doc.body.firstChild.nodeValue;
+			this._doc.body.innerHTML = source;
+			this._doc.body.style.whiteSpace = '';
+		}
+		this.wysiwygOn = !this.wysiwygOn;
+		$('WWYSIWYGPanel-Design').style.display = this.wysiwygOn ? 'block' : 'none';
+		$('WWYSIWYGPanel-Code').style.display = this.wysiwygOn ? 'none' : 'block';
+		return this.wysiwygOn;
+	}
 	//set the html content for the wysiwyg editor
 	this.setText = function(text){
 		this._doc.body.innerHTML = text;
@@ -86,7 +107,14 @@ org.bambuscms.editor.wysiwyg._object = function(elements, wrapper)
 	{
 		_me.elements.source.value = _wrap.getText();
 	}
+	this.disableWYSIWYG = function(){
+		
+	}
 	
+	this.switchWYSIWYG = function()
+	{
+		return _wrap.switchWYSIWYG();
+	}
 	//get the html from the wysiwyg editor
 	this.getText = function(){
 		return _wrap.getText();

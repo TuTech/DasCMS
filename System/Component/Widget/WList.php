@@ -58,6 +58,7 @@ class WList extends BWidget
 
 	public function render()
 	{
+	    $itemTPL = empty($this->itemTag) ? "%s%s%s\n" : "<%s>%s</%s>\n";
 	    if($this->title != null)
 	    {
 	        printf('<h3>%s</h3>', $this->autotranslate ? (SLocalization::get($this->title)) : $this->encode($this->title));
@@ -68,7 +69,7 @@ class WList extends BWidget
 	    }
 	    foreach ($this->items as $item) 
 	    {
-	    	printf("<%s>%s</%s>\n", $this->itemTag, strval($item), $this->itemTag);
+	    	printf($itemTPL, $this->itemTag, strval($item), $this->itemTag);
 	    }
 	    if($this->wrapTag != null)
 	    {
