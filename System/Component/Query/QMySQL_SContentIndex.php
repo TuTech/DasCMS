@@ -209,28 +209,28 @@ class QSContentIndex extends BQuery
     {
         $DB = BQuery::Database();
         $DB->beginTransaction();
-        $sql = "
-            INSERT INTO Contents
+        $sql = 
+        	"INSERT INTO Contents
             	(type, title, description)
             	VALUES
             	((SELECT classID FROM Classes WHERE class = '%s'), '%s', '')";
         $DB->queryExecute(sprintf($sql, $DB->escape($type), $DB->escape($title)));
         $id = $DB->lastInsertID();
-        $sql = "
-            INSERT INTO Aliases
+        $sql = 
+        	"INSERT INTO Aliases
             	(alias, contentREL)
             	VALUES
             	(UUID(), %d)";
         $DB->queryExecute(sprintf($sql, $id));
         $aliasID = $DB->lastInsertID();
-        $sql = "
-			UPDATE Contents
+        $sql = 
+        	"UPDATE Contents
 				SET primaryAlias = %d,
 					GUID = %d
 				WHERE contentID = %d";
         $DB->queryExecute(sprintf($sql, $aliasID, $aliasID, $id));
-        $sql = "
-			INSERT INTO Changes
+        $sql = 
+        	"INSERT INTO Changes
 				(contentREL, title, size, userREL)
 				VALUES
 				(%d, '%s', 0, (SELECT userID FROM Users WHERE login = '%s'))";

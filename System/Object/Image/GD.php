@@ -138,6 +138,14 @@ class Image_GD extends _Image
         }
     }
     
+    private function setAntialias($imgRes, $on = true)
+    {
+        if(function_exists('imageantialias'))
+        {
+            imageantialias($imgRes, $on);
+        }
+    }
+    
     /**
      * fixed size scale method
      * @param $width
@@ -162,7 +170,7 @@ class Image_GD extends _Image
             
             //create and copy crop
             $target = Image_GD::create($width, $heigth);
-            imageantialias($target->imgRes, true);
+            $this->setAntialias($target->imgRes, true);
             imagecopyresampled(
                 $target->imgRes,//dest
                 $this->imgRes,  //src
@@ -205,7 +213,7 @@ class Image_GD extends _Image
             //create and copy crop
             $target = Image_GD::create($width, $heigth);
             $target->fill($color);
-            imageantialias($target->imgRes, true);
+            $this->setAntialias($target->imgRes, true);
             imagecopyresampled(
                 $target->imgRes,//dest
                 $this->imgRes,  //src
@@ -248,7 +256,7 @@ class Image_GD extends _Image
             
             //create and copy crop
             $target = Image_GD::create($width-$startx, $heigth-$starty);
-            imageantialias($target->imgRes, true);
+            $this->setAntialias($target->imgRes, true);
             imagecopyresampled(
                 $target->imgRes,//dest
                 $this->imgRes,  //src
@@ -281,7 +289,7 @@ class Image_GD extends _Image
         {
             //create and copy crop
             $target = Image_GD::create($width, $heigth);
-            imageantialias($target->imgRes, true);
+            $this->setAntialias($target->imgRes, true);
             imagecopyresampled(
                 $target->imgRes,//dest
                 $this->imgRes,  //src
