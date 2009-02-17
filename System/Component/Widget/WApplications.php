@@ -53,7 +53,7 @@ class WApplications extends BWidget
 	public function __toString()
 	{
 		$html = '<div id="'.get_class($this)."\"><table>\n<tr>";
-		asort($this->apps, SORT_LOCALE_STRING);
+		ksort($this->apps, SORT_LOCALE_STRING);
 		foreach ($this->apps as $app => $meta) 
 		{
 			$name = htmlentities(SLocalization::get($meta['name']), ENT_QUOTES, 'UTF-8');
