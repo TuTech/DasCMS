@@ -55,9 +55,18 @@ class QSTag extends BQuery
      */
     public static function dumpNewTags(array $tags)
     {
-        BQuery::Database()->insert('Tags',array('tag'), $tags, true);
+        if(count($tags))
+        {
+            $DB = BQuery::Database();
+            $tagData = array();
+            foreach ($tags as $tag)
+            {
+                $tagData[] = '("'.$DB->escape($tag).'")';
+            }
+            $sql = 'INSERT IGNORE INTO Tags (tag) VALUES '.implode(', ', $tagData);
+            $DB->queryExecute($sql);
+        }
     }
-    
     /**
      * @return void
      */

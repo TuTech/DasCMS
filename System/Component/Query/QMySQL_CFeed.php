@@ -33,22 +33,27 @@ class QCFeed extends BQuery
         BQuery::Database()->queryExecute(sprintf($sql, $feedId, $type, $type));
     }
     
+    public static function insertTags(array $tags)
+    {
+        if(count($tags))
+        {
+            $DB = BQuery::Database();
+            $tagData = array();
+            foreach ($tags as $tag)
+            {
+                $tagData[] = '("'.$DB->escape($tag).'")';
+            }
+            $sql = 'INSERT IGNORE INTO Tags (tag) VALUES '.implode(', ', $tagData);
+            $DB->queryExecute($sql);
+        }
+    }
+    
     public static function setFilterTags($feedId, array $tags)
     {
         $DB = BQuery::Database();
         try{
             $DB->queryExecute(sprintf("DELETE FROM relFeedsTags WHERE feedREL = %d",$feedId));
-			
-            $tagval = array();
-			foreach ($tags as $tag) 
-			{
-				$tagval[] = array($tag);
-			}
-			if(count($tagval) > 0)
-			{
-				BQuery::Database()->insert('Tags',array('tag'),$tagval, true);
-			}	
-				
+			self::insertTags($tags);
             foreach ($tags as $tag) 
     		{
     			$DB->insertUnescaped(

@@ -47,6 +47,7 @@ class DSQL_MySQL extends DSQL
 				throw new XDatabaseException(mysqli_connect_error(), mysqli_connect_errno());
 				self::$DB = null;
 			}
+			$this->queryExecute("SET COLLATION_CONNECTION='utf8_unicode_ci', CHARACTER_SET_CLIENT='utf8',CHARACTER_SET_RESULTS='utf8';");
     	}
 	}
 	

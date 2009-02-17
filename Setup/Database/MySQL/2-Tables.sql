@@ -487,7 +487,8 @@ Tags(
 )
 ENGINE = InnoDB 
 CHARACTER SET utf8 
-COLLATE utf8_unicode_ci;
+COLLATE utf8_swedish_ci
+COMMENT "utf8_swedish_ci because utf8_unicode_ci treats some chars as equal that aren't ('ü' equals 'u')";
 
 
 -- user list

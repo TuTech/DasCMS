@@ -24,6 +24,16 @@
      id="defs4">
     <linearGradient
        inkscape:collect="always"
+       xlink:href="#linearGradient4396"
+       id="linearGradient4402"
+       x1="16.49329"
+       y1="-17.463638"
+       x2="33.894405"
+       y2="-0.046721105"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(12.995924,-10.517494)" />
+    <linearGradient
+       inkscape:collect="always"
        id="linearGradient4396">
       <stop
          style="stop-color:#ffffff;stop-opacity:1;"
@@ -74,6 +84,26 @@
        y1="-17.463638"
        x2="33.894405"
        y2="-0.046721105" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4396"
+       id="linearGradient2622"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.6767989,0,0,0.6767989,0.4083794,0.5796681)"
+       x1="16.49329"
+       y1="-17.463638"
+       x2="33.894405"
+       y2="-0.046721105" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4396"
+       id="linearGradient2633"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0686382,0,0,1.0686382,-6.5368755,6.9711338)"
+       x1="16.49329"
+       y1="-17.463638"
+       x2="33.894405"
+       y2="-0.046721105" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -113,59 +143,103 @@
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
      id="layer1">
-    <path
-       style="fill:#c17d11;fill-opacity:1;stroke:#8f5902;stroke-width:0.99999988;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dashoffset:0;stroke-opacity:1"
-       d="M 15.188491,1.4664804 C 15.188491,1.4664804 15.621029,0.7875056 15.960351,0.78750567 C 16.299674,0.78750575 16.732211,1.4664804 16.732211,1.4664804 L 16.742656,30.919635 C 16.742656,30.919635 16.216123,31.189936 15.960351,31.188595 C 15.704579,31.187254 15.198936,30.919635 15.198936,30.919635 L 15.188491,1.4664804 z"
-       id="rect5077"
-       sodipodi:nodetypes="czcczcc" />
-    <path
-       style="opacity:0.35820899;fill:#2e3436;fill-opacity:1;stroke:#2e3436;stroke-width:2.59006929;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter5484)"
-       d="M 19.615939,2.084732 C 19.615939,2.084732 20.283934,1.043968 20.80797,1.043968 C 21.332007,1.043968 22,2.084732 22,2.084732 L 22,47.64416 L 19.615939,47.64416 L 19.615939,2.084732 z"
-       id="path5438"
-       sodipodi:nodetypes="czcccc"
-       transform="matrix(0.2284945,0,0,0.6523812,11.715778,0.2031538)" />
+    <g
+       id="g2613"
+       transform="translate(-35.922775,1.0285189)">
+      <path
+         sodipodi:nodetypes="czcczcc"
+         id="rect5077"
+         d="M 15.188491,1.4664804 C 15.188491,1.4664804 15.621029,0.7875056 15.960351,0.78750567 C 16.299674,0.78750575 16.732211,1.4664804 16.732211,1.4664804 L 16.742656,30.919635 C 16.742656,30.919635 16.216123,31.189936 15.960351,31.188595 C 15.704579,31.187254 15.198936,30.919635 15.198936,30.919635 L 15.188491,1.4664804 z"
+         style="fill:#c17d11;fill-opacity:1;stroke:#8f5902;stroke-width:0.99999988;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         transform="matrix(0.2284945,0,0,0.6523812,11.715778,0.2031538)"
+         sodipodi:nodetypes="czcccc"
+         id="path5438"
+         d="M 19.615939,2.084732 C 19.615939,2.084732 20.283934,1.043968 20.80797,1.043968 C 21.332007,1.043968 22,2.084732 22,2.084732 L 22,47.64416 L 19.615939,47.64416 L 19.615939,2.084732 z"
+         style="opacity:0.35820899;fill:#2e3436;fill-opacity:1;stroke:#2e3436;stroke-width:2.59006929;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter5484)" />
+      <rect
+         transform="matrix(0.7044684,0.7097354,-0.7044684,0.7097354,0,0)"
+         y="-10.944368"
+         x="11.767797"
+         height="14.229627"
+         width="14.229627"
+         id="rect3602"
+         style="fill:#edd400;fill-opacity:1;stroke:#edd400;stroke-width:1.00001395;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <rect
+         transform="matrix(0.7007709,0.7133864,-0.7007709,0.7133864,0,0)"
+         y="-8.9487715"
+         x="13.883226"
+         height="10.025784"
+         width="10.025784"
+         id="rect4404"
+         style="opacity:0.53551911;fill:none;fill-opacity:1;stroke:#ededed;stroke-width:1.00007975;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/Users/lse/Sites/BambusONE/System/Icons/tango/large/apps/rect4374.png"
+         transform="matrix(0.7014244,0.7127439,-0.7014244,0.7127439,0,0)"
+         y="-9.9541998"
+         x="12.856527"
+         height="12.12954"
+         width="12.12954"
+         id="rect4374"
+         style="opacity:0.47540983;fill:url(#linearGradient2622);fill-opacity:1;stroke:#2e3436;stroke-width:1.00006413;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <path
+         sodipodi:nodetypes="cccscczscccccscccc"
+         id="rect4382"
+         d="M 13.439339,6.9018841 L 12.648146,9.0764169 L 13.703071,8.6200336 C 13.703071,8.6200336 14.574043,10.323614 14.868134,11.573103 C 15.162224,12.822591 15,16.730759 15,16.730759 L 16.199231,16.757605 C 16.199231,16.757605 16.195018,13.9614 16.189944,13.038665 C 16.18487,12.115926 16.805946,11.477024 17.271243,11.040909 C 17.788239,10.556339 18.502984,10.042876 18.502984,10.042876 L 19.083193,10.875104 L 19.584282,8.5394954 L 17.395312,8.4052652 L 17.922775,9.2374937 C 17.922775,9.2374937 17.290351,9.5903338 16.858561,9.9939108 C 16.635147,10.202727 16.128997,10.579947 15.760177,11.023518 C 15.437539,9.7698645 14.626132,8.217342 14.626132,8.217342 L 15.654684,7.7609587 L 13.439339,6.9018841 z"
+         style="fill:#2e3436;fill-opacity:1;stroke:none;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dashoffset:0;stroke-opacity:1" />
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/Users/lse/Sites/BambusONE/System/Icons/tango/large/apps/rect4374.png"
+         transform="matrix(0.7044591,0.7097446,-0.7044591,0.7097446,0,0)"
+         y="-9.8859406"
+         x="12.82652"
+         height="12.077288"
+         width="12.077288"
+         id="rect4432"
+         style="opacity:0.93442622;fill:none;fill-opacity:1;stroke:#2e3436;stroke-width:1.00001395;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    </g>
     <rect
-       style="fill:#edd400;fill-opacity:1;stroke:#edd400;stroke-width:1.00001395;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect3602"
-       width="14.229627"
-       height="14.229627"
-       x="11.767797"
-       y="-10.944368"
-       transform="matrix(0.7044684,0.7097354,-0.7044684,0.7097354,0,0)" />
+       style="fill:#edd400;fill-opacity:1;stroke:#edd400;stroke-width:1.00000012;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect2604"
+       width="21.261574"
+       height="21.261574"
+       x="12.040125"
+       y="-10.722652"
+       transform="matrix(0.7071068,0.7071068,-0.7071068,0.7071068,0,0)" />
     <rect
-       style="opacity:0.53551911;fill:none;fill-opacity:1;stroke:#ededed;stroke-width:1.00007975;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect4404"
-       width="10.025784"
-       height="10.025784"
-       x="13.883226"
-       y="-8.9487715"
-       transform="matrix(0.7007709,0.7133864,-0.7007709,0.7133864,0,0)" />
-    <rect
-       style="opacity:0.47540983;fill:url(#linearGradient4427);fill-opacity:1;stroke:#2e3436;stroke-width:1.00006413;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect4374"
-       width="12.12954"
-       height="12.12954"
-       x="12.856527"
-       y="-9.9541998"
-       transform="matrix(0.7014244,0.7127439,-0.7014244,0.7127439,0,0)"
+       style="opacity:0.47540983;fill:url(#linearGradient2633);fill-opacity:1;stroke:#2e3436;stroke-width:1.00000012;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect2606"
+       width="19.152056"
+       height="19.152056"
+       x="13.118243"
+       y="-9.6614199"
+       transform="matrix(0.7071068,0.7071068,-0.7071068,0.7071068,0,0)"
        inkscape:export-filename="/Users/lse/Sites/BambusONE/System/Icons/tango/large/apps/rect4374.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
        style="fill:#2e3436;fill-opacity:1;stroke:none;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dashoffset:0;stroke-opacity:1"
-       d="M 13.439339,6.9018841 L 12.648146,9.0764169 L 13.703071,8.6200336 C 13.703071,8.6200336 14.574043,10.323614 14.868134,11.573103 C 15.162224,12.822591 15,16.730759 15,16.730759 L 16.199231,16.757605 C 16.199231,16.757605 16.195018,13.9614 16.189944,13.038665 C 16.18487,12.115926 16.805946,11.477024 17.271243,11.040909 C 17.788239,10.556339 18.502984,10.042876 18.502984,10.042876 L 19.083193,10.875104 L 19.584282,8.5394954 L 17.395312,8.4052652 L 17.922775,9.2374937 C 17.922775,9.2374937 17.290351,9.5903338 16.858561,9.9939108 C 16.635147,10.202727 16.128997,10.579947 15.760177,11.023518 C 15.437539,9.7698645 14.626132,8.217342 14.626132,8.217342 L 15.654684,7.7609587 L 13.439339,6.9018841 z"
-       id="rect4382"
+       d="M 12.49554,9.1619623 L 11.204222,12.648526 L 12.92598,11.916779 C 12.92598,11.916779 14.347507,14.648235 14.827496,16.651618 C 15.307486,18.655 15.042717,24.921208 15.042717,24.921208 L 17,24.964253 C 17,24.964253 16.993121,20.480924 16.98484,19.001442 C 16.97656,17.521961 17.990228,16.497569 18.749645,15.798318 C 19.59344,15.021376 20.759987,14.19811 20.759987,14.19811 L 21.706956,15.532473 L 22.524791,11.787646 L 18.952139,11.572426 L 19.81302,12.90679 C 19.81302,12.90679 18.780832,13.472521 18.0761,14.119603 C 17.711464,14.454408 16.885369,15.05923 16.283413,15.770433 C 15.75683,13.760375 14.432521,11.271119 14.432521,11.271119 L 16.111236,10.539372 L 12.49554,9.1619623 z"
+       id="path2608"
        sodipodi:nodetypes="cccscczscccccscccc" />
     <rect
-       style="opacity:0.93442622;fill:none;fill-opacity:1;stroke:#2e3436;stroke-width:1.00001395;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect4432"
-       width="12.077288"
-       height="12.077288"
-       x="12.82652"
-       y="-9.8859406"
-       transform="matrix(0.7044591,0.7097446,-0.7044591,0.7097446,0,0)"
-       inkscape:export-filename="/Users/lse/Sites/BambusONE/System/Icons/tango/large/apps/rect4374.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
+       style="opacity:0.53551911;fill:none;fill-opacity:1;stroke:#ededed;stroke-width:0.9999997;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect2610"
+       width="17.030029"
+       height="17.030029"
+       x="14.178823"
+       y="-8.5839357"
+       transform="matrix(0.7071067,0.7071068,-0.7071067,0.7071068,0,0)" />
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#2e3436;stroke-width:1.00000012;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4408"
+       width="19.152056"
+       height="19.152056"
+       x="13.182893"
+       y="-9.7260714"
+       transform="matrix(0.7071068,0.7071068,-0.7071068,0.7071068,0,0)" />
   </g>
 </svg>

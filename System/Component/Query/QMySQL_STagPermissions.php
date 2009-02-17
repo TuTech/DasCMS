@@ -49,49 +49,68 @@ class QSTagPermissions extends BQuery
         return BQuery::Database()->query($sql, DSQL::NUM);
     }
     
+    public static function insertTags(array $tags)
+    {
+        if(count($tags))
+        {
+            $DB = BQuery::Database();
+            $tagData = array();
+            foreach ($tags as $tag)
+            {
+                $tagData[] = '("'.$DB->escape($tag).'")';
+            }
+            $sql = 'INSERT IGNORE INTO Tags (tag) VALUES '.implode(', ', $tagData);
+            $DB->queryExecute($sql);
+        }
+    }
+    
+    public static function removeAllTags()
+    {
+        $DB = BQuery::Database();
+        $sql = 
+    	    "DELETE 
+				FROM PermissionTags 
+				WHERE 1";
+	    $DB->queryExecute($sql);
+    }
+    
     public static function setProtectedTags(array $tags)
     {
         $DB = BQuery::Database();
-        if(count($tags))
+        $DB->beginTransaction();
+        $fail = false;
+        try
         {
-            $tagval = array();
-			foreach ($tags as $tag) 
-			{
-				$tagval[] = array($tag);
-			}
-			$DB->insert('Tags',array('tag'),$tagval, true);
-            $sql =
-                "INSERT IGNORE INTO PermissionTags 
-    				(permissionTagREL) 
-    					SELECT tagID as permissionTagREL
-    						FROM Tags
-    						WHERE %s";
-            $tsql = array();
-        	foreach ($tags as $tag) 
-        	{
-        		$tsql[] = sprintf('tag = "%s"', $DB->escape($tag));
-        	}
-        	$tagsql = implode(' OR ', $tsql);
-        	$DB->queryExecute(sprintf($sql, $tagsql));
-        	
-        	$sql = 
-        	    "DELETE 
-    				FROM PermissionTags
-    				WHERE permissionTagREL NOT IN 
-    				(
-    					SELECT tagID 
-    						FROM Tags
-    						WHERE %s
-    				)";
+            self::removeAllTags();
+            if(count($tags))
+            {
+                $tags = array_unique($tags);
+                self::insertTags($tags);
+                $tsql = array();
+            	foreach ($tags as $tag) 
+            	{
+            		$tsql[] = sprintf('tag = "%s"', $DB->escape($tag));
+            	}
+                $sql =
+                    "INSERT INTO PermissionTags 
+        				(permissionTagREL) 
+        					SELECT tagID as permissionTagREL
+        						FROM Tags
+        						WHERE ".implode(' OR ',$tsql);
+                echo $sql;
+                $DB->queryExecute($sql);
+            }
         }
-        else
+        catch (XDatabaseException $e)
         {
-            $sql = 
-        	    "DELETE 
-    				FROM PermissionTags 
-    				WHERE 1";
+            $DB->rollback();
+            SNotificationCenter::report('warning', $e->getMessage());
+            $fail = true;
         }
-	    $DB->queryExecute(sprintf($sql, $tagsql));
+        if(!$fail)
+        {
+            $DB->commit();
+        }
     }
     
     public static function setUserPermissions($name, array $tags)
