@@ -98,7 +98,7 @@ org.bambuscms.wsettings.showPubDateHelper = function()
 	if($('WSearch-PubDate').value == '')
 	{
 		var d = new Date();
-		helps = {'publish now':d.toLocaleString()};
+		helps = {'publish now':d.toGMTString()};
 	}
 	else
 	{
