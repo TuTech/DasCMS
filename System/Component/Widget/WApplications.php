@@ -53,16 +53,24 @@ class WApplications extends BWidget
 	public function __toString()
 	{
 		$html = '<div id="'.get_class($this)."\"><table>\n<tr>";
-		ksort($this->apps, SORT_LOCALE_STRING);
+		$sortHelp = array();
 		foreach ($this->apps as $app => $meta) 
 		{
+		    $sortHelp[$app] = strtoupper(trim(SLocalization::get($meta['name'])));
+		}
+		asort($sortHelp, SORT_LOCALE_STRING);
+		foreach ($sortHelp as $app => $sortHelp) 
+		{
+		    $meta = $this->apps[$app];
 			$name = htmlentities(SLocalization::get($meta['name']), ENT_QUOTES, 'UTF-8');
 			$html .= sprintf(
 				"\t<td><a href=\"Management/?editor=%s&amp;tab=%s\" class=\"application%s\">\n".
 					"\t\t<img src=\"%s\" alt=\"%s\" />\n".
-					"\t\t<span class=\"application-name\">%s</span>\n".
-					"\t\t<span class=\"application-description\">%s</span>\n".
-				"\t</a></td>\n"
+					"\t\t<span class=\"application-info\">\n".
+					"\t\t\t<span class=\"application-name\">%s</span>\n".
+					"\t\t\t<span class=\"application-description\">%s</span>\n".
+					"\t\t</span>\n".
+					"\t</a></td>\n"
 				,htmlentities($app, ENT_QUOTES, 'UTF-8')
 				,($meta['active']) ? $meta['active'] : ''
 				,($meta['active']) ? ' active' : ''
