@@ -84,11 +84,11 @@ class TCmdHeader
         $publisher = LConfiguration::get('publisher');
         $generator = BAMBUS_VERSION;
         $feedTags = '';
-        foreach ($feeds as $alias => $title) 
+        foreach ($feeds as $alias => $feedTitle) 
         {
         	$feedTags .= sprintf("            <link rel=\"alternate\" type=\"application/atom+xml\"".
         	                    "title=\"%s\" href=\"%s\" />\n"
-				,htmlentities($title, ENT_QUOTES, 'UTF-8')
+				,htmlentities($feedTitle, ENT_QUOTES, 'UTF-8')
                 ,BFeed::getURLForFeed($alias)
 			);
         }
