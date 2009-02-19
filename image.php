@@ -1,9 +1,11 @@
 <?php
 require_once('./System/Component/Loader.php');
-header("Expires: ".date('r', strtotime('tomorrow')));
-error_reporting(0);
 RSession::start();
 PAuthentication::required();
+$cache_1Day = 86400;
+header("Expires: ".date('r', time()+$cache_1Day));
+header("Cache-Control: max-age=".$cache_1Day.", public");
+error_reporting(0);
 if(!empty($_SERVER['PATH_INFO']))
 {
     $path = substr($_SERVER['PATH_INFO'],1);
@@ -101,7 +103,7 @@ if(!empty($_SERVER['PATH_INFO']))
             //save and send image
             $img->save(SPath::TEMP.'scale.render.'.$key, 75, 'jpg');
             unlink(SPath::TEMP.'scale.permit.'.$key);
-            header('Last-modified: '.date('r'));
+            header('Last-modified: '.date('r',filemtime(SPath::TEMP.'scale.render.'.$key)));
             $img->generate('jpg');
         }
         else
@@ -127,6 +129,7 @@ if(!empty($_SERVER['PATH_INFO']))
             header('Content-type: image/jpeg;');
             $img = SPath::SYSTEM_IMAGES.'inet-180.jpg';
         }
+        header('Last-modified: '.date('r',filemtime($img)));
         readfile($img);
     }
 }

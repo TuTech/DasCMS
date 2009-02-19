@@ -13,7 +13,7 @@ if(RSent::hasValue('writeconfig') && PAuthorisation::has('org.bambuscms.configur
     $keys = array(
         //settings
         'sitename', 'logo','webmaster', 'copyright','cms_color','cms_text_color','dateformat',
-        'logout_on_exit', 'confirm_for_exit','generator_content',  
+        'logout_on_exit', 'confirm_for_exit','generator_content',  'use_wysiwyg',
           
         //database_settings
         'use_db', 'db_server', 'db_user', 'db_password', 'db_name', 'db_table_prefix',
@@ -33,7 +33,8 @@ if(RSent::hasValue('writeconfig') && PAuthorisation::has('org.bambuscms.configur
         'use_db',
         'chdbpasswd',
         'logAccess', 
-        'logChanges'
+        'logChanges',
+        'use_wysiwyg'
     );
     foreach ($checkboxes as $cb) 
     {

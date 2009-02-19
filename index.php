@@ -12,6 +12,10 @@ header('Content-Type: text/html; charset=utf-8');
 require_once('./System/Component/Loader.php');
 RSession::start();
 define('BAMBUS_HTML_ACCESS', '1');
+$_10Minutes = 600;
+header("Expires: ".date('r', time()+$_10Minutes));
+header("Cache-Control: max-age=".$_10Minutes.", public");
+
 //now we have a running session we might want to kill it
 if(RURL::has('_destroy_session') || RURL::has('_bambus_logout'))
 {

@@ -67,7 +67,12 @@ class SContentIndex
 	        throw new XUndefinedException();
 	    }
 	}
-	
+	/**
+	 * @todo often used, cache results
+	 * @param $alias
+	 * @param $asType
+	 * @return boolean
+	 */
 	public static function exists($alias, $asType = null)
 	{
 	    if($asType)

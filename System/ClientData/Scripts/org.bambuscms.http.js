@@ -45,8 +45,9 @@ org.bambuscms.http.fetch = function(url, asyncHandler, data)
 		method = 'GET';
 		data = null;
 	}
-	async = asyncHandler && typeof asyncHandler == 'function';
+	var async = (asyncHandler && typeof asyncHandler == 'function') ? true : false;
 	var request = org.bambuscms.http.requestFactory();
+	//alert(async);
 	request.open(method, url, async);
 	request.setRequestHeader("User-Agent", "Bambus CMS XMLHttpRequest");
 	if(async)

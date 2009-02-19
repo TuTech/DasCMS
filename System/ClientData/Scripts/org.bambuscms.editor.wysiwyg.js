@@ -8,8 +8,10 @@ org.bambuscms.editor.wysiwyg._editor = function(frame){
 	this._target = frame;
 	//execute rich text command
 	this.exec =function(cmd, arg){
-		arg = (arg == undefined) ? null : arg;
-		this._doc.execCommand(cmd, false, arg);
+		if(arg == undefined)
+			this._doc.execCommand(cmd, false);
+		else
+			this._doc.execCommand(cmd, false, arg);
 		this._target.contentWindow.focus();
 	};
 	this.wysiwygOn = true;
@@ -133,7 +135,8 @@ org.bambuscms.editor.wysiwyg._object = function(elements, wrapper)
 	
 	this.start = function(){
 		this.wrapper.makeEditable();
-		this.wrapper.exec('styleWithCSS',false);
+		if(navigator.userAgent.indexOf('Gecko') >= 0)
+			this.wrapper.exec('styleWithCSS',false);
 		this.wrapper.setText(this.elements.source.value);
 	};
 }

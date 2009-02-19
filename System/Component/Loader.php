@@ -156,7 +156,7 @@ function component_autoload($className)
 	}
 }
 if(!defined('BAMBUS_VERSION_NUMBER'))
-    define ('BAMBUS_VERSION_NUMBER', '0.93.0.20081210');
+    define ('BAMBUS_VERSION_NUMBER', '0.95.0.20090219');
         
 if(!defined('BAMBUS_VERSION_NAME'))
     define ('BAMBUS_VERSION_NAME', 'Bambus CMS');

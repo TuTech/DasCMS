@@ -26,7 +26,8 @@ $values = array(
         "confirm_for_exit"      => array("confirm_for_exit","checkbox"),
         "log_page_changes"      => array("logChanges",      "checkbox"),
         "timezone"              => array("timezone",      "tz"),
-        "locale"                => array("locale",      "ISO639-2")
+        "locale"                => array("locale",      "ISO639-2"),
+        "use_wysiwyg"			=> array("use_wysiwyg",      "checkbox"),
 	),
 	"database_settings" => array(
         "use_database"          => array("use_db",          "checkbox"),
