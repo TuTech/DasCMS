@@ -24,7 +24,7 @@ class TCmdHeader
     
     private function encode($val)
     {
-        return htmlentities(mb_convert_encoding($val,'UTF-8','iso-8859-1,utf-8,auto'), ENT_QUOTES, 'UTF-8');
+        return htmlentities(mb_convert_encoding($val,'UTF-8','utf-8,iso-8859-1,auto'), ENT_QUOTES, 'UTF-8');
     }
     
     public function tearDown()
@@ -45,13 +45,29 @@ class TCmdHeader
     
     public function __toString()
     {
-        $contents = SContentWatch::accessedContent();
+        $events = SContentWatch::accessedContent();
         $descriptions = array();
         $titles = array();
         $tags = array();
         $feeds = array();
-        foreach ($contents as $c) 
+        $cs = array();
+        foreach ($events as $cid => $event) 
         {
+            $c = $event->Content;
+            if(is_object($event->Sender) && (get_class($event->Sender) == 'QSpore' || $event->Sender instanceof BView))
+            {
+                //prepend dynamic content
+                array_unshift($cs , $c);
+            }
+            else
+            {
+                //append fix/static content
+                $cs[] = $c; 
+            }
+        }
+        foreach($cs as $c)
+        {
+            //prefer dynamic
         	$titles[$c->getAlias()] = $c->getTitle();
         	$tags = array_merge($tags, $c->getTags());
         	$descriptions[] = $c->getDescription();

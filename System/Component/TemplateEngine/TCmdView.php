@@ -8,6 +8,8 @@ class TCmdView
     private $for, $show;
     public $data = array();
     
+    private $res = '';
+    
     public function __construct(DOMNode $node)
     {
         $atts = $node->attributes;
@@ -23,17 +25,16 @@ class TCmdView
     
     public function setUp(array $environment)
     {
+        $v = new VSpore();
+        if($v->TemplateCallable($this->show))
+        {
+            $this->res = $v->TemplateCall($this->show, array('view' => $this->for));
+        }
     }
     
     public function run(array $environment)
     {
-        $res = '';
-        $v = new VSpore();
-        if($v->TemplateCallable($this->show))
-        {
-            $res = $v->TemplateCall($this->show, array('view' => $this->for));
-        }
-        return $res;
+        return $this->res;
     }
     
     public function tearDown()

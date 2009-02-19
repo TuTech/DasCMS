@@ -38,12 +38,12 @@ class SContentWatch
     
     public function HandleContentAccessEvent(EContentAccessEvent $e)
     {
-        self::$accessedContents[$e->Content->Id] = $e->Content;
+        self::$accessedContents[$e->Content->Id] = $e;
     }
     
     public static function accessedContent()
     {
-        return array_values(self::$accessedContents);
+        return self::$accessedContents;
     }
 }
 ?>
