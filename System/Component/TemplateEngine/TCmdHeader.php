@@ -58,6 +58,9 @@ class TCmdHeader
             {
                 //prepend dynamic content
                 array_unshift($cs , $c);
+                $titles[$c->getAlias()] = $c->getTitle();
+                $descriptions[$c->getAlias()] = $c->getDescription();
+                $tags = array_merge($tags, $c->getTags());
             }
             else
             {
@@ -68,9 +71,6 @@ class TCmdHeader
         foreach($cs as $c)
         {
             //prefer dynamic
-        	$titles[$c->getAlias()] = $c->getTitle();
-        	$tags = array_merge($tags, $c->getTags());
-        	$descriptions[] = $c->getDescription();
         	if($c instanceof IGeneratesFeed)
         	{
         	    $feeds[$c->getAlias()] = $c->getTitle();
