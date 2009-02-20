@@ -107,12 +107,11 @@ class CFile
 	
 	public static function Open($alias)
 	{
-	    $SCI = SContentIndex::alloc()->init();
-	    if($SCI->exists($alias, 'CFile'))
+	    try
 	    {
 	        return new CFile($alias);
 	    }
-	    else
+	    catch (XArgumentException $e)
 	    {
 	        throw new XUndefinedIndexException($alias);
 	    }

@@ -60,12 +60,11 @@ class CTemplate
 		
 	public static function Open($alias)
 	{
-	    $SCI = SContentIndex::alloc()->init();
-	    if($SCI->exists($alias, 'CTemplate'))
+	    try
 	    {
 	        return new CTemplate($alias);
 	    }
-	    else
+	    catch (XArgumentException $e)
 	    {
 	        throw new XUndefinedIndexException($alias);
 	    }

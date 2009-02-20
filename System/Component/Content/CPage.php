@@ -53,12 +53,11 @@ class CPage extends BContent implements ISupportsSidebar, IGlobalUniqueId, Inter
 		
 	public static function Open($alias)
 	{
-	    $SCI = SContentIndex::alloc()->init();
-	    if($SCI->exists($alias, 'CPage'))
+	    try
 	    {
 	        return new CPage($alias);
 	    }
-	    else
+	    catch (XArgumentException $e)
 	    {
 	        throw new XUndefinedIndexException($alias);
 	    }

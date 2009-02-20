@@ -282,12 +282,11 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
 		
 	public static function Open($alias)
 	{
-	    $SCI = SContentIndex::alloc()->init();
-	    if($SCI->exists($alias, 'CFeed'))
+	    try
 	    {
 	        return new CFeed($alias);
 	    }
-	    else
+	    catch (XArgumentException $e)
 	    {
 	        throw new XUndefinedIndexException($alias);
 	    }
@@ -614,12 +613,6 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
         {
             throw new XDatabaseException('feed query not initialized');
         }
-//	        $xml->tag('title', array(), $row[0]);
-//	        $xml->tag('desc', array(), $row[1]);
-//	        $xml->tag('pubdate', array(), date('r', strtotime($row[2])));
-//	        $xml->tag('link', array(), $row[3]);
-//	        $xml->tag('lastmodified', array(), $row[4]);
-//	        $xml->tag('categories', array(), $row[5]);
 	    $row = $this->FeedDBRes->fetch();
 	    $spore = $this->option(self::SETTINGS, 'TargetView');
 	    $arr = array(
