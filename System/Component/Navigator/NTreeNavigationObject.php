@@ -204,7 +204,7 @@ class NTreeNavigationObject
 			);		
 			$pfx = self::indent();
 			$html .= ($this->hasChildren())
-				? sprintf("%s<div class=\"Children\">\n%s%s</div>\n\t",$pfx,strval($this->firstChild),$pfx)
+				? sprintf("%s<div class=\"Children\">\n%s%s</div>\n",$pfx,strval($this->firstChild),$pfx)
 				: '';
 			$pfx = self::indent(false);
 			$html .= $pfx."</div>\n";

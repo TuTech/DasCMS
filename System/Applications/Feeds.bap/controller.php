@@ -137,7 +137,14 @@ if(isset($Feed) && $Feed instanceof CFeed && PAuthorisation::has('org.bambuscms.
                         CFeed::MATCH_NONE));
                     break;
                 case 'TargetView':
-                    $set = QSpore::exists($value);
+                    if($value == '')//if-elseif used because php did not accept them or-ed in one if
+                    {
+                        $set = true;
+                    }
+                    elseif(class_exists('QSpore', true) && QSpore::exists($value))
+                    {
+                        $set = true;
+                    }
                     break;
                 case 'SortOrder':
                     $value = ($value == 'DESC');

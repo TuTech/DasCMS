@@ -8,7 +8,9 @@
  * @license GNU General Public License 3
  * @todo better config 
  */
-class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGeneratesFeed 
+class CFeed 
+    extends BContent 
+    implements ISupportsSidebar, IGlobalUniqueId, IGeneratesFeed 
 {
     const GUID = 'org.bambuscms.content.cfeed';
     
@@ -27,7 +29,6 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
     const ITEM = 1;
     const FOOTER = 2;
     const SETTINGS = 3;
-    const HEADER_AND_FOOTER = 0;
     
     const PREFIX = 0;
     const SUFFIX = 1;
@@ -129,21 +130,18 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
     
     private function _getConfVal($type, $target, $key)
     {
-        if(!isset($this->_data[$type]) || !isset($this->_data[$type][$target]) || !isset($this->_data[$type][$target][$key]))
-        {
-            throw new XArgumentException(sprintf('key /%s/%s/%s not found', $type, $target, $key));
-        }
+        $this->assertOnFail(
+            !isset($this->_data[$type]) || !isset($this->_data[$type][$target]) || !isset($this->_data[$type][$target][$key]), 
+            $type, $target, $key);   
         return $this->_data[$type][$target][$key];
     }
     
     //captions
     public function changeCaption($forType, $andKey, $toPrefix, $andSuffix)
     {
-        
-        if(!isset($this->_data[self::CAPTIONS][$forType]) || !isset($this->_data[self::CAPTIONS][$forType][$andKey]))
-        {
-            throw new XArgumentException(sprintf('key /captions/%s/%s not found', $forType, $andKey));
-        }
+        $this->assertOnFail(
+            !isset($this->_data[self::CAPTIONS][$forType]) || !isset($this->_data[self::CAPTIONS][$forType][$andKey]), 
+            'captions', $forType, $andKey);   
         $this->_modified = true;
         $this->_data[self::CAPTIONS][$forType][$andKey][self::PREFIX] = $toPrefix;
         $this->_data[self::CAPTIONS][$forType][$andKey][self::SUFFIX] = $andSuffix;
@@ -151,10 +149,9 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
     
     public function caption($forType, $andKey, $item = null)
     {
-        if(!isset($this->_data[self::CAPTIONS][$forType]) || !isset($this->_data[self::CAPTIONS][$forType][$andKey]))
-        {
-            throw new XArgumentException(sprintf('key /captions/%s/%s not found', $forType, $andKey));
-        }
+        $this->assertOnFail(
+            !isset($this->_data[self::CAPTIONS][$forType]) || !isset($this->_data[self::CAPTIONS][$forType][$andKey]), 
+            'captions', $forType, $andKey);    
         if($item === null && ($item == 0 || $item == 1))
         {
             return $this->_data[self::CAPTIONS][$forType][$andKey];
@@ -165,15 +162,13 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
         }
     }
     
-    //order 1..n - unused are null
+    //order of elements in the given section (1..n - unused are null)
 	public function changeOrder($forType, array $toData)
 	{
+        $this->assertOnFail(
+            !isset($this->_data[self::ORDER][$forType]), 
+            'order', $forType, '');    
 	    $this->_modified = true;
-	    //right key
-        if(!isset($this->_data[self::ORDER][$forType]))
-        {
-            throw new XArgumentException(sprintf('key /order/%s not found', $forType));
-        }	    
         //set to whatever data is given
         foreach ($this->_data[self::ORDER][$forType] as $key => $pos) 
 	    {
@@ -207,44 +202,45 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
 	
 	public function order($forType)
 	{
-	    //right key
-        if(!isset($this->_data[self::ORDER][$forType]))
-        {
-            throw new XArgumentException(sprintf('key /order/%s not found', $forType));
-        }
+        $this->assertOnFail(
+            !isset($this->_data[self::ORDER][$forType]), 
+            'order', $forType, '');
         return $this->_data[self::ORDER][$forType];
 	}
 
     //options
 	public function changeOption($forType, $andKey, $toValue)
 	{
+	    $this->assertOnFail(
+	        !isset($this->_data[self::OPTIONS][$forType]) || !isset($this->_data[self::OPTIONS][$forType][$andKey]), 
+	        'options', $forType, $andKey);
 	    $this->_modified = true;
-        if(!isset($this->_data[self::OPTIONS][$forType]) || !isset($this->_data[self::OPTIONS][$forType][$andKey]))
-        {
-            throw new XArgumentException(sprintf('key /options/%s/%s not found', $forType, $andKey));
-        }
         $this->_data[self::OPTIONS][$forType][$andKey] = $toValue;
 	}
     
 	public function option($forType, $andKey)
 	{
-	    if(!isset($this->_data[self::OPTIONS][$forType]) || !isset($this->_data[self::OPTIONS][$forType][$andKey]))
-        {
-            throw new XArgumentException(sprintf('key /options/%s/%s not found', $forType, $andKey));
-        }
+	    $this->assertOnFail(
+	        !isset($this->_data[self::OPTIONS][$forType]) || !isset($this->_data[self::OPTIONS][$forType][$andKey]), 
+	        'options', $forType, $andKey);
         return $this->_data[self::OPTIONS][$forType][$andKey]; 
 	}
 	
 	public function options($forType)
 	{
-	    if(!isset($this->_data[self::OPTIONS][$forType]))
-        {
-            throw new XArgumentException(sprintf('key /options/%s/%s not found', $forType, $andKey));
-        }
+	    $this->assertOnFail(
+	        !isset($this->_data[self::OPTIONS][$forType]), 
+	        'options', $forType, '');
         return $this->_data[self::OPTIONS][$forType]; 
 	}
-	//FIXME remove redundant redundancy
 	
+	private function assertOnFail($failed, $section, $type, $key)
+	{
+	    if($failed)
+	    {
+	        throw new XArgumentException(sprintf('key /%s/%s/%s not found', $section, $type, $key));
+	    }
+	}
     
 	/**
 	 * @return CFeed
@@ -252,7 +248,7 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
 	public static function Create($title)
 	{
 	    $SCI = SContentIndex::alloc()->init();
-	    list($dbid, $alias) = $SCI->createContent('CFeed', $title);
+	    list($dbid, $alias) = $SCI->createContent(self::CLASS_NAME, $title);
 	    $tpl = new CFeed($alias);
 	    new EContentCreatedEvent($tpl, $tpl);
 	    return $tpl;
@@ -261,13 +257,13 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
 	public static function Delete($alias)
 	{
 	    $SCI = SContentIndex::alloc()->init();
-	    return $SCI->deleteContent($alias, 'CFeed');
+	    return $SCI->deleteContent($alias, self::CLASS_NAME);
 	}
 	
 	public static function Exists($alias)
 	{
 	    $SCI = SContentIndex::alloc()->init();
-	    return $SCI->exists($alias, 'CFeed');
+	    return $SCI->exists($alias, self::CLASS_NAME);
 	}
 	
 	/**
@@ -277,7 +273,7 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
 	public static function Index()
 	{
 	    $SCI = SContentIndex::alloc()->init();
-	    return $SCI->getIndex('CFeed', false);;
+	    return $SCI->getIndex(self::CLASS_NAME, false);;
 	}
 		
 	public static function Open($alias)
@@ -291,7 +287,6 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
 	        throw new XUndefinedIndexException($alias);
 	    }
 	}
-	
 	
 	/**
 	 * @param string $id
@@ -313,30 +308,44 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
 	    }
 	}
 
-	private function link($arg, $inTargetView = false)
+	private function link($arg, $content, $inTargetView = false)
 	{
-	    $iqo = $this->invokingQueryObject;
-	    if(!$inTargetView && $iqo != null && $iqo instanceof QSpore)
+	    $link = null;
+	    try
 	    {
-	        //link to self
-	        //only param page=
-            $iqo->SetLinkParameter('page', $arg, true);
-            $iqo->LinkTo($this->getAlias());
-            return strval($iqo);
-        }   
-        elseif($inTargetView)
-        {
-            //link page to target view
-            $linker = new QSpore($this->option(self::SETTINGS, 'TargetView'));
-            $linker->LinkTo($arg);
-            return strval($linker);
-        } 
-        else
-        {
-            return '#';        
-        }
+	        $iqo = $this->invokingQueryObject;
+	        $target = $this->option(self::SETTINGS, 'TargetView');
+    	    if($inTargetView && !empty($target) && QSpore::isActive($target))
+            {
+                //link page to target view
+                $linker = new QSpore($this->option(self::SETTINGS, 'TargetView'));
+                $linker->LinkTo($arg);
+                $link = strval($linker);
+            }
+            elseif(!$inTargetView && $iqo != null && $iqo instanceof QSpore)
+    	    {
+    	        //link to self
+    	        //only param page=
+                $iqo->SetLinkParameter('page', $arg, true);
+                $iqo->LinkTo($this->getAlias());
+                $link = strval($iqo);
+            }
+	    }
+	    catch (Exception $e)
+	    {
+	        /* nothing to link to */
+	    }
+	    if($link != null)
+	    {
+	        $content = sprintf('<a href="%s">%s</a>', $link, $content);
+	    }
+	    return $content;
 	}
 	
+	/**
+	 * list all aliases for feed use
+	 * @return array
+	 */
 	public function getFeedItemAliases()
 	{
 	    $aliases = array();
@@ -349,8 +358,6 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
 	}
 	
 	/**
-	 * Enter description here...
-	 *
 	 * @return string
 	 */
 	public function getContent()
@@ -415,15 +422,17 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
             );
         
         //html building
-        $content = '<div id="CFeed_'.$this->getAlias().'" class="CFeed">';
+        $content = '<div id="'.$this->getGUID().'" class="CFeed">';
         if($count > 0)
         {
             $content .= $this->buildControlHtml(self::HEADER, $hasMorePages, $currentPage, $startItem, $endItem, $maxItems);
+            $content .= "\n\t<div class=\"CFeed_items\">";
             while($row = $res->fetch())
             {
                 $content .= $this->buildItemHtml($row);
             }
             $res->free();
+            $content .= "\n\t</div>";
             $content .= $this->buildControlHtml(self::FOOTER, $hasMorePages, $currentPage, $startItem, $endItem, $maxItems);
         }
         else
@@ -457,7 +466,7 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
                         $captions = $this->caption($type, 'Link');
                         $caption = $captions[self::SUFFIX];
                         $page = $Pagina + 1;
-                        $content = sprintf('<a href="%s">%s</a>', $this->link($page), $caption);
+                        $content = $this->link($page, $caption);
         	        }
                     break;
     	        case 'PrevLink' :
@@ -467,7 +476,7 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
                         $captions = $this->caption($type, 'Link');
                         $caption = $captions[self::PREFIX];
                         $page = $Pagina - 1;
-                        $content = sprintf('<a href="%s">%s</a>', $this->link($page), $caption);
+                        $content = $this->link($page, $caption);
         	        }
                     break;
                 case 'Pagina':
@@ -504,9 +513,9 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
         );
         $contentObject = null;
         
-        $html = "\n\t<div class=\"CFeed_item\">\n\t\t<span class=\"CFeed_begin_item\"></span>";
+        $html = "\n\t\t<div class=\"CFeed_item\">\n\t\t\t<span class=\"CFeed_begin_item\"></span>";
         //add all active attributes in order
-        $tpl = "\n\t\t<%s class=\"CFeed_item_%s\">%s</%s>";
+        $tpl = "\n\t\t\t<%s class=\"CFeed_item_%s\">%s</%s>";
         foreach ($this->order(self::ITEM) as $key => $pos) 
         {
         	if(!$pos)
@@ -551,7 +560,7 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
                     $content = $co->getContent();
                     break;
                 case 'Link':
-        		    $content = sprintf('<a href="%s">%s</a>', $this->link($data[$map['Alias']], true), implode($this->caption(self::ITEM,'Link')));
+        		    $content = $this->link($data[$map['Alias']], implode($this->caption(self::ITEM,'Link')), true);
         		    break;
                 case 'Author':
                 case 'PubDate':
@@ -561,7 +570,7 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
                 case 'Title':
         		    $tag = 'h2';
         		    $content = ($this->option(self::ITEM, 'LinkTitle')) 
-        		        ? sprintf('<a href="%s">%s</a>', $this->link($data[$map['Alias']], true), htmlentities($data[$map[$key]], ENT_QUOTES, 'UTF-8'))
+        		        ? $this->link($data[$map['Alias']],htmlentities($data[$map[$key]], ENT_QUOTES, 'UTF-8'),true)
         		        : htmlentities($data[$map[$key]], ENT_QUOTES, 'UTF-8');
         		    break;
                 default: continue;
@@ -665,7 +674,7 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
 	 */
 	public static function defaultIcon()
 	{
-	    return new WIcon('CFeed', 'content', WIcon::LARGE, 'mimetype');
+	    return new WIcon(self::CLASS_NAME, 'content', WIcon::LARGE, 'mimetype');
 	}
 	
 	/**
@@ -680,7 +689,7 @@ class CFeed extends BContent implements ISupportsSidebar, IGlobalUniqueId, IGene
 	//ISupportsSidebar
 	public function wantsWidgetsOfCategory($category)
 	{
-		return in_array(strtolower($category), array('text', 'media', 'settings', 'information', 'search'));
+		return in_array(strtolower($category), array('settings', 'information', 'search'));
 	}
 }
 ?>

@@ -12,8 +12,8 @@ if(!empty($_SERVER['PATH_INFO']))
         $self = BContent::OpenIfPossible($alias);
         $content = BContent::Access($alias, $self);
         $p = XML_Atom_Feed::fromContent($content);
-        $entrieAliases = $content->getFeedItemAliases();
-        foreach ($entrieAliases as $entryAlias) 
+        $allAliases = $content->getFeedItemAliases();
+        foreach ($allAliases as $entryAlias) 
         {
             try
             {
