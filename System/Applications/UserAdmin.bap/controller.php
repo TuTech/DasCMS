@@ -347,7 +347,7 @@ if(RURL::get('_action') == 'delete')
 			$result = $SUsersAndGroups->removeUser($victim);
 			if($result)
 			{
-				SNotificationCenter::report('message', 'message');
+				SNotificationCenter::report('message', 'user_deleted');
 				$victim = PAuthentication::getUserID();
 			}
 			elseif($result == -1)

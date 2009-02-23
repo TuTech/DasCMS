@@ -167,6 +167,7 @@ if(isset($Feed) && $Feed instanceof CFeed && PAuthorisation::has('org.bambuscms.
 			{
                 case 'LinkTitle':
                 case 'LinkTags':
+                case 'LinkPreviewImage':
                     $value = strtolower($value) == 'on';
 			    case 'ModDateFormat':
                 case 'PubDateFormat':

@@ -235,6 +235,7 @@ if(PAuthorisation::has('org.bambuscms.content.cfeed.change') && isset($Feed) && 
                             $Feed->option(CFeed::ITEM, 'PreviewImageMode')
                             ,WMultipleChoice::SELECT
                         )));
+                $piConf->addRow(array('linking', new WConfirm('io_LinkPreviewImage','link_preview_image', $Feed->option(CFeed::ITEM, 'LinkPreviewImage'))));
                 $items->add($itemMap[$option], $itemMap[$option], $piConf, $pos !== null);
                 break;
             case 'PubDate':

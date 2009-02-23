@@ -37,6 +37,12 @@ class CFeed
     const ORDER = 1;
     const CAPTIONS = 0; 
     
+    private $debug_mode = false;
+    public function setDebug($on)
+    {
+        $this->debug_mode = $on == true;
+    }
+    
     private $_contentLoaded = false;
     /**
      * @var DSQLResult
@@ -111,8 +117,9 @@ class CFeed
                 'LinkTitle' => true,
                 'LinkTags' => false,
                 'IconSize' => 48,
+			    'LinkPreviewImage' => true,
 			    'PreviewImageWidth' => 100,
-			    'PreviewImageHeight' => 100,
+				'PreviewImageHeight' => 100,
 			    'PreviewImageMode' => '1c',//force crop
 			    'PreviewImageBgColor' => '#ffffff'
 			),
@@ -220,10 +227,12 @@ class CFeed
     
 	public function option($forType, $andKey)
 	{
-	    $this->assertOnFail(
+        $this->assertOnFail(
 	        !isset($this->_data[self::OPTIONS][$forType]) || !isset($this->_data[self::OPTIONS][$forType][$andKey]), 
 	        'options', $forType, $andKey);
-        return $this->_data[self::OPTIONS][$forType][$andKey]; 
+        return isset($this->_data[self::OPTIONS][$forType][$andKey]) 
+            ? $this->_data[self::OPTIONS][$forType][$andKey]
+            : ''; 
 	}
 	
 	public function options($forType)
@@ -236,7 +245,7 @@ class CFeed
 	
 	private function assertOnFail($failed, $section, $type, $key)
 	{
-	    if($failed)
+	    if($failed && $this->debug_mode)
 	    {
 	        throw new XArgumentException(sprintf('key /%s/%s/%s not found', $section, $type, $key));
 	    }
@@ -545,6 +554,12 @@ class CFeed
                         substr($this->option(self::ITEM, 'PreviewImageMode'),1,1),
                         $this->option(self::ITEM, 'PreviewImageBgColor')
                     );
+                    try
+                    {
+                    $content = ($this->option(self::ITEM, 'LinkPreviewImage')) 
+        		        ? $this->link($data[$map['Alias']],$content,true)
+        		        : $content;
+                    }catch (Exception $e){/*legacy FIXME remove try-catch before release*/}
                     //100,100, WImage::MODE_FORCE,WImage::FORCE_BY_CROP, '#4e9a06');
                     break;
                 case 'Icon':
