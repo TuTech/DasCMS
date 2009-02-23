@@ -8,6 +8,7 @@ org.bambuscms.wsidebar = {
 		}
 		$('WSidebar-selected').value = widget;
 		$('WSidebar-selector-'+widget).className = 'selectedWidget';
+		$('WSidebar-selector-'+widget).blur();
 		var body = $('WSidebar-body');
 		elements = body.getElementsByTagName('div');
 		for(var i = 0; i < elements.length; i++)

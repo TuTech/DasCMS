@@ -21,6 +21,7 @@ if(PAuthorisation::has('org.bambuscms.content.ctemplate.change') && isset($Tpl) 
 		, htmlentities($Tpl->Title, ENT_QUOTES, 'UTF-8')
 		);
 	echo LGui::editorTextarea($Tpl->RAWContent);
+	echo new WScript('org.bambuscms.wcodeeditor.run($(org.bambuscms.app.document.editorElementId));');
 }
 echo LGui::endForm();
 if(isset($panel) && $panel->hasWidgets())

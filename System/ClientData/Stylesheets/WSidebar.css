@@ -17,14 +17,16 @@
 	right:0px;
 	top:96px;
 	padding: 0px;
-	background: #9fbc4a;
+	background: #babdb6;
 	border: 1px solid #888a85;
+	border-top-width:0px;
 	display:block;
 	width: 250px;
 	border-right-width: 0px;
+	border-bottom-width: 0px;
+	border-top: 1px solid #9fbc4a;
 }
 #WSidebar-select{
-	width:100%;
 	border-spacing: 0px;
 	padding:0px;
 	margin:0px;
@@ -33,10 +35,12 @@
 #WSidebar-select a{
 	display:block;
 	padding:2px;
-	background: url(../../Images/header_background_gray.png) 0% 10%;
+	background: #babdb6;
+	border-bottom: 1px solid #888a85;
 }
 #WSidebar-select a.selectedWidget{
-	background: url(../../Images/header_background.png) 0% 10%;
+	background: #eeeeec;
+	border-bottom: 1px solid #eeeeec;
 }
 
 #WSidebar-select td{
@@ -44,6 +48,8 @@
 	padding:0px;
 	margin:0px;
 	border:0px;
+	width:42px;
+	height:24px;
 	border-right: 1px solid #888a85;
 }
 
