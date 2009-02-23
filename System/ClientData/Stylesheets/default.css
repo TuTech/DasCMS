@@ -1,3 +1,36 @@
+#BambusHeader{
+ 	background: url(../../Images/header_background.png) 0% 0%;
+}
+
+#WSidebar-body strong
+{
+	border-style: solid;
+	border-color: #4e9a06;
+	background: #4e9a06 url(../../Images/header_background.png) 0% 0%;
+	color: #fff;
+}
+#WSidebar
+{
+	border-color: #4e9a06;
+	border-style: solid;
+	background-color: #eeeeec;
+	color: #2e3436;
+}
+#WSidebar{
+	border-color: #888a85;
+}
+
+#WSearch input,
+#WSearch textarea,
+#WSidebar-body table,
+#org_bambuscms_app_document_editorElementId
+{
+	border-color: #4e9a06;
+	border-style: solid;
+	color: #2e3436;
+	background-color: #fff;
+}
+
 h2
 {
     font-size: 24px;

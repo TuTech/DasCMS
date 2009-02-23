@@ -1,0 +1,38 @@
+.CommandBarPanel
+{
+	float:left;
+	margin-left:10px;
+	
+}
+.CommandBarPanel a 
+{
+	background: #eeeeec;
+	border:1px solid #d3d7cf;	
+	border-left-color:#d3d7cf;
+	width: 28px;
+	height:26px;
+	float:left;
+	display: block;
+	margin-right:2px;
+}
+.CommandBarPanel a.CommandPanelItemFirst
+{
+	border-left-color:#d3d7cf; 
+}
+.CommandBarPanel a:hover
+{
+	border-color:#555753; 
+	background: #73d216 url(../../Images/header_background.png) 0px -30px ;
+}
+
+.CommandBarPanel img{
+	padding:2px 3px 2px 3px;
+	
+}
+.CommandBarSpacer{
+	margin-left: 5px;
+	margin-right: 5px;
+	display:block;
+	height:26px;
+	float:left;
+}

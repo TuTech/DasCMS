@@ -2,24 +2,25 @@
 #WOpenFileDialog{
 	width:100%;
 	height:400px;
-	background: #151718;
+	background: #fff;
 	z-index: 5000;
 	position:absolute;
 	left:0px;
 	top:94px;
+	color: #2e3436;
 }
 #WOpenFileDialog-closer{
 	display:block;
 	width:48px;
-	height:42px;
+	height:36px;
 	float:left;
 	background:  url("../../Icons/tango/medium/actions/close-open-file-dialog.png") 50% 50% no-repeat;
 }
 #WOpenFileDialog-header{
 	width:85%;
 	height:45px;
-	border-bottom: 1px solid #2e3436;
-	background: #090a0b;
+	border-bottom: 1px solid #d3d7cf;
+	background: #f9fcee;
 	position:absolute;
 	left:0px;
 	top:0px;
@@ -27,24 +28,22 @@
 
 #WOpenFileDialog-sidebar{
 	width:15%;
-	border-left: 1px solid #2e3436;
+	border-left: 1px solid #d3d7cf;
 	height:100%;
-	background: #090a0b;
+	background: #f9fcee;
 	position: absolute;
 	right: 0px;
 	top: 0px;
 }
 
 #WOpenFileDialog-filecontainer{
-	background: #151718;
+	background: #fff;
 	width:84%;
 	height:100%;
 	overflow: auto;
-	color: #eeeeec;
 }
 
 #WOpenFileDialog label{
-	color: #eeeeec;
 	display:block;
 	margin-top: 10px;
 	margin-left: 15px;
@@ -52,13 +51,12 @@
 }
 
 #WOpenFileDialog h2{
-	color: #eeeeec;
+	color: #555753;
 	display:block;
 	height:24px;
-	border: 1px solid #000;
 	margin:10px;
 	background: none;
-	float:left;
+	float:right;
 }
 
 #WOpenFileDialog-TitleSearchContainer{
@@ -86,14 +84,14 @@
 	margin-bottom:5px;
 	font-weight: normal;
 	font-size: 1.1em;
-	color: #fff;
+	color: #2e3436;
 }
 .WOFD_item div{
 	margin:2px;
 	margin-left:0px;
 	font-weight: normal;
 	font-size: 0.9em;
-	color: #d3d7cf;
+	color: #555753;
 }
 
 .Sprite_UpDown_1
@@ -144,7 +142,7 @@ detail view
 }
 #WOpenFileDialog-filecontainer.WOFD_detail_view .WOFD_item{
 	display:block;
-	border-bottom: 1px solid #555753;
+	border-bottom: 1px solid #eeeeec;
 }
 /***
 icon view

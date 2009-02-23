@@ -15,7 +15,7 @@
    sodipodi:version="0.32"
    inkscape:version="0.46"
    version="1.0"
-   inkscape:export-filename="/Users/lse/Sites/BambusONE/System/Icons/tango/large/apps/preferences-tree-navigation.png"
+   inkscape:export-filename="/Users/lse/Sites/BambusONE/System/Icons/tango/small/actions/retain.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90"
    sodipodi:docname="action-retain-small.svg"
@@ -130,5 +130,14 @@
        y="5.5"
        ry="3.4803424"
        rx="3.1391814" />
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect3293"
+       width="0"
+       height="4"
+       x="-193"
+       y="-234"
+       rx="3.1391814"
+       ry="3.4803424" />
   </g>
 </svg>

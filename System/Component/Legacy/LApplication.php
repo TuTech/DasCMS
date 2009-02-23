@@ -123,22 +123,27 @@ class LApplication extends BLegacy implements IShareable
             $first = true;
             $closed = true;
             $panelName = '';
-            $CommandBar = "<div class=\"CommandBar\">\n";
+            $CommandBar = "<div id=\"CommandBar\">\n";
             $panelID = '';
             $hotkeys = array();
+            $firstPaelElement = true;
+            $panelIDCntr = 0;
             foreach($tasks as $task)
             {
+                
                 $hotkeyID = '';
                 switch($task['type'])
                 {
                     case('spacer'):
+                        $firstPaelElement = true;
                         $panelName = isset($task['name']) ?  SLocalization::get($task['name']) : '';
-                        $panelID = isset($task['name']) ?  $task['name'] : '';
+                        $panelID = isset($task['name']) ?  $task['name'] : ++$panelIDCntr;
                         if(!$closed)
                         {
-                            $CommandBar .= "</tr>\n</table>\n";
+                            $CommandBar .= "</div>\n";
                             $closed = true;
                         }
+                        $CommandBar .= "<span class=\"CommandBarSpacer\"></span>\n";
                         break;
                     case('button'):
                         $doJS = (empty($task['mode']) || strtolower($task['mode']) == 'javascript');
@@ -173,27 +178,28 @@ class LApplication extends BLegacy implements IShareable
                         if($closed)
                         {
                             $CommandBar .= sprintf(
-                                '<table cellspacing="0" id="CommandBarPanel_%s" class="CommandBarPanel" title="%s">'.
-                                "\n<tr>\n<th class=\"CommandBarPanelStart\">\n</th>\n"
+                                "<div id=\"CommandBarPanel_%s\" class=\"CommandBarPanel\" title=\"%s\">\n"
                                 ,$panelID
                                 ,htmlentities($panelName, ENT_QUOTES, 'UTF-8')
                             );
                             $closed = false;
                         }                       
                         $CommandBar .= sprintf(
-                            "<td>\n<a class=\"CommandBarPanelItem\" %stitle=\"%s\" href=\"javascript:%s\">%s</a>\n</td>"
+                            "<a class=\"CommandBarPanelItem%s\" %stitle=\"%s\" href=\"javascript:%s\">%s</a>"
+                            ,$firstPaelElement ? ' CommandPanelItemFirst' : ''
                             ,$hotkeyID
                             ,SLocalization::get($task['caption'])
                             ,$action
                             ,new WIcon($task['icon'], SLocalization::get($task['caption']))
                         );
+                        $firstPaelElement = false;
                         break;
                 }
                 $first = false;
             }
             if(!$closed)
             {
-                $CommandBar .= '</tr></table>';
+                $CommandBar .= '</div>';
             }
             $hk = '';
             foreach ($hotkeys as $key => $action)

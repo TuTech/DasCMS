@@ -258,7 +258,7 @@ org.bambuscms.wopenfiledialog._build = function()
 		],
 		'DetailIconList'
 	));
-
+	
 	var sort_keys = [];
 	for(sort_k in data.sortable)
 	{
@@ -268,12 +268,14 @@ org.bambuscms.wopenfiledialog._build = function()
 			'param':sort_k
 		};
 	}
-	//sort-switch
-	header.appendChild(org.bambuscms.gui.switchButton(
-		'sort',
-		sort_keys
-	));
-
+	if(sort_keys.length > 1)
+	{
+		//sort-switch
+		header.appendChild(org.bambuscms.gui.switchButton(
+			'sort',
+			sort_keys
+		));
+	}
 	//sort-dir-switch
 	header.appendChild(org.bambuscms.gui.switchButton(
 		'sort_order',
