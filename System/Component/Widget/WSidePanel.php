@@ -16,6 +16,7 @@ class WSidePanel extends BWidget
     const MEDIA_LOOKUP = 8;
     const PERMISSIONS = 16;
     const WYSIWYG = 32;
+    const RETAIN = 64;
     
     private $mode = self::NONE;
     private $mimetype;

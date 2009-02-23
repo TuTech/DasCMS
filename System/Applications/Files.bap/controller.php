@@ -60,7 +60,8 @@ if($File != null && $File instanceof BContent)
 		$panel->setMode(
 		    WSidePanel::PROPERTY_EDIT|
 		    WSidePanel::HELPER|
-		    WSidePanel::PERMISSIONS);
+		    WSidePanel::PERMISSIONS|
+		    WSidePanel::RETAIN);
 		$panel->setTargetContent($File);
 		echo $panel;
 		if($File->isModified())

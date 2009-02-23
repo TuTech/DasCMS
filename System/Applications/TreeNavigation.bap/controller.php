@@ -7,7 +7,6 @@
 * Description: 
 ************************************************/
 
-$EditingObject = '';
 $edit = null;
 
 if(RURL::has('edit') && NTreeNavigation::exists(RURL::get('edit')))
@@ -20,7 +19,6 @@ if(RURL::has('edit') && NTreeNavigation::exists(RURL::get('edit')))
 	}
 	else
 	{
-		$EditingObject = RURL::get('edit').'.nav';
 		$edit = RURL::get('edit');
 	}
 }
@@ -142,7 +140,6 @@ if(RSent::has('new_nav_name'))
 	NTreeNavigation::set($newNav,$spore,new NTreeNavigationObject('', null,null,null));
 	NTreeNavigation::Save();
 	RURL::alter('edit', $newNav);
-	$EditingObject = $newNav.'.nav';
 	$edit = $newNav;
 }
 if(PAuthorisation::has('org.bambuscms.layout.navigation.ntreenavigation.change'))

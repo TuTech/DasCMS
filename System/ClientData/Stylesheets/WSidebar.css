@@ -91,6 +91,12 @@
 	margin: 5px 0px 5px 0px;
 	background: white;
 }
+#WSidebar-body dd .alt{
+	background: #f4fed3;
+}
+#WSidebar-body dd .small-padding{
+	padding:2px;
+}
 #WSidebar-body dd textarea{
 	height: 100px;
 }

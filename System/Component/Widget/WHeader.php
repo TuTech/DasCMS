@@ -58,9 +58,9 @@ class WHeader extends BWidget
 		self::$scripts[$script] = false;
 	} 
 	
-	public static function useStylesheet($style)
+	public static function useStylesheet($style, $media = 'all')
 	{
-		self::relate($style, 'stylesheet', 'text/css');
+		self::relate($style, 'stylesheet', 'text/css', 'media="'.$media.'"');
 	} 
 	
 	public static function relate($link, $as, $type)
@@ -150,10 +150,12 @@ class WHeader extends BWidget
 					$relArr[0] = SPath::SYSTEM_STYLESHEETS.$relArr[0]; 
 				}
 			}
-			$html .= sprintf("\t\t<link href=\"%s\" rel=\"%s\" type=\"%s\" />\n"
+			$html .= sprintf("\t\t<link href=\"%s\" rel=\"%s\" type=\"%s\" %s/>\n"
 				, self::enc($relArr[0])
 				, self::enc($relArr[1])
-				, self::enc($relArr[2]));
+				, self::enc($relArr[2])
+				, isset($relArr[3]) ? $relArr[3].' ' : ''
+				);
 		}
 		
 		foreach (self::$scripts as $script => $autoloaded) 

@@ -82,12 +82,10 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
 		$count = (empty($logins)) ? 1 : ++$logins;
 		$SUsersAndGroups->setUserAttribute(PAuthentication::getUserID(), 'management_login_count', $count);
 	}
-	//this is not defined in a loop because code assist would not work otherwise
 
-    //1st: validate application
     $applications = LApplication::getAvailableApplications();
     $Application = LApplication::alloc()->init();
-    $tabs = $Application->selectApplicationFromPool($applications);
+    $Application->selectApplicationFromPool($applications);
     
     WTemplate::globalSet('WApplications',  new WApplications());
     
@@ -117,7 +115,7 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
 					WHeader::useScript(LApplication::getDirectory().$file);
 					break;
 				default: //css
-					WHeader::useStylesheet(LApplication::getDirectory().$file);
+					WHeader::useStylesheet(LApplication::getDirectory().$file, $type);
 			}
 		}
 	    
@@ -126,7 +124,6 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
 	    //export the config into an array
     	//load application class
     	$controller = $Application->controller();
-    	$EditingObject = '';
     	$ob = '';
     	if($controller != false)
     	{
@@ -142,13 +139,10 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
 		echo $ob;
 		echo LGui::beginApplication();
     	$erg = $Application->run();
-    	if($erg !== true)
+    	if($erg !== true && (!file_exists($erg) || !include($erg)))
     	{
 			//interface is coded in php an needs to be called here
-			if(!file_exists($erg) || !include($erg))
-			{
-				SNotificationCenter::report('alert', 'invalid_application');
-			}
+			SNotificationCenter::report('alert', 'invalid_application');
     	}
 		echo LGui::endApplication();
     	$footerTpl = new WTemplate('footer', WTemplate::SYSTEM);
@@ -168,7 +162,6 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
 	WHeader::useStylesheet('specialPurpose.login.css');
     if(RSent::has('bambus_cms_login'))
     {
-        //sleep(10);
         SNotificationCenter::report('warning', 'wrong_username_or_password');
     }
     $headTpl = new WTemplate('header', WTemplate::SYSTEM);

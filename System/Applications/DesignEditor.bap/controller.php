@@ -95,10 +95,6 @@ if(count($Files) > 0)
 	    }
 	}
 }	
-if(count($Files) > 0 && isset($File))
-{
-	$EditingObject = ($File == 'default.css') ? SLocalization::get('default.css').'.css' : $File;	
-}
 
 echo '<form method="post" id="documentform" name="documentform" action="'
 	,SLink::link(array('edit' => isset($File) ? $File : ''))

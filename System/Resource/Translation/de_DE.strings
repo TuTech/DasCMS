@@ -1,3 +1,8 @@
+CPage	Website
+CFile	Datei
+CFeed	Feed
+CError	Fehler
+CTemplate	Template
 extra_small_icons	Ganz kleine Icons (16x16px)
 small_icons	Kleine Icons (22x22px)
 medium_icons	Mittlere Icons (32x32px)

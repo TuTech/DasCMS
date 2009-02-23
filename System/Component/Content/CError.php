@@ -46,15 +46,20 @@ class CError extends BContent implements IGlobalUniqueId
 	    $alias = SHTTPStatus::validate($alias);
 	    if($alias == 401)
 	    {
-	        if(LConfiguration::get('login_form_template') && defined('BAMBUS_HTML_ACCESS'))
+	        $tpl = LConfiguration::get('login_form_template');
+	        if(defined('BAMBUS_HTML_ACCESS') && !empty($tpl))
 	        {
-	            //FIXME OPEN CONTENT
+	            try 
+	            {
+	                return BContent::Open($tpl);
+	            }
+	            catch (Exception $e)
+	            {
+	            	/* not returned the login tpl, send header auth instead */
+	            }
 	        }
-            else
-            {
-	            header("HTTP/1.0 401 Authorization Required");
-	            header("WWW-Authenticate: Basic realm=\"BambusCMS\"");
-	        }
+            header("HTTP/1.1 401 Authorization Required");
+            header("WWW-Authenticate: Basic realm=\"BambusCMS\"");
 	    }
         return new CError($alias == null ? 501 : $alias);
 	}

@@ -161,6 +161,17 @@ class WImage extends BWidget
         return self::$retainCounts;
     }
     
+    public static function getRetainersFor($alias)
+    {
+        $ret = array();
+        $res = QWImage::getRetainers($alias);
+        while($row = $res->fetch())
+        {
+            $ret[$row[0]] = array($row[1], $row[2]);
+        }
+        return $ret;
+    }
+    
     public static function getAllPreviewContents()
     {
         //alias => title

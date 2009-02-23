@@ -182,17 +182,6 @@ if(RURL::get('_action') == 'delete')
 	$dbNeedsUpdate = true;
 }
 
-if(strpos(RURL::get('tab'),'manage_')===false)
-{
-    if($edit_mode == 'grp')
-    {
-        $EditingObject = sprintf('%s.%s', $victim, 'group');    
-    }
-    else
-    {
-        $EditingObject = sprintf('%s.%s', $victim, (($SUsersAndGroups->isMemberOf($victim, 'Administrator')) ? SLocalization::get('administrator') : 'user'));
-    }
-}
 if(PAuthorisation::has('org.bambuscms.credentials.user.change') || PAuthorisation::has('org.bambuscms.credentials.group.change'))
 {
 	echo LGui::beginForm(array('edit' => ($edit_mode == 'usr' ? 'u:' : 'g:').$victim), 'documentform');

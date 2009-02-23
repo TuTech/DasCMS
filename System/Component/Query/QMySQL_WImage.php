@@ -46,6 +46,25 @@ class QWImage extends BQuery
             	FROM relContentsPreviewImages
             	GROUP BY relContentsPreviewImages.previewREL";
 		return BQuery::Database()->query($sql, DSQL::NUM);
+    }    
+    
+    /**
+     * @return DSQLResult
+     */
+    public static function getRetainers($alias)
+    {
+        $DB = BQuery::Database();
+		$sql = "SELECT 
+					Aliases.alias,
+					Classes.class,
+					Contents.title
+					FROM relContentsPreviewImages
+            	LEFT JOIN Contents ON (relContentsPreviewImages.contentREL = Contents.contentID)
+            	LEFT JOIN Aliases ON (Contents.primaryAlias = Aliases.aliasID)
+            	LEFT JOIN Classes ON (Classes.classID = Contents.type)
+            	WHERE relContentsPreviewImages.previewREL = (SELECT contentREL FROM Aliases WHERE alias = '%s')
+            	ORDER BY Classes.class,Contents.title ASC";
+		return $DB->query(sprintf($sql, $DB->escape($alias)), DSQL::NUM);
     }
     
     /**
