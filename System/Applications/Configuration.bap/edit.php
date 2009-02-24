@@ -30,7 +30,6 @@ $values = array(
         "use_wysiwyg"			=> array("use_wysiwyg",      "checkbox"),
 	),
 	"database_settings" => array(
-        "use_database"          => array("use_db",          "checkbox"),
         "server"                => array("db_server",       "fullinput"),
         "user"                  => array("db_user",         "fullinput"),
         "password"              => array("db_password",     "password"),

@@ -1,4 +1,3 @@
-@CHARSET "UTF-8";
 #WApplications{
 	z-index:500000;
 	display:block;
@@ -20,7 +19,7 @@ height:50px;
 {
 	position:absolute;
 	text-align:left;
-	top:45px;
+	top:57px;
 	margin-left:8px;
     border:1px solid #9fbc4a;   
     display:block;
@@ -51,9 +50,9 @@ height:50px;
 }
 #WApplications a:hover img
 {
-	border:1px solid #9fbc4a;
+	/*border:1px solid #9fbc4a;
 	padding:3px;
-	background: #fff;
+	background: #fff;*/
 }
 #WApplications a.active img
 {

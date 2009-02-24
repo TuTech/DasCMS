@@ -113,34 +113,34 @@ class WSettings extends BWidget implements ISidebarWidget
 		    sprintf('<textarea id="WSearch-Desc" name="WSearch-Desc">%s</textarea>', htmlentities($this->targetObject->Description, ENT_QUOTES, 'utf-8'))
 	    );
 		
-	    $MetaItems = new WNamedList();
-	    $MetaItems->setTitleTranslation(true);
-		$meta = array('Alias' => 'alias','GUID' => 'id', 'PubDate' => 'pubDate','ModifyDate' => 'modified','ModifiedBy' => 'modified_by', 'CreateDate' => 'created', 'CreatedBy' => 'created_by', 'Size' => 'size');
-		foreach ($meta as $key => $name) 
-		{
-		    $val = '-';
-		    if(isset($this->targetObject->{$key}) && strlen($this->targetObject->{$key}) > 0) 
-		    {
-		        if(substr($key,-4) == 'Date') 
-		        {
-		            $date = $this->targetObject->{$key};
-		            $val = $date > 0 ? date('r',$this->targetObject->{$key}) : '';
-		        }
-		        elseif(substr($key,-4) == 'Size')
-		        {
-		            $val = DFileSystem::formatSize($this->targetObject->{$key});
-		        }
-		        else
-		        {
-		            $val = htmlentities($this->targetObject->{$key}, ENT_QUOTES, 'UTF-8');
-		        }
-		    }
-		    $MetaItems->add($name, $val);
-		}
-		$Items->add(   
-		    sprintf("<label>%s</label>", SLocalization::get('meta_data')),
-		    $MetaItems
-	    );
+//	    $MetaItems = new WNamedList();
+//	    $MetaItems->setTitleTranslation(true);
+//		$meta = array('Alias' => 'alias','GUID' => 'id', 'PubDate' => 'pubDate','ModifyDate' => 'modified','ModifiedBy' => 'modified_by', 'CreateDate' => 'created', 'CreatedBy' => 'created_by', 'Size' => 'size');
+//		foreach ($meta as $key => $name) 
+//		{
+//		    $val = '-';
+//		    if(isset($this->targetObject->{$key}) && strlen($this->targetObject->{$key}) > 0) 
+//		    {
+//		        if(substr($key,-4) == 'Date') 
+//		        {
+//		            $date = $this->targetObject->{$key};
+//		            $val = $date > 0 ? date('r',$this->targetObject->{$key}) : '';
+//		        }
+//		        elseif(substr($key,-4) == 'Size')
+//		        {
+//		            $val = DFileSystem::formatSize($this->targetObject->{$key});
+//		        }
+//		        else
+//		        {
+//		            $val = htmlentities($this->targetObject->{$key}, ENT_QUOTES, 'UTF-8');
+//		        }
+//		    }
+//		    $MetaItems->add($name, $val);
+//		}
+//		$Items->add(   
+//		    sprintf("<label>%s</label>", SLocalization::get('meta_data')),
+//		    $MetaItems
+//	    );
 		$html .= $Items;
 		$html .= '</div>';
 		return $html;

@@ -161,7 +161,7 @@ class WSidePanel extends BWidget
 //					,($class == $selectedWidget) ? ' selected="selected"' : ''
 //					, SLocalization::get($object->getName()));
 		        $html .=  sprintf(
-		        	"<td><a href=\"javascript:org.bambuscms.wsidebar.show('%s')\" id=\"WSidebar-selector-%s\" title=\"%s\"%s>%s</a></td>\n"
+		        	"<td class=\"tab\"><a href=\"javascript:org.bambuscms.wsidebar.show('%s')\" id=\"WSidebar-selector-%s\" title=\"%s\"%s>%s</a></td>\n"
 		        	,$class
 		        	,$class
 		        	,SLocalization::get($object->getName())
@@ -171,7 +171,7 @@ class WSidePanel extends BWidget
 			}
 			
 			//$html .= "\t\t</select>";
-			$html .= '</tr></table>';
+			$html .= '<td class="spacer"></td></tr></table>';
 			$html .= "\n\t</div>\n<div id=\"WSidebar\">\n\t<div class=\"side-scroll-body\">\n\t<div id=\"WSidebar-body\">\n";
 			//widgets
 			foreach ($this->sidebarWidgets as $class => $object) 
