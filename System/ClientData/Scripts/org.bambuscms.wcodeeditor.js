@@ -68,7 +68,10 @@ org.bambuscms.wcodeeditor = {
 			if(parts.length == 2)
 			{
 				org.bambuscms.autorun.register(function(){
-					org.bambuscms.wcodeeditor.scrollTo(parts[1], parts[0]);
+					//this function registers another function to be called after everything else in autoload is done 
+					org.bambuscms.autorun.register(function(){
+						org.bambuscms.wcodeeditor.scrollTo(parts[1], parts[0]);
+					});
 				});
 			}
 			org.bambuscms.wcodeeditor.refresh[org.bambuscms.wcodeeditor.refresh.length] = function()
