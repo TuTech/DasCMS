@@ -71,11 +71,12 @@ org.bambuscms.app.dialog.cancel = function()
 	if(org.bambuscms.app.dialog.disableInput)
 		return;
 	var container = document.getElementById("dialogues");
+	container.className = 'hide';
+	container.innerHTML = '';
 	while(container.hasChildNodes())
 	{
 		container.removeChild(container.firstChild);
 	}
-	container.className = 'hide';
 }
 
 

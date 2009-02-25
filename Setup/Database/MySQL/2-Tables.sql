@@ -14,7 +14,6 @@ Aliases(
     contentREL 
         INTEGER 
         NOT NULL,
-    INDEX aliases_alias (alias),
     INDEX(contentREL)
 )
 ENGINE = InnoDB 
