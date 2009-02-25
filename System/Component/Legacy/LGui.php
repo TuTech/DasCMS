@@ -123,6 +123,9 @@ class LGui extends BLegacy
     public static function editorTextarea($content, $spellcheck = false, $enableWYSIWYG = false)
     {
         $out = "<input type=\"hidden\" name=\"action\" value=\"save\" />\n";
+        $out = "<input type=\"hidden\" name=\"org_bambuscms_wcodeeditor_scrollpos\" id=\"org_bambuscms_wcodeeditor_scrollpos\" value=\"".
+                htmlentities(RSent::get('org_bambuscms_wcodeeditor_scrollpos', 'utf-8'), ENT_QUOTES, 'utf-8')
+                ."\" />\n";
         $out .= sprintf(
         "<textarea  spellcheck=\"%s\" ".
         "name=\"content\" class=\"visibleEditor\" wrap=\"on\" ".

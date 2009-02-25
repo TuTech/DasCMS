@@ -29,7 +29,7 @@ org.bambuscms.wcodeeditor = {
 		org.bambuscms.app.hotkeys.unregister('TAB');
 	},
 	'updateInverval':null,
-	'update':function(){},
+	'update':function(){org.bambuscms.wcodeeditor.doRefresh();},
 	'updateTime':1000,
 	"run":function(textarea)
 	{
@@ -61,6 +61,22 @@ org.bambuscms.wcodeeditor = {
 				}
 			}
 		}
+		if($('org_bambuscms_wcodeeditor_scrollpos'))
+		{
+			var scrollTo = $('org_bambuscms_wcodeeditor_scrollpos').value;
+			var parts = scrollTo.split(':');
+			if(parts.length == 2)
+			{
+				org.bambuscms.autorun.register(function(){
+					org.bambuscms.wcodeeditor.scrollTo(parts[1], parts[0]);
+				});
+			}
+			org.bambuscms.wcodeeditor.refresh[org.bambuscms.wcodeeditor.refresh.length] = function()
+			{
+				$('org_bambuscms_wcodeeditor_scrollpos').value = 
+					$(org.bambuscms.app.document.editorElementId).scrollTop+':'+$(org.bambuscms.app.document.editorElementId).scrollLeft;
+			}
+		}
 		org.bambuscms.wcodeeditor.doRefresh();
 	},
 	'cursor':function()
@@ -86,5 +102,10 @@ org.bambuscms.wcodeeditor = {
 	        result.set = true;
 	    }
 	    return result;
+	},
+	'scrollTo':function(x,y)
+	{
+		$(org.bambuscms.app.document.editorElementId).scrollTop = parseInt(y);
+		$(org.bambuscms.app.document.editorElementId).scrollLeft = parseInt(x);
 	}
 };
