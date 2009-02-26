@@ -44,24 +44,6 @@
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient3218"
-       id="linearGradient3224"
-       x1="10.6"
-       y1="12.450001"
-       x2="10.6"
-       y2="1.1096414"
-       gradientUnits="userSpaceOnUse" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3218"
-       id="linearGradient3236"
-       gradientUnits="userSpaceOnUse"
-       x1="10.6"
-       y1="12.450001"
-       x2="10.6"
-       y2="1.1096414" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3218"
        id="linearGradient3241"
        gradientUnits="userSpaceOnUse"
        x1="10.6"
@@ -129,14 +111,14 @@
        sodipodi:nodetypes="csscccsc" />
     <text
        xml:space="preserve"
-       style="font-size:14.11941051px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#5c3566;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arno Pro Smbd Caption;-inkscape-font-specification:Arno Pro Smbd Caption Semi-Bold"
-       x="6.9126925"
-       y="14.608424"
+       style="font-size:15.56118011px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#204a87;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arno Pro Smbd Caption;-inkscape-font-specification:Arno Pro Smbd Caption Semi-Bold"
+       x="5.6681604"
+       y="16.100124"
        id="text3226"
-       transform="scale(1.0848085,0.9218217)"><tspan
+       transform="scale(1.1955809,0.8364135)"><tspan
          sodipodi:role="line"
          id="tspan3228"
-         x="6.9126925"
-         y="14.608424">!</tspan></text>
+         x="5.6681604"
+         y="16.100124">!</tspan></text>
   </g>
 </svg>
