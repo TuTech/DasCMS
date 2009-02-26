@@ -17,6 +17,7 @@ class WSidePanel extends BWidget
     const PERMISSIONS = 16;
     const WYSIWYG = 32;
     const RETAIN = 64;
+    const INFORMATION = 128;
     
     private $mode = self::NONE;
     private $mimetype;

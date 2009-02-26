@@ -156,4 +156,16 @@ if(RURL::get('action') == '_clear_cache' && PAuthorisation::has('org.bambuscms.c
     clearCache();
     SNotificationCenter::report('message', 'cache_cleared');
 }
+try
+{
+	$panel = new WSidePanel();
+	$panel->setMode(
+	    WSidePanel::HELPER |
+	    WSidePanel::INFORMATION
+    );
+	echo $panel;
+}
+catch(Exception $e){
+	echo $e->getTraceAsString();
+}
 ?>

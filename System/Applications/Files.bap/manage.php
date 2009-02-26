@@ -6,13 +6,13 @@
 * Copyright:   Lutz Selke/TuTech Innovation GmbH 
 * Description: 
 ************************************************/
-
+if(isset($panel) && $panel->hasWidgets())
+{
+    echo '<div id="objectInspectorActiveFullBox">';
+}
 if($File != null && $File instanceof BContent)
 {
-    if(isset($panel) && $panel->hasWidgets())
-    {
-        echo '<div id="objectInspectorActiveFullBox">';
-    }
+
     echo new WScript("org.bambuscms.gui.hideCommandPanels(['multi_delete', 'multi_select', 'multi_view']);");
 	printf('<input type="hidden" id="filename" size="30" name="filename" value="%s"/><h2>%s</h2>'
     	, htmlentities($File->Title, ENT_QUOTES, 'UTF-8')
@@ -49,10 +49,7 @@ if($File != null && $File instanceof BContent)
 	    }
 	}
 	$tbl->render();
-    if(isset($panel) && $panel->hasWidgets())
-    {
-        echo '</div>';
-    }
+
 }
 else
 {
@@ -95,6 +92,10 @@ else
     }
     $flowLayout->render();
     echo new WScript('hideInputs();');
+}
+if(isset($panel) && $panel->hasWidgets())
+{
+    echo '</div>';
 }
 echo LGui::endForm();
 

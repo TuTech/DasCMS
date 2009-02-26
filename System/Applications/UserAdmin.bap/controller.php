@@ -370,20 +370,19 @@ if(PAuthorisation::has('org.bambuscms.credentials.user.change') || PAuthorisatio
 {
 	echo LGui::beginForm(array('edit' => ($edit_mode == 'usr' ? 'u:' : 'g:').$victim), 'documentform');
 }
-if($SUsersAndGroups->isUser($victim))
-{
-	try{
-		$panel = new WSidePanel();
-		$panel->setMode(
-		    WSidePanel::PERMISSIONS);
+try{
+	$panel = new WSidePanel();
+	$panel->setMode(
+	    WSidePanel::PERMISSIONS);
+    if($SUsersAndGroups->isUser($victim))
+    {
 	    $panel->setTarget($victim, 'cms/'.($edit_mode == 'usr' ? 'user' : 'group'));
-		echo $panel;
-	}
-	catch(Exception $e){
-		echo $e->getTraceAsString();
-		
-	}	
+    }
+	echo $panel;
 }
+catch(Exception $e){
+	echo $e->getTraceAsString();
+}	
 $AppController = BAppController::getControllerForID('org.bambuscms.applications.usereditor');
 echo new WOpenDialog($AppController, $hasVictim);
 

@@ -1,4 +1,8 @@
 <?php
+if(isset($panel) && $panel->hasWidgets())
+{
+    echo '<div id="objectInspectorActiveFullBox">';
+}
 $info = array(); //array('size' => 0,'lines' => 0,'chars' => 0,'files' => 0,'folders' => 0,'scripts' => 0);
 dirlist_r('./');
 chdir(constant('BAMBUS_CMS_ROOTDIR'));
@@ -58,4 +62,8 @@ else
     $fp_table->render();
 }
 echo LGui::verticalSpace();
+if(isset($panel) && $panel->hasWidgets())
+{
+    echo '</div>';
+}
 ?>

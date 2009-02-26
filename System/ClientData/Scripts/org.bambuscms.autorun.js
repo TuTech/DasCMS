@@ -26,7 +26,9 @@ org.bambuscms.autorun = {
 	{
 		for(var i = 0; i < org.bambuscms.autorun.executionStack.length; i++)
 		{
-			org.bambuscms.autorun.executionStack[i]();
+			try{
+				org.bambuscms.autorun.executionStack[i]();
+			}catch(e){/* continue with next in stack */}
 		}
 		org.bambuscms.autorun.done = true;
 	},

@@ -52,7 +52,7 @@ if(count($Files) > 0)
 		        //do the save operation
 		        if(DFileSystem::Save(SPath::DESIGN.$File, RSent::get('content', 'utf-8')))
 		        {
-		        	SNotificationCenter::report('message', '.file_saved');
+		        	SNotificationCenter::report('message', 'file_saved');
 		        	$fileContent = RSent::get('content', 'utf-8');
 		        }
 		        else
@@ -100,16 +100,17 @@ echo '<form method="post" id="documentform" name="documentform" action="'
 	,SLink::link(array('edit' => isset($File) ? $File : ''))
 	,'">';
 
-try{
+try
+{
 	$panel = new WSidePanel();
 	$panel->setMode(
-	    WSidePanel::MEDIA_LOOKUP|
-	    WSidePanel::HELPER);
+	    WSidePanel::HELPER |
+	    WSidePanel::INFORMATION
+    );
 	echo $panel;
 }
 catch(Exception $e){
 	echo $e->getTraceAsString();
-	
 }	
 $AppController = BAppController::getControllerForID('org.bambuscms.applications.stylesheeteditor');
 echo new WOpenDialog($AppController, isset($File) ? $File : '');

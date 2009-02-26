@@ -7,7 +7,10 @@
 * Description: css editor interface
 ************************************************/
 //document title
-	
+if(isset($panel) && $panel->hasWidgets())
+{
+    echo '<div id="objectInspectorActiveFullBox">';
+}
 if(PAuthorisation::has('org.bambuscms.system.permissions.tags.change'))
 {
     $tags =  implode(', ', STagPermissions::getProtectedTags());
@@ -19,5 +22,8 @@ if(PAuthorisation::has('org.bambuscms.system.permissions.tags.change'))
 	echo LGui::editorTextarea($tags);
 	echo LGui::endForm();
 }
-
+if(isset($panel) && $panel->hasWidgets())
+{
+    echo '</div>';
+}
 ?>

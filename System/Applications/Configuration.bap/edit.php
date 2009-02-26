@@ -6,6 +6,10 @@
  * @version 1.0
  * @author selke@tutech.de
  */
+if(isset($panel) && $panel->hasWidgets())
+{
+    echo '<div id="objectInspectorActiveFullBox">';
+}
 if(PAuthorisation::has('org.bambuscms.configuration.set'))
 {
 	echo LGui::beginForm(array(), 'documentform');
@@ -122,5 +126,9 @@ if(PAuthorisation::has('org.bambuscms.configuration.set'))
 {
 	echo LGui::hiddenInput('writeconfig','1');
 	echo LGui::endForm();
+}
+if(isset($panel) && $panel->hasWidgets())
+{
+    echo '</div>';
 }
 ?>

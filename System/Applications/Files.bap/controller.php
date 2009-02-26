@@ -49,30 +49,30 @@ printf(
     '<form method="post" id="documentform" name="documentform" action="%s">'
 	,SLink::link(array('edit' => (isset($File) && $File instanceof CFile)? $File->Alias :''))
 );
-if($File != null && $File instanceof BContent)
-{
-	try{
-    	if(RSent::has('filename'))
-    	{
-    		$File->Title = RSent::get('filename', 'utf-8');
-    	}
-		$panel = new WSidePanel();
-		$panel->setMode(
-		    WSidePanel::PROPERTY_EDIT|
-		    WSidePanel::HELPER|
-		    WSidePanel::PERMISSIONS|
-		    WSidePanel::RETAIN);
-		$panel->setTargetContent($File);
-		echo $panel;
-		if($File->isModified())
-		{
-			$File->Save();
-		}
-	}
-	catch(Exception $e){
-		echo $e->getTraceAsString();
-	}	
+try{
+    if($File != null && $File instanceof BContent && RSent::has('filename'))
+    {    
+		$File->Title = RSent::get('filename', 'utf-8');
+    }
+	$panel = new WSidePanel();
+	$panel->setMode(
+	    WSidePanel::PROPERTY_EDIT|
+	    WSidePanel::HELPER|
+	    WSidePanel::PERMISSIONS|
+	    WSidePanel::RETAIN);
+    if($File != null && $File instanceof BContent)
+    {
+        $panel->setTargetContent($File);
+    }
+	echo $panel;
+	if($File != null && $File instanceof BContent && $File->isModified())
+    {
+		$File->Save();
+    }
 }
+catch(Exception $e){
+	echo $e->getTraceAsString();
+}	
 
 $ofd = new WOpenDialog($AppController, $File);
 $ofd->autoload(false);

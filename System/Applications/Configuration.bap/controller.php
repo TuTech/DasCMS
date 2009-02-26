@@ -48,6 +48,18 @@ if(RSent::hasValue('writeconfig') && PAuthorisation::has('org.bambuscms.configur
             LConfiguration::set($key, RSent::get($key));
         }
     }
-    SNotificationCenter::report('message', 'configuration_saved-file_has_been_overwritten');
+    SNotificationCenter::report('message', 'configuration_saved');
+}
+try
+{
+	$panel = new WSidePanel();
+	$panel->setMode(
+	    WSidePanel::HELPER |
+	    WSidePanel::INFORMATION
+    );
+	echo $panel;
+}
+catch(Exception $e){
+	echo $e->getTraceAsString();
 }
 ?>
