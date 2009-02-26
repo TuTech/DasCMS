@@ -96,6 +96,7 @@ function cleanCSS(){
     cssElem.value = css;
     cssElem.scrollTop = topScroll;
     cssElem.scrollLeft = leftScroll;
+    org.bambuscms.wnotifications.report(org.bambuscms.wnotifications.INFORMATION, 'css reformatted');
 }
 var isSorting = false;
 function sortCSS(msg){
@@ -104,7 +105,6 @@ function sortCSS(msg){
 		return
 	}
 	isSorting = true;
-	document.getElementById('js_message').style.opacity = 1.0;
     var editor = $(org.bambuscms.app.document.editorElementId);
     var topScroll = editor.scrollTop;
     var leftScroll = editor.scrollLeft;
@@ -196,4 +196,5 @@ function sortCSS(msg){
     editor.scrollTop = topScroll;
     editor.scrollLeft = leftScroll;    
     isSorting = false;
+    org.bambuscms.wnotifications.report(org.bambuscms.wnotifications.INFORMATION, 'css sorted');
 }

@@ -58,9 +58,8 @@ org.bambuscms.app.document.insertText = function(text){
         textarea.scrollTop = topScroll;
         return true;
     }else{
-        var elem = document.getElementById('warning');
-        elem.innerHTML = 'your_browser_does_not_support_this_feature_correctly';       
         textarea.value = textarea.value + text; 
+        org.bambuscms.wnotifications.report(org.bambuscms.wnotifications.WARNING, 'your browser does not support this feature');
     }
     textarea.focus();
 };
@@ -165,6 +164,7 @@ org.bambuscms.app.document.cleanHTML = function(){
     htmlElem.value = html;
     htmlElem.scrollTop = topScroll;
     htmlElem.scrollLeft = leftScroll;
+    org.bambuscms.wnotifications.report(org.bambuscms.wnotifications.INFORMATION, 'html reformatted');
 };
 org.bambuscms.app.document.searchAndReplaceFormHelper = function()
 {
@@ -222,8 +222,10 @@ org.bambuscms.app.document.searchAndReplace = function(lookFor, replaceWith)
             }
         }
         textarea.value = txt;
+        org.bambuscms.wnotifications.report(org.bambuscms.wnotifications.INFORMATION, 'all elements replaced');
 		textarea.focus();
 	}
+	
 };
 
 org.bambuscms.app.document.insertMedia = function(type, url, title)

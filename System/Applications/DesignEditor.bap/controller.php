@@ -107,6 +107,10 @@ try
 	    WSidePanel::HELPER |
 	    WSidePanel::INFORMATION
     );
+    if(isset($File))
+    {
+	    $panel->setTarget($File, 'text/css');
+    }
 	echo $panel;
 }
 catch(Exception $e){
