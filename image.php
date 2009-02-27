@@ -32,7 +32,7 @@ if(!empty($_SERVER['PATH_INFO']))
     {
         header('Content-type: image/jpeg;');
         //get the id of the preview image 
-        $id = WImage::getPreviewIdForContent(BContent::Open($alias));
+        $id = WImage::getPreviewIdForContent(BContent::Access($alias, new WImage()));
         if(empty($id))
         {
             $id = '_';

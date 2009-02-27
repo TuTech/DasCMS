@@ -3,6 +3,7 @@ class SContentWatch
     extends BSystem
     implements 
         HContentAccessEventHandler,
+        HWillAccessContentEventHandler,
         IShareable   
 {
 	//IShareable
@@ -45,5 +46,20 @@ class SContentWatch
     {
         return self::$accessedContents;
     }
+    
+	/**
+	 * before accessing content this event happens
+	 * we can substitute content here 
+	 *
+	 * @param EWillAccessContentEvent $e
+	 */
+	public function HandleWillAccessContentEvent(EWillAccessContentEvent $e)
+	{
+	    $pubDate = $e->Content->getPubDate();
+	    if(empty($pubDate) || $pubDate > time())
+	    {
+	        $e->substitute(CError::Open(403));
+	    }
+	}
 }
 ?>
