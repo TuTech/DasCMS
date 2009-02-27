@@ -17,7 +17,7 @@ if(!empty($_SERVER['PATH_INFO']))
     $alias = array_shift($parts);
     //resize key?
     $key = (count($parts)) ? array_shift($parts) : '';
-    list($alias, $key) = explode('/', $path);
+    //list($alias, $key) = explode('/', $path);
     $key = basename($key);
     if(preg_match(
         	'/^'.//'(_|c|p)'.//render type
