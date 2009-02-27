@@ -18,7 +18,7 @@ function Upload()
 
 	cdesc = document.createElement('label');
 	cdesc.setAttribute('for', 'dlgcheck');
-	cdesc.appendChild(document.createTextNode('overwrite'));
+	cdesc.appendChild(document.createTextNode(_('overwrite')));
 
 	br = document.createElement('br');
 
@@ -28,7 +28,7 @@ function Upload()
 	div.appendChild(cinput);
 	div.appendChild(cdesc);
 	
-	org.bambuscms.app.dialog.create('Upload file', 'file:', div, 'Upload', 'Cancel', true);
+	org.bambuscms.app.dialog.create(_('upload_file'), _('file'), div, _('upload'), _('cancel'), true);
 }
 function Delete()
 {
@@ -37,7 +37,7 @@ function Delete()
 	input.setAttribute('type','hidden');
 	input.setAttribute('value','yes');
 		
-	org.bambuscms.app.dialog.create('Delete file', 'Do you really want to delete this file', input, 'Yes', 'No');
+	org.bambuscms.app.dialog.create(_('delete_file'), _('do_you_really_want_to_delete_this_file'), input, _('yes'), _('no'));
 }
 /*****************************/
 function selectImage(id)

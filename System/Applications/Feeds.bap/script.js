@@ -5,7 +5,7 @@ function Create()
 	input.setAttribute('type','text');
 	input.setAttribute('value','');
 		
-	org.bambuscms.app.dialog.create('Create new feed', 'name of new feed:', input, 'OK', 'Cancel');
+	org.bambuscms.app.dialog.create(_('create_new_feed'), _('name_of_new_feed'), input, _('create'), _('cancel'));
 	input.focus();
 }
 function Delete()
@@ -15,6 +15,6 @@ function Delete()
 	input.setAttribute('type','hidden');
 	input.setAttribute('value','yes');
 		
-	org.bambuscms.app.dialog.create('Delete feed', 'Do you really want to delete this feed', input, 'Yes', 'No');
+	org.bambuscms.app.dialog.create(_('delete_feed'), _('do_you_really_want_to_delete_this_feed', input, _('yes_delete_it'), _('no'));
 }
 

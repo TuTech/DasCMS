@@ -23,7 +23,7 @@ org.bambuscms.app.document.saveAs = function(inputId)
 	if($(inputId))
 	{
 		var p = '';
-		p = prompt('save_and_rename_to', document.getElementById(inputId).value);
+		p = prompt(_('save_and_rename_to'), document.getElementById(inputId).value);
 		if(p != '' && p != null && document.getElementById(inputId).value != p)
 		{
 			document.getElementById(inputId).value = p;
@@ -59,7 +59,7 @@ org.bambuscms.app.document.insertText = function(text){
         return true;
     }else{
         textarea.value = textarea.value + text; 
-        org.bambuscms.wnotifications.report(org.bambuscms.wnotifications.WARNING, 'your browser does not support this feature');
+        org.bambuscms.wnotifications.report(org.bambuscms.wnotifications.WARNING, _('your browser does not support this feature'));
     }
     textarea.focus();
 };
@@ -164,7 +164,7 @@ org.bambuscms.app.document.cleanHTML = function(){
     htmlElem.value = html;
     htmlElem.scrollTop = topScroll;
     htmlElem.scrollLeft = leftScroll;
-    org.bambuscms.wnotifications.report(org.bambuscms.wnotifications.INFORMATION, 'html reformatted');
+    org.bambuscms.wnotifications.report(org.bambuscms.wnotifications.INFORMATION, _('html_reformatted'));
 };
 org.bambuscms.app.document.searchAndReplaceFormHelper = function()
 {
@@ -188,18 +188,18 @@ org.bambuscms.app.document.searchAndReplace = function(lookFor, replaceWith)
 		slabel.setAttribute('for', 'org_bambuscms_app_document_search');
 		var rlabel = document.createElement('label');
 		rlabel.setAttribute('for', 'org_bambuscms_app_document_replace');
-		slabel.innerHTML = 'look for:';
-		rlabel.innerHTML = 'replace with:';
+		slabel.innerHTML = _('look_for');
+		rlabel.innerHTML = _('replace_with');
 		div.appendChild(slabel);
 		div.appendChild(search);
 		div.appendChild(rlabel);
 		div.appendChild(replace);
 		org.bambuscms.app.dialog.create(
-			'search and replace',
+				_('search_and_replace'),
 			'',
 			div,
-			'replace all',
-			'abort',
+			_('replace_all'),
+			_('abort'),
 			false,
 			'org.bambuscms.app.document.searchAndReplaceFormHelper'
 		);
@@ -222,7 +222,7 @@ org.bambuscms.app.document.searchAndReplace = function(lookFor, replaceWith)
             }
         }
         textarea.value = txt;
-        org.bambuscms.wnotifications.report(org.bambuscms.wnotifications.INFORMATION, 'all elements replaced');
+        org.bambuscms.wnotifications.report(org.bambuscms.wnotifications.INFORMATION, _('all_elements_replaced'));
 		textarea.focus();
 	}
 	

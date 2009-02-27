@@ -1,5 +1,21 @@
 notifications	Benachrichtigungen
 no_notifications	- Keine -
+html_reformatted	HTML neu formatiert
+css_reformatted	CSS neu formatiert
+css_sorted	CSS sortiert
+create_new_feed	Neuen Feed erstellen
+name_of_new_feed Name des Feeds
+create Erstellen
+cancel	Abbrechen
+delete_feed	Feed löschen
+do_you_really_want_to_delete_this_feed	Wollen Sie diesen Feed wirklich löschen?
+yes_delete_it	Ja, löschen
+revoke_publication	Veröffentlichung zurückziehen
+publish_now	Jetzt veröffentlichen
+look_for	Suchen nach
+replace_with	Ersetzen mit
+abort	Abbrechen
+replace_all	Alles ersetzen
 CPage	Website
 CFile	Datei
 CFeed	Feed
@@ -485,7 +501,7 @@ change_users	Benutzer ändern
 administrator	Administrator
 general_permissions	Allgemeine Berechtigungen
 editor_permissions	Editor Berechtigungen
-all_elements_replaced	Alle Elements ersetzt
+all_elements_replaced	Alle Elemente ersetzt
 users	Benutzer
 access_protection	Zugriffsschutz
 access_for_everyone	Für alle zugänglich

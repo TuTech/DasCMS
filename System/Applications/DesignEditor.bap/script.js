@@ -96,7 +96,7 @@ function cleanCSS(){
     cssElem.value = css;
     cssElem.scrollTop = topScroll;
     cssElem.scrollLeft = leftScroll;
-    org.bambuscms.wnotifications.report(org.bambuscms.wnotifications.INFORMATION, 'css reformatted');
+    org.bambuscms.wnotifications.report(org.bambuscms.wnotifications.INFORMATION, _('css_reformatted'));
 }
 var isSorting = false;
 function sortCSS(msg){
@@ -196,5 +196,5 @@ function sortCSS(msg){
     editor.scrollTop = topScroll;
     editor.scrollLeft = leftScroll;    
     isSorting = false;
-    org.bambuscms.wnotifications.report(org.bambuscms.wnotifications.INFORMATION, 'css sorted');
+    org.bambuscms.wnotifications.report(org.bambuscms.wnotifications.INFORMATION, _('css_sorted'));
 }

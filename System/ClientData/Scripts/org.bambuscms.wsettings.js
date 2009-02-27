@@ -37,8 +37,8 @@ org.bambuscms.wsettings.selectImage = function()
 	);
 	div = document.createElement('div');
 	div.setAttribute('id','wsettings_img_select');
-	div.innerHTML = '<img src="System/Icons/16x16/animations/loading.gif" style="margin:10px auto 10px auto;display:block;" alt="loading..." title="loading..." />';
-	var dlg = org.bambuscms.app.dialog.create('Select preview image', '', div, false, 'Close');
+	div.innerHTML = '<img src="System/Icons/16x16/animations/loading.gif" style="margin:10px auto 10px auto;display:block;" alt="'+_('loading')+'" title="'+_('loading')+'" />';
+	var dlg = org.bambuscms.app.dialog.create(_('select_preview_image'), '', div, false, 'Close');
 	dlg.id = 'wsetting_image_picker';
 	dlg.style.top = '150px';
 	dlg.style.left = '225px';
@@ -98,11 +98,15 @@ org.bambuscms.wsettings.showPubDateHelper = function()
 	if($('WSearch-PubDate').value == '')
 	{
 		var d = new Date();
-		helps = {'publish now':d.toGMTString()};
+		var t = _('publish_now');
+		helps = {};
+		helps[t] = d.toGMTString();
 	}
 	else
 	{
-		helps = {'revoke publication':''};
+		var t = _('revoke_publication');
+		helps = {};
+		helps[t] = '';
 	}
 	var content = document.createElement('div');
 	for(caption in helps)

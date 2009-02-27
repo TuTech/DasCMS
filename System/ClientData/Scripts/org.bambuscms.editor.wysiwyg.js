@@ -99,7 +99,7 @@ org.bambuscms.editor.wysiwyg._object = function(elements, wrapper)
 		switch(cmd.toLowerCase())
 		{
 			case 'createlink':
-				arg = arg || prompt('link please', 'http://');
+				arg = arg || prompt(_('link_please'), 'http://');
 			default:
 				_wrap.exec(cmd, arg);
 		}

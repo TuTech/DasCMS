@@ -9,7 +9,7 @@ function Create()
 	input.setAttribute('type','text');
 	input.setAttribute('value','');
 		
-	org.bambuscms.app.dialog.create('Create navigation', 'filename for the new navigation:', input, 'OK', 'Cancel');
+	org.bambuscms.app.dialog.create(_('create_navigation'), _('filename_for_the_new_navigation'), input, _('ok'), _('cancel'));
 	input.focus();
 }
 //show delete dialog
@@ -20,7 +20,7 @@ function Delete()
 	input.setAttribute('type','hidden');
 	input.setAttribute('value','yes');
 		
-	org.bambuscms.app.dialog.create('Delete navigation', 'Do you really want to delete this navigation', input, 'Yes', 'No');
+	org.bambuscms.app.dialog.create(_('delete_navigation'), _('do_you_really_want_to_delete_this_navigation'), input, _('yes'), _('no'));
 }
 
 
@@ -93,8 +93,8 @@ function createNavDiv(parentDiv, nextDiv , c_id, c_title)
 
 	var BRemoveContent = document.createElement('img');
 	BRemoveContent.setAttribute('src', 'System/Icons/16x16/actions/delete.png');
-	BRemoveContent.setAttribute('alt', 'remove content');
-	BRemoveContent.setAttribute('title', 'remove content');
+	BRemoveContent.setAttribute('alt', _('remove_content'));
+	BRemoveContent.setAttribute('title', _('remove_content'));
 	BRemoveContent.setAttribute('onclick', 'removeContentFrom(\''+Id+'\')');
 
 	//Content ID
@@ -137,7 +137,7 @@ function createNavDiv(parentDiv, nextDiv , c_id, c_title)
 	var BAddChild = document.createElement('a');
 	var BAddChildLabel = document.createTextNode(' ');
 	BAddChild.setAttribute('href', 'javascript:addChild(\''+Id+'\');');
-	BAddChild.setAttribute('title', 'add child');
+	BAddChild.setAttribute('title', _('add_child'));
 	BAddChild.setAttribute('class', 'add_child');
 	BAddChild.appendChild(BAddChildLabel);
 	
@@ -145,7 +145,7 @@ function createNavDiv(parentDiv, nextDiv , c_id, c_title)
 	var BAddSibling = document.createElement('a');
 	var BAddSiblingLabel = document.createTextNode(' ');
 	BAddSibling.setAttribute('href', 'javascript:addSibling(\''+Id+'\');');
-	BAddSibling.setAttribute('title', 'add sibling');
+	BAddSibling.setAttribute('title', _('add_sibling'));
 	BAddSibling.setAttribute('class', 'add_sibling');
 	BAddSibling.appendChild(BAddSiblingLabel);
 	

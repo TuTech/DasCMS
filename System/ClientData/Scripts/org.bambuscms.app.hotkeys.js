@@ -62,24 +62,10 @@ org.bambuscms.app.hotkeys.listener = function(e)
 			}
 			return res;
 		}
-		//$('WSearch-Tags').value = hotkey+'\n\n'+data;
 	}
-	else if(e.ctrlKey || e.metaKey)
-	{
-		
-	}
-	//else if(code > 0 && code < 32)alert(code);
-/*	var out = '';
-	for(elm in e)
-	{
-		out += elm+': '+e[elm]+'\n';
-	}
-	alert(out);*/
 }
 
 
-//keydown: body.className += 'showHotkeys'
-//keyup: body.replace(/showHotkeys/, '')
 org.bambuscms.autorun.register(function(){
 	org.bambuscms.gui.setEventHandler(window, 'keydown', org.bambuscms.app.hotkeys.listener);
 });

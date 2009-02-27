@@ -6,7 +6,7 @@ org.bambuscms.app.document.create = function()
 	input.setAttribute('type','text');
 	input.setAttribute('value','');
 		
-	org.bambuscms.app.dialog.create('Create new website', 'name of new website:', input, 'OK', 'Cancel');
+	org.bambuscms.app.dialog.create(_('create_new_website'), _('name_of_new_website'), input, _('ok'), _('cancel'));
 	input.focus();
 }
 //show delete dialog
@@ -17,6 +17,6 @@ org.bambuscms.app.document.remove = function ()
 	input.setAttribute('type','hidden');
 	input.setAttribute('value','yes');
 		
-	org.bambuscms.app.dialog.create('Delete website', 'Do you really want to delete this website', input, 'Yes', 'No');
+	org.bambuscms.app.dialog.create(_('delete_website'), _('do_you_really_want_to_delete_this_website'), input, _('yes'), _('no'));
 }
 
