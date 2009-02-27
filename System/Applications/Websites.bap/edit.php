@@ -20,6 +20,10 @@ if(PAuthorisation::has('org.bambuscms.content.cpage.change') && isset($Page) && 
 		, htmlentities($Page->Title, ENT_QUOTES, 'UTF-8')
 		);
 	echo LGui::editorTextarea($Page->Content, true, LConfiguration::get('use_wysiwyg') != '');
+	if(!LConfiguration::get('use_wysiwyg'))
+	{
+	    echo new WScript('org.bambuscms.wcodeeditor.run($(org.bambuscms.app.document.editorElementId));');
+	}
 }
 echo LGui::endForm();
 if(isset($panel) && $panel->hasWidgets())
