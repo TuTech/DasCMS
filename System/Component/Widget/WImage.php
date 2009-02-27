@@ -47,7 +47,6 @@ class WImage extends BWidget
             {
                 //render this image
                 $img = $content->getId();
-                $img->allowsPreview = false;
             }
         }
         else

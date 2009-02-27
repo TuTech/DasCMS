@@ -17,7 +17,7 @@ class WColors extends BWidget implements ISidebarWidget
 	 */
 	public static function isSupported(WSidePanel $sidepanel)
 	{
-	    return $sidepanel->getTargetMimeType() == 'text/css';
+	    return ($sidepanel->hasTarget() && $sidepanel->getTargetMimeType() == 'text/css');
 	}
 	
 	public function getName()

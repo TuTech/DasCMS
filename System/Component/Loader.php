@@ -59,7 +59,7 @@ function ER_Handler( $errno ,  $errstr ,  $errfile ,  $errline ,  $errcontext  )
         ,getcwd());
     
 }
-//set_error_handler('ER_Handler');
+set_error_handler('ER_Handler');
 set_exception_handler('EX_Handler');
 
 function __autoload($class)
