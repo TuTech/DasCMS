@@ -45,6 +45,7 @@ $jsPriorities = array(
     'org.bambuscms.js',
     'org.bambuscms.autorun.js'
 );
+WHeader::useScript('Management/localization.js.php');
 foreach ($jsPriorities as $js) 
 {
 	WHeader::useScript($path.$js);

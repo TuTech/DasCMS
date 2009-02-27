@@ -1,14 +1,21 @@
 <?php
 class SLocalization 
     extends 
-        BSystem 
+        BSystem
+    implements
+        IGlobalUniqueId
 {
-	/**
-	 * do not instanciate
-	 */
-	private function __construct()
+    const GUID = 'org.bambuscms.system.localization';
+    
+    public function getClassGUID()
+    {
+        return self::GUID;
+    }
+
+    public function __construct()
 	{
 	}
+	
 	/**
 	 * @var string 
 	 */
@@ -65,6 +72,15 @@ class SLocalization
         }
     }
 
+	public static function all()
+	{
+		if(self::$translations === null)
+		{
+			self::loadLanguage();
+		}
+		return self::$translations;
+	}
+    
     /**
      * return translation 
      * @param string $key
