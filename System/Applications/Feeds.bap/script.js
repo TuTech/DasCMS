@@ -15,6 +15,6 @@ function Delete()
 	input.setAttribute('type','hidden');
 	input.setAttribute('value','yes');
 		
-	org.bambuscms.app.dialog.create(_('delete_feed'), _('do_you_really_want_to_delete_this_feed', input, _('yes_delete_it'), _('no'));
+	org.bambuscms.app.dialog.create(_('delete_feed'), _('do_you_really_want_to_delete_this_feed'), input, _('yes_delete_it'), _('no'));
 }
 

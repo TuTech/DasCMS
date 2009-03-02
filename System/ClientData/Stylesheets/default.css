@@ -1,3 +1,6 @@
+a:active, a:focus{
+	 outline: none;
+}
 #BambusHeader{
  	background: url(../../Images/header_background.png) 0% 0%;
 }

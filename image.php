@@ -32,7 +32,17 @@ if(!empty($_SERVER['PATH_INFO']))
     {
         header('Content-type: image/jpeg;');
         //get the id of the preview image 
-        $id = WImage::getPreviewIdForContent(BContent::Access($alias, new WImage()));
+        if(PAuthorisation::has('org.bambuscms.login'))
+        {
+            //valid user - allowed to view unpublished images
+            $content = BContent::Open($alias);
+        }
+        else
+        {
+            //only allowed to view public images
+            $content = BContent::Access($alias, new WImage());
+        } 
+        $id = WImage::getPreviewIdForContent($content);
         if(empty($id))
         {
             $id = '_';

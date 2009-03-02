@@ -43,6 +43,7 @@ class CFeed
         $this->debug_mode = $on == true;
     }
     
+    private $lineNo = 0;
     private $_contentLoaded = false;
     /**
      * @var DSQLResult
@@ -371,6 +372,7 @@ class CFeed
 	 */
 	public function getContent()
 	{
+	    $this->lineNo = 0;
 	    //fetch meta data
 	    $res = QCFeed::countItemsForFeed($this->getId());
 	    list($count) = $res->fetch();
@@ -522,7 +524,7 @@ class CFeed
         );
         $contentObject = null;
         
-        $html = "\n\t\t<div class=\"CFeed_item\">\n\t\t\t<span class=\"CFeed_begin_item\"></span>";
+        $html = sprintf("\n\t\t<div class=\"CFeed_item CFeed_item_no_%d\">\n\t\t\t<span class=\"CFeed_begin_item\"></span>", ++$this->lineNo);
         //add all active attributes in order
         $tpl = "\n\t\t\t<%s class=\"CFeed_item_%s\">%s</%s>";
         foreach ($this->order(self::ITEM) as $key => $pos) 
