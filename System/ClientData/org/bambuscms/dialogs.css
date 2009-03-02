@@ -4,7 +4,7 @@
 	left:0px;
 	width:100%;
 	height:100%;
-	background: url(../../Images/dialogue-bg.png);
+	background: url(../../../Images/dialogue-bg.png);
 	z-index:10000;
 }
 #dialogues .dialogue div
@@ -42,7 +42,7 @@
 	margin:0px;
 	margin-bottom: 3px;
 	font-weight: bold;
-	background: #4e9a06 url(../../Images/header_background.png) 0% 0%;
+	background: #4e9a06 url(../../../Images/header_background.png) 0% 0%;
 	color:#2e3436;
 	font-size:14px;
 	text-align: center;

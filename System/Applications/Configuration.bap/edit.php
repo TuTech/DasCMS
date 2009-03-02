@@ -22,7 +22,8 @@ $values = array(
         "copyright"             => array("copyright",       "fullinput"),
         "template_for_page_rendering"=> array("generator_content", '::CTemplate'),
         "meta_keywords"         => array("meta_keywords",   "fullinput"),
-        "meta_description"      => array("meta_description","fullinput")
+        "meta_description"      => array("meta_description","fullinput"),
+		'preview_image_quality'=> array("preview_image_quality","image_quality"),
     ),
 	"system" => array(
         "date_format"           => array("dateformat",      "fullinput"),
@@ -80,6 +81,20 @@ foreach($values as $title => $settings)
                     ,(trim(LConfiguration::get($key)) != '') ? '#######' : '' 
                     ,SLocalization::get('change_'.$key)
                 );
+                break;
+            case 'image_quality':
+                $input = '<select name ="'.$key.'">';
+                foreach(array('minimal' => 1, 'low' => 25, 'medium' => 50, 'high' => 75, 'maximum' => 100) as $n => $val)
+                {
+                    $input .= sprintf(
+                    	'<option value="%s"%s>%s (%d%%)</option>%s'
+                    ,$val
+                    ,(LConfiguration::get($key) == $val ? ' selected="selected"' : '') 
+                    ,SLocalization::get($n)
+                    ,$val
+                    ,"\n");
+                }
+                $input .= '</select>';
                 break;
             case 'ISO639-2':
                 $fp = fopen(SPath::SYSTEM_RESOURCES.'ISO-639-2_utf-8.txt', 'r');

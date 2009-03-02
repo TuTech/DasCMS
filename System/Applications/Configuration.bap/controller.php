@@ -21,7 +21,7 @@ if(RSent::hasValue('writeconfig') && PAuthorisation::has('org.bambuscms.configur
         //meta_data
         'meta_description', 'meta_keywords',
         
-        'timezone', 'locale',
+        'timezone', 'locale','preview_image_quality',
     
         //logs
         'logAccess', 'logChanges'

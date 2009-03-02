@@ -13,6 +13,7 @@ if(!empty($_SERVER['PATH_INFO']))
     {
         exit;
     }
+    $qual = intval(LConfiguration::get('preview_image_quality'));
     $parts = explode('/', $path);
     $alias = array_shift($parts);
     //resize key?
@@ -48,11 +49,11 @@ if(!empty($_SERVER['PATH_INFO']))
             $id = '_';
         }
         $key = $id.'-'.$key;
-        if(file_exists(SPath::TEMP.'scale.render.'.$key))
+        if(file_exists(SPath::TEMP.'scale.render.'.$qual.'.'.$key))
         {
             //image cached
-            header('Last-modified: '.date('r',filemtime(SPath::TEMP.'scale.render.'.$key)));
-            readfile(SPath::TEMP.'scale.render.'.$key);
+            header('Last-modified: '.date('r',filemtime(SPath::TEMP.'scale.render.'.$qual.'.'.$key)));
+            readfile(SPath::TEMP.'scale.render.'.$qual.'.'.$key);
             exit;
         }
         //permitted to scale?
@@ -111,10 +112,11 @@ if(!empty($_SERVER['PATH_INFO']))
                 $img = $img->scaletofit($width, $height); 
             }
             //save and send image
-            $img->save(SPath::TEMP.'scale.render.'.$key, 75, 'jpg');
+            
+            $img->save(SPath::TEMP.'scale.render.'.$qual.'.'.$key, $qual, 'jpg');
             unlink(SPath::TEMP.'scale.permit.'.$key);
-            header('Last-modified: '.date('r',filemtime(SPath::TEMP.'scale.render.'.$key)));
-            $img->generate('jpg');
+            header('Last-modified: '.date('r',filemtime(SPath::TEMP.'scale.render.'.$qual.'.'.$key)));
+            $img->generate('jpg', $qual);
         }
         else
         {

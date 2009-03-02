@@ -22,7 +22,7 @@
 .CommandBarPanel a:hover
 {
 	border-color:#555753; 
-	background: #73d216 url(../../Images/header_background.png) 0px -30px ;
+	background: #73d216 url(../../../../Images/header_background.png) 0px -30px ;
 }
 
 .CommandBarPanel img{
