@@ -1,0 +1,250 @@
+#BambusApplication 
+{
+    padding:0px;
+    margin:0px;
+    margin-left:10px;
+    margin-right:10px;
+    margin-top:100px;
+    display:block;
+}
+
+#BambusContentArea 
+{
+    position:absolute;
+    top:0px;
+    left:0px;
+    padding:0px;
+    width:100%;
+    height:100%;
+    margin:0px;
+    overflow:auto;
+    display:block;
+}
+
+#BambusHeader 
+{
+    position:absolute;
+    top:0px;
+    left:0px;
+    display:block;
+    width:100%;
+    z-index:100;
+    height:98px;
+    overflow:hidden;
+}
+
+#BambusHeader
+{
+    background: url(../../Images/header_background.png) 0% 0%;
+}
+
+#BambusLogout 
+{
+    font-size:12px;
+    font-weight: bold;
+    color:#2e3436;
+    padding-right: 4px;
+}
+
+#BambusRightInfo
+{
+    float:right;
+    text-align: right;
+}
+
+#BambusVersionInfo 
+{
+    font-size:8px;
+    font-weight: bold;
+    color:#888a85;
+    padding-right: 4px;
+}
+
+#WSearch input, #WSearch textarea, #WSidebar-body table, #org_bambuscms_app_document_editorElementId 
+{
+    border-color: #9fbc4a;
+    border-style: solid;
+    color: #2e3436;
+    background-color: #fff;
+}
+
+
+#objectInspectorActiveFullBox
+{
+    margin-right: 250px;
+}
+
+#org_bambuscms_app_document_editorElementId
+{
+    border-width: 1px;
+}
+
+.clear 
+{
+    clear:both;
+    display:block;
+    height:0px;
+}
+
+.downloadIFrame 
+{
+    width:0px;
+    height:0px;
+    margin:0px;
+    padding:0px;
+    visibility:hidden;
+    position:absolute;
+    top:0px;
+    right:0px;
+    border:0px;
+}
+
+.fullinput
+{
+    width: 100%;
+    margin:0px;
+    padding:0px;
+    border:0px;
+    background:transparent;
+    border-bottom: 1px dashed #babdb6;
+}
+
+.full
+{
+    width: 100%;
+}
+
+.hidden
+{
+    display:none;
+}
+
+.hide
+{
+    visibility:hidden;
+    display:none;
+}
+
+.left 
+{
+    float:left;
+    position:relative;
+    left:0px;
+    top:0px;
+}
+
+.right 
+{
+    float:right;
+    position:relative;
+    right:0px;
+    top:0px;
+}
+
+.show
+{
+    display:block;
+    visibility:visible;
+}
+
+.side-scroll-body
+{
+    padding-top:97px;
+    padding-bottom: 12px;
+}
+
+.visibleEditor
+{
+    width:100%;
+    height:400px;
+    border: 0px;
+    margin:0px;
+    padding:0px;
+    background:#fff;
+}
+
+a:active, a:focus
+{
+    outline: none;
+}
+
+a:link, a:visited 
+{
+    color: black;
+    text-decoration:none;
+}
+
+body 
+{
+    height:100%;
+    margin: 0px;
+    padding: 0px;
+    text-align: left;
+    font-size: 0.9em;
+    font-family:"Helvetica", "Arial", "Sans-Serif";
+    background: #fff;
+}
+
+form 
+{
+    display:inline;
+}
+
+h2 img 
+{
+    float:left;
+    padding:2px;
+    margin:2px;
+}
+
+h2 
+{
+    font-size: 24px;
+    font-weight:normal;
+    color: #888a85;
+    margin:0px;
+    padding-top:2px;
+    padding-bottom:2px;
+    display:block;
+}
+
+h3 
+{
+    font-size: 14px;
+    color: #555753;
+    display:block;
+    padding-top:16px;
+    padding-bottom:1px;
+    margin:0px;
+    margin-left:0px;
+}
+
+h4 
+{
+    font-size: 12px;
+    color: #555753;
+    display:block;
+    padding-top:3px;
+    padding-bottom:2px;
+    margin:0px;
+    margin-left:2px;
+}
+
+html
+{
+    height:100%;
+}
+
+img 
+{
+    border:0px;
+}
+
+p 
+{
+    margin:0px;
+    padding:2px;
+    padding-top:0px;
+    font-size:0.9em;
+}
+

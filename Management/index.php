@@ -30,41 +30,8 @@ WTemplate::globalSet('bambus_my_uri', SLink::link());
 //load all related js and css files//
 /////////////////////////////////////
 
-$path = SPath::SYSTEM_STYLESHEETS;
-$styles = DFileSystem::FilesOf($path, '/\.css$/i');
-foreach ($styles as $css) 
-{
-	if(substr($css,-24) == 'specialPurpose.login.css')
-		continue;
-	WHeader::useStylesheet($path.$css);
-}
-$path = SPath::SYSTEM_SCRIPTS;
-$jsPriorities = array(
-    'global.js',
-    'org.js',
-    'org.bambuscms.js',
-    'org.bambuscms.autorun.js'
-);
 WHeader::useScript('Management/localization.js.php');
-foreach ($jsPriorities as $js) 
-{
-	WHeader::useScript($path.$js);
-}
-$scripts = DFileSystem::FilesOf($path, '/\.js$/i');
-$orderedSrcipts = array();
-foreach($scripts as $script)
-{
-    $k = sprintf('%03d-%s', strlen($script), $script);
-    $orderedSrcipts[$k] = $script;
-}
-ksort($orderedSrcipts);//UC first
-foreach ($orderedSrcipts as $script) 
-{
-    if(!in_array($script, $jsPriorities))
-    {
-        WHeader::useScript($path.$script);
-    }
-}
+WHeader::loadClientData();
 WHeader::setBase(SLink::base());
 
 WHeader::setTitle(BAMBUS_VERSION);

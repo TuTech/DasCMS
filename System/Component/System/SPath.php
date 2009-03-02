@@ -12,9 +12,8 @@ class SPath
         BSystem 
 {
     const SYSTEM = './System/';
-	const SYSTEM_STYLESHEETS = './System/ClientData/Stylesheets/';
-	const SYSTEM_SCRIPTS = './System/ClientData/Scripts/';
-    const SYSTEM_ICONS = './System/Icons/tango/';
+	const SYSTEM_CLIENT_DATA = './System/ClientData/';
+	const SYSTEM_ICONS = './System/Icons/tango/';
     const SYSTEM_IMAGES = './System/Images/';
     const SYSTEM_TEMPLATES = './System/Resource/Templates/';
     const SYSTEM_APPLICATIONS = './System/Applications/';

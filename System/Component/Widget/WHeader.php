@@ -119,6 +119,47 @@ class WHeader extends BWidget
 		return htmlspecialchars($str,ENT_QUOTES, 'UTF-8');
 	}
 	
+	public static function loadClientData($path = null)
+	{
+	    $path = ($path == null) ? (SPath::SYSTEM_CLIENT_DATA) : $path;
+	    $folders = array();
+	    $files = array();
+	    $oldPath = getcwd();
+	    chdir($path);
+	    $hdl = opendir('.');
+	    while ($item = readdir($hdl))
+	    {
+	        if(is_dir($item) && $item != '.' && $item != '..')
+	        {
+	            $folders[] = $item;
+	        }
+	        elseif(is_file($item))
+	        {
+	            $files[strtoupper($item).$item] = $item;
+	        }
+	    }
+	    chdir($oldPath);
+	    ksort($files);
+	    foreach ($files as $k => $f)
+	    {
+            $s = DFileSystem::suffix($f);
+            switch ($s) 
+            {
+            	case 'css':
+            		self::useStylesheet($path.$f);
+            		break;
+            	case 'js':
+            		self::useScript($path.$f);
+            		break;
+            	default:break;
+            }
+	    }
+	    foreach ($folders as $f)
+	    {
+	        self::loadClientData($path.$f.'/');
+	    }
+	}
+	
 	public function __toString()
 	{
 		$html = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" ".
@@ -137,19 +178,12 @@ class WHeader extends BWidget
 			$html .= sprintf("\t\t<base href=\"%s\" />\n", self::enc(self::$base));
 		}
 		
+		//$this->loadClientData();
+		
 		//embed custom stylesheets
 		foreach (self::$relations as $relArr) 
 		{
 			//load general stylesheets (lowercase) or for active classes (e.g. WHeader)
-			if(strpos($relArr[0],'/') === false)
-			{
-				//not a path
-				if(strtolower($relArr[1]) == 'stylesheet')
-				{
-					//@todo determine if management | system and load appropriate
-					$relArr[0] = SPath::SYSTEM_STYLESHEETS.$relArr[0]; 
-				}
-			}
 			$html .= sprintf("\t\t<link href=\"%s\" rel=\"%s\" type=\"%s\" %s/>\n"
 				, self::enc($relArr[0])
 				, self::enc($relArr[1])
@@ -160,11 +194,6 @@ class WHeader extends BWidget
 		
 		foreach (self::$scripts as $script => $autoloaded) 
 		{
-			if(strpos($script,'/') === false)
-			{
-				//@todo determine if management | system and load appropriate
-				$script = SPath::SYSTEM_SCRIPTS.$script; 
-			}			
 			$html .= sprintf("\t\t<script type=\"text/javascript\" src=\"%s\">%s</script>\n"
 				, self::enc($script)
 				, ($autoloaded) ? ' /* autoload */ ' : '');;

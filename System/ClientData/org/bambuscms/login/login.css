@@ -1,37 +1,37 @@
-#BambusHeader{display: none;}
-body
+body.login #BambusHeader{display: none;}
+body.login 
 {
 	background: #fff ;
 	color: #2e3436;
 }
-#BambusHeader
+body.login #BambusHeader
 {
 	height:48px;
 }
-.textinput
+body.login .textinput
 {
 	width:200px;
 	border: 1px solid #d3d7cf;
 	display:block;
 }
-.submitinput{
+body.login .submitinput{
 	padding:3px;
 	padding-right:10px;
 	padding-left:10px;
 	background: #fff;
 	border: 1px solid #d3d7cf;
 }
-select{
+body.login select{
 	border: 1px solid #d3d7cf;
 	background: #fff url(../../Icons/22x22/language.png) 0 0 no-repeat;
 	height:22px;
 	padding-left:22px;
 	width:120px;
 }
-.submitinput:hover{
+body.login .submitinput:hover{
 	border: 1px solid #eeeeec;
 }
-.text{
+body.login .text{
 	text-align:left;
 	display:block;
 	margin-top:20px;

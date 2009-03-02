@@ -1,4 +1,3 @@
-org.bambuscms.app = {};
 org.bambuscms.app.initialize = function()
 {
 	if($(org.bambuscms.app.notifier.elementId))
@@ -7,5 +6,4 @@ org.bambuscms.app.initialize = function()
 	}
 	org.bambuscms.app.initialize = function(){};
 };
-org.bambuscms.app.primarySelectedObjectColor = '#aee27d';
 org.bambuscms.autorun.register(org.bambuscms.app.initialize);

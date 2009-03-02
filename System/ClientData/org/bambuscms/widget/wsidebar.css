@@ -1,3 +1,24 @@
+#WSidebar 
+{
+    border-color: #9fbc4a;
+    border-style: solid;
+    background-color: #eeeeec;
+    color: #2e3436;
+}
+
+#WSidebar-body strong 
+{
+    border-style: solid;
+    border-color: #9fbc4a;
+    background: #4e9a06 url(../../Images/header_background.png) 0% 0%;
+    color: #fff;
+}
+
+#WSidebar
+{
+    border-color: #888a85;
+}
+
 #WSidebar{
 	border-width:0px;
 	border-left-width:1px;
