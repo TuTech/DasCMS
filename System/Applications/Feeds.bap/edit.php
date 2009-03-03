@@ -209,7 +209,8 @@ if(PAuthorisation::has('org.bambuscms.content.cfeed.change') && isset($Feed) && 
                 $items->add($itemMap[$option], $itemMap[$option], '', $pos !== null);
                 break;
             case 'Icon':
-                $items->add($itemMap[$option], $itemMap[$option], 
+                $piConf = new WTable(WTable::HEADING_LEFT, 'icon_config');
+                $piConf->addRow(array('size', 
                     new WMultipleChoice('io_IconSize', array(
                                 WIcon::EXTRA_SMALL => 'extra_small_icons', 
                                 WIcon::SMALL => 'small_icons', 
@@ -219,7 +220,9 @@ if(PAuthorisation::has('org.bambuscms.content.cfeed.change') && isset($Feed) && 
                             intval($Feed->option(CFeed::ITEM, 'IconSize'))
                             ,WMultipleChoice::RADIO
                         )
-                , $pos !== null);
+                ));
+                $piConf->addRow(array('linking', new WConfirm('io_LinkIcon','link_icon', $Feed->option(CFeed::ITEM, 'LinkIcon'))));
+                $items->add($itemMap[$option], $itemMap[$option], $piConf, $pos !== null);
                 break;
             case 'PreviewImage':
                 $piConf = new WTable(WTable::HEADING_LEFT, 'preview_scaling_config');

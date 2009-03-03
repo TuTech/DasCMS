@@ -16,7 +16,7 @@ if(RFiles::has('CFile') && PAuthorisation::has('org.bambuscms.content.cfile.crea
 	}
 	catch(Exception $e)
 	{
-	    SNotificationCenter::report('warning', 'upload_failed'.$e->getMessage());
+	    SNotificationCenter::report('warning', 'upload_failed '.$e->getMessage());
 	    echo $e->getTraceAsString();
 	}
 }

@@ -119,6 +119,7 @@ class CFeed
                 'LinkTags' => false,
                 'IconSize' => 48,
 			    'LinkPreviewImage' => true,
+			    'LinkIcon' => true,
 			    'PreviewImageWidth' => 100,
 				'PreviewImageHeight' => 100,
 			    'PreviewImageMode' => '1c',//force crop
@@ -569,6 +570,9 @@ class CFeed
         		    //do not cache content - it was not accessed here
                     $tag = 'div';
                     $content = $co->getIcon()->asSize($this->option(self::ITEM, 'IconSize'));
+                    $content = ($this->option(self::ITEM, 'LinkIcon')) 
+        		        ? $this->link($data[$map['Alias']],$content,true)
+        		        : $content;
                     break;
     		    case 'Content':
                     $co = $contentObject ? $contentObject : BContent::Access($data[$map['Alias']], $this);
