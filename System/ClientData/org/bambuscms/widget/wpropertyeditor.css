@@ -14,11 +14,11 @@
 .WPropertyEditor, .WPropertyEditor td, .WPropertyEditor th{
     border-style: solid;
     border-spacing: 0px;
-    border-color: #4e9a06;
+    border-color: #9fbc4a;
 }
 .WPropertyEditor th
 {
-    background: #4e9a06 url(../../../../Images/header_background.png) 0% 0%;
+    background: #9fbc4a url(../../../../Images/header_background.png) 0% 0%;
     padding:2px;
     border-top-width: 1px;
     color:white;

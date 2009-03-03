@@ -23,7 +23,7 @@
 	display:block;
 	margin-left:-175px;
 	margin-top:-80px;
-	border:1px solid #4e9a06;
+	border:1px solid #9fbc4a;
 }
 #WDialog_container .WDialog input
 {
@@ -38,11 +38,11 @@
 #WDialog_container .WDialog h2
 {
 	display:block;
-	border-bottom: 1px solid #4e9a06;
+	border-bottom: 1px solid #9fbc4a;
 	margin:0px;
 	margin-bottom: 3px;
 	font-weight: bold;
-	background: #4e9a06 url(../../../../Images/header_background.png) 0% 0%;
+	background: #9fbc4a url(../../../../Images/header_background.png) 0% 0%;
 	color:#000;
 	font-size:14px;
 	text-align: center;
@@ -53,7 +53,7 @@
 	display:block;
 	color: #000;
 	background: url(../../../../Images/header_background.png) 0% 0%;
-   	border:1px solid #4e9a06;
+   	border:1px solid #9fbc4a;
 	padding:4px;
 	min-width:50px;
 	text-align:center;

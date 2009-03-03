@@ -1,6 +1,6 @@
 
 #dialogues input[type=text].validField:focus{
-	border:1px solid #4e9a06;
+	border:1px solid #9fbc4a;
 	background-color: #c7f19d;
 }
 #dialogues input[type=text].invalidField{
