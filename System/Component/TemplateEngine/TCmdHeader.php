@@ -102,8 +102,8 @@ class TCmdHeader
         
         return sprintf("
         <head>
-            %s<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
-            <title>%s</title>
+            <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
+%s            <title>%s</title>
             <meta name=\"DC.title\" content=\"%s\" />
             <meta name=\"DC.publisher\" content=\"%s\" />
             <meta name=\"DC.contributor\" content=\"%s\" />
