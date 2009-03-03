@@ -74,7 +74,7 @@ if(!empty($_SERVER['PATH_INFO']))
             if($id == '_')//load cms default image 
             {
                 //default img
-                $img = Image_GD::load(SPath::SYSTEM_IMAGES.'inet-180.jpg');
+                $img = Image_GD::load(SPath::SYSTEM_IMAGES.'no_preview.jpg');
             }
             else //render preview
             {
@@ -139,7 +139,7 @@ if(!empty($_SERVER['PATH_INFO']))
         if(!$img)
         {
             header('Content-type: image/jpeg;');
-            $img = SPath::SYSTEM_IMAGES.'inet-180.jpg';
+            $img = SPath::SYSTEM_IMAGES.'no_preview.jpg';
         }
         header('Last-modified: '.date('r',filemtime($img)));
         readfile($img);
