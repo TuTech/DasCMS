@@ -208,8 +208,10 @@ class WImage extends BWidget
     {
         $this->scaleHash = self::createScaleHash($width, $heigth, $mode, $forceType, $fillColor);
         //permit rendering this image
-        if(!file_exists(SPath::TEMP.'scale.render.'.$this->imageID.'-'.$this->scaleHash))
+        $qual = intval(LConfiguration::get('preview_image_quality'));
+        if(!file_exists(SPath::TEMP.'scale.render.'.$qual.'.'.$this->imageID.'-'.$this->scaleHash))
         {
+            //generate temporary permission file
             touch(SPath::TEMP.'scale.permit.'.$this->imageID.'-'.$this->scaleHash);
         }
         return $this;

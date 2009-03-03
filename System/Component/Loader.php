@@ -23,7 +23,7 @@ if(!defined('ERROR_TEMPLATE'))
 }
 function EX_Handler(Exception $e)
 {
-    printf(ERROR_TEMPLATE
+    $err = sprintf(ERROR_TEMPLATE
         , get_class($e)
         , $e->getCode()
         , $e->getFile()
@@ -31,6 +31,8 @@ function EX_Handler(Exception $e)
         , $e->getMessage()
         , $e->getTraceAsString()
         ,getcwd());
+    DFileSystem::Append(SPath::LOGS.'Exceptions.log', $err);
+    echo $err;
     exit(1);
 }
 
@@ -49,7 +51,7 @@ function ER_Handler( $errno ,  $errstr ,  $errfile ,  $errline ,  $errcontext  )
     print_r($errcontext);
     $context = ob_get_contents();
     ob_end_clean();
-    printf(ERROR_TEMPLATE
+    $err = sprintf(ERROR_TEMPLATE
         , 'Error'
         , $errno
         , $errfile
@@ -57,7 +59,8 @@ function ER_Handler( $errno ,  $errstr ,  $errfile ,  $errline ,  $errcontext  )
         , $errstr
         , $context
         ,getcwd());
-    
+    DFileSystem::Append(SPath::LOGS.'Error.log', $err);
+    echo $err;
 }
 set_error_handler('ER_Handler');
 set_exception_handler('EX_Handler');

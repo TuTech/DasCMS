@@ -112,11 +112,11 @@ if(!empty($_SERVER['PATH_INFO']))
                 $img = $img->scaletofit($width, $height); 
             }
             //save and send image
-            
-            $img->save(SPath::TEMP.'scale.render.'.$qual.'.'.$key, $qual, 'jpg');
+            $imgFile = SPath::TEMP.'scale.render.'.$qual.'.'.$key;
+            $img->save($imgFile, $qual, 'jpg');
             unlink(SPath::TEMP.'scale.permit.'.$key);
-            header('Last-modified: '.date('r',filemtime(SPath::TEMP.'scale.render.'.$qual.'.'.$key)));
-            $img->generate('jpg', $qual);
+            header('Last-modified: '.date('r',filemtime($imgFile)));
+            readfile($imgFile);
         }
         else
         {

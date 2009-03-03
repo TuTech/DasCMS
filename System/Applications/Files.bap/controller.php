@@ -30,7 +30,6 @@ if(RSent::get('action', 'utf-8') == 'delete' && PAuthorisation::has('org.bambusc
 		    //delete here
 	        if(CFile::Delete($file)){
 	            SNotificationCenter::report('message', 'file_deleted');
-                DFileSystem::Append(SPath::LOGS.'files.log', sprintf("%s\t%s\t%s\t%s\n", date('r'), PAuthentication::getUserID(), 'delete',$file));
 	        }else{
 	            SNotificationCenter::report('warning', 'could_not_delete_file');
 	        }
