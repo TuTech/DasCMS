@@ -23,8 +23,9 @@ $values = array(
         "template_for_page_rendering"=> array("generator_content", '::CTemplate'),
         "meta_keywords"         => array("meta_keywords",   "fullinput"),
         "meta_description"      => array("meta_description","fullinput"),
-		'preview_image_quality'=> array("preview_image_quality","image_quality"),
-    ),
+		'preview_image_quality' => array("preview_image_quality","image_quality"),
+		'wellformed_urls'       => array("wellformed_urls", "checkbox"),
+),
 	"system" => array(
         "date_format"           => array("dateformat",      "fullinput"),
         "logout_on_exit"        => array("logout_on_exit",  "checkbox"),

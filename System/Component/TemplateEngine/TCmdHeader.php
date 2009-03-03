@@ -92,12 +92,17 @@ class TCmdHeader
                 ,BFeed::getURLForFeed($alias)
 			);
         }
-        
+        $wellformed_urls = LConfiguration::get('wellformed_urls');
+        $baseURI = '';
+        if(!empty($wellformed_urls))
+        {
+            $baseURI = sprintf("            <base href=\"%s\" />\n", SLink::base());
+        }
        
         
         return sprintf("
         <head>
-            <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
+            %s<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
             <title>%s</title>
             <meta name=\"DC.title\" content=\"%s\" />
             <meta name=\"DC.publisher\" content=\"%s\" />
@@ -109,7 +114,8 @@ class TCmdHeader
             <link rel=\"icon\" href=\"%s\" />
             <link rel=\"stylesheet\" href=\"./css.php?v=%d.css\" type=\"text/css\" />\n%s
         </head>"//<script type=\"text/javascript\" src=\"./js.php?v=%d.js\"></script>
-			,$this->encode($title)
+			,$baseURI
+            ,$this->encode($title)
             ,$this->encode($title)
             ,$this->encode($publisher)
             ,$this->encode('')
