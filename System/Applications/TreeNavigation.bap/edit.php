@@ -30,7 +30,7 @@ if($edit != null)
 		<select name="set_spore">
 			<option value=""><?php echo $sporeName; ?></option>
 		<?php
-		$spores = QSpore::activeSpores();
+		$spores = VSpore::activeSpores();
 		foreach ($spores as $spore) 
 		{
 			if($spore != $sporeName)
@@ -54,9 +54,10 @@ if($edit != null)
 		{
 		<?php
 		$id = 1;
+		$out = false;
 		function createNavJS(NTreeNavigationObject $tno, $parentid, $isChild = true)
 		{
-			global $id;
+			global $id,$out;
 			$myid = $id;
 			$content = SAlias::resolve($tno->getAlias());
 			if($content != null)
@@ -68,10 +69,12 @@ if($edit != null)
     		    if($isChild)
     			{
     				echo 'addChild(\''.$parentid.'\', \''.$tno->getAlias().'\', \''.$title.' ('.$tno->getAlias().')\');';
+    				$out = true;
     			}
     			else
     			{
     				echo 'addSibling(\''.$parentid.'\', \''.$tno->getAlias().'\', \''.$title.' ('.$tno->getAlias().')\');';
+    				$out = true;
     			}
     			if($tno->hasChildren())
     			{
@@ -88,7 +91,7 @@ if($edit != null)
 		{
 			createNavJS($root->getFirstChild(), $id, true);
 		}
-		else
+		if(!$out)
 		{
 			echo 'addChild(\'1\');';
 		}

@@ -69,7 +69,7 @@ class NTreeNavigation
     }
 	//end IShareable
 	
-    public static function set($nav,QSpore $spore, NTreeNavigationObject $tno_root)
+    public static function set($nav,VSpore $spore, NTreeNavigationObject $tno_root)
     {
     	//nav names are fs-names
     	self::alloc();
@@ -91,10 +91,10 @@ class NTreeNavigation
     }
     
     /**
-     * get the QSpore object of a nav
+     * get the VSpore object of a nav
      *
      * @param string $nav
-     * @return QSpore
+     * @return VSpore
      * @throws OutOfRangeException
      */
     public static function sporeOf($nav)
@@ -103,24 +103,24 @@ class NTreeNavigation
     	{
     		throw new OutOfRangeException();
     	}
-    	if(QSpore::exists(self::$index[$nav][self::Spore]))
+    	if(VSpore::exists(self::$index[$nav][self::Spore]))
     	{
-    		return new QSpore(self::$index[$nav][self::Spore]);
+    		return new VSpore(self::$index[$nav][self::Spore]);
     	}
 		else
 		{
-			$allSpores = QSpore::sporeNames();
+			$allSpores = VSpore::sporeNames();
 			if(count($allSpores) == 0)
 			{
 				//no spores - create one
-				QSpore::set($nav,true,null,null);
-				QSpore::Save();
-				return new QSpore($nav);
+				VSpore::set($nav,true,null,null);
+				VSpore::Save();
+				return new VSpore($nav);
 			}
 			else
 			{
 				//the are some spore use whatever comes first
-				return new QSpore($allSpores[0]);
+				return new VSpore($allSpores[0]);
 			}
 		}
     }
@@ -164,13 +164,13 @@ class NTreeNavigation
     		$sporeName = self::$index[$NavigationName][self::Spore];
     		$root = self::$index[$NavigationName][self::Tree];
     		
-    		if(QSpore::exists($sporeName) 
+    		if(VSpore::exists($sporeName) 
     			&& $root != null
     			&& $root instanceof NTreeNavigationObject)
     		{
-    			if(QSpore::exists($sporeName) && QSpore::isActive($sporeName))
+    			if(VSpore::exists($sporeName) && VSpore::isActive($sporeName))
     			{
-    				$spore = QSpore::byName($sporeName);
+    				$spore = VSpore::byName($sporeName);
     				$navigation = new NTreeNavigationHelper($root,$spore);
     			}
     			else

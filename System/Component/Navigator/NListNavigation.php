@@ -30,9 +30,9 @@ class NListNavigation
 		if(count($tags) > 0)
 		{
 			$sporename = array_shift($tags);
-			if(QSpore::exists($sporename))
+			if(VSpore::exists($sporename))
 			{
-				$spore = QSpore::byName($sporename);
+				$spore = VSpore::byName($sporename);
 			}
 		}
 		try

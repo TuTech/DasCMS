@@ -7,7 +7,7 @@
 * Description: 
 ************************************************/
 
-if(PAuthorisation::has('org.bambuscms.resolver.qspore.change'))
+if(PAuthorisation::has('org.bambuscms.resolver.vspore.change'))
 {
 	printf(
 		'<form method="post" id="documentform" name="documentform" action="%s"><input type="hidden" name="posted" value="1" />'
@@ -56,7 +56,7 @@ $tbl->addRow(array(
 ));
 echo $tbl;
 
-$sporeData = QSpore::getSpores();
+$sporeData = VSpore::getSpores();
 $spores = array_keys($sporeData);
 
 if(count($spores) > 0)
@@ -81,25 +81,25 @@ if(count($spores) > 0)
 	{
 		$initCTitle = '';
 		$initCID = '';
-		if(!empty($data[QSpore::INIT_CONTENT]))
+		if(!empty($data[VSpore::INIT_CONTENT]))
 		{
-			$alias = $data[QSpore::INIT_CONTENT];
+			$alias = $data[VSpore::INIT_CONTENT];
 			$content = BContent::Open($alias);
 			$initCTitle = $content->Title;
-			$initCID = $data[QSpore::INIT_CONTENT];
+			$initCID = $data[VSpore::INIT_CONTENT];
 		}
 		
 		$errCTitle = '';
 		$errCID = '';
-		if(!empty($data[QSpore::ERROR_CONTENT]))
+		if(!empty($data[VSpore::ERROR_CONTENT]))
 		{
-			$alias = $data[QSpore::ERROR_CONTENT];
+			$alias = $data[VSpore::ERROR_CONTENT];
 			$content = BContent::Open($alias);
 			$errCTitle = $content->Title;
-			$errCID = $data[QSpore::ERROR_CONTENT];
+			$errCID = $data[VSpore::ERROR_CONTENT];
 		}
 		
-		$check = ($data[QSpore::ACTIVE]) ? ' checked="checked"' : '';
+		$check = ($data[VSpore::ACTIVE]) ? ' checked="checked"' : '';
 		$outSpore = htmlentities($spore, ENT_QUOTES, 'utf-8');
 		
 		$tbl->addRow(array(
@@ -129,7 +129,7 @@ if(isset($panel) && $panel->hasWidgets())
 {
     echo '</div>';
 }
-if(PAuthorisation::has('org.bambuscms.resolver.qspore.change'))
+if(PAuthorisation::has('org.bambuscms.resolver.vspore.change'))
 {
 	echo '</form>';
 }	

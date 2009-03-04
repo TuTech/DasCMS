@@ -53,5 +53,10 @@ abstract class BAppController
 	        'images' => WImage::getAllPreviewContents()
 	    );
 	}
+	
+	public function getContentList(array $param)
+	{
+	    //type, mode
+	}
 }
 ?>

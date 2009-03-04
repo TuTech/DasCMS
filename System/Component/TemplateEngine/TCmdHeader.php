@@ -54,7 +54,7 @@ class TCmdHeader
         foreach ($events as $cid => $event) 
         {
             $c = $event->Content;
-            if(is_object($event->Sender) && (get_class($event->Sender) == 'QSpore' || $event->Sender instanceof BView))
+            if(is_object($event->Sender) && (get_class($event->Sender) == 'VSpore' || $event->Sender instanceof BView))
             {
                 //prepend dynamic content
                 array_unshift($cs , $c);

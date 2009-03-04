@@ -91,9 +91,9 @@ class XML_Atom_Feed extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
         }
         $q = $content->option(CFeed::SETTINGS, 'TargetView');
         $linker = $content->getAlias();
-        if(QSpore::exists($q))
+        if(VSpore::exists($q))
         {
-            $linker = new QSpore($q);
+            $linker = new VSpore($q);
             $linker->LinkTo($content->getAlias());
         }
         $o->c__link = array(

@@ -141,7 +141,7 @@ if(isset($Feed) && $Feed instanceof CFeed && PAuthorisation::has('org.bambuscms.
                     {
                         $set = true;
                     }
-                    elseif(class_exists('QSpore', true) && QSpore::exists($value))
+                    elseif(class_exists('VSpore', true) && VSpore::exists($value))
                     {
                         $set = true;
                     }

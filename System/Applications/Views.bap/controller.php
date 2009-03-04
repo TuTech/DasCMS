@@ -31,11 +31,11 @@ if(RSent::hasValue('posted'))
 			
 			if($delete)
 			{
-				QSpore::remove($spore);
+				VSpore::remove($spore);
 			}
 			else
 			{
-				QSpore::set(
+				VSpore::set(
 					$spore, 
 					RSent::hasValue('actv_'.$spore), 
 					RSent::get('init_'.$spore), 
@@ -44,10 +44,10 @@ if(RSent::hasValue('posted'))
 			}
 		}
 	}
-	if(RSent::hasValue('new_spore') && !QSpore::exists(RSent::get('new_spore')))
+	if(RSent::hasValue('new_spore') && !VSpore::exists(RSent::get('new_spore')))
 	{
 		try{
-			QSpore::set(
+			VSpore::set(
 				RSent::get('new_spore'), 
 				RSent::hasValue('new_actv'), 
 				RSent::get('new_init'), 
@@ -58,6 +58,6 @@ if(RSent::hasValue('posted'))
 			//@todo notify  could not set blah
 		}
 	}
-	QSpore::Save();
+	VSpore::Save();
 }
 ?>

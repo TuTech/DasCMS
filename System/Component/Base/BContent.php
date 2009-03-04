@@ -35,7 +35,7 @@ abstract class BContent extends BObject
 		$MimeType
 		;
 	/**
-	 * @var QSpore
+	 * @var VSpore
 	 */
 	protected $invokingQueryObject = null;
 		
@@ -430,14 +430,14 @@ abstract class BContent extends BObject
 		return strip_tags($this->getContent());
 	}
 	
-	public function InvokedByQueryObject(QSpore $qo)
+	public function InvokedByQueryObject(VSpore $qo)
 	{
 		$this->invokingQueryObject = $qo;
 	}
 	
 	protected function linkWithInvokingQueryObject($to, array $opts = array(), array $tempopts = array())
 	{
-		if($this->invokingQueryObject != null && $this->invokingQueryObject instanceof QSpore)
+		if($this->invokingQueryObject != null && $this->invokingQueryObject instanceof VSpore)
 		{
 			foreach ($opts as $key => $value) 
 			{	

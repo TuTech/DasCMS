@@ -326,14 +326,14 @@ class CFeed
 	    {
 	        $iqo = $this->invokingQueryObject;
 	        $target = $this->option(self::SETTINGS, 'TargetView');
-    	    if($inTargetView && !empty($target) && QSpore::isActive($target))
+    	    if($inTargetView && !empty($target) && VSpore::isActive($target))
             {
                 //link page to target view
-                $linker = new QSpore($this->option(self::SETTINGS, 'TargetView'));
+                $linker = new VSpore($this->option(self::SETTINGS, 'TargetView'));
                 $linker->LinkTo($arg);
                 $link = strval($linker);
             }
-            elseif(!$inTargetView && $iqo != null && $iqo instanceof QSpore)
+            elseif(!$inTargetView && $iqo != null && $iqo instanceof VSpore)
     	    {
     	        //link to self
     	        //only param page=
@@ -390,7 +390,7 @@ class CFeed
         //current page        
         $currentPage = 1;
         $iqo = $this->invokingQueryObject;
-        if($iqo != null && $iqo instanceof QSpore)
+        if($iqo != null && $iqo instanceof VSpore)
         {
             $currentPage = intval($iqo->GetParameter('page'));
         }

@@ -25,7 +25,7 @@ class TCmdView
     
     public function setUp(array $environment)
     {
-        $v = new VSpore();
+        $v = new VSporeHelper();
         if($v->TemplateCallable($this->show))
         {
             $this->res = $v->TemplateCall($this->show, array('view' => $this->for));

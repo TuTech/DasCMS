@@ -90,9 +90,9 @@ if($edit != null && RSent::has('1_p') && RSent::get('1_p') == '0')//parent of fi
 		}
 	}
 	try{
-		if(RSent::has('set_spore') && QSpore::exists(RSent::get('set_spore')))
+		if(RSent::has('set_spore') && VSpore::exists(RSent::get('set_spore')))
     	{
-    		$sp = new QSpore(RSent::get('set_spore'));
+    		$sp = new VSpore(RSent::get('set_spore'));
     		SNotificationCenter::report('message', 'changing target view');
     	}
 		else
@@ -116,25 +116,25 @@ if(RSent::has('new_nav_name'))
         SNotificationCenter::report('warning', 'navigation_name_not_valid');
         return;
     }
-	if(QSpore::exists($newNav))
+	if(VSpore::exists($newNav))
 	{
 		//matching spore exists - use it
-		$spore = new QSpore($newNav);
+		$spore = new VSpore($newNav);
 	}
 	else
 	{
-		$allSpores = QSpore::sporeNames();
+		$allSpores = VSpore::sporeNames();
 		if(count($allSpores) == 0)
 		{
 			//no spores - create one
-			QSpore::set($newNav,true,null,null);
-			QSpore::Save();
-			$spore = new QSpore($newNav);
+			VSpore::set($newNav,true,null,null);
+			VSpore::Save();
+			$spore = new VSpore($newNav);
 		}
 		else
 		{
 			//the are some spore use whatever comes first
-			$spore = new QSpore($allSpores[0]);
+			$spore = new VSpore($allSpores[0]);
 		}
 	}
 	NTreeNavigation::set($newNav,$spore,new NTreeNavigationObject('', null,null,null));
