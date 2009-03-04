@@ -21,7 +21,8 @@ $values = array(
         "webmaster_email"       => array("webmaster",       "fullinput"),
         "copyright"             => array("copyright",       "fullinput"),
         "template_for_page_rendering"=> array("generator_content", '::CTemplate'),
-        "meta_keywords"         => array("meta_keywords",   "fullinput"),
+        'login_template'        => array("login_template", ':::CTemplate'),
+		"meta_keywords"         => array("meta_keywords",   "fullinput"),
         "meta_description"      => array("meta_description","fullinput"),
 		'preview_image_quality' => array("preview_image_quality","image_quality"),
 		'wellformed_urls'       => array("wellformed_urls", "checkbox"),
@@ -40,7 +41,7 @@ $values = array(
         "user"                  => array("db_user",         "fullinput"),
         "password"              => array("db_password",     "password"),
         "database_name"         => array("db_name",         "fullinput"),
-        "database_table_prefix" => array("db_table_prefix", "fullinput")
+       // "database_table_prefix" => array("db_table_prefix", "fullinput")
 	)
 );
 $fullinput = "\n\t\t\t<input class=\"fullinput\" type=\"text\" size=\"40\" name=\"%s\" id=\"%s\" value=\"%s\" />\n\t\t";
@@ -123,8 +124,15 @@ foreach($values as $title => $settings)
                     $SCI = SContentIndex::alloc()->init();
                     $current = SAlias::getCurrent(LConfiguration::get($key));
                     $class = substr($type,2);
-                    $options = $SCI->getIndex($class, false);
                     $input = sprintf("<select name=\"%s\">\n", $key);
+                    if(substr($class, 0,1) == ':')
+                    {
+                        $class = substr($class, 1);
+                        $sel = empty($current) ? ' selected="selected"' : '';
+                        $input .= sprintf("\t<option value=\"\"%s>%s</option>\n",  $sel,  SLocalization::get('no_login_template'));
+                    }
+                    $options = $SCI->getIndex($class, false);
+                    
                     foreach ($options as $alias => $data) 
                     {
                         $sel = ($alias == $current) ? ' selected="selected"' : '';
