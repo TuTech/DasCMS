@@ -23,7 +23,7 @@ body.login .submitinput{
 }
 body.login select{
 	border: 1px solid #d3d7cf;
-	background: #fff url(../../../../Icons/22x22/language.png) 0 0 no-repeat;
+	background: #fff url(../../../../ClientData/Icons/22x22/language.png) 0 0 no-repeat;
 	height:22px;
 	padding-left:22px;
 	width:120px;

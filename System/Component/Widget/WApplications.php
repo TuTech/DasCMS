@@ -46,7 +46,7 @@ class WApplications extends BWidget
 		}
 		else
 		{
-			return './System/Icons/'.($active ? '48x48' : '32x32').'/apps/'.$name.'.png';
+			return './System/ClientData/Icons/'.($active ? '48x48' : '32x32').'/apps/'.$name.'.png';
 		}
 	}
 	

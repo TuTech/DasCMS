@@ -75,7 +75,7 @@
 {
 	border-style: solid;
 	border-color: #4e9a06;
-	background: #4e9a06 url(../../Images/header_background.png) 0% 0%;
+	background: #4e9a06 url(../../ClientData/Images/header_background.png) 0% 0%;
 	color: #fff;
 }
 .borderedtable th[scope=row]
@@ -125,11 +125,11 @@
 }
 .groupMember
 {
-	background: #fff url(../../Icons/22x22/mimetypes/user.png) 0px 0px no-repeat;
+	background: #fff url(../../ClientData/Icons/22x22/mimetypes/user.png) 0px 0px no-repeat;
 }
 .groupGoldMember
 {
-	background: #fff url(../../Icons/22x22/mimetypes/administrator.png) 0px 0px no-repeat;
+	background: #fff url(../../ClientData/Icons/22x22/mimetypes/administrator.png) 0px 0px no-repeat;
 }
 
 #editorianid{

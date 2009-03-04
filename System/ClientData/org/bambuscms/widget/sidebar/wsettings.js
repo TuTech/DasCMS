@@ -37,7 +37,7 @@ org.bambuscms.wsettings.selectImage = function()
 	);
 	div = document.createElement('div');
 	div.setAttribute('id','wsettings_img_select');
-	div.innerHTML = '<img src="System/Icons/16x16/animations/loading.gif" style="margin:10px auto 10px auto;display:block;" alt="'+_('loading')+'" title="'+_('loading')+'" />';
+	div.innerHTML = '<img src="System/ClientData/Icons/16x16/animations/loading.gif" style="margin:10px auto 10px auto;display:block;" alt="'+_('loading')+'" title="'+_('loading')+'" />';
 	var dlg = org.bambuscms.app.dialog.create(_('select_preview_image'), '', div, false, 'Close');
 	dlg.id = 'wsetting_image_picker';
 	dlg.style.top = '150px';

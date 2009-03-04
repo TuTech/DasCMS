@@ -26,7 +26,7 @@ $cell2TPL =
 $cell3and4TPL = 
     new WTemplate(
     	'<a class="right" href="javascript:clearOpt(\'{action}_{subject}\');">'.
-    		'<img src="System/Icons/16x16/actions/delete.png" alt="remove" title="remove" />'.
+    		'<img src="System/ClientData/Icons/16x16/actions/delete.png" alt="remove" title="remove" />'.
     	'</a>'.
         '<input readonly="readonly" type="hidden" onfocus="lastFocus = \'{action}_{subject}\';" id="{action}_{subject}" name="{action}_{subject}" value="{id}" />'.
         '<input readonly="readonly" type="text"   onfocus="lastFocus = \'{action}_{subject}\';" id="{action}_{subject}_t" value="{title}" />',
@@ -64,8 +64,8 @@ if(count($spores) > 0)
     $cell1TPL = 
         new WTemplate(
         	'<a class="right" href="javascript:toggleSporeRemove(\'{spore}\');">'.
-        		'<img id="spore_{spore}_rm" src="System/Icons/16x16/actions/delete.png" alt="set remove flag" title="set remove flag" />'.
-        		'<img id="spore_{spore}_norm" style="display:none;" src="System/Icons/16x16/actions/refresh.png" alt="unset remove flag" title="unset remove flag" />'.
+        		'<img id="spore_{spore}_rm" src="System/ClientData/Icons/16x16/actions/delete.png" alt="set remove flag" title="set remove flag" />'.
+        		'<img id="spore_{spore}_norm" style="display:none;" src="System/ClientData/Icons/16x16/actions/refresh.png" alt="unset remove flag" title="unset remove flag" />'.
         	'</a>'.
         	'<span id="spore_{spore}_t">{spore}</span>'.
         	'<input type="hidden" id="spore_{spore}" name="spore_{spore}"value="" />',

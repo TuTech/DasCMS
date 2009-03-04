@@ -43,8 +43,8 @@ class AGroupManager
                 $data = array(
             'title' => SLocalization::get('open'),
             'nrOfItems' => count($items),
-            'iconMap' => array('System/Icons/tango/large/mimetypes/SUser.png','System/Icons/tango/large/mimetypes/SGroup.png'),
-            'smallIconMap' => array('System/Icons/tango/extra-small/mimetypes/SUser.png','System/Icons/tango/extra-small/mimetypes/SGroup.png'),
+            'iconMap' => array('System/ClientData/Icons/tango/large/mimetypes/SUser.png','System/ClientData/Icons/tango/large/mimetypes/SGroup.png'),
+            'smallIconMap' => array('System/ClientData/Icons/tango/extra-small/mimetypes/SUser.png','System/ClientData/Icons/tango/extra-small/mimetypes/SGroup.png'),
             'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2, 'description' => 3),//, 'tags' => 4
             'sortable' => array('title' => 'name', 'icon' => 'type'),
             'items' => $items,

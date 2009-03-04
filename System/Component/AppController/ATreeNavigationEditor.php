@@ -34,8 +34,8 @@ class ATreeNavigationEditor
         $data = array(
             'title' => SLocalization::get('open'),
             'nrOfItems' => count($items),
-            'iconMap' => array('System/Icons/tango/large/mimetypes/NTreeNavigation.png'),
-            'smallIconMap' => array('System/Icons/tango/extra-small/mimetypes/NTreeNavigation.png'),
+            'iconMap' => array('System/ClientData/Icons/tango/large/mimetypes/NTreeNavigation.png'),
+            'smallIconMap' => array('System/ClientData/Icons/tango/extra-small/mimetypes/NTreeNavigation.png'),
             'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2),//, 'tags' => 4
             'sortable' => array('title' => 'title'),
             'items' => $items,

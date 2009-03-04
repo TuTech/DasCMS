@@ -84,7 +84,7 @@ org.bambuscms.editor.wysiwyg._object = function(elements, wrapper)
 		{
 			var trigger = function(){_me.butClick(this.title);};
 			var but = document.createElement('img');
-			but.src = 'System/Icons/22x22/actions/format-'+commands[func]+'.png';
+			but.src = 'System/ClientData/Icons/22x22/actions/format-'+commands[func]+'.png';
 			but.onclick = trigger;
 			but.title = func;
 			//but.appendChild(document.createTextNode(commands[func]));

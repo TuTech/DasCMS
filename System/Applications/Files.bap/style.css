@@ -8,19 +8,19 @@
 	position: relative;
 }
 .retainBatch-1{
-	background: url(../../Images/batch-1.png) 50% 50% no-repeat;
+	background: url(../../ClientData/Images/batch-1.png) 50% 50% no-repeat;
 	width:10px;
 }
 .retainBatch-2{
-	background: url(../../Images/batch-2.png) 50% 50% no-repeat;
+	background: url(../../ClientData/Images/batch-2.png) 50% 50% no-repeat;
 	width:15px;
 }
 .retainBatch-3{
-	background: url(../../Images/batch-3.png) 50% 50% no-repeat;
+	background: url(../../ClientData/Images/batch-3.png) 50% 50% no-repeat;
 	width:20px;
 }
 .retainBatch-4{
-	background: url(../../Images/batch-4.png) 50% 50% no-repeat;
+	background: url(../../ClientData/Images/batch-4.png) 50% 50% no-repeat;
 	width:25px;
 }
 .previewImage img{
@@ -42,7 +42,7 @@
 	height:22px;
 }
 .editHelper{
-	background: #eeeeec url(../../Icons/22x22/actions/edit.png) 50% 50% no-repeat;
+	background: #eeeeec url(../../ClientData/Icons/22x22/actions/edit.png) 50% 50% no-repeat;
 }
 .WFlowLayoutImage a:hover .helper{
 	display: none;

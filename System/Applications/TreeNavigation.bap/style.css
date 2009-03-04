@@ -28,7 +28,7 @@
 #navigationLayout input[type=text]:focus
 {
 	border: 1px solid #f57900;
-	background: #fff url(../../Icons/16x16/actions/edit.png) 1px 50% no-repeat;
+	background: #fff url(../../ClientData/Icons/16x16/actions/edit.png) 1px 50% no-repeat;
 	padding-left: 20px;
 	height:20px;
 	width: 330px;
@@ -45,11 +45,11 @@
 }
 .add_child
 {
-	background: #d3d7cf url(../../Icons/22x22/actions/add-child.png) 1px 1px no-repeat;
+	background: #d3d7cf url(../../ClientData/Icons/22x22/actions/add-child.png) 1px 1px no-repeat;
 }
 .add_sibling
 {
-	background: #d3d7cf url(../../Icons/22x22/actions/add-sibling.png) 1px 1px no-repeat;
+	background: #d3d7cf url(../../ClientData/Icons/22x22/actions/add-sibling.png) 1px 1px no-repeat;
 }
 .navObject{
 	background: #eeeeec;

@@ -13,8 +13,8 @@ class SPath
 {
     const SYSTEM = './System/';
 	const SYSTEM_CLIENT_DATA = './System/ClientData/';
-	const SYSTEM_ICONS = './System/Icons/tango/';
-    const SYSTEM_IMAGES = './System/Images/';
+	const SYSTEM_ICONS = './System/ClientData/Icons/tango/';
+    const SYSTEM_IMAGES = './System/ClientData/Images/';
     const SYSTEM_TEMPLATES = './System/Resource/Templates/';
     const SYSTEM_APPLICATIONS = './System/Applications/';
     const SYSTEM_RESOURCES = './System/Resource/';

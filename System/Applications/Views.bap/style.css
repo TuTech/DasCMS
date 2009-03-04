@@ -11,7 +11,7 @@
 #newSporeTable input[type=text]:focus,
 #spores input[type=text]:focus{
 	border: 1px solid #f57900;
-	background:white url(../../Icons/16x16/actions/edit.png) 1px 50% no-repeat;
+	background:white url(../../ClientData/Icons/16x16/actions/edit.png) 1px 50% no-repeat;
 	padding-left:18px;
 	width:88%;
 }

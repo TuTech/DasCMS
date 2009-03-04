@@ -33,8 +33,8 @@ class AStylesheetEditor
         $data = array(
             'title' => SLocalization::get('open'),
             'nrOfItems' => count($items),
-            'iconMap' => array('System/Icons/tango/large/mimetypes/LStylesheet.png'),
-            'smallIconMap' => array('System/Icons/tango/extra-small/mimetypes/LStylesheet.png'),
+            'iconMap' => array('System/ClientData/Icons/tango/large/mimetypes/LStylesheet.png'),
+            'smallIconMap' => array('System/ClientData/Icons/tango/extra-small/mimetypes/LStylesheet.png'),
             'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2, 'size' => 3, 'modified' => 4),//, 'tags' => 4
             'sortable' => array('title' => 'title', 'size' => 'size', 'modified' => 'modified'),
             'items' => $items,

@@ -92,7 +92,7 @@ function createNavDiv(parentDiv, nextDiv , c_id, c_title)
 	CDiv.setAttribute('class', 'navObject');
 
 	var BRemoveContent = document.createElement('img');
-	BRemoveContent.setAttribute('src', 'System/Icons/16x16/actions/delete.png');
+	BRemoveContent.setAttribute('src', 'System/ClientData/Icons/16x16/actions/delete.png');
 	BRemoveContent.setAttribute('alt', _('remove_content'));
 	BRemoveContent.setAttribute('title', _('remove_content'));
 	BRemoveContent.setAttribute('onclick', 'removeContentFrom(\''+Id+'\')');
