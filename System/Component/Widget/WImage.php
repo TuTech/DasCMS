@@ -41,13 +41,10 @@ class WImage extends BWidget
      */
     public static function getPreviewIdForContent(BContent $content)
     {
-        if ($content instanceof IFileContent) 
+        if ($content instanceof IFileContent && self::supportedMimeType($content->getMimeType()))
         {
-            if(self::supportedMimeType($content->getMimeType()))
-            {
-                //render this image
-                $img = $content->getId();
-            }
+            //render this image
+            $img = $content->getId();
         }
         else
         {
@@ -209,7 +206,9 @@ class WImage extends BWidget
         $this->scaleHash = self::createScaleHash($width, $heigth, $mode, $forceType, $fillColor);
         //permit rendering this image
         $qual = intval(LConfiguration::get('preview_image_quality'));
-        if(!file_exists(SPath::TEMP.'scale.render.'.$qual.'.'.$this->imageID.'-'.$this->scaleHash))
+        if(!file_exists(SPath::TEMP.'scale.render.'.$qual.'.'.$this->imageID.'-'.$this->scaleHash)
+            && !PAuthorisation::has('org.bambuscms.bcontent.previewimage.create') //does not need explicit permission
+            )    
         {
             //generate temporary permission file
             touch(SPath::TEMP.'scale.permit.'.$this->imageID.'-'.$this->scaleHash);

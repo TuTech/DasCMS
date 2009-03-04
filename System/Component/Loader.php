@@ -120,7 +120,6 @@ function component_autoload($className)
 		'C' => 'Content',
 		'D' => 'Driver',
 		'E' => 'Event',
-		'F' => 'Feed',
 		'H' => 'EventHandler',
 		'I' => 'Interface',
 		'J' => 'Job',

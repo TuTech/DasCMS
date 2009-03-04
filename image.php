@@ -21,8 +21,7 @@ if(!empty($_SERVER['PATH_INFO']))
     //list($alias, $key) = explode('/', $path);
     $key = basename($key);
     if(preg_match(
-        	'/^'.//'(_|c|p)'.//render type
-        	//'([0-9A-Fa-f]*)-'.//render id 
+        	'/^'.
         	'([0-9A-Fa-f]+)-'.//width in hex
         	'([0-9A-Fa-f]+)-'.//height in hex
         	'([0-9])-'.//mode
@@ -31,7 +30,7 @@ if(!empty($_SERVER['PATH_INFO']))
             ,$key, $match)
         )
     {
-        //header('Content-type: image/jpeg;');
+        header('Content-type: image/jpeg;');
         //get the id of the preview image 
         if(PAuthorisation::has('org.bambuscms.login'))
         {
