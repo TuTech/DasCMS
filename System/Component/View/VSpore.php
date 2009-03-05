@@ -27,7 +27,7 @@ array objectid => spore
 	private static $initialized = false;
 	private static $spores = array();//class config data to create objects - serialize for save
 	private static $active = array();//objects
-	
+	private static $toDelete = array();
 	//name - to find itself in the configs
 	private $name = null;
 	
@@ -57,11 +57,22 @@ array objectid => spore
 		{
 			self::$initialized = true;
 			try{
-				self::$spores = DFileSystem::LoadData('./Content/QSpore/index.php');
+				$res = QVSpore::loadSpores();
+				self::$spores = array();
+				while ($row = $res->fetch())
+				{
+				    self::$spores[$row[0]] = array(
+				        self::ACTIVE => $row[1] == 'Y',
+				        self::INIT_CONTENT => $row[2],
+				        self::ERROR_CONTENT => $row[3],
+			        );
+				}
+				$res->free();
 			}
 			catch (Exception $e)
 			{
-				self::$spores = array();
+				self::$spores = DFileSystem::LoadData('./Content/QSpore/index.php');
+//				echo $e->getTraceAsString();
 			}
 		}	
 	}
@@ -88,12 +99,18 @@ array objectid => spore
 		self::initialize();
 		try
 		{
-			DFileSystem::SaveData('./Content/QSpore/index.php', self::$spores);
+			//DFileSystem::SaveData('./Content/QSpore/index.php', self::$spores);
+			if(count(self::$toDelete))
+			{
+			    QVSpore::deleteSpores(self::$toDelete);
+			}
+			QVSpore::saveSpores(self::$spores);
 			return true;
 		}
 		catch (Exception $e)
 		{
 			//@todo send notification
+			echo $e->getTraceAsString();
 			return false;
 		}
 	}
@@ -125,6 +142,7 @@ array objectid => spore
 	public static function remove($sporename)
 	{
 		self::initialize();
+		self::$toDelete[] = $sporename; 
 		if(isset(self::$spores[$sporename]))
 		{
 			unset(self::$spores[$sporename]);

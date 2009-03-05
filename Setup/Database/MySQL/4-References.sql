@@ -235,3 +235,15 @@ Users
         REFERENCES Groups(groupID)
         ON DELETE RESTRICT
         ON UPDATE NO ACTION;
+        
+-- foreign keys for atom imports
+ALTER TABLE 
+SporeViews
+    ADD FOREIGN KEY (defaultContentREL)
+        REFERENCES Contents(contentID)
+        ON DELETE RESTRICT
+        ON UPDATE NO ACTION,
+    ADD FOREIGN KEY (errorContentREL)
+        REFERENCES Contents(contentID)
+        ON DELETE RESTRICT
+        ON UPDATE NO ACTION;

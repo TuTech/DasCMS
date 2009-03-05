@@ -519,3 +519,32 @@ ENGINE = InnoDB
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
 
+-- spore views
+CREATE TABLE IF NOT EXISTS 
+SporeViews(
+    viewID 
+        INTEGER 
+        PRIMARY KEY
+        AUTO_INCREMENT
+        NOT NULL,
+    viewName 
+        VARCHAR(16)
+        UNIQUE 
+        NOT NULL,
+    active
+    	ENUM('N', 'Y') 
+        NOT NULL
+        DEFAULT 'N',
+    defaultContentREL 
+        INTEGER 
+        NULL,
+	errorContentREL
+        INTEGER 
+        NULL,
+    INDEX (defaultContentREL),
+    INDEX (errorContentREL)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
