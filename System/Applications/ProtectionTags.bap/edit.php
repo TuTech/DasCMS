@@ -6,11 +6,6 @@
 * Copyright:   Lutz Selke/TuTech Innovation GmbH 
 * Description: css editor interface
 ************************************************/
-//document title
-if(isset($panel) && $panel->hasWidgets())
-{
-    echo '<div id="objectInspectorActiveFullBox">';
-}
 if(PAuthorisation::has('org.bambuscms.system.permissions.tags.change'))
 {
     $tags =  implode(', ', STagPermissions::getProtectedTags());
@@ -21,9 +16,5 @@ if(PAuthorisation::has('org.bambuscms.system.permissions.tags.change'))
     echo new WIntroduction('define_restriction_tags', 'tags_listed_here_restrict_access_to_contents');
 	echo LGui::editorTextarea($tags);
 	echo LGui::endForm();
-}
-if(isset($panel) && $panel->hasWidgets())
-{
-    echo '</div>';
 }
 ?>

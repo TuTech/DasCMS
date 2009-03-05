@@ -7,7 +7,11 @@
  * @since 2008-11-13
  * @license GNU General Public License 3
  */
-class WSidePanel extends BWidget 
+class WSidePanel 
+    extends 
+        BWidget
+    implements
+        IShareable
 {
     const NONE = 0;
     const CONTENT_LOOKUP = 1;
@@ -25,11 +29,50 @@ class WSidePanel extends BWidget
     
 	private $sidebarWidgets = array();
 	
+	//IShareable
+	const CLASS_NAME = 'WSidePanel';
+	/**
+	 * @var WSidePanel
+	 */
+	public static $sharedInstance = NULL;
+	private static $initializedInstance = false;
+	/**
+	 * @return WSidePanel
+	 */
+	public static function alloc()
+	{
+		$class = self::CLASS_NAME;
+		if(self::$sharedInstance == NULL && $class != NULL)
+		{
+			self::$sharedInstance = new $class();
+		}
+		return self::$sharedInstance;
+	}
+    
+	/**
+	 * @return WSidePanel
+	 * @see System/Component/Interface/IShareable#init()
+	 */
+	function init()
+    {
+    	return $this;
+    }
+	//end IShareable
 	//loads all components 
-	public function __construct()
+	private function __construct()
 	{
 	}
 
+	public static function openAppWrapperBox()
+	{
+	    echo "\n<div id=\"objectInspectorActiveFullBox\">\n";
+	}
+	
+	public static function closeAppWrapperBox()
+	{
+	    echo "\n</div>\n";
+	}
+	
 	public function setTargetContent(BContent $content)
 	{
 	    if(isset($this->object))
@@ -150,17 +193,11 @@ class WSidePanel extends BWidget
 		    $selectedWidget = $this->selectWidget();
 			ksort($this->sidebarWidgets, SORT_LOCALE_STRING);
 			$html = "<div id=\"WSidebar-head\">\n";
-			//$html .= "\t\t<select name=\"WSidebar-selected\" onchange=\"org.bambuscms.wsidebar.show(this.options[this.selectedIndex].value);\">\n"; 
 			//select
 			$html .= sprintf('<input type="hidden" name="WSidebar-selected" id="WSidebar-selected" value="" />',htmlentities($selectedWidget));
 			$html .= '<table id="WSidebar-select"><tr>'."\n";
 			foreach ($this->sidebarWidgets as $class => $object) 
 			{
-//				$html .= sprintf(
-//					"\t\t\t<option value=\"%s\"%s>%s</option>\n"
-//					, $class
-//					,($class == $selectedWidget) ? ' selected="selected"' : ''
-//					, SLocalization::get($object->getName()));
 		        $html .=  sprintf(
 		        	"<td class=\"tab\"><a href=\"javascript:org.bambuscms.wsidebar.show('%s')\" id=\"WSidebar-selector-%s\" title=\"%s\"%s>%s</a></td>\n"
 		        	,$class
@@ -171,7 +208,6 @@ class WSidePanel extends BWidget
 		        );
 			}
 			
-			//$html .= "\t\t</select>";
 			$html .= '<td class="spacer"></td></tr></table>';
 			$html .= "\n\t</div>\n<div id=\"WSidebar\">\n\t<div class=\"side-scroll-body\">\n\t<div id=\"WSidebar-body\">\n";
 			//widgets

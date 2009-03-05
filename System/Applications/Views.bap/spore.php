@@ -14,10 +14,6 @@ if(PAuthorisation::has('org.bambuscms.resolver.vspore.change'))
 	    ,SLink::link()
 	);
 }
-if(isset($panel) && $panel->hasWidgets())
-{
-    echo '<div id="objectInspectorActiveFullBox">';
-}
 $cell1TPL = 
 	'<input type="text" name="%s" value="" onkeyup="org.bambuscms.validators.spore(this);" '.
 		'onblur="org.bambuscms.validators.spore(this);" onchange="org.bambuscms.validators.spore(this);"/>';
@@ -124,10 +120,6 @@ if(count($spores) > 0)
 else
 {
 	echo '<h3>', SLocalization::get('please_add_at_least_one_-_you_need_them_for_viewing_any_content,_really'),'</h3>';
-}
-if(isset($panel) && $panel->hasWidgets())
-{
-    echo '</div>';
 }
 if(PAuthorisation::has('org.bambuscms.resolver.vspore.change'))
 {

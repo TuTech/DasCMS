@@ -105,13 +105,16 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
     	$headTpl = new WTemplate('header', WTemplate::SYSTEM);
         $headTpl->render();
 		echo $ob;
+    	echo WSidePanel::alloc()->init();
 		echo LGui::beginApplication();
+		WSidePanel::openAppWrapperBox();
     	$erg = $Application->run();
     	if($erg !== true && (!file_exists($erg) || !include($erg)))
     	{
 			//interface is coded in php an needs to be called here
 			SNotificationCenter::report('alert', 'invalid_application');
     	}
+    	WSidePanel::closeAppWrapperBox();
 		echo LGui::endApplication();
     	$footerTpl = new WTemplate('footer', WTemplate::SYSTEM);
         $footerTpl->render();

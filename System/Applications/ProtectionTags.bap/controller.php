@@ -14,12 +14,12 @@ if(RSent::has('content') && PAuthorisation::has('org.bambuscms.system.permission
 }
 try
 {
-	$panel = new WSidePanel();
+	$panel = WSidePanel::alloc()->init();
 	$panel->setMode(
 	    WSidePanel::HELPER |
 	    WSidePanel::INFORMATION
     );
-	echo $panel;
+	//echo $panel;
 }
 catch(Exception $e){
 	echo $e->getTraceAsString();

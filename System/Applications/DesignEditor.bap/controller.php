@@ -102,7 +102,7 @@ echo '<form method="post" id="documentform" name="documentform" action="'
 
 try
 {
-	$panel = new WSidePanel();
+	$panel = WSidePanel::alloc()->init();
 	$panel->setMode(
 	    WSidePanel::HELPER |
 	    WSidePanel::INFORMATION
@@ -111,7 +111,7 @@ try
     {
 	    $panel->setTarget($File, 'text/css');
     }
-	echo $panel;
+	//echo $panel;
 }
 catch(Exception $e){
 	echo $e->getTraceAsString();

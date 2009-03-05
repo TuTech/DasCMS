@@ -64,27 +64,29 @@ printf(
 	,SLink::link(array('edit' => (isset($Tpl) && $Tpl instanceof CTemplate)? $Tpl->Alias :''))
 );
 $ex = '';
-if(isset($Tpl))
-{
-	try{
-		$panel = new WSidePanel();
-		$panel->setMode(
-		    WSidePanel::MEDIA_LOOKUP|
-		    WSidePanel::CONTENT_LOOKUP|
-		    WSidePanel::PROPERTY_EDIT|
-		    WSidePanel::HELPER|
-		    WSidePanel::PERMISSIONS);
-		$panel->setTargetContent($Tpl);
-		echo $panel;
+
+try{
+	$panel = WSidePanel::alloc()->init();
+	$panel->setMode(
+	    WSidePanel::MEDIA_LOOKUP|
+	    WSidePanel::CONTENT_LOOKUP|
+	    WSidePanel::PROPERTY_EDIT|
+	    WSidePanel::HELPER|
+	    WSidePanel::PERMISSIONS);
+    if(isset($Tpl))
+    {
+        $panel->setTargetContent($Tpl);
+		//echo $panel;
 		if($Tpl instanceof CTemplate && $Tpl->isModified())
 		{
 			$Tpl->Save();
 		}
-	}
-	catch(Exception $e){
-	    $ex = '<div class="TemplateError"><h4>%s</h4><p><b>%s thrown in %s at line %d</b></p><p%s<br /><code>%s</code></p></div>';
-	    $ex = sprintf($ex, $e->getMessage(), get_class($e), $e->getFile(), $e->getLine(), $e->getMessage(), $e->getTraceAsString());
-		SNotificationCenter::report('warning', 'invalid_template_not_executeable');
-	}	
+    }
 }
+catch(Exception $e){
+    $ex = '<div class="TemplateError"><h4>%s</h4><p><b>%s thrown in %s at line %d</b></p><p%s<br /><code>%s</code></p></div>';
+    $ex = sprintf($ex, $e->getMessage(), get_class($e), $e->getFile(), $e->getLine(), $e->getMessage(), $e->getTraceAsString());
+	SNotificationCenter::report('warning', 'invalid_template_not_executeable');
+}	
+
 ?>

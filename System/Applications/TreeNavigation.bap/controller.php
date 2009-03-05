@@ -153,9 +153,9 @@ if(PAuthorisation::has('org.bambuscms.layout.navigation.ntreenavigation.change')
 ////////////////////	
 try
 {
-	$panel = new WSidePanel();
+	$panel = WSidePanel::alloc()->init();
 	$panel->setMode(WSidePanel::CONTENT_LOOKUP);
-	echo $panel;
+	//echo $panel;
 }
 catch (Exception $e)
 {

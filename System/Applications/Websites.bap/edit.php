@@ -6,11 +6,7 @@
 * Copyright:   Lutz Selke/TuTech Innovation GmbH 
 * Description: css editor interface
 ************************************************/
-//document title
-if(isset($panel) && $panel->hasWidgets())
-{
-    echo '<div id="objectInspectorActiveFullBox">';
-}//editing allowed?
+//editing allowed?
 	
 if(PAuthorisation::has('org.bambuscms.content.cpage.change') && isset($Page) && $Page instanceof CPage)
 {
@@ -26,7 +22,4 @@ if(PAuthorisation::has('org.bambuscms.content.cpage.change') && isset($Page) && 
 	}
 }
 echo LGui::endForm();
-if(isset($panel) && $panel->hasWidgets())
-{
-    echo '</div>';
-}?>
+?>

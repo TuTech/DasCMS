@@ -6,10 +6,6 @@
  * @version 1.0
  * @author selke@tutech.de
  */
-if(isset($panel) && $panel->hasWidgets())
-{
-    echo '<div id="objectInspectorActiveFullBox">';
-}
 if(PAuthorisation::has('org.bambuscms.configuration.set'))
 {
 	echo LGui::beginForm(array(), 'documentform');
@@ -26,7 +22,7 @@ $values = array(
         "meta_description"      => array("meta_description","fullinput"),
 		'preview_image_quality' => array("preview_image_quality","image_quality"),
 		'wellformed_urls'       => array("wellformed_urls", "checkbox"),
-),
+    ),
 	"system" => array(
         "date_format"           => array("dateformat",      "fullinput"),
         "logout_on_exit"        => array("logout_on_exit",  "checkbox"),
@@ -150,9 +146,5 @@ if(PAuthorisation::has('org.bambuscms.configuration.set'))
 {
 	echo LGui::hiddenInput('writeconfig','1');
 	echo LGui::endForm();
-}
-if(isset($panel) && $panel->hasWidgets())
-{
-    echo '</div>';
 }
 ?>

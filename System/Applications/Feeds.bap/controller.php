@@ -271,23 +271,25 @@ printf(
     '<form method="post" id="documentform" name="documentform" action="%s">'
 	,SLink::link(array('edit' => (isset($Feed) && $Feed instanceof CFeed)? $Feed->Alias :''))
 );
-if(isset($Feed))
-{
-	try{
-		$panel = new WSidePanel();
-		$panel->setMode(
-		    WSidePanel::PROPERTY_EDIT|
-		    WSidePanel::HELPER|
-		    WSidePanel::PERMISSIONS);
-		$panel->setTargetContent($Feed);
-		echo $panel;
+
+try{
+	$panel = WSidePanel::alloc()->init();
+	$panel->setMode(
+	    WSidePanel::PROPERTY_EDIT|
+	    WSidePanel::HELPER|
+	    WSidePanel::PERMISSIONS);
+    if(isset($Feed))
+    {
+        $panel->setTargetContent($Feed);
+		//echo $panel;
 		if($Feed instanceof CFeed && $Feed->isModified())
 		{
 			$Feed->Save();
 		}
-	}
-	catch(Exception $e){
-		//echo $e->getTraceAsString();
-	}	
+    }
 }
+catch(Exception $e){
+	//echo $e->getTraceAsString();
+}	
+
 ?>

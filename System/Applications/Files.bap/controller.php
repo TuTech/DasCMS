@@ -53,7 +53,7 @@ try{
     {    
 		$File->Title = RSent::get('filename', 'utf-8');
     }
-	$panel = new WSidePanel();
+	$panel = WSidePanel::alloc()->init();
 	$panel->setMode(
 	    WSidePanel::PROPERTY_EDIT|
 	    WSidePanel::HELPER|
@@ -63,7 +63,7 @@ try{
     {
         $panel->setTargetContent($File);
     }
-	echo $panel;
+	//echo $panel;
 	if($File != null && $File instanceof BContent && $File->isModified())
     {
 		$File->Save();

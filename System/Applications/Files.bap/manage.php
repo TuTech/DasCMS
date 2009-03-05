@@ -6,10 +6,6 @@
 * Copyright:   Lutz Selke/TuTech Innovation GmbH 
 * Description: 
 ************************************************/
-if(isset($panel) && $panel->hasWidgets())
-{
-    echo '<div id="objectInspectorActiveFullBox">';
-}
 if($File != null && $File instanceof BContent)
 {
 
@@ -92,10 +88,6 @@ else
     }
     $flowLayout->render();
     echo new WScript('hideInputs();');
-}
-if(isset($panel) && $panel->hasWidgets())
-{
-    echo '</div>';
 }
 echo LGui::endForm();
 

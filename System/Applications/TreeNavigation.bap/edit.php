@@ -10,10 +10,6 @@
 
 if($edit != null)
 {
-    if(isset($panel) && $panel->hasWidgets())
-    {
-        echo '<div id="objectInspectorActiveFullBox">';
-    }
 	try
 	{
 	    $cSpore = NTreeNavigation::sporeOf($edit);
@@ -101,10 +97,6 @@ if($edit != null)
 	</script>
 
 <?php	
-}
-if(isset($panel) && $panel->hasWidgets())
-{
-    echo '</div>';
 }
 if(PAuthorisation::has('org.bambuscms.layout.navigation.ntreenavigation.change'))
 {

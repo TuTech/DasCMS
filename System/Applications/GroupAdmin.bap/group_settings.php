@@ -20,10 +20,6 @@ if(PAuthorisation::has('org.bambuscms.credentials.group.create'))
 }
 echo "\n";
 echo new WScript('var action_add_group = function(){'.$jsCreate.'};');
-if(isset($panel) && $panel->hasWidgets())
-{
-    echo '<div id="objectInspectorActiveFullBox">';
-}
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
 
@@ -167,9 +163,5 @@ else
 if(PAuthorisation::has('org.bambuscms.credentials.user.change') || PAuthorisation::has('org.bambuscms.credentials.group.change'))
 {
     echo LGui::endForm();
-}
-if(isset($panel) && $panel->hasWidgets())
-{
-    echo '</div>';
 }
 ?>
