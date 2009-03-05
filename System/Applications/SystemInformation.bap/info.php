@@ -1,4 +1,11 @@
 <?php
+/**
+ * @copyright Lutz Selke/TuTech Innovation GmbH 
+ * @author selke@tutech.de
+ * @package org.bambuscms.applications.systeminformation
+ * @since 2006-10-16
+ * @version 1.0
+ */
 $info = array(); //array('size' => 0,'lines' => 0,'chars' => 0,'files' => 0,'folders' => 0,'scripts' => 0);
 dirlist_r('./');
 chdir(constant('BAMBUS_CMS_ROOTDIR'));

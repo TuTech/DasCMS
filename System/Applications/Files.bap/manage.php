@@ -1,11 +1,11 @@
 <?php
-/************************************************
-* Bambus CMS 
-* Created:     16. Okt 06
-* License:     GNU GPL Version 2 or later (http://www.gnu.org/copyleft/gpl.html)
-* Copyright:   Lutz Selke/TuTech Innovation GmbH 
-* Description: 
-************************************************/
+/**
+ * @copyright Lutz Selke/TuTech Innovation GmbH 
+ * @author selke@tutech.de
+ * @package org.bambuscms.applications.filemanager
+ * @since 2006-10-16
+ * @version 1.0
+ */
 if($File != null && $File instanceof BContent)
 {
 

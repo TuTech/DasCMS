@@ -1,12 +1,11 @@
 <?php
-/************************************************
-* Bambus CMS 
-* Created:     16. Okt 06
-* License:     GNU GPL Version 2 or later (http://www.gnu.org/copyleft/gpl.html)
-* Copyright:   Lutz Selke/TuTech Innovation GmbH 
-* Description: 
-************************************************/
-
+/**
+ * @copyright Lutz Selke/TuTech Innovation GmbH 
+ * @author selke@tutech.de
+ * @package org.bambuscms.applications.views
+ * @since 2007-11-28
+ * @version 1.0
+ */
 if(PAuthorisation::has('org.bambuscms.resolver.vspore.change'))
 {
 	printf(

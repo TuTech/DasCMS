@@ -1,13 +1,11 @@
 <?php
-/************************************************
-* Bambus CMS 
-* Created:     16. Okt 06
-* License:     GNU GPL Version 2 or later (http://www.gnu.org/copyleft/gpl.html)
-* Copyright:   Lutz Selke/TuTech Innovation GmbH 
-* Description: 
-************************************************/
-
-
+/**
+ * @copyright Lutz Selke/TuTech Innovation GmbH 
+ * @author selke@tutech.de
+ * @package org.bambuscms.applications.treenavigation
+ * @since 2007-09-21
+ * @version 1.0
+ */
 if($edit != null)
 {
 	try

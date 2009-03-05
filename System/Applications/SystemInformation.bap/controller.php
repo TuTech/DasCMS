@@ -1,13 +1,11 @@
 <?php
-/************************************************
-* Bambus CMS 
-* Created:     16. Okt 06
-* License:     GNU GPL Version 2 or later (http://www.gnu.org/copyleft/gpl.html)
-* Copyright:   Lutz Selke/TuTech Innovation GmbH 
-* Description: 
-************************************************/
-
-//some statistics of the system folder
+/**
+ * @copyright Lutz Selke/TuTech Innovation GmbH 
+ * @author selke@tutech.de
+ * @package org.bambuscms.applications.systeminformation
+ * @since 2006-10-16
+ * @version 1.0
+ */
 function dirlist_r($dir = './', $indent = 0){
     global $info;
     foreach(array('folders', 'files','size', 'php-scripts', 'php-lines', 'php-size', 'js-scripts', 'js-lines', 'js-size', 'css-scripts', 'css-lines', 'css-size') as $key)

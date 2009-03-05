@@ -1,11 +1,11 @@
 <?php
-/************************************************
-* Bambus CMS 
-* Created:     24. Okt 08
-* License:     GNU GPL Version 2 or later (http://www.gnu.org/copyleft/gpl.html)
-* Copyright:   Lutz Selke/TuTech Innovation GmbH 
-* Description: feed controller
-************************************************/
+/**
+ * @copyright Lutz Selke/TuTech Innovation GmbH 
+ * @author selke@tutech.de
+ * @package org.bambuscms.applications.feededitor
+ * @since 2008-10-24
+ * @version 1.0
+ */
 $AppController = BAppController::getControllerForID('org.bambuscms.applications.feeds');
 
 $allowEdit = true;

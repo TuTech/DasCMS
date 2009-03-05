@@ -1,4 +1,11 @@
 <?php
+/**
+ * @copyright Lutz Selke/TuTech Innovation GmbH 
+ * @author selke@tutech.de
+ * @package org.bambuscms.applications.filemanager
+ * @since 2006-10-16
+ * @version 1.0
+ */
 $AppController = BAppController::getControllerForID('org.bambuscms.applications.files');
 
 if(RSent::get('delete', 'utf-8') != '' && PAuthorisation::has('org.bambuscms.content.cfile.delete'))

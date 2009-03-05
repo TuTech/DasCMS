@@ -1,12 +1,11 @@
 <?php
-/************************************************
-* Bambus CMS 
-* Created:     03. Nov 06
-* License:     GNU GPL Version 2 or later (http://www.gnu.org/copyleft/gpl.html)
-* Copyright:   Lutz Selke/TuTech Innovation GmbH 
-* Description: css editor interface
-************************************************/
-//user creation
+/**
+ * @copyright Lutz Selke/TuTech Innovation GmbH 
+ * @author selke@tutech.de
+ * @package org.bambuscms.applications.useradmin
+ * @since 2006-11-03
+ * @version 1.0
+ */
 $jsCreate = "alert('permission denied');";
 if(PAuthorisation::has('org.bambuscms.credentials.user.create'))
 {
