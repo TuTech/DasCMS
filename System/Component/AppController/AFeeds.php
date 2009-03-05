@@ -1,4 +1,14 @@
 <?php
+/**
+ * @copyright Lutz Selke/TuTech Innovation GmbH
+ * @author Lutz Selke <selke@tutech.de>
+ * @since 2008-10-24
+ * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage AppController
+ */
 class AFeeds
     extends 
         BAppController 
@@ -8,6 +18,11 @@ class AFeeds
 {
     const GUID = 'org.bambuscms.applications.feeds';
     
+    /**
+     * @return string
+     * (non-PHPdoc)
+     * @see System/Component/Interface/IGlobalUniqueId#getClassGUID()
+     */
     public function getClassGUID()
     {
         return self::GUID;
@@ -15,6 +30,7 @@ class AFeeds
     
     /**
      * returns all data necessary for the open dialog
+     * @param array $namedParameters
      * @return array
      * @throws XPermissionDeniedException
      */
@@ -55,33 +71,5 @@ class AFeeds
         );
         return $data;
     }
-    
-    /**
-     * delete a bunch of items
-     */
-    public function delete(array $items)
-    {
-        
-    }
-    
-    /**
-     * create a new item
-     */
-    public function create($title, array $options)
-    {
-        
-    }
-    
-    /**
-     * set all kinds of possible meta attributes
-     */
-    public function setAttributes(array $attributes)
-    {
-        
-    }
-    
-    
-    
-    
 }
 ?>

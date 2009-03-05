@@ -9,18 +9,6 @@
  */
 class VSpore extends BView
 {
-	/*
-all active spore run
-spore run content 
-content access its spore 
-content gets new link for changed values from spore
-* 
-array object => spore -> get my spore(bcontent)
-array spore => object -> getTitle/Content/etc - tpl calls
-* 
-array objectid => spore
-	spore->getObject 
-*/
 	const ACTIVE = 0,
 		  INIT_CONTENT = 1,
 		  ERROR_CONTENT = 2;
@@ -71,8 +59,7 @@ array objectid => spore
 			}
 			catch (Exception $e)
 			{
-				self::$spores = DFileSystem::LoadData('./Content/QSpore/index.php');
-//				echo $e->getTraceAsString();
+				echo $e->getTraceAsString();
 			}
 		}	
 	}
@@ -99,7 +86,6 @@ array objectid => spore
 		self::initialize();
 		try
 		{
-			//DFileSystem::SaveData('./Content/QSpore/index.php', self::$spores);
 			if(count(self::$toDelete))
 			{
 			    QVSpore::deleteSpores(self::$toDelete);

@@ -12,7 +12,6 @@ class VSporeHelper
     {
         return self::GUID;
     }
-    //FIXME move QSpore here
     
     private static $spores = array();
     
