@@ -1,6 +1,14 @@
 <?php
 /**
  * Atom source element - preserves the meta data from an other feed
+ * @copyright Lutz Selke/TuTech Innovation GmbH
+ * @author Lutz Selke <selke@tutech.de>
+ * @since 2008-11-28
+ * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage _XML_Atom
  */
 class XML_Atom_Source extends XML_Atom_Feed implements Interface_XML_Atom_ToDOMXML
 {

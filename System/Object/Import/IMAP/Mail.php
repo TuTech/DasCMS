@@ -1,4 +1,14 @@
 <?php
+/**
+ * @copyright Lutz Selke/TuTech Innovation GmbH
+ * @author Lutz Selke <selke@tutech.de>
+ * @since 2009-01-20
+ * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage _Import_IMAP
+ */
 class Import_IMAP_Mail extends _Import_IMAP
 {
     private 

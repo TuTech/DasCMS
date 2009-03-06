@@ -1,6 +1,14 @@
 <?php
 /**
  * detect content type and create a matching _XML_Atom_Content object
+ * @copyright Lutz Selke/TuTech Innovation GmbH
+ * @author Lutz Selke <selke@tutech.de>
+ * @since 2008-11-28
+ * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage _XML_Atom_Content
  */
 class XML_Atom_Content_Detector extends _XML_Atom_Content 
 {

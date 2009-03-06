@@ -1,4 +1,14 @@
 <?php
+/**
+ * @copyright Lutz Selke/TuTech Innovation GmbH
+ * @author Lutz Selke <selke@tutech.de>
+ * @since 2008-12-01
+ * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage _Collection_List
+ */
 abstract class _Collection_List_Atom extends _Collection_List  
 {
     protected function __construct(array $items = array())

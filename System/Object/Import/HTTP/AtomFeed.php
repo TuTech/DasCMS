@@ -1,4 +1,14 @@
 <?php
+/**
+ * @copyright Lutz Selke/TuTech Innovation GmbH
+ * @author Lutz Selke <selke@tutech.de>
+ * @since 2008-12-03
+ * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage _Import_HTTP
+ */
 class Import_HTTP_AtomFeed extends _Import_HTTP 
 {
     protected function hadUpdate(XML_Atom_Text $guidNode, XML_Atom_Date $update)

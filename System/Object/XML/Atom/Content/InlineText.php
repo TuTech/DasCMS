@@ -1,7 +1,14 @@
 <?php
 /**
  * Inline text content
- *
+ * @copyright Lutz Selke/TuTech Innovation GmbH
+ * @author Lutz Selke <selke@tutech.de>
+ * @since 2008-11-28
+ * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage _XML_Atom_Content
  */
 class XML_Atom_Content_InlineText extends _XML_Atom_Content implements Interface_XML_Atom_TextContent, Interface_XML_Atom_ToDOMXML
 {

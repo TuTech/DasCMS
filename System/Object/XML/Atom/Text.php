@@ -1,6 +1,14 @@
 <?php
 /**
  * Atom text element
+ * @copyright Lutz Selke/TuTech Innovation GmbH
+ * @author Lutz Selke <selke@tutech.de>
+ * @since 2008-11-28
+ * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage _XML_Atom
  */
 class XML_Atom_Text extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
 {
