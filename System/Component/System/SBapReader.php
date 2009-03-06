@@ -59,10 +59,8 @@ class SBapReader
 	public function listAvailable()
 	{
 		$available = array();
-		$appPath = './System/Applications/';
+		$appPath = SPath::SYSTEM_APPLICATIONS;
 		$dirhdl = opendir($appPath);
-		//@todo remove old uag-binding
-		$UAG = SUsersAndGroups::alloc()->init();
 		while($item = readdir($dirhdl))
 		{
 			if(is_dir($appPath.$item) 
@@ -72,8 +70,8 @@ class SBapReader
 			)
 			{
 				$data = self::getAttributesOf($appPath.$item, array('name', 'description', 'icon', 'tabs'));
-				//@todo remove old uag-binding
-				if($UAG->hasPermission(PAuthentication::getUserID(), substr($item,0,((strlen(DFileSystem::suffix($item))+1) * -1))) || $UAG->isMemberOf(PAuthentication::getUserID(), 'Administrator'))
+				$app = substr($item,0,((strlen(DFileSystem::suffix($item))+1) * -1));
+				if(PAuthorisation::has('org.bambusms.application.'.strtolower($app)))
 				{
 					$available[$item] = array(
 						 'name' => $data['name']

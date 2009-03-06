@@ -28,6 +28,27 @@ class SBambusSessionAuth
         return SUsersAndGroups::alloc()->init()->getPrimaryGroup(PAuthentication::getUserID());
     }
     
+    private function getAllApps()
+    {
+		$available = array();
+		$appPath = SPath::SYSTEM_APPLICATIONS;
+		$dirhdl = opendir($appPath);
+		$UAG = SUsersAndGroups::alloc()->init();
+		while($item = readdir($dirhdl))
+		{
+			if(is_dir($appPath.$item) 
+				&& substr($item,0,1) != '.' 
+				&& strtolower(substr($item,-4)) == '.bap' 
+				&& file_exists($appPath.$item.'/Application.xml')
+			)
+			{
+				$available[] = substr($item,0,((strlen(DFileSystem::suffix($item))+1) * -1));
+			}
+		}
+		closedir($dirhdl);
+		return $available;
+    }
+    
     public function getPermissions()
     {
         $SUsersAndGroups = SUsersAndGroups::alloc()->init();
@@ -38,12 +59,20 @@ class SBambusSessionAuth
         else
         {
             $rigths = array(
-                '*'             => PAuthorisation::PERMIT,
                 '*.create'      => $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Create'),
                 '*.delete'      => $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Delete'),
                 '*.change'      => $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Edit'),
                 'org.bambuscms.login'=> $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'CMS'),
-            );     
+            );   
+            $apps = $this->getAllApps();  
+            //hasPermission($victim, $app_name)
+            foreach ($apps as $app)
+            {
+                if($SUsersAndGroups->hasPermission($this->user, $app))
+                {
+                    $rigths['org.bambusms.application.'.strtolower($app)] = PAuthorisation::PERMIT;
+                }
+            }
         }
         return $rigths;
     }
