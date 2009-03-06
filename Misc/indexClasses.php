@@ -10,9 +10,11 @@ set_exception_handler('exception_handler');
 require_once('./System/Component/Loader.php');
 RSession::start();
 PAuthentication::required();
-//FIXME check for right
-$SCI = SComponentIndex::alloc()->init();
-$SCI->Index();
+if(PAuthorisation::has('org.bambuscms.classes.index'))
+{
+    $SCI = SComponentIndex::alloc()->init();
+    $SCI->Index();
+}
 ?>
 
 <h1>Finished</h1>
