@@ -1,11 +1,13 @@
 <?php
 /**
- * @package Bambus
- * @subpackage Widgets
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
  * @since 2009-02-24
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage Widget
  */
 class WInformation extends BWidget implements ISidebarWidget 
 {

@@ -1,4 +1,14 @@
 <?php
+/**
+ * @copyright Lutz Selke/TuTech Innovation GmbH
+ * @author Lutz Selke <selke@tutech.de>
+ * @since 2009-01-21
+ * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage Job
+ */
 class JImportMails extends BJob 
 {
     private $message = 'OK';

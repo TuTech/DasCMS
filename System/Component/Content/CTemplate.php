@@ -1,11 +1,13 @@
 <?php
 /**
- * @package Bambus
- * @subpackage Contents
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 17.10.2008
+ * @since 2008-10-17
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage Content
  */
 class CTemplate 
     extends BContent 

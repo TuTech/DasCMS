@@ -1,11 +1,13 @@
 <?php
 /**
- * @package Bambus
- * @subpackage BaseClasses
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 09.10.2008
+ * @since 2007-10-09
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage BaseClasses
  */
 abstract class BTemplate extends BObject
 {

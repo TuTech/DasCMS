@@ -1,11 +1,13 @@
 <?php
 /**
- * @package Bambus
- * @subpackage Drivers
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 28.11.2007
+ * @since 2007-11-28
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage Drivers
  */
 class DFileSystem extends BDriver
 {
@@ -336,7 +338,6 @@ class DFileSystem extends BDriver
      * @return array
      * @throws XFileNotFoundException
      */
-//FIXME filesof/dirsof use same fx itemsof and decide 
     public static function DirsOf($dir, $match = false)
     {
         chdir(constant('BAMBUS_CMS_ROOTDIR'));

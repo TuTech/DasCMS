@@ -1,11 +1,13 @@
 <?php
 /**
- * @package Bambus
- * @subpackage Widgets
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 28.08.2008
+ * @since 2008-08-28
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage Widget
  */
 class WScript extends BWidget 
 {

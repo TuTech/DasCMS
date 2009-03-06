@@ -1,10 +1,13 @@
 <?php
 /**
- * @package Bambus
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 26.03.2008
+ * @since 2008-03-26
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage Interface
  */
 interface ITemplateSupporter
 {

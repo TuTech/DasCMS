@@ -1,11 +1,13 @@
 <?php
 /**
- * @package Bambus
- * @subpackage Widgets
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
  * @since 2009-01-29
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage Widget
  */
 class WImage extends BWidget 
 {
@@ -241,7 +243,7 @@ class WImage extends BWidget
     {
         return sprintf(
             "<img src=\"image.php/%s/%s\" alt=\"%s\" title=\"%s\" />"
-            ,empty($this->content) ? $this->alias : $this->content->getAlias()//FIXME image renderer path here
+            ,empty($this->content) ? $this->alias : $this->content->getAlias()
             ,$this->scaleHash
             ,htmlentities(empty($this->content) ? $this->title : $this->content->getTitle(), ENT_QUOTES, 'UTF-8')
             ,htmlentities(empty($this->content) ? $this->title : $this->content->getTitle(), ENT_QUOTES, 'UTF-8')

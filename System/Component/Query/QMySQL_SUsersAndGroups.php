@@ -1,4 +1,14 @@
 <?php
+/**
+ * @copyright Lutz Selke/TuTech Innovation GmbH
+ * @author Lutz Selke <selke@tutech.de>
+ * @since 2008-11-07
+ * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage Query-MySQL
+ */
 class QSUsersAndGroups extends BQuery 
 {
     public static function createUser($user, $name, $email, $primaryGroup)

@@ -1,4 +1,14 @@
 <?php
+/**
+ * @copyright Lutz Selke/TuTech Innovation GmbH
+ * @author Lutz Selke <selke@tutech.de>
+ * @since 2008-09-16
+ * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage Widget
+ */
 class WTable extends BWidget 
 {
     const HEADING_NONE = 0;

@@ -88,6 +88,7 @@ class AFiles
     /**
      * provide list of folders 
      * @param array $param
+     * @throws XPermissionDeniedException
      * @return array
      */
     public function getFolders(array $param)

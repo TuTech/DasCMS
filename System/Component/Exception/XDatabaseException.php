@@ -1,11 +1,13 @@
 <?php
 /**
- * @package Bambus
- * @subpackage Exceptions
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 03.07.2008
+ * @since 2008-07-03
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage Exceptions
  */
 class XDatabaseException extends BDataException 
 {

@@ -1,11 +1,13 @@
 <?php
 /**
- * @package Bambus
- * @subpackage System
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 06.01.2009
+ * @since 2009-01-06
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage System
  */
 class SResourceString
     extends 

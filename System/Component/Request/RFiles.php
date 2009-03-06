@@ -1,4 +1,14 @@
 <?php
+/**
+ * @copyright Lutz Selke/TuTech Innovation GmbH
+ * @author Lutz Selke <selke@tutech.de>
+ * @since 2008-11-05
+ * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage Request
+ */
 class RFiles extends BRequest 
 {
     //read data from server path

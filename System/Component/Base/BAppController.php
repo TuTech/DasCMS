@@ -1,11 +1,13 @@
 <?php
 /**
- * @package Bambus
- * @subpackage BaseClasses
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 01.10.2008
+ * @since 2008-10-01
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage BaseClasses
  */
 abstract class BAppController 
     extends 
@@ -44,7 +46,11 @@ abstract class BAppController
 	    return PAuthorisation::has($this->getClassGUID().'.'.$action);
 	}
 	
-	//provide preview image list
+	/**
+	 * provide preview image list
+	 * @param array $param
+	 * @return array
+	 */
 	public function getAvailablePreviewImages(array $param)
 	{
 	    return array(
@@ -52,11 +58,6 @@ abstract class BAppController
 	        'scaleHash' => WImage::createScaleHash(128, 96, WImage::MODE_SCALE_TO_MAX),
 	        'images' => WImage::getAllPreviewContents()
 	    );
-	}
-	
-	public function getContentList(array $param)
-	{
-	    //type, mode
 	}
 }
 ?>

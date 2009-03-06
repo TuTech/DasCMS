@@ -1,11 +1,13 @@
 <?php
 /**
- * @package Bambus
- * @subpackage Contents
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 19.11.2007
+ * @since 2007-11-19
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage Content
  */
 class CError extends BContent implements IGlobalUniqueId 
 {

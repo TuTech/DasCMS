@@ -1,11 +1,13 @@
 <?php
 /**
- * @package Bambus
- * @subpackage Drivers
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 28.03.2008
+ * @since 2008-03-28
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage Drivers
  */
 abstract class DSQL extends BDriver implements IShareable 
 {

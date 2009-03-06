@@ -1,11 +1,13 @@
 <?php
 /**
- * @package Bambus
- * @subpackage BaseClasses
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
  * @since 2007-11-19
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage BaseClasses
  */
 abstract class BContent extends BObject
 {
@@ -39,6 +41,13 @@ abstract class BContent extends BObject
 	 */
 	protected $invokingQueryObject = null;
 		
+	protected $_loadLazyData = array('CreatedBy', 'CreateDate', 'ModifiedBy', 'ModifyDate');
+	
+	/**
+	 * load some data from db
+	 * @param string $alias
+	 * @return void
+	 */
 	protected function initBasicMetaFromDB($alias)
 	{
 	    list($id, $ttl, $pd, $desc, $tags, $mt, $sz, $guid) = QBContent::getBasicMetaData($alias);
@@ -54,6 +63,11 @@ abstract class BContent extends BObject
 	    $this->GUID = $guid;
 	}
 	
+	/**
+	 * load more metadata from db
+	 * @param string $alias
+	 * @return void
+	 */
 	protected function initAdditionalMetaFromDB($alias)
 	{
 	    if(count($this->_loadLazyData))
@@ -67,17 +81,24 @@ abstract class BContent extends BObject
 	    }
 	}
 	
+	/**
+	 * @param string $alias
+	 * @param string $mime
+	 * @return void
+	 */
 	protected static function setMimeType($alias, $mime)
 	{
 	    QBContent::setMimeType($alias, $mime);
 	}
 	
+	/**
+	 * save meta data to db
+	 * @return void
+	 */
 	protected function saveMetaToDB()
 	{
 	    QBContent::saveMetaData($this->Id, $this->Title, $this->PubDate, $this->Description, $this->Size);
 	}
-	
-	protected $_loadLazyData = array('CreatedBy', 'CreateDate', 'ModifiedBy', 'ModifyDate');
 	
 	/**
 	 * [alias => [title, pubdate]]
@@ -90,6 +111,8 @@ abstract class BContent extends BObject
 	}
 
 	/**
+	 * open content for alias or error 404 if permission denied
+	 * @param string $alias
 	 * @return BContent
 	 */
 	public static function Open($alias)
@@ -104,6 +127,9 @@ abstract class BContent extends BObject
 	    }
 	}
 	/**
+	 * open content or throw exception if permission deied
+	 * @param string $alias
+	 * @throws XInvalidDataException
 	 * @return BContent
 	 */
 	public static function OpenIfPossible($alias)
@@ -119,6 +145,12 @@ abstract class BContent extends BObject
         }
 	}
 	
+	/**
+	 * opens content and sends access events 
+	 * @param string $alias
+	 * @param BObject $from
+	 * @return BContent
+	 */
 	public static function Access($alias, BObject $from)
 	{
 	    $o = self::Open($alias);
@@ -140,10 +172,6 @@ abstract class BContent extends BObject
 	 */
 	public function __get($var)
 	{
-	    if(in_array($var, $this->_loadLazyData))
-	    {
-	        $this->initAdditionalMetaFromDB($this->Alias);
-	    }
 		if(method_exists($this, 'get'.$var))
 		{
 			return $this->{'get'.$var}();	

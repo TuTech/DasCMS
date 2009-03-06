@@ -1,12 +1,14 @@
 <?php
 /**
- * @package Bambus
- * @subpackage Deprecated 
- * @deprecated 
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 29.07.2006
+ * @since 2006-07-29
  * @license GNU General Public License 3
+ * @deprecated
+ */
+/**
+ * @package Bambus
+ * @subpackage Legacy
  */
 class LApplication extends BLegacy implements IShareable
 {

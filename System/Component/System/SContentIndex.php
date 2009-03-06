@@ -1,11 +1,13 @@
 <?php
 /**
- * @package Bambus
- * @subpackage System
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 24.03.2008
+ * @since 2008-03-24
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage System
  */
 class SContentIndex 
 	extends 

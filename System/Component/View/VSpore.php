@@ -1,11 +1,13 @@
 <?php
 /**
- * @package Bambus
- * @subpackage CommandQueries 
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
  * @since 2008-04-28
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage View
  */
 class VSpore extends BView
 {
@@ -95,7 +97,7 @@ class VSpore extends BView
 		}
 		catch (Exception $e)
 		{
-			//@todo send notification
+			SNotificationCenter::report('warning', 'spores_not_saved');
 			echo $e->getTraceAsString();
 			return false;
 		}
