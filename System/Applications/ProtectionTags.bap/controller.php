@@ -12,16 +12,10 @@ if(RSent::has('content') && PAuthorisation::has('org.bambuscms.system.permission
     STagPermissions::setProtectedTags($tags);
     SNotificationCenter::report('message', 'tags_set');
 }
-try
-{
-	$panel = WSidePanel::alloc()->init();
-	$panel->setMode(
-	    WSidePanel::HELPER |
-	    WSidePanel::INFORMATION
-    );
-	//echo $panel;
-}
-catch(Exception $e){
-	echo $e->getTraceAsString();
-}
+$panel = WSidePanel::alloc()->init();
+$panel->setMode(
+    WSidePanel::HELPER |
+    WSidePanel::INFORMATION
+);
+$panel->processInputs();
 ?>

@@ -40,6 +40,10 @@ class WTagPermissions extends BWidget implements ISidebarWidget
 	    );
 	}
 	
+	public function processInputs()
+	{
+	}
+	
 	public function __construct(WSidePanel $sidepanel)
 	{
 	    $this->type = $sidepanel->getTargetMimeType();

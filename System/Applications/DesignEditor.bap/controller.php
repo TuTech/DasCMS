@@ -100,22 +100,17 @@ echo '<form method="post" id="documentform" name="documentform" action="'
 	,SLink::link(array('edit' => isset($File) ? $File : ''))
 	,'">';
 
-try
+$panel = WSidePanel::alloc()->init();
+$panel->setMode(
+    WSidePanel::HELPER |
+    WSidePanel::INFORMATION
+);
+if(isset($File))
 {
-	$panel = WSidePanel::alloc()->init();
-	$panel->setMode(
-	    WSidePanel::HELPER |
-	    WSidePanel::INFORMATION
-    );
-    if(isset($File))
-    {
-	    $panel->setTarget($File, 'text/css');
-    }
-	//echo $panel;
+    $panel->setTarget($File, 'text/css');
 }
-catch(Exception $e){
-	echo $e->getTraceAsString();
-}	
+$panel->processInputs();
+
 $AppController = BAppController::getControllerForID('org.bambuscms.applications.stylesheeteditor');
 echo new WOpenDialog($AppController, isset($File) ? $File : '');
 

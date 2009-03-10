@@ -36,6 +36,10 @@ class WRetainInfo extends BWidget implements ISidebarWidget
 	    return new WIcon('retain','',WIcon::SMALL,'action');
 	}
 	
+	public function processInputs()
+	{
+	}
+	
 	public function __construct(WSidePanel $sidepanel)
 	{
 		$this->targetObject = $sidepanel->getTarget();

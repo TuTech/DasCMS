@@ -6,16 +6,10 @@
  * @since 2007-11-28
  * @version 1.0
  */
-try
-{
-	$panel = WSidePanel::alloc()->init();
-	$panel->setMode(WSidePanel::CONTENT_LOOKUP);
-	//echo $panel;
-}
-catch (Exception $e)
-{
-	echo "<pre>".$e->getTraceAsString()."</pre>";
-}
+
+$panel = WSidePanel::alloc()->init();
+$panel->setMode(WSidePanel::CONTENT_LOOKUP);
+$panel->processInputs();
 ////////////////////
 
 if(RSent::hasValue('posted'))

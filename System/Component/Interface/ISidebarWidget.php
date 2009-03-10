@@ -21,19 +21,20 @@ interface ISidebarWidget
      * @return boolean
      */
     public static function isSupported(WSidePanel $sidepanel);
-	/**
-	 * get category of this widget
-	 * @return string
-	 *
-	public function getCategory();
 	
 	/**
 	 * @return string
 	 */
 	public function getName();
+	
 	/**
 	 * @return WIcon
 	 */
 	public function getIcon();
+
+	/**
+	 * @return void
+	 */
+	public function processInputs();
 }
 ?>

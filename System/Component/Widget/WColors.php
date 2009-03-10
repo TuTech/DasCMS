@@ -32,6 +32,10 @@ class WColors extends BWidget implements ISidebarWidget
 	    return new WIcon('pickcolor','',WIcon::SMALL,'action');
 	}
 	
+	public function processInputs()
+	{
+	}
+	
 	public function __construct(WSidePanel $sidepanel)
 	{
 	}

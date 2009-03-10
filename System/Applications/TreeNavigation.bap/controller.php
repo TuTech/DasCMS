@@ -150,22 +150,11 @@ if(PAuthorisation::has('org.bambuscms.layout.navigation.ntreenavigation.change')
 }
 //side bar
 ////////////////////	
-try
-{
-	$panel = WSidePanel::alloc()->init();
-	$panel->setMode(WSidePanel::CONTENT_LOOKUP);
-	//echo $panel;
-}
-catch (Exception $e)
-{
-	echo "<pre>".$e->getTraceAsString()."</pre>";
-}
-
-
+$panel = WSidePanel::alloc()->init();
+$panel->setMode(WSidePanel::CONTENT_LOOKUP);
+$panel->processInputs();
 
 
 $AppController = BAppController::getControllerForID('org.bambuscms.applications.treenavigationeditor');
 echo new WOpenDialog($AppController, $edit);
-
-
 ?>

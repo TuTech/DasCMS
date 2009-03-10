@@ -66,26 +66,21 @@ printf(
     '<form method="post" id="documentform" name="documentform" action="%s">'
 	,SLink::link(array('edit' => (isset($Page) && $Page instanceof CPage)? $Page->Alias :''))
 );
-try{
-	$panel = WSidePanel::alloc()->init();
-	$panel->setMode(
-	    WSidePanel::MEDIA_LOOKUP|
-	    WSidePanel::CONTENT_LOOKUP|
-	    WSidePanel::PROPERTY_EDIT|
-	    WSidePanel::HELPER|
-	    WSidePanel::WYSIWYG|
-	    WSidePanel::PERMISSIONS);
-    if(isset($Page))
-    {
-	    $panel->setTargetContent($Page);
-		//echo $panel;
-		if($Page instanceof CPage && $Page->isModified())
-		{
-			$Page->Save();
-		}
-    }
+$panel = WSidePanel::alloc()->init();
+$panel->setMode(
+    WSidePanel::MEDIA_LOOKUP|
+    WSidePanel::CONTENT_LOOKUP|
+    WSidePanel::PROPERTY_EDIT|
+    WSidePanel::HELPER|
+    WSidePanel::WYSIWYG|
+    WSidePanel::PERMISSIONS);
+if(isset($Page) && $Page instanceof CPage)
+{
+    $panel->setTargetContent($Page);
+}  
+$panel->processInputs();
+if(isset($Page) && $Page instanceof CPage && $Page->isModified())
+{
+	$Page->Save();
 }
-catch(Exception $e){
-	echo $e->getTraceAsString();
-}	
 ?>

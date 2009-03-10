@@ -36,6 +36,10 @@ class WSettings extends BWidget implements ISidebarWidget
 	    return new WIcon('configure','',WIcon::SMALL,'action');
 	}
 	
+	public function processInputs()
+	{
+	}
+	
 	public function __construct(WSidePanel $sidepanel)
 	{
 		$this->targetObject = $sidepanel->getTarget();

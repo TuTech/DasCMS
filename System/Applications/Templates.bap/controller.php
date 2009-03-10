@@ -76,7 +76,7 @@ try{
     if(isset($Tpl))
     {
         $panel->setTargetContent($Tpl);
-		//echo $panel;
+		$panel->processInputs();
 		if($Tpl instanceof CTemplate && $Tpl->isModified())
 		{
 			$Tpl->Save();

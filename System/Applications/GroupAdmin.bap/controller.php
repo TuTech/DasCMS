@@ -186,19 +186,15 @@ if(PAuthorisation::has('org.bambuscms.credentials.user.change') || PAuthorisatio
 {
 	echo LGui::beginForm(array('edit' => ($edit_mode == 'usr' ? 'u:' : 'g:').$victim), 'documentform');
 }
-try{
-	$panel = WSidePanel::alloc()->init();
-	$panel->setMode(
-	    WSidePanel::PERMISSIONS);
-    if($SUsersAndGroups->isGroup($victim))
-    {
-        $panel->setTarget($victim, 'cms/'.($edit_mode == 'usr' ? 'user' : 'group'));
-    }
-	//echo $panel;
+$panel = WSidePanel::alloc()->init();
+$panel->setMode(
+    WSidePanel::PERMISSIONS);
+if($SUsersAndGroups->isGroup($victim))
+{
+    $panel->setTarget($victim, 'cms/'.($edit_mode == 'usr' ? 'user' : 'group'));
 }
-catch(Exception $e){
-	echo $e->getTraceAsString();
-}
+$panel->processInputs();
+
 $AppController = BAppController::getControllerForID('org.bambuscms.applications.groupmanager');
 echo new WOpenDialog($AppController, $hasVictim);
 

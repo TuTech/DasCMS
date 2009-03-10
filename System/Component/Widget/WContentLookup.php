@@ -33,7 +33,9 @@ class WContentLookup extends BWidget implements ISidebarWidget
 	    return new WIcon('link','',WIcon::SMALL,'action');
 	}
 	
-	
+	public function processInputs()
+	{
+	}
 	
 	public function __construct(WSidePanel $sidepanel)
 	{

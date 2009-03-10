@@ -32,6 +32,10 @@ class WNotifications extends BWidget implements ISidebarWidget
 	    return new WIcon('notify','',WIcon::SMALL,'action');
 	}
 	
+	public function processInputs()
+	{
+	}
+	
 	public function __construct(WSidePanel $sidepanel)
 	{
 	}

@@ -30,7 +30,7 @@ class WSidePanel
     private $object = null;
     
 	private $sidebarWidgets = array();
-	
+	private $inputsProcessed = false;
 	//IShareable
 	const CLASS_NAME = 'WSidePanel';
 	/**
@@ -181,50 +181,67 @@ class WSidePanel
 		return (in_array($selected, $widgets)) ? $selected : $widgets[0];
 	}
 
+	public function processInputs()
+	{
+	    $this->inputsProcessed = true;
+	    $this->loadWidgets();
+	    if(count($this->sidebarWidgets) > 0)
+		{
+		    foreach ($this->sidebarWidgets as $class => $object) 
+		    {
+		        $object->processInputs();
+		    }
+		}
+	}
+	
 	/**
 	 * @return string
 	 */
 	public function __toString()
 	{
 	    $html = '';
-	    try{
-	    $this->loadWidgets();
-		
-		if(count($this->sidebarWidgets) > 0)
-		{
-		    $selectedWidget = $this->selectWidget();
-			ksort($this->sidebarWidgets, SORT_LOCALE_STRING);
-			$html = "<div id=\"WSidebar-head\">\n";
-			//select
-			$html .= sprintf('<input type="hidden" name="WSidebar-selected" id="WSidebar-selected" value="" />',htmlentities($selectedWidget));
-			$html .= '<table id="WSidebar-select"><tr>'."\n";
-			foreach ($this->sidebarWidgets as $class => $object) 
-			{
-		        $html .=  sprintf(
-		        	"<td class=\"tab\"><a href=\"javascript:org.bambuscms.wsidebar.show('%s')\" id=\"WSidebar-selector-%s\" title=\"%s\"%s>%s</a></td>\n"
-		        	,$class
-		        	,$class
-		        	,SLocalization::get($object->getName())
-		        	,($class == $selectedWidget) ? ' class="selectedWidget"' : ''
-		        	,$object->getIcon()
-		        );
-			}
-			
-			$html .= '<td class="spacer"></td></tr></table>';
-			$html .= "\n\t</div>\n<div id=\"WSidebar\">\n\t<div class=\"side-scroll-body\">\n\t<div id=\"WSidebar-body\">\n";
-			//widgets
-			foreach ($this->sidebarWidgets as $class => $object) 
-			{
-				$html .= sprintf(
-					"\t\t<div class=\"WSidebar-child\" id=\"WSidebar-child-%s\"%s>%s</div>\n"
-					, $class
-					,($class != $selectedWidget) ? ' style="display:none;"' : ''
-					, strval($object));
-			}
-			
-			$html .= "\t</div>\n</div>\n</div>";
-		}
-	    }catch (Exception $e)
+	    if(!$this->inputsProcessed)
+	    {
+	        throw new Exception('WSidePanel::processInputs() must be called before WSidePanel::__toString()');
+	    }
+	    try
+	    {
+    		if(count($this->sidebarWidgets) > 0)
+    		{
+    		    $selectedWidget = $this->selectWidget();
+    			ksort($this->sidebarWidgets, SORT_LOCALE_STRING);
+    			$html = "<div id=\"WSidebar-head\">\n";
+    			//select
+    			$html .= sprintf('<input type="hidden" name="WSidebar-selected" id="WSidebar-selected" value="" />',htmlentities($selectedWidget));
+    			$html .= '<table id="WSidebar-select"><tr>'."\n";
+    			foreach ($this->sidebarWidgets as $class => $object) 
+    			{
+    		        $html .=  sprintf(
+    		        	"<td class=\"tab\"><a href=\"javascript:org.bambuscms.wsidebar.show('%s')\" id=\"WSidebar-selector-%s\" title=\"%s\"%s>%s</a></td>\n"
+    		        	,$class
+    		        	,$class
+    		        	,SLocalization::get($object->getName())
+    		        	,($class == $selectedWidget) ? ' class="selectedWidget"' : ''
+    		        	,$object->getIcon()
+    		        );
+    			}
+    			
+    			$html .= '<td class="spacer"></td></tr></table>';
+    			$html .= "\n\t</div>\n<div id=\"WSidebar\">\n\t<div class=\"side-scroll-body\">\n\t<div id=\"WSidebar-body\">\n";
+    			//widgets
+    			foreach ($this->sidebarWidgets as $class => $object) 
+    			{
+    				$html .= sprintf(
+    					"\t\t<div class=\"WSidebar-child\" id=\"WSidebar-child-%s\"%s>%s</div>\n"
+    					, $class
+    					,($class != $selectedWidget) ? ' style="display:none;"' : ''
+    					, strval($object));
+    			}
+    			
+    			$html .= "\t</div>\n</div>\n</div>";
+    		}
+	    }
+	    catch (Exception $e)
 	    {
 	        echo $e->getTraceAsString();
 	    }

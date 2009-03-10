@@ -272,24 +272,19 @@ printf(
 	,SLink::link(array('edit' => (isset($Feed) && $Feed instanceof CFeed)? $Feed->Alias :''))
 );
 
-try{
-	$panel = WSidePanel::alloc()->init();
-	$panel->setMode(
-	    WSidePanel::PROPERTY_EDIT|
-	    WSidePanel::HELPER|
-	    WSidePanel::PERMISSIONS);
-    if(isset($Feed))
-    {
-        $panel->setTargetContent($Feed);
-		//echo $panel;
-		if($Feed instanceof CFeed && $Feed->isModified())
-		{
-			$Feed->Save();
-		}
-    }
+$panel = WSidePanel::alloc()->init();
+$panel->setMode(
+    WSidePanel::PROPERTY_EDIT|
+    WSidePanel::HELPER|
+    WSidePanel::PERMISSIONS);
+if(isset($Feed))
+{
+    $panel->setTargetContent($Feed);
+	$panel->processInputs();
+	if($Feed instanceof CFeed && $Feed->isModified())
+	{
+		$Feed->Save();
+	}
 }
-catch(Exception $e){
-	//echo $e->getTraceAsString();
-}	
 
 ?>
