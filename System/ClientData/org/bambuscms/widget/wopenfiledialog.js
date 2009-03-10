@@ -16,7 +16,10 @@ org.bambuscms.wopenfiledialog = {
 	'show':function()
 	{
 		org.bambuscms.wopenfiledialog._build();
-		$('WOpenFileDialog-TitleSearch').focus();
+		if($('WOpenFileDialog-TitleSearch'))
+		{
+			$('WOpenFileDialog-TitleSearch').focus();
+		}
 	},
 	'hide':function(){
 		if($("WOpenFileDialog"))

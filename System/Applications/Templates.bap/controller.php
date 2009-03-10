@@ -76,11 +76,11 @@ try{
     if(isset($Tpl))
     {
         $panel->setTargetContent($Tpl);
-		$panel->processInputs();
-		if($Tpl instanceof CTemplate && $Tpl->isModified())
-		{
-			$Tpl->Save();
-		}
+    }
+    $panel->processInputs();
+    if(isset($Tpl) && $Tpl instanceof CTextBrick && $Tpl->isModified())
+    {
+    	$Tpl->Save();
     }
 }
 catch(Exception $e){
