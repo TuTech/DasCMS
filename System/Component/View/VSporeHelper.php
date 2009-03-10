@@ -32,6 +32,7 @@ class VSporeHelper
         'author' => array('view'),
         'tags' => array('view'),
         'previewimage' => array('view'),
+        'type' => array('view'),
     	'property' => array('view', 'name')
     );
     
@@ -56,6 +57,11 @@ class VSporeHelper
             self::$spores[$name] = new VSpore($name);
         }
         return self::$spores[$name]->getContent();
+    }
+    
+    private function type($spore)
+    {
+        return get_class($this->sporeContent($spore));
     }
     
     private function content($spore)
