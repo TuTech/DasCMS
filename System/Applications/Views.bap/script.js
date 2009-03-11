@@ -24,7 +24,7 @@ org.bambuscms.app.document.insertMedia = function(type, id, title)
 		if(type == 'content')
 		{
 			document.getElementById(lastFocus).value = id;
-			document.getElementById(lastFocus+'_t').value = title;
+			document.getElementById(lastFocus+'_t').value = title+' ('+id+')';
 		}
 		document.getElementById(lastFocus+'_t').focus();
 	}

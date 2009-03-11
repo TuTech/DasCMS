@@ -10,14 +10,34 @@
 }
 
 .unpublished{
-	color: #babdb6;
+	color: #888a85;
 	font-style: italic;
 }
 .published{
 	color: #4e9a06;
 }
 .publicationScheduled{
-	color:#729fcf;
+	color:#204a87;
 	font-style: italic;
 }
-
+#WContentLookup ul{
+	margin:0px;
+	padding: 0px;
+	border-top: 1px solid #9fbc4a;
+	background: #fff;
+}
+#WContentLookup li{
+	list-style:none;
+	padding: 2px;
+	display:block;
+	border-bottom: 1px solid #9fbc4a;
+}
+#WContentLookup li.alt{
+	background: #fafafa;
+}
+#WContentLookup li span{
+	font-size:8px;
+	display:block;
+	font-style:normal;
+	color: #555753;
+}

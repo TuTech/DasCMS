@@ -12,6 +12,8 @@
 abstract class BAppController 
     extends 
         BObject
+    implements
+        IACProviderContentLookup
 {
 	/**
 	 * load a controller for given app id
@@ -33,6 +35,11 @@ abstract class BAppController
 	    	throw new XUndefinedException('not an app controller');
 	    }
 	    return $appObject;
+	}
+	
+	public function provideContentLookup(array $namedParameters)
+	{
+	    return WContentLookup::provideContentLookup($namedParameters);
 	}
 	
 	/**

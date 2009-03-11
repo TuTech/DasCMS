@@ -10,7 +10,7 @@
  * @package Bambus
  * @subpackage Widget
  */
-class WContentLookup extends BWidget implements ISidebarWidget  
+class WContentLookup extends BWidget implements ISidebarWidget
 {
     const CLASS_NAME = 'WContentLookup';
 	/**
@@ -21,6 +21,45 @@ class WContentLookup extends BWidget implements ISidebarWidget
 	public static function isSupported(WSidePanel $sidepanel)
 	{
 		return $sidepanel->isMode(WSidePanel::CONTENT_LOOKUP);
+	}
+	
+	public static function provideContentLookup(array $namedParameters)
+	{
+		$map = array(
+		    'type' => array(),
+		    'items' => array(),
+		    'hasMore' => false,
+		    'now' => time()
+		);
+		$opts = array('priv', 'pub', 'sched', 'all');
+		$opt = (isset($namedParameters['mode']) && in_array($namedParameters['mode'], $opts)) ? $namedParameters['mode'] : 'all';
+		$filter = isset($namedParameters['filter']) ?  $namedParameters['filter'] : '';
+		$page = isset($namedParameters['page']) ?  max(1, intval($namedParameters['page'])) : 1;
+		$lastMan = null;
+		$itemsPerPage = 20;
+		$hasMore = 
+	    $res = QWContentLookup::fetchContentList($opt, $filter, $page, $itemsPerPage);
+		while($erg = $res->fetch())
+		{
+			list($ctype, $alias, $ttl, $pub) = $erg;
+			$pub = strtotime($pub);
+			if($ctype != $lastMan)
+			{
+			    $manID = count($map['type']);
+			    $map['type'][$manID] = $ctype;
+				$lastMan = $ctype;
+			}
+			if(count($map['items']) < $itemsPerPage)
+			{
+			    $map['items'][] = array($alias, $ttl, $pub, $manID);
+			}
+			else
+			{
+			    $map['hasMore'] = true;
+			}
+		}
+		$res->free();
+		return $map;
 	}
 	
 	public function getName()
@@ -45,68 +84,22 @@ class WContentLookup extends BWidget implements ISidebarWidget
 	{
 	    $Items = new WNamedList();
 	    $Items->setTitleTranslation(false);
+	    $opts = array('pub' => 'published', 'sched' => 'scheduled_publication', 'all' => 'all', 'priv' => 'not_published');
+	    $select = '<select id="WContentLookupMode">';
+	    foreach ($opts as $val => $ttl)
+	    {
+	        $select .= sprintf('<option value="%s">%s</option>',$val, SLocalization::get($ttl));
+	    }
+	    $select .= '</select>';
 	    $Items->add(
 	        sprintf("<label>%s</label>", SLocalization::get('search_contens')),
 	        '<div id="WCLSearchBox">'.
-		            '<input type="text" id="WContentLookupFilter" onchange="org.bambuscms.wcontentlookup.filter();" '.
-		            'onkeyup="org.bambuscms.wcontentlookup.filter();" /></div>'."\n"
+		            '<input type="text" autocomplete="off" id="WContentLookupFilter" onchange="org.bambuscms.wcontentlookup.filter();" '.
+		            'onkeyup="org.bambuscms.wcontentlookup.filter();" />'.$select.
+		            '</div>'."\n"
 	    );
-	    
-		$html = '';
-		try
-		{
-		    $res = QWContentLookup::fetchContentList();
-			$rows = $res->getRowCount()+5;
-				
-			$html .= '<select id="WContentLookup" '.
-			            'onclick="org.bambuscms.app.document.insertMedia(\'content\', this.options[this.selectedIndex].value, '.
-			            'this.options[this.selectedIndex].text)" size="'.$rows.'">'."\n";
-			
-			$lastMan = null;
-			while($erg = $res->fetch())
-			{
-				list($ctype, $alias, $ttl, $pub) = $erg;
-				if($ctype != $lastMan)
-				{
-					if($lastMan != null)  $html .= '</optgroup>';
-					$html .= '<optgroup label="'. substr($ctype,1).'">';
-					$lastMan = $ctype;
-				}
-				$pub = strtotime($pub);
-				$class = 'unpublished';
-				$title = 'Not public';
-				if($pub > 0){
-					$class = 'published';
-					$title = 'Published: '.date('r',$pub);
-				}
-				if($pub > time()){
-					$class = 'publicationScheduled';
-					$title = 'Not yet public ('.date('r',$pub).')';
-				}
-				$html .= '<option value="'.$alias.'" class="'.$class.'" title="'.$alias.' - '.$title.'">'.
-								htmlentities($ttl, ENT_QUOTES, 'UTF-8').' ('.htmlentities($alias, ENT_QUOTES, 'UTF-8').')'
-						.'</option>'."\n";
-			}
-			$res->free();
-			if($lastMan != null)  $html .= '</optgroup>';
-			
-			$html .= '</select>';
-		}
-		catch (Exception $e)
-		{
-		    $html .= sprintf(
-		        '<div>Ex @ %s line %s<b>%s: %s</b></div>'
-				,$e->getFile()
-		        ,$e->getLine()
-		        ,$e->getCode()
-		        ,$e->getMessage()
-			);
-		}
-		$Items->add(
-	        sprintf("<label>%s</label>", SLocalization::get('content_list')),
-	        $html
-        );
-		return strval($Items);
+		$html = '<div id="WContentLookup"></div>';
+		return strval($Items).$html;
 	}
 }
 ?>

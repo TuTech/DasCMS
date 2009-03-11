@@ -14,19 +14,30 @@ class QWContentLookup extends BQuery
     /**
      * @return DSQLResult
      */
-    public static function fetchContentList()
+    public static function fetchContentList($mode, $filter, $page, $itemsPerPage)
     {
-		$sql = "
-            SELECT 
+        $DB = BQuery::Database();
+		$sql = "SELECT 
             		Classes.class,
             		Aliases.alias,
             		Contents.title,
             		Contents.pubDate
             	FROM Contents
             	LEFT JOIN Aliases ON (Contents.primaryAlias = Aliases.aliasID)
-            	LEFT JOIN Classes ON (Contents.type = Classes.classID)
-            	ORDER BY Classes.class, Contents.title ASC";
-		return BQuery::Database()->query($sql, DSQL::NUM);
+            	LEFT JOIN Classes ON (Contents.type = Classes.classID) 
+            	WHERE ";
+		$sql .= ' Contents.title LIKE "%'.$DB->escape($filter).'%" ';
+		switch($mode)
+		{
+		    case 'priv':
+		        $sql .= ' AND Contents.pubDate = "0000-00-00 00:00:00" ';break;
+		    case 'sched':
+		        $sql .= ' AND Contents.pubDate > NOW() ';break;
+		    case 'pub':
+		        $sql .= ' AND Contents.pubDate > "0000-00-00 00:00:00" AND Contents.pubDate < NOW() ';break;
+		}
+        $sql .= sprintf("ORDER BY Contents.title ASC LIMIT %d OFFSET %d", $itemsPerPage+1, $itemsPerPage - $page * $itemsPerPage);
+		return $DB->query($sql, DSQL::NUM);
     }
     
 }

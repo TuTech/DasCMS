@@ -38,7 +38,11 @@ function EX_Handler(Exception $e)
 
 function ER_Handler( $errno ,  $errstr ,  $errfile ,  $errline ,  $errcontext  )
 {
-    SNotificationCenter::report('warning',
+    ob_start();
+    print_r($errcontext);
+    $context = ob_get_contents();
+    ob_end_clean();
+        SNotificationCenter::report('warning',
         sprintf('%s %d in %s at %s: %s'
             , 'Error'
             , $errno
@@ -47,10 +51,6 @@ function ER_Handler( $errno ,  $errstr ,  $errfile ,  $errline ,  $errcontext  )
             , $errstr
             , $context
             ,getcwd()));
-    ob_start();
-    print_r($errcontext);
-    $context = ob_get_contents();
-    ob_end_clean();
     $err = sprintf(ERROR_TEMPLATE
         , 'Error'
         , $errno

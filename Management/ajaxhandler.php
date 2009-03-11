@@ -48,8 +48,10 @@ try
         {
             $Interface = 'IACCapability'.ucfirst($function);
         }
+        
         $controller = BAppController::getControllerForID($appCtrlID);
-        if(in_array($Interface, class_implements($controller)) || method_exists($controller, $function))
+        //FIXME permission 
+        if(in_array($Interface, class_implements($controller)))
         {
             $paramStr = implode(file('php://input'));
             $parameters = null;
