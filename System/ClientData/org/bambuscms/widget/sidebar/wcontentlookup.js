@@ -27,7 +27,7 @@ org.bambuscms.wcontentlookup.generateList = function(respObject)
 			item.setAttribute('onclick', "org.bambuscms.app.document.insertMedia('content','"+items[i][0]+"', '"+items[i][1].replace(/'/,"\\'")+"');");
 			item.setAttribute('title', items[i][0]);
 			
-			if(items[i][2] == 0)item.className = 'unpublished';
+			if(items[i][2] <= 0)item.className = 'unpublished';
 			else if(items[i][2] <= respObject.now)item.className = 'published';
 			else item.className = 'publicationScheduled';
 			if(i%2)item.className += ' alt';
@@ -35,7 +35,7 @@ org.bambuscms.wcontentlookup.generateList = function(respObject)
 			
 			var pd = document.createElement('span');
 			var d = new Date(items[i][2]*1000);
-			var text = (items[i][2] == 0) ? _('not_public') : d.toLocaleString();
+			var text = (items[i][2] <= 0) ? _('not_public') : d.toUTCString();
 
 			pd.appendChild(document.createTextNode(text));
 			item.appendChild(pd);
@@ -47,8 +47,8 @@ org.bambuscms.wcontentlookup.generateList = function(respObject)
 }
 org.bambuscms.wcontentlookup.fetch = function()
 {
-	var data = {//FIXME change data source 
-		'controller':'org.bambuscms.applications.files',
+	var data = {
+		'controller':org.bambuscms.app.controller,
 		'call':'provideContentLookup'
 	};
 	var send = {

@@ -42,7 +42,7 @@ class WContentLookup extends BWidget implements ISidebarWidget
 		while($erg = $res->fetch())
 		{
 			list($ctype, $alias, $ttl, $pub) = $erg;
-			$pub = strtotime($pub);
+			$pub = ($pub == '0000-00-00 00:00:00') ? 0 : strtotime($pub);
 			if($ctype != $lastMan)
 			{
 			    $manID = count($map['type']);
