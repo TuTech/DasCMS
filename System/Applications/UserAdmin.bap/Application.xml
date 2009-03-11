@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE bambus SYSTEM "../../Resource/DTD/application_v1.dtd">
 <bambus>
+	<appController guid="org.bambuscms.applications.usereditor">AUserEditor</appController>
 	<name>users</name>
 	<description>user_administration</description>
 	<icon>app-preferences-account-user</icon>

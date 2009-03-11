@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE bambus SYSTEM "../../Resource/DTD/application_v1.dtd">
 <bambus>
+	<appController guid="org.bambuscms.applications.textbricks">ATextBricks</appController>
 	<name>text_bricks</name>
 	<description>edit_text_bricks</description>
 	<icon>app-text-bricks</icon>

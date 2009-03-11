@@ -115,6 +115,12 @@ class LApplication extends BLegacy implements IShareable
         return false;
     }
 
+    public function initInterface()
+    {
+        $data = $this->getXMLPathValueAndAttributes('bambus/appController');
+        echo '<script type="text/javascript">org.bambuscms.app.controller = "'.$data[0][1]['guid']."\"</script>\n";
+    }
+    
     function generateTaskBar()
     {//TASK- not Tab-Bar
         $applicationNode = $this->getXMLNodeByPathAndAttribute('bambus/application/interface', 'name', $this->tab);

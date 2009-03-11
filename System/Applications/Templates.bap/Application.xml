@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE bambus SYSTEM "../../Resource/DTD/application_v1.dtd">
 <bambus>
+	<appController guid="org.bambuscms.applications.templates">ATemplates</appController>
 	<name>templates</name>
 	<description>edit_templates</description>
 	<icon>app-utilities-editor-template</icon>

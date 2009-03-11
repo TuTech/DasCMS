@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE bambus SYSTEM "../../Resource/DTD/application_v1.dtd">
 <bambus>
+	<appController guid="org.bambuscms.applications.feeds">AFeeds</appController>
 	<name>feeds</name>
 	<description>edit_feeds</description>
 	<icon>app-preferences-feeds</icon>

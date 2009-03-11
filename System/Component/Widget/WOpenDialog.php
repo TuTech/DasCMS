@@ -39,10 +39,6 @@ class WOpenDialog extends BWidget
     public function __toString()
     {
         $script =
-            'org.bambuscms.wopenfiledialog.setSource({'.
-                '\'controller\':\''.$this->editor->getClassGUID().'\','.
-                '\'call\':\'provideOpenDialogData\''.
-            '});'.
             'org.bambuscms.wopenfiledialog.prepareLinks("'.
                 SLink::link(array('edit' => '')).
              '","");';

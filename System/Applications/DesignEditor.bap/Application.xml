@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE bambus SYSTEM "../../Resource/DTD/application_v1.dtd">
 <bambus>
+	<appController guid="org.bambuscms.applications.stylesheeteditor">AStylesheetEditor</appController>
 	<name>design</name>
 	<description>edit_and_manage_designs</description>
 	<icon>app-preferences-design</icon>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE bambus SYSTEM "../../Resource/DTD/application_v1.dtd">
 <bambus>
+	<appController guid="org.bambuscms.applications.treenavigationeditor">ATreeNavigationEditor</appController>
 	<name>navigation</name>
 	<description>edit_navigations</description>
 	<icon>app-preferences-tree-navigation</icon>

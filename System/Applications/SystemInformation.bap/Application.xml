@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE bambus SYSTEM "../../Resource/DTD/application_v1.dtd">
 <bambus>
+	<appController guid="org.bambuscms.applications.systeminformation">ASystemInformation</appController>
 	<name>system_information</name>
 	<description>view_stats</description>
 	<icon>app-system-status</icon>

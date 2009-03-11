@@ -5,7 +5,7 @@ org.bambuscms.wopenfiledialog = {
 		org.bambuscms.wopenfiledialog.linkPrefix = prefix ? prefix : '';
 		org.bambuscms.wopenfiledialog.linkSuffix = suffix ? suffix : '';
 	},
-	'dataSource':{},
+	'dataSource':null,
 	'setSource':function(src){
 		if(typeof src == 'object')
 		{
@@ -129,7 +129,13 @@ org.bambuscms.wopenfiledialog._build = function()
 	filecontainer.appendChild(filewrapper);
 
 //SPLIT HERE	
-	
+	if(org.bambuscms.wopenfiledialog.dataSource == null)
+	{
+		org.bambuscms.wopenfiledialog.dataSource = {
+			'controller':org.bambuscms.app.controller,
+			'call':'provideOpenDialogData'
+		}
+	}
 	//fetch data
 	var data = org.bambuscms.http.fetchJSONObject(org.bambuscms.wopenfiledialog.dataSource);
 	

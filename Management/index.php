@@ -104,6 +104,7 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
 		WTemplate::globalSet('TaskBar',$Application->generateTaskBar());
     	$headTpl = new WTemplate('header', WTemplate::SYSTEM);
         $headTpl->render();
+        $Application->initInterface();
 		echo $ob;
     	echo WSidePanel::alloc()->init();
 		echo LGui::beginApplication();

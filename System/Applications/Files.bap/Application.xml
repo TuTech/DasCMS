@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE bambus SYSTEM "../../Resource/DTD/application_v1.dtd">
 <bambus>
+	<appController guid="org.bambuscms.applications.files">AFiles</appController>
 	<name>files</name>
 	<description>manage_and_upload_files</description>
 	<icon>app-system-file-manager</icon>

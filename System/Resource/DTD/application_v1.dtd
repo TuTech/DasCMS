@@ -1,6 +1,10 @@
-<!ELEMENT bambus (name, description, icon, version, priority, purpose, tabs, application)>
+<!ELEMENT bambus (appController, name, description, icon, version, priority, purpose, tabs, application)>
     <!ELEMENT name          (#PCDATA)>
-    <!ELEMENT description   (#PCDATA)>
+    <!ELEMENT appController (#PCDATA)>
+	<!ATTLIST appController 
+        guid CDATA #REQUIRED
+     >
+	<!ELEMENT description   (#PCDATA)>
     <!ELEMENT icon          (#PCDATA)>
     <!ELEMENT version       (#PCDATA)>
     <!ELEMENT priority      (#PCDATA)>
