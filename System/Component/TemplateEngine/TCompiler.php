@@ -27,15 +27,19 @@ class TCompiler extends BTemplate
     public function __construct($template, $source)
     {
         $this->template = new DOMDocument('1.0', 'utf-8');
+        $this->template->strictErrorChecking = true;
         $this->source = ($source == parent::SYSTEM) ? (parent::SYSTEM) : (parent::CONTENT);
         $this->templateName = $template;
         $path = ($source == parent::SYSTEM) ? (SPath::SYSTEM_TEMPLATES) : (SPath::TEMPLATES);
         $path = sprintf('%s%s', $path, $template);
+        SErrorAndExceptionHandler::muteErrors();
         if(!@$this->template->load($path))
         {
+            
             $err = error_get_last();
             throw new XArgumentException($err['message'], $err['type']);
         }
+        SErrorAndExceptionHandler::reportErrors();
         //analyse template 
         $this->analyze($this->template->documentElement);
         //our data in now in the inherited var $parsed

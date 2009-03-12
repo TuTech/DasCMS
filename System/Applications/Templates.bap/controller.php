@@ -87,7 +87,6 @@ catch(Exception $e){
     $ex = '<div class="TemplateError"><h4>%s</h4><p><b>%s thrown in %s at line %d</b></p><p%s<br /><code>%s</code></p></div>';
     $ex = sprintf($ex, $e->getMessage(), get_class($e), $e->getFile(), $e->getLine(), $e->getMessage(), $e->getTraceAsString());
 	SNotificationCenter::report('warning', 'invalid_template_not_executeable');
-	echo $ex;
 }	
 
 ?>

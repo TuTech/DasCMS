@@ -7,63 +7,22 @@
  * @since 2008-09-09
  */
 if(!defined('CMS_START_TIME'))
-{
     define('CMS_START_TIME', microtime(true));
-}
-if(!defined('ERROR_TEMPLATE'))
-{
-    define('ERROR_TEMPLATE', '<div style="font-family:sans-serif;border:1px solid #a40000;">
-        <div style="border:1px solid #cc0000;z-index:1000000;padding:10px;background:#a40000;color:white;">
-            <h1 style="border-bottom:1px solid #cc0000;font-size:16px;">%s <code>%d</code> in "%s" at line %d</h1>
-            <p>%s</p>
-            <p><pre>%s</pre></p>
-			<p>CWD: %s</p>
-        </div>
-    </div>');
-}
-function EX_Handler(Exception $e)
-{
-    $err = sprintf(ERROR_TEMPLATE
-        , get_class($e)
-        , $e->getCode()
-        , $e->getFile()
-        , $e->getLine()
-        , $e->getMessage()
-        , $e->getTraceAsString()
-        ,getcwd());
-    DFileSystem::Append(SPath::LOGS.'Exceptions.log', $err);
-    echo $err;
-    exit(1);
-}
 
-function ER_Handler( $errno ,  $errstr ,  $errfile ,  $errline ,  $errcontext  )
-{
-    ob_start();
-    print_r($errcontext);
-    $context = ob_get_contents();
-    ob_end_clean();
-        SNotificationCenter::report('warning',
-        sprintf('%s %d in %s at %s: %s'
-            , 'Error'
-            , $errno
-            , $errfile
-            , $errline
-            , $errstr
-            , $context
-            ,getcwd()));
-    $err = sprintf(ERROR_TEMPLATE
-        , 'Error'
-        , $errno
-        , $errfile
-        , $errline
-        , $errstr
-        , $context
-        ,getcwd());
-    DFileSystem::Append(SPath::LOGS.'Error.log', $err);
-    echo $err;
-}
-set_error_handler('ER_Handler');
-set_exception_handler('EX_Handler');
+    if(!defined('BAMBUS_VERSION_NUMBER'))
+    define ('BAMBUS_VERSION_NUMBER', '0.95.0.20090219');
+        
+if(!defined('BAMBUS_VERSION_NAME'))
+    define ('BAMBUS_VERSION_NAME', 'Bambus CMS');
+        
+if(!defined('BAMBUS_VERSION'))
+    define ('BAMBUS_VERSION', BAMBUS_VERSION_NAME.' '.BAMBUS_VERSION_NUMBER);
+        
+if(!defined('BAMBUS_CMS_ROOTDIR'))
+    define('BAMBUS_CMS_ROOTDIR',getcwd());
+
+if(!defined('BAMBUS_EXEC_START'))
+    define ('BAMBUS_EXEC_START', microtime(true));
 
 function __autoload($class)
 {
@@ -157,20 +116,12 @@ function component_autoload($className)
 		}
 	}
 }
-if(!defined('BAMBUS_VERSION_NUMBER'))
-    define ('BAMBUS_VERSION_NUMBER', '0.95.0.20090219');
-        
-if(!defined('BAMBUS_VERSION_NAME'))
-    define ('BAMBUS_VERSION_NAME', 'Bambus CMS');
-        
-    if(!defined('BAMBUS_VERSION'))
-    define ('BAMBUS_VERSION', BAMBUS_VERSION_NAME.' '.BAMBUS_VERSION_NUMBER);
-        
-if(!defined('BAMBUS_CMS_ROOTDIR'))
-    define('BAMBUS_CMS_ROOTDIR',getcwd());
 
-if(!defined('BAMBUS_EXEC_START'))
-    define ('BAMBUS_EXEC_START', microtime(true));
+if(class_exists('SErrorAndExceptionHandler', true))
+{
+    set_error_handler('SErrorAndExceptionHandler::errorHandler');
+    set_exception_handler('SErrorAndExceptionHandler::exceptionHandler');
+}
 
 date_default_timezone_set(LConfiguration::get('timezone'));
 setlocale(LC_ALL, LConfiguration::get('locale'));
