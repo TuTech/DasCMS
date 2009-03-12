@@ -78,7 +78,7 @@ try{
         $panel->setTargetContent($Tpl);
     }
     $panel->processInputs();
-    if(isset($Tpl) && $Tpl instanceof CTextBrick && $Tpl->isModified())
+    if(isset($Tpl) && $Tpl instanceof CTemplate && $Tpl->isModified())
     {
     	$Tpl->Save();
     }

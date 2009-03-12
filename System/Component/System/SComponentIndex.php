@@ -129,6 +129,7 @@ class SComponentIndex
 						if(isset(self::$_classIndex[$c][self::INTERFACES]['IGlobalUniqueId']))
 						{
 						    $guid = constant($c.'::GUID');
+						    if($verbose)printf("<p><b>%s</b></p>", $guid);
 						}
 						$db_class_index[$c] = $guid;
 					}

@@ -25,7 +25,7 @@ org.bambuscms.wcontentlookup.generateList = function(respObject)
 		{
 			var item = document.createElement('li');
 			item.setAttribute('onclick', "org.bambuscms.app.document.insertMedia('content','"+items[i][0]+"', '"+items[i][1].replace(/'/,"\\'")+"');");
-			item.setAttribute('title', items[i][0]);
+			item.setAttribute('title', respObject.type[items[i][3]]+': '+items[i][0]);
 			
 			if(items[i][2] <= 0)item.className = 'unpublished';
 			else if(items[i][2] <= respObject.now)item.className = 'published';

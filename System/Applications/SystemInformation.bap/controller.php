@@ -87,10 +87,6 @@ function pdirlist_r($dir = './', $indent = 0){
             foreach($files as $file)
             {
             	$chmod = false;
-        		if(is_file($file) && RURL::get('_action') == 'repair_rights')
-        		{
-        			$chmod = @chmod($file, 0666);
-        		}
         		if(!$chmod)
         		{
 					$fileperms = (fileperms($file));       
