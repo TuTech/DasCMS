@@ -78,8 +78,8 @@ class WTagPermissions extends BWidget implements ISidebarWidget
 	public function __toString()
 	{
 		$html = '<div id="WTagPermissions">';
-		$html .= LGui::hiddenInput('WTagPermissions_target', $this->target);
-		$html .= LGui::hiddenInput('WTagPermissions_type', $this->type);
+		$html .= '<input type="hidden" name="WTagPermissions_target" value="'.$this->target.'" />';
+		$html .= '<input type="hidden" name="WTagPermissions_type" value="'.$this->type.'" />';
 		$tags = STagPermissions::getProtectedTags();
 		$permitted = ($this->type == 'cms/user')
 		    ? (STagPermissions::getUserPermissionTags($this->target))

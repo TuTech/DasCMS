@@ -31,7 +31,6 @@ org.bambuscms.app.document.saveAs = function(inputId)
 		}
 	}
 };
-
 org.bambuscms.app.document.insertText = function(text){
     var textarea = $(org.bambuscms.app.document.editorElementId);
     textarea.focus();

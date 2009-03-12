@@ -12,11 +12,9 @@ if(isset($Page) && $Page instanceof CPage)
     	, htmlentities($Page->Title, ENT_QUOTES, 'UTF-8')
     	, htmlentities($Page->Title, ENT_QUOTES, 'UTF-8')
     	);
-    echo LGui::editorTextarea($Page->Content, true, LConfiguration::get('use_wysiwyg') != '');
-    if(!LConfiguration::get('use_wysiwyg'))
-    {
-        echo new WScript('org.bambuscms.wcodeeditor.run($(org.bambuscms.app.document.editorElementId));');
-    }
+    $editor = new WTextEditor($Page->Content);
+    $editor->setWYSIWYG(LConfiguration::get('use_wysiwyg') != '');
+    echo $editor;
 }
-echo LGui::endForm();
+echo '</form>';
 ?>

@@ -36,7 +36,7 @@ class WContentLookup extends BWidget implements ISidebarWidget
 		$filter = isset($namedParameters['filter']) ?  $namedParameters['filter'] : '';
 		$page = isset($namedParameters['page']) ?  max(1, intval($namedParameters['page'])) : 1;
 		$lastMan = null;
-		$itemsPerPage = 20;
+		$itemsPerPage = 15;
 		$hasMore = 
 	    $res = QWContentLookup::fetchContentList($opt, $filter, $page, $itemsPerPage);
 		while($erg = $res->fetch())

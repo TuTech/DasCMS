@@ -368,7 +368,9 @@ if(RURL::get('_action') == 'delete')
 }
 if(PAuthorisation::has('org.bambuscms.credentials.user.change') || PAuthorisation::has('org.bambuscms.credentials.group.change'))
 {
-	echo LGui::beginForm(array('edit' => ($edit_mode == 'usr' ? 'u:' : 'g:').$victim), 'documentform');
+    echo '<form method="post" id="documentform" name="documentform" action="'
+    	,SLink::link(array('edit' => ($edit_mode == 'usr' ? 'u:' : 'g:').$victim))
+    	,'">';
 }
 $panel = WSidePanel::alloc()->init();
 $panel->setMode(

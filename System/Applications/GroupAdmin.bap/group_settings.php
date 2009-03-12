@@ -50,7 +50,7 @@ if($edit_mode == 'usr')
         }
     }
     $group_tbl->render();
-    echo LGui::verticalSpace();
+    echo "<br />";
     
     $pri_tbl = new WTable(WTable::HEADING_NONE, 'primary_group');
 	$usergroups = $SUsersAndGroups->listGroupsOfUser($victim);
@@ -77,7 +77,7 @@ if($edit_mode == 'usr')
         $dat
     ));
     $pri_tbl->render();
-	echo LGui::verticalSpace();
+	echo "<br />";
 	///////////////////
 	//assigned groups//
 	///////////////////
@@ -161,6 +161,7 @@ else
 
 if(PAuthorisation::has('org.bambuscms.credentials.user.change') || PAuthorisation::has('org.bambuscms.credentials.group.change'))
 {
-    echo LGui::endForm();
+    echo '</form>';
+    
 }
 ?>

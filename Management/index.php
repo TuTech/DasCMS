@@ -63,8 +63,7 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
 		WTemplate::globalSet('TaskBar','');
 		$headTpl = new WTemplate('header', WTemplate::SYSTEM);
     	$headTpl->render();
-		echo LGui::beginApplication();
-		echo LGui::endApplication();
+		echo "<div id=\"BambusContentArea\">\n<div id=\"BambusApplication\">\n</div>\n</div>\n";
         $footerTpl = new WTemplate('footer', WTemplate::SYSTEM);
         $footerTpl->render();
 	}    
@@ -107,7 +106,7 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
         $Application->initInterface();
 		echo $ob;
     	echo WSidePanel::alloc()->init();
-		echo LGui::beginApplication();
+		echo "<div id=\"BambusContentArea\">\n<div id=\"BambusApplication\">\n";
 		WSidePanel::openAppWrapperBox();
     	$erg = $Application->run();
     	if($erg !== true && (!file_exists($erg) || !include($erg)))
@@ -116,7 +115,7 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
 			SNotificationCenter::report('alert', 'invalid_application');
     	}
     	WSidePanel::closeAppWrapperBox();
-		echo LGui::endApplication();
+		echo "</div>\n</div>\n";
     	$footerTpl = new WTemplate('footer', WTemplate::SYSTEM);
         $footerTpl->render();
     }
@@ -138,7 +137,7 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
     }
     $headTpl = new WTemplate('header', WTemplate::SYSTEM);
     $headTpl->render();
-    echo LGui::beginApplication();
+    echo "<div id=\"BambusContentArea\">\n<div id=\"BambusApplication\">\n";
     $loginTpl = new WTemplate('login', WTemplate::SYSTEM);
     $loginTpl->setEnvironment(array(
         'translate:username' => SLocalization::get('username'),
@@ -146,7 +145,7 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
         'translate:login' => SLocalization::get('login')
     ));
     $loginTpl->render();
-    echo LGui::endApplication();
+    echo "</div>\n</div>\n";
     $footerTpl = new WTemplate('footer', WTemplate::SYSTEM);
     $footerTpl->render();
 }

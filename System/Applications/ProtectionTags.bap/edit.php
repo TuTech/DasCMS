@@ -12,6 +12,8 @@ printf(
 	,SLink::link(array())
 );
 echo new WIntroduction('define_restriction_tags', 'tags_listed_here_restrict_access_to_contents');
-echo LGui::editorTextarea($tags);
-echo LGui::endForm();
+$editor = new WTextEditor($tags);
+$editor->disableSpellcheck();
+echo $editor,'</form>';
+
 ?>

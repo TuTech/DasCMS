@@ -19,18 +19,6 @@ if($editExist && RSent::get('delete','utf-8') != '' && PAuthorisation::has('org.
 	CTemplate::Delete(RURL::get('edit','utf-8'));
 	$editExist = false;
 }
-if(RSent::get('action') == 'delete' && PAuthorisation::has('org.bambuscms.content.ctemplate.delete'))
-{
-	foreach (RSent::data('utf-8') as $k => $v) 
-	{
-		if(substr($k,0,7) == 'select_' && !empty($v))
-		{
-			//delete
-			CTemplate::Delete(substr($k,7));
-		}
-	}
-}
-
 //create
 elseif(RSent::hasValue('create') && PAuthorisation::has('org.bambuscms.content.ctemplate.create'))
 {

@@ -315,6 +315,7 @@ if(PAuthorisation::has('org.bambuscms.content.cfeed.change') && isset($Feed) && 
         }
     }
     $footer->render();
-    echo LGui::endForm();
+    echo '</form>';
+    
 }
 ?>

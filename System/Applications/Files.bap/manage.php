@@ -50,7 +50,7 @@ if($File != null && $File instanceof BContent)
 else
 {
     echo new WScript("org.bambuscms.gui.hideCommandPanels(['singe_object_edit']);");
-    echo LGui::hiddenInput('action', 'delete');
+    echo '<input type="hidden" name="action" value="delete" />';
     $files = CFile::Index();
     
     $itemTemplate = "<a name=\"{id}\" title=\"{title}\" id=\"{id}\" ondblclick=\"org.bambuscms.wopenfiledialog.openAlias('{alias}');\" href=\"javascript:selectImage('{id}');\">
@@ -89,6 +89,6 @@ else
     $flowLayout->render();
     echo new WScript('hideInputs();');
 }
-echo LGui::endForm();
+echo '</form>';
 
 ?>

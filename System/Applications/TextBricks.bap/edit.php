@@ -12,8 +12,9 @@ if(isset($Brick) && $Brick instanceof CTextBrick)
     	, htmlentities($Brick->Title, ENT_QUOTES, 'UTF-8')
     	, htmlentities($Brick->Title, ENT_QUOTES, 'UTF-8')
     	);
-    echo LGui::editorTextarea($Brick->RAWContent);
-    echo new WScript('org.bambuscms.wcodeeditor.run($(org.bambuscms.app.document.editorElementId));');
-    echo LGui::endForm();
+    $editor = new WTextEditor($Brick->RAWContent);
+    $editor->setWordWrap(false);
+    echo $editor;
 }
+echo '</form>';
 ?>

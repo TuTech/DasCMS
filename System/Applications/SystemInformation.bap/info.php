@@ -64,5 +64,5 @@ else
     $fp_table->setData($out);
     $fp_table->render();
 }
-echo LGui::verticalSpace();
+echo "<br />";
 ?>

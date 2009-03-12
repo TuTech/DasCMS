@@ -8,10 +8,14 @@
  */
 if($FileOpened)
 {
-	printf('<h2>%s</h2>', htmlspecialchars($FileName, ENT_QUOTES, 'utf-8'));
-	printf('<input type="hidden" id="filename" name="filename" value="%s"/>', htmlentities($FileName));
-	echo LGui::editorTextarea($fileContent);
-	echo new WScript('org.bambuscms.wcodeeditor.run($(org.bambuscms.app.document.editorElementId));');
+	printf(
+		'<input type="hidden" id="filename" name="filename" value="%s"/><h2>%s</h2>'
+	    ,htmlentities($FileName, ENT_QUOTES, 'utf-8')
+	    ,htmlentities($FileName, ENT_QUOTES, 'utf-8')
+    );
+	$editor = new WTextEditor($fileContent);
+    $editor->disableSpellcheck();
+    echo $editor;
 }
 echo '</form>';
 ?>

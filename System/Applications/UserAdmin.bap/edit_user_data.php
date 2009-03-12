@@ -64,7 +64,7 @@ echo $intro;
 
 if($edit_mode == 'usr')
 {
-    echo LGui::hiddenInput('action', 'edit_user_data');
+    echo '<input type="hidden" name="action" value="edit_user_data" />';
     $prof_tbl = new WTable(WTable::HEADING_TOP|WTable::HEADING_LEFT, 'profile');
 	$prof_tbl->addRow(array('attribute', 'value'));
 	//what kind of edit do we have? admin|self|others
@@ -135,7 +135,7 @@ if($edit_mode == 'usr')
     }
     asort($editor_arr);
     $flip = 2;
-	echo LGui::verticalSpace();
+	echo "<br />";
 	echo '<table cellspacing="0" class="borderedtable full">';
 	printf('<tr><th></th><th colspan="2">%s</th></tr>', SLocalization::get('editor_permissions'));
 	$line = <<<EOX
@@ -190,12 +190,12 @@ EOX;
 	    }
 	}
 	echo '</table>';
-	echo LGui::verticalSpace();
+	echo "<br />";
     /////////////////////////////EOF EX PERMS
     
     if(PAuthorisation::has('org.bambuscms.credentials.user.change') || PAuthorisation::has('org.bambuscms.credentials.group.change'))
     {
-        echo LGui::endForm();
+        echo '</form>';
     }
 }
 else

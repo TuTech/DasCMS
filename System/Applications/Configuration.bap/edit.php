@@ -8,7 +8,9 @@
  */
 if(PAuthorisation::has('org.bambuscms.configuration.set'))
 {
-	echo LGui::beginForm(array(), 'documentform');
+    echo '<form method="post" id="documentform" name="documentform" action="'
+    	,SLink::link(array())
+    	,'">';
 }
 printf('<h2>%s</h2>', SLocalization::get('configuration'));
 $values = array(
@@ -144,7 +146,7 @@ foreach($values as $title => $settings)
 }
 if(PAuthorisation::has('org.bambuscms.configuration.set'))
 {
-	echo LGui::hiddenInput('writeconfig','1');
-	echo LGui::endForm();
+	echo '<input type="hidden" name="writeconfig" value="1" /></form>';
+	
 }
 ?>

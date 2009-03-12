@@ -12,8 +12,9 @@ if(isset($Tpl) && $Tpl instanceof CTemplate)
     	, htmlentities($Tpl->Title, ENT_QUOTES, 'UTF-8')
     	, htmlentities($Tpl->Title, ENT_QUOTES, 'UTF-8')
     	);
-    echo LGui::editorTextarea($Tpl->RAWContent);
-    echo new WScript('org.bambuscms.wcodeeditor.run($(org.bambuscms.app.document.editorElementId));');
-    echo LGui::endForm();
+    $editor = new WTextEditor($Tpl->RAWContent);
+    $editor->disableSpellcheck();
+    echo $editor;   
 }
+echo '</form>';
 ?>
