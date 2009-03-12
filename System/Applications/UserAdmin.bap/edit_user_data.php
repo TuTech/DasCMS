@@ -108,8 +108,7 @@ if($edit_mode == 'usr')
 
     
     /////////////////////////////EX PERMS
-	print('<input type="hidden" name="action_2" value="save_editor_permissions" />');
-    echo '<br />';
+	print('<input type="hidden" name="action_2" value="save_editor_permissions" /><br />');
     $myDir = getcwd();//nice place... remember it
     chdir(SPath::SYSTEM_APPLICATIONS);
     $Dir = opendir ('./'); 
@@ -121,8 +120,8 @@ if($edit_mode == 'usr')
         {
         	//BambusApplicartion-Package
             $i++;
-            list($name, $description, $icon, $pri) = array_values(LApplication::getBambusApplicationDescription($item.'/Application.xml'));
-            $available[$pri.'_'.$i] = array('item' => $item,'name' => $name,'desc' => $description,'icon' => $icon, 'type' => 'application');
+            list($name, $description, $icon) = array_values(SBapReader::getAttributesOf($item, array('name', 'description', 'icon')));
+            $available[$i] = array('item' => $item,'name' => $name,'desc' => $description,'icon' => $icon, 'type' => 'application');
         }  
     }
     closedir($Dir);
@@ -174,7 +173,7 @@ EOX;
 	        $is_admin = $SUsersAndGroups->isMemberOf($victim, 'Administrator');
 	        //printf('%s %s an administrator; ', $victim, ($is_admin) ? 'is' : 'is not');
 	        $checked = ($is_admin || $SUsersAndGroups->hasPermission($victim, $app_name)) ? ' checked="checked"' : '';
-	        $disabled = ($is_admin || ($app_name == LApplication::getName() && $victim == PAuthentication::getUserID())) ? ' disabled="disabled"' : '';
+	        $disabled = ($is_admin || ($app_name == SApplication::alloc()->init()->getName() && $victim == PAuthentication::getUserID())) ? ' disabled="disabled"' : '';
 	        	printf(
 	        		$line,
 	        		$flip,
@@ -193,10 +192,6 @@ EOX;
 	echo "<br />";
     /////////////////////////////EOF EX PERMS
     
-    if(PAuthorisation::has('org.bambuscms.credentials.user.change') || PAuthorisation::has('org.bambuscms.credentials.group.change'))
-    {
-        echo '</form>';
-    }
 }
 else
 {

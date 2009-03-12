@@ -176,5 +176,11 @@ class WTemplate extends BWidget
     {
         return "_".$this->ID;
     }
+    
+    public static function renderOnce($tpl, $type)
+    {
+        $tpl = new WTemplate($tpl, $type);
+        echo $tpl->render();
+    }
 }
 ?>

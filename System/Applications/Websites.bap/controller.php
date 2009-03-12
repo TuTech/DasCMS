@@ -62,10 +62,9 @@ if(isset($Page) && $Page instanceof CPage && PAuthorisation::has('org.bambuscms.
 echo new WOpenDialog($AppController, $Page);
 
 
-printf(
-    '<form method="post" id="documentform" name="documentform" action="%s">'
-	,SLink::link(array('edit' => (isset($Page) && $Page instanceof CPage)? $Page->Alias :''))
-);
+WTemplate::globalSet('DocumentFormAction', SLink::link(array('edit' => (isset($Page) && $Page instanceof CPage)? $Page->Alias :'')));
+
+
 $panel = WSidePanel::alloc()->init();
 $panel->setMode(
     WSidePanel::MEDIA_LOOKUP|

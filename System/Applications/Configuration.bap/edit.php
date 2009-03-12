@@ -6,12 +6,6 @@
  * @since 2006-10-16
  * @version 1.0
  */
-if(PAuthorisation::has('org.bambuscms.configuration.set'))
-{
-    echo '<form method="post" id="documentform" name="documentform" action="'
-    	,SLink::link(array())
-    	,'">';
-}
 printf('<h2>%s</h2>', SLocalization::get('configuration'));
 $values = array(
 	"website" => array(
@@ -146,7 +140,7 @@ foreach($values as $title => $settings)
 }
 if(PAuthorisation::has('org.bambuscms.configuration.set'))
 {
-	echo '<input type="hidden" name="writeconfig" value="1" /></form>';
+	echo '<input type="hidden" name="writeconfig" value="1" />';
 	
 }
 ?>

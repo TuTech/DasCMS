@@ -265,12 +265,7 @@ if(isset($Feed) && $Feed instanceof CFeed && PAuthorisation::has('org.bambuscms.
 	}
 }
 echo new WOpenDialog($AppController, $Feed);
-
-
-printf(
-    '<form method="post" id="documentform" name="documentform" action="%s">'
-	,SLink::link(array('edit' => (isset($Feed) && $Feed instanceof CFeed)? $Feed->Alias :''))
-);
+WTemplate::globalSet('DocumentFormAction', SLink::link(array('edit' => (isset($Feed) && $Feed instanceof CFeed)? $Feed->Alias :'')));
 
 $panel = WSidePanel::alloc()->init();
 $panel->setMode(
@@ -280,11 +275,11 @@ $panel->setMode(
 if(isset($Feed))
 {
     $panel->setTargetContent($Feed);
-	$panel->processInputs();
-	if($Feed instanceof CFeed && $Feed->isModified())
-	{
-		$Feed->Save();
-	}
+}
+$panel->processInputs();
+if(isset($Feed) && $Feed instanceof CFeed && $Feed->isModified())
+{
+    $Feed->Save();
 }
 
 ?>

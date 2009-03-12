@@ -46,11 +46,7 @@ if(isset($Tpl) && $Tpl instanceof CTemplate && PAuthorisation::has('org.bambuscm
 }
 echo new WOpenDialog($AppController, $Tpl);
 
-
-printf(
-    '<form method="post" id="documentform" name="documentform" action="%s">'
-	,SLink::link(array('edit' => (isset($Tpl) && $Tpl instanceof CTemplate)? $Tpl->Alias :''))
-);
+WTemplate::globalSet('DocumentFormAction', SLink::link(array('edit' => (isset($Tpl) && $Tpl instanceof CTemplate)? $Tpl->Alias :'')));
 $ex = '';
 
 try{

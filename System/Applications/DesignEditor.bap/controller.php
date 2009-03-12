@@ -95,10 +95,7 @@ if(count($Files) > 0)
 	    }
 	}
 }	
-
-echo '<form method="post" id="documentform" name="documentform" action="'
-	,SLink::link(array('edit' => isset($File) ? $File : ''))
-	,'">';
+WTemplate::globalSet('DocumentFormAction', SLink::link(array('edit' => isset($File) ? $File : '')));
 
 $panel = WSidePanel::alloc()->init();
 $panel->setMode(

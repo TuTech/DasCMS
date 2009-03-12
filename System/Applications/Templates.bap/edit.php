@@ -16,5 +16,4 @@ if(isset($Tpl) && $Tpl instanceof CTemplate)
     $editor->disableSpellcheck();
     echo $editor;   
 }
-echo '</form>';
 ?>

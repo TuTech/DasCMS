@@ -159,9 +159,4 @@ else
 	
 }
 
-if(PAuthorisation::has('org.bambuscms.credentials.user.change') || PAuthorisation::has('org.bambuscms.credentials.group.change'))
-{
-    echo '</form>';
-    
-}
 ?>

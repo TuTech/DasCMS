@@ -96,8 +96,4 @@ if($edit != null)
 
 <?php	
 }
-if(PAuthorisation::has('org.bambuscms.layout.navigation.ntreenavigation.change'))
-{
-	echo '</form>';
-}	
 ?>

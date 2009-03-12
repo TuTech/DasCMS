@@ -7,13 +7,9 @@
  * @version 1.0
  */
 $tags =  implode(', ', STagPermissions::getProtectedTags());
-printf(
-    '<form method="post" id="documentform" name="documentform" action="%s">'
-	,SLink::link(array())
-);
 echo new WIntroduction('define_restriction_tags', 'tags_listed_here_restrict_access_to_contents');
 $editor = new WTextEditor($tags);
 $editor->disableSpellcheck();
-echo $editor,'</form>';
+echo $editor;
 
 ?>

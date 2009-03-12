@@ -2,37 +2,29 @@
 {
 	float:left;
 	margin-left:10px;
-	
+	background: #eeeeec;
+	border:1px solid #babdb6;	
+	border-right-width: 0px;
+	margin-top:1px;
 }
 .CommandBarPanel a 
 {
 	background: #eeeeec;
-	border:1px solid #d3d7cf;	
-	border-left-color:#d3d7cf;
-	width: 28px;
-	height:26px;
+	border-right:1px solid #babdb6;	
+	width: 30px;
+	height:28px;
 	float:left;
 	display: block;
-	margin-right:2px;
 }
 .CommandBarPanel a.CommandPanelItemFirst
 {
-	border-left-color:#d3d7cf; 
 }
 .CommandBarPanel a:hover
 {
-	border-color:#555753; 
-	background: #73d216 url(../../../../ClientData/Images/header_background.png) 0px -30px ;
+	background: #fff ;
 }
 
 .CommandBarPanel img{
-	padding:2px 3px 2px 3px;
+	padding:3px 4px 3px 4px;
 	
-}
-.CommandBarSpacer{
-	margin-left: 5px;
-	margin-right: 5px;
-	display:block;
-	height:26px;
-	float:left;
 }

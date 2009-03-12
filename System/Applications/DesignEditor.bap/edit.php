@@ -17,5 +17,4 @@ if($FileOpened)
     $editor->disableSpellcheck();
     echo $editor;
 }
-echo '</form>';
 ?>

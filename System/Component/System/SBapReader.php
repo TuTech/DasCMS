@@ -18,7 +18,7 @@ class SBapReader
 	/**
 	 * return an array of reuested data
 	 * request can contain name, description, icon, priority, version, tabs
-	 *
+	 * @todo Rewrite with proper xml 
 	 * @param string $appDefinition
 	 * @param array $requests
 	 */
@@ -73,6 +73,7 @@ class SBapReader
 			{
 				$data = self::getAttributesOf($appPath.$item, array('name', 'description', 'icon', 'tabs'));
 				$app = substr($item,0,((strlen(DFileSystem::suffix($item))+1) * -1));
+				//FIXME use app ctrl GUID
 				if(PAuthorisation::has('org.bambusms.application.'.strtolower($app)))
 				{
 					$available[$item] = array(

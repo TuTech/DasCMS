@@ -14,7 +14,9 @@
 	<application>
 		<controller>controller.php</controller>
 		<interface name="content_access" src="spore.php">
-			<task type="button" hotkey="s" caption="save" icon="action-document-save" action="org.bambuscms.app.document.save()" />
+			<panel name="actions">
+				<task type="button" hotkey="s" caption="save" icon="action-document-save" action="org.bambuscms.app.document.save()" />
+			</panel>
 		</interface>
 	</application>
 </bambus>

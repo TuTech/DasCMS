@@ -16,5 +16,4 @@ if(isset($Page) && $Page instanceof CPage)
     $editor->setWYSIWYG(LConfiguration::get('use_wysiwyg') != '');
     echo $editor;
 }
-echo '</form>';
 ?>

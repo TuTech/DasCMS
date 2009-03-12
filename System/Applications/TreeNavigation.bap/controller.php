@@ -141,13 +141,8 @@ if(RSent::has('new_nav_name'))
 	RURL::alter('edit', $newNav);
 	$edit = $newNav;
 }
-if(PAuthorisation::has('org.bambuscms.layout.navigation.ntreenavigation.change'))
-{
-	printf(
-		'<form method="post" id="documentform" name="documentform" action="%s"><input type="hidden" name="posted" value="1" />', 
-		SLink::link(array('edit' => $edit))
-	);
-}
+WTemplate::globalSet('DocumentFormAction', SLink::link(array('edit' => $edit)));
+
 //side bar
 ////////////////////	
 $panel = WSidePanel::alloc()->init();

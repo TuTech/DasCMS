@@ -9,8 +9,7 @@
 if(PAuthorisation::has('org.bambuscms.resolver.vspore.change'))
 {
 	printf(
-		'<form method="post" id="documentform" name="documentform" action="%s"><input type="hidden" name="posted" value="1" />'
-	    ,SLink::link()
+		'<input type="hidden" name="posted" value="1" />'
 	);
 }
 $cell1TPL = 
@@ -120,8 +119,4 @@ else
 {
 	echo '<h3>', SLocalization::get('please_add_at_least_one_-_you_need_them_for_viewing_any_content,_really'),'</h3>';
 }
-if(PAuthorisation::has('org.bambuscms.resolver.vspore.change'))
-{
-	echo '</form>';
-}	
 	?>

@@ -89,6 +89,5 @@ else
     $flowLayout->render();
     echo new WScript('hideInputs();');
 }
-echo '</form>';
 
 ?>

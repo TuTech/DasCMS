@@ -182,12 +182,8 @@ if(RURL::get('_action') == 'delete')
 	$dbNeedsUpdate = true;
 }
 
-if(PAuthorisation::has('org.bambuscms.credentials.user.change') || PAuthorisation::has('org.bambuscms.credentials.group.change'))
-{
-    echo '<form method="post" id="documentform" name="documentform" action="'
-    	,SLink::link(array('edit' => ($edit_mode == 'usr' ? 'u:' : 'g:').$victim))
-    	,'">';
-}
+WTemplate::globalSet('DocumentFormAction', SLink::link(array('edit' => ($edit_mode == 'usr' ? 'u:' : 'g:').$victim)));
+    	
 $panel = WSidePanel::alloc()->init();
 $panel->setMode(
     WSidePanel::PERMISSIONS);

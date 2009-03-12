@@ -281,7 +281,7 @@ if(RSent::hasValue('action'))
 	    foreach($items as $item)
 	    {
 	    	//all admins and the current user must have access to this app
-	    	if(!(($victim == PAuthentication::getUserID() || $SUsersAndGroups->isMemberOf($victim, 'Administrator')) && $item == LApplication::getName()))
+	    	if(!(($victim == PAuthentication::getUserID() || $SUsersAndGroups->isMemberOf($victim, 'Administrator')) && $item == SApplication::alloc()->init()->getName()))
 	    	{
 		    	if(RSent::hasValue('editor_'.md5($item)) && ($SUsersAndGroups->hasPermission(PAuthentication::getUserID(), $item) || PAuthorisation::isInGroup('Administrator')))
 		    	{
@@ -366,12 +366,9 @@ if(RURL::get('_action') == 'delete')
 	}
 	$dbNeedsUpdate = true;
 }
-if(PAuthorisation::has('org.bambuscms.credentials.user.change') || PAuthorisation::has('org.bambuscms.credentials.group.change'))
-{
-    echo '<form method="post" id="documentform" name="documentform" action="'
-    	,SLink::link(array('edit' => ($edit_mode == 'usr' ? 'u:' : 'g:').$victim))
-    	,'">';
-}
+WTemplate::globalSet('DocumentFormAction', SLink::link(array('edit' => ($edit_mode == 'usr' ? 'u:' : 'g:').$victim)));
+
+
 $panel = WSidePanel::alloc()->init();
 $panel->setMode(
     WSidePanel::PERMISSIONS);

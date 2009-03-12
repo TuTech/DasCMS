@@ -56,10 +56,8 @@ if(isset($Brick) && $Brick instanceof CTextBrick && PAuthorisation::has('org.bam
 echo new WOpenDialog($AppController, $Brick);
 
 
-printf(
-    '<form method="post" id="documentform" name="documentform" action="%s">'
-	,SLink::link(array('edit' => (isset($Brick) && $Brick instanceof CTextBrick)? $Brick->Alias :''))
-);
+
+WTemplate::globalSet('DocumentFormAction', SLink::link(array('edit' => (isset($Brick) && $Brick instanceof CTextBrick)? $Brick->Alias :'')));
 
 $panel = WSidePanel::alloc()->init();
 $panel->setMode(

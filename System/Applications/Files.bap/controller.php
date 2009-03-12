@@ -51,10 +51,8 @@ if(RURL::hasValue('edit'))
         $File = CFile::Open(RURL::get('edit'));
     }catch (Exception $e){/*$File stays null*/}
 }
-printf(
-    '<form method="post" id="documentform" name="documentform" action="%s">'
-	,SLink::link(array('edit' => (isset($File) && $File instanceof CFile)? $File->Alias :''))
-);
+WTemplate::globalSet('DocumentFormAction', SLink::link(array('edit' => (isset($File) && $File instanceof CFile)? $File->Alias :'')));
+
 
 if($File != null && $File instanceof BContent && RSent::has('filename'))
 {    

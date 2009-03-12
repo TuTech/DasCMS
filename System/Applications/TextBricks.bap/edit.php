@@ -16,5 +16,4 @@ if(isset($Brick) && $Brick instanceof CTextBrick)
     $editor->setWordWrap(false);
     echo $editor;
 }
-echo '</form>';
 ?>
