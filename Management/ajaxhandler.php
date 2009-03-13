@@ -35,23 +35,8 @@ try
     {
         $appCtrlID = RURL::get('controller');
         $function = RURL::get('call');
-        $Interface = null;
-        if(substr($function,0,7) == 'receive')
-        {
-            $Interface = 'IACReceiver'.substr($function,7);
-        }
-        elseif(substr($function,0,7) == 'provide')
-        {
-            $Interface = 'IACProvider'.substr($function,7);
-        }
-        else
-        {
-            $Interface = 'IACCapability'.ucfirst($function);
-        }
-        
         $controller = BAppController::getControllerForID($appCtrlID);
-        //FIXME permission 
-        if(in_array($Interface, class_implements($controller)))
+        if(method_exists($controller, $function))
         {
             $paramStr = implode(file('php://input'));
             $parameters = null;

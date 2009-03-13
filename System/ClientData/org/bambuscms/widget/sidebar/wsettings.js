@@ -27,8 +27,8 @@ org.bambuscms.wsettings.selectImage = function()
 		return;
 	}
 	var data = {
-			'controller':'org.bambuscms.applications.files',
-			'call':'getAvailablePreviewImages'
+			'controller':org.bambuscms.app.controller,
+			'call':'provideAvailablePreviewImages'
 		};
 	var qobj = org.bambuscms.http.managementRequestURL(data);
 	org.bambuscms.http.fetchJSONObject(
@@ -49,7 +49,6 @@ org.bambuscms.wsettings.selectImage = function()
 }
 org.bambuscms.wsettings.fillDialog = function (dataObject)
 {
-	//alert(dataObject.renderer);
 	var target = $('wsettings_img_select');
 	var current = $('WSearch-PreviewImage-Alias').value;
 	if(target)

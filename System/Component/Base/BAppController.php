@@ -58,7 +58,7 @@ abstract class BAppController
 	 * @param array $param
 	 * @return array
 	 */
-	public function getAvailablePreviewImages(array $param)
+	public function provideAvailablePreviewImages(array $param)
 	{
 	    return array(
 	    	'renderer' => 'image.php',
