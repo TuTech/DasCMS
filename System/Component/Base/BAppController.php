@@ -21,6 +21,17 @@ abstract class BAppController
         }
     }  
     
+    public static function callController(BAppController $controller, $function, array $param)
+    {
+        if(!empty($function) && method_exists($controller, $function))
+        {
+            return call_user_func_array(
+                array($controller, $function), 
+                array($param)
+            );
+        }
+    }
+    
 	/**
 	 * load a controller for given app id
 	 *

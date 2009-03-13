@@ -6,6 +6,7 @@ function Create()
 	input.setAttribute('value','');
 		
 	org.bambuscms.app.dialog.create(_('create_new_stylesheet'), _('filename'), input, _('create'), _('cancel'));
+	$('dialogueform').action = $('dialogueform').action.replace(/_action=[a-zA-Z]+/, '_action=create')
 	input.focus();
 }
 
