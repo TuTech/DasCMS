@@ -13,7 +13,6 @@ class ATemplates
     extends 
         BAppController 
     implements 
-        IACProviderOpenDialogData,
         IGlobalUniqueId  
 {
     const GUID = 'org.bambuscms.applications.templates';

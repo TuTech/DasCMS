@@ -51,20 +51,13 @@ $ex = '';
 
 try{
 	$panel = WSidePanel::alloc()->init();
-	$panel->setMode(
-	    WSidePanel::MEDIA_LOOKUP|
-	    WSidePanel::CONTENT_LOOKUP|
-	    WSidePanel::PROPERTY_EDIT|
-	    WSidePanel::HELPER|
-	    WSidePanel::PERMISSIONS);
-    if(isset($Tpl))
+    if(isset($Tpl) && $Tpl instanceof CTemplate)
     {
         $panel->setTargetContent($Tpl);
-    }
-    $panel->processInputs();
-    if(isset($Tpl) && $Tpl instanceof CTemplate && $Tpl->isModified())
-    {
-    	$Tpl->Save();
+        if($Tpl->isModified())
+        {
+        	$Tpl->Save();
+        }
     }
 }
 catch(Exception $e){

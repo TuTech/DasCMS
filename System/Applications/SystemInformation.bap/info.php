@@ -6,8 +6,9 @@
  * @since 2006-10-16
  * @version 1.0
  */
-$info = array(); //array('size' => 0,'lines' => 0,'chars' => 0,'files' => 0,'folders' => 0,'scripts' => 0);
-dirlist_r('./');
+$controller = SApplication::appController();
+$info = array(); 
+$controller->dirlist_r('./');
 chdir(constant('BAMBUS_CMS_ROOTDIR'));
 $system_tbl = new WTable(WTable::HEADING_TOP|WTable::HEADING_LEFT, 'system');
 $system_tbl->addRow(array('type', 'number_of_items', 'lines', 'size', 'chars_per_line'));
@@ -43,7 +44,7 @@ $environment_tbl->render();
 
 $cache_tbl = new WTable(WTable::HEADING_TOP|WTable::HEADING_LEFT, 'cache');
 $cache_tbl->addRow(array('information', 'value'));
-$cache_tbl->addRow(array('size', cacheSize()));
+$cache_tbl->addRow(array('size', $controller->cacheSize()));
 $cache_tbl->render();
 
 $out = array(array(
@@ -53,7 +54,7 @@ $out = array(array(
     'file_permissions',
     'path'
 ));
-pdirlist_r();
+$controller->pdirlist_r();
 if(count($out) == 1)
 {
     SNotificationCenter::report('message', 'all_file_permissions_are_ok');

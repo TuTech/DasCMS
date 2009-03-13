@@ -26,5 +26,9 @@
 				<task type="button" hotkey="P" caption="change_password" icon="action-log-in" action="action_change_password()" />
 			</panel>
 		</interface>	
+		<sidebar>
+			<supported mode="PERMISSIONS"/>
+			<processInputs mode="auto"/>
+		</sidebar>
 	</application>
 </bambus>

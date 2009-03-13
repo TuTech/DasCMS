@@ -14,8 +14,26 @@
 		<!ATTLIST tab 
 	        icon CDATA #REQUIRED
 	     >	
-	<!ELEMENT application 	(controller, interface)>
+	<!ELEMENT application 	(controller, interface, sidebar)>
 		<!ELEMENT controller (#PCDATA)>
+		<!ELEMENT sidebar    (supported*, processInputs)>
+			<!ELEMENT supported EMPTY>
+			<!ATTLIST supported 
+				    mode (
+				    	CONTENT_LOOKUP|
+				    	PROPERTY_EDIT|
+				    	HELPER|
+				    	MEDIA_LOOKUP|
+				    	PERMISSIONS|
+				    	WYSIWYG|
+				    	RETAIN|
+				    	INFORMATION
+				    	)  #REQUIRED
+				 >
+			<!ELEMENT processInputs EMPTY>
+			<!ATTLIST processInputs 
+				    mode (auto|now)  #REQUIRED
+				 >
 		<!ELEMENT interface  (panel*)>
 		<!ATTLIST interface 
 		    name CDATA #REQUIRED

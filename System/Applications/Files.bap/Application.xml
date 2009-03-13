@@ -32,5 +32,12 @@
 				<task type="button" hotkey="e" caption="select_none" icon="action-edit-select-none" action="selectItems(false);" />
 			</panel>
 		</interface>
+		<sidebar>
+			<supported mode="RETAIN"/>
+			<supported mode="PERMISSIONS"/>
+			<supported mode="PROPERTY_EDIT"/>
+			<supported mode="HELPER"/>
+			<processInputs mode="auto"/>
+		</sidebar>
 	</application>
 </bambus>

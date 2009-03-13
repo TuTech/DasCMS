@@ -13,7 +13,6 @@ class ATreeNavigationEditor
     extends 
         BAppController 
     implements 
-        IACProviderOpenDialogData,
         IGlobalUniqueId  
 {
     const GUID = 'org.bambuscms.applications.treenavigationeditor';

@@ -12,9 +12,15 @@
 abstract class BAppController 
     extends 
         BObject
-    implements
-        IACProviderContentLookup
 {
+    protected static function requirePermission($perm)
+    {
+        if(!PAuthorisation::has($perm))
+        {
+            throw new XPermissionDeniedException($perm);
+        }
+    }  
+    
 	/**
 	 * load a controller for given app id
 	 *

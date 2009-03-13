@@ -24,5 +24,11 @@
 				<task type="button" hotkey="X" caption="delete" icon="action-edit-delete" action="Delete()" />
 			</panel>
 		</interface>
+		<sidebar>
+			<supported mode="PROPERTY_EDIT"/>
+			<supported mode="HELPER"/>
+			<supported mode="PERMISSIONS"/>
+			<processInputs mode="auto"/>
+		</sidebar>
 	</application>
 </bambus>

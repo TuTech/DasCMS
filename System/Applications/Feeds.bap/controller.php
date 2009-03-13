@@ -267,16 +267,11 @@ if(isset($Feed) && $Feed instanceof CFeed && PAuthorisation::has('org.bambuscms.
 echo new WOpenDialog($AppController, $Feed);
 WTemplate::globalSet('DocumentFormAction', SLink::link(array('edit' => (isset($Feed) && $Feed instanceof CFeed)? $Feed->Alias :'')));
 
-$panel = WSidePanel::alloc()->init();
-$panel->setMode(
-    WSidePanel::PROPERTY_EDIT|
-    WSidePanel::HELPER|
-    WSidePanel::PERMISSIONS);
 if(isset($Feed))
 {
+    $panel = WSidePanel::alloc()->init();
     $panel->setTargetContent($Feed);
 }
-$panel->processInputs();
 if(isset($Feed) && $Feed instanceof CFeed && $Feed->isModified())
 {
     $Feed->Save();

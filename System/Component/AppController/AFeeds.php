@@ -13,7 +13,6 @@ class AFeeds
     extends 
         BAppController 
     implements 
-        IACProviderOpenDialogData,
         IGlobalUniqueId  
 {
     const GUID = 'org.bambuscms.applications.feeds';

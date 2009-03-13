@@ -137,9 +137,4 @@ foreach($values as $title => $settings)
 	}
     $tbl->render();
 }
-if(PAuthorisation::has('org.bambuscms.configuration.set'))
-{
-	echo '<input type="hidden" name="writeconfig" value="1" />';
-	
-}
 ?>

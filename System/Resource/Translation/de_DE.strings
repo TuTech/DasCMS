@@ -83,7 +83,6 @@ sort_by	Sortieren nach
 manage	Verwalten
 configure	Konfigurieren
 session_timed_out	Session abgelaufen \n(Wenn Sie die aktuellen eingaben speichern wollen loggen Sie sich in einem anderen Browserfenster/-tab neu an)
-free_disk_space	Verfügbarer Speicherplatz
 hidden	Versteckt
 exit_management_area	Wenn Sie den Management Bereich verlassen wollen drücken Sie OK
 logout_on_exit	Beim Verlassen des Managementbereichs ausloggen
@@ -193,7 +192,6 @@ edit_content	Inhalt bearbeiten
 manage_content	Inhalt verwalten
 system	System
 manage_users	Benutzer verwalten
-view_informations_about_documents	Dokumenteninformationen
 do_you_really_want_to_delete_this_document	Wollen Sie dieses Dokument wirklich löschen
 manage_backups	Backups verwalten
 restored	Wiederhergestellt
@@ -587,7 +585,6 @@ as_submenu	Als Unterpunkt
 no_page_selected	Keine Seite gewählt
 add	Hinzufügen
 overwrite	Überschreiben
-informations	Informationen
 database_settings	Datenbankeinstellungen
 do_you_really_want_to_delete_this_user	Wollen Sie diesen Benutzer wirklich löschen
 database	Datenbank

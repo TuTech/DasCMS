@@ -37,7 +37,7 @@ class QVSpore extends BQuery
         try
         {
             $sql = "DELETE FROM SporeViews WHERE (viewName = \"%s\")";
-            foreach ($sporeData as $name)
+            foreach ($spores as $name)
             {
                 $sporeSql[] = $DB->escape($name);
             }

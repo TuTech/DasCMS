@@ -369,14 +369,12 @@ if(RURL::get('_action') == 'delete')
 WTemplate::globalSet('DocumentFormAction', SLink::link(array('edit' => ($edit_mode == 'usr' ? 'u:' : 'g:').$victim)));
 
 
-$panel = WSidePanel::alloc()->init();
-$panel->setMode(
-    WSidePanel::PERMISSIONS);
+
 if($SUsersAndGroups->isUser($victim))
 {
+    $panel = WSidePanel::alloc()->init();
     $panel->setTarget($victim, 'cms/'.($edit_mode == 'usr' ? 'user' : 'group'));
 }
-$panel->processInputs();
 	
 $AppController = BAppController::getControllerForID('org.bambuscms.applications.usereditor');
 echo new WOpenDialog($AppController, $hasVictim);

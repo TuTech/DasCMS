@@ -22,6 +22,15 @@ class SApplication
     private $taskbar;
     private $appPath, $hasApp = false;
     
+    /**
+     * @return BAppController
+     */
+    public static function appController()
+    {
+        $a = self::alloc()->init();
+        return BAppController::getControllerForID($a->getGUID());
+    }
+    
     public function initApplication()
     {
         if($this->hasApp)
@@ -150,15 +159,32 @@ class SApplication
             {
                 $this->{$var} = $data->item(0)->nodeValue;
             }
-            //printf('<p>%s: %s</p>', $var, $this->{$var});
         }
+        $this->setupSidebar($xp);
         $this->taskbar->setSource($dom);
     }
     
-    public function getApplicationList()
+    private function setupSidebar(DOMXPath $xp)
     {
-        
+        $supported = $xp->query('/bambus/application/sidebar/supported/@mode');
+        $mode = WSidePanel::NONE;
+        foreach ($supported as $modeNode)
+        {
+            $const = constant('WSidePanel::'.$modeNode->nodeValue);
+            if($const)
+            {
+                $mode = $mode | $const;
+            }
+        }
+        $panel = WSidePanel::alloc()->init();
+        $panel->setMode($mode);
+        $processInputs = $xp->query('/bambus/application/sidebar/processInputs/@mode');
+        if($processInputs  && $processInputs->length == 1);
+        {
+            $panel->setProcessMode(strval($processInputs->item(0)->nodeValue));
+        }
     }
+    
     
 	//begin IShareable
 	const CLASS_NAME = 'SApplication';

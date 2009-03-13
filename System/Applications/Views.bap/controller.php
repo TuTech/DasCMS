@@ -6,50 +6,18 @@
  * @since 2007-11-28
  * @version 1.0
  */
-
-$panel = WSidePanel::alloc()->init();
-$panel->setMode(WSidePanel::CONTENT_LOOKUP);
-$panel->processInputs();
-////////////////////
-
-if(RSent::hasValue('posted'))
+$App = SApplication::alloc()->init();
+$controller = BAppController::getControllerForID($App->getGUID());
+$function = RURL::get('_action');
+if(!empty($function) && method_exists($controller, $function))
 {
-	foreach (RSent::data() as $key => $value) 
-	{
-		if(substr($key,0,5) == 'spore')
-		{
-			$spore = substr($key,6);
-			$delete = !empty($value);
-			
-			if($delete)
-			{
-				VSpore::remove($spore);
-			}
-			else
-			{
-				VSpore::set(
-					$spore, 
-					RSent::hasValue('actv_'.$spore), 
-					RSent::get('init_'.$spore), 
-					RSent::get('err_'.$spore)
-				);
-			}
-		}
-	}
-	if(RSent::hasValue('new_spore') && !VSpore::exists(RSent::get('new_spore')))
-	{
-		try{
-			VSpore::set(
-				RSent::get('new_spore'), 
-				RSent::hasValue('new_actv'), 
-				RSent::get('new_init'), 
-				RSent::get('new_err')
-			);
-		}
-		catch(Exception $e){
-			//@todo notify  could not set blah
-		}
-	}
-	VSpore::Save();
+    call_user_func_array(
+        array($controller, $function), 
+        array(RSent::data('UTF-8'))
+    );
 }
+WTemplate::globalSet(
+	'DocumentFormAction' 
+    ,SLink::link(array('_action' => 'save'))
+);
 ?>

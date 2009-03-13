@@ -28,5 +28,13 @@
 				<task type="button" hotkey="R" caption="search_and_replace" icon="action-edit-find-replace" action="org.bambuscms.app.document.searchAndReplace()" />
 			</panel>
 		</interface>
+		<sidebar>
+			<supported mode="MEDIA_LOOKUP"/>
+			<supported mode="CONTENT_LOOKUP"/>
+			<supported mode="PERMISSIONS"/>
+			<supported mode="PROPERTY_EDIT"/>
+			<supported mode="HELPER"/>
+			<processInputs mode="auto"/>
+		</sidebar>
 	</application>
 </bambus>

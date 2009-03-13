@@ -13,7 +13,6 @@ class ATextBricks
     extends 
         BAppController 
     implements 
-        IACProviderOpenDialogData,
         IGlobalUniqueId  
 {
     const GUID = 'org.bambuscms.applications.textbricks';

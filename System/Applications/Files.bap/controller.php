@@ -59,20 +59,15 @@ if($File != null && $File instanceof BContent && RSent::has('filename'))
 	$File->Title = RSent::get('filename', 'utf-8');
 }
 $panel = WSidePanel::alloc()->init();
-$panel->setMode(
-    WSidePanel::PROPERTY_EDIT|
-    WSidePanel::HELPER|
-    WSidePanel::PERMISSIONS|
-    WSidePanel::RETAIN);
 if($File != null && $File instanceof BContent)
 {
     $panel->setTargetContent($File);
+    if($File->isModified())
+    {
+    	$File->Save();
+    }
 }
-$panel->processInputs();
-if($File != null && $File instanceof BContent && $File->isModified())
-{
-	$File->Save();
-}
+
 
 $ofd = new WOpenDialog($AppController, $File);
 $ofd->autoload(false);

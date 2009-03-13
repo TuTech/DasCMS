@@ -1,3 +1,16 @@
+function Create()
+{
+	input = document.createElement('input');
+	input.setAttribute('name','create');
+	input.setAttribute('type','text');
+	input.setAttribute('value','');
+		
+	org.bambuscms.app.dialog.create(_('create_new_stylesheet'), _('filename'), input, _('create'), _('cancel'));
+	input.focus();
+}
+
+
+
 org.bambuscms.app.document.insertMedia = function(type, id, title)
 {
 	var insert = '';

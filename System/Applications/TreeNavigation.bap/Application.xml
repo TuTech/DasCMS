@@ -23,5 +23,9 @@
 				<task type="button" caption="delete" hotkey="X" icon="action-edit-delete" action="Delete()" />
 			</panel>
 		</interface>
+		<sidebar>
+			<supported mode="CONTENT_LOOKUP"/>
+			<processInputs mode="now"/>
+		</sidebar>
 	</application>
 </bambus>

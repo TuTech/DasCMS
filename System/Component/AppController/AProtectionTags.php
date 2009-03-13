@@ -26,5 +26,13 @@ class AProtectionTags
     {
         return self::GUID;
     }
+    
+    public function save(array $data)
+    {
+        parent::requirePermission('org.bambuscms.system.permissions.tags.change');
+        $tags = STag::parseTagStr(isset($data['content']) ? $data['content'] : '');
+        STagPermissions::setProtectedTags($tags);
+        SNotificationCenter::report('message', 'tags_set');
+    }
 }
 ?>

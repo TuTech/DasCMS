@@ -23,5 +23,9 @@
 				<task type="button" hotkey="X" caption="delete" icon="action-edit-delete" action="delete" mode="html" confirm="do_you_really_want_to_delete_this_user" />
 			</panel>
 		</interface>	
+		<sidebar>
+			<supported mode="PERMISSIONS"/>
+			<processInputs mode="auto"/>
+		</sidebar>
 	</application>
 </bambus>

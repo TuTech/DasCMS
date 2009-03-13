@@ -143,12 +143,6 @@ if(RSent::has('new_nav_name'))
 }
 WTemplate::globalSet('DocumentFormAction', SLink::link(array('edit' => $edit)));
 
-//side bar
-////////////////////	
-$panel = WSidePanel::alloc()->init();
-$panel->setMode(WSidePanel::CONTENT_LOOKUP);
-$panel->processInputs();
-
 
 $AppController = BAppController::getControllerForID('org.bambuscms.applications.treenavigationeditor');
 echo new WOpenDialog($AppController, $edit);

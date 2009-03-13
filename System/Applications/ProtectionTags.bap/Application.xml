@@ -18,5 +18,10 @@
 				<task type="button" hotkey="s" caption="save" icon="action-document-save" action="org.bambuscms.app.document.save()" />
 			</panel>
 		</interface>
+		<sidebar>
+			<supported mode="HELPER"/>
+			<supported mode="INFORMATION"/>
+			<processInputs mode="now"/>
+		</sidebar>
 	</application>
 </bambus>

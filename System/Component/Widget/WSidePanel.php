@@ -28,6 +28,7 @@ class WSidePanel
     private $mode = self::NONE;
     private $mimetype;
     private $object = null;
+    private $enableAutoProcess = false;
     
 	private $sidebarWidgets = array();
 	private $inputsProcessed = false;
@@ -65,16 +66,6 @@ class WSidePanel
 	{
 	}
 
-	public static function openAppWrapperBox()
-	{
-	    echo "\n<div id=\"objectInspectorActiveFullBox\">\n";
-	}
-	
-	public static function closeAppWrapperBox()
-	{
-	    echo "\n</div>\n";
-	}
-	
 	public function setTargetContent(BContent $content)
 	{
 	    if(isset($this->object))
@@ -83,6 +74,10 @@ class WSidePanel
 	    }
 	    $this->object = $content;
 	    $this->mimetype = $content->MimeType;
+	    if($this->enableAutoProcess)
+	    {
+	        $this->processInputs();
+	    }
 	}
 	
 	public function setTarget($name, $type)
@@ -90,9 +85,13 @@ class WSidePanel
 	    if(isset($this->object))
 	    {
 	        throw new XInvalidDataException('target object already set');
-	    }	
+	    }
 	    $this->object = $name;
 	    $this->mimetype = $type;
+	    if($this->enableAutoProcess)
+	    {
+	        $this->processInputs();
+	    }
 	}
 	
 	private function targetFail($failmessage)
@@ -155,7 +154,9 @@ class WSidePanel
 		    {
 		        try{
 		            $this->sidebarWidgets[$v] = new $v($this);
-		        }catch(Exception $e){/*IGNORE WIDGET*/}
+		        }catch(Exception $e){/*IGNORE WIDGET*/
+		            SNotificationCenter::report('warning', 'could_not_load_widget_'.$v);
+		        }
 		    }
 		}
 	}
@@ -181,17 +182,29 @@ class WSidePanel
 		return (in_array($selected, $widgets)) ? $selected : $widgets[0];
 	}
 
+	public function setProcessMode($mode)
+	{
+	    switch($mode)
+	    {
+	        case 'now': $this->processInputs(); break;
+	        case 'auto': $this->enableAutoProcess = true;break;
+	    }
+	}
+	
 	public function processInputs()
 	{
-	    $this->inputsProcessed = true;
-	    $this->loadWidgets();
-	    if(count($this->sidebarWidgets) > 0)
-		{
-		    foreach ($this->sidebarWidgets as $class => $object) 
-		    {
-		        $object->processInputs();
-		    }
-		}
+	    if(!$this->inputsProcessed)
+	    {
+    	    $this->inputsProcessed = true;
+    	    $this->loadWidgets();
+    	    if(count($this->sidebarWidgets) > 0)
+    		{
+    		    foreach ($this->sidebarWidgets as $class => $object) 
+    		    {
+    		        $object->processInputs();
+    		    }
+    		}
+	    }
 	}
 	
 	/**
@@ -200,9 +213,9 @@ class WSidePanel
 	public function __toString()
 	{
 	    $html = '';
-	    if(!$this->inputsProcessed)
+	    if($this->enableAutoProcess)
 	    {
-	        throw new Exception('WSidePanel::processInputs() must be called before WSidePanel::__toString()');
+	        $this->processInputs();
 	    }
 	    try
 	    {

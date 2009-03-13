@@ -60,20 +60,12 @@ echo new WOpenDialog($AppController, $Brick);
 WTemplate::globalSet('DocumentFormAction', SLink::link(array('edit' => (isset($Brick) && $Brick instanceof CTextBrick)? $Brick->Alias :'')));
 
 $panel = WSidePanel::alloc()->init();
-$panel->setMode(
-    WSidePanel::MEDIA_LOOKUP|
-    WSidePanel::CONTENT_LOOKUP|
-    WSidePanel::PROPERTY_EDIT|
-    WSidePanel::HELPER|
-    WSidePanel::PERMISSIONS);
-if(isset($Brick))
+if(isset($Brick) && $Brick instanceof CTextBrick)
 {
     $panel->setTargetContent($Brick);
+    if($Brick->isModified())
+    {
+    	$Brick->Save();
+    }
 }
-$panel->processInputs();
-if(isset($Brick) && $Brick instanceof CTextBrick && $Brick->isModified())
-{
-	$Brick->Save();
-}
-
 ?>
