@@ -40,7 +40,6 @@ class ATextBricks
         {
             throw new XPermissionDeniedException('view');
         }
-        $SCI = SContentIndex::alloc()->init();
         $IDindex = CTextBrick::Index();
         $items = array();
         foreach ($IDindex as $alias => $data) 

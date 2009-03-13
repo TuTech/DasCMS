@@ -18,10 +18,13 @@ class CFile
         Interface_XML_Atom_ProvidesOutOfLineContent
 {
     const GUID = 'org.bambuscms.content.cfile';
+    const CLASS_NAME = 'CFile';
+    
     public function getClassGUID()
     {
         return self::GUID;
     }
+    
     protected $RAWContent;
     private $_contentLoaded = false;
     private $metadata = array();
@@ -36,8 +39,7 @@ class CFile
 	    {
 	        throw new XFileNotFoundException('no uploaded file', 'CFile');
 	    }
-	    $SCI = SContentIndex::alloc()->init();
-	    list($dbid, $alias) = $SCI->createContent('CFile', $title);
+	    list($dbid, $alias) = QBContent::create('CFile', $title);
 	    if(!RFiles::move('CFile', './Content/CFile/'.$dbid.'.data'))
 	    {
 	        throw new XUndefinedException('upload not moveable');
@@ -66,13 +68,12 @@ class CFile
 	
 	public static function Delete($alias)
 	{
-	    $SCI = SContentIndex::alloc()->init();
 	    $file = new CFile($alias);
 	    $dbid = $file->getId();
 	    unset($file);
 	    try
 	    {
-    	    $succ = $SCI->deleteContent($alias, 'CFile');
+    	    $succ = QBContent::deleteContent($alias);
     	    if($succ)
     	    {
     	        @unlink('./Content/CFile/'.$dbid.'.data');
@@ -93,8 +94,7 @@ class CFile
 	
 	public static function Exists($alias)
 	{
-	    $SCI = SContentIndex::alloc()->init();
-	    return $SCI->exists($alias, 'CFile');
+	    return parent::contentExists($alias, self::CLASS_NAME);
 	}
 	
 	/**
@@ -103,8 +103,7 @@ class CFile
 	 */
 	public static function Index()
 	{
-	    $SCI = SContentIndex::alloc()->init();
-	    return $SCI->getIndex('CFile', false);
+	    return parent::getIndex(self::CLASS_NAME, false);
 	}
 	
 	public static function Open($alias)

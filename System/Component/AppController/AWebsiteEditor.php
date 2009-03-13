@@ -40,7 +40,6 @@ class AWebsiteEditor
         {
             throw new XPermissionDeniedException('view');
         }
-        $SCI = SContentIndex::alloc()->init();
         $IDindex = CPage::Index();
         $items = array();
         foreach ($IDindex as $alias => $data) 

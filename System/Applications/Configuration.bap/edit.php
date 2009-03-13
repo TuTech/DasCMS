@@ -113,7 +113,6 @@ foreach($values as $title => $settings)
             default:
                 if(substr($type, 0,2) == '::')
                 {
-                    $SCI = SContentIndex::alloc()->init();
                     $current = SAlias::getCurrent(LConfiguration::get($key));
                     $class = substr($type,2);
                     $input = sprintf("<select name=\"%s\">\n", $key);
@@ -123,7 +122,7 @@ foreach($values as $title => $settings)
                         $sel = empty($current) ? ' selected="selected"' : '';
                         $input .= sprintf("\t<option value=\"\"%s>%s</option>\n",  $sel,  SLocalization::get('no_login_template'));
                     }
-                    $options = $SCI->getIndex($class, false);
+                    $options = BContent::getIndex($class, false);
                     
                     foreach ($options as $alias => $data) 
                     {

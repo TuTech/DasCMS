@@ -10,7 +10,6 @@ $AppController = BAppController::getControllerForID('org.bambuscms.applications.
 
 $allowEdit = true;
 $FileOpened = false;
-$SCI = SContentIndex::alloc()->init();
 
 $editExist = (RURL::has('edit')) && CPage::Exists(RURL::get('edit'));
 $Page = null;

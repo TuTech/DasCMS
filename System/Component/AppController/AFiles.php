@@ -39,7 +39,6 @@ class AFiles
         {
             throw new XPermissionDeniedException('view');
         }
-        $SCI = SContentIndex::alloc()->init();
         $IDindex = CFile::Index();
         $items = array();
         $types = array();

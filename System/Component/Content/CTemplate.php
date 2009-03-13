@@ -18,6 +18,8 @@ class CTemplate
         Interface_XML_Atom_ProvidesInlineText 
 {
     const GUID = 'org.bambuscms.content.ctemplate';
+    const CLASS_NAME = 'CTemplate';
+    
     public function getClassGUID()
     {
         return self::GUID;
@@ -30,8 +32,7 @@ class CTemplate
 	 */
 	public static function Create($title)
 	{
-	    $SCI = SContentIndex::alloc()->init();
-	    list($dbid, $alias) = $SCI->createContent('CTemplate', $title);
+	    list($dbid, $alias) = QBContent::create('CTemplate', $title);
 	    DFileSystem::Save(SPath::TEMPLATES.$dbid.'.php', ' ');
 	    $tpl = new CTemplate($alias);
 	    new EContentCreatedEvent($tpl, $tpl);
@@ -40,14 +41,12 @@ class CTemplate
 	
 	public static function Delete($alias)
 	{
-	    $SCI = SContentIndex::alloc()->init();
-	    return $SCI->deleteContent($alias, 'CTemplate');
+	    return QBContent::deleteContent($alias);
 	}
 	
 	public static function Exists($alias)
 	{
-	    $SCI = SContentIndex::alloc()->init();
-	    return $SCI->exists($alias, 'CTemplate');
+	    return parent::contentExists($alias, self::CLASS_NAME);
 	}
 	
 	/**
@@ -56,8 +55,7 @@ class CTemplate
 	 */
 	public static function Index()
 	{
-	    $SCI = SContentIndex::alloc()->init();
-	    return $SCI->getIndex('CTemplate', false);;
+	    return parent::getIndex(self::CLASS_NAME, false);
 	}
 		
 	public static function Open($alias)

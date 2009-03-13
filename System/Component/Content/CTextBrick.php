@@ -2,7 +2,7 @@
 /**
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 2008-10-17
+ * @since 2009-03-09
  * @license GNU General Public License 3
  */
 /**
@@ -30,8 +30,7 @@ class CTextBrick
 	 */
 	public static function Create($title)
 	{
-	    $SCI = SContentIndex::alloc()->init();
-	    list($dbid, $alias) = $SCI->createContent(self::CLASS_NAME, $title);
+	    list($dbid, $alias) = QBContent::create(self::CLASS_NAME, $title);
 	    DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$dbid.'.php', ' ');
 	    DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$dbid.'.html.php', ' ');
 	    $tpl = new CTextBrick($alias);
@@ -41,14 +40,12 @@ class CTextBrick
 	
 	public static function Delete($alias)
 	{
-	    $SCI = SContentIndex::alloc()->init();
-	    return $SCI->deleteContent($alias, self::CLASS_NAME);
+	    return QBContent::deleteContent($alias);
 	}
 	
 	public static function Exists($alias)
 	{
-	    $SCI = SContentIndex::alloc()->init();
-	    return $SCI->exists($alias, self::CLASS_NAME);
+	    return parent::contentExists($alias, self::CLASS_NAME);
 	}
 	
 	/**
@@ -57,8 +54,7 @@ class CTextBrick
 	 */
 	public static function Index()
 	{
-	    $SCI = SContentIndex::alloc()->init();
-	    return $SCI->getIndex(self::CLASS_NAME, false);;
+	    return parent::getIndex(self::CLASS_NAME, false);
 	}
 		
 	public static function Open($alias)
@@ -134,7 +130,7 @@ class CTextBrick
 	
 	public function setContent($value)
 	{
-	    throw new XPermissionDeniedException('compiled templates are read only');
+	    throw new XPermissionDeniedException('can\'t set html content');
 	}
 	
 	public function setRAWContent($value)

@@ -12,6 +12,8 @@
 class CError extends BContent implements IGlobalUniqueId 
 {
     const GUID = 'org.bambuscms.content.cerror';
+    const CLASS_NAME = 'CError';
+    
     public function getClassGUID()
     {
         return self::GUID;
@@ -29,8 +31,7 @@ class CError extends BContent implements IGlobalUniqueId
 	
 	public static function Exists($alias)
 	{
-	    $SCI = SContentIndex::alloc()->init();
-	    return $SCI->exists($alias, 'CError');
+	    return parent::contentExists($alias, self::CLASS_NAME);
 	}
 	
 	/**
@@ -39,8 +40,7 @@ class CError extends BContent implements IGlobalUniqueId
 	 */
 	public static function Index()
 	{
-	    $SCI = SContentIndex::alloc()->init();
-	    return $SCI->getIndex('CError', false);;
+	    return parent::getIndex(self::CLASS_NAME, false);
 	}
 	
 	public static function Open($alias)

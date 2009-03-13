@@ -12,6 +12,8 @@
 class CPage extends BContent implements ISupportsSidebar, IGlobalUniqueId, Interface_XML_Atom_ProvidesInlineText 
 {
     const GUID = 'org.bambuscms.content.cpage';
+    const CLASS_NAME = 'CPage';
+    
     public function getClassGUID()
     {
         return self::GUID;
@@ -23,8 +25,7 @@ class CPage extends BContent implements ISupportsSidebar, IGlobalUniqueId, Inter
 	 */
 	public static function Create($title)
 	{
-	    $SCI = SContentIndex::alloc()->init();
-	    list($dbid, $alias) = $SCI->createContent('CPage', $title);
+	    list($dbid, $alias) = QBContent::create('CPage', $title);
 	    DFileSystem::Save(SPath::CONTENT.'CPage/'.$dbid.'.content.php', ' ');
 	    $page = new CPage($alias);
 	    new EContentCreatedEvent($page, $page);
@@ -33,14 +34,12 @@ class CPage extends BContent implements ISupportsSidebar, IGlobalUniqueId, Inter
 	
 	public static function Delete($alias)
 	{
-	    $SCI = SContentIndex::alloc()->init();
-	    return $SCI->deleteContent($alias, 'CPage');
+	    return QBContent::deleteContent($alias);
 	}
 	
 	public static function Exists($alias)
 	{
-	    $SCI = SContentIndex::alloc()->init();
-	    return $SCI->exists($alias, 'CPage');
+	    return parent::contentExists($alias, self::CLASS_NAME);
 	}
 	
 	/**
@@ -49,8 +48,7 @@ class CPage extends BContent implements ISupportsSidebar, IGlobalUniqueId, Inter
 	 */
 	public static function Index()
 	{
-	    $SCI = SContentIndex::alloc()->init();
-	    return $SCI->getIndex('CPage', false);;
+	    return parent::getIndex(self::CLASS_NAME, false);
 	}
 		
 	public static function Open($alias)

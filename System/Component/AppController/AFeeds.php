@@ -40,7 +40,6 @@ class AFeeds
         {
             throw new XPermissionDeniedException('view');
         }
-        $SCI = SContentIndex::alloc()->init();
         $IDindex = CFeed::Index();
         $items = array();
         foreach ($IDindex as $alias => $data) 

@@ -259,8 +259,7 @@ class CFeed
 	 */
 	public static function Create($title)
 	{
-	    $SCI = SContentIndex::alloc()->init();
-	    list($dbid, $alias) = $SCI->createContent(self::CLASS_NAME, $title);
+	    list($dbid, $alias) = QBContent::create(self::CLASS_NAME, $title);
 	    $tpl = new CFeed($alias);
 	    new EContentCreatedEvent($tpl, $tpl);
 	    return $tpl;
@@ -268,14 +267,12 @@ class CFeed
 	
 	public static function Delete($alias)
 	{
-	    $SCI = SContentIndex::alloc()->init();
-	    return $SCI->deleteContent($alias, self::CLASS_NAME);
+	    return QBContent::deleteContent($alias);
 	}
 	
 	public static function Exists($alias)
 	{
-	    $SCI = SContentIndex::alloc()->init();
-	    return $SCI->exists($alias, self::CLASS_NAME);
+	    return parent::contentExists($alias, self::CLASS_NAME);
 	}
 	
 	/**
@@ -284,8 +281,7 @@ class CFeed
 	 */
 	public static function Index()
 	{
-	    $SCI = SContentIndex::alloc()->init();
-	    return $SCI->getIndex(self::CLASS_NAME, false);;
+	    return parent::getIndex(self::CLASS_NAME, false);
 	}
 		
 	public static function Open($alias)

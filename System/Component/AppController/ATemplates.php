@@ -40,7 +40,6 @@ class ATemplates
         {
             throw new XPermissionDeniedException('view');
         }
-        $SCI = SContentIndex::alloc()->init();
         $IDindex = CTemplate::Index();
         $items = array();
         foreach ($IDindex as $alias => $data) 

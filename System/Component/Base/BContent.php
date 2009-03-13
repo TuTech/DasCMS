@@ -110,6 +110,66 @@ abstract class BContent extends BObject
 	    //FIXME BContent::Index() not implemented
 	}
 
+	protected static function contentExists($alias, $asType = null)
+	{
+	    $res = QBContent::exists($alias, $asType);
+	    $c = $res->getRowCount();
+	    $res->free();
+	    return $c == 1;
+	}
+	
+	public static function getContentInformationBulk(array $aliases)
+	{
+	    $res = QBContent::getPrimaryAliases($aliases);
+	    $map = array();
+	    $revmap = array();
+	    $infos = array();
+	    while ($erg = $res->fetch())
+		{
+		    list($reqest, $primary) = $erg;
+		    $map[] = $primary;
+		    $revmap[$primary] = $reqest;
+		}
+	    $res->free();
+	    
+	    $res = QBContent::getBasicInformation($map);
+	    while ($erg = $res->fetch())
+		{
+		    list($title, $pubdate, $alias) = $erg;
+		    $infos[$revmap[$alias]] = array(
+		        'Title' => $title, 
+				'Alias' => $alias,
+				'PubDate' => strtotime($pubdate)
+			);
+		}
+		$res->free();
+		return $infos;
+	}
+	
+	/**
+	 * @return array (alias => Title)
+	 */
+	public static function getIndex($class, $simple = true)
+	{
+		try
+		{
+		    $res = QBContent::getBasicInformationForClass($class);
+			$index = array();
+			while ($arr = $res->fetch())
+			{
+			    list($title, $pubdate, $alias, $type, $id) = $arr; 
+				$index[$alias] = $simple ? $title : array($title, $pubdate, $type, $id);
+			}
+			$res->free();
+		}
+		catch (Exception $e)
+		{
+			echo $e->getMessage();
+			$index = array();
+		}
+		return $index;
+	}
+	
 	/**
 	 * open content for alias or error 404 if permission denied
 	 * @param string $alias

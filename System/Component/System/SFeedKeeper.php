@@ -36,7 +36,7 @@ class SFeedKeeper
 	}
     
 	/**
-	 * @return SContentIndex
+	 * @return SFeedKeeper
 	 */
 	function init()
     {

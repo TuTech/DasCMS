@@ -64,7 +64,7 @@ class NTreeNavigationHelper
     	{
     		$cmsids[$node->getAlias()] = '';
     	}
-    	$this->_nodeData = SContentIndex::getContentInformationBulk(array_keys($cmsids));
+    	$this->_nodeData = BContent::getContentInformationBulk(array_keys($cmsids));
 	}
 	
 	/**
