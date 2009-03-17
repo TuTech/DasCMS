@@ -107,7 +107,6 @@ class QSTagPermissions extends BQuery
         					SELECT tagID as permissionTagREL
         						FROM Tags
         						WHERE ".implode(' OR ',$tsql);
-                echo $sql;
                 $DB->queryExecute($sql);
             }
         }

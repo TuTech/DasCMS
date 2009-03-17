@@ -13,6 +13,10 @@ abstract class BAppController
     extends 
         BObject
 {
+    protected $target = null;
+    
+    public function commit(){}
+    
     protected static function requirePermission($perm)
     {
         if(!PAuthorisation::has($perm))
@@ -20,6 +24,11 @@ abstract class BAppController
             throw new XPermissionDeniedException($perm);
         }
     }  
+    
+    public function setTarget($target)
+    {
+        $this->target = $target;
+    }
     
     public static function callController(BAppController $controller, $function, array $param)
     {
@@ -30,6 +39,16 @@ abstract class BAppController
                 array($param)
             );
         }
+    }
+    
+    /**
+     * array(BContent|string file, [string mimetype])
+     * 
+     * @return array
+     */
+    public function getSideBarTarget()
+    {
+        return array();
     }
     
 	/**

@@ -6,6 +6,7 @@
  * @since 2007-09-21
  * @version 1.0
  */
+$edit = SApplication::getControllerContent();
 if($edit != null)
 {
 	try

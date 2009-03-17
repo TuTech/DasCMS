@@ -11,21 +11,63 @@
  */
 class WOpenDialog extends BWidget 
 {
+	//IShareable
+	const CLASS_NAME = 'WOpenDialog';
+	/**
+	 * @var WOpenDialog
+	 */
+	public static $sharedInstance = NULL;
+	/**
+	 * @return WOpenDialog
+	 */
+	public static function alloc()
+	{
+		$class = self::CLASS_NAME;
+		if(self::$sharedInstance == NULL && $class != NULL)
+		{
+			self::$sharedInstance = new $class();
+		}
+		return self::$sharedInstance;
+	}
+    
+	/**
+	 * @return WOpenDialog
+	 * @see System/Component/Interface/IShareable#init()
+	 */
+	function init()
+    {
+    	return $this;
+    }
+	//end IShareable
+	
     protected static $CurrentWidgetID = 0;
     /**
      * @var BAppController
      */
     private $editor;
     private $autoload = false;
+    private $source = null;
     
     public function autoload($yn = true)
     {
         $this->autoload = ($yn == true);
     }
     
-    public function __construct(BAppController $editor, $BContent = null)
+    public function __construct($editor = null, $BContent = null)
+    {
+        if ($editor instanceof BAppController) 
+        {
+        	$this->setTarget($editor, $BContent);
+        }
+    }
+    
+    public function setTarget(BAppController $editor, $BContent = null)
     {
         $this->editor = $editor;
+        if ($editor instanceof ISupportsOpenDialog) 
+        {
+        	$BContent = $editor->getOpenDialogTarget();
+        }
         if($BContent == null)
         {
             $this->autoload(true);

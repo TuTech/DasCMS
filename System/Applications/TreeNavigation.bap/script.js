@@ -5,22 +5,24 @@ function Create()
 	input.setAttribute('onkeyup','org.bambuscms.validators.filename(this);');
 	input.setAttribute('onchange','org.bambuscms.validators.filename(this);');
 	input.setAttribute('onblur','org.bambuscms.validators.filename(this);');
-	input.setAttribute('name','new_nav_name');
+	input.setAttribute('name','create');
 	input.setAttribute('type','text');
 	input.setAttribute('value','');
 		
 	org.bambuscms.app.dialog.create(_('create_navigation'), _('filename_for_the_new_navigation'), input, _('ok'), _('cancel'));
+	org.bambuscms.app.dialog.setAction('create');
 	input.focus();
 }
 //show delete dialog
 function Delete()
 {
 	input = document.createElement('input');
-	input.setAttribute('name','delete_nav');
+	input.setAttribute('name','delete');
 	input.setAttribute('type','hidden');
 	input.setAttribute('value','yes');
 		
 	org.bambuscms.app.dialog.create(_('delete_navigation'), _('do_you_really_want_to_delete_this_navigation'), input, _('yes'), _('no'));
+	org.bambuscms.app.dialog.setAction('delete');
 }
 
 

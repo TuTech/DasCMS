@@ -6,10 +6,15 @@
  * @since 2006-10-16
  * @version 1.0
  */
+$File = SApplication::getControllerContent();
 if($File != null && $File instanceof BContent)
 {
 
-    echo new WScript("org.bambuscms.gui.hideCommandPanels(['multi_delete', 'multi_select', 'multi_view']);");
+    echo new WScript("
+    	$('CommandBarPanel_selection').parentNode.removeChild($('CommandBarPanel_selection'));
+    	org.bambuscms.app.hotkeys.unregister('CTRL-a');
+    	org.bambuscms.app.hotkeys.unregister('CTRL-e');
+    	");
 	printf('<input type="hidden" id="filename" size="30" name="filename" value="%s"/><h2>%s</h2>'
     	, htmlentities($File->Title, ENT_QUOTES, 'UTF-8')
     	, htmlentities($File->Title, ENT_QUOTES, 'UTF-8')
@@ -49,8 +54,13 @@ if($File != null && $File instanceof BContent)
 }
 else
 {
-    echo new WScript("org.bambuscms.gui.hideCommandPanels(['singe_object_edit']);");
-    echo '<input type="hidden" name="action" value="delete" />';
+    echo new WScript("
+    	$('App-Hotkey-CTRL-s').parentNode.removeChild($('App-Hotkey-CTRL-s'));
+    	$('App-Hotkey-CTRL-S').parentNode.removeChild($('App-Hotkey-CTRL-S'));
+    	org.bambuscms.app.hotkeys.unregister('CTRL-s');
+    	org.bambuscms.app.hotkeys.unregister('CTRL-S');
+    	");
+        echo '<input type="hidden" name="action" value="delete" />';
     $files = CFile::Index();
     
     $itemTemplate = "<a name=\"{id}\" title=\"{title}\" id=\"{id}\" ondblclick=\"org.bambuscms.wopenfiledialog.openAlias('{alias}');\" href=\"javascript:selectImage('{id}');\">
@@ -77,7 +87,7 @@ else
             'editIcon' => WIcon::pathFor('edit','action',WIcon::EXTRA_SMALL),
             'linktarget' => '_blank',
             'retainCount' => isset($retains[$Did]) ? sprintf('<span class="retainBatch retainBatch-%d">%s</span>', strlen($retains[$Did]), $retains[$Did]) : '',
-            'id' => md5($alias),
+            'id' => $alias,
             'alias' => $alias,
             'title' => htmlentities($data[0], ENT_QUOTES, 'UTF-8'),
             'name' => htmlentities($data[0], ENT_QUOTES, 'UTF-8')

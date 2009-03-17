@@ -14,7 +14,11 @@
 		<!ATTLIST tab 
 	        icon CDATA #REQUIRED
 	     >	
-	<!ELEMENT application 	(controller, interface, sidebar)>
+	<!ELEMENT application 	(controller?, interface, sidebar, openDialog?)>
+		<!ELEMENT openDialog EMPTY>
+		<!ATTLIST openDialog 
+			    autoShow (yes|no)  #REQUIRED
+			 >		
 		<!ELEMENT controller (#PCDATA)>
 		<!ELEMENT sidebar    (supported*, processInputs)>
 			<!ELEMENT supported EMPTY>

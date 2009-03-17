@@ -78,5 +78,19 @@ org.bambuscms.app.dialog.cancel = function()
 		container.removeChild(container.firstChild);
 	}
 }
+org.bambuscms.app.dialog.setAction = function(action)
+{
+	if($('dialogueform') && $('dialogueform').action)
+	{
+		if($('dialogueform').action.match(/_action=/))
+		{
+			$('dialogueform').action = $('dialogueform').action.replace(/_action=[a-zA-Z0-9%_-]*/, '_action='+escape(action));
+		}
+		else
+		{
+			$('dialogueform').action += '_action='+escape(action);
+		}
+	}
+}
 
 

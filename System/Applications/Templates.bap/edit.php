@@ -6,6 +6,7 @@
  * @since 2006-10-11
  * @version 1.0
  */
+$Tpl = SApplication::getControllerContent();
 if(isset($Tpl) && $Tpl instanceof CTemplate)
 {
     printf('<input type="hidden" id="filename" size="30" name="filename" value="%s"/><h2>%s</h2>'

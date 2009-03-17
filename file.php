@@ -7,15 +7,19 @@ RSession::start();
 PAuthentication::required();
 try
 {
-    $feed = RURL::get('get');
-    $content = BContent::OpenIfPossible($feed);
-    $content = BContent::Access($feed, $content);
-    $pubDate = $content->getPubDate();
-    if((empty($pubDate) || $pubDate > time()) && !PAuthorisation::has('org.bambuscms.content.cfile.view'))
+    $file = RURL::get('get');
+    $content = BContent::OpenIfPossible($file);
+    if(!PAuthorisation::has('org.bambuscms.content.cfile.view'))
     {
-        header('HTTP/1.1 403 Forbidden');
-    	header('Status: 403 Forbidden');
-    	exit();
+        $content = BContent::Access($file, $content);
+        $pubDate = $content->getPubDate();
+        if((empty($pubDate) || $pubDate > time()))
+        {
+            header('HTTP/1.1 403 Forbidden');
+        	header('Status: 403 Forbidden');
+        	echo 'Status: 403 Forbidden';
+        	exit();
+        }
     }
     if($content instanceof IFileContent)
     {
@@ -33,5 +37,6 @@ catch(Exception $e)
 {
     header('HTTP/1.1 404 Not Found');
 	header('Status: 404 Not Found');
+	echo 'Status: 404 Not Found';
 }
 ?>

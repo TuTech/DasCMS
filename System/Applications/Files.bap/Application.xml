@@ -12,7 +12,6 @@
 		<tab icon="place-folder">manage</tab> 
 	</tabs>
 	<application>
-		<controller>controller.php</controller>
 		<interface name="manage" src="manage.php" >
 			<panel name="content_actions">
 				<task type="button" hotkey="o" caption="open" icon="action-document-open" action="org.bambuscms.wopenfiledialog.toggle();" />
@@ -22,10 +21,7 @@
 			<panel name="server_actions">
 				<task type="button" hotkey="D" caption="download_selected" icon="action-transfer-download" action="downloadSelected('download');" />
 				<task type="button" hotkey="U" caption="upload" icon="action-transfer-upload" action="Upload();" />
-				<task type="button" hotkey="X" caption="delete" icon="action-edit-delete" action="Delete()" />
-				<!--  Switch in Delete()
-				<task type="button" hotkey="D" caption="delete_selected" icon="action-list-remove" action="org.bambuscms.app.document.save();" confirm="do_you_really_want_to_delete_the_selected_images" />
-				-->
+				<task type="button" hotkey="X" caption="delete_selected" icon="action-list-remove" action="MassDelete()" />
 			</panel>
 			<panel name="selection">
 				<task type="button" hotkey="a" caption="select_all" icon="action-edit-select-all" action="selectItems(true);" />
@@ -39,5 +35,6 @@
 			<supported mode="HELPER"/>
 			<processInputs mode="auto"/>
 		</sidebar>
+		<openDialog autoShow="no"/>
 	</application>
 </bambus>

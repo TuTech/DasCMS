@@ -33,6 +33,7 @@ WTemplate::globalSet('bambus_my_uri', SLink::link());
 WTemplate::globalSet('Header', new WHeader());
 WTemplate::globalSet('TaskBar','');
 WTemplate::globalSet('SideBar','');
+WTemplate::globalSet('OpenDialog','');
 WTemplate::globalSet('ControllerData','');
 WTemplate::globalSet('DocumentFormAction',  SLink::link());
 
@@ -52,15 +53,55 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
     {
 	    WTemplate::globalSet('AppGUID',$App->getGUID());
     	
-		ob_start();
-		require($App->getController());
-		$ob = ob_get_contents();
-		ob_end_clean();
-		
+	    $ctrl = $App->getController();
+	    if($ctrl)
+	    {
+	        //controller file
+    		ob_start();
+    		require($ctrl);
+    		$ob = ob_get_contents();
+    		ob_end_clean();
+    		WTemplate::globalSet('ControllerData',$ob);
+	    }
+	    else
+	    {
+	        //generic controller interface
+	        $controller = SApplication::appController();
+            //target from url
+            if(RURL::has('edit'))
+            {
+                $controller->setTarget(RURL::get('edit', 'utf-8'));
+            }
+            //execute function call
+            BAppController::callController(
+                $controller, 
+                RURL::get('_action'), 
+                RSent::data('UTF-8')
+            );
+            if ($controller instanceof ISupportsOpenDialog) 
+            {
+            	WTemplate::globalSet(
+                	'DocumentFormAction',  
+                    SLink::link(array(
+                    	'edit' => $controller->getOpenDialogTarget(), 
+                    	'_action' => 'save'))
+                );
+            }
+            else
+            {
+                WTemplate::globalSet(
+                	'DocumentFormAction' 
+                    ,SLink::link(array('_action' => 'save'))
+                );
+            }
+	    }
+	    
 		WTemplate::globalSet('TaskBar',$App->getTaskBar());//
+		WTemplate::globalSet('OpenDialog',$App->getOpenDialog());
 		WTemplate::globalSet('SideBar',WSidePanel::alloc()->init());
-		WTemplate::globalSet('ControllerData',$ob);
 		WTemplate::renderOnce('header', WTemplate::SYSTEM);
+		//do savings here - wsidebar might have done something
+    	SApplication::appController()->commit();
     	
     	$erg = $App->getInterface();
     	if($erg !== true && (!file_exists($erg) || !include($erg)))

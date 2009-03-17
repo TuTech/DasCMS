@@ -12,7 +12,6 @@
 		<tab icon="action-edit">edit</tab>
 	</tabs>
 	<application>
-		<controller>controller.php</controller>
 		<interface name="edit" src="edit.php">
 			<panel name="content_actions">
 				<task type="button" hotkey="o" caption="open" icon="action-document-open" action="org.bambuscms.wopenfiledialog.toggle();" />
@@ -36,5 +35,6 @@
 			<supported mode="HELPER"/>
 			<processInputs mode="auto"/>
 		</sidebar>
+		<openDialog autoShow="yes"/>
 	</application>
 </bambus>

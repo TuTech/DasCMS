@@ -11,6 +11,7 @@
 		</div>
 		<form method="post" id="documentform" name="documentform" action="{DocumentFormAction}">
 			{ControllerData}
+			{OpenDialog}
 			{SideBar}
 			<div id="BambusContentArea">
 				<div id="BambusApplication">

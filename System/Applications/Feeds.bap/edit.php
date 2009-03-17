@@ -6,8 +6,8 @@
  * @since 2008-10-24
  * @version 1.0
  */
-	
-if(PAuthorisation::has('org.bambuscms.content.cfeed.change') && isset($Feed) && $Feed instanceof CFeed)
+$Feed = SApplication::getControllerContent();
+if(PAuthorisation::has('org.bambuscms.content.cfeed.change') && $Feed != null)
 {
 	printf('<input type="hidden" id="filename" size="30" name="filename" value="%s"/><h2>%s</h2>'
 		, htmlentities($Feed->Title, ENT_QUOTES, 'UTF-8')

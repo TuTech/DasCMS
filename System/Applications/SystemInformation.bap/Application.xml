@@ -12,7 +12,6 @@
 		<tab icon="action-inform">system_information</tab>
 	</tabs>
 	<application>
-		<controller>controller.php</controller>
 		<interface name="system_information" src="info.php">
 			<panel name="server_actions">
             	<task type="button" hotkey="C" caption="clear_cache" icon="action-clean" action="clearCache" mode="html" />

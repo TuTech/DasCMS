@@ -13,10 +13,98 @@ class ATemplates
     extends 
         BAppController 
     implements 
-        IGlobalUniqueId  
+        IGlobalUniqueId,
+        ISupportsOpenDialog
 {
     const GUID = 'org.bambuscms.applications.templates';
         
+
+    /**
+	 * @var CTemplate
+     */
+    protected $target = null;
+    
+    public function setTarget($target)
+    {
+        try
+        {
+            if(!empty($target))
+            {
+                $this->target = CTemplate::Open($target);
+            }
+        }
+        catch (Exception $e)
+        {
+            $this->target = null;
+        }
+    }
+    
+    public function create(array $param)
+    {
+        parent::requirePermission('org.bambuscms.content.ctemplate.create');
+        if(!empty($param['create']))
+        {
+            $this->target = CTemplate::Create($param['create']);
+        }
+    }
+    
+    public function save(array $param)
+    {
+        parent::requirePermission('org.bambuscms.content.ctemplate.change');
+        if($this->target != null
+            && isset($param['content']))
+        {
+            $this->target->RAWContent = $param['content'];
+            if(!empty($param['filename']))
+            {
+                $this->target->Title = $param['filename'];
+            }
+        }
+    }
+    
+    public function delete(array $param)
+    {
+        parent::requirePermission('org.bambuscms.content.ctemplate.delete');
+        if($this->target != null)
+        {
+            $alias = $this->target->Alias;
+            $this->target = null;
+            CTemplate::Delete($alias);
+        }
+    }
+    
+    public function commit()
+    {
+        if($this->target != null && $this->target->isModified())
+        {
+            try
+            {
+                SErrorAndExceptionHandler::muteErrors();
+                $this->target->Save();
+                SErrorAndExceptionHandler::reportErrors();
+            }
+            catch (Exception $e)
+            {
+            	SNotificationCenter::report('warning', 'invalid_template_not_executeable');
+            }
+        }
+    } 
+    
+    /**
+     * array(BContent|string file, [string mimetype])
+     * 
+     * @return array
+     */
+    public function getSideBarTarget()
+    {
+        $ret = array();
+        if($this->target)
+        {
+            $ret = array($this->target);
+        }
+        return $ret;
+    }
+
     /**
      * @return string
      * (non-PHPdoc)
@@ -25,6 +113,15 @@ class ATemplates
     public function getClassGUID()
     {
         return self::GUID;
+    }
+    
+    /**
+     * opened object 
+     * @return string|null 
+     */
+    public function getOpenDialogTarget()
+    {
+        return empty($this->target) ? null : $this->target->Alias;
     }
     
     /**

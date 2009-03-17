@@ -13,10 +13,12 @@ class AStylesheetEditor
     extends 
         BAppController 
     implements 
-        IGlobalUniqueId  
+        IGlobalUniqueId,
+        ISupportsOpenDialog
 {
     const GUID = 'org.bambuscms.applications.stylesheeteditor';
-        
+    private $content = null;
+    
     /**
      * @return string
      * (non-PHPdoc)
@@ -25,6 +27,18 @@ class AStylesheetEditor
     public function getClassGUID()
     {
         return self::GUID;
+    }
+    
+    public function setTarget($target)
+    {
+        if(!empty($target))
+        {
+            $target = basename($target);
+            if(file_exists(SPath::DESIGN.$target))
+            {
+                $this->target = $target;
+            }
+        }
     }
     
     /**
@@ -69,13 +83,13 @@ class AStylesheetEditor
         return $data;
     }
     
-    private $openFile = null;
-    private $content = null;
-    private $create = false;
-    
-    public function hasCreated()
+    /**
+     * opened object 
+     * @return string|null 
+     */
+    public function getOpenDialogTarget()
     {
-        return $this->create;
+        return $this->target;
     }
     
     public function getSavedContent()
@@ -83,9 +97,19 @@ class AStylesheetEditor
         return $this->content;
     }
     
-    public function getChangedContent()
+    /**
+     * array(BContent|string file, [string mimetype])
+     * 
+     * @return array
+     */
+    public function getSideBarTarget()
     {
-        return $this->openFile;
+        $ret = array();
+        if($this->target)
+        {
+            $ret = array($this->target, 'text/css');
+        }
+        return $ret;
     }
     
     public function create(array $param)
@@ -99,10 +123,9 @@ class AStylesheetEditor
             }
         	$this->content = '/* '.SLocalization::get('new_css_file').' */';
         	DFileSystem::Save(SPath::DESIGN.$param['create'], $this->content);
-        	$this->openFile = $param['create'];
-        	$this->create = true;
+        	$this->target = $param['create'];
         }
-        else
+        elseif(isset($param['create']))
         {
             SNotificationCenter::report('warning', 'invalid_characters_in_file_name');
         }
@@ -111,55 +134,30 @@ class AStylesheetEditor
     public function save(array $param)
     {
         parent::requirePermission('org.bambuscms.layout.stylesheet.change');
-        if(isset($param['edit']) 
+        if($this->target != null
             && isset($param['content']))
         {
-            $file = basename($param['edit']);
-            if(file_exists(SPath::DESIGN.$file))
-            {
-                $this->openFile = $file;
-                $this->content = $param['content'];
-                DFileSystem::Save(SPath::DESIGN.$file, $param['content']);
-                SNotificationCenter::report('message', 'saved');
-            }
-            else
-            {
-                SNotificationCenter::report('warning', 'file_doesn\'t exist');
-            }
-        }
-        else 
-        {
-            SNotificationCenter::report('warning', 'missing_parameters');
+            $this->content = $param['content'];
+            DFileSystem::Save(SPath::DESIGN.$this->target, $param['content']);
+            SNotificationCenter::report('message', 'saved');
         }
     }
     
     public function delete(array $param)
     {
         parent::requirePermission('org.bambuscms.layout.stylesheet.delete');
-        if(isset($param['edit']))
+        if($this->target != null)
         {
-            $file = basename($param['edit']);
-            if(file_exists(SPath::DESIGN.$file))
+            SErrorAndExceptionHandler::muteErrorOnce();
+            if(unlink(SPath::DESIGN.$this->target))
             {
-                SErrorAndExceptionHandler::muteErrorOnce();
-                if(unlink(SPath::DESIGN.$file))
-                {
-                    SNotificationCenter::report('message', 'file_deleted');
-                    $this->openFile = null;
-                }
-                else
-                {
-                    SNotificationCenter::report('warning', 'could_not_delete_file');
-                }
+                SNotificationCenter::report('message', 'file_deleted');
+                $this->target = null;
             }
             else
             {
-                SNotificationCenter::report('warning', 'file_doesn\'t exist');
+                SNotificationCenter::report('warning', 'could_not_delete_file');
             }
-        }
-        else 
-        {
-            SNotificationCenter::report('warning', 'missing_parameters');
         }
     }
 }

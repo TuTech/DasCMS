@@ -65,7 +65,7 @@ class WSidePanel
 	private function __construct()
 	{
 	}
-
+	
 	public function setTargetContent(BContent $content)
 	{
 	    if(isset($this->object))
@@ -104,7 +104,7 @@ class WSidePanel
 	
 	public function hasTarget()
 	{
-	    return isset($this->object);
+	    return $this->object !== null;
 	}
 	
 	public function isTargetObject()
@@ -196,6 +196,19 @@ class WSidePanel
 	    if(!$this->inputsProcessed)
 	    {
     	    $this->inputsProcessed = true;
+	        //load target from app controller
+	        if(!$this->hasTarget())
+	        {
+	            $dat = SApplication::appController()->getSideBarTarget();
+	            if(count($dat) == 1)
+	            {
+	                $this->setTargetContent($dat[0]);
+	            }
+	            elseif (count($dat) == 2)
+	            {
+	                $this->setTarget($dat[0], $dat[1]);
+	            }
+	        }
     	    $this->loadWidgets();
     	    if(count($this->sidebarWidgets) > 0)
     		{

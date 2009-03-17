@@ -15,20 +15,39 @@ class SApplication
     implements 
         IShareable
 {	
-    private $name, $description, $guid, $version, $icon, $controller, $interface, $class;
+    private $name, $description, $guid, $version, $icon, $interface, $class;
     /**
      * @var WApplicationTaskBar
      */
+    private $controller = null;
     private $taskbar;
+    private $openDialog = false;
+    private $openDialogAutoShow;
     private $appPath, $hasApp = false;
-    
+    private static $appController = null;
     /**
      * @return BAppController
      */
     public static function appController()
     {
-        $a = self::alloc()->init();
-        return BAppController::getControllerForID($a->getGUID());
+        if(self::$appController == null)
+        {
+            $a = self::alloc()->init();
+            self::$appController = BAppController::getControllerForID($a->getGUID());
+        }
+        return self::$appController;
+    }
+    
+    public static function getControllerContent()
+    {
+        $ctrl = self::appController();
+        $data = $ctrl->getSideBarTarget();
+        $out = null;
+        if(count($data))
+        {
+            $out = $data[0];
+        }
+        return $out;
     }
     
     public function initApplication()
@@ -106,12 +125,27 @@ class SApplication
     
     public function getController()
     {
-        return $this->appPath.$this->controller;
+        return ($this->controller == null) ? null : $this->appPath.$this->controller;
     }
     
     public function getTaskBar()
     {
         return $this->taskbar;
+    }
+    
+    public function getOpenDialog()
+    {
+        $ofd = '';
+        if($this->openDialog)
+        {
+            $ofd = WOpenDialog::alloc()->init();
+            $ofd->setTarget(self::appController());
+            if(!$this->openDialogAutoShow)
+            {
+                $ofd->autoload(false);
+            }
+        }
+        return $ofd;
     }
     
     protected function __construct()
@@ -155,13 +189,24 @@ class SApplication
         foreach ($atts as $var => $xpath)
         {
             $data = $xp->query($xpath);
-            if($data)
+            if($data && $data->length == 1)
             {
                 $this->{$var} = $data->item(0)->nodeValue;
             }
         }
         $this->setupSidebar($xp);
+        $this->setupOpenDialog($xp);
         $this->taskbar->setSource($dom);
+    }
+    
+    private function setupOpenDialog(DOMXPath $xp)
+    {
+        $supported = $xp->query('/bambus/application/openDialog/@autoShow');
+        if($supported && $supported->length == 1)
+        {
+            $this->openDialogAutoShow = strtolower($supported->item(0)->nodeValue) == 'yes';
+            $this->openDialog = true;
+        }
     }
     
     private function setupSidebar(DOMXPath $xp)

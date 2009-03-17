@@ -13,18 +13,135 @@ class AFiles
     extends 
         BAppController 
     implements 
-        IGlobalUniqueId  
+        IGlobalUniqueId,
+        ISupportsOpenDialog  
 {
     const GUID = 'org.bambuscms.applications.files';
     
     /**
+	 * @var CFile
+     */
+    protected $target = null;
+    
+    public function setTarget($target)
+    {
+        try
+        {
+            if(!empty($target))
+            {
+                $this->target = CFile::Open($target);
+            }
+        }
+        catch (Exception $e)
+        {
+            $this->target = null;
+        }
+    }
+    
+    public function create(array $param)
+    {
+        parent::requirePermission('org.bambuscms.content.cfile.create');
+        try
+        {
+            $this->target = CFile::Create(isset($param['create']) ? $param['create'] : '');
+        }
+        catch (Exception $e)
+        {
+            SNotificationCenter::report('warning', 'file_not_created');
+        }
+    }
+    
+    public function save(array $param)
+    {
+        parent::requirePermission('org.bambuscms.content.cfile.change');
+        if($this->target != null
+            && isset($param['filename']) 
+            && $param['filename'] != '')
+        {
+            $this->target->Title = $param['filename'];
+        }
+    }
+    
+    public function delete(array $param)
+    {
+        parent::requirePermission('org.bambuscms.content.cfile.delete');
+        if($this->target != null)
+        {
+            $alias = $this->target->Alias;
+            $this->target = null;
+            CFile::Delete($alias);
+        }
+    }
+    
+    public function massDelete(array $param)
+    {
+        parent::requirePermission('org.bambuscms.content.cfile.delete');
+        if(!empty($param['delete']))
+        {
+            $aliases = explode(',', str_replace(';', ',', $param['delete']));
+            foreach ($aliases as $alias)
+            {
+                $alias = trim($alias);
+                if(!empty($alias))
+                {
+                    try
+                    {
+                        if(CFile::Delete($alias))
+                        {
+                            SNotificationCenter::report('message', 'file_deleted');
+                        }
+                    }
+                    catch (Exception $e)
+                    {
+                    	/*ignore and go on*/
+                        SNotificationCenter::report('warning', 'could_not_delete_file');
+                    }
+                }
+            }
+            $this->target = null;
+        }
+    }
+    
+    public function commit()
+    {
+        if($this->target != null && $this->target->isModified())
+        {
+            $this->target->Save();
+        }
+    } 
+    
+    /**
+     * array(BContent|string file, [string mimetype])
+     * 
+     * @return array
+     */
+    public function getSideBarTarget()
+    {
+        $ret = array();
+        if($this->target)
+        {
+            $ret = array($this->target);
+        }
+        return $ret;
+    }
+
+    /**
      * @return string
      * (non-PHPdoc)
      * @see System/Component/Interface/IGlobalUniqueId#getClassGUID()
-     */    
+     */
     public function getClassGUID()
     {
         return self::GUID;
+    }
+    
+    /**
+     * opened object 
+     * @return string|null 
+     */
+    public function getOpenDialogTarget()
+    {
+        return empty($this->target) ? null : $this->target->Alias;
     }
     
     /**

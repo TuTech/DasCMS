@@ -49,12 +49,6 @@ if(PAuthorisation::has('org.bambuscms.credentials.user.change'))
 echo "\n";
 echo new WScript('var action_change_password = function(){'.$jsCreate.'};');
 
-
-
-
-
-
-
 $SUsersAndGroups = SUsersAndGroups::alloc()->init();
 
 $intro = new WIntroduction();
@@ -74,7 +68,11 @@ if($edit_mode == 'usr')
 		: "%s\n";
 
 	$prof_tbl->addRow(array('login_name', htmlentities($victim)));
-	$prof_tbl->addRow(array('last_management_login', @date('r',($SUsersAndGroups->getUserAttribute($victim, 'last_management_login')))));
+	$dat = intval($SUsersAndGroups->getUserAttribute($victim, 'last_management_login')); 
+	if(!empty($dat))
+	{
+	    $prof_tbl->addRow(array('last_management_login', date('r',($dat))));
+	}
 	$prof_tbl->addRow(array('management_login_count', htmlentities($SUsersAndGroups->getUserAttribute($victim, 'management_login_count'))));
 	$prof_tbl->addRow(array(
 	    'real_name', 

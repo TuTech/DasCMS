@@ -6,6 +6,7 @@
  * @since 2006-10-11
  * @version 1.0
  */
+$currentFile = SApplication::getControllerContent();
 if(!empty($currentFile))
 {
 	printf(
