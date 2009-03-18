@@ -6,7 +6,6 @@ Aliases
         ON DELETE CASCADE
         ON UPDATE NO ACTION;
 
-
 -- foreign keys for atom imports
 ALTER TABLE 
 AtomImports
@@ -124,7 +123,42 @@ PermissionTags
         ON DELETE RESTRICT
         ON UPDATE NO ACTION;
         
-        
+-- Foreign keys for PersonContextAttributeTypes
+ALTER TABLE 
+PersonContextAttributeTypes
+    ADD FOREIGN KEY (personContextREL)
+        REFERENCES PersonContexts(personContextID)
+        ON DELETE RESTRICT
+        ON UPDATE RESTRICT,
+    ADD FOREIGN KEY (personAttributeREL)
+        REFERENCES PersonAttributes(personAttributeID)
+        ON DELETE RESTRICT
+        ON UPDATE RESTRICT,
+    ADD FOREIGN KEY (personAttributeTypeREL)
+        REFERENCES PersonAttributeTypes(personAttributeTypeID)
+        ON DELETE RESTRICT
+        ON UPDATE RESTRICT;
+
+-- Foreign keys for PersonData
+ALTER TABLE 
+PersonData
+    ADD FOREIGN KEY (personContextAttributeTypeREL)
+        REFERENCES PersonContextAttributeTypes(personContextAttributeTypeID)
+        ON DELETE RESTRICT
+        ON UPDATE RESTRICT,
+    ADD FOREIGN KEY (contentREL)
+        REFERENCES Contents(contentID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION;
+
+-- Foreign keys for PersonLogins
+ALTER TABLE 
+PersonLogins
+    ADD FOREIGN KEY (contentREL)
+        REFERENCES Contents(contentID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION;
+
 -- Foreign keys for relContentsPreviewImages
 ALTER TABLE 
 relContentsPreviewImages

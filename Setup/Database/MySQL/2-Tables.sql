@@ -1,4 +1,3 @@
-
 -- content accessors
 CREATE TABLE IF NOT EXISTS 
 Aliases(
@@ -466,6 +465,132 @@ ENGINE = InnoDB
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
 
+-- attribute contexts
+CREATE TABLE IF NOT EXISTS 
+PersonContexts(
+	personContextID
+        INTEGER 
+        PRIMARY KEY 
+        AUTO_INCREMENT 
+        NOT NULL,
+    personContext
+    	VARCHAR(32)
+    	NOT NULL
+    	UNIQUE
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- attribute names
+CREATE TABLE IF NOT EXISTS 
+PersonAttributes(
+	personAttributeID
+        INTEGER 
+        PRIMARY KEY 
+        AUTO_INCREMENT 
+        NOT NULL,
+    personAttribute
+    	VARCHAR(64)
+    	NOT NULL
+    	UNIQUE
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- attribute types
+CREATE TABLE IF NOT EXISTS 
+PersonAttributeTypes(
+	personAttributeTypeID
+        INTEGER 
+        PRIMARY KEY 
+        AUTO_INCREMENT 
+        NOT NULL,
+    personAttributeType
+    	VARCHAR(32)
+    	NOT NULL
+    	UNIQUE
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- context, attribute and type combi
+CREATE TABLE IF NOT EXISTS 
+PersonContextAttributeTypes(
+	personContextAttributeTypeID
+        INTEGER 
+        PRIMARY KEY 
+        AUTO_INCREMENT 
+        NOT NULL,
+	personContextREL
+		INTEGER 
+        NOT NULL,
+	personAttributeREL
+		INTEGER 
+        NOT NULL,
+	personAttributeTypeREL
+		INTEGER 
+        NOT NULL,
+    UNIQUE(
+    	personContextREL,
+    	personAttributeREL
+	)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- person attribute assignment
+CREATE TABLE IF NOT EXISTS 
+PersonData(
+	contentREL
+        INTEGER 
+        NOT NULL,
+    personContextAttributeTypeREL
+    	INTEGER
+    	NOT NULL,
+	personData
+		varchar(4096)
+		NOT NULL,
+	isPrimary
+		Enum('NO', 'YES')
+		NOT NULL
+		DEFAULT 'NO',
+	INDEX (contentREL),
+	INDEX (personContextAttributeTypeREL),
+	INDEX (personData)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- login credentials for persons
+CREATE TABLE IF NOT EXISTS 
+PersonLogins(
+	contentREL
+        INTEGER 
+        NOT NULL,
+    loginName
+    	VARCHAR(32)
+    	NOT NULL,
+    digestHA1
+    	VARCHAR(32)
+    	NOT NULL,
+    digestRealm
+    	VARCHAR(32)
+    	NOT NULL,
+	isActive
+		Enum('NO', 'YES')
+		NOT NULL
+		DEFAULT 'YES',
+	INDEX (contentREL),
+	INDEX (loginName, digestHA1, digestRealm)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
 
 -- tags
 CREATE TABLE IF NOT EXISTS 
