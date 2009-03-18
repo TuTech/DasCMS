@@ -3,7 +3,7 @@
 <bambus>
 	<appController guid="org.bambuscms.applications.usereditor">AUserEditor</appController>
 	<name>users</name>
-	<description>user_administration</description>
+	<description>deprecated</description>
 	<icon>app-preferences-account-user</icon>
 	<version>0.10.20061011</version>
 	<priority>1.9</priority>
