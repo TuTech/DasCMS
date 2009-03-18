@@ -1,5 +1,55 @@
+headings	Überschriften
+paragraph_types	Absatztypen
+char_formats	Zeichenformatierungen
+layout	Textausrichtung
+insert	Einfügen
+commands	Hilfreiche Befehle
+remove_format	Zeichenformatierung entfernen
+remove_link	Verlinkung entfernen
+show_code_view	Quellcode anzeigen
+huge	riesig
+large	groß
+medium_large	mittel
+medium_small	normal
+small	klein
+tiny	winzig
+paragraph	Absatz
+address	Adresse
+bold	fett
+italic	kursiv
+underline	unterstrichen
+strikethrough	durchgestrichen
+superscript	hochgestellt
+subscript	tiefgestellt
+align_left	linksbündig
+align_center	zentriert
+align_right	rechtsbündig
+indent	nach rechts einrücken
+outdent	nach links rücken
+protection_tags	Zugriffschutz
+tag_permissions	Zugriffschutz bearbeiten
+retained_by	Verwendet von...
+retain_info	Information: Bild ist eingebunden von...
+retain_count	Wie oft eingebunden?
+preview_image	Bildvorschau
+edit_protection_tags	Tags für den Zugriffschutz verwalten
+define_content_routes	Verwaltung von Darstellungskombinationen (Mashups)
+text_bricks	DCMScode
+edit_text_bricks	Content im Stil vom Dobrick-CMS bearbeiten
+design	Design
+edit_feeds	Verwaltung und Erstellung von Nachrichtentickern, Podcast, Videopodcasts
+content_lookup	Alle Webseiten (zur Verlinkung)
+search_contens	Nach Webseitentitel suchen
+content_information	Eigenschaften dieser Webseite anzeigen
+content_properties	Erweiterte Eigenschaften dieser Webseite bearbeiten
+wysiwyg_panel	Werkzeugpalette Textbearbeitung
+profile	Benutzerprofil
+login_name	Benutzername
+management_login_count	Anzahl der erfolgreichen Anmeldungen
+real_name	Vollständiger Name
+external_link	Auf fremde Seite verlinken
 notifications	Benachrichtigungen
-no_notifications	- Keine -
+no_notifications	- Keine Benachrichtigungen -
 html_reformatted	HTML neu formatiert
 css_reformatted	CSS neu formatiert
 css_sorted	CSS sortiert
