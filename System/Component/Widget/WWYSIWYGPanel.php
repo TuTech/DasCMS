@@ -146,13 +146,13 @@ class WWYSIWYGPanel extends BWidget implements ISidebarWidget
 	private static function getStruct()
 	{
 	    return array(
-	    	'headings' => array('h1'=>'huge','h2'=>'large','h3'=>'medium large','h4'=>'medium small','h5'=>'small','h6'=>'tiny'),
+	    	'headings' => array('h1'=>'huge','h2'=>'large','h3'=>'medium_large','h4'=>'medium_small','h5'=>'small','h6'=>'tiny'),
 	        'paragraph_types' => array('p'=>'paragraph','address'=>'address'),
 	        //'paragraph_formats' => array('css here'),
 	        'char_formats' => array('bold' => 'bold', 'italic' => 'italic', 'underline' => 'underline', 'strike' => 'strikethrough', 'sup' => 'superscript', 'sub' => 'subscript'),
-	        'layout'=> array('justifyleft' => 'align left','justifycenter' => 'align center','justifyright' => 'align right', 'indent' => 'indent', 'outdent' => 'outdent'),
-	        'insert'=> array('createlink' => 'external link'/*, 'link to content', 'embed image'*/),
-	    	'commands' => array('removeformat' => 'remove format','unlink' => 'remove link','switchWYSIWYG' => 'show code view'),
+	        'layout'=> array('justifyleft' => 'align_left','justifycenter' => 'align_center','justifyright' => 'align_right', 'indent' => 'indent', 'outdent' => 'outdent'),
+	        'insert'=> array('createlink' => 'external_link'/*, 'link to content', 'embed image'*/),
+	    	'commands' => array('removeformat' => 'remove_format','unlink' => 'remove_link','switchWYSIWYG' => 'show_code_view'),
 	    );
 	}
 	
