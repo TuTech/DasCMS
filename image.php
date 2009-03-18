@@ -5,6 +5,7 @@ PAuthentication::required();
 $cache_1Day = 86400;
 header("Expires: ".date('r', time()+$cache_1Day));
 header("Cache-Control: max-age=".$cache_1Day.", public");
+header("Content-Disposition: inline");
 error_reporting(0);
 if(!empty($_SERVER['PATH_INFO']))
 {
