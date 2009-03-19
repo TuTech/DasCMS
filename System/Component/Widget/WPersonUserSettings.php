@@ -54,21 +54,16 @@ class WPersonUserSettings extends BWidget implements ISidebarWidget
 		$html = '<div id="WPersonUserSettings">';
 		$Items = new WNamedList();
 		$Items->setTitleTranslation(false);
-		
-		if($this->targetObject->hasLogin())
-		{
-    		$Items->add(
-    		    sprintf("<label>%s</label>", SLocalization::get('login_name')),
-    		    $this->targetObject->getLoginName()
-		    );		
-		}
-		else
-		{
-    		$Items->add(
-    		    sprintf("<label>%s</label>", SLocalization::get('login')),
-    		    SLocalization::get('no_account_created_for_this_user')
-		    );
-		}
+		$Items->add(
+		    sprintf("<label>%s</label>", SLocalization::get('role')),
+		    sprintf(
+		    	'<select><option>%s</option><option>%s</option><option>%s</option><option>%s</option></select>'
+		    	,SLocalization::get('person')
+		    	,SLocalization::get('website_user')
+		    	,SLocalization::get('cms_user')
+		    	,SLocalization::get('administrator')
+	    	)
+	    );			
 	    $html .= $Items;
 		$html .= '</div>';
 		return $html;

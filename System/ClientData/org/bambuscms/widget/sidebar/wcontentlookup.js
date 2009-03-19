@@ -63,7 +63,7 @@ org.bambuscms.wcontentlookup.fetch = function()
 	{
 		send.mode = $('WContentLookupMode').options[$('WContentLookupMode').selectedIndex].value;
 	}
-	send = '{"filter":"'+send.filter.replace(/"/g,'\\"')+'","mode":"'+send.mode+'"}';
+	send = org.json.stringify(send);
 	var qobj = org.bambuscms.http.managementRequestURL(data);
 	org.bambuscms.http.fetchJSONObject(
 		qobj,

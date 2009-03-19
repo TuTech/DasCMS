@@ -74,7 +74,7 @@ org.bambuscms.http.fetchJSONObject = function(url, asyncHandler, data)
 	{
 		var hdl = function(request)
 		{
-			var obj = json_parse(request.responseText);
+			var obj = org.json.parse(request.responseText);
 			if(obj.error)
 			{
 				alert('ERROR\n'+request.responseText);
@@ -88,7 +88,7 @@ org.bambuscms.http.fetchJSONObject = function(url, asyncHandler, data)
 		var request = org.bambuscms.http.fetch(url, null, data);
 		try
 		{
-			var obj = json_parse(request.responseText);
+			var obj = org.json.parse(request.responseText);
 			if(obj.error)
 			{
 				alert('ERROR\n'+request.responseText);
