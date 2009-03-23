@@ -49,7 +49,6 @@ org.bambuscms.http.fetch = function(url, asyncHandler, data)
 	var request = org.bambuscms.http.requestFactory();
 	//alert(async);
 	request.open(method, url, async);
-	request.setRequestHeader("User-Agent", "Bambus CMS XMLHttpRequest");
 	if(async)
 	{
 		request.onreadystatechange = function()
