@@ -2,7 +2,7 @@ org.bambuscms.gui = {};
 
 org.bambuscms.gui.element = function(type, value, attributes)
 {
-	var elm = document.createElement(type);
+	var elm = $c(type);
 	if(value)
 	{
 		if(typeof value == 'string')

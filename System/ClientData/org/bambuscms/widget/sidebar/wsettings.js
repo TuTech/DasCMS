@@ -35,7 +35,7 @@ org.bambuscms.wsettings.selectImage = function()
 		qobj,
 		org.bambuscms.wsettings.fillDialog
 	);
-	div = document.createElement('div');
+	div = $c('div');
 	div.setAttribute('id','wsettings_img_select');
 	div.innerHTML = '<img src="System/ClientData/Icons/16x16/animations/loading.gif" style="margin:10px auto 10px auto;display:block;" alt="'+_('loading')+'" title="'+_('loading')+'" />';
 	var dlg = org.bambuscms.app.dialog.create(_('select_preview_image'), '', div, false, 'Close');
@@ -56,7 +56,7 @@ org.bambuscms.wsettings.fillDialog = function (dataObject)
 		target.innerHTML = '';
 		for(alias in dataObject.images)
 		{
-			var img = document.createElement('img');
+			var img = $c('img');
 			img.src = dataObject.renderer + '/' + alias + '/' + dataObject.scaleHash;
 			img.alt = alias;
 			img.title = dataObject.images[alias];
@@ -65,9 +65,9 @@ org.bambuscms.wsettings.fillDialog = function (dataObject)
 				img.className = 'wsettings_current';
 			}
 			org.bambuscms.gui.setEventHandler(img, 'click', org.bambuscms.wsettings.setImage)
-			var inner = document.createElement('div');
+			var inner = $c('div');
 			inner.className = 'wsettings_inner';
-			var outer = document.createElement('div');
+			var outer = $c('div');
 			outer.className = 'wsettings_outer';
 			inner.appendChild(img);
 			outer.appendChild(inner);
@@ -107,10 +107,10 @@ org.bambuscms.wsettings.showPubDateHelper = function()
 		helps = {};
 		helps[t] = '';
 	}
-	var content = document.createElement('div');
+	var content = $c('div');
 	for(caption in helps)
 	{
-		var help = document.createElement('b');
+		var help = $c('b');
 		help.title = helps[caption];
 		help.innerHTML = caption;
 		org.bambuscms.gui.setEventHandler(help, 'click', org.bambuscms.wsettings.setPubDate);

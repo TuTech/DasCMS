@@ -78,12 +78,12 @@ org.bambuscms.editor.wysiwyg._object = function(elements, wrapper)
 	//build a div with buttons executing whatever defined in the commands object
 	//elementObject = {functionName:icon,..}
 	this.buildToolbar = function(commands){
-		var cmdBar = document.createElement('div');
+		var cmdBar = $c('div');
 		cmdBar.className = 'org_bambuscms_editor_wysiwyg_commandBar';
 		for(func in commands)
 		{
 			var trigger = function(){_me.butClick(this.title);};
-			var but = document.createElement('img');
+			var but = $c('img');
 			but.src = 'System/ClientData/Icons/22x22/actions/format-'+commands[func]+'.png';
 			but.onclick = trigger;
 			but.title = func;
@@ -148,9 +148,9 @@ org.bambuscms.editor.wysiwyg.create = function(textarea, fillScreen)
 	textarea = (typeof textarea == 'string') ? $(textarea) : textarea;
 	//container for all our html elements
 	var elements = {
-		'outer':document.createElement('div'),
-		'inner':document.createElement('div'),
-		'editor':document.createElement('iframe'),
+		'outer':$c('div'),
+		'inner':$c('div'),
+		'editor':$c('iframe'),
 		'source':textarea
 	};
 	//build dom tree an insert before the textarea

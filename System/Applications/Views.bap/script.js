@@ -1,9 +1,9 @@
 function rebuildAliasDB()
 {
-	var div = document.createElement('div');
-	var p = document.createElement('p');
-	var p2 = document.createElement('p');
-	var input = document.createElement('input');
+	var div = $c('div');
+	var p = $c('p');
+	var p2 = $c('p');
+	var input = $c('input');
 	p.appendChild(document.createTextNode(
 		"Bookmarks may be invalid afterwards. "+
 		"This should only be done if you have a lot of '...~number' aliases  or "+

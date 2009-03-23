@@ -50,10 +50,10 @@ org.bambuscms.wdialog = {
 					}
 					for(name in sect.items)
 					{
-						var obj = document.createElement('div');
+						var obj = $c('div');
 						if(sect.items[name].title)
 						{
-							var otitle = document.createElement('label');
+							var otitle = $c('label');
 							otitle.setAttribute('for', 'WDialog_'+id+'_'+name);
 							otitle.appendChild(document.createTextNode(sect.items[name].title));
 							obj.appendChild(otitle);
@@ -87,7 +87,7 @@ org.bambuscms.wdialog = {
 								break;
 							case 'choice':
 							default:
-								var input = document.createElement('span');
+								var input = $c('span');
 						}
 						if(focusInput == null)
 						{
@@ -120,7 +120,7 @@ org.bambuscms.wdialog = {
 			}
 			
 			//finish
-			var end = document.createElement('br');
+			var end = $c('br');
 			end.setAttribute('class', 'clear');
 			dialog.appendChild(end);
 			c.appendChild(dialog);
@@ -138,7 +138,7 @@ org.bambuscms.wdialog = {
 	{
 		if(!org.bambuscms.wdialog.container)
 		{
-			org.bambuscms.wdialog.container = document.createElement('div');
+			org.bambuscms.wdialog.container = $c('div');
 			org.bambuscms.wdialog.container.setAttribute('id','WDialog_container');
 			document.body.appendChild(org.bambuscms.wdialog.container);
 		}

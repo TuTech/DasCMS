@@ -17,6 +17,7 @@
 				<task type="button" hotkey="o" caption="open" icon="action-document-open" action="org.bambuscms.wopenfiledialog.toggle();" />
 				<task type="button" hotkey="s" caption="save" icon="action-document-save" action="org.bambuscms.app.document.save()" />
 				<task type="button" hotkey="S" caption="save_and_rename" icon="action-document-save-as" action="org.bambuscms.app.document.saveAs('filename')" />
+				<task type="button" hotkey="D" caption="debug" icon="action-debug" action="p.debug();" />
 			</panel>
 			<panel name="server_actions">
 				<task type="button" hotkey="N" caption="new" icon="action-document-new" action="Create()" />

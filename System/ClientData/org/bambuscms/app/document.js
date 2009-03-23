@@ -176,16 +176,16 @@ org.bambuscms.app.document.searchAndReplace = function(lookFor, replaceWith)
 {
 	if(lookFor == undefined || lookFor == '')
 	{
-		var div = document.createElement('div');
-		var search = document.createElement('input'); 
-		var replace = document.createElement('input');
+		var div = $c('div');
+		var search = $c('input'); 
+		var replace = $c('input');
 		search.type = 'text';
 		search.id = 'org_bambuscms_app_document_search';
 		replace.type = 'text';
 		replace.id = 'org_bambuscms_app_document_replace'
-		var slabel = document.createElement('label');
+		var slabel = $c('label');
 		slabel.setAttribute('for', 'org_bambuscms_app_document_search');
-		var rlabel = document.createElement('label');
+		var rlabel = $c('label');
 		rlabel.setAttribute('for', 'org_bambuscms_app_document_replace');
 		slabel.innerHTML = _('look_for');
 		rlabel.innerHTML = _('replace_with');

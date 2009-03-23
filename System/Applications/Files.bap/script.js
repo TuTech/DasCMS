@@ -1,26 +1,26 @@
 function Upload()
 {
-	div = document.createElement('div');
+	div = $c('div');
 	
-	finput = document.createElement('input');
+	finput = $c('input');
 	finput.setAttribute('name','CFile');
 	finput.setAttribute('type','file');
 		
-	minput = document.createElement('input');
+	minput = $c('input');
 	minput.setAttribute('name','MAX_FILE_SIZE');
 	minput.setAttribute('type','hidden');
 	minput.setAttribute('value','1000000000');
 	
-	cinput = document.createElement('input');
+	cinput = $c('input');
 	cinput.setAttribute('name','bambus_overwrite_file');
 	cinput.setAttribute('type','checkbox');
 	cinput.setAttribute('id', 'dlgcheck');
 
-	cdesc = document.createElement('label');
+	cdesc = $c('label');
 	cdesc.setAttribute('for', 'dlgcheck');
 	cdesc.appendChild(document.createTextNode(_('overwrite')));
 
-	br = document.createElement('br');
+	br = $c('br');
 
 	div.appendChild(finput);
 	div.appendChild(minput);
@@ -33,7 +33,7 @@ function Upload()
 }
 function Delete()
 {
-	input = document.createElement('input');
+	input = $c('input');
 	input.setAttribute('name','delete');
 	input.setAttribute('type','hidden');
 	input.setAttribute('value','yes');
@@ -55,7 +55,7 @@ function MassDelete()
 			sep = ';';
 		}
 	}
-	input = document.createElement('input');
+	input = $c('input');
 	input.setAttribute('name','delete');
 	input.setAttribute('type','hidden');
 	input.value = del;

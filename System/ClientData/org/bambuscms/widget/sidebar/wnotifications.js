@@ -20,7 +20,7 @@ org.bambuscms.wnotifications.report = function(type, message)
 		case 'information':
 		case 'warning':
 		case 'alert':
-			var html = document.createElement('div');
+			var html = $c('div');
 			html.className = type;
 			html.appendChild(document.createTextNode(message));
 			if($("WNotifications-area"))

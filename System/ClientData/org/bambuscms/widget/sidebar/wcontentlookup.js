@@ -19,11 +19,11 @@ org.bambuscms.wcontentlookup.generateList = function(respObject)
 {
 	if(respObject.items)
 	{
-		var html = document.createElement('ul');
+		var html = $c('ul');
 		var items = respObject.items;
 		for(var i = 0; i < items.length; i++)
 		{
-			var item = document.createElement('li');
+			var item = $c('li');
 			item.setAttribute('onclick', "org.bambuscms.app.document.insertMedia('content','"+items[i][0]+"', '"+items[i][1].replace(/'/,"\\'")+"');");
 			item.setAttribute('title', respObject.type[items[i][3]]+': '+items[i][0]);
 			
@@ -33,7 +33,7 @@ org.bambuscms.wcontentlookup.generateList = function(respObject)
 			if(i%2)item.className += ' alt';
 			item.appendChild(document.createTextNode(items[i][1]));
 			
-			var pd = document.createElement('span');
+			var pd = $c('span');
 			var d = new Date(items[i][2]*1000);
 			var text = (items[i][2] <= 0) ? _('not_public') : d.toUTCString();
 

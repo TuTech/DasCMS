@@ -1,6 +1,6 @@
 function Create()
 {
-	input = document.createElement('input');
+	input = $c('input');
 	input.setAttribute('name','create');
 	input.setAttribute('type','text');
 	input.setAttribute('value','');

@@ -49,7 +49,7 @@ org.bambuscms.wcodeeditor = {
 		
 		if(org.bambuscms.wcodeeditor.cursor().set)
 		{
-			var lnr = document.createElement('code');
+			var lnr = $c('code');
 			lnr.id = 'org_bambuscms_wcodeeditor_infobox_linenr';
 			textarea.parentNode.insertBefore(lnr, textarea);
 			org.bambuscms.wcodeeditor.refresh[org.bambuscms.wcodeeditor.refresh.length] = function()

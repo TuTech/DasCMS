@@ -1,6 +1,6 @@
 function Create()
 {
-	input = document.createElement('input');
+	input = $c('input');
 	input.setAttribute('name','create');
 	input.setAttribute('type','text');
 	input.setAttribute('value','');
@@ -11,7 +11,7 @@ function Create()
 }
 function Delete()
 {
-	input = document.createElement('input');
+	input = $c('input');
 	input.setAttribute('name','delete');
 	input.setAttribute('type','hidden');
 	input.setAttribute('value','yes');

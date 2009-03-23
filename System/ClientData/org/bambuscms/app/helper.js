@@ -6,7 +6,7 @@ org.bambuscms.app.helper.create = function(forElement, withElement)
 	{
 		forElement = $(forElement);
 	}
-	var frame = document.createElement('div');
+	var frame = $c('div');
 	frame.className = 'org_bambuscms_app_helper_frame';
 	frame.appendChild(withElement);
 	if(forElement.style.width)
