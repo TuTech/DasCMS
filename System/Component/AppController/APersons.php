@@ -38,6 +38,39 @@ class APersons
         }
     }
     
+    public function getPersonData(array $param)
+    {
+        parent::requirePermission('org.bambuscms.content.cperson.view');
+        if(!empty($param['edit']))
+        {
+            return array(
+                'attributes' => array(
+                    'fark' => array(
+                        'contexts' => array('arbeit', 'mobil', 'privat', 'fax arbeit', 'fax privat'),
+                        'entries' => array(
+                            array(0, '+49 01054 2540 4521'),
+                            array(3, '+35424424357'),
+                        ),
+                        'type' => 2
+                    ),
+                    'foo' => array(
+                        'contexts' => array('arbeit', 'mobil', 'privat'),
+                        'entries' => array(
+                            array(1, 'su'),
+                            array(2, 'do'),
+                            array(3, 'ku'),
+                        ),
+                        'type' => 0
+                    )
+                ),
+                'types' => array('text', 'email', 'phone', 'textbox'),
+                'trim' => array('email' => 1, 'phone' => 1),
+                'replace' => array(),
+                'check' => array()
+            );
+        }
+    }
+    
     public function create(array $param)
     {
         parent::requirePermission('org.bambuscms.content.cperson.create');
@@ -117,10 +150,7 @@ class APersons
      */
     public function provideOpenDialogData(array $namedParameters)
     {
-        if(!$this->isPermitted('view'))
-        {
-            throw new XPermissionDeniedException('view');
-        }
+        parent::requirePermission('org.bambuscms.content.cperson.view');
         $IDindex = CPerson::Index();
         $items = array();
         foreach ($IDindex as $alias => $data) 

@@ -29,9 +29,17 @@ org.bambuscms.app.persons.testData = {
 		           [0, '+49 01054 2540 4521'],
 		           [1, '23904 555-7530']
             ],
-			'type':0
+			'type':2
 		},
-		'im':{
+		'email':{
+			'contexts':['arbeit', 'mobil', 'privat'],
+			'entries':[
+		           [1, 'test@mobil.de'],
+		           [0, 'test@arbeit']
+            ],
+			'type':1
+		},
+		'instant_messenger':{
 			'contexts':['aim', 'jabber', 'icq'],
 			'entries':[
 		           [1, 'test@jabber1'],
@@ -39,20 +47,63 @@ org.bambuscms.app.persons.testData = {
             ],
 			'type':0
 		},
-		'email':{
-			'contexts':['arbeit', 'mobil', 'privat'],
-			'entries':[
-		           [1, 'test@mobil'],
-		           [0, 'test@arbeit']
-            ],
-			'type':1
+		'web_address':{
+			'contexts':['arbeit', 'privat'],
+			'entries':[],
+			'type':0
+		},
+		'address':{
+			'contexts':['arbeit', 'privat'],
+			'entries':[],
+			'type':3
+		},
+		'miscellaneous':{
+			'contexts':['arbeit', 'privat'],
+			'entries':[],
+			'type':3
 		}
 	},
-	'types':['text', 'email']
+	'types':['text', 'email', 'phone', 'textbox'],
+	'trim':{'email':1, 'phone':1},
+	'replace':{ /* replace regexp operator with new regexp() */
+		'phone':[/([^0-9\-\/\*\.\+]|[\s])+/g, ' ']
+	},
+	'check':{
+		'email':/[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/i
+	}
 };
 org.bambuscms.app.persons.person = function(data)
 {
 	this._data = data;
+	this._gui = null;
+	
+	this._checkValue = function(attribute, index, restoreValue)
+	{
+		var type = this.getAttributeType(attribute);
+		var value = this._data.attributes[attribute].entries[index][1];
+		if(this._data.trim[type])
+		{
+			value = value.replace(/(^[\s]*|[\s]*$)/g, '');
+		}
+		if(this._data.replace[type])
+		{
+			value = value.replace(this._data.replace[type][0], this._data.replace[type][1]);
+		}
+		if(this._data.check[attribute])
+		{
+			var att = this._gui.getAttributeNode(attribute);
+			var entry;
+			if(att)
+			{
+				entry = att.getEntryNode(index);
+				if(entry)
+				{
+					entry.setWarning(!value.match(this._data.check[attribute]));
+				}
+			}
+		}
+		this._data.attributes[attribute].entries[index][1] = value;
+	};
 	
 	// array of type strings
 	this.getTypes = function()
@@ -66,7 +117,6 @@ org.bambuscms.app.persons.person = function(data)
 		var atts = [];
 		for(att in this._data.attributes)
 			atts[atts.length] = att;
-		atts = atts.sort();
 		return atts;
 	};
 	
@@ -155,7 +205,7 @@ org.bambuscms.app.persons.person = function(data)
 				return;//already exists
 		}
 		this._data.attributes[attribute].contexts[this._data.attributes[attribute].contexts.length] = context;
-		this._data.attributes[attribute].contexts = this._data.attributes[attribute].contexts.sort();
+		this._data.attributes[attribute].contexts = this._data.attributes[attribute].contexts;
 	};
 	
 	//add new entry
@@ -197,6 +247,7 @@ org.bambuscms.app.persons.person = function(data)
 			throw 'invalid context';
 		}
 		this._data.attributes[attribute].entries[index][0] = contextIndex;
+		return this._data.attributes[attribute].contexts[this._data.attributes[attribute].entries[index][0]];
 	}
 	
 	this.changeAttibuteValueAtIndex = function(attribute, index, newValue)
@@ -209,7 +260,10 @@ org.bambuscms.app.persons.person = function(data)
 		{
 			throw 'no entry at index';
 		}
+		var oldVal = this._data.attributes[attribute].entries[index][1];
 		this._data.attributes[attribute].entries[index][1] = newValue;
+		this._checkValue(attribute, index, oldVal);
+		return this._data.attributes[attribute].entries[index][1];
 	}
 	
 	//removeentry at index
@@ -278,6 +332,25 @@ org.bambuscms.app.persons.person = function(data)
 		}
 		alert(str);
 	};
+	this.buildGUI = function()
+	{
+		//build gui html
+		this._gui = new org.bambuscms.app.persons.gui.person(this);
+		//for all attributes
+		for (att in this._data.attributes)
+		{
+			//for all entries in attribute
+			for (var i = 0; i < this._data.attributes[att].entries.length; i++)
+			{	
+				//check
+				this._checkValue(
+					att,
+					i,
+					this._data.attributes[att].entries[i][1]
+				);
+			}
+		}
+	};
 };
 org.bambuscms.app.persons.gui = {};
 
@@ -300,46 +373,122 @@ org.bambuscms.app.persons.gui.entry = function(controller, attributeName, entry,
 	
 	this.updateContext = function(newContext)
 	{
-		this.context = newContext;
-		this.controller.changeAttibuteContextAtIndex(this.attributeName, this.nr, newContext);
+		if(newContext.substr(0,2) == '::')
+		{
+			var func = newContext.substr(2, newContext.length);
+			this[func]();
+		}
+		else
+		{
+			this.context = this.controller.changeAttibuteContextAtIndex(this.attributeName, this.nr, newContext);
+			for(var i = 0; i < this.select.options.length; i++)
+			{
+				this.select.options[i].selected = this.select.options[i].value == this.context;
+			}
+		}
 	}
 	
 	this.updateValue = function(newValue)
 	{
-		this.value = newValue;
-		this.controller.changeAttibuteValueAtIndex(this.attributeName, this.nr, newValue);
+		this.value = this.controller.changeAttibuteValueAtIndex(this.attributeName, this.nr, newValue);
+		this.data.value = this.value;
+	}
+	
+	this.newContext = function()
+	{
+		var newContext = prompt(_('new_context'));
+		if(newContext && newContext.length)
+		{
+			this.controller.addAttributeContext(this.attributeName, newContext);
+			this.controller.changeAttibuteContextAtIndex(this.attributeName, this.nr, newContext);
+			this.controller.buildGUI();
+		}
+	}
+	
+	this.remove = function()
+	{
+		this.controller.removeAttributeEntry(this.attributeName, this.nr);
+		this.controller.buildGUI();
 	}
 	
 	//DOM select
 	this.select = $c('select');
 	this.select.id = id+'_c';
 	var contexts = controller.getAttributeContexts(attributeName);
+	var grp = $c('optgroup');
+	grp.label = _('contexts');
 	for(var i = 0; i < contexts.length; i++)
 	{
 		var opt = $c('option');
 		opt.appendChild($t(contexts[i]));
 		opt.selected = contexts[i] == this.context;
-		this.select.appendChild(opt);
+		grp.appendChild(opt);
 	}
+	this.select.appendChild(grp);
+	
+	//actions
+	var grp = $c('optgroup');
+	grp.label = _('actions');
+	var opt = $c('option');
+	opt.appendChild($t(_('new_context')));
+	opt.value = '::newContext';
+	grp.appendChild(opt);
+	this.select.appendChild(grp);
+
+	
 	this.select.onchange = function(){
 		self.updateContext(this.options[this.selectedIndex].value);
 	};
 	
+	this.setWarning = function(YN)
+	{
+		this.container.className = (YN)
+			? 'persons_gui_entry person_gui_warning'
+			: 'persons_gui_entry';
+	}
+	
 	//DOM input
-	this.data = $c('input');
-	this.data.type = 'text';
+	var type = this.controller.getAttributeType(this.attributeName);
+	switch(type)
+	{
+		case 'textbox':
+			this.data = $c('textarea');
+			break;
+		case 'email': 
+		case 'text':
+		default:
+			this.data = $c('input');
+			this.data.type = 'text';
+	}
+	
+	this.data.className = 'person_gui_entry_'+type;
 	this.data.value = this.value;
 	this.data.id = id+'_v';
 	this.data.onchange = function(){
 		self.updateValue(this.value);
 	};
+	this.data.onblur = function(){
+		self.updateValue(this.value);
+	};
+	this.data.onfocus = function(){
+		self.setWarning(false);
+	};
+	
+	//DOM remove button
+	this.button = $c('a');
+	this.button.className = 'persons_gui_button persons_gui_button_remove';
+	this.button.title = _('remove_entry');
+	this.button.appendChild($t(' - '))
+	this.button.onclick = function(){
+		self.remove();
+	};	
 	
 	//DOM container
 	this.container = $c('div');
 	this.container.className = 'persons_gui_entry';
 	this.container.appendChild(this.select);
 	this.container.appendChild(this.data);
-	
+	this.container.appendChild(this.button);
 };
 
 org.bambuscms.app.persons.gui.attribute = function(controller, attributeName, id)
@@ -354,7 +503,7 @@ org.bambuscms.app.persons.gui.attribute = function(controller, attributeName, id
 	this.node.id = id;
 	this.node.className = 'persons_gui_attribute';
 	var head = $c('h3');
-	head.appendChild($t(attributeName));
+	head.appendChild($t(_(attributeName)));
 	this.node.appendChild(head);
 	
 	//generate entries
@@ -374,19 +523,29 @@ org.bambuscms.app.persons.gui.attribute = function(controller, attributeName, id
 
 	//DOM Button
 	this.addButton = $c('a');
+	this.addButton.className = 'persons_gui_button persons_gui_button_add';
+	this.addButton.title = _('add_entry');
 	this.addButton.onclick = function(){self.addNewEntry(); return false;};
-	this.addButton.appendChild($t('add'));
+	this.addButton.appendChild($t(' + '));
 	this.node.appendChild(this.addButton);
 	
+	this.floatStopper = $c('div');
+	this.floatStopper.className = 'person_gui_floatStopper';
+	this.node.appendChild(this.floatStopper);
+
 	this.addNewEntry = function()
 	{
 		var contexts = this.controller.getAttributeContexts(this.attributeName);
 		var i = this.controller.addAttributeEntry(this.attributeName, contexts[0], '');
 		this.children[i] = new org.bambuscms.app.persons.gui.entry(controller, this.attributeName, [contexts[0], ''], i, this.node.id+'_'+i);
 		this.node.insertBefore(this.children[i].getNode(), this.addButton);
-		
 	}
 	
+	this.getEntryNode = function(index)
+	{
+		return this.children[index] ? this.children[index] : null;
+	}
+
 };
 
 org.bambuscms.app.persons.gui.person = function(controller)
@@ -408,19 +567,40 @@ org.bambuscms.app.persons.gui.person = function(controller)
 		this.children[i] = new org.bambuscms.app.persons.gui.attribute(controller, chlds[i], this.node.id+'_'+i);
 		this.node.appendChild(this.children[i].getNode());
 	}
+	this.getAttributeNode = function(attributeName)
+	{
+		for(var i = 0; i < this.children.length; i++)
+		{
+			if(this.children[i].attributeName == attributeName)
+			{
+				return this.children[i]
+			}
+		}
+		return null;
+	};
 };
 
+var p;
 
-
-var p = new org.bambuscms.app.persons.person(org.bambuscms.app.persons.testData);
-
-//FIXME if remove attribute: regenerate (gui = new org.bambuscms.app.persons.gui.person(p);)
+org.bambuscms.app.persons.handler = function(object)
+{
+	p = new org.bambuscms.app.persons.person(object);
+	p.buildGUI();
+}
 
 org.bambuscms.autorun.register(function(){
-//	p.debug();
-
-	var gui = new org.bambuscms.app.persons.gui.person(p);
+	org.bambuscms.http.fetchJSONObject(
+		org.bambuscms.http.managementRequestURL({
+			'controller':org.bambuscms.app.controller,
+			'call':'getPersonData'
+		}),
+		org.bambuscms.app.persons.handler,
+		org.json.stringify({'edit':$('alias').value})
+	);
 });
+
+	
+
 
 
 

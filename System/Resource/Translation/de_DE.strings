@@ -1,3 +1,10 @@
+context	Kontext
+new_context	Neuer Kontext
+contexts	Kontexte
+phone	Telefon
+instant_messenger	Instant Messenger
+web_address	WWW-Adresse
+miscellaneous	Sonstiges
 headings	Überschriften
 paragraph_types	Absatztypen
 char_formats	Zeichenformatierungen
@@ -13,6 +20,8 @@ medium_large	mittel
 medium_small	normal
 small	klein
 tiny	winzig
+add_entry	Eintrag hinzufügen
+remove_entry	Eintrag entfernen
 paragraph	Absatz
 address	Adresse
 bold	fett

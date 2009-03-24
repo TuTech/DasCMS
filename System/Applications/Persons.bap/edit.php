@@ -9,7 +9,9 @@
 $User = SApplication::getControllerContent();
 if(isset($User) && $User instanceof CPerson)
 {
-    printf('<h2>%s</h2>'
+    
+    printf('<input type="hidden" id="alias" value="%s" /><h2>%s</h2>'
+    	, htmlentities($User->Alias, ENT_QUOTES, 'UTF-8')
     	, htmlentities($User->Title, ENT_QUOTES, 'UTF-8')
     	);
 }
