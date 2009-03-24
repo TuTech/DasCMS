@@ -41,7 +41,7 @@ class APersons
     public function getPersonData(array $param)
     {
         parent::requirePermission('org.bambuscms.content.cperson.view');
-        if(!empty($param['edit']))
+        if($this->target != null)
         {
             return array(
                 'attributes' => array(

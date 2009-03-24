@@ -592,10 +592,10 @@ org.bambuscms.autorun.register(function(){
 	org.bambuscms.http.fetchJSONObject(
 		org.bambuscms.http.managementRequestURL({
 			'controller':org.bambuscms.app.controller,
-			'call':'getPersonData'
+			'call':'getPersonData',
+			'edit':$('alias').value
 		}),
-		org.bambuscms.app.persons.handler,
-		org.json.stringify({'edit':$('alias').value})
+		org.bambuscms.app.persons.handler
 	);
 });
 

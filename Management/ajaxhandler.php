@@ -36,6 +36,10 @@ try
         $appCtrlID = RURL::get('controller');
         $function = RURL::get('call');
         $controller = BAppController::getControllerForID($appCtrlID);
+        if(RURL::has('edit'))
+        {
+            $controller->setTarget(RURL::get('edit', 'utf-8'));
+        }
         if(method_exists($controller, $function))
         {
             $paramStr = implode(file('php://input'));
