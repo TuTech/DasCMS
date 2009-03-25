@@ -8,6 +8,8 @@ org.bambuscms.editor.wysiwyg._editor = function(frame){
 	this._target = frame;
 	//execute rich text command
 	this.exec =function(cmd, arg){
+		if(!this.wysiwygOn)
+			return;
 		if(arg == undefined)
 		{
 			try{
@@ -35,18 +37,52 @@ org.bambuscms.editor.wysiwyg._editor = function(frame){
 			this._doc.contentEditable = 'true';
 		}
 	};
+	
+	this._extractText = function(node)
+	{
+		var text = '';
+		switch(node.nodeType)
+		{
+			case 1://element
+				for(var i = 0; i < node.childNodes.length; i++)
+				{
+					text += this._extractText(node.childNodes[i]);
+				}
+			case 3://text
+				if(node.nodeValue)
+					text += node.nodeValue;
+			default:break;
+		}
+		return text;
+	}
+	
+	this._formatHTML = function(html)
+	{
+		var regexp = /<(br|hr|img|input)([^>\/]*)>/i;
+		while(html.match(regexp))
+		{
+			html = html.replace(regexp, '<'+RegExp.$1+RegExp.$2+' />');
+		}
+		html = html.replace(/&/ig, '&amp;');
+		html = html.replace(/"/ig, '&quot;');
+		html = html.replace(/</ig, '&lt;');
+		html = html.replace(/>/ig, '&gt;');
+		html = html.replace(/&lt;/ig, '<span>&lt;');
+		html = html.replace(/&gt;/ig, '&gt;</span>');
+		return html;
+	}
+	
 	this.switchWYSIWYG = function()
 	{
 		if(this.wysiwygOn)
 		{
-			var source = this._doc.body.innerHTML;
-			this._doc.body.innerHTML = '';
-			this._doc.body.appendChild(document.createTextNode(source));
+			var source = this._formatHTML(this._doc.body.innerHTML);
+			this._doc.body.innerHTML = source;
 			this._doc.body.style.whiteSpace = 'pre';
 		}
 		else
 		{
-			var source = this._doc.body.firstChild.nodeValue;
+			var source = this._extractText(this._doc.body);
 			this._doc.body.innerHTML = source;
 			this._doc.body.style.whiteSpace = '';
 		}

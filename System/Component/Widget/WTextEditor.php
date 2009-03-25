@@ -82,6 +82,17 @@ class WTextEditor extends BWidget
             ,$this->value
         );
         //javascript resize/wysiwyg
+        if($this->wysiwyg)
+        {
+            //WYSIWYG
+            $editorJS = 'var editor = org.bambuscms.editor.wysiwyg.create(org.bambuscms.app.document.editorElementId, true);';
+        }
+        else
+        {
+            //assisting textarea
+            $editorJS = 'org.bambuscms.wcodeeditor.run($(org.bambuscms.app.document.editorElementId));';
+        }
+        
         $out .= sprintf(
             $script
             ,'(function(){'.
@@ -90,9 +101,7 @@ class WTextEditor extends BWidget
                     ': -190;'.
                 'org.bambuscms.display.setAutosize(org.bambuscms.app.document.editorElementId,0,h);'.
             '})();'
-            ,$this->wysiwyg 
-                ? 'var editor = org.bambuscms.editor.wysiwyg.create(org.bambuscms.app.document.editorElementId, true);' 
-                : 'org.bambuscms.wcodeeditor.run($(org.bambuscms.app.document.editorElementId));'
+            ,$editorJS
 		);
 		return $out;
 	}
