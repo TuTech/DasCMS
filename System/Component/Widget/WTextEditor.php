@@ -49,12 +49,12 @@ class WTextEditor extends BWidget
     
     public function getWYSIWYG()
     {
-        return $this->wordWrap;
+        return $this->wysiwyg;
     }
     
     public function setWYSIWYG($yn)
     {
-        $this->wordWrap = $yn == true;
+        $this->wysiwyg = $yn == true;
     }
     
 	/**

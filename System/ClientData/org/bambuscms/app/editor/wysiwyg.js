@@ -9,13 +9,20 @@ org.bambuscms.editor.wysiwyg._editor = function(frame){
 	//execute rich text command
 	this.exec =function(cmd, arg){
 		if(arg == undefined)
-			this._doc.execCommand(cmd, false);
+		{
+			try{
+				this._doc.execCommand(cmd, false);
+			}
+			catch (e) {
+				// ignore failed wysiwyg
+			}
+		}
 		else
 			this._doc.execCommand(cmd, false, arg);
 		this._target.contentWindow.focus();
 	};
 	this.wysiwygOn = true;
-	//enablke wysiwyg (must be called on body.onload)
+	//enable wysiwyg (must be called on body.onload)
 	this.makeEditable = function(){
 		if(this._target.contentWindow)
 		{
