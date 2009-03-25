@@ -23,6 +23,7 @@ class WWYSIWYGPanel extends BWidget implements ISidebarWidget
 	        $sidepanel->hasTarget()
 	        && $sidepanel->isTargetObject()
 	        && $sidepanel->isMode(WSidePanel::WYSIWYG)
+	        && LConfiguration::get('use_wysiwyg') == '1'
 	    );
 	}
 	
