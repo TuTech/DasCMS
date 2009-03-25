@@ -1,4 +1,7 @@
 <?php
+/**
+ * @todo cleanup code
+ */
 require_once('./System/Component/Loader.php');
 RSession::start();
 PAuthentication::required();
@@ -6,6 +9,8 @@ $cache_1Day = 86400;
 header("Expires: ".date('r', time()+$cache_1Day));
 header("Cache-Control: max-age=".$cache_1Day.", public");
 header("Content-Disposition: inline");
+header('Pragma:');//disable "Pragma: no-cache" (default for sessions) 
+
 error_reporting(0);
 if(!empty($_SERVER['PATH_INFO']))
 {
