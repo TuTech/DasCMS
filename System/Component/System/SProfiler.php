@@ -52,7 +52,7 @@ class SProfiler
     public static function cancel($token)
     {
     	$my = self::alloc()->init();
-        if(!$my->enabled || (!array_key_exists($token, $my->runningProfilings)))
+        if(!$my->enabled || (!array_key_exists($token, $my->runningProfilings)))
         {
             return;
         }

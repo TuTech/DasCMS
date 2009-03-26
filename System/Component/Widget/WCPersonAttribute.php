@@ -13,32 +13,91 @@ class WCPersonAttribute extends BWidget
 {
 	const CLASS_NAME = "WCPersonAttribute";
 	
-	private $attribute;
+	private $attribute, $type, $contexts, $entries;
 	private $readOnly = false;
-	private $entries = array();
 	
-	public function __construct(WCPersonAttributes $parent, $attribute, $type, $contexts, array $entries = array())
+	/**
+	 * @param string $attribute
+	 * @param string $type
+	 * @param array $contexts
+	 * @param array $entries
+	 * @throws XArgumentException
+	 */
+	public function __construct($attribute, $type, array $contexts)
 	{		
-	    $this->attribute = $attribute;
-	    foreach ($entries as $ent)
+	    if(!in_array($type, WCPersonAttributes::getTypes()))
 	    {
-	        $this->addEntry($ent);
+	        throw new XArgumentException('invalid type');
 	    }
+	    $this->attribute = $attribute;
+	    $this->type = $type;
+	    $this->contexts = $contexts;
 	}
 	
+	/**
+	 * @param string $context
+	 * @return boolean
+	 */
+	public function hasContext($context)
+	{
+	    return in_array($context, $this->contexts);
+	}
+	
+	public function getName()
+	{
+	    return $this->attribute;
+	}
+	
+	public function getType()
+	{
+	    return $this->type;
+	}
+	
+	public function getContextID($context)
+	{
+	    return array_search($context, $this->contexts);
+	}
+	
+	/**
+	 * set read only
+	 * @return WCPersonAttribute
+	 */
 	public function asContent()
 	{
 	    $this->readOnly = true;
+	    foreach ($this->entries as $ent)
+	    {
+	        $ent->asContent();
+	    }
 	    return $this;
 	}
 	
-	public function addEntry(WCPersonEntry $entries)
+	public function asArray()
 	{
-	    if($this->readOnly)
+	    $ents = array();
+	    foreach ($this->entries as $ent)
+	    {
+	        $ents[] = $ent->asArray();
+	    }
+	    return array(
+	        'contexts' => $this->contexts,
+	        'entries' => $ents,
+            'type' => WCPersonAttributes::getTypeID($this->type)
+	    );
+	}
+	
+	/**
+	 * add new entry
+	 * @param WCPersonEntry $entry
+	 * @return void
+	 */
+	public function addEntry($entry)
+	{
+	    if($this->readOnly || !$entry instanceof WCPersonEntry)
 	    {
 	        return;
 	    }
-	    $this->entries[] = $entries;
+	    $this->entries[] = $entry;
 	}
 	
 	/**
@@ -48,12 +107,13 @@ class WCPersonAttribute extends BWidget
 	 */
 	public function __toString()
 	{
-	    $out = '<h3>'.$this->attribute.'</h3><div class="CPersonAttribute">';
+	    $out = '<h3>'.$this->encode($this->attribute)."</h3>\n".
+	    		'<dl class="CPersonAttribute CPersonAttribute_'.md5($this->attribute).'">'."\n";
 	    foreach ($this->entries as $ent)
 	    {
 	        $out .= strval($ent);
 	    }
-	    $out .= '</div>';
+	    $out .= "</dl>\n";
 	    return $out;
 	}
 	

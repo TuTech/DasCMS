@@ -86,7 +86,7 @@ class DSQL_SQLite extends DSQL
 	public function insertUnescaped($into, array $names, array $values, $ignore = false)
 	{
 		//sanity check
-		if(count($values) == 0 || count($names) == 0 )
+		if(count($values) == 0 || count($names) == 0 )
 		{
 			return true;
 		}		

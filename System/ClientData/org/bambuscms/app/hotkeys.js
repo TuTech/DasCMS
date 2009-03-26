@@ -26,13 +26,13 @@ org.bambuscms.app.hotkeys.unregister = function(hotkey)
 
 org.bambuscms.app.hotkeys.listener = function(e)
 {
-	var event = e || window.event;
+	var event = e || window.event;
 	var code = e.charCode || e.keyCode;
 	//if(e.charCode == 0)
 	var str = String.fromCharCode(code);
 	if(
 		((e.ctrlKey || e.metaKey) && code >= 32 && str.match(/^[abd-uwzA-Z0-9]$/))// ctrl/command... hotkeys
-		|| (!e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey && code == 9)//tab
+		|| (!e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey && code == 9)//tab
 	)
 	{
 		var data = 

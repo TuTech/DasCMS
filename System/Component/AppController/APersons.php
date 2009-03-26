@@ -43,31 +43,11 @@ class APersons
         parent::requirePermission('org.bambuscms.content.cperson.view');
         if($this->target != null)
         {
-            return array(
-                'attributes' => array(
-                    'fark' => array(
-                        'contexts' => array('arbeit', 'mobil', 'privat', 'fax arbeit', 'fax privat'),
-                        'entries' => array(
-                            array(0, '+49 01054 2540 4521'),
-                            array(3, '+35424424357'),
-                        ),
-                        'type' => 2
-                    ),
-                    'foo' => array(
-                        'contexts' => array('arbeit', 'mobil', 'privat'),
-                        'entries' => array(
-                            array(1, 'su'),
-                            array(2, 'do'),
-                            array(3, 'ku'),
-                        ),
-                        'type' => 0
-                    )
-                ),
-                'types' => array('text', 'email', 'phone', 'textbox'),
-                'trim' => array('email' => 1, 'phone' => 1),
-                'replace' => array(),
-                'check' => array()
-            );
+            $c = $this->target->getContent();
+            if($c instanceof WCPersonAttributes)
+            {
+                return $c->asArray();
+            }
         }
     }
     

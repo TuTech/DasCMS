@@ -69,7 +69,6 @@ org.bambuscms.app.persons.testData = {
 		'phone':[/([^0-9\-\/\*\.\+]|[\s])+/g, ' ']
 	},
 	'check':{
-		'email':/[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/i
 	}
 };
 org.bambuscms.app.persons.person = function(data)
@@ -79,6 +78,7 @@ org.bambuscms.app.persons.person = function(data)
 	
 	this._checkValue = function(attribute, index, restoreValue)
 	{
+		var r;
 		var type = this.getAttributeType(attribute);
 		var value = this._data.attributes[attribute].entries[index][1];
 		if(this._data.trim[type])
@@ -87,7 +87,8 @@ org.bambuscms.app.persons.person = function(data)
 		}
 		if(this._data.replace[type])
 		{
-			value = value.replace(this._data.replace[type][0], this._data.replace[type][1]);
+			r = new RegExp(this._data.replace[type][0], 'g');
+			value = value.replace(r, this._data.replace[type][1]);
 		}
 		if(this._data.check[attribute])
 		{
@@ -98,7 +99,8 @@ org.bambuscms.app.persons.person = function(data)
 				entry = att.getEntryNode(index);
 				if(entry)
 				{
-					entry.setWarning(!value.match(this._data.check[attribute]));
+					r = new RegExp(this._data.check[attribute], 'i');
+					entry.setWarning(r.exec(value) == null);
 				}
 			}
 		}
@@ -177,7 +179,7 @@ org.bambuscms.app.persons.person = function(data)
 			throw 'invalid type';
 		}
 		// init optional contexts
-		if(!contexts || typeof contexts != 'Array')
+		if(!contexts || typeof contexts != 'Array')
 			contexts = [];
 		
 		// create att
@@ -191,7 +193,7 @@ org.bambuscms.app.persons.person = function(data)
 	//add context to attribute
 	this.addAttributeContext = function(attribute, context)
 	{
-		if(!attribute || !this._data.attributes[attribute])
+		if(!attribute || !this._data.attributes[attribute])
 		{
 			throw 'invalid attribute';
 		}
@@ -211,8 +213,8 @@ org.bambuscms.app.persons.person = function(data)
 	//add new entry
 	this.addAttributeEntry = function(attribute, context, value)
 	{
-		value = value || '';
-		if(!attribute || !this._data.attributes[attribute])
+		value = value || '';
+		if(!attribute || !this._data.attributes[attribute])
 		{
 			throw 'invalid attribute';
 		}

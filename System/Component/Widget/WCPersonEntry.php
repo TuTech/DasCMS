@@ -14,24 +14,51 @@ class WCPersonEntry extends BWidget
 	const CLASS_NAME = "WCPersonEntry";
 	
 	/**
-	 * @var CPerson
+	 * @var WCPersonAttribute
 	 */
-	private $person;
-	private $attribute;
+	private $parent;
+	private $context, $value;
 	private $readOnly = false;
-	private $entries = array();
 	
-	public function __construct(WCPersonAttribute $parent, $context, $value)
+	/**
+	 * @param WCPersonAttribute $parentAttribute
+	 * @param string $context
+	 * @param string $value
+	 * @throws XArgumentException
+	 */
+	public function __construct(WCPersonAttribute $parentAttribute, $context, $value)
 	{		
-	    $this->attribute = $attribute;
+	    if(!$parentAttribute->hasContext($context))
+	    {
+	        throw new XArgumentException('invalid context');
+	    }
+	    $value = WCPersonAttributes::validatedValue($value, $parentAttribute->getType());
+	    if($value === null)
+	    {
+	        throw new XArgumentException('invalid value');
+	    }
+	    $this->parent = $parentAttribute;
+	    $this->context = $context;
+	    $this->value = $value;
 	}
 	
+	/**
+	 * make read only
+	 * @return WCPersonEntry
+	 */
 	public function asContent()
 	{
 	    $this->readOnly = true;
 	    return $this;
 	}
 	
+	public function asArray()
+	{
+	    return array(
+	        $this->parent->getContextID($this->context),
+	        $this->value
+        );
+	}
 	
 	/**
 	 * get render() output as string
@@ -40,7 +67,7 @@ class WCPersonEntry extends BWidget
 	 */
 	public function __toString()
 	{
-	    return '<h4>'.$this->attribute.'</h4>';
+	    return '<dt>'.$this->encode($this->context)."</dt>\n<dd>".$this->encode($this->value)."</dd>\n";
 	}
 	
 	private function encode($string)
