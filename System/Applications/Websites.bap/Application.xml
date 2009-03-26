@@ -3,7 +3,7 @@
 <bambus>
 	<appController guid="org.bambuscms.applications.websiteeditor">AWebsiteEditor</appController>
 	<name>websites</name>
-	<description>edit_and_manage_websites</description>
+	<description>edit_and_manage_websites_in_html</description>
 	<icon>app-utilities-editor-html</icon>
 	<version>0.13.20070807</version>
 	<priority>2.0</priority>

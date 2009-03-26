@@ -4,7 +4,7 @@
 	<appController guid="org.bambuscms.applications.websiteeditor">AWebsiteEditor</appController>
 	<name>websites</name>
 	<description>edit_and_manage_websites</description>
-	<icon>app-utilities-editor-html</icon>
+	<icon>app-utilities-editor-wysiwyg</icon>
 	<version>0.13.20070807</version>
 	<priority>2.0</priority>
 	<purpose>manage_content</purpose>
