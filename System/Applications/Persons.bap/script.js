@@ -75,7 +75,8 @@ org.bambuscms.app.persons.person = function(data)
 {
 	this._data = data;
 	this._gui = null;
-	
+	this.form = new org.bambuscms.app.persons.gui.form(this);
+
 	this._checkValue = function(attribute, index, restoreValue)
 	{
 		var r;
@@ -105,6 +106,12 @@ org.bambuscms.app.persons.person = function(data)
 			}
 		}
 		this._data.attributes[attribute].entries[index][1] = value;
+	};
+	
+	// array of type strings
+	this.getData = function()
+	{
+		return this._data;
 	};
 	
 	// array of type strings
@@ -188,6 +195,7 @@ org.bambuscms.app.persons.person = function(data)
 			'entries':[],
 			'type':typeIndex
 		};
+		this.form.update();
 	};
 	
 	//add context to attribute
@@ -208,6 +216,7 @@ org.bambuscms.app.persons.person = function(data)
 		}
 		this._data.attributes[attribute].contexts[this._data.attributes[attribute].contexts.length] = context;
 		this._data.attributes[attribute].contexts = this._data.attributes[attribute].contexts;
+		this.form.update();
 	};
 	
 	//add new entry
@@ -230,6 +239,7 @@ org.bambuscms.app.persons.person = function(data)
 		}
 		var index = this._data.attributes[attribute].entries.length;
 		this._data.attributes[attribute].entries[index] = [contextIndex, value];
+		this.form.update();
 		return index;
 	}
 	
@@ -249,6 +259,7 @@ org.bambuscms.app.persons.person = function(data)
 			throw 'invalid context';
 		}
 		this._data.attributes[attribute].entries[index][0] = contextIndex;
+		this.form.update();
 		return this._data.attributes[attribute].contexts[this._data.attributes[attribute].entries[index][0]];
 	}
 	
@@ -265,6 +276,7 @@ org.bambuscms.app.persons.person = function(data)
 		var oldVal = this._data.attributes[attribute].entries[index][1];
 		this._data.attributes[attribute].entries[index][1] = newValue;
 		this._checkValue(attribute, index, oldVal);
+		this.form.update();
 		return this._data.attributes[attribute].entries[index][1];
 	}
 	
@@ -280,6 +292,7 @@ org.bambuscms.app.persons.person = function(data)
 			}
 		}
 		this._data.attributes[attribute].entries = atts;
+		this.form.update();
 	}
 	
 	this.removeAttributeContext = function(attribute, context){};
@@ -317,22 +330,7 @@ org.bambuscms.app.persons.person = function(data)
 	//dump data in alert box
 	this.debug = function()
 	{
-		var str = '';
-		var a;
-		for(att in this._data.attributes)
-		{
-			str += att+' ['+this._data.types[this._data.attributes[att].type]+']\n    (';
-			str += this._data.attributes[att].contexts.join(', ');
-			str += ')\n    data:\n';
-			for(var i = 0; i < this._data.attributes[att].entries.length; i++)
-			{
-				a = this._data.attributes[att].entries[i];
-				str += '        '+this._data.attributes[att].contexts[a[0]];
-				str += ': '+a[1]+'\n';
-			}
-			str += '\n';
-		}
-		alert(str);
+		this.form.debug();
 	};
 	this.buildGUI = function()
 	{
@@ -353,9 +351,83 @@ org.bambuscms.app.persons.person = function(data)
 			}
 		}
 	};
+	this.form.update();
 };
 org.bambuscms.app.persons.gui = {};
 
+
+/////////////////////////////////
+
+
+org.bambuscms.app.persons.gui.form = function(controller)
+{
+	this.controller = controller;
+	this.form = $(org.bambuscms.app.document.formElementId);
+	this.container = null;
+	this.text = '';
+	if(!$('org_bambuscms_app_persons_gui_form_data'))
+	{
+		this.container = $c('div');
+		this.container.id = 'org_bambuscms_app_persons_gui_form_data';
+		this.form.appendChild(this.container);
+	}
+	
+	this.update = function()
+	{
+		var _attribute = 'a_';
+		var _entry = 'e_';
+		var _count = 'n';
+		var _contexts = 'c_';
+		var _context = '_c';
+		var _value = '_v';
+		var _type = 't';
+		var data = {};
+		var attKey;
+		var sourceObj = this.controller.getData();
+		data[_attribute+_count] = 0;
+		for(att in sourceObj.attributes)
+		{
+			//update att count
+			data[_attribute+_count]++;
+			 
+			//add data of attribute to list
+		 	attKey = _attribute+data[_attribute+_count];
+		 	data[attKey] = att;
+			attKey += '_';
+			var attObj;
+			//for(attKey in sourceObj.attributes[att])
+			{
+				attObj = sourceObj.attributes[att];
+				//att type 
+				data[attKey+_type] = sourceObj.types[attObj.type];
+				//add contexts
+				data[attKey+_contexts+_count] = attObj.contexts.length;
+				for(var i = 0; i < attObj.contexts.length; i++)
+				{
+					data[attKey+_contexts+(i+1)] = attObj.contexts[i];
+				}
+				//entries
+				data[attKey+_entry+_count] = attObj.entries.length;
+				for(var i = 0; i < attObj.entries.length; i++)
+				{
+					data[attKey+_entry+(i+1)+_context] = attObj.contexts[attObj.entries[i][0]];
+					data[attKey+_entry+(i+1)+_value] = attObj.entries[i][1];
+				}
+			}
+		}
+		this.text = '';
+		for(k in data)
+		{
+			this.text += k+': '+data[k]+'\n';
+			var inp = $c('input');
+			inp.type = 'hidden';
+			inp.name = k;
+			inp.value = data[k];
+			this.container.appendChild(inp);
+		}
+	};
+	this.debug = function(){alert(this.text);};
+};
 org.bambuscms.app.persons.gui.entry = function(controller, attributeName, entry, nr, id)
 {
 	//init
