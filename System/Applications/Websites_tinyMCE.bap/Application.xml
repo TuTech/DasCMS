@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE bambus SYSTEM "../../Resource/DTD/application_v1.dtd">
+<bambus>
+	<appController guid="org.bambuscms.applications.websiteeditor">AWebsiteEditor</appController>
+	<name>websites</name>
+	<description>edit_and_manage_websites</description>
+	<icon>app-utilities-editor-html</icon>
+	<version>0.13.20070807</version>
+	<priority>2.0</priority>
+	<purpose>manage_content</purpose>
+	<tabs>
+		<tab icon="action-edit">edit</tab>
+	</tabs>
+	<application>
+		<interface name="edit" src="edit.php">
+			<panel name="content_actions">
+				<task type="button" hotkey="o" caption="open" icon="action-document-open" action="org.bambuscms.wopenfiledialog.toggle();" />
+				<task type="button" hotkey="s" caption="save" icon="action-document-save" action="org.bambuscms.app.document.save()" />
+				<task type="button" hotkey="S" caption="save_and_rename" icon="action-document-save-as" action="org.bambuscms.app.document.saveAs('filename')" />
+			</panel>
+			<panel name="server_actions">
+				<task type="button" hotkey="N" caption="new" icon="action-document-new" action="org.bambuscms.app.document.create()" />
+				<task type="button" hotkey="X" caption="delete" icon="action-edit-delete" action="org.bambuscms.app.document.remove()" />
+			</panel>
+			<panel name="document_actions">
+				<task type="button" hotkey="C" caption="cleanup" icon="action-edit-clean" action="org.bambuscms.app.document.cleanHTML('')" />
+				<task type="button" hotkey="R" caption="search_and_replace" icon="action-edit-find-replace" action="org.bambuscms.app.document.searchAndReplace()" />
+			</panel>
+		</interface>
+		<sidebar>
+			<supported mode="MEDIA_LOOKUP"/>
+			<supported mode="CONTENT_LOOKUP"/>
+			<supported mode="PERMISSIONS"/>
+			<supported mode="PROPERTY_EDIT"/>
+			<supported mode="HELPER"/>
+			<processInputs mode="auto"/>
+		</sidebar>
+		<openDialog autoShow="yes"/>
+	</application>
+</bambus>

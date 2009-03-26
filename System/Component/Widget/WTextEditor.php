@@ -16,6 +16,7 @@ class WTextEditor extends BWidget
 	private $spellCheck = true;
 	private $wordWrap = true;
 	private $wysiwyg = false;
+	private $codeAssist = true;
 	
 	public function __construct($value = '')
 	{		
@@ -57,6 +58,16 @@ class WTextEditor extends BWidget
         $this->wysiwyg = $yn == true;
     }
     
+    public function getCodeAssist()
+    {
+        return $this->codeAssist;
+    }
+    
+    public function setCodeAssist($yn)
+    {
+        $this->codeAssist = $yn == true;
+    }
+    
 	/**
 	 * get render() output as string
 	 * @return string
@@ -82,12 +93,13 @@ class WTextEditor extends BWidget
             ,$this->value
         );
         //javascript resize/wysiwyg
+        $editorJS = '';
         if($this->wysiwyg)
         {
             //WYSIWYG
             $editorJS = 'var editor = org.bambuscms.editor.wysiwyg.create(org.bambuscms.app.document.editorElementId, true);';
         }
-        else
+        elseif($this->codeAssist)
         {
             //assisting textarea
             $editorJS = 'org.bambuscms.wcodeeditor.run($(org.bambuscms.app.document.editorElementId));';

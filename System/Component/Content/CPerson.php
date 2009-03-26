@@ -100,12 +100,35 @@ class CPerson
 	}
 	
 	/**
-	 * @return string
+	 * @return WCPersonAttributes
 	 */
 	public function getContent()
 	{
-	    return $this->Content;
+	    return $this->getAttributes()->asContent();
 	}
+	
+	/**
+	 * returns WCPersonAttributes
+	 * @return array
+	 */
+	public function getAttributes()
+	{
+	    $atts = new WCPersonAttributes($this);
+	    //set data for $atts
+	    $atts->addAttribute(new WCPersonAttribute($this, 'test'));
+	    return $atts;
+	}
+	
+	/**
+	 * returns WCPersonEntry[]
+	 * @param string $attribute
+	 * @return array
+	 */
+	public function getAttributeEntries($attribute)
+	{
+	    
+	}
+	
 	
 	public function Save()
 	{

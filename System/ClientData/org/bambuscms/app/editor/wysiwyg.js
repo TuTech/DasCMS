@@ -97,7 +97,9 @@ org.bambuscms.editor.wysiwyg._editor = function(frame){
 	};
 	//get the html from the wysiwyg editor
 	this.getText = function(){
-		return this._doc.body.innerHTML;
+		return (this.wysiwygOn) 
+			? this._doc.body.innerHTML
+			: this._extractText(this._doc.body);
 	};
 };
 org.bambuscms.editor.wysiwyg.commitAll = function()
