@@ -27,6 +27,7 @@ $values = array(
         "timezone"              => array("timezone",      "tz"),
         "locale"                => array("locale",      "ISO639-2"),
         "use_wysiwyg"			=> array("use_wysiwyg",      "checkbox"),
+    	'mail_webmaster_on_error'=> array("mail_webmaster_on_error","checkbox"),
 	),
 	"database_settings" => array(
         "server"                => array("db_server",       "fullinput"),
@@ -40,11 +41,12 @@ $fullinput = "\n\t\t\t<input class=\"fullinput\" type=\"text\" size=\"40\" name=
 $password  = "\n\t\t\t<input class=\"fullinput\" type=\"password\" size=\"40\" name=\"%s\" id=\"%s\" value=\"%s\" />".
              "\n\t\t\t<br />\n\t\t\t<input type=\"checkbox\" name=\"chdbpasswd\" />%s\n\t\t";
 $checkbox  = "\n\t\t\t<input type=\"checkbox\" name=\"%s\" id=\"%s\" %s/>\n\t\t";
-$labeltag  = "\n\t\t\t<label title=\"{%s}\" for=\"%s\">%s</label>\n\t\t";
+$labeltag  = "\n\t\t\t<label title=\"%s: &quot;%s&quot;\" for=\"%s\">%s</label>\n\t\t";
 foreach($values as $title => $settings)
 {
     $tbl = new WTable(WTable::HEADING_TOP|WTable::HEADING_LEFT, $title);
-    $tbl->addRow(array('description', 'value'));
+    $tbl->setHeaderTranslation(false);
+    $tbl->addRow(array(SLocalization::get('description'), SLocalization::get('value')));
 	foreach($settings as $name => $options)
 	{
 		list($key, $type) = $options;
@@ -132,7 +134,7 @@ foreach($values as $title => $settings)
                     $input .= "</select>\n";
                 }
 		}
-		$label = sprintf($labeltag, $key, $key, SLocalization::get($name));
+		$label = sprintf($labeltag, SLocalization::get('key'), $key, $key, SLocalization::get($name));
 		$tbl->addRow(array($label, $input));
 	}
     $tbl->render();

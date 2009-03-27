@@ -29,6 +29,33 @@ class SErrorAndExceptionHandler
             </div>
         </div>';
     
+    private static $err_mail = 
+    	"\r\n\r\n%s (%d) in \"%s\" at line %d\n\n%s\n\n%s\n\ncwd: %s";
+    
+    private static function mail($kind, $code, $file, $line, $message, $stack, $workingDir)
+    {
+        if(LConfiguration::get('mail_webmaster_on_error') == '1')
+        {
+            $mail = LConfiguration::get('webmaster');
+            if(!empty($mail))
+            {
+                mail(
+                    $mail
+                    ,BAMBUS_VERSION.' ['.$kind.']'
+                    ,sprintf(
+                        self::$err_mail
+                        ,$kind
+                        ,$code
+                        ,$file
+                        ,$line
+                        ,$message
+                        ,$stack
+                        ,$workingDir
+                    ));
+            }
+        }
+    }
+    
     public static function reportErrors()
     {
         self::$report = true;
@@ -74,6 +101,14 @@ class SErrorAndExceptionHandler
         self::$errorMessage = $err;
         if(self::$report && !self::$reportSkipOnce)
         {
+            self::mail(
+            	'Error'
+                , $errno
+                , $errfile
+                , $errline
+                , $errstr
+                , $context
+                ,getcwd());
             SNotificationCenter::report(
             	'warning',
                 sprintf(
@@ -92,6 +127,14 @@ class SErrorAndExceptionHandler
     
     public static function exceptionHandler(Exception $e)
     {
+        self::mail(
+            get_class($e)
+            , $e->getCode()
+            , $e->getFile()
+            , $e->getLine()
+            , $e->getMessage()
+            , $e->getTraceAsString()
+            ,getcwd());
         $err = sprintf(
             self::$err_html
             , get_class($e)

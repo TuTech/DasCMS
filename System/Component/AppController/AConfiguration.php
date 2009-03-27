@@ -22,7 +22,7 @@ class AConfiguration
         'cms_text_color','dateformat',
         'logout_on_exit', 'confirm_for_exit','generator_content',  
         'use_wysiwyg', 'wellformed_urls',
-        'login_template',
+        'login_template','mail_webmaster_on_error',
         //database_settings
         'db_server', 'db_user', 'db_password', 'db_name', 'db_table_prefix',
         //meta_data
@@ -39,7 +39,8 @@ class AConfiguration
         'chdbpasswd',
         'logAccess', 
         'logChanges',
-        'use_wysiwyg'
+        'use_wysiwyg',
+    	'mail_webmaster_on_error'
     );
     
     /**
