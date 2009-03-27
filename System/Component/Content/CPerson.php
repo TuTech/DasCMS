@@ -104,31 +104,53 @@ class CPerson
 	 */
 	public function getContent()
 	{
-	    return $this->getAttributes()->asContent();
+	    if($this->Content instanceof WCPersonAttributes)
+	    {
+	        return $this->Content->asContent();
+	    }
+	    else
+	    {
+	        return $this->buildAttributes()->asContent();
+	    }
+	}
+	
+	public function setContent($value)
+	{
+	    if (!$value instanceof WCPersonAttributes) 
+	    {
+	    	throw new XArgumentException('content must be an instance of WCPersonAttributes');
+	    }
+	    //get attributes, types, contexts from db
+	    //foreach att 
+	        //get att from $value
+	        //add new contexts from $value to DB
+	        //foreach value in $value
+	            //add entry to db
+	            
+	    //rebuild attributes from db
+	    $this->Content = $value;
 	}
 	
 	/**
 	 * returns WCPersonAttributes
 	 * @return array
 	 */
-	public function getAttributes()
+	private function buildAttributes()
 	{
-	    $atts = new WCPersonAttributes($this);
-	    //set data for $atts
-	    $atts->addAttribute(new WCPersonAttribute($this, 'test'));
+	    $atts = new WCPersonAttributes();
+	    
+	    $phoneAtt = new WCPersonAttribute('phone', 'phone', array('arbeit', 'mobil', 'privat', 'fax arbeit', 'fax privat'));
+	    $phoneAtt->addEntry(new WCPersonEntry($phoneAtt, 'arbeit', '+49 01054 2540 4521'));
+	    $phoneAtt->addEntry(new WCPersonEntry($phoneAtt, 'mobil', '+35424424357'));
+	    $atts->addAttribute($phoneAtt);
+	    
+	    $phoneAtt = new WCPersonAttribute('email', 'email', array('arbeit', 'mobil', 'privat'));
+	    $phoneAtt->addEntry(new WCPersonEntry($phoneAtt, 'arbeit', 'em@il.de'));
+	    $phoneAtt->addEntry(new WCPersonEntry($phoneAtt, 'mobil', 'mob@em.ail'));
+	    $atts->addAttribute($phoneAtt);
+	    
 	    return $atts;
 	}
-	
-	/**
-	 * returns WCPersonEntry[]
-	 * @param string $attribute
-	 * @return array
-	 */
-	public function getAttributeEntries($attribute)
-	{
-	    
-	}
-	
 	
 	public function Save()
 	{

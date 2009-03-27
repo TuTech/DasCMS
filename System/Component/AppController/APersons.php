@@ -60,7 +60,70 @@ class APersons
         }
     }
     
+    //for post array
     public function save(array $param)
+    {
+        parent::requirePermission('org.bambuscms.content.cperson.change');
+        if (!$this->target instanceof CPerson) 
+        {
+        	return;
+        }
+		$_attribute = 'a_';
+		$_entry = 'e_';
+		$_count = 'n';
+		$_contexts = 'c_';
+		$_context = '_c';
+		$_value = '_v';
+		$_type = 't';
+        if($this->target != null
+            && isset($param['a_n']))
+        {
+            $attributes = new WCPersonAttributes();
+            for($i = 1; $i <= intval($param[$_attribute.$_count],'10'); $i++)
+            {
+                $currentAttribute = $_attribute.$i.'_';
+                if(!empty($param[$_attribute.$i])
+                    && !empty($param[$currentAttribute.$_type])
+                    && !empty($param[$currentAttribute.$_contexts.$_count])
+                    )
+                {
+                    try
+                    {
+                        $attName = $param[$_attribute.$i];
+                        $attType = $param[$currentAttribute.$_type];
+                        $attContexts = array();
+                        for($c = 1; $c <= intval($param[$currentAttribute.$_contexts.$_count]); $c++)
+                        {
+                            if(!empty($param[$currentAttribute.$_contexts.$c]))
+                            {
+                                $attContexts[] = $param[$currentAttribute.$_contexts.$c];
+                            }
+                        }
+                        $attribute = new WCPersonAttribute($attName, $attType, $attContexts);
+                        $attributes->addAttribute($attribute);
+                        for($e = 1; $e <= intval($param[$currentAttribute.$_entry.$_count]); $e++)
+                        {
+                            if(!empty($param[$currentAttribute.$_entry.$e.$_context])
+                                && !empty($param[$currentAttribute.$_entry.$e.$_value]))
+                            {
+                                $entry = new WCPersonEntry(
+                                    $attribute, 
+                                    $param[$currentAttribute.$_entry.$e.$_context], 
+                                    $param[$currentAttribute.$_entry.$e.$_value]
+                                );
+                                $attribute->addEntry($entry);
+                            }
+                        }
+                    }
+                    catch (Exception $e){}
+                }
+            }
+            $this->target->setContent($attributes);
+        }
+    }
+    
+    //for JSON object
+    public function saveObject(array $param)
     {
         parent::requirePermission('org.bambuscms.content.cperson.change');
         if($this->target != null
