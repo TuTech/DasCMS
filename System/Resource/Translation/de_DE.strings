@@ -47,8 +47,8 @@ text_bricks	DCMScode
 edit_text_bricks	Content im Stil vom Dobrick-CMS bearbeiten
 design	Design
 edit_feeds	Verwaltung und Erstellung von Nachrichtentickern, Podcast, Videopodcasts
-content_lookup	Alle Webseiten (zur Verlinkung)
-search_contens	Nach Webseitentitel suchen
+content_lookup	Alle Inhalte (zur Verlinkung)
+search_contens	Nach Inhalten suchen
 content_information	Eigenschaften dieser Webseite anzeigen
 content_properties	Erweiterte Eigenschaften dieser Webseite bearbeiten
 wysiwyg_panel	Werkzeugpalette Textbearbeitung

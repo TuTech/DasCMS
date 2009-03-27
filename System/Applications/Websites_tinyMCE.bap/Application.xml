@@ -22,10 +22,6 @@
 				<task type="button" hotkey="N" caption="new" icon="action-document-new" action="org.bambuscms.app.document.create()" />
 				<task type="button" hotkey="X" caption="delete" icon="action-edit-delete" action="org.bambuscms.app.document.remove()" />
 			</panel>
-			<panel name="document_actions">
-				<task type="button" hotkey="C" caption="cleanup" icon="action-edit-clean" action="org.bambuscms.app.document.cleanHTML('')" />
-				<task type="button" hotkey="R" caption="search_and_replace" icon="action-edit-find-replace" action="org.bambuscms.app.document.searchAndReplace()" />
-			</panel>
 		</interface>
 		<sidebar>
 			<supported mode="MEDIA_LOOKUP"/>
