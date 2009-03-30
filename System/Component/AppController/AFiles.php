@@ -45,6 +45,10 @@ class AFiles
         {
             $this->target = CFile::Create(isset($param['create']) ? $param['create'] : '');
         }
+        catch (XFileNotFoundException $e)
+        {
+            return;/*nothing sent*/
+        }
         catch (Exception $e)
         {
             SNotificationCenter::report('warning', 'file_not_created');

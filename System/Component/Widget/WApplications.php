@@ -66,7 +66,7 @@ class WApplications extends BWidget
 		    $meta = $this->apps[$app];
 			$name = htmlentities(SLocalization::get($meta['name']), ENT_QUOTES, 'UTF-8');
 			$html .= sprintf(
-				"\t<td><a href=\"Management/?editor=%s\" class=\"application%s\">\n".
+				"\t<td><a href=\"Management/?editor=%s\" onmousedown=\"return false;\" class=\"application%s\">\n".
 					"\t\t<img src=\"%s\" alt=\"%s\" />\n".
 					"\t\t<span class=\"application-info\">\n".
 					"\t\t\t<span class=\"application-name\">%s</span>\n".

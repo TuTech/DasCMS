@@ -5,31 +5,26 @@ function Upload()
 	finput = $c('input');
 	finput.setAttribute('name','CFile');
 	finput.setAttribute('type','file');
-		
+	finput.onchange = function(){
+		$('dialogueform').submit();
+		this.style.display = 'none';
+		this.parentNode.className += ' sending_ani_bg';
+		var as = $('dialogues').getElementsByTagName('a');
+		for(var i = 0; i < as.length; i++)
+			as[i].style.display = 'none';
+	};	
+	
 	minput = $c('input');
 	minput.setAttribute('name','MAX_FILE_SIZE');
 	minput.setAttribute('type','hidden');
 	minput.setAttribute('value','1000000000');
 	
-	cinput = $c('input');
-	cinput.setAttribute('name','bambus_overwrite_file');
-	cinput.setAttribute('type','checkbox');
-	cinput.setAttribute('id', 'dlgcheck');
-
-	cdesc = $c('label');
-	cdesc.setAttribute('for', 'dlgcheck');
-	cdesc.appendChild(document.createTextNode(_('overwrite')));
-
-	br = $c('br');
-
 	div.appendChild(finput);
 	div.appendChild(minput);
-	div.appendChild(br);
-	div.appendChild(cinput);
-	div.appendChild(cdesc);
 	
-	org.bambuscms.app.dialog.create(_('upload_file'), _('file'), div, _('upload'), _('cancel'), true);
+	org.bambuscms.app.dialog.create(_('upload_file'), '', div, null, _('cancel'), true);
 	org.bambuscms.app.dialog.setAction('create');
+	finput.click();
 }
 function Delete()
 {

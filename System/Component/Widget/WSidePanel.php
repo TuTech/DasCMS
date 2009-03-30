@@ -243,7 +243,7 @@ class WSidePanel
     			foreach ($this->sidebarWidgets as $class => $object) 
     			{
     		        $html .=  sprintf(
-    		        	"<td class=\"tab\"><a href=\"javascript:org.bambuscms.wsidebar.show('%s')\" id=\"WSidebar-selector-%s\" title=\"%s\"%s>%s</a></td>\n"
+    		        	"<td class=\"tab\"><a onmousedown=\"return org.bambuscms.wsidebar.show('%s')\" href=\"javascript:nil();\" id=\"WSidebar-selector-%s\" title=\"%s\"%s>%s</a></td>\n"
     		        	,$class
     		        	,$class
     		        	,SLocalization::get($object->getName())

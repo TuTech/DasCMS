@@ -16,5 +16,6 @@ org.bambuscms.wsidebar = {
 				elements[i].style.display = 'none';
 		}
 		$('WSidebar-child-'+widget).style.display = 'block';
+		return false;
 	}
 }

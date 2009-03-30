@@ -47,3 +47,7 @@
 .WFlowLayoutImage a:hover .helper{
 	display: none;
 }
+#dialogues .sending_ani_bg{
+	background: url(../../ClientData/Images/processing.gif) 50% 50% no-repeat;
+	height:50px;
+}

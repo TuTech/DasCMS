@@ -42,7 +42,9 @@ if($File != null && $File instanceof BContent)
 	$tbl->addRow(array('retain_count',isset($retains[$File->Id]) ? $retains[$File->Id] : '0'));
 	if(WImage::supportedMimeType($File->MimeType))
 	{
+	    SErrorAndExceptionHandler::muteErrors();
 	    $info = getimagesize($File->getRawDataPath());
+	    SErrorAndExceptionHandler::reportErrors();
 	    if($info)
 	    {
         	$tbl->addRow(array('width',$info[0].'px'));

@@ -102,7 +102,7 @@ class WApplicationTaskBar
             $this->hotkeys[$atts['hotkey']] = $action;
         }
         return sprintf(
-            "\t\t<a class=\"CommandBarPanelItem\" %stitle=\"%s\" href=\"javascript:%s\">%s</a>\n"
+            "\t\t<a class=\"CommandBarPanelItem\" %stitle=\"%s\" href=\"javascript:nil();\" onmousedown=\"%s;return false;\">%s</a>\n"
             ,$hotkeyID
             ,SLocalization::get($atts['caption'])
             ,$action

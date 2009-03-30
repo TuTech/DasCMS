@@ -10,3 +10,4 @@ function $t(text)
 {
 	return document.createTextNode(text);
 }
+function nil(){}
