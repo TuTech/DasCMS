@@ -96,8 +96,28 @@ class WCPersonAttributes extends BWidget
 	    {
 	        return;
 	    }
-	    $this->attributes[] = $attribute;
+	    $this->attributes[$attribute->getName()] = $attribute;
 	}	
+	
+	/**
+	 * @param string $attributeName
+	 * @return WCPersonAttribute
+	 */
+	public function getAttribute($attributeName)
+	{
+	    if(!isset($this->attributes[$attributeName]))
+	    {
+	        throw new XUndefinedIndexException('no such attribute');
+	    }
+	    return $this->attributes[$attributeName];
+	}
+	
+	public function hasAttribute($attributeName)
+	{
+	    return isset($this->attributes[$attributeName]);
+	}
+	
+	
 	
 	/**
 	 * get render() output as string

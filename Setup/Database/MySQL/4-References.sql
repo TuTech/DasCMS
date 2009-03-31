@@ -122,10 +122,18 @@ PermissionTags
         REFERENCES Tags(tagID)
         ON DELETE RESTRICT
         ON UPDATE NO ACTION;
-        
--- Foreign keys for PersonContextAttributeTypes
+       
+-- Foreign keys for PersonAttributes
 ALTER TABLE 
-PersonContextAttributeTypes
+PersonAttributes
+    ADD FOREIGN KEY (personAttributeTypeREL)
+        REFERENCES PersonAttributeTypes(personAttributeTypeID)
+        ON DELETE RESTRICT
+        ON UPDATE RESTRICT;
+        
+-- Foreign keys for PersonAttributeContexts
+ALTER TABLE 
+PersonAttributeContexts
     ADD FOREIGN KEY (personContextREL)
         REFERENCES PersonContexts(personContextID)
         ON DELETE RESTRICT
@@ -133,23 +141,19 @@ PersonContextAttributeTypes
     ADD FOREIGN KEY (personAttributeREL)
         REFERENCES PersonAttributes(personAttributeID)
         ON DELETE RESTRICT
-        ON UPDATE RESTRICT,
-    ADD FOREIGN KEY (personAttributeTypeREL)
-        REFERENCES PersonAttributeTypes(personAttributeTypeID)
-        ON DELETE RESTRICT
         ON UPDATE RESTRICT;
-
+        
 -- Foreign keys for PersonData
 ALTER TABLE 
 PersonData
-    ADD FOREIGN KEY (personContextAttributeTypeREL)
-        REFERENCES PersonContextAttributeTypes(personContextAttributeTypeID)
-        ON DELETE RESTRICT
-        ON UPDATE RESTRICT,
     ADD FOREIGN KEY (contentREL)
         REFERENCES Contents(contentID)
         ON DELETE CASCADE
-        ON UPDATE NO ACTION;
+        ON UPDATE NO ACTION,
+    ADD FOREIGN KEY (personAttributeContextREL)
+        REFERENCES PersonAttributeContexts(personAttributeContextID)
+        ON DELETE RESTRICT
+        ON UPDATE RESTRICT;
 
 -- Foreign keys for PersonLogins
 ALTER TABLE 

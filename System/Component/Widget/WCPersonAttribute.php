@@ -13,7 +13,7 @@ class WCPersonAttribute extends BWidget
 {
 	const CLASS_NAME = "WCPersonAttribute";
 	
-	private $attribute, $type, $contexts, $entries;
+	private $attribute, $type, $contexts = array(), $entries = array();
 	private $readOnly = false;
 	
 	/**
@@ -107,7 +107,7 @@ class WCPersonAttribute extends BWidget
 	 */
 	public function __toString()
 	{
-	    $out = '<h3>'.$this->encode($this->attribute)."</h3>\n".
+	    $out = '<h3>'.SLocalization::get($this->attribute)."</h3>\n".
 	    		'<dl class="CPersonAttribute CPersonAttribute_'.md5($this->attribute).'">'."\n";
 	    foreach ($this->entries as $ent)
 	    {

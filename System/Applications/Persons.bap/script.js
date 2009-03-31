@@ -203,19 +203,21 @@ org.bambuscms.app.persons.person = function(data)
 	{
 		if(!attribute || !this._data.attributes[attribute])
 		{
-			throw 'invalid attribute';
+			throw '(person:addAttributeContext) invalid attribute';
 		}
 		if(!context)
 		{
-			throw 'no context given';
+			throw '(person:addAttributeContext) no context given';
 		}
 		for (var i = 0; i < this._data.attributes[attribute].contexts.length; i++)
 		{
 			if(this._data.attributes[attribute].contexts[i] == context)
+			{
+				throw 'context exists';
 				return;//already exists
+			}
 		}
 		this._data.attributes[attribute].contexts[this._data.attributes[attribute].contexts.length] = context;
-		this._data.attributes[attribute].contexts = this._data.attributes[attribute].contexts;
 		this.form.update();
 	};
 	
@@ -225,17 +227,17 @@ org.bambuscms.app.persons.person = function(data)
 		value = value || '';
 		if(!attribute || !this._data.attributes[attribute])
 		{
-			throw 'invalid attribute';
+			throw '(person:addAttributeEntry) invalid attribute';
 		}
 		if(!context)
 		{
-			throw 'no context given';
+			throw '(person:addAttributeEntry) no context given';
 		}
 		// context check
 		var contextIndex = this._validateAttributeContext(attribute, context);
 		if(contextIndex == -1)
 		{
-			throw 'invalid context';
+			throw '(person:addAttributeEntry) invalid context';
 		}
 		var index = this._data.attributes[attribute].entries.length;
 		this._data.attributes[attribute].entries[index] = [contextIndex, value];
@@ -610,6 +612,13 @@ org.bambuscms.app.persons.gui.attribute = function(controller, attributeName, id
 	this.addNewEntry = function()
 	{
 		var contexts = this.controller.getAttributeContexts(this.attributeName);
+		if(contexts.length == 0)
+		{
+			var ctx = prompt(_('new_context'));
+			if(!ctx)throw '(gui:attribute:addNewEntry) context needed';
+			this.controller.addAttributeContext(this.attributeName, ctx);
+			contexts = this.controller.getAttributeContexts(this.attributeName);
+		}
 		var i = this.controller.addAttributeEntry(this.attributeName, contexts[0], '');
 		this.children[i] = new org.bambuscms.app.persons.gui.entry(controller, this.attributeName, [contexts[0], ''], i, this.node.id+'_'+i);
 		this.node.insertBefore(this.children[i].getNode(), this.addButton);

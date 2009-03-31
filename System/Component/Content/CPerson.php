@@ -137,18 +137,42 @@ class CPerson
 	 */
 	private function buildAttributes()
 	{
+	    //get attributes
 	    $atts = new WCPersonAttributes();
+	    $res = QCPerson::getAttributesWithType();
+	    while ($row = $res->fetch())
+	    {
+	        list($att, $type) = $row;
+	        //get contexts for attribute
+	        $ctxres = QCPerson::getAttributeContexts($att);
+	        $contexts = array();
+	        while($crow = $ctxres->fetch())
+	        {
+	            if(!empty($crow[0]))
+	            {
+	                $contexts[] = $crow[0];
+	            }
+	        }
+	        $ctxres->free();
+	        //add attribute to list
+    	    $Att = new WCPersonAttribute($att, $type, $contexts);
+    	    $atts->addAttribute($Att);
+	    }
+	    $res->free();
 	    
-	    $phoneAtt = new WCPersonAttribute('phone', 'phone', array('arbeit', 'mobil', 'privat', 'fax arbeit', 'fax privat'));
-	    $phoneAtt->addEntry(new WCPersonEntry($phoneAtt, 'arbeit', '+49 01054 2540 4521'));
-	    $phoneAtt->addEntry(new WCPersonEntry($phoneAtt, 'mobil', '+35424424357'));
-	    $atts->addAttribute($phoneAtt);
-	    
-	    $phoneAtt = new WCPersonAttribute('email', 'email', array('arbeit', 'mobil', 'privat'));
-	    $phoneAtt->addEntry(new WCPersonEntry($phoneAtt, 'arbeit', 'em@il.de'));
-	    $phoneAtt->addEntry(new WCPersonEntry($phoneAtt, 'mobil', 'mob@em.ail'));
-	    $atts->addAttribute($phoneAtt);
-	    
+	    //get the data for this person
+    	$res = QCPerson::getEntriesForPerson($this->Id);
+    	while($row = $res->fetch())
+    	{
+    	    list($att, $ctx, $val) = $row;
+    	    if($atts->hasAttribute($att))
+    	    {
+    	        //add entry
+    	        $catt = $atts->getAttribute($att);
+    	        $catt->addEntry(new WCPersonEntry($catt, $ctx, $val));
+    	    }
+    	}    
+    	$res->free();
 	    return $atts;
 	}
 	

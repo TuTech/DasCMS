@@ -493,7 +493,10 @@ PersonAttributes(
     personAttribute
     	VARCHAR(64)
     	NOT NULL
-    	UNIQUE
+    	UNIQUE,
+	personAttributeTypeREL
+		INTEGER 
+        NOT NULL
 )
 ENGINE = InnoDB 
 CHARACTER SET utf8 
@@ -516,27 +519,22 @@ ENGINE = InnoDB
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
 
--- context, attribute and type combi
+-- person attribute contexts relation
 CREATE TABLE IF NOT EXISTS 
-PersonContextAttributeTypes(
-	personContextAttributeTypeID
+PersonAttributeContexts(
+	personAttributeContextID
         INTEGER 
         PRIMARY KEY 
         AUTO_INCREMENT 
         NOT NULL,
-	personContextREL
-		INTEGER 
+    personContextREL 
+        INTEGER 
         NOT NULL,
-	personAttributeREL
-		INTEGER 
+    personAttributeREL 
+        INTEGER 
         NOT NULL,
-	personAttributeTypeREL
-		INTEGER 
-        NOT NULL,
-    UNIQUE(
-    	personContextREL,
-    	personAttributeREL
-	)
+    INDEX (personContextREL),
+    UNIQUE (personAttributeREL, personContextREL)
 )
 ENGINE = InnoDB 
 CHARACTER SET utf8 
@@ -548,18 +546,14 @@ PersonData(
 	contentREL
         INTEGER 
         NOT NULL,
-    personContextAttributeTypeREL
+    personAttributeContextREL
     	INTEGER
     	NOT NULL,
 	personData
-		varchar(4096)
+		varchar(4095)
 		NOT NULL,
-	isPrimary
-		Enum('NO', 'YES')
-		NOT NULL
-		DEFAULT 'NO',
 	INDEX (contentREL),
-	INDEX (personContextAttributeTypeREL),
+	INDEX (personAttributeContextREL),
 	INDEX (personData)
 )
 ENGINE = InnoDB 
