@@ -53,6 +53,22 @@ class WCPersonAttribute extends BWidget
 	    return $this->type;
 	}
 	
+	/**
+	 * @return array
+	 */
+	public function getContexts()
+	{
+	    return $this->contexts;
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getEntries()
+	{
+	    return $this->entries;
+	}
+	
 	public function getContextID($context)
 	{
 	    return array_search($context, $this->contexts);

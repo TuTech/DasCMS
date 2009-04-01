@@ -60,6 +60,16 @@ class WCPersonEntry extends BWidget
         );
 	}
 	
+	public function getContext()
+	{
+	    return $this->context;
+	}
+	
+	public function getValue()
+	{
+	    return $this->value;
+	}
+	
 	/**
 	 * get render() output as string
 	 *

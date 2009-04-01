@@ -31,7 +31,7 @@ class VSporeHelper
         'pubdate' => array('view'),
         'author' => array('view'),
         'tags' => array('view'),
-        'previewimage' => array('view'),
+        'previewimage' => array('view', 'width', 'height', 'scale'),
         'type' => array('view'),
     	'property' => array('view', 'name')
     );
@@ -79,9 +79,28 @@ class VSporeHelper
         return $this->sporeContent($spore)->getPubDate();
     }
     
-    private function previewimage($spore)
+    private function previewimage($spore, $width, $height, $scale, $color)
     {
-        return $this->sporeContent($spore)->getPreviewImage();
+        $img = $this->sporeContent($spore)->getPreviewImage();
+        if($width > 0 && $height > 0 && is_numeric($width) && is_numeric($height))
+        {
+            $mode = WImage::MODE_FORCE;
+            $force = WImage::FORCE_BY_CROP;
+            
+            switch($scale)
+            {
+                case 'aspect_fit':
+                    $mode = WImage::MODE_SCALE_TO_MAX;break;
+                case 'aspect_crop':
+                    $force = WImage::FORCE_BY_CROP;break;
+                case 'aspect_fill':
+                    $force = WImage::FORCE_BY_FILL;break;
+                case 'stretch':
+                    $force = WImage::FORCE_BY_STRETCH;break;
+            }
+            $img = $img->scaled($width, $height,$mode, $force, $color);
+        }
+        return $img;
     }
     
     private function author($spore)
@@ -147,9 +166,20 @@ class VSporeHelper
 	    {
 	        throw new XArgumentException('property name not defined');
 	    }
-        return ($function != 'property')
-            ? $this->{$function}($namedParameters['view'])
-            : $this->{$function}($namedParameters['view'],$namedParameters['name']);
+	    switch ($function)
+	    {
+	        case 'property':
+	            return $this->{$function}($namedParameters['view'],$namedParameters['name']);
+	        case 'previewimage':
+	            foreach(array('width', 'height', 'scale', 'color') as $p)
+	            {
+	                if(!isset($namedParameters[$p]))
+	                    $namedParameters[$p] = null;
+	            }
+	            return $this->{$function}($namedParameters['view'],$namedParameters['width'],$namedParameters['height'],$namedParameters['scale'],$namedParameters['color']);
+	        default:
+	            return $this->{$function}($namedParameters['view']);
+	    }
 	}
 	
 	/**

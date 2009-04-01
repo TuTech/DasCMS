@@ -112,6 +112,12 @@ class WCPersonAttributes extends BWidget
 	    return $this->attributes[$attributeName];
 	}
 	
+	
+	public function getAttributes()
+	{
+	    return $this->attributes;
+	}
+		
 	public function hasAttribute($attributeName)
 	{
 	    return isset($this->attributes[$attributeName]);

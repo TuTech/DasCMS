@@ -17,7 +17,7 @@ class TCmdView
 {
     private $for, $show;
     public $data = array();
-    
+    private $width = null, $height = null, $scale = null, $color = null;
     private $res = '';
     
     public function __construct(DOMNode $node)
@@ -25,12 +25,20 @@ class TCmdView
         $atts = $node->attributes;
         $for = $atts->getNamedItem('for');
         $show = $atts->getNamedItem('show');
+        $width = $atts->getNamedItem('width');
+        $height = $atts->getNamedItem('height');
+        $scale = $atts->getNamedItem('scale');
+        $color = $atts->getNamedItem('color');
         if(!$for || !$show)
         {
             return;
         }
         $this->for = $for->nodeValue;
         $this->show = $show->nodeValue;
+        if($width)$this->width = $width->nodeValue;
+        if($height)$this->height = $height->nodeValue;
+        if($scale)$this->scale = $scale->nodeValue;
+        if($color)$this->color = $color->nodeValue;
     }
     
     public function setUp(array $environment)
@@ -38,7 +46,13 @@ class TCmdView
         $v = new VSporeHelper();
         if($v->TemplateCallable($this->show))
         {
-            $this->res = $v->TemplateCall($this->show, array('view' => $this->for));
+            $this->res = $v->TemplateCall($this->show, array(
+            	'view' => $this->for,
+                'width' => $this->width,
+                'height' => $this->height,
+                'scale' => $this->scale,
+                'color' => $this->color
+            ));
         }
     }
     
@@ -53,7 +67,7 @@ class TCmdView
 
     public function __sleep()
     {
-        $this->data = array($this->for, $this->show);
+        $this->data = array($this->for, $this->show, $this->width, $this->height, $this->scale, $this->color);
         return array('data');
     }
     
@@ -61,6 +75,10 @@ class TCmdView
     {
         $this->for = $this->data[0];
         $this->show = $this->data[1];
+        if($this->data[2])$this->width = $this->data[2];
+        if($this->data[3])$this->height = $this->data[3];
+        if($this->data[4])$this->scale = $this->data[4];
+        if($this->data[5])$this->color = $this->data[5];
         $this->data = array();
     }
 }

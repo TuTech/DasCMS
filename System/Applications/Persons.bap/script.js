@@ -543,8 +543,9 @@ org.bambuscms.app.persons.gui.entry = function(controller, attributeName, entry,
 	this.data.onchange = function(){
 		self.updateValue(this.value);
 	};
-	this.data.onblur = function(){
+	this.data.onkeyup = function(){
 		self.updateValue(this.value);
+		self.setWarning(false);
 	};
 	this.data.onfocus = function(){
 		self.setWarning(false);

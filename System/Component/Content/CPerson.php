@@ -113,22 +113,76 @@ class CPerson
 	        return $this->buildAttributes()->asContent();
 	    }
 	}
-	
+	private function p($str)
+	{
+	    echo "\n\n<!-- ", $str, ' --> ';
+	}
 	public function setContent($value)
 	{
 	    if (!$value instanceof WCPersonAttributes) 
 	    {
 	    	throw new XArgumentException('content must be an instance of WCPersonAttributes');
 	    }
-	    //get attributes, types, contexts from db
-	    //foreach att 
-	        //get att from $value
-	        //add new contexts from $value to DB
-	        //foreach value in $value
-	            //add entry to db
+	    //start transaction
+        QCPerson::begin();
+        //delete all data from this person
+        QCPerson::resetPersonData($this->Id);
+        $this->p('reset');
+        //add missing contexts
+        $contexts = array();
+        foreach($value->getAttributes() as $attribute)
+        {
+            $contexts = array_merge($contexts, $attribute->getContexts());
+        }
+        $contexts = array_unique($contexts);
+        $this->p('all ctx: '.implode(', ', $contexts));
+        $availContexts = array();
+        $newContexts = array();
+        $cres = QCPerson::availableContexts($contexts);
+        while ($crow = $cres->fetch())
+        {
+            $availContexts[$crow[0]] = 1; 
+        }
+        $cres->free();
+        foreach ($contexts as $ctx)
+        {
+            if(!isset($availContexts[$ctx]))
+            {
+                $newContexts[] = $ctx;
+            }
+        }
+        $this->p('new ctx: '.implode(', ', $newContexts));
+        //add new contexts
+        $this->p('added ctx: '.QCPerson::addContexts($newContexts));
 	            
+        //set new data for each valid attribute
+	    $res = QCPerson::getAttributesWithType();
+	    while ($row = $res->fetch())
+	    {
+	        list($att, $type) = $row;
+	        //attribute in sent data?
+	        if($value->hasAttribute($att))
+	        {
+	            $this->p('att: '.$att);
+	            $attribute = $value->getAttribute($att);
+	            
+	            //save entries to database
+	            foreach($attribute->getEntries() as $entry)
+	            {
+	                echo "\n\n<!--Setting ", $att, '/', $entry->getContext(),': ', $entry->getValue(), '-->'; 
+	                QCPerson::assignPersonAttributeContextValue(
+	                    $this->Id,
+	                    $att,
+	                    $entry->getContext(),
+	                    $entry->getValue()
+	                );
+	            }
+	        }
+	    }
+	    $res->free();
+	    QCPerson::save();
 	    //rebuild attributes from db
-	    $this->Content = $value;
+	    $this->Content = $this->buildAttributes();
 	}
 	
 	/**
