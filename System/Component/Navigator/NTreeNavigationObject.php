@@ -201,8 +201,8 @@ class NTreeNavigationObject
 				,($selected) 
 					? ' class="SelectedNavigationLink"' 
 					: ''
-				,$this->Navigation->LinkTo($this)
-				,htmlentities($this->Navigation->getTitle($this), ENT_QUOTES, 'utf-8')
+				,strval($this->Navigation->LinkTo($this))
+				,htmlentities(strval($this->Navigation->getTitle($this)), ENT_QUOTES, 'utf-8')
 			);		
 			$pfx = self::indent();
 			$html .= ($this->hasChildren())
