@@ -46,10 +46,15 @@ class SLinkRunner
 	public function HandleContentAccessEvent(EContentAccessEvent $e)
 	{
 	    if ($e->Content instanceof CLink 
-	        && !$e->Sender instanceof WImage) 
+	        && $e->Sender instanceof VSpore) 
 	    {
+	        //if it is accessed directly - redirect to url
 	    	header('Location: '.$e->Content->Content);
-	    	$e->Content->Content = $e->Content->Description;
+	    }
+	    if($e->Content instanceof CLink )
+	    {
+	        //whoever opened it alter the links content
+	        $e->Content->Content = $e->Content->Description;
 	    }
 	}
 }

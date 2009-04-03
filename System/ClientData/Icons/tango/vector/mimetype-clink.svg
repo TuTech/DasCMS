@@ -24,30 +24,6 @@
      id="defs5216">
     <linearGradient
        inkscape:collect="always"
-       id="linearGradient3446">
-      <stop
-         style="stop-color:#ffffff;stop-opacity:1"
-         offset="0"
-         id="stop3448" />
-      <stop
-         style="stop-color:#ffffff;stop-opacity:0"
-         offset="1"
-         id="stop3450" />
-    </linearGradient>
-    <linearGradient
-       inkscape:collect="always"
-       id="linearGradient3436">
-      <stop
-         style="stop-color:#3465a4;stop-opacity:1"
-         offset="0"
-         id="stop3438" />
-      <stop
-         style="stop-color:#729fcf;stop-opacity:1"
-         offset="1"
-         id="stop3440" />
-    </linearGradient>
-    <linearGradient
-       inkscape:collect="always"
        id="linearGradient3347">
       <stop
          style="stop-color:#fce94f;stop-opacity:1;"
@@ -357,24 +333,6 @@
        y1="75.311684"
        x2="-2.6757815"
        y2="121.04288" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3436"
-       id="linearGradient3444"
-       x1="-17.615215"
-       y1="91.0308"
-       x2="-11.118235"
-       y2="-62.649628"
-       gradientUnits="userSpaceOnUse" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3446"
-       id="linearGradient3452"
-       x1="8.5061026"
-       y1="-117.06905"
-       x2="8.0374002"
-       y2="29.645702"
-       gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -421,7 +379,7 @@
      id="layer1">
     <path
        sodipodi:type="arc"
-       style="fill:url(#linearGradient3444);fill-opacity:1;stroke:#204a87;stroke-width:17.18569756;stroke-linejoin:miter;stroke-miterlimit:18.60000038;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="fill:#3465a4;fill-opacity:1;stroke:#204a87;stroke-width:17.18569756000000126;stroke-linejoin:miter;stroke-miterlimit:18.60000038000000089;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="path2517"
        sodipodi:cx="0"
        sodipodi:cy="11.796133"
@@ -459,7 +417,7 @@
        id="path3345" />
     <path
        sodipodi:type="arc"
-       style="opacity:0.57213931;fill:url(#linearGradient3452);fill-opacity:1;stroke:#204a87;stroke-width:17.18569756;stroke-linejoin:miter;stroke-miterlimit:18.60000038;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="opacity:0.57213930999999996;fill:none;fill-opacity:1;stroke:#204a87;stroke-width:17.18569756000000126;stroke-linejoin:miter;stroke-miterlimit:18.60000038000000089;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="path3434"
        sodipodi:cx="0"
        sodipodi:cy="11.796133"
