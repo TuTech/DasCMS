@@ -17,11 +17,16 @@ class WApplicationTaskBar
      * @var DOMDocument
      */
     private $dom = null;
-    
+    private $searchable = false;
     private $hotkeys = array();
     
     public function __construct()
     {
+    }
+    
+    public function setSearchable($yn)
+    {
+        $this->searchable = $yn == true;
     }
     
     public function setSource(DOMDocument $appDom)
@@ -63,6 +68,14 @@ class WApplicationTaskBar
             $html .= sprintf("\t\t".'org.bambuscms.app.hotkeys.register("CTRL-%s",function(){%s});%s',$key,$action,"\n");
         }
         $html .= "\t</script>\n";
+        if($this->searchable)
+        {
+            $html .= "\t<div id=\"CommandBar_Search\">".
+            	"\n\t\t<input type=\"text\" id=\"CommandBar_Search_Input\" ".
+            	"onkeyup=\"org.bambuscms.app.search(this.value);\" ".
+            	"onmouseup=\"org.bambuscms.app.search(this.value);\" />".
+            	"\n\t</div>\n";
+        }
         $html .= "</div>\n";
         return $html;
     }

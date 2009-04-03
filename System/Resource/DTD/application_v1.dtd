@@ -1,4 +1,4 @@
-<!ELEMENT bambus (appController, name, description, icon, version, priority, purpose, tabs, application)>
+<!ELEMENT bambus (appController, name, description, icon, version, priority, purpose, tabs?, application)>
     <!ELEMENT name          (#PCDATA)>
     <!ELEMENT appController (#PCDATA)>
 	<!ATTLIST appController 
@@ -42,6 +42,7 @@
 		<!ATTLIST interface 
 		    name CDATA #REQUIRED
 		    src  CDATA #REQUIRED
+		    searchable (yes|no)  #IMPLIED
 		 >	
 			<!ELEMENT panel  (task*)>
 			<!ATTLIST panel 

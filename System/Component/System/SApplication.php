@@ -22,6 +22,7 @@ class SApplication
     private $controller = null;
     private $taskbar;
     private $openDialog = false;
+    private $searchable = 'no';
     private $openDialogAutoShow;
     private $appPath, $hasApp = false;
     private static $appController = null;
@@ -184,7 +185,8 @@ class SApplication
             'icon'        => '/bambus/icon',
             'version'     => '/bambus/version',
             'controller'  => '/bambus/application/controller',
-            'interface'   => '/bambus/application/interface/@src'
+            'interface'   => '/bambus/application/interface/@src',
+            'searchable'  => '/bambus/application/interface/@searchable'
         );
         foreach ($atts as $var => $xpath)
         {
@@ -197,6 +199,7 @@ class SApplication
         $this->setupSidebar($xp);
         $this->setupOpenDialog($xp);
         $this->taskbar->setSource($dom);
+        $this->taskbar->setSearchable($this->searchable == 'yes');
     }
     
     private function setupOpenDialog(DOMXPath $xp)

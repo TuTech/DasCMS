@@ -12,7 +12,7 @@
 		<tab icon="place-folder">manage</tab> 
 	</tabs>
 	<application>
-		<interface name="manage" src="manage.php" >
+		<interface name="manage" src="manage.php">
 			<panel name="content_actions">
 				<task type="button" hotkey="o" caption="open" icon="action-document-open" action="org.bambuscms.wopenfiledialog.toggle();" />
 				<task type="button" hotkey="s" caption="save" icon="action-document-save" action="org.bambuscms.app.document.save()" />
