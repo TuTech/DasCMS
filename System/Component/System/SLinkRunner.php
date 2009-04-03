@@ -49,7 +49,7 @@ class SLinkRunner
 	        && !$e->Sender instanceof WImage) 
 	    {
 	    	header('Location: '.$e->Content->Content);
-	    	$e->Content->Content = '';
+	    	$e->Content->Content = $e->Content->Description;
 	    }
 	}
 }
