@@ -138,8 +138,10 @@ class APersons
         if($this->target != null)
         {
             $alias = $this->target->Alias;
-            $this->target = null;
-            CPerson::Delete($alias);
+            if(CPerson::Delete($alias))
+            {
+                $this->target = null;
+            }
         }
     }
     

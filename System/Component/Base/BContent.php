@@ -110,6 +110,25 @@ abstract class BContent extends BObject
 	    //FIXME BContent::Index() not implemented
 	}
 
+	protected static function Delete($alias)
+	{
+	    try
+	    {
+	        $succ = QBContent::deleteContent($alias);
+	    }
+	    catch (XDatabaseException $d)
+	    {
+	        SNotificationCenter::report('warning', 'element_is_used_by_the_system_and_cannot_be_deleted');
+	        $succ = false;
+	    }
+	    catch (Exception $e)
+	    {
+	        SNotificationCenter::report('warning', 'delete_failed');
+	        $succ = false;
+	    }
+	    return $succ;
+	}
+	
 	protected static function contentExists($alias, $asType = null)
 	{
 	    $res = QBContent::exists($alias, $asType);

@@ -81,7 +81,7 @@ class CFile
 	    }
 	    catch (XDatabaseException $d)
 	    {
-	        SNotificationCenter::report('warning', 'file_is_in_use_and_can_not_be_deleted');
+	        SNotificationCenter::report('warning', 'element_is_in_use_and_can_not_be_deleted');
 	        $succ = false;
 	    }
 	    catch (Exception $e)

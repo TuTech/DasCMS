@@ -67,8 +67,10 @@ class AWebsiteEditor
         if($this->target != null)
         {
             $alias = $this->target->Alias;
-            $this->target = null;
-            CPage::Delete($alias);
+            if(CPage::Delete($alias))
+            {
+                $this->target = null;
+            }
         }
     }
     

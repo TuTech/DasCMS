@@ -68,8 +68,10 @@ class ATemplates
         if($this->target != null)
         {
             $alias = $this->target->Alias;
-            $this->target = null;
-            CTemplate::Delete($alias);
+            if(CTemplate::Delete($alias))
+            {
+                $this->target = null;
+            }
         }
     }
     

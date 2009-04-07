@@ -71,8 +71,10 @@ class ALinks
         if($this->target != null)
         {
             $alias = $this->target->Alias;
-            $this->target = null;
-            CLink::Delete($alias);
+            if(CLink::Delete($alias))
+            {
+                $this->target = null;
+            }
         }
     }
     

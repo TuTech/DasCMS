@@ -278,8 +278,10 @@ class AFeeds
         if($this->target != null)
         {
             $alias = $this->target->Alias;
-            $this->target = null;
-            CFeed::Delete($alias);
+            if(CFeed::Delete($alias))
+            {
+                $this->target = null;
+            }
         }
     }
     

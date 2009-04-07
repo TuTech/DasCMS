@@ -67,8 +67,10 @@ class ATextBricks
         if($this->target != null)
         {
             $alias = $this->target->Alias;
-            $this->target = null;
-            CTextBrick::Delete($alias);
+            if(CTextBrick::Delete($alias))
+            {
+                $this->target = null;
+            }
         }
     }
     

@@ -40,7 +40,7 @@ class CTextBrick
 	
 	public static function Delete($alias)
 	{
-	    return QBContent::deleteContent($alias);
+	    return parent::Delete($alias);
 	}
 	
 	public static function Exists($alias)

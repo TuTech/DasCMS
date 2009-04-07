@@ -72,8 +72,10 @@ class AFiles
         if($this->target != null)
         {
             $alias = $this->target->Alias;
-            $this->target = null;
-            CFile::Delete($alias);
+            if(CFile::Delete($alias))
+            {
+                $this->target = null;
+            }
         }
     }
     
