@@ -145,6 +145,42 @@ PersonAttributeContexts
         
 -- Foreign keys for PersonData
 ALTER TABLE 
+relPersonsRoles
+    ADD FOREIGN KEY (contentREL)
+        REFERENCES Contents(contentID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION,
+    ADD FOREIGN KEY (personRoleREL)
+        REFERENCES PersonRoles(personRoleID)
+        ON DELETE RESTRICT
+        ON UPDATE RESTRICT;
+
+-- Foreign keys for PersonData
+ALTER TABLE 
+relPersonsPermissions
+    ADD FOREIGN KEY (contentREL)
+        REFERENCES Contents(contentID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION,
+    ADD FOREIGN KEY (personPermissionREL)
+        REFERENCES PersonPermissions(personPermissionID)
+        ON DELETE RESTRICT
+        ON UPDATE RESTRICT;
+
+-- Foreign keys for PersonData
+ALTER TABLE 
+relPersonsPermissionTags
+    ADD FOREIGN KEY (contentREL)
+        REFERENCES Contents(contentID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION,
+    ADD FOREIGN KEY (tagREL)
+        REFERENCES Tags(tagID)
+        ON DELETE RESTRICT
+        ON UPDATE RESTRICT;
+
+-- Foreign keys for PersonData
+ALTER TABLE 
 PersonData
     ADD FOREIGN KEY (contentREL)
         REFERENCES Contents(contentID)

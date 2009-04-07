@@ -114,6 +114,51 @@ ENGINE = InnoDB
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
 
+-- user role relation
+CREATE TABLE IF NOT EXISTS 
+relPersonsRoles(
+    contentREL 
+        INTEGER 
+        NOT NULL,
+    personRoleREL
+        INTEGER 
+        NOT NULL,
+    INDEX (personRoleREL),
+    UNIQUE (contentREL)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- user role relation
+CREATE TABLE IF NOT EXISTS 
+relPersonsPermissions(
+    contentREL 
+        INTEGER 
+        NOT NULL,
+    personPermissionREL
+        INTEGER 
+        NOT NULL,
+    UNIQUE (contentREL, personPermissionREL)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- user role relation
+CREATE TABLE IF NOT EXISTS 
+relPersonsPermissionTags(
+    contentREL 
+        INTEGER 
+        NOT NULL,
+    tagREL
+        INTEGER 
+        NOT NULL,
+    UNIQUE (contentREL, tagREL)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
 
 -- user and group relation
 CREATE TABLE IF NOT EXISTS 

@@ -26,4 +26,10 @@ INSERT IGNORE INTO `PersonAttributes` (`personAttributeID`, `personAttribute`, `
 (5, 'address', 4),
 (6, 'additional_information',4);
 
+INSERT INTO `PersonRoles` (`personRoleID`, `personRole`) VALUES
+(1, 'administrator'),
+(2, 'editor'),
+(3, 'user'),
+(4, 'web_account'),
+(5, 'unprivileged');
 

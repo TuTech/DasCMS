@@ -465,23 +465,6 @@ ENGINE = InnoDB
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
 
--- attribute contexts
-CREATE TABLE IF NOT EXISTS 
-PersonContexts(
-	personContextID
-        INTEGER 
-        PRIMARY KEY 
-        AUTO_INCREMENT 
-        NOT NULL,
-    personContext
-    	VARCHAR(32)
-    	NOT NULL
-    	UNIQUE
-)
-ENGINE = InnoDB 
-CHARACTER SET utf8 
-COLLATE utf8_unicode_ci;
-
 -- attribute names
 CREATE TABLE IF NOT EXISTS 
 PersonAttributes(
@@ -540,6 +523,40 @@ ENGINE = InnoDB
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
 
+-- attribute contexts
+CREATE TABLE IF NOT EXISTS 
+PersonContexts(
+	personContextID
+        INTEGER 
+        PRIMARY KEY 
+        AUTO_INCREMENT 
+        NOT NULL,
+    personContext
+    	VARCHAR(32)
+    	NOT NULL
+    	UNIQUE
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- attribute contexts
+CREATE TABLE IF NOT EXISTS 
+PersonRoles(
+	personRoleID
+        INTEGER 
+        PRIMARY KEY 
+        AUTO_INCREMENT 
+        NOT NULL,
+    personRole
+    	VARCHAR(32)
+    	NOT NULL
+    	UNIQUE
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
 -- person attribute assignment
 CREATE TABLE IF NOT EXISTS 
 PersonData(
@@ -555,6 +572,23 @@ PersonData(
 	INDEX (contentREL),
 	INDEX (personAttributeContextREL),
 	INDEX (personData)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- person attribute assignment
+CREATE TABLE IF NOT EXISTS 
+PersonPermissions(
+	personPermissionID
+        INTEGER 
+        PRIMARY KEY 
+        AUTO_INCREMENT 
+        NOT NULL,
+	personPermission
+		varchar(128)
+		NOT NULL
+		UNIQUE
 )
 ENGINE = InnoDB 
 CHARACTER SET utf8 
