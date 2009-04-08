@@ -5,7 +5,7 @@ function Create()
 	input.setAttribute('type','text');
 	input.setAttribute('value','');
 		
-	org.bambuscms.app.dialog.create(_('create_new_template'), _('name_of_new_template'), input, _('ok'), _('cancel'));
+	org.bambuscms.app.dialog.create(_('create_new_person'), _('name_of_new_person'), input, _('create'), _('cancel'));
 	org.bambuscms.app.dialog.setAction('create');
 	input.focus();
 }
@@ -16,9 +16,57 @@ function Delete()
 	input.setAttribute('type','hidden');
 	input.setAttribute('value','yes');
 		
-	org.bambuscms.app.dialog.create(_('delete_template'), _('do_you_really_want_to_delete_this_text'), input, _('yes'), _('no'));
+	org.bambuscms.app.dialog.create(_('delete_person'), _('do_you_really_want_to_delete_this_person'), input, _('delete'), _('no'));
 	org.bambuscms.app.dialog.setAction('delete');
 }
+function mkLogin()
+{
+	var input = $c('input');
+	input.setAttribute('name','loginName');
+	input.setAttribute('type','text');
+	input.setAttribute('value','');
+		
+	var pw1 = $c('input');
+	pw1.setAttribute('name','password');
+	pw1.setAttribute('type','password');
+	pw1.setAttribute('value','');
+	
+	var pw2 = $c('input');
+	pw2.setAttribute('name','passwordCheck');
+	pw2.setAttribute('type','password');
+	pw2.setAttribute('value','');
+	
+	var nlabel = $c('label');
+	nlabel.appendChild($t(_('login_name')));
+	
+	var p1label = $c('label');
+	p1label.appendChild($t(_('password')));
+	
+	var p2label = $c('label');
+	p2label.appendChild($t(_('retype_password')));
+	
+	var box = $c('div');
+	var append = [nlabel, input, p1label, pw1, p2label, pw2];
+	for(var i = 0; i < append.length; i++)
+	{
+		box.appendChild(append[i]);
+		box.appendChild($c('br'));
+	}
+	
+	org.bambuscms.app.dialog.create(_('create_login_for_this_user'), '', box, _('create'), _('cancel'));
+	org.bambuscms.app.dialog.setAction('createLogin');
+}
+function rmLogin()
+{
+	input = $c('input');
+	input.setAttribute('name','user');
+	input.setAttribute('type','hidden');
+	input.setAttribute('value',$('CP_UID').value);
+		
+	org.bambuscms.app.dialog.create(_('revoke_login'), _('do_you_really_want_to_revoke_this_user'), input, _('revoke'), _('no'));
+	org.bambuscms.app.dialog.setAction('revokeLogin');
+}
+
 
 org.bambuscms.app.persons = {};
 org.bambuscms.app.persons.testData = {

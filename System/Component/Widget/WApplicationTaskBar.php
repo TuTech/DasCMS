@@ -109,17 +109,20 @@ class WApplicationTaskBar
             );
         }
         $hotkeyID = '';
+        $hkttl = '';
         if($atts['hotkey'] != '')
         {
             $hotkeyID = 'id="App-Hotkey-CTRL-'.$atts['hotkey'].'"';
             $this->hotkeys[$atts['hotkey']] = $action;
+            $hkttl = ' ('.SLocalization::get('CTRL').'-'.$atts['hotkey'].')';
         }
         return sprintf(
-            "\t\t<a class=\"CommandBarPanelItem\" %stitle=\"%s\" href=\"javascript:nil();\" onmousedown=\"%s;return false;\">%s</a>\n"
+            "\t\t<a class=\"CommandBarPanelItem\" %stitle=\"%s%s\" href=\"javascript:nil();\" onmousedown=\"%s;return false;\">%s</a>\n"
             ,$hotkeyID
             ,SLocalization::get($atts['caption'])
+            ,$hkttl
             ,$action
-            ,new WIcon($atts['icon'], SLocalization::get($atts['caption']))
+            ,new WIcon($atts['icon'], SLocalization::get($atts['caption']).$hkttl)
         );
     }
     

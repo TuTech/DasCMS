@@ -11,6 +11,7 @@
  */
 interface IAuthorize
 {
+    //const NAME;
     /**
      * return an array with all given permissions for the current user 
      * permission => (PAuthorisation::PERMIT | PAuthorisation::DENY)

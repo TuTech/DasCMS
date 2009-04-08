@@ -153,6 +153,57 @@ class APersons
         }
     } 
     
+    public function revokeLogin(array $param)
+    {
+        parent::requirePermission('org.bambuscms.content.cperson.credentials.revoke');
+        if($this->target != null 
+            && !empty($param['user']) 
+            && $param['user'] == $this->target->getLoginName()
+            && $param['user'] != PAuthentication::getUserID())
+        {
+            $this->target->removeLogin();
+        }
+        elseif(!empty($param['user']) 
+            &&$param['user'] == PAuthentication::getUserID())
+        {
+            SNotificationCenter::report('warning', 'you_should_not_and_can_not_revoke_your_login_rights');
+        }
+    }
+    
+    public function createLogin(array $param)
+    {
+        parent::requirePermission('org.bambuscms.content.cperson.credentials.grant');
+        if($this->target != null)
+        {
+            if(empty($param['loginName']) 
+                || empty($param['password'])
+                || empty($param['passwordCheck']) 
+            )
+            {
+                return false;
+            }
+            if($param['password'] != $param['passwordCheck'])
+            {
+                SNotificationCenter::report('warning', 'password_does_not_match_password_check');
+                return false;
+            }
+            if($this->target->hasLogin())
+            {
+                SNotificationCenter::report('warning', 'this_user_already_has_login_credentials');
+                return false;
+            }
+            if(CPerson::isUser($param['loginName']))
+            {
+                SNotificationCenter::report('warning', 'username_already_in_use');
+                return false;
+            }
+            if($this->target->createLogin($param['loginName'], $param['password']))
+            {
+                SNotificationCenter::report('message', 'login_created');
+            }
+        }
+    }
+    
     /**
      * array(BContent|string file, [string mimetype])
      * 

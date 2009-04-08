@@ -243,31 +243,168 @@ class CPerson
 	}
 	
 	//Login credentials
+	private $hasLogin = null;
+	private $loginName = null;
+	private $digestHA1;
+	private $digestRealm;
+	
+	/**
+	 * load credentials for this person
+	 * @return void
+	 */
+	private function loadLoginCredentials()
+	{
+	    if($this->hasLogin === null)
+	    {
+    	    $res = QCPerson::getCredentials($this->getId());
+    	    if($res->getRowCount() > 0)
+    	    {
+    	        $this->hasLogin = true;
+    	        list(
+    	            $this->loginName,
+    	            $this->digestHA1,
+    	            $this->digestRealm
+    	        ) = $res->fetch();
+    	    }
+    	    else
+    	    {
+    	        $this->hasLogin = false;
+    	    }
+    	    $res->free();
+	    }
+	}
+	/**
+	 * @return boolean
+	 */
 	public function hasLogin()
 	{
-	    //count rel-ing
-	    return false;
+	    $this->loadLoginCredentials();
+	    return $this->hasLogin;
 	}
 		
+	/**
+	 * get login name for this person
+	 * @return string|null
+	 */
 	public function getLoginName()
 	{
-	    //count rel-ing
-	    return $this->Title;
+	    $this->loadLoginCredentials();
+	    return $this->loginName;
 	}
 	
+	/**
+	 * create login for this person
+	 * @param string $user
+	 * @param string $password
+	 * @return boolean
+	 * @throws XPermissionDeniedException
+	 * @throws Exception
+	 */
 	public function createLogin($user, $password)
 	{
-	    //insert
+	    if($this->hasLogin())
+	    {
+	        throw new XPermissionDeniedException('this user already has login credentials', 1);
+	    }
+	    if(self::isUser($user))
+	    {
+	        throw new XPermissionDeniedException('this username is already assigned to another person', 2);
+	    }
+	    $pwLen = LConfiguration::get('password_min_length');
+	    if(!empty($pwLen) && is_numeric($pwLen) && !strlen($password) >= $pwLen)
+	    {
+	        throw new Exception('password to short', 3);
+	    }
+	    $succ = true;
+	    $this->loginName = $user;
+	    $this->digestRealm = md5(rand().time().$this->getGUID());
+	    $this->digestHA1 = md5($user.':'.$this->digestRealm.':'.$password);
+	    try{
+	        QCPerson::createCredentials(
+	            $this->getId(),
+	            $this->loginName,
+	            $this->digestHA1,
+	            $this->digestRealm
+            );
+	    }
+        catch (XDatabaseException $ed)
+        {
+            SNotificationCenter::report('warning','could_not_create_login_for_person');
+            $succ = false;
+        }
+        $this->hasLogin = $succ;
+        return $succ;
 	}
 	
+	/**
+	 * @return int
+	 */
 	public function removeLogin()
 	{
-	    //delete rel-ing
+	    $this->hasLogin = false;
+	    //FIXME compare roles: delete if target role <= own role - keeps the admins alive
+	    return QCPerson::removeLogin($this->getId());
 	}
 	
+	/**
+	 * @param $newPassword
+	 * @return int
+	 */
 	public function changePassword($newPassword)
 	{
+	    if(!$this->hasLogin())
+	    {
+	        throw new Exception('user needs a login', 1);
+	    }
+	    $this->digestHA1 = md5($this->loginName.':'.$this->digestRealm.':'.$newPassword);
+	    QCPerson::setNewPassword($this->getId(), $this->digestHA1);
+	}
+	
+	/**
+	 * @param $password
+	 * @return boolean
+	 */
+	public function validatePassword($password)
+	{
+	    if(!$this->hasLogin())
+	    {
+	        throw new Exception('user needs a login', 1);
+	    }
+	    return $this->digestHA1 === md5($this->loginName.':'.$this->digestRealm.':'.$password);
+	}
+	
+	public function getRole($newPassword)
+	{
 	    //update
+	}
+	
+	public function assignRole($newPassword)
+	{
+	    //update
+	}
+	
+	public static function isUser($useName)
+	{
+	    //update
+	    $res = QCPerson::getUser($useName);
+	    $isUser = $res->getRowCount() == 1;
+	    $res->free();
+	    return $isUser;
+	}
+	
+	/**
+	 * @param string $loginName
+	 * @return CPerson
+	 */
+	public static function getPersonForLogin($loginName)
+	{
+	    $res = QCPerson::getAliasForUser($loginName);
+	    if($res->getRowCount() == 0)
+	    {
+	        throw new XUndefinedIndexException('there is no user with this name');
+	    }
+        list($alias) = $res->fetch();
+        return new CPerson($alias);
 	}
 	
 	//Interface_XML_Atom_ProvidesInlineText

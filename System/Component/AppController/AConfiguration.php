@@ -23,6 +23,7 @@ class AConfiguration
         'logout_on_exit', 'confirm_for_exit','generator_content',  
         'use_wysiwyg', 'wellformed_urls',
         'login_template','mail_webmaster_on_error',
+        'PAuthentication','PAuthorisation',
         //database_settings
         'db_server', 'db_user', 'db_password', 'db_name', 'db_table_prefix',
         //meta_data

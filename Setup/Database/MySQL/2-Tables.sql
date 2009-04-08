@@ -599,21 +599,18 @@ CREATE TABLE IF NOT EXISTS
 PersonLogins(
 	contentREL
         INTEGER 
-        NOT NULL,
+        NOT NULL
+        UNIQUE,
     loginName
     	VARCHAR(32)
-    	NOT NULL,
+    	NOT NULL
+  		UNIQUE,
     digestHA1
     	VARCHAR(32)
     	NOT NULL,
     digestRealm
     	VARCHAR(32)
     	NOT NULL,
-	isActive
-		Enum('NO', 'YES')
-		NOT NULL
-		DEFAULT 'YES',
-	INDEX (contentREL),
 	INDEX (loginName, digestHA1, digestRealm)
 )
 ENGINE = InnoDB 

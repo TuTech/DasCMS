@@ -11,6 +11,8 @@
  */
 interface IAuthenticate
 {
+    //const NAME;
+    
     /**
      * try authentication 
      * @return void

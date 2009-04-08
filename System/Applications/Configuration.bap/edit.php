@@ -27,8 +27,10 @@ $values = array(
         "timezone"              => array("timezone",      "tz"),
         "locale"                => array("locale",      "ISO639-2"),
         "use_wysiwyg"			=> array("use_wysiwyg",      "checkbox"),
-    	'mail_webmaster_on_error'=> array("mail_webmaster_on_error","checkbox"),
-	),
+    	'mail_webmaster_on_error'=> array("mail_webmaster_on_error","checkbox"),//IAuthorize
+        'authentication_method' => array("PAuthentication","@IAuthenticate"),
+    	'authorization_method'  => array("PAuthorisation", "@IAuthorize")
+    ),
 	"database_settings" => array(
         "server"                => array("db_server",       "fullinput"),
         "user"                  => array("db_user",         "fullinput"),
@@ -130,6 +132,17 @@ foreach($values as $title => $settings)
                     {
                         $sel = ($alias == $current) ? ' selected="selected"' : '';
                     	$input .= sprintf("\t<option value=\"%s\"%s>%s (%s)</option>\n", $alias, $sel,  htmlentities($data[0], ENT_QUOTES, 'UTF-8'), $alias);
+                    }
+                    $input .= "</select>\n";
+                }
+                if(substr($type, 0, 1) == '@')
+                {
+                    $opts = SComponentIndex::alloc()->init()->ImplementationsOf(substr($type, 1));
+                    $input = sprintf("<select name=\"%s\">\n", $key);
+                    foreach ($opts as $class) 
+                    {
+                        $sel = ($class == LConfiguration::get($key)) ? ' selected="selected"' : '';
+                    	$input .= sprintf("\t<option value=\"%s\"%s>%s</option>\n", $class, $sel,  SLocalization::get(constant($class.'::NAME')));
                     }
                     $input .= "</select>\n";
                 }

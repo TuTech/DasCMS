@@ -12,7 +12,7 @@
 class WPersonUserSettings extends BWidget implements ISidebarWidget 
 {
     /**
-     * @var CUser
+     * @var CPerson
      */
 	private $targetObject = null;
 	/**
@@ -27,6 +27,7 @@ class WPersonUserSettings extends BWidget implements ISidebarWidget
 	        && $sidepanel->isTargetObject()
 	        && $sidepanel->isMode(WSidePanel::PERMISSIONS)
 	        && get_class($sidepanel->getTarget()) == 'CPerson'
+	        //&& $sidepanel->getTarget()->hasLogin()
 	    );
 	}
 	
@@ -37,7 +38,7 @@ class WPersonUserSettings extends BWidget implements ISidebarWidget
 	
 	public function getIcon()
 	{
-	    return new WIcon('access','',WIcon::SMALL,'action');
+	    return new WIcon('mimetype-user-id','',WIcon::SMALL,'mimetype');
 	}
 	
 	public function processInputs()
@@ -54,6 +55,13 @@ class WPersonUserSettings extends BWidget implements ISidebarWidget
 		$html = '<div id="WPersonUserSettings">';
 		$Items = new WNamedList();
 		$Items->setTitleTranslation(false);
+		if($this->targetObject->hasLogin())
+		{
+		    $Items->add(
+		        sprintf("<label>%s</label>", SLocalization::get('login_name')),
+		        '<h4>'.htmlentities($this->targetObject->getLoginName(), ENT_QUOTES, 'UTF-8').'</h4>'
+		    );
+		}
 		$Items->add(
 		    sprintf("<label>%s</label>", SLocalization::get('role')),
 		    sprintf(

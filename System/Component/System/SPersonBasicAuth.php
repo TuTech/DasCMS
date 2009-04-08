@@ -9,88 +9,18 @@
  * @package Bambus
  * @subpackage System
  */
-class SBambusSessionAuth 
+class SPersonBasicAuth 
     extends 
         BSystem 
     implements 
-        IAuthenticate, 
-        IAuthorize 
+        IAuthenticate
 {
-    const NAME = 'old_user_and_group_system';
-    
-    //IAuthorize
-    public function getObjectPermissions()
-    {
-        return array();
-    }
-    
-    public function getGroups()
-    {
-        $uag = SUsersAndGroups::alloc()->init();
-        $g = $uag->listGroupsOfUser(PAuthentication::getUserID(), false);
-        if($uag->isMemberOf(PAuthentication::getUserID(), 'Administrator'))
-        {
-            $g[] = 'Administrator';
-        }
-        return $g;
-    }
-    
-    public function getPrimaryGroup()
-    {
-        return SUsersAndGroups::alloc()->init()->getPrimaryGroup(PAuthentication::getUserID());
-    }
-    
-    private function getAllApps()
-    {
-		$available = array();
-		$appPath = SPath::SYSTEM_APPLICATIONS;
-		$dirhdl = opendir($appPath);
-		$UAG = SUsersAndGroups::alloc()->init();
-		while($item = readdir($dirhdl))
-		{
-			if(is_dir($appPath.$item) 
-				&& substr($item,0,1) != '.' 
-				&& strtolower(substr($item,-4)) == '.bap' 
-				&& file_exists($appPath.$item.'/Application.xml')
-			)
-			{
-				$available[] = substr($item,0,((strlen(DFileSystem::suffix($item))+1) * -1));
-			}
-		}
-		closedir($dirhdl);
-		return $available;
-    }
-    
-    public function getPermissions()
-    {
-        $SUsersAndGroups = SUsersAndGroups::alloc()->init();
-        if($SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'))
-        {
-            $rigths = array('*' => PAuthorisation::PERMIT);
-        }
-        else
-        {
-            $rigths = array(
-                '*.create'      => $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Create'),
-                '*.delete'      => $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Delete'),
-                '*.change'      => $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Edit'),
-                'org.bambuscms.login'=> $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'CMS'),
-            );   
-            $apps = $this->getAllApps();  
-            //hasPermission($victim, $app_name)
-            foreach ($apps as $app)
-            {
-                if($SUsersAndGroups->hasPermission($this->user, $app))
-                {
-                    $rigths['org.bambusms.application.'.strtolower($app)] = PAuthorisation::PERMIT;
-                }
-            }
-        }
-        return $rigths;
-    }
-    
+    const NAME = 'person_basic_authentication';
     //IAuthenticate
-    
+    /**
+     * @var CPerson
+     */
+    private $person = null;
     private $user;
     private $status;
     private $attemptedUserID = '';
@@ -134,8 +64,24 @@ class SBambusSessionAuth
         }
         $this->attemptedUserID = $user;
         //check login data
-        $uag = SUsersAndGroups::alloc()->init();
-        if($uag->isValidUser($user, $password))
+        if(CPerson::isUser($user))
+        {
+            $person = CPerson::getPersonForLogin($user);
+            if($person->validatePassword($password))
+            {
+                $this->person = $person;
+                //SNotificationCenter::report('message', 'ok');
+            }
+            else
+            {
+                //SNotificationCenter::report('message', 'invalid_password');
+            }
+        }
+        else
+        {
+            //SNotificationCenter::report('message', 'not_a_user');
+        }
+        if($this->person != null)
         {
             $this->user = $user;
             $this->status = $newLogin ? (PAuthentication::VALID_USER) : (PAuthentication::CONTINUED_SESSION);
@@ -182,7 +128,7 @@ class SBambusSessionAuth
     public function getUserName()
     {
         return ($this->status >= PAuthentication::VALID_USER) 
-            ? SUsersAndGroups::alloc()->init()->getRealName($this->user)
+            ? $this->person->getTitle()
             : '';
     }
     
@@ -194,7 +140,7 @@ class SBambusSessionAuth
     public function getUserEmail()
     {
         return ($this->status >= PAuthentication::VALID_USER) 
-            ? SUsersAndGroups::alloc()->init()->getEmail($this->user)
+            ? ''
             : '';
     }
 

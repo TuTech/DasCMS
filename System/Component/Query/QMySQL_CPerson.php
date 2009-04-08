@@ -21,6 +21,90 @@ class QCPerson extends BQuery
         BQuery::Database()->commit();
     }
     
+    //////////Login IO
+    
+    /**
+     * @param $pid
+     * @param $user
+     * @param $digestHA1
+     * @param $digestRealm
+     * @return int
+     */
+    public static function createCredentials($pid, $user, $digestHA1, $digestRealm)
+    {
+        $sql = "INSERT INTO PersonLogins
+        			(contentREL, loginName, digestHA1, digestRealm)
+        			VALUES(%d, '%s', '%s', '%s')";
+        $DB = BQuery::Database();
+        $sql = sprintf($sql, $pid, $DB->escape($user), $DB->escape($digestHA1), $DB->escape($digestRealm));
+        return $DB->queryExecute($sql);
+    }
+    
+    /**
+     * @param $pid
+     * @param $digestHA1
+     * @return int
+     */
+    public static function setNewPassword($pid, $digestHA1)
+    {
+        $sql = "UPDATE PersonLogins SET digestHA1 = '%s' WHERE contentREL = %d";
+        $DB = BQuery::Database();
+        $sql = sprintf($sql, $DB->escape($digestHA1), $pid);
+        return $DB->queryExecute($sql);
+    }
+    
+    /**
+     * @param $loginName
+     * @return DSQLResult
+     */
+    public static function getAliasForUser($loginName)
+    {
+        $sql = "SELECT Aliases.alias 
+        			FROM PersonLogins
+        			LEFT JOIN Aliases USING (contentREL)
+        			WHERE PersonLogins.loginName = '%s'
+        			LIMIT 1";
+        $DB = BQuery::Database();
+        $sql = sprintf($sql, $DB->escape($loginName));
+        return $DB->query($sql, DSQL::NUM);
+    }
+    
+    /**
+     * @param $pid
+     * @return int
+     */
+    public static function removeLogin($pid)
+    {
+        $sql = "DELETE FROM PersonLogins WHERE contentREL = %d";
+        return BQuery::Database()->queryExecute(sprintf($sql, $pid));
+    }
+    
+    /**
+     * @param $pid
+     * @return DSQLResult
+     */
+    public static function getCredentials($pid)
+    {
+        $sql = "SELECT 
+        			loginName, digestHA1, digestRealm
+        			FROM PersonLogins
+        			WHERE contentREL = %d";
+        return BQuery::Database()->query(sprintf($sql, $pid), DSQL::NUM);
+    }
+    
+    /**
+     * @param string $username
+     * @return DSQLResult
+     */
+    public static function getUser($username)
+    {
+        $sql = "SELECT contentREL FROM PersonLogins WHERE loginName = '%s'";
+        $DB = BQuery::Database();
+        return $DB->query(sprintf($sql, $DB->escape($username)), DSQL::NUM);
+    }
+    
+    //////////Person IO
+    
     public static function resetPersonData($personID)
     {
         $sql = sprintf("DELETE FROM PersonData WHERE contentREL = %d", $personID);
