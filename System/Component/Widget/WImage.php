@@ -35,6 +35,16 @@ class WImage extends BWidget
     private $imageID = '_';//default cms preview image
     private $allowsPreview = true;
     
+    private $isPreviewImage = false;
+    
+    /**
+     * @return WImage
+     */
+    public function asPreviewImage()
+    {
+        $this->isPreviewImage = true;
+        return $this;
+    }
     
     /**
      * create image for output
@@ -242,9 +252,10 @@ class WImage extends BWidget
     public function __toString()
     {
         return sprintf(
-            "<img src=\"image.php/%s/%s\" alt=\"%s\" title=\"%s\" />"
+            "<img src=\"image.php/%s/%s\"%s alt=\"%s\" title=\"%s\" />"
             ,empty($this->content) ? $this->alias : $this->content->getAlias()
             ,$this->scaleHash
+            ,($this->isPreviewImage ? ' class="PreviewImage"' : '')
             ,htmlentities(empty($this->content) ? $this->title : $this->content->getTitle(), ENT_QUOTES, 'UTF-8')
             ,htmlentities(empty($this->content) ? $this->title : $this->content->getTitle(), ENT_QUOTES, 'UTF-8')
         );

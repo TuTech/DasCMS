@@ -553,7 +553,7 @@ class CFeed
                         substr($this->option(self::ITEM, 'PreviewImageMode'),0,1),
                         substr($this->option(self::ITEM, 'PreviewImageMode'),1,1),
                         $this->option(self::ITEM, 'PreviewImageBgColor')
-                    );
+                    )->asPreviewImage();
                     try
                     {
                     $content = ($this->option(self::ITEM, 'LinkPreviewImage')) 

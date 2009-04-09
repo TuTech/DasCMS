@@ -81,7 +81,7 @@ class VSporeHelper
     
     private function previewimage($spore, $width, $height, $scale, $color)
     {
-        $img = $this->sporeContent($spore)->getPreviewImage();
+        $img = $this->sporeContent($spore)->getPreviewImage()->asPreviewImage();
         if($width > 0 && $height > 0 && is_numeric($width) && is_numeric($height))
         {
             $mode = WImage::MODE_FORCE;
