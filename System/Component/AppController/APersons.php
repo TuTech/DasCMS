@@ -54,9 +54,25 @@ class APersons
     public function create(array $param)
     {
         parent::requirePermission('org.bambuscms.content.cperson.create');
-        if(!empty($param['create']))
+        if(!empty($param['create'])
+            || !empty($param['first_name'])
+            || !empty($param['last_name'])
+            || !empty($param['company']))
         {
-            $this->target = CPerson::Create($param['create']);
+            $this->target = CPerson::Create(isset($param['create']) ? $param['create'] : '');
+            foreach(array(
+                    'PersonTitle' => 'title',
+                    'FirstName' => 'first_name',
+                    'LastName' => 'last_name',
+                    'Company' => 'company'
+                ) as $func => $att)
+            {
+                if(!empty($param[$att]))
+                {
+                    $this->target->{'set'.$func}($param[$att]);
+                }
+            }
+            $this->target->Save();
         }
     }
     
@@ -78,6 +94,20 @@ class APersons
         if($this->target != null
             && isset($param['a_n']))
         {
+            //set xattr
+            foreach(array(
+                    'PersonTitle' => 'title',
+                    'FirstName' => 'first_name',
+                    'LastName' => 'last_name',
+                    'Company' => 'company'
+                ) as $func => $att)
+            {
+                if(!empty($param[$att]))
+                {
+                    $this->target->{'set'.$func}($param[$att]);
+                }
+            }
+            //attributes
             $attributes = new WCPersonAttributes();
             for($i = 1; $i <= intval($param[$_attribute.$_count],'10'); $i++)
             {
@@ -247,20 +277,20 @@ class APersons
     public function provideOpenDialogData(array $namedParameters)
     {
         parent::requirePermission('org.bambuscms.content.cperson.view');
-        $IDindex = CPerson::Index();
+        $IDindex = CPerson::IndexWithCompany();
         $items = array();
         foreach ($IDindex as $alias => $data) 
         {
-        	list($title, $pubdate) = $data;
-        	$items[] = array($title, $alias, 0, strtotime($pubdate));
+        	list($title, $pubdate, $type, $id, $company) = $data;
+        	$items[] = array($title, $alias, 0, strtotime($pubdate), $company ? $company : '');
         }
         $data = array(
             'title' => SLocalization::get('open'),
             'nrOfItems' => count($items),
             'iconMap' => array('System/ClientData/Icons/tango/large/mimetypes/CUser.png'),
             'smallIconMap' => array('System/ClientData/Icons/tango/extra-small/mimetypes/CUser.png'),
-            'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2, 'pubDate' => 3),//, 'tags' => 4
-            'sortable' => array('title' => 'title', 'pubDate' => 'pubDate'),
+            'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2, 'pubDate' => 3, 'company' => 4),//, 'tags' => 4
+            'sortable' => array('title' => 'title', 'pubDate' => 'pubDate', 'company' => 'company'),
             'items' => $items,
             'captions' => array(
                 'detail' => SLocalization::get('detail'),
@@ -271,6 +301,7 @@ class APersons
                 'searchByTitle' => SLocalization::get('search_by_title'),
                 'pubDate' => SLocalization::get('pubDate'),
                 'notPublished' => SLocalization::get('not_published'),
+                'company' => SLocalization::get('company'),
                 'title' => SLocalization::get('title')
             )
         );

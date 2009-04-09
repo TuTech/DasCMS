@@ -579,6 +579,35 @@ COLLATE utf8_unicode_ci;
 
 -- person attribute assignment
 CREATE TABLE IF NOT EXISTS 
+PersonPrimaryAttributes(
+	contentREL
+        INTEGER 
+        NOT NULL
+        UNIQUE,
+	title
+		varchar(64)
+		NOT NULL
+		DEFAULT '',
+	forename
+		varchar(100)
+		NOT NULL
+		DEFAULT '',
+	surname
+		varchar(100)
+		NOT NULL
+		DEFAULT '',
+	company
+		varchar(100)
+		NOT NULL
+		DEFAULT '',
+	INDEX (title, forename, surname, company)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- person attribute assignment
+CREATE TABLE IF NOT EXISTS 
 PersonPermissions(
 	personPermissionID
         INTEGER 

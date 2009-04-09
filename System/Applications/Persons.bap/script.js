@@ -1,13 +1,48 @@
 function Create()
 {
-	input = $c('input');
-	input.setAttribute('name','create');
-	input.setAttribute('type','text');
-	input.setAttribute('value','');
+	var ltitle = $c('label');
+	ltitle.appendChild($t(_('title')));
+	
+	var ititle = $c('input');
+	ititle.setAttribute('name','title');
+	ititle.setAttribute('type','text');
+	ititle.setAttribute('value','');
 		
-	org.bambuscms.app.dialog.create(_('create_new_person'), _('name_of_new_person'), input, _('create'), _('cancel'));
+	var lfname = $c('label');
+	lfname.appendChild($t(_('first_name')));
+	
+	var ifname = $c('input');
+	ifname.setAttribute('name','first_name');
+	ifname.setAttribute('type','text');
+	ifname.setAttribute('value','');
+	
+	var llname = $c('label');
+	llname.appendChild($t(_('last_name')));
+	
+	var ilname = $c('input');
+	ilname.setAttribute('name','last_name');
+	ilname.setAttribute('type','text');
+	ilname.setAttribute('value','');
+	
+	var lcompany = $c('label');
+	lcompany.appendChild($t(_('company')));
+	
+	var icompany = $c('input');
+	icompany.setAttribute('name','company');
+	icompany.setAttribute('type','text');
+	icompany.setAttribute('value','');
+	
+	var box = $c('div');
+	var append = [ltitle, ititle, lfname, ifname, llname, ilname, lcompany, icompany];
+	for(var i = 0; i < append.length; i++)
+	{
+		box.appendChild(append[i]);
+		box.appendChild($c('br'));
+	}
+	
+	org.bambuscms.app.dialog.create(_('create_new_person'), '', box, _('create'), _('cancel'));
 	org.bambuscms.app.dialog.setAction('create');
-	input.focus();
+	ititle.focus();
 }
 function Delete()
 {

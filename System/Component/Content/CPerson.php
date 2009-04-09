@@ -52,6 +52,27 @@ class CPerson
 	{
 	    return parent::getIndex(self::CLASS_NAME, false);
 	}
+	
+	public static function IndexWithCompany()
+	{
+		try
+		{
+		    $res = QCPerson::getBasicInformation();
+			$index = array();
+			while ($arr = $res->fetch())
+			{
+			    list($title, $pubdate, $alias, $type, $id, $company) = $arr; 
+				$index[$alias] = array($title, $pubdate, $type, $id, $company);
+			}
+			$res->free();
+		}
+		catch (Exception $e)
+		{
+			echo $e->getMessage();
+			$index = array();
+		}
+		return $index;
+	}
 		
 	public static function Open($alias)
 	{
@@ -233,6 +254,7 @@ class CPerson
 	public function Save()
 	{
 		$this->saveMetaToDB();
+		$this->saveXAttr();
 		new EContentChangedEvent($this, $this);
 		if($this->_origPubDate != $this->PubDate)
 		{
@@ -241,6 +263,97 @@ class CPerson
 				: new EContentPublishedEvent($this, $this);
 		}
 	}
+	
+	//extended person Attributes
+	protected $PersonTitle = '',$FirstName = '',$LastName = '',$Company = '';
+	protected $xattr_loaded = false;
+	protected $xattr_changed = false;
+	
+	protected function loadXAttr()
+	{
+	    if(!$this->xattr_loaded)
+	    {
+	        $this->xattr_loaded = true;
+	        $res = QCPerson::getXAttrs($this->getId());
+	        if($res->getRowCount())
+	        {
+	            list(
+	                $this->PersonTitle,
+	                $this->FirstName,
+	                $this->LastName,
+	                $this->Company
+	            ) = $res->fetch();
+	        }
+	        $res->free();
+	    }
+	}
+	
+	protected function saveXAttr()
+	{
+	    if($this->xattr_changed)
+	    {
+	        QCPerson::setXAttrs(
+                $this->getId(), 
+                $this->PersonTitle,
+                $this->FirstName,
+                $this->LastName,
+                $this->Company
+            );
+	        $this->xattr_changed = false;
+	    }
+	}
+	
+	protected function setXAttr($name, $value)
+	{
+	    $this->loadXAttr();
+	    $this->{$name} = $value;
+	    $ttl =  (empty($this->PersonTitle) ? '' : trim($this->PersonTitle).' ');
+	    $ttl .= (empty($this->FirstName) ? '' : trim($this->FirstName).' ');
+	    $ttl .= (empty($this->LastName) ? '' : trim($this->LastName));
+	    $this->setTitle($ttl);
+	    $this->xattr_changed = true;
+	}
+	
+	public function getPersonTitle()
+	{
+	    $this->loadXAttr();
+	    return $this->PersonTitle;
+	}
+	public function setPersonTitle($value)
+	{
+	    $this->setXAttr('PersonTitle', $value);
+	}
+	
+	public function getFirstName()
+	{
+	    $this->loadXAttr();
+	    return $this->FirstName;
+	}
+	public function setFirstName($value)
+	{
+	    $this->setXAttr('FirstName', $value);
+	}
+	
+	public function getLastName()
+	{
+	    $this->loadXAttr();
+	    return $this->LastName;
+	}
+	public function setLastName($value)
+	{
+	    $this->setXAttr('LastName', $value);
+	}	
+	
+	public function getCompany()
+	{
+	    $this->loadXAttr();
+	    return $this->Company;
+	}
+	public function setCompany($value)
+	{
+	    $this->setXAttr('Company', $value);
+	}
+	
 	
 	//Login credentials
 	private $hasLogin = null;

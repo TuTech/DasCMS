@@ -195,6 +195,12 @@ org.bambuscms.wopenfiledialog._build = function()
 				org.bambuscms.gui.element('div', data.captions.description+': '+data.items[y][data.itemMap['description']], {})
 			);
 		}
+		if(data.items[y][data.itemMap['company']])
+		{
+			item.appendChild(
+				org.bambuscms.gui.element('div', data.captions.company+': '+data.items[y][data.itemMap['company']], {})
+			);
+		}
 		if(data.items[y][data.itemMap['pubDate']])
 		{
 			if(data.items[y][data.itemMap['pubDate']] < 1)

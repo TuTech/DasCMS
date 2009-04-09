@@ -1,5 +1,7 @@
 element_is_used_by_the_system_and_cannot_be_deleted	Dieser Inhalt wird von System verwendet und kann daher nicht gelöscht werden.
 context	Kontext
+first_name	Vorname
+last_name	Nachname
 new_context	Neuer Kontext
 contexts	Kontexte
 phone	Telefon

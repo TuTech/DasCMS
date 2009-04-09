@@ -143,6 +143,14 @@ PersonAttributeContexts
         ON DELETE RESTRICT
         ON UPDATE RESTRICT;
         
+-- Foreign keys for PersonPrimaryAttributes
+ALTER TABLE 
+PersonPrimaryAttributes
+    ADD FOREIGN KEY (contentREL)
+        REFERENCES Contents(contentID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION;
+        
 -- Foreign keys for PersonData
 ALTER TABLE 
 relPersonsRoles
@@ -166,7 +174,7 @@ relPersonsPermissions
         REFERENCES PersonPermissions(personPermissionID)
         ON DELETE RESTRICT
         ON UPDATE RESTRICT;
-
+        
 -- Foreign keys for PersonData
 ALTER TABLE 
 relPersonsPermissionTags

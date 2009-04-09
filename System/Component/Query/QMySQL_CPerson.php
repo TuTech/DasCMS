@@ -21,6 +21,73 @@ class QCPerson extends BQuery
         BQuery::Database()->commit();
     }
     
+    //////////Person extended attributes
+    
+    /**
+     * @param array $aliases
+     * @return DSQLResult
+     */
+    public static function getBasicInformation()
+    {
+        $DB = BQuery::Database();
+        $sql = "
+            SELECT 
+            		Contents.title AS Title,
+            		Contents.pubDate AS PubDate,
+            		Aliases.alias AS Alias,
+					Mimetypes.mimetype,
+					Contents.contentID,
+					PersonPrimaryAttributes.company
+            	FROM Contents 
+            	LEFT JOIN Aliases ON (Contents.primaryAlias = Aliases.aliasID)
+				LEFT JOIN Classes ON (Contents.type = Classes.classID)
+				LEFT JOIN Mimetypes ON (Contents.mimetypeREL = Mimetypes.mimetypeID)
+				LEFT JOIN PersonPrimaryAttributes ON (Contents.contentID = PersonPrimaryAttributes.contentREL)
+            	WHERE 
+					Classes.class = 'CPerson'
+				ORDER BY Contents.title ASC";
+       return $DB->query(sprintf($sql));
+    }
+    
+    /**
+     * @param int $pid
+     * @return DSQLResult
+     */
+    public static function getXAttrs($pid)
+    {
+        $sql = "SELECT title, forename, surname, company FROM PersonPrimaryAttributes WHERE contentREL = %d";
+        return BQuery::Database()->query(sprintf($sql, $pid), DSQL::NUM);
+    }
+    
+    /**
+     * @param int $pid
+     * @param string $title
+     * @param string $forename
+     * @param string $surname
+     * @param string $company
+     * @return int
+     */
+    public static function setXAttrs($pid, $title, $forename, $surname, $company)
+    {
+        $sql = "INSERT INTO 
+        			PersonPrimaryAttributes 
+        				(contentREL, title, forename, surname, company)
+        			VALUES 
+        				(%d, '%s', '%s', '%s', '%s')
+        			ON DUPLICATE KEY UPDATE 
+                        title = '%s',
+                        forename = '%s',
+                        surname = '%s',
+                        company = '%s'";
+        $DB = BQuery::Database();
+        $title = $DB->escape($title);
+        $forename = $DB->escape($forename);
+        $surname = $DB->escape($surname);
+        $company = $DB->escape($company);
+        return $DB->queryExecute(sprintf($sql, $pid, $title, $forename, $surname, $company, 
+                                                     $title, $forename, $surname, $company), DSQL::NUM);
+    }
+    
     //////////Login IO
     
     /**

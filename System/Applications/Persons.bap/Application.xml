@@ -16,7 +16,6 @@
 			<panel name="content_actions">
 				<task type="button" hotkey="o" caption="open" icon="action-document-open" action="org.bambuscms.wopenfiledialog.toggle();" />
 				<task type="button" hotkey="s" caption="save" icon="action-document-save" action="org.bambuscms.app.document.save()" />
-				<task type="button" hotkey="S" caption="save_and_rename" icon="action-document-save-as" action="org.bambuscms.app.document.saveAs('filename')" />
 			</panel>
 			<panel name="credential_actions">
 				<task type="button" hotkey="I" caption="create_login" icon="action-create-user-id" action="mkLogin();" />
