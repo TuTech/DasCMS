@@ -73,7 +73,7 @@ class AFeeds
         	$captionsToSet = array(CFeed::HEADER => array(), CFeed::ITEM => array(), CFeed::FOOTER => array());
         	$optionsToSet = array(
         	    CFeed::HEADER => array('PaginaType' => ''), 
-        	    CFeed::ITEM => array('LinkTitle' => '', 'LinkTags' => ''), 
+        	    CFeed::ITEM => array('LinkTitle' => '', 'LinkTags' => '', 'LinkIcon' => ''), 
         	    CFeed::FOOTER => array('PaginaType' => ''), 
         	    CFeed::SETTINGS => array()
         	);
