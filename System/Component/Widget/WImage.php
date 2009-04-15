@@ -36,7 +36,7 @@ class WImage extends BWidget
     private $allowsPreview = true;
     
     private $isPreviewImage = false;
-    
+    private $cssID = null;
     /**
      * @return WImage
      */
@@ -72,6 +72,16 @@ class WImage extends BWidget
         return $img;
     }  
       
+    public function getCSSId()
+    {
+        return $this->cssID;
+    }
+    
+    public function setCSSId($value)
+    {
+        $this->cssID = $value;
+    }
+    
     /**
      * create image for output
      * @param IFileContent$content
@@ -252,12 +262,13 @@ class WImage extends BWidget
     public function __toString()
     {
         return sprintf(
-            "<img src=\"image.php/%s/%s\"%s alt=\"%s\" title=\"%s\" />"
+            "<img src=\"image.php/%s/%s\"%s alt=\"%s\" title=\"%s\" %s/>"
             ,empty($this->content) ? $this->alias : $this->content->getAlias()
             ,$this->scaleHash
             ,($this->isPreviewImage ? ' class="PreviewImage"' : '')
             ,htmlentities(empty($this->content) ? $this->title : $this->content->getTitle(), ENT_QUOTES, 'UTF-8')
             ,htmlentities(empty($this->content) ? $this->title : $this->content->getTitle(), ENT_QUOTES, 'UTF-8')
+            ,($this->cssID != null) ? 'id="'.htmlentities($this->cssID, ENT_QUOTES, 'utf-8').'" ' : ''
         );
     }
 }

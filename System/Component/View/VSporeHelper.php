@@ -100,6 +100,7 @@ class VSporeHelper
             }
             $img = $img->scaled($width, $height,$mode, $force, $color);
         }
+        $img->setCSSId('_'.$this->sporeContent($spore)->getGUID().'_previewimage');
         return $img;
     }
     
