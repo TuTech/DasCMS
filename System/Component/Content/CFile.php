@@ -181,8 +181,8 @@ class CFile
                 ).
                 '<div class="CFile-description">%s</div>'.
                 '<div class="CFile-meta">'.
-                    '<p class="CFile-meta-name">File name: %s</p>'.
-                    '<p class="CFile-meta-size">Size: %s</p>'.
+                    '<p class="CFile-meta-name">%s: %s</p>'.
+                    '<p class="CFile-meta-size">%s: %s</p>'.
                 '</div>'.
                 '<div class="CFile-link">'.
                     '<p><a href="file.php?get=%s">%s</a></p>'.
@@ -190,7 +190,9 @@ class CFile
             '</div>'
             
             ,$this->getDescription()
+            ,SLocalization::get('original_file_name')
             ,$this->getFileName()
+            ,SLocalization::get('file_size')
             ,DFileSystem::formatSize($this->getSize())
             ,$this->getAlias()
             ,SLocalization::get('download')
