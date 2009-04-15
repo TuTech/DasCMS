@@ -33,7 +33,8 @@ $values = array(
     ),
 	"database_settings" => array(
         "server"                => array("db_server",       "fullinput"),
-        "user"                  => array("db_user",         "fullinput"),
+        "port"                  => array("db_port",         "fullinput"),
+    	"user"                  => array("db_user",         "fullinput"),
         "password"              => array("db_password",     "password"),
         "database_name"         => array("db_name",         "fullinput"),
        // "database_table_prefix" => array("db_table_prefix", "fullinput")

@@ -25,7 +25,7 @@ class AConfiguration
         'login_template','mail_webmaster_on_error',
         'PAuthentication','PAuthorisation',
         //database_settings
-        'db_server', 'db_user', 'db_password', 'db_name', 'db_table_prefix',
+        'db_server', 'db_user', 'db_password', 'db_name', 'db_table_prefix','db_port',
         //meta_data
         'meta_description', 'meta_keywords',
         'timezone', 'locale','preview_image_quality',
