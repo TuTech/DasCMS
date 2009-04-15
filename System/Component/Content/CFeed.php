@@ -11,7 +11,7 @@
  */
 class CFeed 
     extends BContent 
-    implements ISupportsSidebar, IGlobalUniqueId, IGeneratesFeed 
+    implements ISupportsSidebar, IGlobalUniqueId, IGeneratesFeed, IFileContent
 {
     const GUID = 'org.bambuscms.content.cfeed';
     
@@ -704,6 +704,41 @@ class CFeed
 	    return CFeed::defaultIcon();
 	}
 	
+	//IFileContent
+	public function getFileName()
+	{
+	    return $this->getTitle();
+	}
+	
+    public function getType()
+    {
+        return 'txt';
+    }
+    
+    public function getDownloadMetaData()
+    {
+        return array($this->getTitle().'.txt', 'text/plain', null);
+    }
+    
+    public function sendFileContent()
+    {
+        $spore = $this->option(self::SETTINGS, 'TargetView');
+        if(!empty($spore))
+        {
+            $base = SLink::base();  
+            $res = QCFeed::getSiteMapData($this->getId());
+            while ($row = $res->fetch())
+            {
+                echo $base, SLink::link(array($spore => $row[0]), '', true)."\n";
+            }
+        }
+    }
+    
+    public function getRawDataPath()
+    {
+        return null;
+    }
+    
 	//ISupportsSidebar
 	public function wantsWidgetsOfCategory($category)
 	{

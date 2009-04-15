@@ -29,6 +29,25 @@ class QCFeed extends BQuery
         return BQuery::Database()->query(sprintf($sql, $feedID), DSQL::NUM);
     }
     
+    /**
+     * @param int $feedID
+     * @return DSQLResult
+     */
+    public static function getSiteMapData($feedID)
+    {
+        $sql = 
+            "SELECT Aliases.alias 
+				FROM relFeedsContents
+					LEFT JOIN Contents ON (relFeedsContents.contentREL = Contents.contentID)
+					LEFT JOIN Aliases ON (Contents.primaryAlias = Aliases.aliasID)
+				WHERE 
+					relFeedsContents.feedREL = %d
+					AND relFeedsContents.feedREL != relFeedsContents.contentREL
+					AND Contents.pubDate > 0
+					AND Contents.pubDate <= NOW()";
+        return BQuery::Database()->query(sprintf($sql, $feedID), DSQL::NUM);
+    }
+    
     public static function setFeedType($feedId, $filterType)
     {
         $type = array_search($filterType, array('',CFeed::ALL, CFeed::MATCH_SOME, CFeed::MATCH_ALL, CFeed::MATCH_NONE));

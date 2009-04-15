@@ -8,6 +8,14 @@ PAuthentication::required();
 try
 {
     $file = RURL::get('get');
+    if(empty($file))
+    {
+         $file = substr($_SERVER['PATH_INFO'],1);
+         if(empty($file))
+         {
+             throw new Exception('nothing to get', 404);
+         }
+    }
     $content = BContent::OpenIfPossible($file);
     if(!PAuthorisation::has('org.bambuscms.content.cfile.view'))
     {
@@ -26,10 +34,16 @@ try
         list($file, $type, $size) = $content->getDownloadMetaData();
         header("Content-Disposition: attachment; filename=\"".addslashes($file)."\"");    
         header("Content-Type: application/force-download");
-        header("Content-Type: ".$type);
         header("Content-Type: application/download");
+        if(!empty($type))
+        {
+            header("Content-Type: ".urlencode($type));
+        }
         header("Content-Description: File Transfer");             
-        header("Content-Length: " . $size);
+        if(!empty($size))
+        {
+            header(sprintf("Content-Length: %d", $size));
+        }
         $content->sendFileContent();
     }
 }

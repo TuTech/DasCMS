@@ -167,7 +167,7 @@ class CFile
 	    if(in_array($this->getType(), array('jpg','jpeg','png','gif')))
 	    {
 	        $img = WImage::forContent($this);
-	        $img = $img->scaled(640,480);
+	        $img = $img->scaled(640,480);//FIXME values from config
 	    }
         return sprintf(
             '<div class="CFile" id="_'.htmlentities($this->getGUID(), ENT_QUOTES, 'UTF-8').'">'.
@@ -181,7 +181,6 @@ class CFile
                 ).
                 '<div class="CFile-description">%s</div>'.
                 '<div class="CFile-meta">'.
-                    '<p class="CFile-meta-name">%s: %s</p>'.
                     '<p class="CFile-meta-size">%s: %s</p>'.
                 '</div>'.
                 '<div class="CFile-link">'.
@@ -190,12 +189,10 @@ class CFile
             '</div>'
             
             ,$this->getDescription()
-            ,SLocalization::get('original_file_name')
-            ,$this->getFileName()
             ,SLocalization::get('file_size')
             ,DFileSystem::formatSize($this->getSize())
             ,$this->getAlias()
-            ,SLocalization::get('download')
+            ,$this->getFileName()
         );
 	}
 	

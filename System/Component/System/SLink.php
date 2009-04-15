@@ -69,7 +69,9 @@ class SLink
             	    $optimizedPath[] = $step;
             	}
             }
-            self::$base = sprintf('%s://%s%s/%s/', $http, $server, $port, implode('/', $optimizedPath));
+            $newPath = implode('/', $optimizedPath);
+            $newPath = strlen($newPath) > 0 ? $newPath.'/' : '';
+            self::$base = sprintf('%s://%s%s/%s', $http, $server, $port, $newPath);
         }
         return self::$base;
     }
