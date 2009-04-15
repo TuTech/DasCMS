@@ -170,7 +170,7 @@ class CFile
 	        $img = $img->scaled(640,480);
 	    }
         return sprintf(
-            '<div class="CFile">'.
+            '<div class="CFile" id="_'.htmlentities($this->getGUID(), ENT_QUOTES, 'UTF-8').'">'.
                 (in_array($this->getType(), array('jpg','jpeg','png','gif'))
                     ? '<div class="CFile-preview">'.strval($img).'</div>'
                     : sprintf(
@@ -181,8 +181,10 @@ class CFile
                 ).
                 '<div class="CFile-description">%s</div>'.
                 '<div class="CFile-meta">'.
-                    '<p>File name: %s</p>'.
-                    '<p>Size: %s</p>'.
+                    '<p class="CFile-meta-name">File name: %s</p>'.
+                    '<p class="CFile-meta-size">Size: %s</p>'.
+                '</div>'.
+                '<div class="CFile-link">'.
                     '<p><a href="file.php?get=%s">%s</a></p>'.
                 '</div>'.
             '</div>'

@@ -431,7 +431,7 @@ class CFeed
             );
         
         //html building
-        $content = '<div id="'.$this->getGUID().'" class="CFeed">';
+        $content = '<div id="_'.$this->getGUID().'" class="CFeed">';
         if($count > 0)
         {
             $content .= $this->buildControlHtml(self::HEADER, $hasMorePages, $currentPage, $startItem, $endItem, $maxItems);
