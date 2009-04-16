@@ -586,11 +586,11 @@ class CFeed
                 case 'PubDate':
                 case 'ModDate':
                     $datetime = $data[$map[$key]];
-                    if($this->option(self::SETTINGS, $key.'Format') != '')
+                    if($this->option(self::ITEM, $key.'Format') != '')
                     {
                         SErrorAndExceptionHandler::muteErrors();
                         $time = strtotime($datetime);
-                        $datetime = date($this->option(self::SETTINGS, $key.'Format'), $time);
+                        $datetime = date($this->option(self::ITEM, $key.'Format'), $time);
                         SErrorAndExceptionHandler::reportErrors();
                     }
         		    $content = htmlentities($datetime, ENT_QUOTES, 'UTF-8');
