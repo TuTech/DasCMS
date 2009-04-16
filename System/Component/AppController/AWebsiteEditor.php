@@ -41,10 +41,20 @@ class AWebsiteEditor
     public function create(array $param)
     {
         parent::requirePermission('org.bambuscms.content.cpage.create');
+        $success = false;
         if(!empty($param['create']))
         {
-            $this->target = CPage::Create($param['create']);
+            try
+            {
+                $this->target = CPage::Create($param['create']);
+                $success = true;
+            }
+            catch (Exception $e)
+            {
+                SNotificationCenter::report('warning', 'could_not_create_website');
+            }
         }
+        return $success;
     }
     
     public function save(array $param)

@@ -41,14 +41,25 @@ class ALinks
     public function create(array $param)
     {
         parent::requirePermission('org.bambuscms.content.clink.create');
+        $success = false;
         if(!empty($param['create']))
         {
-            $this->target = CLink::Create($param['create']);
-            if(isset($param['content']))
+            try
             {
-                $this->target->setContent($param['content']);
+                $this->target = CLink::Create($param['create']);
+                if(isset($param['content']))
+                {
+                    $this->target->setContent($param['content']);
+                    $this->target->Save();
+                }
+                $success = true;
+            }
+            catch (Exception $e)
+            {
+                SNotificationCenter::report('warning', 'could_not_create_feed');
             }
         }
+        return $success;
     }
     
     public function save(array $param)

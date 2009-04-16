@@ -78,13 +78,17 @@ class SBambusSessionAuth
             );   
             $apps = $this->getAllApps();  
             //hasPermission($victim, $app_name)
-            foreach ($SUsersAndGroups->listUserPermissions($this->user) as $perm)
+            $perms = $SUsersAndGroups->listUserPermissions(PAuthentication::getUserID());
+            if(is_array($perms))
             {
-                $rigths[strtolower($perm)] = PAuthorisation::PERMIT;
+                foreach ($perms as $perm)
+                {
+                    $rigths[strtolower($perm)] = PAuthorisation::PERMIT;
+                }
             }
             foreach ($apps as $app)
             {
-                if($SUsersAndGroups->hasPermission($this->user, $app))
+                if($SUsersAndGroups->hasPermission(PAuthentication::getUserID(), $app))
                 {
                     $rigths['org.bambusms.application.'.strtolower($app)] = PAuthorisation::PERMIT;
                 }

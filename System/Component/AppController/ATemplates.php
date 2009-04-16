@@ -42,10 +42,20 @@ class ATemplates
     public function create(array $param)
     {
         parent::requirePermission('org.bambuscms.content.ctemplate.create');
+        $success = false;
         if(!empty($param['create']))
         {
-            $this->target = CTemplate::Create($param['create']);
+            try
+            {
+                $this->target = CTemplate::Create($param['create']);
+                $success = true;
+            }
+            catch (Exception $e)
+            {
+                SNotificationCenter::report('warning', 'could_not_create_template');
+            }
         }
+        return $success;
     }
     
     public function save(array $param)

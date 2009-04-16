@@ -182,34 +182,42 @@ class QBContent extends BQuery
      */
     public static function create($type, $title)
     {
-        $DB = BQuery::Database();
-        $DB->beginTransaction();
-        $sql = "INSERT INTO Contents
-            	(type, title, description)
-            	VALUES
-            	((SELECT classID FROM Classes WHERE class = '%s'), '%s', '')";
-        $DB->queryExecute(sprintf($sql, $DB->escape($type), $DB->escape($title)));
-        $id = $DB->lastInsertID();
-        $sql = "INSERT INTO Aliases
-            	(alias, contentREL)
-            	VALUES
-            	(UUID(), %d)";
-        $DB->queryExecute(sprintf($sql, $id));
-        $aliasID = $DB->lastInsertID();
-        $sql = "UPDATE Contents
-				SET primaryAlias = %d,
-					GUID = %d
-				WHERE contentID = %d";
-        $DB->queryExecute(sprintf($sql, $aliasID, $aliasID, $id));
-        $sql = "INSERT INTO Changes
-				(contentREL, title, size, userREL)
-				VALUES
-				(%d, '%s', 0, (SELECT userID FROM Users WHERE login = '%s'))";
-        $DB->queryExecute(sprintf($sql, $id, $DB->escape($title), $DB->escape(PAuthentication::getUserID())));
-        $sql = sprintf("SELECT alias FROM Aliases WHERE aliasID = %d", $aliasID);
-        list($UUID) = $DB->query($sql, DSQL::NUM)->fetch();
-        $DB->commit();
-        return array($id, $UUID);
+        try
+        {
+            $DB = BQuery::Database();
+            $DB->beginTransaction();
+            $sql = "INSERT INTO Contents
+                	(type, title, description)
+                	VALUES
+                	((SELECT classID FROM Classes WHERE class = '%s'), '%s', '')";
+            $DB->queryExecute(sprintf($sql, $DB->escape($type), $DB->escape($title)));
+            $id = $DB->lastInsertID();
+            $sql = "INSERT INTO Aliases
+                	(alias, contentREL)
+                	VALUES
+                	(UUID(), %d)";
+            $DB->queryExecute(sprintf($sql, $id));
+            $aliasID = $DB->lastInsertID();
+            $sql = "UPDATE Contents
+    				SET primaryAlias = %d,
+    					GUID = %d
+    				WHERE contentID = %d";
+            $DB->queryExecute(sprintf($sql, $aliasID, $aliasID, $id));
+            $sql = "INSERT INTO Changes
+    				(contentREL, title, size, userREL)
+    				VALUES
+    				(%d, '%s', 0, (SELECT userID FROM Users WHERE login = '%s'))";
+            $DB->queryExecute(sprintf($sql, $id, $DB->escape($title), $DB->escape(PAuthentication::getUserID())));
+            $sql = sprintf("SELECT alias FROM Aliases WHERE aliasID = %d", $aliasID);
+            list($UUID) = $DB->query($sql, DSQL::NUM)->fetch();
+            $DB->commit();
+            return array($id, $UUID);
+        }
+	    catch (XDatabaseException $dbe)
+	    {
+	        $dbe->rollback();
+	        throw $dbe;
+	    }
     }
     
     

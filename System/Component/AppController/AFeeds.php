@@ -41,10 +41,20 @@ class AFeeds
     public function create(array $param)
     {
         parent::requirePermission('org.bambuscms.content.cfeed.create');
+        $success = false;
         if(!empty($param['create']))
         {
-            $this->target = CFeed::Create($param['create']);
+            try
+            {
+                $this->target = CFeed::Create($param['create']);
+                $success = true;
+            }
+            catch (Exception $e)
+            {
+                SNotificationCenter::report('warning', 'could_not_create_feed');
+            }
         }
+        return $success;
     }
     
     public function save(array $param)
@@ -268,7 +278,6 @@ class AFeeds
         	    }
         	    $this->target->changeOrder($type, $setOrder[$type]);
         	}
-            
         }
     }
     

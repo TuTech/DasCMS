@@ -5,15 +5,26 @@ org.bambuscms.app.document.create = function()
 	input.setAttribute('name','create');
 	input.setAttribute('type','text');
 	input.setAttribute('value','');
+		
+	var content = $c('input');
+	content.setAttribute('name','content');
+	content.setAttribute('type','text');
+	content.setAttribute('value','');
 	
-	var linput = $c('input');
-	linput.setAttribute('name','content');
-	linput.setAttribute('type','text');
-	linput.setAttribute('value','');
+	var nlabel = $c('label');
+	nlabel.appendChild($t(_('title')));
+	
+	var clabel = $c('label');
+	clabel.appendChild($t(_('url')));
+	
 	
 	var box = $c('div');
-	box.appendChild(input);
-	//box.appendChild(linput),
+	var append = [nlabel, input, clabel, content];
+	for(var i = 0; i < append.length; i++)
+	{
+		box.appendChild(append[i]);
+		box.appendChild($c('br'));
+	}
 	
 	org.bambuscms.app.dialog.create(_('create_new_link'), _('link_of_title'), box, _('ok'), _('cancel'));
 	org.bambuscms.app.dialog.setAction('create');

@@ -20,5 +20,10 @@ class XDatabaseException extends BDataException
     {
         return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
     }
+    
+    public function rollback()
+    {
+        return DSQL::alloc()->init()->rollback();
+    }
 }
 ?>

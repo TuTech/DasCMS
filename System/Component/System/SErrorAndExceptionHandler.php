@@ -125,7 +125,7 @@ class SErrorAndExceptionHandler
         self::$reportSkipOnce = false;
     }
     
-    public static function exceptionHandler(Exception $e)
+    public static function reportException(Exception $e)
     {
         self::mail(
             get_class($e)
@@ -145,7 +145,12 @@ class SErrorAndExceptionHandler
             , $e->getTraceAsString()
             ,getcwd());
         DFileSystem::Append(SPath::LOGS.'Exceptions.log', $err);
-        echo $err;
+        return $err;    
+    }
+            
+    public static function exceptionHandler(Exception $e)
+    {
+        echo self::reportException($e);
         exit(1);
     }
 }

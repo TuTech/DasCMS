@@ -54,26 +54,36 @@ class APersons
     public function create(array $param)
     {
         parent::requirePermission('org.bambuscms.content.cperson.create');
+        $success = false;
         if(!empty($param['create'])
             || !empty($param['first_name'])
             || !empty($param['last_name'])
             || !empty($param['company']))
         {
-            $this->target = CPerson::Create(isset($param['create']) ? $param['create'] : '');
-            foreach(array(
-                    'PersonTitle' => 'title',
-                    'FirstName' => 'first_name',
-                    'LastName' => 'last_name',
-                    'Company' => 'company'
-                ) as $func => $att)
+            try
             {
-                if(!empty($param[$att]))
+                $this->target = CPerson::Create(isset($param['create']) ? $param['create'] : '');
+                foreach(array(
+                        'PersonTitle' => 'title',
+                        'FirstName' => 'first_name',
+                        'LastName' => 'last_name',
+                        'Company' => 'company'
+                    ) as $func => $att)
                 {
-                    $this->target->{'set'.$func}($param[$att]);
+                    if(!empty($param[$att]))
+                    {
+                        $this->target->{'set'.$func}($param[$att]);
+                    }
                 }
+                $this->target->Save();
+                $success = true;
             }
-            $this->target->Save();
+            catch (Exception $e)
+            {
+                SNotificationCenter::report('warning', 'could_not_create_person');
+            }
         }
+        return $success;
     }
     
     //for post array

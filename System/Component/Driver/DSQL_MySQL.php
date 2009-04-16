@@ -147,7 +147,8 @@ class DSQL_MySQL extends DSQL
 	 */
 	public function beginTransaction()
 	{
-		self::$DB->autocommit(false);
+		$this->queryExecute('SET AUTOCOMMIT = 0');
+		$this->queryExecute('START TRANSACTION');
 		return true;
 	}
 	
@@ -158,8 +159,8 @@ class DSQL_MySQL extends DSQL
 	 */
 	public function commit()
 	{
-		self::$DB->commit();
-		self::$DB->autocommit(true);
+		$this->queryExecute('COMMIT');
+		$this->queryExecute('SET AUTOCOMMIT = 1');
 		return true;
 	}
 		
@@ -170,8 +171,8 @@ class DSQL_MySQL extends DSQL
 	 */
 	public function rollback()
 	{
-		self::$DB->rollback();
-		self::$DB->autocommit(true);
+		$this->queryExecute('ROLLBACK');
+		$this->queryExecute('SET AUTOCOMMIT = 1');
 		return true;
 	}
 	

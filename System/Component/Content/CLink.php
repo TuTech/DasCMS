@@ -30,7 +30,7 @@ class CLink
 	public static function Create($title)
 	{
 	    list($dbid, $alias) = QBContent::create(self::CLASS_NAME, $title);
-	    DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$dbid.'.php', ' ');
+	    DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$dbid.'.php', '');
 	    $tpl = new CLink($alias);
 	    new EContentCreatedEvent($tpl, $tpl);
 	    return $tpl;
@@ -104,6 +104,7 @@ class CLink
 	/**
 	 * @return string
 	 */
+
 	public function getContent()
 	{
 	    if(!$this->_contentLoaded)
@@ -112,6 +113,12 @@ class CLink
 	        $this->_contentLoaded = true;
 	    }
 	    return $this->Content;
+	}
+	
+	public function setContent($value)
+	{
+	    $this->getContent();
+	    $this->Content = $value;
 	}
 	
 	public function Save()

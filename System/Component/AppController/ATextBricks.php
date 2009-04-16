@@ -41,10 +41,20 @@ class ATextBricks
     public function create(array $param)
     {
         parent::requirePermission('org.bambuscms.content.ctextbricks.create');
+        $success = false;
         if(!empty($param['create']))
         {
-            $this->target = CTextBrick::Create($param['create']);
+            try
+            {
+                $this->target = CTextBrick::Create($param['create']);
+                $success = true;
+            }
+            catch (Exception $e)
+            {
+                SNotificationCenter::report('warning', 'could_not_create_text_brick');
+            }
         }
+        return $success;
     }
     
     public function save(array $param)
