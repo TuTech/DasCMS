@@ -581,9 +581,19 @@ class CFeed
         		    $content = $this->link($data[$map['Alias']], implode($this->caption(self::ITEM,'Link')), true);
         		    break;
                 case 'Author':
+                    $content = htmlentities($data[$map[$key]], ENT_QUOTES, 'UTF-8');
+        		    break;
                 case 'PubDate':
                 case 'ModDate':
-        		    $content = htmlentities($data[$map[$key]], ENT_QUOTES, 'UTF-8');
+                    $datetime = $data[$map[$key]];
+                    if($this->option(self::SETTINGS, $key.'Format') != '')
+                    {
+                        SErrorAndExceptionHandler::muteErrors();
+                        $time = strtotime($datetime);
+                        $datetime = date($this->option(self::SETTINGS, $key.'Format'), $time);
+                        SErrorAndExceptionHandler::reportErrors();
+                    }
+        		    $content = htmlentities($datetime, ENT_QUOTES, 'UTF-8');
         		    break;
                 case 'Title':
         		    $tag = 'h2';
