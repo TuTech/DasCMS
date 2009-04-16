@@ -37,7 +37,7 @@ try
         header("Content-Type: application/download");
         if(!empty($type))
         {
-            header("Content-Type: ".urlencode($type));
+            header("Content-Type: ".$type);
         }
         header("Content-Description: File Transfer");             
         if(!empty($size))

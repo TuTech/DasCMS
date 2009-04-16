@@ -78,6 +78,10 @@ class SBambusSessionAuth
             );   
             $apps = $this->getAllApps();  
             //hasPermission($victim, $app_name)
+            foreach ($SUsersAndGroups->listUserPermissions($this->user) as $perm)
+            {
+                $rigths[strtolower($perm)] = PAuthorisation::PERMIT;
+            }
             foreach ($apps as $app)
             {
                 if($SUsersAndGroups->hasPermission($this->user, $app))
@@ -198,6 +202,14 @@ class SBambusSessionAuth
             : '';
     }
 
+    public function getRole()
+    {
+        $SUsersAndGroups = SUsersAndGroups::alloc()->init();
+        return ($SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'))
+            ? (PAuthorisation::ROLE_ADMINISTRATOR)
+            : (PAuthorisation::ROLE_USER);
+    }
+    
     /**
      * successful authenticated
      *
