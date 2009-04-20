@@ -75,6 +75,14 @@ if(PAuthorisation::has('org.bambuscms.content.cfeed.change') && $Feed != null)
         )
     ));
     $tbl->addRow(array(
+        'target_frame', 
+        new WTextBox(
+            'so_TargetFrame', 
+            $Feed->option(CFeed::SETTINGS, 'TargetFrame'),
+            WTextBox::TEXT
+        )
+    ));
+    $tbl->addRow(array(
         'sort_order', 
         new WMultipleChoice(
             'so_SortOrder',

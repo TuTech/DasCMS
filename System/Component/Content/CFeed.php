@@ -132,6 +132,7 @@ class CFeed
                 'Filter' => array(),
                 'FilterMethod' => CFeed::ALL,
                 'TargetView' => '',
+            	'TargetFrame' => '',
                 'SortOrder' => true,
                 'SortBy' => 'title'
             )
@@ -345,7 +346,9 @@ class CFeed
 	    }
 	    if($link != null)
 	    {
-	        $content = sprintf('<a href="%s">%s</a>', $link, $content);
+	        $targetFrame = $this->option(self::SETTINGS, 'TargetFrame');
+	        $targetFrame = empty($targetFrame) ? '' : ' target="'.htmlentities($targetFrame, ENT_QUOTES, 'UTF-8').'"';
+	        $content = sprintf('<a href="%s"%s>%s</a>', $link, $targetFrame, $content);
 	    }
 	    return $content;
 	}

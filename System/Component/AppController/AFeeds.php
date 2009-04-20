@@ -152,6 +152,9 @@ class AFeeds
                             CFeed::MATCH_SOME, 
                             CFeed::MATCH_NONE));
                         break;
+                    case 'TargetFrame':
+                        $set = true;
+                        break;
                     case 'TargetView':
                         if($value == '')//if-elseif used because php did not accept them or-ed in one if
                         {
