@@ -122,7 +122,7 @@ class TCmdHeader
             <meta name=\"generator\" content=\"%s\" />
             <meta name=\"keywords\" content=\"%s\" />
             <link rel=\"icon\" href=\"%s\" />
-            <link rel=\"stylesheet\" href=\"./css.php?v=%d.css\" type=\"text/css\" />\n%s
+            <link rel=\"stylesheet\" href=\"./css.php?v=%d.css\" type=\"text/css\" />\n%s%s
         </head>"//<script type=\"text/javascript\" src=\"./js.php?v=%d.js\"></script>
 			,$baseURI
             ,$this->encode($title)
@@ -136,6 +136,8 @@ class TCmdHeader
             ,'favicon.ico'
 			,filemtime('Content/stylesheets/default.css')
             ,$feedTags
+            ,(LConfiguration::get('google_verify_header') == '') 
+                ? '' : '            <meta name="verify-v1" content="'.htmlentities(LConfiguration::get('google_verify_header'), ENT_QUOTES, 'UTF-8').'" />'
         );
     }
 }

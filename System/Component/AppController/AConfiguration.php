@@ -29,6 +29,7 @@ class AConfiguration
         //meta_data
         'meta_description', 'meta_keywords',
         'timezone', 'locale','preview_image_quality',
+    	'google_verify_header',
         //logs
         'logAccess', 'logChanges'
     );

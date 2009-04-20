@@ -18,6 +18,7 @@ $values = array(
         "meta_description"      => array("meta_description","fullinput"),
 		'preview_image_quality' => array("preview_image_quality","image_quality"),
 		'wellformed_urls'       => array("wellformed_urls", "checkbox"),
+		'google_verify_header'  => array("google_verify_header","fullinput"),
     ),
 	"system" => array(
         "date_format"           => array("dateformat",      "fullinput"),
