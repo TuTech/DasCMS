@@ -317,7 +317,7 @@ class CFeed
 	    }
 	}
 
-	private function link($arg, $content, $inTargetView = false)
+	private function link($arg, $content, $inTargetView = false, $inTargetFrame = true)
 	{
 	    $link = null;
 	    try
@@ -347,7 +347,7 @@ class CFeed
 	    if($link != null)
 	    {
 	        $targetFrame = $this->option(self::SETTINGS, 'TargetFrame');
-	        $targetFrame = empty($targetFrame) ? '' : ' target="'.htmlentities($targetFrame, ENT_QUOTES, 'UTF-8').'"';
+	        $targetFrame = (empty($targetFrame) || !$inTargetFrame) ? '' : ' target="'.htmlentities($targetFrame, ENT_QUOTES, 'UTF-8').'"';
 	        $content = sprintf('<a href="%s"%s>%s</a>', $link, $targetFrame, $content);
 	    }
 	    return $content;
@@ -478,7 +478,7 @@ class CFeed
                         $captions = $this->caption($type, 'Link');
                         $caption = $captions[self::SUFFIX];
                         $page = $Pagina + 1;
-                        $content = $this->link($page, $caption);
+                        $content = $this->link($page, $caption,false,false);
         	        }
                     break;
     	        case 'PrevLink' :
@@ -488,7 +488,7 @@ class CFeed
                         $captions = $this->caption($type, 'Link');
                         $caption = $captions[self::PREFIX];
                         $page = $Pagina - 1;
-                        $content = $this->link($page, $caption);
+                        $content = $this->link($page, $caption,false,false);
         	        }
                     break;
                 case 'Pagina':
