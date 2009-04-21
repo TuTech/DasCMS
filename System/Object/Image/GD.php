@@ -12,6 +12,7 @@
 class Image_GD extends _Image
 {
     protected $imgRes;
+    protected $file = null;
     
     protected function __construct(){}
     
@@ -40,6 +41,7 @@ class Image_GD extends _Image
     public static function load($file, $type = null)
     {
         $img = new Image_GD();
+        $img->file = $file;
         $suf = ($type == null) ? (DFileSystem::suffix($file)) : strtolower($type);
         switch ($suf) 
         {
@@ -53,8 +55,7 @@ class Image_GD extends _Image
         	case 'gif':
         	    $img->imgRes = imagecreatefromgif($file);
         	    break;
-    		break;
-        		case 'bmp':
+    		case 'bmp':
         	    $img->imgRes = imagecreatefromwbmp($file);
         		break;
         	case 'xbm':
@@ -105,6 +106,16 @@ class Image_GD extends _Image
         		throw new Exception('unsupported suffix');
         	break;
         }
+    }
+    
+    public function isModified()
+    {
+        return $this->file == null;
+    }
+    
+    public function getSourceFile()
+    {
+        return $this->file;
     }
     
     /**

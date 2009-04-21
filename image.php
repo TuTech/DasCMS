@@ -36,7 +36,6 @@ if(!empty($_SERVER['PATH_INFO']))
             ,$key, $match)
         )
     {
-        header('Content-type: image/jpeg;');
         //get the id of the preview image 
         if(PAuthorisation::has('org.bambuscms.login'))
         {
@@ -120,17 +119,28 @@ if(!empty($_SERVER['PATH_INFO']))
             $imgFile = SPath::TEMP.'scale.render.'.$qual.'.'.$key;
             $permFile = SPath::TEMP.'scale.permit.'.$key;
             $time = time();
-            $img->save($imgFile, $qual, 'jpg');
-            if(file_exists($permFile))
-            {
-                @unlink($permFile);
-            }
             if(file_exists($imgFile))
             {
                 $time = filemtime($imgFile);
             }
-            header('Last-modified: '.date('r',$time));
-            $img->generate('jpg', $qual);
+            if($img->isModified())
+            {
+                header('Content-type: image/jpeg;');
+                header('Last-modified: '.date('r',$time));
+                $img->save($imgFile, $qual, 'jpg');
+                $img->generate('jpg', $qual);
+            }
+            else
+            {
+                header('Last-modified: '.date('r',filemtime($img->getSourceFile())));
+                copy($img->getSourceFile(), $imgFile);
+                touch($imgFile, filemtime($img->getSourceFile()));
+                readfile($img->getSourceFile());
+            }
+            if(file_exists($permFile))
+            {
+                @unlink($permFile);
+            }
         }
     }
     else
