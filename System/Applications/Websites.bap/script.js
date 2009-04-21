@@ -22,3 +22,25 @@ org.bambuscms.app.document.remove = function ()
 	org.bambuscms.app.dialog.setAction('delete');
 }
 
+org.bambuscms.app.document.insertMedia = function(type, url, title)
+{
+	var insert = '';
+	switch(type)
+	{
+		case 'file':
+			insert=' <a href="'+url+'" target="_blank">'+title+'</a> ';
+			break;
+		case 'image':
+			insert='<img src="'+url+'" alt="'+title+'" title="'+title+'" />';
+			break;
+		case 'content':
+			var view = prompt(_('target_view'), 'page');
+			if(view)
+				insert=' <a href="?'+view+'='+url+'">'+title+'</a> ';
+			break;
+	}
+	if(insert != '')
+	{
+		org.bambuscms.app.document.insertText(insert);
+	}
+};

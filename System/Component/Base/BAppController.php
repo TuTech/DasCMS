@@ -78,6 +78,11 @@ abstract class BAppController
 	    return WContentLookup::provideContentLookup($namedParameters);
 	}
 	
+	public function provideImageContentLookup(array $namedParameters)
+	{
+	    return WImageContentLookup::provideContentLookup($namedParameters);
+	}
+	
 	/**
 	 * check if this action is permitted for this class
 	 *

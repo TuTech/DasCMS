@@ -7,6 +7,7 @@ tinyMCE.init({
 	skin_variant : "black",
 	elements : id,
 	plugins : "safari,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
+	document_base_url:"<?php echo SLink::base()?>",
 
 	// Theme options
 	theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,formatselect,fontselect,fontsizeselect",
@@ -19,7 +20,7 @@ tinyMCE.init({
 	theme_advanced_resizing : true,
 
 	// Example content CSS (should be your site CSS)
-	content_css : "Content/stylesheets/default.css",
+	//content_css : "Content/stylesheets/default.css",
 
 	// Drop lists for link/image/media/template dialogs
 	template_external_list_url : "lists/template_list.js",

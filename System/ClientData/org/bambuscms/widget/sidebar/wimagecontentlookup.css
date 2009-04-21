@@ -1,0 +1,38 @@
+#WImageContentLookupFilter  {
+	background:#fff url(../../../../../ClientData/Icons/16x16/actions/search.png) 1px 50% no-repeat;
+	font-size:12px;
+	padding-left:18px;
+	width:90% !important;
+}
+#WICLSearchBox{
+}
+#WICLSearchBox input{
+	display: block;
+	width:180px;
+}
+#WImageContentLookup ul{
+	margin:0px;
+	padding: 0px;
+	border-top: 1px solid #9fbc4a;
+	background: #fff;
+}
+#WImageContentLookup li{
+	list-style:none;
+	padding: 2px;
+	padding-left:75px;
+	display:block;
+	border-bottom: 1px solid #9fbc4a;
+	background-position: 1px 1px;
+	height:52px;
+	background-repeat: no-repeat; 
+	overflow: hidden;
+}
+#WImageContentLookup li.alt{
+	background-color: #fafafa;
+}
+#WImageContentLookup li span{
+	font-size:8px;
+	display:block;
+	font-style:normal;
+	color: #555753;
+}
