@@ -58,11 +58,16 @@ class AFiles
     public function save(array $param)
     {
         parent::requirePermission('org.bambuscms.content.cfile.change');
-        if($this->target != null
-            && isset($param['filename']) 
-            && $param['filename'] != '')
+        if($this->target != null) 
         {
-            $this->target->Title = $param['filename'];
+            if(!empty($param['title']))
+            {
+                $this->target->Title = $param['title'];
+            }
+            if(isset($param['subtitle']))
+            {
+                $this->target->SubTitle = $param['subtitle'];
+            }
         }
     }
     

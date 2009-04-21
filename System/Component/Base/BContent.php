@@ -22,6 +22,7 @@ abstract class BContent extends BObject
 		$Id, 		//class unique id
 		$GUID,      //Global Unique ID
 		$Title, 	//title of object
+		$SubTitle,
 		$Content,	//content and content type e.g. html, mp3, gif ...
 		$Text, 		//Text representation of the object for search indexers
 		$Alias, 	//this will be used in navigations (unique in cms)
@@ -50,9 +51,10 @@ abstract class BContent extends BObject
 	 */
 	protected function initBasicMetaFromDB($alias)
 	{
-	    list($id, $ttl, $pd, $desc, $tags, $mt, $sz, $guid) = QBContent::getBasicMetaData($alias);
+	    list($id, $ttl, $pd, $desc, $tags, $mt, $sz, $guid, $sttl) = QBContent::getBasicMetaData($alias);
 	    $this->Id = $id;
 	    $this->Title = $ttl;
+	    $this->SubTitle = $sttl;
 	    $this->PubDate = ($pd == '0000-00-00 00:00:00' ? 0 : strtotime($pd));
 	    $this->_origPubDate = $this->PubDate;
 	    $this->Description = $desc;
@@ -97,7 +99,7 @@ abstract class BContent extends BObject
 	 */
 	protected function saveMetaToDB()
 	{
-	    QBContent::saveMetaData($this->Id, $this->Title, $this->PubDate, $this->Description, $this->Size);
+	    QBContent::saveMetaData($this->Id, $this->Title, $this->PubDate, $this->Description, $this->Size, $this->SubTitle);
 	}
 	
 	/**
@@ -361,6 +363,14 @@ abstract class BContent extends BObject
 	public function getTitle()
 	{
 		return $this->Title;
+	}	
+	
+	/**
+	 * @return string
+	 */
+	public function getSubTitle()
+	{
+		return $this->SubTitle;
 	}
 	
 	/**
@@ -380,6 +390,17 @@ abstract class BContent extends BObject
 		{
 			$this->Title = $value;
 		}
+	}
+	
+	/**
+	 * @param string $value
+	 */
+	public function setSubTitle($value)
+	{
+	    //replace unwanted tags 
+	    //$value = preg_replace('/<\s*\/?\s*(!?:(b|i|u|s|sub|sup))\s*>/mui', '', $value);
+	    $value = strip_tags($value, '<b><i><u><s><sub><sup>');
+		$this->SubTitle = $value;
 	}
 	
 	/**

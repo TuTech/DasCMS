@@ -127,7 +127,8 @@ class QCFeed extends BQuery
     				Aliases.alias,
 					'-' AS 'Users.name',
 					Contents.pubDate AS 'Changes.date',
-    				GROUP_CONCAT(DISTINCT Tags.tag ORDER BY Tags.tag ASC SEPARATOR ', ')
+    				GROUP_CONCAT(DISTINCT Tags.tag ORDER BY Tags.tag ASC SEPARATOR ', '),
+    				Contents.subtitle
 				FROM relFeedsContents
     				LEFT JOIN Contents ON (relFeedsContents.contentREL = Contents.contentID)
     				LEFT JOIN Aliases ON (Contents.primaryAlias = Aliases.aliasID)

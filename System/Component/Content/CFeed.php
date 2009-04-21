@@ -95,7 +95,8 @@ class CFeed
                 'Tags' => null,
             	'ModDate' => null,
                 'Icon' => null,
-                'PreviewImage' => null
+                'PreviewImage' => null,
+                'SubTitle' => null
             ),
             self::FOOTER => array(
                 'PrevLink' => 1,
@@ -514,6 +515,7 @@ class CFeed
 		
 	private function buildItemHtml(array $data)
 	{
+	    //db result order
         $map = array(
             'Title' => 0,
             'Description' => 1,
@@ -521,7 +523,8 @@ class CFeed
             'Alias' => 3,
             'Author' => 4,
             'ModDate' => 5,
-            'Tags' => 6
+            'Tags' => 6,
+            'SubTitle' => 7
         );
         $contentObject = null;
         
@@ -604,7 +607,11 @@ class CFeed
         		        ? $this->link($data[$map['Alias']],htmlentities($data[$map[$key]], ENT_QUOTES, 'UTF-8'),true)
         		        : htmlentities($data[$map[$key]], ENT_QUOTES, 'UTF-8');
         		    break;
-                default: continue;
+                case 'SubTitle':
+        		    $tag = 'h3';
+        		    $content = $data[$map[$key]];
+        		    break;
+    		    default: continue;
         	}
         	$html .= sprintf($tpl, $tag, $class, $content, $tag);
         }

@@ -161,8 +161,12 @@ class WImage extends BWidget
     
     public static function supportedMimeType($type)
     {
-        list($kind, $enc) = explode('/',strtolower($type));
-        return ($kind == 'image' && in_array($enc, array('jpg','jpeg','png','gif')));
+        return in_array($type, self::getSupportedMimeTypes());
+    }
+        
+    public static function getSupportedMimeTypes()
+    {
+        return array('image/jpg','image/jpeg','image/png','image/gif');
     }
     
     public static function getRetainCounts()

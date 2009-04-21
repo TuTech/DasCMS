@@ -45,7 +45,6 @@ org.bambuscms.wsettings.selectImage = function()
 	org.bambuscms.wsettings.selector = dlg;
 	org.bambuscms.display.setAutosize('wsetting_image_picker', -100, -100, true);
 	org.bambuscms.display.setAutosize('wsettings_img_select', 0, -175, true);
-
 }
 org.bambuscms.wsettings.fillDialog = function (dataObject)
 {
@@ -91,6 +90,10 @@ org.bambuscms.wsettings.setPubDate = function()
 
 org.bambuscms.wsettings.showPubDateHelper = function()
 {
+	var dd = function(val)
+	{
+		return (val < 10) ? '0'+val : val;
+	};
 	if(org.bambuscms.wsettings.pubDateHelper)
 		return;
 	var helps;
@@ -99,7 +102,9 @@ org.bambuscms.wsettings.showPubDateHelper = function()
 		var d = new Date();
 		var t = _('publish_now');
 		helps = {};
-		helps[t] = d.toGMTString();
+		//y-m-d h:m:s
+		helps[t] = d.getFullYear()+'-'+dd(d.getMonth())+'-'+dd(d.getDay())+
+					' '+dd(d.getHours())+':'+dd(d.getMinutes())+':'+dd(d.getSeconds());
 	}
 	else
 	{

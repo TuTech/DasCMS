@@ -60,13 +60,19 @@ class AWebsiteEditor
     public function save(array $param)
     {
         parent::requirePermission('org.bambuscms.content.cpage.change');
-        if($this->target != null
-            && isset($param['content']))
+        if($this->target != null) 
         {
-            $this->target->Content = $param['content'];
-            if(!empty($param['filename']))
+            if(!empty($param['title']))
             {
-                $this->target->Title = $param['filename'];
+                $this->target->Title = $param['title'];
+            }
+            if(isset($param['subtitle']))
+            {
+                $this->target->SubTitle = $param['subtitle'];
+            }
+            if(isset($param['content']))
+            {
+                $this->target->Content = $param['content'];
             }
         }
     }

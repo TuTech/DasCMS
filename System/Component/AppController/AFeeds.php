@@ -61,11 +61,15 @@ class AFeeds
     {
         parent::requirePermission('org.bambuscms.content.cfeed.change');
         if($this->target != null
-            && isset($param['filename']))
+            && isset($param['title']))
         {
-            if(!empty($param['filename']))
+            if(!empty($param['title']))
             {
-                $this->target->Title = $param['filename'];
+                $this->target->Title = $param['title'];
+            }
+            if(isset($param['subtitle']))
+            {
+                $this->target->SubTitle = $param['subtitle'];
             }
     		//////////////
     		//reading data
@@ -243,7 +247,8 @@ class AFeeds
             	'tags' => 'Tags', 
             	'modDate' => 'ModDate', 
             	'title' => 'Title', 
-            	'description' => 'Description', 
+            	'subtitle' => 'SubTitle', 
+        		'description' => 'Description', 
             	'author' => 'Author', 
             	'pubDate' => 'PubDate',
         		'icon' => 'Icon',

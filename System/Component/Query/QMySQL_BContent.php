@@ -12,7 +12,7 @@
 class QBContent extends BQuery 
 {
     
-    public static function saveMetaData($id, $title, $pubDate, $description, $size)
+    public static function saveMetaData($id, $title, $pubDate, $description, $size, $subtitle)
     {
         $DB = BQuery::Database();
         $DB->beginTransaction();
@@ -22,7 +22,8 @@ class QBContent extends BQuery
             		title = '%s',
             		pubDate = '%s',
             		description = '%s',
-					size = %d
+					size = %d,
+					subtitle = '%s'
             	WHERE
             		contentID = %d";
         $DB->queryExecute(sprintf(
@@ -31,6 +32,7 @@ class QBContent extends BQuery
                 $DB->escape($pubDate > 0 ? date('Y-m-d H:i:s', $pubDate) : '0000-00-00 00:00:00'), 
                 $DB->escape($description),
                 $size,
+                $DB->escape($subtitle),
                 $id)
             , DSQL::NUM);
         $sql = 
@@ -146,7 +148,8 @@ class QBContent extends BQuery
             		Contents.description,
 					Mimetypes.mimetype,
 					Contents.size,
-					GUIDs.alias
+					GUIDs.alias,
+					Contents.subtitle
             	FROM Contents
             	LEFT JOIN Aliases ON (Contents.contentID = Aliases.contentREL)
             	LEFT JOIN Aliases AS GUIDs ON (Contents.GUID = GUIDs.aliasID)
@@ -158,7 +161,7 @@ class QBContent extends BQuery
         {
             throw new XUndefinedIndexException();
         }
-        list($id, $ttl, $pd, $desc, $mt, $sz, $guid) = $res->fetch();
+        list($id, $ttl, $pd, $desc, $mt, $sz, $guid, $sttl) = $res->fetch();
         $sql = "
             SELECT tag 
             	FROM Tags 
@@ -171,7 +174,7 @@ class QBContent extends BQuery
         	$tags[] = $row[0];
         }
         return array(
-            $id, $ttl, $pd, $desc, $tags, $mt, $sz, $guid
+            $id, $ttl, $pd, $desc, $tags, $mt, $sz, $guid, $sttl
         );
     }
     

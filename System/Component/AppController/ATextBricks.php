@@ -64,9 +64,13 @@ class ATextBricks
             && isset($param['content']))
         {
             $this->target->RAWContent = $param['content'];
-            if(!empty($param['filename']))
+            if(!empty($param['title']))
             {
-                $this->target->Title = $param['filename'];
+                $this->target->Title = $param['title'];
+            }
+            if(isset($param['subtitle']))
+            {
+                $this->target->SubTitle = $param['subtitle'];
             }
         }
     }

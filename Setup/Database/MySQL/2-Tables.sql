@@ -168,6 +168,10 @@ Contents(
     title 
         VARCHAR(255) 
         NOT NULL,
+    subtitle
+    	VARCHAR(1000)
+    	NOT NULL
+    	DEFAULT '',
 	size
 		INT
 		NOT NULL

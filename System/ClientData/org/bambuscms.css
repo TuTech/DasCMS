@@ -1,3 +1,17 @@
+#content_title, #content_subtitle{
+	border: 1px solid #d3d7cf;
+	margin-bottom:2px;
+	padding:1px 0px 1px 0px;
+	display:block;	
+	color: #888a85;
+	width:100%;
+}
+#content_title{
+	font-size: 24px;
+}
+#content_subtitle{
+	font-size: 13px;
+}
 #BambusApplication 
 {
     padding:0px;

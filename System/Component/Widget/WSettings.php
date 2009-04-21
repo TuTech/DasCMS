@@ -106,7 +106,7 @@ class WSettings extends BWidget implements ISidebarWidget
 		    sprintf("<label for=\"WSearch-PubDate\">%s</label>", SLocalization::get('pubDate')),
 		    sprintf(//onfocus="this.select();"
 		    	'<input type="text" id="WSearch-PubDate" name="WSearch-PubDate" value="%s" />'
-		        , (is_numeric($pubDate) && !empty($pubDate))? date('r', $this->targetObject->PubDate) : ''
+		        , (is_numeric($pubDate) && !empty($pubDate))? date('Y-m-d H:i:s', $this->targetObject->PubDate) : ''
 	        )
 		);
 		$Items->add(   

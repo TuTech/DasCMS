@@ -19,4 +19,3 @@ function Delete()
 	org.bambuscms.app.dialog.create(_('delete_template'), _('do_you_really_want_to_delete_this_text'), input, _('yes'), _('no'));
 	org.bambuscms.app.dialog.setAction('delete');
 }
-

@@ -39,10 +39,7 @@ tinyMCE.init({
 $Page = SApplication::getControllerContent();
 if(isset($Page) && $Page instanceof CPage)
 {
-    printf('<input type="hidden" id="filename" size="30" name="filename" value="%s"/><h2>%s</h2>'
-    	, htmlentities($Page->Title, ENT_QUOTES, 'UTF-8')
-    	, htmlentities($Page->Title, ENT_QUOTES, 'UTF-8')
-    	);
+    echo new WContentTitle($Page);
     $editor = new WTextEditor($Page->Content);
     $editor->setWYSIWYG(false);
     $editor->setCodeAssist(false);

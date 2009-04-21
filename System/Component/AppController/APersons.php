@@ -94,6 +94,10 @@ class APersons
         {
         	return;
         }
+        if(isset($param['subtitle']))
+        {
+            $this->target->SubTitle = $param['subtitle'];
+        }
 		$_attribute = 'a_';
 		$_entry = 'e_';
 		$_count = 'n';

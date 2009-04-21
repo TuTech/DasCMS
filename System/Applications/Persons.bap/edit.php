@@ -10,9 +10,9 @@ $inactive = array('I', 'R');
 $User = SApplication::getControllerContent();
 if(isset($User) && $User instanceof CPerson)
 {
-    printf('<input type="hidden" id="alias" value="%s" /><h2>%s</h2><input type="hidden" id="CP_UID" value="%s" />'
+    echo new WContentTitle($User);
+    printf('<input type="hidden" id="alias" value="%s" /><input type="hidden" id="CP_UID" value="%s" />'
     	, htmlentities($User->Alias, ENT_QUOTES, 'UTF-8')
-    	, htmlentities($User->Title, ENT_QUOTES, 'UTF-8')
     	, $User->hasLogin() ? htmlentities($User->getLoginName(), ENT_QUOTES, 'UTF-8') : ''
     	);
     $inactive = !$User->hasLogin() 

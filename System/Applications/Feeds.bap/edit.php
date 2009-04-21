@@ -9,10 +9,7 @@
 $Feed = SApplication::getControllerContent();
 if(PAuthorisation::has('org.bambuscms.content.cfeed.change') && $Feed != null)
 {
-	printf('<input type="hidden" id="filename" size="30" name="filename" value="%s"/><h2>%s</h2>'
-		, htmlentities($Feed->Title, ENT_QUOTES, 'UTF-8')
-		, htmlentities($Feed->Title, ENT_QUOTES, 'UTF-8')
-	);
+	echo new WContentTitle($Feed);
 
     $tbl = new WTable(WTable::HEADING_TOP|WTable::HEADING_LEFT, 'settings');
     $tbl->setHeaderTranslation(true);
@@ -183,7 +180,8 @@ if(PAuthorisation::has('org.bambuscms.content.cfeed.change') && $Feed != null)
         'Tags' => 'tags',
         'ModDate' => 'modDate',
         'Title' => 'title',
-        'Description' => 'description',
+        'SubTitle' => 'subtitle',
+    	'Description' => 'description',
         'Author' => 'author',
         'PubDate' => 'pubDate',
         'Icon' => 'icon',
@@ -205,6 +203,7 @@ if(PAuthorisation::has('org.bambuscms.content.cfeed.change') && $Feed != null)
                     $pos !== null
                 );
                 break;
+            case 'SubTitle':
             case 'Description':
             case 'Content':
             case 'Author':

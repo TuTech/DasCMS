@@ -15,10 +15,7 @@ if($File != null && $File instanceof BContent)
     	org.bambuscms.app.hotkeys.unregister('CTRL-a');
     	org.bambuscms.app.hotkeys.unregister('CTRL-e');
     	");
-	printf('<input type="hidden" id="filename" size="30" name="filename" value="%s"/><h2>%s</h2>'
-    	, htmlentities($File->Title, ENT_QUOTES, 'UTF-8')
-    	, htmlentities($File->Title, ENT_QUOTES, 'UTF-8')
-	);
+    echo new WContentTitle($File);
 	if(WImage::supportedMimeType($File->getMimeType()))
 	{
 	    $img = $File->PreviewImage;
