@@ -17,6 +17,8 @@ abstract class _XML extends _
     const NONE_OR_ONE = '?';
     const NONE_OR_MORE = '*';
     
+    protected $xml_base = null;
+    
     /**
      * create a DOMDocument from a file
      *

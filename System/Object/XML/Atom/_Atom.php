@@ -67,6 +67,10 @@ abstract class _XML_Atom extends _XML
     public function toXML(DOMDocument $doc, $elementName)
     {
         $node = $doc->createElement($elementName);
+        if($this->xml_base != null)
+        {
+            $node->setAttribute('xml:base', $this->xml_base);
+        }
         //add attributes
         foreach ($this->getAttributeDefinition() as $att => $mode) 
         {

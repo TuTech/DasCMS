@@ -89,6 +89,7 @@ class XML_Atom_Feed extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
     public static function fromContent(CFeed $content)
     {
         $o = new XML_Atom_Feed();
+        $o->xml_base = SLink::base();
         $o->c__author = array(XML_Atom_Person::create($content->getCreatedBy()));
         $o->c__generator = array(XML_Atom_Generator::create(BAMBUS_VERSION_NAME, BAMBUS_VERSION_NUMBER, 'http://www.bambus-cms.org'));
         $o->c__id = array(XML_Atom_Text::create(SLink::base().$content->getGUID()));
@@ -114,7 +115,7 @@ class XML_Atom_Feed extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
             $o->c__rights = array(XML_Atom_Text::create($copyright));
         }
         $o->c__title = array(XML_Atom_Text::create($content->getTitle()));
-        $o->c__subtitle = array(XML_Atom_Text::create($content->getDescription(),'html'));
+        $o->c__subtitle = array(XML_Atom_Text::create($content->getSubTitle(),'html'));
         $o->c__updated = array(XML_Atom_Date::create($content->getModifyDate()));
         $o->c__entry = array();
         return $o;
