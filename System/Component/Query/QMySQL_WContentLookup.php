@@ -45,7 +45,7 @@ class QWContentLookup extends BQuery
 		    case 'pub':
 		        $sql .= ' AND Contents.pubDate > "0000-00-00 00:00:00" AND Contents.pubDate < NOW() ';break;
 		}
-        $sql .= sprintf("ORDER BY Contents.title ASC LIMIT %d OFFSET %d", $itemsPerPage+1, $itemsPerPage - $page * $itemsPerPage);
+        $sql .= sprintf("ORDER BY %s  LIMIT %d OFFSET %d", ($filter == '' ? 'Contents.pubDate DESC' : 'Contents.title ASC'), $itemsPerPage+1, $itemsPerPage - $page * $itemsPerPage);
 		return $DB->query($sql, DSQL::NUM);
     }
 }
