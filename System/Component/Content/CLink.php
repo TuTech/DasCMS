@@ -23,6 +23,7 @@ class CLink
         return self::GUID;
     }
     private $_contentLoaded = false;
+    private $originalContent = null;
     
 	/**
 	 * @return CLink
@@ -110,6 +111,7 @@ class CLink
 	    if(!$this->_contentLoaded)
 	    {
 	        $this->Content = DFileSystem::Load(SPath::CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php');
+	        $this->originalContent = $this->Content;
 	        $this->_contentLoaded = true;
 	    }
 	    return $this->Content;
@@ -145,8 +147,9 @@ class CLink
     }
     public function getInlineText()
     {
-        return '<a href="'.htmlentities($this->getContent(), ENT_QUOTES, 'UTF-8').'">'.
-                htmlentities($this->getContent(), ENT_QUOTES, 'UTF-8').'</a>';
+        //originalContent is in use because the content is altered on access
+        return '<a href="'.htmlentities($this->originalContent, ENT_QUOTES, 'UTF-8').'">'.
+                htmlentities($this->originalContent, ENT_QUOTES, 'UTF-8').'</a>';
     }
 	
 	//ISupportsSidebar
