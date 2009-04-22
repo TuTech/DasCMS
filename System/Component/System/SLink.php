@@ -35,7 +35,7 @@ class SLink
         global $_SERVER;
         $http = (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off') ? 'http' : 'https';
         $server = $_SERVER['SERVER_NAME'];
-        $script = $_SERVER['PHP_SELF'];
+        $script = $_SERVER['SCRIPT_NAME'];
         $port = ($_SERVER['SERVER_PORT'] != 80) ? ':'.$_SERVER['SERVER_PORT'] : '';
         $pathinfo = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
         return sprintf('%s://%s%s%s%s', $http, $server, $port, $script, $pathinfo);
