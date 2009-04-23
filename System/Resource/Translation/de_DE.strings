@@ -1,4 +1,37 @@
+define_restriction_tags	Sperr-Tags definieren
+tags_listed_here_restrict_access_to_contents	Die hier eingetragenen Tags verhindern den nicht-autorisierten Zugriff auf Webseiteninhalte
+links	Links
+edit_and_manage_links	Links erstellen und bearbeiten
+create_new_link	Neuen Link erstellen
+create_new_website	Neue Webseite erstellen
+name_of_new_website	Titel der Webseite
+image_lookup	Bildersuche (zur Verlinkung)
+do_you_really_want_to_delete_this_website	Sind Sie sicher, dass Sie diesen Inhalt löschen wollen?
+edit_and_manage_websites_in_html	HTML-Editor für Webseiteninhalte
+match_any_in_list	Mindestens eine Übereinstimmung
+assignItemsUsingMatchSome	Angegebene Tags filtern nach mind. einer Übereinstimmung
+match_all_in_list	Alle müssen übereinstimmen
+match_items_not_tagged_with_any_of_list	Keine Übereinstimmung
+assignItemsUsingMatchNone	Angegebene Tags werden ausgefiltert, dürfen nicht enthalten sein
+assignItemsUsingAll	Es findet keine Filterung statt. Alle Elemente werden verwendet
+assignItemsUsingMatchAll	Angegebene Tags filtern: Alle müssen übereinstimmen
+target_frame	Ziel Frame
+no_items_text	Leere Liste Texthinweis
+width	Breite in Pixeln
+height	Höhe in Pixeln
+background_color_hex	Hintergrundfarbe (hex)
+scale_method	Skalierungsmethode
+linking	Verlinkung
+previewImage	Vorschaubild
+link_preview_image	Vorschaubild verlinken
+preview_scaling_config	Konfiguration des Vorschaubildes
+scale_aspect_to_fit_in_boundaries	Ohne Beschnitt proportional passend auf max. mögliche Größe
+scale_aspect_and_crop	Mit Beschnitt proportional passend auf angegebene Größe
+scale_aspect_and_fill_background	Mit Hintergrundfarbe ohne Beschnitt proportional passend auf angegebene Größe
+scale_by_stretch	Ohne Beschnitt nicht-proportional auf angegebene Größe strecken
+item_has_not_been_retained	Das Löschen dieses Elements wird von anderen Inhalten nicht blockiert. Prüfen Sie ggf. vor dem Löschen ob das Element in Feeds benötigt wird oder anderweitig verlinkt ist.
 element_is_used_by_the_system_and_cannot_be_deleted	Dieser Inhalt wird von System verwendet und kann daher nicht gelöscht werden.
+search_by_title	Nach Titel filtern
 context	Kontext
 original_file_name	Name der Datei
 file_size	Dateigröße
@@ -47,15 +80,21 @@ retain_info	Information: Bild ist eingebunden von...
 retain_count	Wie oft eingebunden?
 preview_image	Bildvorschau
 edit_protection_tags	Tags für den Zugriffschutz verwalten
-define_content_routes	Verwaltung von Darstellungskombinationen (Mashups)
+define_content_routes	Dynamische Bereiche für das Layout definieren
+create_new_view	Neue View erstellen
+access_var	Zugriffsvariable
+active	aktiv
+default_content	Standardseite
+error_content	Fehlerseite
+current_views	Erstellte Views
 text_bricks	DCMScode
 edit_text_bricks	Content im Stil vom Dobrick-CMS bearbeiten
 design	Design
 edit_feeds	Verwaltung und Erstellung von Nachrichtentickern, Podcast, Videopodcasts
 content_lookup	Alle Inhalte (zur Verlinkung)
 search_contens	Nach Inhalten suchen
-content_information	Eigenschaften dieser Webseite anzeigen
-content_properties	Erweiterte Eigenschaften dieser Webseite bearbeiten
+content_information	Informationen für diesen Inhalt anzeigen
+content_properties	Eigenschaften für diesen Inhalt anzeigen und bearbeiten
 wysiwyg_panel	Werkzeugpalette Textbearbeitung
 profile	Benutzerprofil
 login_name	Benutzername
@@ -90,8 +129,8 @@ small_icons	Kleine Icons (22x22px)
 medium_icons	Mittlere Icons (32x32px)
 large_icons	Große Icons (48x48px)
 edit_navigations	Navigationen bearbeiten
-edit_and_manage_websites	Webseiten bearbeiten und verwalten
-edit_and_manage_designs	Design bearbeiten und verwalten
+edit_and_manage_websites	Text- und Layoutbearbeitung für Webseiteninhalte
+edit_and_manage_designs	Layout-Design mit CSS bearbeiten
 edit_and_manage_news_feeds_and_searches	Feeds und Suchseiten bearbeiten und verwalten
 view_stats	Statusanzeige
 cancel	Abbrechen
@@ -524,9 +563,9 @@ new	Neu
 delete_language	Sprache löschen
 select_language	Sprache wählen
 file	Datei
-cms_uri	URL der Webseite
+cms_uri	URL dieser Bambus CMS Installtion
 server	Server
-bambus_cache	Bambus Cache
+bambus_cache	Bambus CMS Cache
 cache_size	Cache Größe
 clear_cache	Cache leeren
 problematic_files	Problematische Dateien
@@ -718,9 +757,31 @@ type	Typ
 upload_images	Bilder hochladen
 upload_files	Dateien hochladen
 settings	Einstellungen
-pagetitle	Seitentitel (u.a. in der Management Titelleiste)
-pagelogo	Seitenlogo (u.a. in der Management Titelleiste)
-webmaster_email	Webmaster eMail
+pagetitle	Seitentitel 
+pagelogo	Seitenlogo 
+webmaster_email	Webmaster E-Mail
+template_for_page_rendering	Template zur Webseitendarstellung
+login_template	Template für Login
+preview_image_quality	Bildqualität der Vorschaubilder
+wellformed_urls	Wohlgeformte URLs
+google_verify_header	Google Token (v1)
+log_page_changes	Seitenänderungen protokollieren
+timezone	Zeitzone
+locale	Sprachlokalisierung
+use_wysiwyg	WYSIWYG aktivieren
+mail_webmaster_on_error	Fehler per E-Mail an Webmaster melden
+authentication_method	Authentifizierungsmethode
+authorization_method	Berechtigungsmethode
+old_user_and_group_system	Altes Benutzer- und Gruppensystem
+disable_permissions	Berechtigungen deaktivieren
+person_basic_authentication	Einfache Personen-Authentifizierung
+port	Port
+group_memberships	Mitgliedschaften
+set_target_view	View einstellen
+edit_navigation_layout	Navigation bearbeiten
+add_sibling	Navigationspunkt hinzufügen
+add_child	Unterpunkt hinzufügen
+remove_content	Inhalt löschen
 copyright	Copyright
 main_page	Haupt-/Startseite
 meta_data	Meta Daten
@@ -792,7 +853,7 @@ database_administration	Datenbankverwaltung
 image_administration	Bilderverwaltung
 upload_file	Datei hochladen
 delete_content	Inhalt löschen
-edit_templates	Templates bearbeiten
+edit_templates	Layout-Templates bearbeiten
 edit_template	Template bearbeiten
 passwords_dont_match	Passwörter stimmen nicht überein
 user_already_exists	Benutzer existiert bereits
