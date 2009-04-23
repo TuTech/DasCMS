@@ -63,6 +63,7 @@ if(!empty($_SERVER['PATH_INFO']))
         {
             //image cached
             header('Last-modified: '.date('r',filemtime(SPath::TEMP.'scale.render.'.$qual.'.'.$key)));
+            header('Content-type: application/octet-stream');
             readfile(SPath::TEMP.'scale.render.'.$qual.'.'.$key);
             exit;
         }
