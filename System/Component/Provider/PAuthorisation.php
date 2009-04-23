@@ -11,17 +11,33 @@
  */
 class PAuthorisation extends BProvider 
 {
+    const ROLE_ADMINISTRATOR = 'administrator';
+    const ROLE_DAEMON = self::ROLE_ADMINISTRATOR;
+    const ROLE_EDITOR = 'editor';
+    const ROLE_USER = 'user';
+    const ROLE_REGISTERED_VISITOR = 'registered_visitor';
+    const ROLE_VISITOR = 'visitor';
+    
     const CLASS_NAME = 'PAuthorisation';
     const DENY = false;
     const PERMIT = true;
     
     protected $Interface = 'IAuthorise';
     private static $instance = null;
+
+    private static $roleStatus = array(
+        self::ROLE_VISITOR => 1,
+        self::ROLE_REGISTERED_VISITOR => 2,
+        self::ROLE_USER => 3,
+        self::ROLE_EDITOR => 4,
+        self::ROLE_ADMINISTRATOR => 5
+    );
     
     private static $permissions;
     private static $objectPermissions;
     private static $primaryGroup;
     private static $groups;
+    private static $role;
     
     private static $active = false;
     private static $cache = array();
@@ -53,6 +69,7 @@ class PAuthorisation extends BProvider
                 self::$groups = array();//load perms of self and anonymous
                 self::$primaryGroup = '';//load perms of self and anonymous
                 self::$active = true;
+                self::$role = self::ROLE_DAEMON;
             }
             else
             {    
@@ -74,6 +91,7 @@ class PAuthorisation extends BProvider
                 self::$objectPermissions = $relay->getObjectPermissions();//load perms of self and anonymous
                 self::$groups = $relay->getGroups();//load perms of self and anonymous
                 self::$primaryGroup = $relay->getPrimaryGroup();//load perms of self and anonymous
+                self::$role = $relay->getRole();
             }
         }
     }
@@ -179,6 +197,27 @@ class PAuthorisation extends BProvider
     {
         self::load();
         return self::$groups;
+    }
+        
+    public static function getRole()
+    {
+        self::load();
+        return self::$role;
+    }
+    
+    /**
+     * retruns int smaller than 0 if $role is higer than the role of the loggin in user,
+     * 0 if they are on eqal level and greater than 0 if the logged in user has a higher role
+     * @param string $role
+     * @return int
+     */
+    public static function comparedToRole($role)
+    {
+        if(!isset(self::$roleStatus[$role]))
+        {
+            throw new XArgumentException('invalid role');
+        }
+        return self::$roleStatus[self::getRole()] - self::$roleStatus[$role];
     }
     
     public static function isInGroup($group)

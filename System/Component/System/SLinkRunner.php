@@ -54,7 +54,7 @@ class SLinkRunner
 	    if($e->Content instanceof CLink )
 	    {
 	        //whoever opened it alter the links content
-	        $e->Content->Content = $e->Content->Description;
+	        $e->Content->setContent($e->Content->Description);
 	    }
 	}
 }

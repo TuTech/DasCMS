@@ -12,6 +12,26 @@
 class QSTagPermissions extends BQuery 
 {
     /**
+     * 
+     * @param array $tags
+     * @return DSQLResult
+     */
+    public static function hasProtectedTags(array $tags)
+    {
+        $DB = BQuery::Database();
+        $sql = "SELECT COUNT(Tags.tagID) 
+        			FROM PermissionTags 
+        			LEFT JOIN Tags ON (PermissionTags.permissionTagREL = Tags.tagID)
+        			WHERE Tags.tag = \"%s\"";
+        $etags = array();
+        foreach ($tags as $tag)
+        {
+            $etags[] = $DB->escape($tag);
+        }
+        $sql = sprintf($sql, implode('" OR Tags.tag = "', $etags));
+        return $DB->query($sql, DSQL::NUM);
+    }
+    /**
      * @param int $contentId
      * @param string $user
      * @return boolean

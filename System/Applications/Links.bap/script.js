@@ -26,7 +26,7 @@ org.bambuscms.app.document.create = function()
 		box.appendChild($c('br'));
 	}
 	
-	org.bambuscms.app.dialog.create(_('create_new_link'), _('link_of_title'), box, _('ok'), _('cancel'));
+	org.bambuscms.app.dialog.create(_('create_new_link'), '', box, _('ok'), _('cancel'));
 	org.bambuscms.app.dialog.setAction('create');
 	input.focus();
 }

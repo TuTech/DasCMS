@@ -47,6 +47,20 @@ class STagPermissions
     }
 	//end IShareable
     
+    private function isProtected(BContent $content)
+    {
+        $protected = false;
+        $tags = $content->getTags();
+        $res = QSTagPermissions::hasProtectedTags($tags);
+        list($count) = $res->fetch();
+        $res->free();
+        if($count > 0)
+        {
+            $protected = !$this->checkPermissions($id);
+        }
+        return $protected;
+    }
+    
 	private function checkPermissions($id)
 	{
 	    if(!isset(self::$_permCache[$id]))
@@ -64,8 +78,7 @@ class STagPermissions
 	 */
 	public function HandleWillAccessContentEvent(EWillAccessContentEvent $e)
 	{
-	    $id = $e->Content->Id;
-	    if(!$this->checkPermissions($id))
+	    if($this->isProtected($e->Content))
 	    {
 	        $e->substitute(CError::Open(401));
 	    }
@@ -79,8 +92,7 @@ class STagPermissions
 	 */
 	public function HandleContentAccessEvent(EContentAccessEvent $e)
 	{
-	    $id = $e->Content->Id;
-	    if(!$this->checkPermissions($id))
+	    if($this->isProtected($e->Content))
 	    {
 	        $e->Cancel();
 	        throw new XPermissionDeniedException('access to content not allowed');

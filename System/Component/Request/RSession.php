@@ -33,6 +33,7 @@ class RSession extends BRequest
 
     public static function destroy()
     {
+        self::start();
         session_destroy();
         self::$session = array();
     }

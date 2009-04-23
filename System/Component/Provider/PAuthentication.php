@@ -27,6 +27,7 @@ class PAuthentication extends BProvider
     private static $daemonRun = false;
     
     private static $active = false;
+    private static $implied = false;
     
     private function __construct()
     {
@@ -47,6 +48,18 @@ class PAuthentication extends BProvider
 
     private static function checkActive()
     {
+        if(self::$implied)
+        {
+            if(headers_sent())
+            {
+                self::$userStatus = self::NO_LOGIN;
+                self::$active = true;
+            }
+            else
+            {
+                self::required();
+            }
+        }
         if(!self::$active)
         {
             throw new Exception(self::CLASS_NAME.'::required() must be called before this function');
@@ -71,7 +84,13 @@ class PAuthentication extends BProvider
         return self::$daemonRun;
     }
     
-    
+    public static function implied()
+    {
+        if(!self::$active)
+        {
+            self::$implied = true;
+        }
+    }
     
     /**
      * function to mark a "authentication required" section
@@ -81,6 +100,7 @@ class PAuthentication extends BProvider
     {
         if(!self::$active)
         {
+            RSession::start();
             //get the class assigned to do the authentication
             try
             {

@@ -230,14 +230,19 @@ abstract class BContent extends BObject
 	 * opens content and sends access events 
 	 * @param string $alias
 	 * @param BObject $from
+	 * @param boolean $exact 
 	 * @return BContent
 	 */
-	public static function Access($alias, BObject $from)
+	public static function Access($alias, BObject $from, $exact = false)
 	{
 	    $o = self::Open($alias);
 	    $e = new EWillAccessContentEvent($from, $o);
 	    if($e->hasContentBeenSubstituted())
 	    {
+	        if($exact)
+	        {
+	            throw new XPermissionDeniedException('content substituted');
+	        }
 	        $o = $e->Content;
 	    }
 	    $e = new EContentAccessEvent($from, $o);

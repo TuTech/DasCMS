@@ -3,8 +3,7 @@
  * @todo cleanup code
  */
 require_once('./System/Component/Loader.php');
-RSession::start();
-PAuthentication::required();
+PAuthentication::implied();
 $cache_1Day = 86400;
 header("Expires: ".date('r', time()+$cache_1Day));
 header("Cache-Control: max-age=".$cache_1Day.", public");
@@ -36,17 +35,24 @@ if(!empty($_SERVER['PATH_INFO']))
             ,$key, $match)
         )
     {
-        //get the id of the preview image 
-        if(PAuthorisation::has('org.bambuscms.login'))
+        try
         {
-            //valid user - allowed to view unpublished images
-            $content = BContent::Open($alias);
+            $content = BContent::Access($alias, new WImage(), true);
         }
-        else
+        catch (XPermissionDeniedException $e)
         {
-            //only allowed to view public images
-            $content = BContent::Access($alias, new WImage());
-        } 
+            if(PAuthorisation::has('org.bambuscms.login'))
+            {
+                //valid user - allowed to view unpublished images
+                $content = BContent::Open($alias);
+            }
+            else
+            {
+                $content = CError::Open(401);
+            }
+        }
+        //get the id of the preview image 
+        
         $id = WImage::getPreviewIdForContent($content);
         if(empty($id))
         {

@@ -11,11 +11,14 @@
  */
 class XDatabaseException extends BDataException 
 {
-    public function __construct($message, $code = 0) 
+    protected $sql;
+    
+    public function __construct($message, $code = 0, $sql = null) 
     {
+        $this->sql = $sql;
         parent::__construct($message, $code);
     }
-
+    
     public function __toString() 
     {
         return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
@@ -24,6 +27,11 @@ class XDatabaseException extends BDataException
     public function rollback()
     {
         return DSQL::alloc()->init()->rollback();
+    }
+    
+    public function getSQL()
+    {
+        return $this->sql;
     }
 }
 ?>

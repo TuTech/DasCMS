@@ -220,7 +220,7 @@ class DSQL_MySQL extends DSQL
     	$res = self::$DB->query($string);
     	if(self::$DB->errno != 0)
     	{
-    		throw new XDatabaseException(self::$DB->error, self::$DB->errno);
+    		throw new XDatabaseException(self::$DB->error, self::$DB->errno, $string);
     	}
     	$succ = self::$DB->affected_rows;
     	if(is_object($res))
@@ -248,7 +248,7 @@ class DSQL_MySQL extends DSQL
     	}
     	if(self::$DB->errno != 0)
     	{
-    		throw new XDatabaseException(self::$DB->error, self::$DB->errno);
+    		throw new XDatabaseException(self::$DB->error, self::$DB->errno, $string);
     	}
     	SProfiler::finish($ptok);
     	if(!$res instanceof mysqli_result)
