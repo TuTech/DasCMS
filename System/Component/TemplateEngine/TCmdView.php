@@ -75,10 +75,10 @@ class TCmdView
     {
         $this->for = $this->data[0];
         $this->show = $this->data[1];
-        if($this->data[2])$this->width = $this->data[2];
-        if($this->data[3])$this->height = $this->data[3];
-        if($this->data[4])$this->scale = $this->data[4];
-        if($this->data[5])$this->color = $this->data[5];
+        if(isset($this->data[2]))$this->width = $this->data[2];
+        if(isset($this->data[3]))$this->height = $this->data[3];
+        if(isset($this->data[4]))$this->scale = $this->data[4];
+        if(isset($this->data[5]))$this->color = $this->data[5];
         $this->data = array();
     }
 }
