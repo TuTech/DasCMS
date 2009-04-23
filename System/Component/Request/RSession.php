@@ -15,7 +15,7 @@ class RSession extends BRequest
     
     public static function start()
     {
-        if(self::$session == null)
+        if(self::$session === null)
         {
             session_start();
             global $_SESSION;
