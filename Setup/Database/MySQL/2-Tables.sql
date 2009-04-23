@@ -343,6 +343,29 @@ ENGINE = InnoDB
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
 
+-- Locations
+CREATE TABLE IF NOT EXISTS 
+Locations(
+	locationID
+        INTEGER 
+		PRIMARY KEY
+		AUTO_INCREMENT
+		NOT NULL,
+	location
+		VARCHAR(128)
+		NOT NULL
+		UNIQUE,
+	latitude
+		DOUBLE
+		NOT NULL,
+	longitude
+		DOUBLE
+		NOT NULL,
+	INDEX(latitude, longitude)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
 
 -- IMAP Accounts
 CREATE TABLE IF NOT EXISTS 

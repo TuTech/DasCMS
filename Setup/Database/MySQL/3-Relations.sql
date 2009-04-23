@@ -15,6 +15,21 @@ CHARACTER SET utf8
 COLLATE utf8_unicode_ci;
 
 
+CREATE TABLE IF NOT EXISTS 
+relContentsLocations(
+	contentREL
+		INTEGER
+		UNIQUE
+		NOT NULL,
+	locationREL
+		INTEGER
+		NOT NULL,
+	INDEX (locationREL)
+) 
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
 
 CREATE TABLE IF NOT EXISTS 
 relContentsTags(

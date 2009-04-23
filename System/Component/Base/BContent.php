@@ -35,7 +35,8 @@ abstract class BContent extends BObject
 		$Tags = null,	
 		$Description,//meta description - plain text
 		$Size,
-		$MimeType
+		$MimeType,
+		$Location
 		;
 	/**
 	 * @var VSpore
@@ -360,6 +361,28 @@ abstract class BContent extends BObject
 	public function setPreviewImage($previewAlias)
 	{
 	    WImage::setPreview($this->getAlias(), $previewAlias);
+	}
+	
+	/**
+	 * Icon for this object
+	 * @return WContentGeoAttribute
+	 */
+	public function getLocation()
+	{
+	    if($this->Location == null)
+	    {
+	        $this->Location = WContentGeoAttribute::forContent($this);
+	    }
+	    return $this->Location;
+	}
+	
+	public function setLocation($locationName)
+	{
+	    $new = WContentGeoAttribute::assignContentLocation($this, $locationName);
+	    if($new != null)
+	    {
+	        $this->Location = $new;
+	    }
 	}
 	
 	/**

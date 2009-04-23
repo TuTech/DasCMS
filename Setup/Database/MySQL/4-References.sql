@@ -101,6 +101,18 @@ JobSchedules
         ON DELETE CASCADE
         ON UPDATE NO ACTION;
         
+-- content locations
+ALTER TABLE 
+relContentsLocations
+    ADD FOREIGN KEY (contentREL)
+        REFERENCES Contents(contentID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION,
+    ADD FOREIGN KEY (locationREL)
+        REFERENCES Locations(locationID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION;
+  
         
 -- foreign keys for IMAP Account flags
 ALTER TABLE 
