@@ -673,6 +673,78 @@ ENGINE = InnoDB
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS 
+SearchIndexOutdated(
+    contentREL 
+        INTEGER 
+        NOT NULL,
+    since
+    	TIMESTAMP
+    	DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (contentREL)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS 
+SearchIndex(
+    contentREL 
+        INTEGER 
+        NOT NULL,
+    searchAttributeWeightREL 
+        INTEGER 
+        NOT NULL,
+    searchFeatureREL 
+        INTEGER 
+        NOT NULL,
+    featureCount 
+        INTEGER
+        NOT NULL,
+    UNIQUE (contentREL, searchAttributeWeightREL, searchFeatureREL)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+
+CREATE TABLE IF NOT EXISTS 
+SearchFeatures(
+    searchFeatureID 
+        INTEGER 
+        PRIMARY KEY 
+        AUTO_INCREMENT 
+        NOT NULL,
+    searchFeature 
+        VARCHAR(48) 
+        UNIQUE 
+        NOT NULL
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS 
+SearchAttributeWeights(
+    searchAttributeWeightID 
+        INTEGER 
+        PRIMARY KEY 
+        AUTO_INCREMENT 
+        NOT NULL,
+    attribute 
+        VARCHAR(64) 
+        UNIQUE 
+        NOT NULL,
+    weight
+    	FLOAT
+    	NOT NULL
+    	DEFAULT 0.0
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+
 -- tags
 CREATE TABLE IF NOT EXISTS 
 Tags(

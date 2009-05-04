@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage Content
  */
-class CError extends BContent implements IGlobalUniqueId 
+class CError extends BContent implements IGlobalUniqueId, ISearchDirectives
 {
     const GUID = 'org.bambuscms.content.cerror';
     const CLASS_NAME = 'CError';
@@ -116,6 +116,15 @@ class CError extends BContent implements IGlobalUniqueId
 	public function isModified()
 	{
 	    return false;
+	}
+	//ISearchDirectives
+	public function allowSearchIndex()
+	{
+	    return false;
+	}
+	public function excludeAttributesFromSearchIndex()
+	{
+	    return array();
 	}
 }
 ?>

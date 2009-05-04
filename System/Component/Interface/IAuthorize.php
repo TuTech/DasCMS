@@ -27,5 +27,6 @@ interface IAuthorize
     public function getObjectPermissions();
     public function getGroups();
     public function getPrimaryGroup();
+    public function getRole();
 }
 ?>

@@ -14,7 +14,8 @@ class CLink
     implements 
         ISupportsSidebar, 
         IGlobalUniqueId,
-        Interface_XML_Atom_ProvidesInlineText 
+        ISearchDirectives,
+        Interface_XML_Atom_ProvidesInlineText
 {
     const GUID = 'org.bambuscms.content.clink';
     const CLASS_NAME = 'CLink';
@@ -156,6 +157,15 @@ class CLink
 	public function wantsWidgetsOfCategory($category)
 	{
 		return in_array(strtolower($category), array('settings', 'information', 'search'));
+	}
+	//ISearchDirectives
+	public function allowSearchIndex()
+	{
+	    return false;
+	}
+	public function excludeAttributesFromSearchIndex()
+	{
+	    return array();
 	}
 }
 ?>

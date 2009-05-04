@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage Widget
  */
-class WContentLocation extends BWidget implements ISidebarWidget 
+class WContentLocation extends BWidget //implements ISidebarWidget 
 {
 	private $targetObject = null;
 	/**
@@ -56,34 +56,6 @@ class WContentLocation extends BWidget implements ISidebarWidget
 	public function render()
 	{
 	    echo '<div id="WContentLocation">';
-	    $retains = WImage::getRetainersFor($this->targetObject->Alias);
-	    if(count($retains))
-	    {
-    	    printf('<dl><dt><label>%s</label></dt><dd><dl>', SLocalization::get('retained_by'));
-    	    $i = 1;
-    	    $currentClass = '';
-    	    foreach($retains as $alias => $data)
-    	    {
-    	        list($class, $title) = $data;
-    	        if($currentClass != $class)
-    	        {
-    	            printf('<dt>%s</dt>', SLocalization::get($class));
-    	            $currentClass = $class;
-    	            $i = 1;
-    	        }
-    	        printf(
-    	        	"<dd class=\"small-padding%s\" title=\"%s\">%s</dd>"
-    	        	,($i++%2 ? '':  ' alt')
-    	            ,htmlentities($alias, ENT_QUOTES, 'utf-8')
-    	        	,htmlentities($title, ENT_QUOTES, 'utf-8')
-    	        	);
-    	    }
-    	    echo '</dl></dd></dl>';
-	    }
-	    else
-	    {
-	        printf('<h3>%s</h3>', SLocalization::get('item_has_not_been_retained'));
-	    }
 	    echo '</div>';
 	}
 }

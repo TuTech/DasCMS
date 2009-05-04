@@ -11,7 +11,12 @@
  */
 class CFeed 
     extends BContent 
-    implements ISupportsSidebar, IGlobalUniqueId, IGeneratesFeed, IFileContent
+    implements 
+        ISupportsSidebar, 
+        IGlobalUniqueId, 
+        IGeneratesFeed, 
+        ISearchDirectives,
+        IFileContent
 {
     const GUID = 'org.bambuscms.content.cfeed';
     
@@ -763,6 +768,15 @@ class CFeed
 	public function wantsWidgetsOfCategory($category)
 	{
 		return in_array(strtolower($category), array('settings', 'information', 'search'));
+	}
+	//ISearchDirectives
+	public function allowSearchIndex()
+	{
+	    return true;
+	}
+	public function excludeAttributesFromSearchIndex()
+	{
+	    return array('Content');
 	}
 }
 ?>

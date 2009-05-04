@@ -15,6 +15,7 @@ class CTemplate
         ISupportsSidebar, 
         IGlobalUniqueId,
         IPageGenerator, 
+        ISearchDirectives,
         Interface_XML_Atom_ProvidesInlineText 
 {
     const GUID = 'org.bambuscms.content.ctemplate';
@@ -192,6 +193,15 @@ class CTemplate
 	public function wantsWidgetsOfCategory($category)
 	{
 		return in_array(strtolower($category), array('text', 'media', 'settings', 'information', 'search'));
+	}
+	//ISearchDirectives
+	public function allowSearchIndex()
+	{
+	    return true;
+	}
+	public function excludeAttributesFromSearchIndex()
+	{
+	    return array('Content');
 	}
 }
 ?>

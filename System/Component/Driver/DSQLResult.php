@@ -64,6 +64,7 @@ abstract class DSQLResult
 		
 	/**
 	 * frees result after use
+	 * @return void
 	 */
 	public function free(){}
 }

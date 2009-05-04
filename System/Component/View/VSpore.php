@@ -317,16 +317,16 @@ class VSpore extends BView
 	 *
 	 * @param string $optionName
 	 */
-	public function GetParameter($optionName)
+	public function GetParameter($optionName, $encoding = null)
 	{
 		$val = '';
 		if(RURL::has($this->name.'-'.$optionName))
 		{
-			$val = RURL::get($this->name.'-'.$optionName);
+			$val = RURL::get($this->name.'-'.$optionName, $encoding);
 		}
 		elseif(RURL::has('_'.$this->name.'-'.$optionName))
 		{
-			$val = RURL::get('_'.$this->name.'-'.$optionName);
+			$val = RURL::get('_'.$this->name.'-'.$optionName, $encoding);
 		}
 		return  $val;
 	}
@@ -337,6 +337,19 @@ class VSpore extends BView
 		return $this;
 	}
 	
+	public function buildParameterName($param)
+	{
+	    if(substr($param,0,1) == '_')
+		{
+			$param = '_'.$this->name.'-'.substr($param,1);
+		}
+		else
+		{
+			$param = $this->name.'-'.$param;
+		}
+		return $param;
+	}
+	
 	public function __toString()
 	{
 		$dat = array(
@@ -344,14 +357,7 @@ class VSpore extends BView
 		);
 		foreach ($this->newParameters as $name => $value) 
 		{
-			if(substr($name,0,1) == '_')
-			{
-				$dat['_'.$this->name.'-'.substr($name,1)] = $value;
-			}
-			else
-			{
-				$dat[$this->name.'-'.$name] = $value;
-			}
+			$dat[$this->buildParameterName($name)] = $value;
 		}
 		return SLink::link($dat);
 	}

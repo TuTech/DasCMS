@@ -38,5 +38,9 @@ class SAuthorizeAll
         return CPerson::isUser(PAuthentication::getUserID()) ? array('*' => PAuthorisation::PERMIT): array();
     }
     
+    public function getRole()
+    {
+        return PAuthorisation::ROLE_ADMINISTRATOR;
+    }
 }
 ?>

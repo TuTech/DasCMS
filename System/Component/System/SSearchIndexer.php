@@ -14,7 +14,9 @@ class SSearchIndexer
         BSystem
     implements 
         HContentChangedEventHandler,
-        HContentDeletedEventHandler
+        HContentDeletedEventHandler,
+        HContentRevokedEventHandler,
+        HContentPublishedEventHandler
 {
 	//IShareable
 	const CLASS_NAME = 'SSearchIndexer';
@@ -48,7 +50,7 @@ class SSearchIndexer
     {
         $text = strtolower(strip_tags($text));
         $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
-        $text = preg_replace('/\s+/mui', ' ', $text);
+        $text = preg_replace('/[\s\_\-\/]+/mui', ' ', $text);
         $text = str_replace(';', ' ', $text);
         $text = htmlentities($text, ENT_NOQUOTES, 'UTF-8');
         $text = str_replace('&', '', $text);
@@ -75,6 +77,14 @@ class SSearchIndexer
     
 	public function HandleContentChangedEvent(EContentChangedEvent $e)
 	{
+	    if($e->Content->getPubDate() > 0)
+	    {
+	        $this->schduleIndexing($e->Content->getId());
+	    }
+	}
+	
+	public function HandleContentPublishedEvent(EContentPublishedEvent  $e)
+	{
         $this->schduleIndexing($e->Content->getId());
 	}
 	
@@ -83,13 +93,22 @@ class SSearchIndexer
         $this->removeFromIndex($e->Content->getId());
 	}
 	
+	public function HandleContentRevokedEvent(EContentRevokedEvent $e)
+	{
+	    $this->removeFromIndex($e->Content->getId());
+	}
+	
+	
 	private function schduleIndexing($contentID)
 	{
+	    SNotificationCenter::report('message', 'schedule_indexing');
 	    QSSearchIndexer::scheduleUpdate($contentID);
 	}
 	
 	private function removeFromIndex($contentID)
 	{
+	    SNotificationCenter::report('message', 'removing_form_index');
+	    QSSearchIndexer::removePendingUpdate($contentID);
 	    QSSearchIndexer::removeIndex($contentID);
 	}
 	
@@ -114,11 +133,30 @@ class SSearchIndexer
 	public static function updateFeatures(BContent $content)
 	{
 	    $DB = DSQL::alloc()->init();
-	    $DB->beginTransaction();
+	    //$DB->beginTransaction();
+	    echo '.';
 	    try
 	    {
 	        QSSearchIndexer::removePendingUpdate($content->getId());
     	    QSSearchIndexer::removeIndex($content->getId());
+    	    $exclude = array();
+    	    if($content instanceof ISearchDirectives)
+    	    {
+    	        if(!$content->allowSearchIndex())
+    	        {
+        	        //$DB->commit();
+        	        return;
+    	        }
+    	        else
+    	        {
+    	            $exclude = $content->excludeAttributesFromSearchIndex();
+    	            if(!is_array($exclude))
+    	            {
+    	                $exclude = array();
+    	            }
+    	        }
+    	    }
+    	    echo '.';
     	    $res = QSSearchIndexer::getAttributes();
     	    $atts = array();
     	    while ($row = $res->fetch())
@@ -126,20 +164,24 @@ class SSearchIndexer
     	        $atts[$row[0]] = $row[1];
     	    }
     	    $res->free();
+    	    echo '.';
+    	    
     	    foreach ($atts as $id => $att)
     	    {
-                if(isset($content->{$att}))
+                if(isset($content->{$att}) && !in_array($att, $exclude))
                 {
                     $features = self::extractFeatures(strval($content->{$att}));
                     QSSearchIndexer::dumpFeatures(array_keys($features));
                     QSSearchIndexer::linkContentAttributeFeatures($content->getId(), $id, $features);
                 }
     	    }
-    	    $DB->commit();
+    	    echo '.';
+    	    //$DB->commit();
+    	    echo '<h1>finished</h1>';
 	    }
 	    catch (XDatabaseException $e)
 	    {
-	        $e->rollback();
+	        //$e->rollback();
 	        echo '<b>', $e->getSQL(),'</b>';
 	        throw $e;
 	    }

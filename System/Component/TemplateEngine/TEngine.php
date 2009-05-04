@@ -42,7 +42,7 @@ class TEngine extends BTemplate
     /**
      * execute template
      *
-     * @return unknown
+     * @return string
      */
     public function execute(array $environment = array())
     {

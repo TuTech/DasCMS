@@ -132,7 +132,7 @@ abstract class BContent extends BObject
 	    return $succ;
 	}
 	
-	protected static function contentExists($alias, $asType = null)
+	public static function contentExists($alias, $asType = null)
 	{
 	    $res = QBContent::exists($alias, $asType);
 	    $c = $res->getRowCount();
@@ -421,13 +421,14 @@ abstract class BContent extends BObject
 	}
 	
 	/**
+	 * allowed html: <b><i><u><s><sub><sup><small>
 	 * @param string $value
 	 */
 	public function setSubTitle($value)
 	{
 	    //replace unwanted tags 
 	    //$value = preg_replace('/<\s*\/?\s*(!?:(b|i|u|s|sub|sup))\s*>/mui', '', $value);
-	    $value = strip_tags($value, '<b><i><u><s><sub><sup>');
+	    $value = strip_tags($value, '<b><i><u><s><sub><sup><small>');
 		$this->SubTitle = $value;
 	}
 	
@@ -444,8 +445,6 @@ abstract class BContent extends BObject
 	}
 	
 	/**
-	 * Enter description here...
-	 *
 	 * @param array|string $value
 	 */
 	public function setTags($value)

@@ -49,32 +49,33 @@ class QSSearchIndexer extends BQuery
     public static function dumpFeatures(array $features)
     {
         
-        $sql = "INSERT IGNORE INTO SearchFeatures (searchFeature) VALUES ";
+        $sql = "INSERT INTO SearchFeatures (searchFeature) VALUES ";
         $DB = BQuery::Database();
         $values = array();
         foreach ($features as $f)
         {
-           $values[$f] = '("'.$DB->escape($f).'")';
+           $values[$f] = '("'.$DB->escape($f).'") ON DUPLICATE KEY UPDATE searchFeature = "'.$DB->escape($f).'"';
+           $DB->queryExecute($sql.$values[$f]);
+           echo $sql.$values[$f].'<br />';
         }
         if(count($values))
         {
-            $sql .= implode(',', $values);
-            $DB->queryExecute($sql);
+            //$sql .= implode(',', $values);
+            //echo $sql;
+            //$DB->queryExecute($sql);
         }
     }  
       
     public static function removeIndex($contentID)
     {
-        $DB = BQuery::Database();
         $sql = sprintf("DELETE FROM SearchIndex WHERE contentREL = %d", $contentID);
-        $DB->queryExecute($sql);
+        return BQuery::Database()->queryExecute($sql);
     }      
     
     public static function removePendingUpdate($contentID)
     {
-        $DB = BQuery::Database();
         $sql = sprintf("DELETE FROM SearchIndexOutdated WHERE contentREL = %d", $contentID);
-        $DB->queryExecute($sql);
+        BQuery::Database()->queryExecute($sql);
     }
     
     public static function linkContentAttributeFeatures($contentID, $attributeID, array $features)

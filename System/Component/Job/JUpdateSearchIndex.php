@@ -28,10 +28,14 @@ class JUpdateSearchIndex extends BJob
      */
     public function run()
     {
+        echo 'search';
         $content = SSearchIndexer::nextToUpdate();
+        if($content)
+            echo $content->Alias;
         $stat = 'ok';
         if($content instanceof BContent)
         {
+            echo '<br />';
             SSearchIndexer::updateFeatures($content);
             $this->message = 'updated '.$content->getId();
             $stat = 'new';

@@ -308,6 +308,27 @@ relPermissionTagsUsers
         ON DELETE CASCADE
         ON UPDATE NO ACTION;
         
+ALTER TABLE 
+SearchIndexOutdated
+    ADD FOREIGN KEY (contentREL)
+        REFERENCES Contents(contentID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION;
+        
+ALTER TABLE 
+SearchIndex
+    ADD FOREIGN KEY (contentREL)
+        REFERENCES Contents(contentID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION,
+    ADD FOREIGN KEY (searchAttributeWeightREL)
+        REFERENCES SearchAttributeWeights(searchAttributeWeightID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION,
+    ADD FOREIGN KEY (searchFeatureREL)
+        REFERENCES SearchFeatures(searchFeatureID)
+        ON DELETE RESTRICT
+        ON UPDATE RESTRICT;
         
 -- Foreign keys for relUsersGroups
 ALTER TABLE 
