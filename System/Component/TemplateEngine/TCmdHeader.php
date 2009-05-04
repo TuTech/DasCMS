@@ -13,8 +13,14 @@ class TCmdHeader
     extends 
         BTemplate
     implements 
-        ITemplateCommand 
+        ITemplateCommand,
+        IHeaderAPI
 {
+    private $MetaTags = array();
+    private $ScriptTags = array();
+    private $LinkTags = array();
+    private $title;
+    
     private $request;
     private $val;
     public $data = array();
@@ -34,7 +40,7 @@ class TCmdHeader
     
     private function encode($val)
     {
-        return htmlentities(mb_convert_encoding($val,'UTF-8','utf-8,iso-8859-1,auto'), ENT_QUOTES, 'UTF-8');
+        return htmlspecialchars(mb_convert_encoding($val,'UTF-8','utf-8,iso-8859-1,auto'), ENT_QUOTES, 'UTF-8');
     }
     
     public function tearDown()
@@ -43,102 +49,107 @@ class TCmdHeader
 
     public function __sleep()
     {
-        //$this->data = array($this->request);
-        return array();//'data'
+        return array();
     }
     
     public function __wakeup()
     {
-        //$this->request = $this->data[0];
         $this->data = array();
     }
     
     public function __toString()
     {
-        $events = SContentWatch::accessedContent();
-        $descriptions = array();
-        $titles = array();
-        $tags = array();
-        $feeds = array();
-        $cs = array();
-        foreach ($events as $cid => $event) 
-        {
-            $c = $event->Content;
-            if(is_object($event->Sender) && (get_class($event->Sender) == 'VSpore' || $event->Sender instanceof BView))
+        try{
+            $events = SContentWatch::accessedContent();
+            
+            $wellformed_urls = LConfiguration::get('wellformed_urls');
+            $baseURI = '';
+            if(!empty($wellformed_urls))
             {
-                //prepend dynamic content
-                array_unshift($cs , $c);
-                $titles[$c->getAlias()] = $c->getTitle();
-                $descriptions[$c->getAlias()] = $c->getDescription();
-                $tags = array_merge($tags, $c->getTags());
+                $baseURI = sprintf("\n            <base href=\"%s\" />", SLink::base());
             }
-            else
-            {
-                //append fix/static content
-                $cs[] = $c; 
-            }
+           
+            $e = new EWillSendHeadersEvent($this);
+            
+            $title = empty($this->title) ? LConfiguration::get('sitename') : $this->title;
+            $glue = "\n            ";
+            return sprintf("	<head>
+            <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />%s
+            <title>%s</title>
+            <link rel=\"stylesheet\" href=\"./css.php?v=%d&amp;f=default.css\" type=\"text/css\" />%s
+            %s
+            %s
+            %s
+        </head>"
+    			,$baseURI
+                ,$title
+    			,filemtime('Content/stylesheets/default.css')
+                ,file_exists('favicon.ico') ? "\n            <link rel=\"icon\" href=\"favicon.ico\" />": ''
+    			,implode($glue, $this->MetaTags)
+                ,implode($glue, $this->LinkTags)
+                ,implode($glue, $this->ScriptTags)
+            );
         }
-        foreach($cs as $c)
+        catch (Exception $e)
         {
-            //prefer dynamic
-        	if($c instanceof IGeneratesFeed)
-        	{
-        	    $feeds[$c->getAlias()] = $c->getTitle();
-        	}
+            SErrorAndExceptionHandler::reportException($e);
+            return '<head></head>';
         }
-        sort($tags, SORT_LOCALE_STRING);
-        $title = LConfiguration::get('sitename').implode(', ', $titles);
-        $description = implode(', ', $descriptions);
-        $keywords = implode(', ', array_unique($tags));
-        $copyright = LConfiguration::get('copyright');
-        $publisher = LConfiguration::get('publisher');
-        $generator = BAMBUS_VERSION;
-        $feedTags = '';
-        foreach ($feeds as $alias => $feedTitle) 
-        {
-        	$feedTags .= sprintf("            <link rel=\"alternate\" type=\"application/atom+xml\"".
-        	                    "title=\"%s\" href=\"%s\" />\n"
-				,htmlentities($feedTitle, ENT_QUOTES, 'UTF-8')
-                ,BFeed::getURLForFeed($alias)
-			);
-        }
-        $wellformed_urls = LConfiguration::get('wellformed_urls');
-        $baseURI = '';
-        if(!empty($wellformed_urls))
-        {
-            $baseURI = sprintf("            <base href=\"%s\" />\n", SLink::base());
-        }
-       
         
-        return sprintf("
-        <head>
-            <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
-%s            <title>%s</title>
-            <meta name=\"DC.title\" content=\"%s\" />
-            <meta name=\"DC.publisher\" content=\"%s\" />
-            <meta name=\"DC.contributor\" content=\"%s\" />
-            <meta name=\"description\" content=\"%s\" />
-            <meta name=\"copyright\" content=\"%s\" />
-            <meta name=\"generator\" content=\"%s\" />
-            <meta name=\"keywords\" content=\"%s\" />
-            <link rel=\"icon\" href=\"%s\" />
-            <link rel=\"stylesheet\" href=\"./css.php?v=%d.css\" type=\"text/css\" />\n%s%s
-        </head>"//<script type=\"text/javascript\" src=\"./js.php?v=%d.js\"></script>
-			,$baseURI
-            ,$this->encode($title)
-            ,$this->encode($title)
-            ,$this->encode($publisher)
-            ,$this->encode('')
-            ,$this->encode($description)
-            ,$this->encode($copyright)
-            ,$this->encode($generator)
-            ,$this->encode($keywords)
-            ,'favicon.ico'
-			,filemtime('Content/stylesheets/default.css')
-            ,$feedTags
-            ,(LConfiguration::get('google_verify_header') == '') 
-                ? '' : '            <meta name="verify-v1" content="'.htmlentities(LConfiguration::get('google_verify_header'), ENT_QUOTES, 'UTF-8').'" />'
-        );
+    }
+    
+    private function buildAttributes(array $attributes)
+    {
+        $str = '';
+        foreach ($attributes as $key => $value)
+        {
+            if($value != null)
+            {
+                $str .= sprintf(' %s="%s"', $key, $this->encode($value));
+            }
+        }
+        return $str;
+    }
+    
+    //IHeaderAPI
+    public function setTitle($title)
+    {
+        $this->title = $this->encode($title);
+        $this->addMeta($title, 'DC.title');
+    }
+    
+    public function addLink($charset = null, $href = null, $hreflang = null, $type = null, $title = null, $rel = null, $rev = null, $media = null)
+    {
+        $data = array('rel' => $rel, 'type' => $type, 'charset' => $charset, 'href' => $href, 'hreflang' => $hreflang, 
+        				'title' => $title, 'rev' => $rev, 'media' => $media);
+        $atts = $this->buildAttributes($data);
+        if($atts != '')
+        {
+            $this->LinkTags[] = sprintf('<link%s />', $atts);
+        }
+    }
+    
+    public function addMeta($content, $name = null, $httpEquiv = null, $scheme = null)
+    {
+        if($httpEquiv != null && trim(strtolower($httpEquiv)) == 'content-type')
+        {
+            //not allowed;
+            return;
+        }
+        $data = array('name' => $name, 'http-equiv' => $httpEquiv, 'content' => $content, 'scheme' => $scheme);
+        $atts = $this->buildAttributes($data);
+        if($atts != '')
+        {
+            $this->MetaTags[] = sprintf('<meta%s />', $atts);
+        }
+    }
+    
+    public function addScript($type, $src = null, $script = null)
+    {
+        $type = $this->encode($type);
+        $src = ($src == null) ? '' : ' src="'.$this->encode($src).'"';
+	    $script = ($script == null) ? '' : $this->encode($script);
+	    $this->ScriptTags[] = sprintf('<script type="%s"%s>%s</script>', $type, $src, $script);
     }
 }
 ?>

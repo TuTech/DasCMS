@@ -11,25 +11,28 @@ if(!empty($_SERVER['PATH_INFO']))
     {
         $self = BContent::OpenIfPossible($alias);
         $content = BContent::Access($alias, $self);
-        $p = XML_Atom_Feed::fromContent($content);
-        $allAliases = $content->getFeedItemAliases();
-        foreach ($allAliases as $entryAlias) 
+        if($content instanceof IGeneratesFeed)
         {
-            try
+            $p = XML_Atom_Feed::fromContent($content);
+            $allAliases = $content->getFeedItemAliases();
+            foreach ($allAliases as $entryAlias) 
             {
-                $entry = BContent::Access($entryAlias, $self);
-                if(!$entry instanceof CError)
+                try
                 {
-                    $e = XML_Atom_Entry::fromContent($content, $entry);
-                    $p->appendEntry($e);
+                    $entry = BContent::Access($entryAlias, $self);
+                    if(!$entry instanceof CError)
+                    {
+                        $e = XML_Atom_Entry::fromContent($content, $entry);
+                        $p->appendEntry($e);
+                    }
                 }
+                catch (Exception $e){/*does not matter*/}
             }
-            catch (Exception $e){/*does not matter*/}
+            $doc = new DOMDocument('1.0', 'utf-8');
+            $doc->appendChild($p->toXML($doc, 'feed'));
+            $doc->formatOutput = true;
+            echo $doc->saveXML();
         }
-        $doc = new DOMDocument('1.0', 'utf-8');
-        $doc->appendChild($p->toXML($doc, 'feed'));
-        $doc->formatOutput = true;
-        echo $doc->saveXML();
     }
 }
 ?>

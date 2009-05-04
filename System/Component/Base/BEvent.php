@@ -55,11 +55,14 @@ abstract class BEvent extends BObject
 		$listenerClasses = $SCI->ImplementationsOf($handler);
 		foreach ($listenerClasses as $eventListenerClass) 
 		{
-			$c = new $eventListenerClass();
-			if($c instanceof $handler)
+			$eventListener = new $eventListenerClass();
+			if($eventListener instanceof $handler)
 		    {
-    			$eventListener = $c->alloc();//call_user_func_array(array($eventListenerClass, 'alloc'));
-    			$eventListener->init();
+		        if($eventListener instanceof IShareable)
+		        {
+		            $eventListener = $eventListener->alloc();//call_user_func_array(array($eventListenerClass, 'alloc'));
+		            $eventListener->init();
+		        }
     			if(!method_exists($eventListener, $handleEvent))
     			{
     			    throw new Exception($eventListenerClass.' ['.get_class($eventListener).'::'.$handleEvent.'()]');

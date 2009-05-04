@@ -629,69 +629,6 @@ class CFeed
 	    throw new XPermissionDeniedException('feeds are generated');
 	}
 	
-    public function startFeedReading()
-    {
-        $this->FeedDBRes = QCFeed::getItemsForFeed($this->getId());
-        $this->SCI = SComponentIndex::alloc()->init();
-    }
-	
-    public function getFeedMetaData()
-	{
-	    if($this->FeedDBRes == null || !$this->FeedDBRes instanceof DSQLResult)
-        {
-            throw new XDatabaseException('feed query not initialized');
-        }
-        $spore = $this->option(self::SETTINGS, 'TargetView');
-        $url = SLink::base().SLink::link(array($spore => $this->getAlias()), '', true);  
-        return array(
-            BFeed::TITLE => $this->getTitle(),
-            BFeed::LINK => $url,
-            BFeed::DESCRIPTION => $this->getDescription()
-        );
-	}
-    
-	public function hasMoreFeedItems()
-	{
-	    if($this->FeedDBRes == null || !$this->FeedDBRes instanceof DSQLResult)
-        {
-            throw new XDatabaseException('feed query not initialized');
-        }
-        return $this->FeedDBRes->hasNext();
-	}
-	
-	public function getFeedItemData()
-	{ 
-	    if($this->FeedDBRes == null || !$this->FeedDBRes instanceof DSQLResult)
-        {
-            throw new XDatabaseException('feed query not initialized');
-        }
-	    $row = $this->FeedDBRes->fetch();
-	    $spore = $this->option(self::SETTINGS, 'TargetView');
-	    $arr = array(
-	        BFeed::TITLE => $row[0],
-	        BFeed::DESCRIPTION  => $row[1],
-	        BFeed::PUB_DATE  => $row[2],
-	        BFeed::LINK  => SLink::base().SLink::link(array($spore => $row[3]), '', true)
-	    );
-	    if($this->SCI->IsImplementation($row[6], 'IFileContent'))
-	    {
-	        $arr[BFeed::ENCLOSURE] = array($row[0], array(
-                BFeed::URL => sprintf(IFileContent::ENCLOSURE_URL, SLink::base(), $row[3]),
-                BFeed::TYPE => $row[7],
-                BFeed::LENGTH => $row[8]
-            ));
-	    }
-	    return $arr;
-	}
-	
-    public function finishFeedReading()
-    {
-        if($this->FeedDBRes != null && $this->FeedDBRes instanceof DSQLResult)
-        {
-            $this->FeedDBRes->free();
-        }
-    }
-	
     public function Save()
 	{
 		//save content

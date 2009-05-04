@@ -86,7 +86,7 @@ class XML_Atom_Feed extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
      * @param CFeed $content
      * @return XML_Atom_Feed
      */
-    public static function fromContent(CFeed $content)
+    public static function fromContent(IGeneratesFeed $content)
     {
         $o = new XML_Atom_Feed();
         $o->xml_base = SLink::base();

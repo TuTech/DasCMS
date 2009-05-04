@@ -30,5 +30,15 @@ abstract class BView extends BObject
 		}
 		return $array;
 	}
+	
+	/**
+	 * is the header allowed to include meta data like 
+	 * title, decription or tags of the content in this view
+	 * @return boolean
+	 */
+	public function publishMetaData()
+	{
+	    return true;
+	}
 }
 ?>

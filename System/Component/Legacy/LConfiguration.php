@@ -10,14 +10,13 @@
  * @package Bambus
  * @subpackage Legacy
  */
-class LConfiguration extends BLegacy 
+class LConfiguration 
+    extends BLegacy
+    implements HWillSendHeadersEventHandler 
 {
     private static $configuration = null;
     private static $configurationChanged = false;
     private static $instanceForSavingOnEnd = null;
-    
-    private function __construct()
-    {    }
     
     const CLASS_NAME = 'LConfiguration';
 
@@ -94,6 +93,24 @@ class LConfiguration extends BLegacy
             $file = SPath::CONTENT.'configuration/system.php';
             DFileSystem::SaveData($file, self::$configuration);
             self::$configurationChanged = false;
+        }
+    }
+    
+    public function HandleWillSendHeadersEvent(EWillSendHeadersEvent $e)
+    {
+        self::init();
+        $confMeta = array(
+            'google_verify_header' => 'verify-v1',
+            'copyright' => 'copyright',
+            'publisher' => 'DC.publisher',
+            'generator' => BAMBUS_VERSION
+        );
+        foreach($confMeta as $key => $metaKey)
+        {
+            if(!empty(self::$configuration[$key]))
+            {
+                $e->getHeader()->addMeta(self::$configuration[$key],$metaKey);
+            }
         }
     }
 }

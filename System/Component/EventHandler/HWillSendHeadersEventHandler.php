@@ -2,15 +2,15 @@
 /**
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 2008-10-20
+ * @since 2009-05-04
  * @license GNU General Public License 3
  */
 /**
  * @package Bambus
- * @subpackage Interface
+ * @subpackage EventHandlers
  */
-interface IGeneratesFeed
+interface HWillSendHeadersEventHandler
 {
-    public function getFeedItemAliases();
+	public function HandleWillSendHeadersEvent(EWillSendHeadersEvent $e);
 }
 ?>
