@@ -44,6 +44,17 @@ class QSJobScheduler extends BQuery
         return BQuery::Database()->query($sql, DSQL::NUM);
     }
     
+    public static function lockJob($jobID, $scheduledDate)
+    {
+        $DB = BQuery::Database();
+        $sql =
+            "SELECT * FROM JobSchedules
+				WHERE 
+					jobREL = %d
+					AND scheduled = '%s'
+					FOR UPDATE";
+        return $DB->queryExecute(sprintf($sql, $DB->escape($jobId), $DB->escape($scheduledDate)));
+    }
     public static function setStarted($jobId, $scheduledDate)
     {
         $DB = BQuery::Database();

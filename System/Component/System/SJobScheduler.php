@@ -29,41 +29,55 @@ class SJobScheduler extends BSystem
         {
             $DB = DSQL::alloc()->init();
             $DB->beginTransaction();
-            $res = QSJobScheduler::getNextJob();
-            if($res->getRowCount() == 1)
+            try
             {
-                list($job, $jobId, $scheduled) = $res->fetch();
-                $res->free();
-                QSJobScheduler::setStarted($jobId, $scheduled);
-                QSJobScheduler::rescheduleJob($jobId);
+                $res = QSJobScheduler::getNextJob();
+                if($res->getRowCount() == 1)
+                {
+                    list($job, $jobId, $scheduled) = $res->fetch();
+                    $res->free();
+                    $res = QSJobScheduler::lockJob($jobId, $scheduled);
+                    if($res->getRowCount() == 0)
+                    {
+                        throw new Exception('row lock not set');
+                    }
+                    QSJobScheduler::setStarted($jobId, $scheduled);
+                    QSJobScheduler::rescheduleJob($jobId);
+                    $DB->commit();
+                    $DB->beginTransaction();
+                    $ergStr = '(null)';
+                    $ergNo = 0;
+                    
+                        if(!class_exists($job, true))
+                        {
+                            throw new Exception('Job not found', 1);
+                        }
+                        $jobObj = new $job;
+                        if (!$jobObj instanceof BJob) 
+                        {
+                        	throw new Exception('Job not a valid job', 2);
+                        }
+                        $ok = $jobObj->run();
+                        $ergNo = $jobObj->getStatusCode();
+                        $ergStr = $jobObj->getStatusMessage();
+                    
+                    QSJobScheduler::finishJob($jobId,$scheduled,$ergNo, $ergStr);
+                }
                 $DB->commit();
-                $DB->beginTransaction();
-                $ergStr = '(null)';
-                $ergNo = 0;
-                try
-                {
-                    if(!class_exists($job, true))
-                    {
-                        throw new Exception('Job not found', 1);
-                    }
-                    $jobObj = new $job;
-                    if (!$jobObj instanceof BJob) 
-                    {
-                    	throw new Exception('Job not a valid job', 2);
-                    }
-                    $ok = $jobObj->run();
-                    $ergNo = $jobObj->getStatusCode();
-                    $ergStr = $jobObj->getStatusMessage();
-                }
-                catch (Exception $e)
-                {
-                    $ergNo = $e->getCode();
-                    $ergStr = $e->getMessage();
-                    $ok = 'stopped';
-                }
-                QSJobScheduler::finishJob($jobId,$scheduled,$ergNo, $ergStr);
             }
-            $DB->commit();
+            catch (XDatabaseException $e)
+            {
+                $e->rollback();
+                $ergNo = $e->getCode();
+                $ergStr = $e->getMessage();
+                $ok = 'sql error';
+            }
+            catch (Exception $e)
+            {
+                $ergNo = $e->getCode();
+                $ergStr = $e->getMessage();
+                $ok = 'stopped';
+            }
         }
         return $ok;
     }
