@@ -44,7 +44,7 @@ class QSJobScheduler extends BQuery
         return BQuery::Database()->query($sql, DSQL::NUM);
     }
     
-    public static function lockJob($jobID, $scheduledDate)
+    public static function lockJob($jobId, $scheduledDate)
     {
         $DB = BQuery::Database();
         $sql =
