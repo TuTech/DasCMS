@@ -12,5 +12,9 @@
 interface IGeneratesFeed
 {
     public function getFeedItemAliases();
+    
+    public function getLinkToFeed();
+        
+    public function getFeedTargetView();
 }
 ?>

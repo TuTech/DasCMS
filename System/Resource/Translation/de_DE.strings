@@ -1,3 +1,6 @@
+last_access	Letzter Zugriff
+access_count	Zugriffszähler
+average_time_between_accesses	Durchschnittszeit zwischen Aufrufen
 define_restriction_tags	Sperr-Tags definieren
 tags_listed_here_restrict_access_to_contents	Die hier eingetragenen Tags verhindern den nicht-autorisierten Zugriff auf Webseiteninhalte
 links	Links

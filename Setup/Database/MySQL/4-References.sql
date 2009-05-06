@@ -1,5 +1,13 @@
 -- Foreign keys for Aliases
 ALTER TABLE 
+AccessLog
+    ADD FOREIGN KEY (contentREL)
+        REFERENCES Contents(contentID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION;
+
+-- Foreign keys for Aliases
+ALTER TABLE 
 Aliases
     ADD CONSTRAINT assigned_content FOREIGN KEY (contentREL)
         REFERENCES Contents(contentID)

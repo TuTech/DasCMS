@@ -1,20 +1,19 @@
 <?php
 header('Content-type: application/atom+xml');
 require_once('./System/Component/Loader.php');
-error_reporting(0);
-RSession::start();
-PAuthentication::required();
+error_reporting(4095);
+PAuthentication::implied();
 if(!empty($_SERVER['PATH_INFO']))
 {
     $alias = substr($_SERVER['PATH_INFO'],1);
-    if(CFeed::Exists($alias))
+    if(BContent::contentExists($alias))
     {
         $self = BContent::OpenIfPossible($alias);
         $content = BContent::Access($alias, $self);
         if($content instanceof IGeneratesFeed)
         {
-            $p = XML_Atom_Feed::fromContent($content);
             $allAliases = $content->getFeedItemAliases();
+            $p = XML_Atom_Feed::fromContent($content);
             foreach ($allAliases as $entryAlias) 
             {
                 try

@@ -44,6 +44,8 @@ class AFiles
         try
         {
             $this->target = CFile::Create(isset($param['create']) ? $param['create'] : '');
+            $suffix = strtolower(substr($this->target->getFileName(),-4));
+            $this->target->changeSearchIndexingStatus(in_array($suffix, array('.pdf','.ppt','.xls','.doc','.zip')));
         }
         catch (XFileNotFoundException $e)
         {

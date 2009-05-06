@@ -39,10 +39,5 @@ abstract class BFeed extends BObject
 	abstract function __construct(BContent $datasource);
 	
 	abstract function __toString();
-	
-	public static function getURLForFeed($alias)
-	{
-	    return sprintf('%sAtom.php/%s', SLink::base(), $alias);
-	}
 }
 ?>

@@ -194,14 +194,23 @@ class CTemplate
 	{
 		return in_array(strtolower($category), array('text', 'media', 'settings', 'information', 'search'));
 	}
+
 	//ISearchDirectives
 	public function allowSearchIndex()
 	{
-	    return true;
+	    return BContent::isIndexingAllowed($this->getId());
 	}
 	public function excludeAttributesFromSearchIndex()
 	{
 	    return array('Content');
 	}
+	public function isSearchIndexingEditable()
+    {
+        return true;
+    }
+    public function changeSearchIndexingStatus($allow)
+    {
+        QBContent::setAllowSearchIndexing($this->getId(), !empty($allow));
+    }
 }
 ?>

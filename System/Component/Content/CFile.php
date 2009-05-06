@@ -15,6 +15,7 @@ class CFile
         ISupportsSidebar, 
         IGlobalUniqueId,
         IFileContent,
+        ISearchDirectives,
         Interface_XML_Atom_ProvidesOutOfLineContent
 {
     const GUID = 'org.bambuscms.content.cfile';
@@ -325,7 +326,23 @@ class CFile
 	{
 	    QCFile::deleteFolder($fid);
 	}
-	
+	//ISearchDirectives
+	public function allowSearchIndex()
+	{
+	    return BContent::isIndexingAllowed($this->getId());
+	}
+	public function excludeAttributesFromSearchIndex()
+	{
+	    return array('Content');
+	}
+	public function isSearchIndexingEditable()
+    {
+        return true;
+    }
+    public function changeSearchIndexingStatus($allow)
+    {
+        QBContent::setAllowSearchIndexing($this->getId(), !empty($allow));
+    }
 	
 }
 ?>

@@ -47,6 +47,7 @@ class AFeeds
             try
             {
                 $this->target = CFeed::Create($param['create']);
+                $this->target->changeSearchIndexingStatus(false);
                 $success = true;
             }
             catch (Exception $e)

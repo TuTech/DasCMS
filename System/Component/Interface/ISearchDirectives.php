@@ -18,6 +18,17 @@ interface ISearchDirectives
     public function allowSearchIndex();
     
     /**
+     * @return boolean
+     */
+    public function isSearchIndexingEditable();
+    
+    /**
+     * @param boolean $allow
+     * @return void
+     */
+    public function changeSearchIndexingStatus($allow);
+    
+    /**
      * e.g. [Content, Title]
      * @return array
      */

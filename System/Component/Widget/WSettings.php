@@ -71,12 +71,26 @@ class WSettings extends BWidget implements ISidebarWidget
 		    $prevAlias = RSent::get('WSearch-PreviewImage-Alias', 'utf-8');
 		    $this->targetObject->PreviewImage = $prevAlias;
 		}
+		if(RSent::has('WSearch-sent'))
+		{
+		    try{
+		    $allowSearchIndexing = RSent::hasValue('WSearch-AllowSearchIndexing');
+		    if($this->targetObject instanceof ISearchDirectives && $this->targetObject->isSearchIndexingEditable())
+		    {
+		        $this->targetObject->changeSearchIndexingStatus($allowSearchIndexing);
+		    }
+		    }catch (Exception $e)
+		    {
+		        echo $e->getMessage();
+		        echo $e->getTraceAsString();
+		    }
+		}
 	}
 	
 	public function __toString()
 	{
 		$html = '<div id="WSearch">';
-		
+		try{
 		//init values
 		$Items = new WNamedList();
 		$Items->setTitleTranslation(false);
@@ -93,6 +107,7 @@ class WSettings extends BWidget implements ISidebarWidget
 		}
 		//tags changed?		
 		$html .= sprintf('<input type="hidden" class="hidden" name="WSearch-Tags-chk" value="%s" />', md5($tagstr));
+		$html .= '<input type="hidden" class="hidden" name="WSearch-sent" value="1" />';
 		
 		
 		$Items->add(
@@ -118,6 +133,22 @@ class WSettings extends BWidget implements ISidebarWidget
 		    sprintf("<label for=\"WSearch-Desc\">%s</label>", SLocalization::get('description')),
 		    sprintf('<textarea id="WSearch-Desc" name="WSearch-Desc">%s</textarea>', htmlentities($this->targetObject->Description, ENT_QUOTES, 'utf-8'))
 	    );
+	    $si_on = true;
+	    $si_changeable = false;
+	    if($this->targetObject instanceof ISearchDirectives)
+	    {
+	        $si_on = $this->targetObject->allowSearchIndex();
+	        $si_changeable = $this->targetObject->isSearchIndexingEditable();
+	    }
+	    $Items->add(
+		    sprintf("<label for=\"WSearch-AllowSearchIndexing\">%s</label>", SLocalization::get('include_in_search_index')),
+		    sprintf(
+		    	'<input type="checkbox" id="WSearch-AllowSearchIndexing" name="WSearch-AllowSearchIndexing"%s%s />'
+		        , $si_on ? ' checked="checked"' : ''
+		        , $si_changeable ? '' : ' disabled="disabled"'
+		        , SLocalization::get('include_in_search_index')
+	        )
+		);
 		
 //	    $MetaItems = new WNamedList();
 //	    $MetaItems->setTitleTranslation(true);
@@ -149,6 +180,10 @@ class WSettings extends BWidget implements ISidebarWidget
 //	    );
 		$html .= $Items;
 		$html .= '</div>';
+		}catch (Exception $e)
+		{
+		    return $e->getTraceAsString();
+		}
 		return $html;
 	}
 }

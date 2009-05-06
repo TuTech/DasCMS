@@ -1,4 +1,33 @@
 -- content accessors
+-- countyCodeHash: 
+-- 		@cc = 2-letter-country-code; 
+-- 		@value = ASCII(LEFT(@cc, 1))*0x100+ASCII(RIGHT(@cc, 1));
+CREATE TABLE IF NOT EXISTS 
+AccessLog(
+    contentREL 
+        INTEGER 
+        NOT NULL,
+    accessTime
+    	TIMESTAMP
+    	NOT NULL
+    	DEFAULT CURRENT_TIMESTAMP,
+	countyCodeHash
+		INTEGER
+		NOT NULL
+		DEFAULT 0,
+	ipAddressHash
+		INTEGER
+		NOT NULL,
+    INDEX(contentREL),
+    INDEX(accessTime),
+    INDEX(countyCodeHash),
+    UNIQUE(contentREL, accessTime, countyCodeHash, ipAddressHash)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- content accessors
 CREATE TABLE IF NOT EXISTS 
 Aliases(
     aliasID 
@@ -184,6 +213,10 @@ Contents(
         TEXT
         NOT NULL 
         DEFAULT '',
+    allowSearchIndexing
+        ENUM('Y', 'N') 
+        DEFAULT 'Y'
+        NOT NULL,
     INDEX contents_title_desc (title, description(32)),
     INDEX (type),
     INDEX (mimetypeREL),

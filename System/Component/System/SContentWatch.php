@@ -69,11 +69,11 @@ class SContentWatch
             $content = $event->Content;
             
             //Atom feeds
-            if($content instanceof IGeneratesFeed)
+            if($content instanceof IGeneratesFeed && $content->getLinkToFeed($content->Alias) != null)
             {
                 $e->getHeader()->addLink(
                     null,    
-                    BFeed::getURLForFeed($content->Alias),
+                    $content->getLinkToFeed($content->Alias),
                     null,
                     'application/atom+xml', 
                     $content->Title, 

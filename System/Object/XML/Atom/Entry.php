@@ -76,11 +76,11 @@ class XML_Atom_Entry extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
     }
     
     /**
-     * @param CFeed $feed
+     * @param IGeneratesFeed $feed
      * @param BContent $content
      * @return XML_Atom_Entry
      */
-    public static function fromContent(CFeed $feed, BContent $content)
+    public static function fromContent(IGeneratesFeed $feed, BContent $content)
     {
         $o = new XML_Atom_Entry();
         //author?
@@ -107,7 +107,7 @@ class XML_Atom_Entry extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
             $o->c__content = array(XML_Atom_Content_OutOfLine::create($content->getOutOfLineType(), $content->getOutOfLineURI()));
         }
         //link*
-        $q = $feed->option(CFeed::SETTINGS, 'TargetView');
+        $q = $feed->getFeedTargetView();
         $linker = $content->getAlias();
         if(VSpore::exists($q))
         {
@@ -120,7 +120,7 @@ class XML_Atom_Entry extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
         if($content instanceof IFileContent)
         {
             list($filename, $type, $size) = $content->getDownloadMetaData();
-            $o->c__link[] = XML_Atom_Link::create($filename, 'enclosure', $type, null, $content->getFileName(), $size);
+            $o->c__link[] = XML_Atom_Link::create(SLink::base().'file.php/'.$content->getAlias(), 'enclosure', $type, null, $content->getFileName(), $size);
         }
         //title
         $o->c__title = array(XML_Atom_Text::create($content->getTitle()));

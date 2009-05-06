@@ -14,6 +14,7 @@ class CTextBrick
     implements 
         ISupportsSidebar, 
         IGlobalUniqueId,
+        ISearchDirectives,
         Interface_XML_Atom_ProvidesInlineText 
 {
     const GUID = 'org.bambuscms.content.ctextbrick';
@@ -236,5 +237,23 @@ class CTextBrick
 	{
 		return in_array(strtolower($category), array('text', 'media', 'settings', 'information', 'search'));
 	}
+	
+	//ISearchDirectives
+	public function allowSearchIndex()
+	{
+	    return BContent::isIndexingAllowed($this->getId());
+	}
+	public function excludeAttributesFromSearchIndex()
+	{
+	    return array();
+	}
+	public function isSearchIndexingEditable()
+    {
+        return true;
+    }
+    public function changeSearchIndexingStatus($allow)
+    {
+        QBContent::setAllowSearchIndexing($this->getId(), !empty($allow));
+    }
 }
 ?>

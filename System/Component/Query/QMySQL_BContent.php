@@ -11,6 +11,59 @@
  */
 class QBContent extends BQuery 
 {
+    /**
+     * @param int $contentID
+     * @return DSQLResult
+     */
+    public static function getAccessStats($contentID)
+    {
+        $sql = "SELECT 
+        				MIN(accessTime) AS 'firstAccess',
+        				MAX(accessTime) AS 'lastAccess',
+        				COUNT(*) AS 'accessCount',
+        				FLOOR(TIME_TO_SEC(TIMEDIFF(NOW(), MIN(accessTime)))/(COUNT(*)+1)) AS 'SecondsBetweenAccesses'
+					FROM AccessLog
+        				WHERE contentREL = %d";
+        return BQuery::Database()->query(sprintf($sql, $contentID), DSQL::NUM);
+    }
+    
+    /**
+     * @param int $contentID
+     * @return DSQLResult
+     */
+    public static function getAllowSearchIndexing($contentID)
+    {
+        $sql = "SELECT 
+        				1 AS 'yes'
+					FROM Contents
+        				WHERE 
+        					contentID = %d
+        					AND allowSearchIndexing = 'Y'";
+        $sql = sprintf($sql, $contentID);
+        return BQuery::Database()->query($sql, DSQL::NUM);
+    }
+       
+    public static function setAllowSearchIndexing($contentID, $allowed)
+    {
+        $sql = "UPDATE Contents
+        			SET 
+        				allowSearchIndexing = '%s'
+    				WHERE 
+    					contentID = %d";
+        return BQuery::Database()->queryExecute(sprintf($sql, empty($allowed) ? 'N' : 'Y', $contentID), DSQL::NUM);
+    }
+    
+    
+    public static function logAccess($contentID, $countyCodeHash, $ipAddressHash)
+    {
+        $sql = 
+        	"INSERT IGNORE INTO AccessLog
+				(contentREL, countyCodeHash, ipAddressHash)
+				VALUES
+				(%d, %d, %d)";
+        $sql = sprintf($sql, $contentID, $countyCodeHash, $ipAddressHash);
+        return BQuery::Database()->queryExecute($sql);
+    }
     
     public static function saveMetaData($id, $title, $pubDate, $description, $size, $subtitle)
     {

@@ -144,7 +144,6 @@ class SSearchIndexer
     	    {
     	        if(!$content->allowSearchIndex())
     	        {
-        	        //$DB->commit();
         	        return;
     	        }
     	        else

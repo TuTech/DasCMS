@@ -37,9 +37,9 @@ class SJobScheduler extends BSystem
                     list($job, $jobId, $scheduled) = $res->fetch();
                     $res->free();
                     $res = QSJobScheduler::lockJob($jobId, $scheduled);
-                    if($res->getRowCount() == 0)
+                    if($res == 0)
                     {
-                        throw new Exception('row lock not set');
+                        return 'conflict';
                     }
                     QSJobScheduler::setStarted($jobId, $scheduled);
                     QSJobScheduler::rescheduleJob($jobId);
@@ -70,7 +70,7 @@ class SJobScheduler extends BSystem
                 $e->rollback();
                 $ergNo = $e->getCode();
                 $ergStr = $e->getMessage();
-                $ok = 'sql error';
+                $ok = 'fail';
             }
             catch (Exception $e)
             {

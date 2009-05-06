@@ -52,5 +52,7 @@ catch(Exception $e)
     header('HTTP/1.1 404 Not Found');
 	header('Status: 404 Not Found');
 	echo 'Status: 404 Not Found';
+	echo $e->getMessage();
+	echo $e->getTraceAsString();
 }
 ?>

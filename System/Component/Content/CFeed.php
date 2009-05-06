@@ -65,9 +65,9 @@ class CFeed
             self::HEADER => array(
                 'NumberOfEnd' => array('',''),
                 'NumberOfStart' => array('',''),
-                'FoundItems' => array('Found: ',' Items'),
-                'Link' => array('Previous page','Next page'),
-                'Pagina' => array('Page: ','')
+                'FoundItems' => array('',''),
+                'Link' => array('',''),
+                'Pagina' => array('','')
             ),
             self::ITEM => array(
                 'Link' => array('',''),
@@ -76,9 +76,9 @@ class CFeed
             self::FOOTER => array(
                 'NumberOfEnd' => array('',''),
                 'NumberOfStart' => array('',''),
-                'FoundItems' => array('Found: ',' Items'),
-                'Link' => array('Previous page','Next page'),
-                'Pagina' => array('Page: ','')
+                'FoundItems' => array('',''),
+                'Link' => array('',''),
+                'Pagina' => array('','')
             )
         ),
         self::ORDER => array(
@@ -372,6 +372,16 @@ class CFeed
 	    	$aliases[] = $row[0];
 	    }
 	    return $aliases;
+	}
+	
+	public function getLinkToFeed()
+	{
+	    return sprintf('%sAtom.php/%s', SLink::base(), htmlentities($this->getAlias(), ENT_QUOTES, 'utf-8'));
+	}
+	
+	public function getFeedTargetView()
+	{
+	    return $this->option(CFeed::SETTINGS, 'TargetView');;
 	}
 	
 	/**
@@ -709,11 +719,19 @@ class CFeed
 	//ISearchDirectives
 	public function allowSearchIndex()
 	{
-	    return true;
+	    return BContent::isIndexingAllowed($this->getId());
 	}
 	public function excludeAttributesFromSearchIndex()
 	{
 	    return array('Content');
 	}
+	public function isSearchIndexingEditable()
+    {
+        return true;
+    }
+    public function changeSearchIndexingStatus($allow)
+    {
+        QBContent::setAllowSearchIndexing($this->getId(), !empty($allow));
+    }
 }
 ?>

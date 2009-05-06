@@ -14,7 +14,8 @@ class CSearch
     implements 
         ISupportsSidebar, 
         IGlobalUniqueId,
-        ISearchDirectives
+        ISearchDirectives,
+        IGeneratesFeed
 {
     const GUID = 'org.bambuscms.content.csearch';
     const CLASS_NAME = 'CSearch';
@@ -22,6 +23,8 @@ class CSearch
     {
         return self::GUID;
     }
+    
+    private $inFeedMode = false;
     
 	/**
 	 * @return CSearch
@@ -265,6 +268,66 @@ class CSearch
 		}
 	}
 	
+	//IGeneratesFeed
+	/**
+	 * list all aliases for feed use
+	 * @return array
+	 */
+	public function getFeedItemAliases()
+	{
+	    $q = RURL::get('q', 'utf-8');
+	    $this->Title .= ': '.htmlentities($q, ENT_QUOTES, 'utf-8');
+	    $f = SSearchIndexer::extractFeatures($q);
+        $features = array();
+        $aliases = array();
+        $res = QCSearch::getFeatureIds(array_keys($f));
+        while ($row = $res->fetch())
+        {
+            $features[$row[0]] = $row[1];
+        }
+        $res->free();
+        if(count($features))
+        {
+            QCSearch::scoredContents($features);
+	        $res = QCSearch::getScoredContent(14, 1);
+	        while ($row = $res->fetch())
+	        {
+	            $aliases[] = $row[3];
+	        }
+	        $res->free();
+        }
+        return $aliases;
+	}
+	
+	public function getLinkToFeed()
+	{
+	    $value = '';
+	    try
+	    {
+	        $iqo = $this->invokingQueryObject;
+    	    if($iqo != null && $iqo instanceof VSpore)
+    	    {
+    	        //have something to open?
+                $value = $iqo->GetParameter('q', 'UTF-8');
+            }
+	    }
+	    catch (Exception $e)
+	    {}
+	    if(!empty($value))
+	    {
+	        return sprintf('%sAtom.php/%s?q=%s', SLink::base(), htmlentities($this->getAlias(), ENT_QUOTES, 'utf-8'), urlencode($value));
+	    }
+	    else 
+	    {
+	        return null;
+	    }
+	}
+	
+	public function getFeedTargetView()
+	{
+	    return 'page';
+	}
+	
 	//ISupportsSidebar
 	public function wantsWidgetsOfCategory($category)
 	{
@@ -279,5 +342,12 @@ class CSearch
 	{
 	    return array();
 	}
+	public function isSearchIndexingEditable()
+    {
+        return false;
+    }
+    public function changeSearchIndexingStatus($allow)
+    {
+    }
 }
 ?>

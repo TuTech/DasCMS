@@ -11,7 +11,7 @@
  */
 abstract class BContent extends BObject
 {
-	
+	private static $accessedContents = array();
 	protected 
 		$_data__set = array(),
 		$_origPubDate;
@@ -36,7 +36,14 @@ abstract class BContent extends BObject
 		$Description,//meta description - plain text
 		$Size,
 		$MimeType,
-		$Location
+		$Location,
+		$LastAccess = null,
+//		$AccessCountDay,
+//		$AccessCountWeek,
+//		$AccessCountMonth,
+//		$AccessCountYear,
+		$AccessCount = null,
+		$AccessIntervalAverage = null
 		;
 	/**
 	 * @var VSpore
@@ -130,6 +137,14 @@ abstract class BContent extends BObject
 	        $succ = false;
 	    }
 	    return $succ;
+	}
+	
+	protected static function isIndexingAllowed($contentID)
+	{
+	    $res = QBContent::getAllowSearchIndexing($contentID);
+	    $allowed = $res->getRowCount() == 1;
+	    $res->free();
+	    return $allowed;
 	}
 	
 	public static function contentExists($alias, $asType = null)
@@ -247,6 +262,27 @@ abstract class BContent extends BObject
 	        $o = $e->Content;
 	    }
 	    $e = new EContentAccessEvent($from, $o);
+	    if(!array_key_exists($o->getId(), self::$accessedContents))
+	    {
+    	    self::$accessedContents[$o->getId()] = true;
+    	    //logging
+    	    //country
+    	    $ccid = 0;
+    	    if(function_exists('geoip_country_code_by_name'))
+    	    {
+    	        $cc = geoip_country_code_by_name();
+    	        if(strlen($cc) == 2)
+    	        {
+    	            $ccid = ord(substr($cc,0,1))*256+ord(substr($cc,1,1));
+    	        }
+    	    }
+    	    //ip addr
+    	    list($a, $b, $c, $d) = explode('.', $_SERVER['REMOTE_ADDR']);
+            $num = (sprintf('0x%02x%02x%02x%02x',$a, $b, $c, $d));
+            $num = hexdec($num);//FIXME anon here
+            //send to db
+    	    QBContent::logAccess($o->getId(), $ccid, $num);
+	    }
 	    return $o;
 	}
 	
@@ -349,7 +385,59 @@ abstract class BContent extends BObject
 	    return BContent::defaultIcon();
 	}
 	
+	protected function loadBContentAccessStats()
+	{
+	    if($this->LastAccess === null)
+	    {
+	        $res = QBContent::getAccessStats($this->getId());
+	        if($res->getRowCount() > 0)
+	        {
+	            list(
+	                $firstAccess,//ignore this
+	                $this->LastAccess,
+	                $this->AccessCount,
+	                $this->AccessIntervalAverage
+	            ) = $res->fetch();
+	        }
+	        else
+	        {
+	            $this->LastAccess = 0;
+	            $this->AccessCount = 0;
+	            $this->AccessIntervalAverage = 0;
+	        }
+	        $res->free();
+	    }
+	}
+	
 	/**
+	 * return last access time
+	 * @return int
+	 */
+	public function getLastAccess()
+	{
+	    $this->loadBContentAccessStats();
+	    return $this->LastAccess;
+	}
+	
+	/**
+	 * @return int
+	 */
+	public function getAccessCount($since = null)
+	{
+	    $this->loadBContentAccessStats();
+	    return $this->AccessCount;
+	}
+	
+	/**
+	 * @return int
+	 */
+	public function getAccessIntervalAverage()
+	{
+	    $this->loadBContentAccessStats();
+	    return $this->AccessIntervalAverage;
+	}
+	
+/**
 	 * Icon for this object
 	 * @return WImage
 	 */

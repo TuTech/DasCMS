@@ -167,5 +167,12 @@ class CLink
 	{
 	    return array();
 	}
+	public function isSearchIndexingEditable()
+    {
+        return false;
+    }
+    public function changeSearchIndexingStatus($allow)
+    {
+    }
 }
 ?>

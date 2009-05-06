@@ -126,5 +126,12 @@ class CError extends BContent implements IGlobalUniqueId, ISearchDirectives
 	{
 	    return array();
 	}
+    public function isSearchIndexingEditable()
+    {
+        return false;
+    }
+    public function changeSearchIndexingStatus($allow)
+    {}
+	
 }
 ?>

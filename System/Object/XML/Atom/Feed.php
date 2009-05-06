@@ -83,7 +83,7 @@ class XML_Atom_Feed extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
     }
     
     /**
-     * @param CFeed $content
+     * @param IGeneratesFeed $content
      * @return XML_Atom_Feed
      */
     public static function fromContent(IGeneratesFeed $content)
@@ -98,7 +98,7 @@ class XML_Atom_Feed extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
         {
         	if(!empty($tag))$o->c__category[] = XML_Atom_Category::create($tag);
         }
-        $q = $content->option(CFeed::SETTINGS, 'TargetView');
+        $q = $content->getFeedTargetView();
         $linker = $content->getAlias();
         if(VSpore::exists($q))
         {

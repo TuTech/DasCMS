@@ -53,7 +53,19 @@ class WInformation extends BWidget implements ISidebarWidget
 		$Items = new WNamedList();
 	    $MetaItems = new WNamedList();
 	    $MetaItems->setTitleTranslation(true);
-		$meta = array('Alias' => 'alias','GUID' => 'id', 'PubDate' => 'pubDate','ModifyDate' => 'modified','ModifiedBy' => 'modified_by', 'CreateDate' => 'created', 'CreatedBy' => 'created_by', 'Size' => 'size');
+		$meta = array(
+			'Alias' => 'alias',
+			'GUID' => 'id', 
+			'PubDate' => 'pubDate',
+			'ModifyDate' => 'modified',
+			'ModifiedBy' => 'modified_by', 
+			'CreateDate' => 'created', 
+			'CreatedBy' => 'created_by', 
+			'Size' => 'size',
+		    'LastAccess' => 'last_access',
+		    'AccessCount' => 'access_count',
+		    'AccessIntervalAverage' => 'average_time_between_accesses'
+		);
 		foreach ($meta as $key => $name) 
 		{
 		    $val = '-';
@@ -67,6 +79,10 @@ class WInformation extends BWidget implements ISidebarWidget
 		        elseif(substr($key,-4) == 'Size')
 		        {
 		            $val = DFileSystem::formatSize($this->targetObject->{$key});
+		        }
+		        elseif($key == 'AccessIntervalAverage')
+		        {
+		            $val = $this->targetObject->{$key}.' '.SLocalization::get('seconds');
 		        }
 		        else
 		        {
