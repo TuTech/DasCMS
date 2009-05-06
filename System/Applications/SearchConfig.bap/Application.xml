@@ -4,7 +4,7 @@
 	<appController guid="org.bambuscms.applications.search">ALinks</appController>
 	<name>search_configuration</name>
 	<description>do_stuff</description>
-	<icon>app-utilities-search</icon>
+	<icon>app-preferences-search</icon>
 	<version>0.1.20090428</version>
 	<priority>2.0</priority>
 	<purpose>system</purpose>

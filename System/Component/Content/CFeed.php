@@ -684,16 +684,18 @@ class CFeed
 	
     public function getType()
     {
-        return 'txt';
+        return 'xml';
     }
     
     public function getDownloadMetaData()
     {
-        return array($this->getTitle().'.txt', 'text/plain', null);
+        return array($this->getTitle().'.xml', 'application/xml', null);
     }
     
     public function sendFileContent()
     {
+        echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+        echo "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
         $spore = $this->option(self::SETTINGS, 'TargetView');
         if(!empty($spore))
         {
@@ -701,9 +703,17 @@ class CFeed
             $res = QCFeed::getSiteMapData($this->getId());
             while ($row = $res->fetch())
             {
-                echo $base, SLink::link(array($spore => $row[0]), '', true)."\n";
+                echo "\t<url>\n";
+                echo "\t\t<loc>";
+                echo $base, SLink::link(array($spore => $row[0]), '', true);
+                echo "</loc>\n";
+                echo "\t\t<lastmod>";
+                echo date('c', strtotime($row[1]));
+                echo "</lastmod>\n";
+                echo "\t</url>\n";
             }
         }
+        echo "</urlset>";
     }
     
     public function getRawDataPath()

@@ -36,15 +36,17 @@ class QCFeed extends BQuery
     public static function getSiteMapData($feedID)
     {
         $sql = 
-            "SELECT Aliases.alias 
+            "SELECT Aliases.alias, MAX(Changes.changeDate)
 				FROM relFeedsContents
 					LEFT JOIN Contents ON (relFeedsContents.contentREL = Contents.contentID)
 					LEFT JOIN Aliases ON (Contents.primaryAlias = Aliases.aliasID)
+					LEFT JOIN Changes ON (Contents.contentID = Changes.contentREL)
 				WHERE 
 					relFeedsContents.feedREL = %d
 					AND relFeedsContents.feedREL != relFeedsContents.contentREL
 					AND Contents.pubDate > 0
-					AND Contents.pubDate <= NOW()";
+					AND Contents.pubDate <= NOW()
+				GROUP BY Aliases.alias";
         return BQuery::Database()->query(sprintf($sql, $feedID), DSQL::NUM);
     }
     

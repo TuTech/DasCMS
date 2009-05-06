@@ -252,102 +252,28 @@ class QCSearch extends BQuery
         return BQuery::Database()->query($sql, DSQL::NUM); 
     }
     
-    public static function getWeightedContent(array $ids, $items = 15, $page = 1)
+    public static function fetchConfig($contentId)
     {
-        $sqls = array();
-        $esc = array();
-        $justIds = array();
-        foreach ($ids as $id => $score)
+        $sql = sprintf("SELECT `option`, `mode`, caption FROM SearchConfig WHERE contentREL = %d", $contentId);
+        return BQuery::Database()->query($sql, DSQL::NUM); 
+    }
+    
+    public static function dumpConfig($contentId, array $config)
+    {
+        $DB = BQuery::Database();
+        $DB->queryExecute(sprintf("DELETE FROM SearchConfig WHERE contentREL = %d", $contentId));
+        if(count($config) > 0)
         {
-            $score = strval(floatval($score));
-            if(!array_key_exists($score, $esc))
+            $sql = "INSERT INTO SearchConfig (contentREL, `option`, `mode`, caption) ";
+            $dsTpl = sprintf("\n(%d, %%d, %%d, '%%s')", $contentId);
+            $sep = '';
+            foreach($config as $dataset)
             {
-                $esc[$score] = array();
+                $sql .= $sep.sprintf($dsTpl, $dataset[0], $dataset[1], $dataset[2]);
+                $sep = ', ';
             }
-            $esc[$score][] = intval($id);
-        }
-        try{
-            $DB = BQuery::Database();
-            $sql = "CREATE TEMPORARY TABLE TMPSearchResults (
-                        contentID INTEGER,
-                        score DOUBLE
-                    )";
             $DB->queryExecute($sql);
-            //"EXP((POW(SearchIndex.featureCount,2)*-1)/200)"
-            $features = array_unique(array_keys($ids));
-            
-            //gather contents
-            $DB->queryExecute(sprintf(
-    				"INSERT INTO TMPSearchResults (contentID, score) 
-            			SELECT DISTINCT
-              					contentREL, 1 
-          					FROM SearchIndex
-                                LEFT JOIN SearchAttributeWeights ON 
-                                	(SearchAttributeWeights.searchAttributeWeightID = SearchIndex.searchAttributeWeightREL)
-                            WHERE 
-                                searchFeatureREL IN (%s)"
-                    ,implode(',', $features)
-            ));       
-            var_dump($features); 
-               
-            //gather match intersection
-            $DB->queryExecute(sprintf(
-            		"INSERT INTO TMPSearchResults (contentID, score) 
-            			SELECT 
-              					contentREL, COUNT(searchFeatureREL)/%d
-          					FROM SearchIndex
-                                LEFT JOIN SearchAttributeWeights ON 
-                                	(SearchAttributeWeights.searchAttributeWeightID = SearchIndex.searchAttributeWeightREL)
-                            WHERE 
-                                searchFeatureREL IN (%s)
-                                GROUP BY contentREL"
-                    ,count($features)
-                    ,implode(',', $features)
-            ));
-            
-            
         }
-        catch (Exception $e)
-        {
-            echo $e->getTraceAsString();
-            echo $e->getMessage();
-        }
-        
-        $res = BQuery::Database()->query('SELECT * FROM TMPSearchResults ORDER BY contentID', DSQL::NUM);
-        echo '<pre>';
-        while ($row = $res->fetch())
-        {
-            printf("\n%010d %010f", $row[0], $row[1]);
-        }    
-        echo '</pre>';
-        $res->free();        
-        $res = BQuery::Database()->query('SELECT searchFeatureID,searchFeature FROM SearchFeatures WHERE searchFeatureID IN ('.implode(',', $features).') ', DSQL::NUM);
-        echo '<pre>WOOOO';
-        while ($row = $res->fetch())
-        {
-            printf("\n%10s %10s", $row[0], $row[1]);
-        }    
-        echo '</pre>';
-        $res->free();
-//        
-        $sql = sprintf("SELECT 
-        				Contents.title,
-          				Contents.subtitle,
-          				Contents.description,
-          				Aliases.alias,
-          				AVG (TMPSearchResults.score) * COUNT(TMPSearchResults.contentID) / COUNT(*) AS importance
-      				FROM TMPSearchResults
-      				LEFT JOIN Contents USING (contentID) 
-      				LEFT JOIN Aliases ON (Contents.primaryAlias = Aliases.aliasID)
-  				WHERE 
-  					Contents.pubDate > '0000-00-00 00:00:00'
-  					AND Contents.pubDate <= NOW()
-  					GROUP BY Aliases.alias
-				ORDER BY importance DESC LIMIT %d OFFSET %d"
-                ,$items+1
-                ,$items*($page-1)
-            );
-        return BQuery::Database()->query($sql, DSQL::NUM);
     }
 }
 ?>

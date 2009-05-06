@@ -706,6 +706,31 @@ ENGINE = InnoDB
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
 
+
+-- search config
+CREATE TABLE IF NOT EXISTS 
+SearchConfig(
+    contentREL 
+        INTEGER 
+        NOT NULL,
+    `option`
+        INTEGER 
+        NOT NULL,
+    `mode` 
+        INTEGER 
+        NOT NULL,
+	caption
+		VARCHAR(64)
+		NOT NULL 
+        DEFAULT '',
+    UNIQUE(contentREL, `option`, `mode`)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+
+
 CREATE TABLE IF NOT EXISTS 
 SearchIndexOutdated(
     contentREL 

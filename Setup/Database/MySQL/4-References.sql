@@ -315,6 +315,14 @@ relPermissionTagsUsers
         REFERENCES Users(userID)
         ON DELETE CASCADE
         ON UPDATE NO ACTION;
+
+-- Foreign keys for Aliases
+ALTER TABLE 
+SearchConfig
+    ADD FOREIGN KEY (contentREL)
+        REFERENCES Contents(contentID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION;
         
 ALTER TABLE 
 SearchIndexOutdated
