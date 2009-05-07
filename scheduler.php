@@ -13,7 +13,16 @@ if(is_bool($stat) || empty($stat))
 }
 if(!headers_sent())
 {
-    header('Content-Type: image/png;');
-    readfile(WIcon::pathFor($stat, 'status', WIcon::EXTRA_SMALL));
+    $icon = WIcon::pathFor($stat, 'status', WIcon::EXTRA_SMALL);
+    if(file_exists($icon))
+    {
+        header('Content-Type: image/png;');
+        readfile($icon);
+    }
+    else
+    {
+        echo $stat;
+    }
+    
 }
 ?>
