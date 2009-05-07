@@ -23,6 +23,5 @@ if(!headers_sent())
     {
         echo $stat;
     }
-    
 }
 ?>

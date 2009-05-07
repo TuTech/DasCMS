@@ -378,3 +378,15 @@ SporeViews
         REFERENCES Contents(contentID)
         ON DELETE RESTRICT
         ON UPDATE NO ACTION;
+
+-- content target view
+ALTER TABLE 
+relContentsTargetViews
+    ADD FOREIGN KEY (contentREL)
+        REFERENCES Contents(contentID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION,
+    ADD FOREIGN KEY (viewREL)
+        REFERENCES SporeViews(viewID)
+        ON DELETE RESTRICT
+        ON UPDATE NO ACTION;

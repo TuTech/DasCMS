@@ -14,6 +14,21 @@ ENGINE = InnoDB
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS 
+relContentsTargetViews(
+    contentREL 
+        INTEGER 
+        UNIQUE
+        NOT NULL,
+    viewREL 
+        INTEGER 
+        NOT NULL,
+    INDEX (viewREL)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
 
 CREATE TABLE IF NOT EXISTS 
 relContentsLocations(

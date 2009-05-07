@@ -41,4 +41,17 @@ org.bambuscms.app.document.remove = function ()
 	org.bambuscms.app.dialog.create(_('delete_link'), _('do_you_really_want_to_delete_this_link'), input, _('yes_delete'), _('no_keep_link'));
 	org.bambuscms.app.dialog.setAction('delete');
 }
+function ch(id, val)
+{
+	$(id+'_1').disabled = !(val & 1);
+	$(id+'_2').disabled = !(val & 2);
+}
+function set(id, val, ac, bc)
+{
+	$(id).options[val].selected = true;
+	$(id+'_1').disabled = !(val & 1);
+	$(id+'_2').disabled = !(val & 2);
+	$(id+'_1').value = ac;
+	$(id+'_2').value = bc;	
+}
 
