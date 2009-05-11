@@ -86,7 +86,10 @@ class SContentWatch
                 if($event->Sender->publishMetaData())
                 {
                     //if !view->silent
-                    $tags = array_merge($tags, $content->Tags);
+                    if(is_array($content->Tags))
+                    {
+                        $tags = array_merge($tags, $content->Tags);
+                    }
                     if(trim($content->Description) != '')
                     {
                         $descriptions[] = $content->Description;
@@ -133,7 +136,6 @@ class SContentWatch
         $o = $e->Content;
 	    if(!array_key_exists($o->getId(), self::$accessedContents))
 	    {
-    	    self::$accessedContents[$o->getId()] = true;
     	    //country
     	    $ccid = 0;
     	    if(function_exists('geoip_country_code_by_name'))
