@@ -281,7 +281,10 @@ abstract class BContent extends BObject
             $num = (sprintf('0x%02x%02x%02x%02x',$a, $b, $c, $d));
             $num = hexdec($num);//FIXME anon here
             //send to db
-    	    QBContent::logAccess($o->getId(), $ccid, $num);
+            if(!$o instanceof CError)
+            {
+                QBContent::logAccess($o->getId(), $ccid, $num);
+            }
 	    }
 	    return $o;
 	}
