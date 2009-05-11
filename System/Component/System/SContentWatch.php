@@ -129,6 +129,31 @@ class SContentWatch
      */
     public function HandleContentAccessEvent(EContentAccessEvent $e)
     {
+        //logging
+        $o = $e->Content;
+	    if(!array_key_exists($o->getId(), self::$accessedContents))
+	    {
+    	    self::$accessedContents[$o->getId()] = true;
+    	    //country
+    	    $ccid = 0;
+    	    if(function_exists('geoip_country_code_by_name'))
+    	    {
+    	        $cc = geoip_country_code_by_name($_SERVER['REMOTE_ADDR']);
+    	        if(strlen($cc) == 2)
+    	        {
+    	            $ccid = ord(substr($cc,0,1))*256+ord(substr($cc,1,1));
+    	        }
+    	    }
+    	    //ip addr
+    	    list($a, $b, $c, $d) = explode('.', $_SERVER['REMOTE_ADDR']);
+            $num = (sprintf('0x%02x%02x%02x%02x',$a, $b, $c, $d));
+            $num = hexdec($num);//FIXME anon here
+            //send to db
+            if(!$o instanceof CError)
+            {
+                QBContent::logAccess($o->getId(), $ccid, $num);
+            }
+	    }
         self::$accessedContents[$e->Content->Id] = $e;
     }
     

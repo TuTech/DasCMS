@@ -11,7 +11,6 @@
  */
 abstract class BContent extends BObject
 {
-	private static $accessedContents = array();
 	protected 
 		$_data__set = array(),
 		$_origPubDate;
@@ -262,30 +261,6 @@ abstract class BContent extends BObject
 	        $o = $e->Content;
 	    }
 	    $e = new EContentAccessEvent($from, $o);
-	    if(!array_key_exists($o->getId(), self::$accessedContents))
-	    {
-    	    self::$accessedContents[$o->getId()] = true;
-    	    //logging
-    	    //country
-    	    $ccid = 0;
-    	    if(function_exists('geoip_country_code_by_name'))
-    	    {
-    	        $cc = geoip_country_code_by_name();
-    	        if(strlen($cc) == 2)
-    	        {
-    	            $ccid = ord(substr($cc,0,1))*256+ord(substr($cc,1,1));
-    	        }
-    	    }
-    	    //ip addr
-    	    list($a, $b, $c, $d) = explode('.', $_SERVER['REMOTE_ADDR']);
-            $num = (sprintf('0x%02x%02x%02x%02x',$a, $b, $c, $d));
-            $num = hexdec($num);//FIXME anon here
-            //send to db
-            if(!$o instanceof CError)
-            {
-                QBContent::logAccess($o->getId(), $ccid, $num);
-            }
-	    }
 	    return $o;
 	}
 	
