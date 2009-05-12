@@ -12,7 +12,7 @@
  */
 class LConfiguration 
     extends BLegacy
-    implements HWillSendHeadersEventHandler 
+    implements HWillSendHeadersEventHandler, IShareable
 {
     private static $configuration = null;
     private static $configurationChanged = false;
@@ -23,6 +23,12 @@ class LConfiguration
     /**
      * @return LConfiguration
      */
+    public static function getSharedInstance()
+    {
+        self::init();
+        return self::$instanceForSavingOnEnd;
+    }
+    
     private static function init()
     {
         if(self::$configuration == null)

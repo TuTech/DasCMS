@@ -49,7 +49,7 @@ if(PAuthorisation::has('org.bambuscms.credentials.user.change'))
 echo "\n";
 echo new WScript('var action_change_password = function(){'.$jsCreate.'};');
 
-$SUsersAndGroups = SUsersAndGroups::alloc()->init();
+$SUsersAndGroups = SUsersAndGroups::getSharedInstance();
 
 $intro = new WIntroduction();
 $intro->setTitle(mb_convert_encoding($victim, 'utf-8', 'iso-8859-1'), false);
@@ -171,7 +171,7 @@ EOX;
 	        $is_admin = $SUsersAndGroups->isMemberOf($victim, 'Administrator');
 	        //printf('%s %s an administrator; ', $victim, ($is_admin) ? 'is' : 'is not');
 	        $checked = ($is_admin || $SUsersAndGroups->hasPermission($victim, $app_name)) ? ' checked="checked"' : '';
-	        $disabled = ($is_admin || ($app_name == SApplication::alloc()->init()->getName() && $victim == PAuthentication::getUserID())) ? ' disabled="disabled"' : '';
+	        $disabled = ($is_admin || ($app_name == SApplication::getSharedInstance()->getName() && $victim == PAuthentication::getUserID())) ? ' disabled="disabled"' : '';
 	        	printf(
 	        		$line,
 	        		$flip,

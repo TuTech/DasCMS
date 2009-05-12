@@ -24,7 +24,7 @@ class SProfiler
 	
     public static function profile($file, $line, $desc, array $info = array())
     {
-    	$my = self::alloc()->init();
+    	$my = self::getSharedInstance();
         if(!$my->enabled)
         {
             return 0;
@@ -37,7 +37,7 @@ class SProfiler
 	
     public static function finish($token)
     {
-    	$my = self::alloc()->init();
+    	$my = self::getSharedInstance();
         if(!$my->enabled || !array_key_exists($token, $my->runningProfilings))
         {
             return;
@@ -51,7 +51,7 @@ class SProfiler
     
     public static function cancel($token)
     {
-    	$my = self::alloc()->init();
+    	$my = self::getSharedInstance();
         if(!$my->enabled || (!array_key_exists($token, $my->runningProfilings)))
         {
             return;
@@ -115,7 +115,7 @@ class SProfiler
     /**
      * @return SProfiler
      */
-    public static function alloc()
+    public static function getSharedInstance()
     {
         $class = self::CLASS_NAME;
         if(self::$sharedInstance == NULL && $class != NULL)

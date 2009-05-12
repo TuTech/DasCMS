@@ -11,7 +11,7 @@ $dbNeedsUpdate = false;
 //what do we edit?//
 ////////////////////
 
-$SUsersAndGroups = SUsersAndGroups::alloc()->init();
+$SUsersAndGroups = SUsersAndGroups::getSharedInstance();
 
 $edit = RURL::get('edit');
 $mode = substr($edit,0,2) == 'g:' ? 'grp' : 'usr';
@@ -184,7 +184,7 @@ if(RURL::get('_action') == 'delete')
 
 WTemplate::globalSet('DocumentFormAction', SLink::link(array('edit' => ($edit_mode == 'usr' ? 'u:' : 'g:').$victim)));
     	
-$panel = WSidePanel::alloc()->init();
+$panel = WSidePanel::getSharedInstance();
 if($SUsersAndGroups->isGroup($victim))
 {
     $panel->setTarget($victim, 'cms/'.($edit_mode == 'usr' ? 'user' : 'group'));

@@ -27,7 +27,7 @@ class SJobScheduler extends BSystem
         }  
         else
         {
-            $DB = DSQL::alloc()->init();
+            $DB = DSQL::getSharedInstance();
             $DB->beginTransaction();
             try
             {

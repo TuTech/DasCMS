@@ -233,6 +233,10 @@ class CFeed
 	        'options', $forType, $andKey);
 	    $this->_modified = true;
         $this->_data[self::OPTIONS][$forType][$andKey] = $toValue;
+        if($forType == self::SETTINGS && $andKey == 'TargetView')
+        {
+            $this->bindSelfToView($toValue);
+        }
 	}
     
 	public function option($forType, $andKey)

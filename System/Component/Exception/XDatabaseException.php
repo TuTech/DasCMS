@@ -26,7 +26,7 @@ class XDatabaseException extends BDataException
     
     public function rollback()
     {
-        return DSQL::alloc()->init()->rollback();
+        return DSQL::getSharedInstance()->rollback();
     }
     
     public function getSQL()

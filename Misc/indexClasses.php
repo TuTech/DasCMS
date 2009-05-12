@@ -12,7 +12,7 @@ RSession::start();
 PAuthentication::required();
 if(PAuthorisation::has('org.bambuscms.classes.index'))
 {
-    $SCI = SComponentIndex::alloc()->init();
+    $SCI = SComponentIndex::getSharedInstance();
     $SCI->Index();
 }
 ?>

@@ -28,7 +28,7 @@ WHeader::meta('license', 'GNU General Public License/GPL 2 or newer');
 WTemplate::globalSet('bcms_version', BAMBUS_VERSION);
 WTemplate::globalSet('logout_text', SLocalization::get('logout'));
 WTemplate::globalSet('WApplications', '');
-WTemplate::globalSet('SNotificationCenter', SNotificationCenter::alloc()->init());
+WTemplate::globalSet('SNotificationCenter', SNotificationCenter::getSharedInstance());
 WTemplate::globalSet('bambus_my_uri', SLink::link());
 WTemplate::globalSet('Header', new WHeader());
 WTemplate::globalSet('TaskBar','');
@@ -41,7 +41,7 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
 {
     WTemplate::globalSet('WApplications',  new WApplications());
     
-    $App = SApplication::alloc()->init();
+    $App = SApplication::getSharedInstance();
     $App->initApplication();
     
     if(!$App->hasApplication())
@@ -98,7 +98,7 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
 	    
 		WTemplate::globalSet('TaskBar',$App->getTaskBar());//
 		WTemplate::globalSet('OpenDialog',$App->getOpenDialog());
-		WTemplate::globalSet('SideBar',WSidePanel::alloc()->init());
+		WTemplate::globalSet('SideBar',WSidePanel::getSharedInstance());
 		WTemplate::renderOnce('header', WTemplate::SYSTEM);
 		//do savings here - wsidebar might have done something
     	SApplication::appController()->commit();

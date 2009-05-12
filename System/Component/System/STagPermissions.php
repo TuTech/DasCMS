@@ -28,7 +28,7 @@ class STagPermissions
 	/**
 	 * @return STagPermissions
 	 */
-	public static function alloc()
+	public static function getSharedInstance()
 	{
 		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)

@@ -11,7 +11,7 @@ $dbNeedsUpdate = false;
 //what do we edit?//
 ////////////////////
 
-$SUsersAndGroups = SUsersAndGroups::alloc()->init();
+$SUsersAndGroups = SUsersAndGroups::getSharedInstance();
 
 
 $edit = RURL::get('edit');
@@ -281,7 +281,7 @@ if(RSent::hasValue('action'))
 	    foreach($items as $item)
 	    {
 	    	//all admins and the current user must have access to this app
-	    	if(!(($victim == PAuthentication::getUserID() || $SUsersAndGroups->isMemberOf($victim, 'Administrator')) && $item == SApplication::alloc()->init()->getName()))
+	    	if(!(($victim == PAuthentication::getUserID() || $SUsersAndGroups->isMemberOf($victim, 'Administrator')) && $item == SApplication::getSharedInstance()->getName()))
 	    	{
 		    	if(RSent::hasValue('editor_'.md5($item)) && ($SUsersAndGroups->hasPermission(PAuthentication::getUserID(), $item) || PAuthorisation::isInGroup('Administrator')))
 		    	{
@@ -372,7 +372,7 @@ WTemplate::globalSet('DocumentFormAction', SLink::link(array('edit' => ($edit_mo
 
 if($SUsersAndGroups->isUser($victim))
 {
-    $panel = WSidePanel::alloc()->init();
+    $panel = WSidePanel::getSharedInstance();
     $panel->setTarget($victim, 'cms/'.($edit_mode == 'usr' ? 'user' : 'group'));
 }
 	

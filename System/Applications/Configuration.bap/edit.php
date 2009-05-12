@@ -139,7 +139,7 @@ foreach($values as $title => $settings)
                 }
                 if(substr($type, 0, 1) == '@')
                 {
-                    $opts = SComponentIndex::alloc()->init()->ImplementationsOf(substr($type, 1));
+                    $opts = SComponentIndex::getSharedInstance()->ImplementationsOf(substr($type, 1));
                     $input = sprintf("<select name=\"%s\">\n", $key);
                     foreach ($opts as $class) 
                     {

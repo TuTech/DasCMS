@@ -27,7 +27,7 @@ class SSearchIndexer
 	/**
 	 * @return SSearchIndexer
 	 */
-	public static function alloc()
+	public static function getSharedInstance()
 	{
 		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)
@@ -132,7 +132,7 @@ class SSearchIndexer
 	 */
 	public static function updateFeatures(BContent $content)
 	{
-	    $DB = DSQL::alloc()->init();
+	    $DB = DSQL::getSharedInstance();
 	    //$DB->beginTransaction();
 	    echo '.';
 	    try

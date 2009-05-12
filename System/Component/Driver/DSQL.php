@@ -25,7 +25,7 @@ abstract class DSQL extends BDriver implements IShareable
 	 * @return DSQL
 	 * @throws XDatabaseException
 	 */
-	public static function alloc()
+	public static function getSharedInstance()
 	{
 		if(self::$Connector == null)
 		{
@@ -33,7 +33,6 @@ abstract class DSQL extends BDriver implements IShareable
 			$connector = 'DSQL_'.self::$engine;
 			if(!class_exists($connector, true))
 			{
-			    var_dump(LConfiguration::as_array());
 				throw new XDatabaseException('unsupported database '.self::$engine, 0);
 			}
 			self::$Connector = new $connector;

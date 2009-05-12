@@ -311,18 +311,18 @@ class SUsersAndGroups
 //wrapper functions: current user and current application
     public function setMyPreference($withKey, $toValue)
     {
-        return $this->setUserApplicationPreference(PAuthentication::getUserID(), SApplication::alloc()->init()->getName(), $withKey, $toValue);
+        return $this->setUserApplicationPreference(PAuthentication::getUserID(), SApplication::getSharedInstance()->getName(), $withKey, $toValue);
     }
     
     public function resetMyPreference($withKeyOrKeys = false)
     {
         //false = reset all keys / string = reset one specific key / array of strings = reset all keys in array
-        return $this->resetUserApplicationPreference(PAuthentication::getUserID(), SApplication::alloc()->init()->getName(), $withKeyOrKeys);
+        return $this->resetUserApplicationPreference(PAuthentication::getUserID(), SApplication::getSharedInstance()->getName(), $withKeyOrKeys);
     }
     
     public function getMyPreference($withKey)
     {
-        return $this->getUserApplicationPreference(PAuthentication::getUserID(), SApplication::alloc()->init()->getName(), $withKey);
+        return $this->getUserApplicationPreference(PAuthentication::getUserID(), SApplication::getSharedInstance()->getName(), $withKey);
     }
     
     
@@ -706,12 +706,19 @@ class SUsersAndGroups
     /**
      * @return SUsersAndGroups
      */
-    public static function alloc()
+    public static function getSharedInstance()
     {
         $class = self::CLASS_NAME;
         if(self::$sharedInstance == NULL && $class != NULL)
         {
             self::$sharedInstance = new $class();
+            if(self::$sharedInstance->userlistfile == null)
+            {
+                self::$sharedInstance->userlistfile = SPath::CONTENT.'configuration/users.php';
+                self::$sharedInstance->grouplistfile = SPath::CONTENT.'configuration/groups.php';
+                self::$sharedInstance->userlist = DFileSystem::LoadData(self::$sharedInstance->userlistfile);
+                self::$sharedInstance->grouplist = DFileSystem::LoadData(self::$sharedInstance->grouplistfile);
+            }
         }
         return self::$sharedInstance;
     }
@@ -721,13 +728,6 @@ class SUsersAndGroups
      */
     function init()
     {
-        if($this->userlistfile == null)
-        {
-            $this->userlistfile = SPath::CONTENT.'configuration/users.php';
-            $this->userlist = DFileSystem::LoadData($this->userlistfile);
-            $this->grouplistfile = SPath::CONTENT.'configuration/groups.php';
-            $this->grouplist = DFileSystem::LoadData($this->grouplistfile);
-        }
         return $this;
     }
     //end IShareable

@@ -303,11 +303,26 @@ class SComponentIndex
 	 *
 	 * @return SComponentIndex
 	 */
-	public static function alloc()
+	public static function getSharedInstance()
 	{
 		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)
-			self::$sharedInstance = new $class();
+		{
+		    self::$sharedInstance = new $class();
+		    try
+    		{
+    			self::$_classIndex = DFileSystem::LoadData(self::$sharedInstance->StoragePath('classes'));
+    			self::$_interfaceIndex = DFileSystem::LoadData(self::$sharedInstance->StoragePath('interfaces'));    		
+    		}
+    		catch(XFileNotFoundException $e)
+    		{
+    			$this->Index(false);
+    		}
+    		catch (Exception $e)
+    		{
+    			echo $e->getMessage().'<br />';
+    		}
+		}
 		return self::$sharedInstance;
 	}
     
@@ -318,22 +333,6 @@ class SComponentIndex
 	 */
     function init()
     {
-    	if(!self::$initDone)
-    	{
-    		try
-    		{
-    			self::$_classIndex = DFileSystem::LoadData($this->StoragePath('classes'));
-    			self::$_interfaceIndex = DFileSystem::LoadData($this->StoragePath('interfaces'));    		
-    		}
-    		catch(XFileNotFoundException $e)
-    		{
-    			$this->Index(false);
-    		}
-    		catch (Exception $e)
-    		{
-    			echo $e->getMessage().'<br />';
-    		}
-    	}
     	return $this;
     }
 	//end IShareable

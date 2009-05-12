@@ -23,7 +23,7 @@ abstract class BQuery extends BObject
 	{
 	    if(self::$_database == null)
 	    {
-	        self::$_database = DSQL::alloc()->init();
+	        self::$_database = DSQL::getSharedInstance();
 	    }
 	    return self::$_database;
 	}

@@ -26,7 +26,7 @@ class SBambusSessionAuth
     
     public function getGroups()
     {
-        $uag = SUsersAndGroups::alloc()->init();
+        $uag = SUsersAndGroups::getSharedInstance();
         $g = $uag->listGroupsOfUser(PAuthentication::getUserID(), false);
         if($uag->isMemberOf(PAuthentication::getUserID(), 'Administrator'))
         {
@@ -37,7 +37,7 @@ class SBambusSessionAuth
     
     public function getPrimaryGroup()
     {
-        return SUsersAndGroups::alloc()->init()->getPrimaryGroup(PAuthentication::getUserID());
+        return SUsersAndGroups::getSharedInstance()->getPrimaryGroup(PAuthentication::getUserID());
     }
     
     private function getAllApps()
@@ -45,7 +45,7 @@ class SBambusSessionAuth
 		$available = array();
 		$appPath = SPath::SYSTEM_APPLICATIONS;
 		$dirhdl = opendir($appPath);
-		$UAG = SUsersAndGroups::alloc()->init();
+		$UAG = SUsersAndGroups::getSharedInstance();
 		while($item = readdir($dirhdl))
 		{
 			if(is_dir($appPath.$item) 
@@ -63,7 +63,7 @@ class SBambusSessionAuth
     
     public function getPermissions()
     {
-        $SUsersAndGroups = SUsersAndGroups::alloc()->init();
+        $SUsersAndGroups = SUsersAndGroups::getSharedInstance();
         if($SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'))
         {
             $rigths = array('*' => PAuthorisation::PERMIT);
@@ -142,7 +142,7 @@ class SBambusSessionAuth
         }
         $this->attemptedUserID = $user;
         //check login data
-        $uag = SUsersAndGroups::alloc()->init();
+        $uag = SUsersAndGroups::getSharedInstance();
         if($uag->isValidUser($user, $password))
         {
             $this->user = $user;
@@ -190,7 +190,7 @@ class SBambusSessionAuth
     public function getUserName()
     {
         return ($this->status >= PAuthentication::VALID_USER) 
-            ? SUsersAndGroups::alloc()->init()->getRealName($this->user)
+            ? SUsersAndGroups::getSharedInstance()->getRealName($this->user)
             : '';
     }
     
@@ -202,13 +202,13 @@ class SBambusSessionAuth
     public function getUserEmail()
     {
         return ($this->status >= PAuthentication::VALID_USER) 
-            ? SUsersAndGroups::alloc()->init()->getEmail($this->user)
+            ? SUsersAndGroups::getSharedInstance()->getEmail($this->user)
             : '';
     }
 
     public function getRole()
     {
-        $SUsersAndGroups = SUsersAndGroups::alloc()->init();
+        $SUsersAndGroups = SUsersAndGroups::getSharedInstance();
         return ($SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Administrator'))
             ? (PAuthorisation::ROLE_ADMINISTRATOR)
             : (PAuthorisation::ROLE_USER);

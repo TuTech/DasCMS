@@ -43,7 +43,7 @@ class NTreeNavigation
 	/**
 	 * @return NTreeNavigation
 	 */
-	public static function alloc()
+	public static function getSharedInstance()
 	{
 		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)
@@ -74,7 +74,7 @@ class NTreeNavigation
     public static function set($nav,VSpore $spore, NTreeNavigationObject $tno_root)
     {
     	//nav names are fs-names
-    	self::alloc();
+    	self::getSharedInstance();
     	self::$index[$nav] = array($spore->GetName(), $tno_root);
     }
     /**
@@ -129,7 +129,7 @@ class NTreeNavigation
     
     public static function remove($nav)
     {
-    	self::alloc();
+    	self::getSharedInstance();
     	if(self::exists($nav))
     	{
     		unset(self::$index[$nav]);
@@ -138,13 +138,13 @@ class NTreeNavigation
     
     public static function exists($nav)
     {
-    	self::alloc();
+    	self::getSharedInstance();
     	return array_key_exists($nav, self::$index);
     }
     
     public static function navigations()
     {
-    	self::alloc();
+    	self::getSharedInstance();
     	return array_keys(self::$index);
     }
     
@@ -152,7 +152,7 @@ class NTreeNavigation
     
     public static function Save()
     {
-    	self::alloc();
+    	self::getSharedInstance();
 		DFileSystem::SaveData('./Content/'.self::CLASS_NAME.'/index.php', self::$index);
 		return true;
     }

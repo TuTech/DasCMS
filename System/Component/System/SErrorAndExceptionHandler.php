@@ -30,7 +30,7 @@ class SErrorAndExceptionHandler
         </div>';
     
     private static $err_mail = 
-    	"\r\n\r\n%s (%d) in \"%s\" at line %d\n\n%s\n\n%s\n\ncwd: %s";
+    	"\r\n\r\n%s (%d) in \"%s\" at line %d\n\n%s\n\n%s\n\ncwd: %s\nscript: %s\nurl: %s";
     
     private static function mail($kind, $code, $file, $line, $message, $stack, $workingDir)
     {
@@ -51,6 +51,8 @@ class SErrorAndExceptionHandler
                         ,$message
                         ,$stack
                         ,$workingDir
+                        ,__FILE__
+                        ,$_SERVER['PHP_SELF'].$_SERVER['QUERY_STRING']
                     ));
             }
         }

@@ -411,16 +411,13 @@ class CSearch
 	
 	public function getTargetView()
 	{
-	    return 'page';
+	    return $this->getBoundView();
 	}
 	
 	public function setTargetView($view)
 	{
-	    
+	    $this->bindSelfToView($view);
 	}
-	
-	
-	
 	
 	//IGeneratesFeed
 	/**

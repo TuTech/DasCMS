@@ -29,7 +29,7 @@ class JImportAtomFeeds extends BJob
     public function run()
     {
         $stat = 'ok';
-        $DB = DSQL::alloc()->init();
+        $DB = DSQL::getSharedInstance();
         $DB->beginTransaction();
         $res = QJImportAtomFeeds::getNextFeedURL();
         $url = null;

@@ -34,7 +34,7 @@ class JImportMails extends BJob
         {
             //echo 'update for mail account ';
             $account = null;
-            $DB = DSQL::alloc()->init();
+            $DB = DSQL::getSharedInstance();
             $DB->beginTransaction();
             //get account to update + lock
             $res = QJImportMails::getNextMailAccount();

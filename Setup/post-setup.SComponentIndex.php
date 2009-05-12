@@ -8,7 +8,7 @@ class post_setup_SComponentIndex implements runnable
 			mkdir('Content/SComponentIndex/');
 		}
 		$cdir = getcwd();
-		$SCI = SComponentIndex::alloc()->init();
+		$SCI = SComponentIndex::getSharedInstance();
         $SCI->Index(false);
 		chdir($cdir);
 	}

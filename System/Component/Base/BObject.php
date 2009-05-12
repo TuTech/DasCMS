@@ -61,15 +61,19 @@ abstract class BObject
 		$object = null;
 		if(class_exists($class, true))
 		{
-			$temp = new $class();
-			if($temp instanceof IShareable)
-			{
-				$object = $temp->alloc()->init();
-			}
-			else
-			{
-				$object = $temp;
-			}
+		    if(class_exists('SComponentIndex',false))
+		    {
+		        if(SComponentIndex::getSharedInstance()->IsImplementation($class, 'IShareable'))
+		        {
+		            $object = call_user_func($eventListenerClass.'::getSharedInstance');
+		        }
+		    }
+		    if($object == null || !is_object($object))
+		    {
+		        $temp = new $class();
+			    //if SComponentIndex was not available, respect the interfaces will 
+				$object = ($temp instanceof IShareable) ? $temp->getSharedInstance() : $temp;
+		    }
 		}
 		return $object;
 	}

@@ -33,7 +33,7 @@ class SNotificationCenter
 	/**
      * @return SNotificationCenter
      */
-	public static function alloc()
+	public static function getSharedInstance()
 	{
 		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)
@@ -90,7 +90,7 @@ class SNotificationCenter
             ,'message_type' => $type
             ,'edit' => ''
             ,'user' => PAuthentication::getUserID()
-            ,'application' =>  SApplication::alloc()->init()->getGUID()
+            ,'application' =>  SApplication::getSharedInstance()->getGUID()
             ,'timestamp' => time()
             ,'ip_address' => getenv ("REMOTE_ADDR")
             ,'cms_root' =>  defined('BAMBUS_CMS_ROOTDIR') ? constant('BAMBUS_CMS_ROOTDIR') : ''

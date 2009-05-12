@@ -51,18 +51,20 @@ abstract class BEvent extends BObject
 		//HandleContentChangedEvent
 		$handleEvent = sprintf("Handle%s", substr($class,1));
 		
-		$SCI = SComponentIndex::alloc()->init();
+		$SCI = SComponentIndex::getSharedInstance();
 		$listenerClasses = $SCI->ImplementationsOf($handler);
 		foreach ($listenerClasses as $eventListenerClass) 
 		{
-			$eventListener = new $eventListenerClass();
+		    if(SComponentIndex::getSharedInstance()->IsImplementation($eventListenerClass, 'IShareable'))
+		    {
+		        $eventListener = call_user_func($eventListenerClass.'::getSharedInstance');
+		    }
+			else
+			{
+			    $eventListener = new $eventListenerClass();
+			}
 			if($eventListener instanceof $handler)
 		    {
-		        if($eventListener instanceof IShareable)
-		        {
-		            $eventListener = $eventListener->alloc();//call_user_func_array(array($eventListenerClass, 'alloc'));
-		            $eventListener->init();
-		        }
     			if(!method_exists($eventListener, $handleEvent))
     			{
     			    throw new Exception($eventListenerClass.' ['.get_class($eventListener).'::'.$handleEvent.'()]');

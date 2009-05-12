@@ -100,6 +100,35 @@ abstract class BContent extends BObject
 	    QBContent::setMimeType($alias, $mime);
 	}
 	
+	protected function bindSelfToView($viewname)
+	{
+	    //if name == '' -> delete
+	    //else insert/update view
+	    if(empty($viewname))
+	    {
+	        QBContent::removeViewBinding($this->getId());
+	    }
+	    else
+	    {
+	        QBContent::setViewBinding($this->getId(), $viewname);
+	    }
+	} 
+	
+	/**
+	 * @return string|null
+	 */
+	protected function getBoundView()
+	{
+	    $res = QBContent::getViewBinding($this->getId());
+	    $view = null;
+	    if($res->getRowCount() == 1)
+	    {
+	        list($view) = $res->fetch(); 
+	    }
+	    $res->free();
+	    return $view;
+	}
+	
 	/**
 	 * save meta data to db
 	 * @return void
@@ -505,7 +534,7 @@ abstract class BContent extends BObject
 	{
 		if($this->Tags === null)
 		{
-			$this->Tags = STag::alloc()->init()->get($this);
+			$this->Tags = STag::getSharedInstance()->get($this);
 		}
 		return $this->Tags;
 	}

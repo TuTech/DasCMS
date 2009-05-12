@@ -27,6 +27,40 @@ class QBContent extends BQuery
         return BQuery::Database()->query(sprintf($sql, $contentID), DSQL::NUM);
     }
     
+    public static function removeViewBinding($contentId)
+    {
+        $sql = 
+            "DELETE 
+            	FROM relContentsTargetViews 
+            	WHERE contentREL = %d";
+        $DB = BQuery::Database();
+        return $DB->queryExecute(sprintf($sql, $contentId));
+    }
+    
+    public static function getViewBinding($contentId)
+    {
+        $sql = 
+            "SELECT viewName
+            	FROM relContentsTargetViews 
+            	LEFT JOIN SporeViews ON (relContentsTargetViews.viewREL = SporeViews.viewID)
+            	WHERE relContentsTargetViews.contentREL = %d";
+        $DB = BQuery::Database();
+        return $DB->query(sprintf($sql, $contentId), DSQL::NUM);
+    }
+    
+    public static function setViewBinding($contentId, $viewName)
+    {
+        $DB = BQuery::Database();
+        $sql = "INSERT INTO relContentsTargetViews (contentREL, viewREL) 
+        			VALUES (%d, SELECT viewID FROM SporeViews WHERE viewName = '%s')
+        			ON DUPLICATE KEY 
+        				SET viewREL = SELECT viewID FROM SporeViews WHERE viewName = '%s'
+        				WHERE contentREL = %d";
+        $viewName = $DB->escape($viewName);
+        $DB->queryExecute(sprintf($sql, $contentId, $viewName, $viewName, $contentId));
+    }
+    
+    
     /**
      * @param int $contentID
      * @return DSQLResult
@@ -128,7 +162,7 @@ class QBContent extends BQuery
     	    
     public static function setMimeType($alias, $mime)
     {
-        $DB = DSQL::alloc()->init();
+        $DB = DSQL::getSharedInstance();
         $sql = "INSERT IGNORE INTO Mimetypes (mimetype) VALUES ('%s')";
         $DB->queryExecute(sprintf($sql, $DB->escape($mime)));
         $sql = 

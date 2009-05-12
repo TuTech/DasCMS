@@ -33,7 +33,7 @@ class JJobJanitor extends BJob
         $toRemove = array();
         
         //get all indexed job classes
-        $SCI = SComponentIndex::alloc()->init();
+        $SCI = SComponentIndex::getSharedInstance();
         $indexed = $SCI->ExtensionsOf('BJob');
 
         //get all registered jobs

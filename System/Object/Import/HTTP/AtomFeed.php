@@ -44,7 +44,7 @@ class Import_HTTP_AtomFeed extends _Import_HTTP
         {
             if($this->hadUpdate($e->getId(), $e->getUpdated()))
             {
-                $DB = DSQL::alloc()->init();
+                $DB = DSQL::getSharedInstance();
                 $DB->beginTransaction();
                 $content = $this->loadContentForGUID($e->getId());
                 $content->setTitle($e->getTitle()->getText());

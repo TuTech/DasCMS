@@ -53,9 +53,9 @@ class DSQL_SQLite extends DSQL
 	/**
 	 * @return DSQL
 	 */
-	public static function alloc()
+	public static function getSharedInstance()
 	{
-		throw new Exception('call DSQL::alloc() instead');
+		throw new Exception('call DSQL::getSharedInstance() instead');
 	}
 	
     /**

@@ -19,7 +19,7 @@ if(PAuthorisation::has('org.bambuscms.credentials.group.create'))
 }
 echo "\n";
 echo new WScript('var action_add_group = function(){'.$jsCreate.'};');
-$SUsersAndGroups = SUsersAndGroups::alloc()->init();
+$SUsersAndGroups = SUsersAndGroups::getSharedInstance();
 
 
 if($edit_mode == 'usr')

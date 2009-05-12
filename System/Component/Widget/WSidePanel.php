@@ -42,7 +42,7 @@ class WSidePanel
 	/**
 	 * @return WSidePanel
 	 */
-	public static function alloc()
+	public static function getSharedInstance()
 	{
 		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)
@@ -143,7 +143,7 @@ class WSidePanel
 	private function loadWidgets()
 	{
 		//load all ISidebarWidget
-		$ci = SComponentIndex::alloc()->init();
+		$ci = SComponentIndex::getSharedInstance();
 		$widgetNames = $ci->ImplementationsOf("ISidebarWidget");
 		$widgets = array();
 		foreach ($widgetNames as $v) 
@@ -173,7 +173,7 @@ class WSidePanel
 		{
 			return '';
 		}
-		$UAG = SUsersAndGroups::alloc()->init();
+		$UAG = SUsersAndGroups::getSharedInstance();
 		if(RSent::has('WSidebar-selected') && in_array(RSent::get('WSidebar-selected'), $widgets))
 		{
 			$UAG->setMyPreference('WSidebar-selected', RSent::get('WSidebar-selected'));

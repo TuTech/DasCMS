@@ -40,7 +40,7 @@ class AUserEditor
             throw new XPermissionDeniedException('view');
         }
         $items = array();
-        $SUsersAndGroups = SUsersAndGroups::alloc()->init();
+        $SUsersAndGroups = SUsersAndGroups::getSharedInstance();
         $users = $SUsersAndGroups->listUsers();
         foreach(array_keys($users) as $item)
         {
