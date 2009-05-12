@@ -17,17 +17,15 @@ $values = array(
 		"meta_keywords"         => array("meta_keywords",   "fullinput"),
         "meta_description"      => array("meta_description","fullinput"),
 		'preview_image_quality' => array("preview_image_quality","image_quality"),
-		'wellformed_urls'       => array("wellformed_urls", "checkbox"),
-		'google_verify_header'  => array("google_verify_header","fullinput"),
+		'wellformed_urls'       => array("wellformed_urls", "checkbox")
     ),
 	"system" => array(
         "date_format"           => array("dateformat",      "fullinput"),
         "logout_on_exit"        => array("logout_on_exit",  "checkbox"),
         "confirm_for_exit"      => array("confirm_for_exit","checkbox"),
-        "log_page_changes"      => array("logChanges",      "checkbox"),
+//        "log_page_changes"      => array("logChanges",      "checkbox"),
         "timezone"              => array("timezone",      "tz"),
         "locale"                => array("locale",      "ISO639-2"),
-        "use_wysiwyg"			=> array("use_wysiwyg",      "checkbox"),
     	'mail_webmaster_on_error'=> array("mail_webmaster_on_error","checkbox"),//IAuthorize
         'authentication_method' => array("PAuthentication","@IAuthenticate"),
     	'authorization_method'  => array("PAuthorisation", "@IAuthorize")
@@ -153,5 +151,41 @@ foreach($values as $title => $settings)
 		$tbl->addRow(array($label, $input));
 	}
     $tbl->render();
+}
+/**
+ * @var AConfiguration
+ */
+$ctrl = SApplication::appController();
+//$ctrl = new AConfiguration();
+$settings = $ctrl->getSettings();
+foreach ($settings as $section => $data)
+{
+    if(count($data))
+    {
+        $tbl = new WTable(WTable::HEADING_LEFT|WTable::HEADING_TOP);
+        $tbl->setHeaderTranslation(true);
+        $tbl->setTitle($section, true);
+        $tbl->addRow(array('description', 'value'));
+        foreach ($data as $key => $fieldconfig)
+        {
+            list($langKey, $value, $type, $options) = $fieldconfig;
+            $str = '';
+            switch ($type)
+            {
+                case AConfiguration::TYPE_TEXT:
+                    $str = sprintf($fullinput, $key, $key, htmlentities($value, ENT_QUOTES, 'UTF-8'));
+                    break;
+                case AConfiguration::TYPE_CHECKBOX:
+                    
+                    break;
+                case AConfiguration::TYPE_SELECT:
+                    
+                    break;
+            }
+            
+            $tbl->addRow(array($fieldconfig[0], $str));
+        }
+        $tbl->render();
+    }
 }
 ?>

@@ -11,8 +11,11 @@
  * @subpackage Legacy
  */
 class LConfiguration 
-    extends BLegacy
-    implements HWillSendHeadersEventHandler, IShareable
+    extends 
+        BLegacy
+    implements 
+        HWillSendHeadersEventHandler, 
+        IShareable
 {
     private static $configuration = null;
     private static $configurationChanged = false;
@@ -38,6 +41,7 @@ class LConfiguration
             self::$instanceForSavingOnEnd = new LConfiguration();
         }
     }
+    
     /**
      * export config to array
      *

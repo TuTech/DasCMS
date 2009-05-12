@@ -115,6 +115,7 @@ class SContentWatch
         if(count($descriptions) > 0)
         {
             $desc = implode(', ', $descriptions);
+            $desc = html_entity_decode($desc, ENT_QUOTES, 'utf-8');
             $desc = strip_tags($desc);
             $desc = preg_replace('/\s+/mui', ' ', $desc);
             if(strlen($desc) > 255)

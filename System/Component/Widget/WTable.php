@@ -103,6 +103,11 @@ class WTable extends BWidget
         $this->id = $newId;
     }
     
+    public function sort($byColumn = 0, $ascending = true)
+    {
+        //FIXME add wtable sorting
+    }
+    
     /**
      * process inputs etc
      *
