@@ -14,7 +14,6 @@ class LConfiguration
     extends 
         BLegacy
     implements 
-        HWillSendHeadersEventHandler, 
         IShareable
 {
     private static $configuration = null;
@@ -122,23 +121,6 @@ class LConfiguration
             self::$configurationChanged = false;
         }
     }
-    
-    public function HandleWillSendHeadersEvent(EWillSendHeadersEvent $e)
-    {
-        self::init();
-        $confMeta = array(
-            'google_verify_header' => 'verify-v1',
-            'copyright' => 'copyright',
-            'publisher' => 'DC.publisher',
-            'generator' => BAMBUS_VERSION
-        );
-        foreach($confMeta as $key => $metaKey)
-        {
-            if(!empty(self::$configuration[$key]))
-            {
-                $e->getHeader()->addMeta(self::$configuration[$key],$metaKey);
-            }
-        }
-    }
+
 }
 ?>

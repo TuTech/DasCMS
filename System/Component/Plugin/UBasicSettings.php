@@ -13,7 +13,8 @@ class UBasicSettings
     extends BPlugin 
     implements 
         HRequestingClassSettingsEventHandler,
-        HUpdateClassSettingsEventHandler
+        HUpdateClassSettingsEventHandler,
+        HWillSendHeadersEventHandler
 {
     private static $keys = array(
         'website_information' => array(
@@ -86,26 +87,17 @@ class UBasicSettings
     
     public function HandleWillSendHeadersEvent(EWillSendHeadersEvent $e)
     {
-        $data = array();
-        foreach (self::$keys as $sect => $ks)
+        $confMeta = array(
+            'copyright' => 'copyright',
+            'publisher' => 'DC.publisher',
+            'generator' => 'generator'
+        );
+        foreach($confMeta as $key => $metaKey)
         {
-            foreach ($ks as $mk => $cc)
+            $v = $key == 'generator' ? BAMBUS_VERSION : LConfiguration::get($key);
+            if(!empty($v))
             {
-                $data[$sect.'_'.$mk] = LConfiguration::get($cc);
-            }
-        }
-        $data['site_location_location'] = '';
-        if($data['site_location_longitude'] != '' && $data['site_location_latitude'] != '')
-        {
-            $data['site_location_location'] = $data['site_location_latitude'].';'.$data['site_location_longitude'];
-        }
-        $h = $e->getHeader();
-        
-        foreach (self::$map as $key => $metaKeys)
-        {
-            foreach ($metaKeys as $mkey)
-            {
-                $h->addMeta($data[$key], $mkey);
+                $e->getHeader()->addMeta($v,$metaKey);
             }
         }
     }
