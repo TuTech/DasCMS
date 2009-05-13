@@ -59,7 +59,7 @@ class DSQL_MySQL extends DSQL
 		return empty($dat) ? null : $dat; 
 	}
 	private static $configKeys = array(
-	    'db_server' => 0,'db_port' => 0,'db_user' => 0,'db_password' => '','db_name' => 0
+	    'db_server' => 0,'db_port' => 0,'db_user' => 0,'db_password' => '######','db_name' => 0
 	);
 	public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
 	{
@@ -76,7 +76,7 @@ class DSQL_MySQL extends DSQL
 	    $data = $e->getClassSettings($this);
 	    foreach (self::$configKeys as $mk => $altVal)
         {
-            if(isset($data[$mk]))
+            if(isset($data[$mk]) && !($mk == 'db_password' && $data[$mk] == $altVal))
             {
                 LConfiguration::set($mk, $data[$mk]);
             }

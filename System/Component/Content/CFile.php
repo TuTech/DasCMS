@@ -167,8 +167,15 @@ class CFile
 	{
 	    if(in_array($this->getType(), array('jpg','jpeg','png','gif')))
 	    {
+	        $rendering = LConfiguration::getOrDefault('CFile_image_rendering_method', '0c');
 	        $img = WImage::forContent($this);
-	        $img = $img->scaled(640,480);//FIXME values from config
+	        $img = $img->scaled(
+	            LConfiguration::getOrDefault('CFile_image_width', 640),
+	            LConfiguration::getOrDefault('CFile_image_height', 480),
+	            substr($rendering,0,1),
+	            substr($rendering,1,1),
+	            LConfiguration::getOrDefault('CFile_image_background_color', '#ffffff')
+	        );
 	    }
         return sprintf(
             '<div class="CFile" id="_'.htmlentities($this->getGUID(), ENT_QUOTES, 'UTF-8').'">'.

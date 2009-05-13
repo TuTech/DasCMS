@@ -65,6 +65,23 @@ class LConfiguration
     }
     
     /**
+     * get config value or the given default value
+     *
+     * @return string
+     */
+    public static function getOrDefault($var, $default)
+    {
+        $val = self::get($var);
+        if($val == '')
+        {
+            $val = $default;
+        }
+        return $val;
+    }
+    
+    
+    
+    /**
      * set config value
      *
      * @param string $var
