@@ -12,9 +12,7 @@
 class PAuthorisation 
     extends BProvider 
     implements 
-        IShareable, 
-        HRequestingClassSettingsEventHandler, 
-        HUpdateClassSettingsEventHandler
+        IShareable
 {
     const ROLE_ADMINISTRATOR = 'administrator';
     const ROLE_DAEMON = self::ROLE_ADMINISTRATOR;
@@ -28,7 +26,6 @@ class PAuthorisation
     const PERMIT = true;
     
     protected $Interface = 'IAuthorize';
-    protected $Purpose = 'security';
     private static $instance = null;
 
     private static $roleStatus = array(

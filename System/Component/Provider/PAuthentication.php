@@ -13,10 +13,7 @@ class PAuthentication
     extends
         BProvider 
     implements 
-        IShareable, 
-        HRequestingClassSettingsEventHandler, 
-        HUpdateClassSettingsEventHandler
-
+        IShareable
 {
     const CLASS_NAME = 'PAuthentication';
     const FAILED_LOGIN = -1;
@@ -35,8 +32,6 @@ class PAuthentication
     
     private static $active = false;
     private static $implied = false;
-    
-    protected $Purpose = 'security';
     
     private function __construct()
     {

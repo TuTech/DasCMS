@@ -19,7 +19,7 @@ class DSQLSettings
     {
         //db_engine + whatever DSQL gives us
         $e->addClassSettings($this, 'database', array(
-        	'change_database_settings' => array('', AConfiguration::TYPE_CHECKBOX, DSQL::getEngines()),
+        	'change_database_settings' => array('', AConfiguration::TYPE_CHECKBOX, null),
            	'engine' => array(LConfiguration::get('db_engine'), AConfiguration::TYPE_SELECT, DSQL::getEngines())
         ));
         DSQL::getSharedInstance()->HandleRequestingClassSettingsEvent($e);
