@@ -29,15 +29,6 @@ class WOpenDialog extends BWidget
 		}
 		return self::$sharedInstance;
 	}
-    
-	/**
-	 * @return WOpenDialog
-	 * @see System/Component/Interface/IShareable#init()
-	 */
-	function init()
-    {
-    	return $this;
-    }
 	//end IShareable
 	
     protected static $CurrentWidgetID = 0;

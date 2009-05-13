@@ -34,14 +34,6 @@ class SFeedKeeper
 		}
 		return self::$sharedInstance;
 	}
-    
-	/**
-	 * @return SFeedKeeper
-	 */
-	function init()
-    {
-    	return $this;
-    }
 	//end IShareable
     
 	public function HandleContentChangedEvent(EContentChangedEvent $e)

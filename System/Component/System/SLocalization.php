@@ -13,15 +13,59 @@ class SLocalization
     extends 
         BSystem
     implements
-        IGlobalUniqueId
+        IGlobalUniqueId,
+        HRequestingClassSettingsEventHandler,
+        HUpdateClassSettingsEventHandler
 {
     const GUID = 'org.bambuscms.system.localization';
+    
+    private static $confKeys = array(
+        'locale' => 'locale',
+        'timezone' => 'timezone',
+        'date_format' => 'dateformat'
+    );
     
     public function getClassGUID()
     {
         return self::GUID;
     }
 
+    public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
+    {
+        $tz = array();
+        $loc = array();
+        $fp = fopen(SPath::SYSTEM_RESOURCES.'timezones.txt', 'r');
+        while($row = fgets($fp,255))
+        {
+            $tz[] = trim($row);
+        }
+        fclose($fp);
+        $fp = fopen(SPath::SYSTEM_RESOURCES.'ISO-639-2_utf-8.txt', 'r');
+        while($row = fgetcsv($fp,1024,'|'))
+        {
+            $loc[$row[3]] = $row[0];
+        }
+        fclose($fp);
+        //locale, timezone, dateformat
+        $e->addClassSettings($this, 'country_settings', array(
+        	'locale' => array(LConfiguration::get('locale'), AConfiguration::TYPE_SELECT, $loc),
+        	'timezone' => array(LConfiguration::get('timezone'), AConfiguration::TYPE_SELECT, $tz),
+        	'date_format' => array(LConfiguration::get('dateformat'), AConfiguration::TYPE_TEXT, null)
+        ));
+    }
+    
+    public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
+    {
+        $data = $e->getClassSettings($this);
+        foreach (self::$confKeys as $mk => $cc)
+        {
+            if(isset($data[$mk]))
+            {
+                LConfiguration::set($cc, $data[$mk]);
+            }
+        }
+    }
+    
     public function __construct()
 	{
 	}

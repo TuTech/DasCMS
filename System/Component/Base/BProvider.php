@@ -9,8 +9,33 @@
  * @package Bambus
  * @subpackage BaseClasses
  */
-abstract class BProvider
+abstract class BProvider extends BObject
 {
+    public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
+    {
+        $class = get_class($this);
+        $implementors = SComponentIndex::getSharedInstance()->ImplementationsOf($this->getInterface());
+        $ipls = array();
+        foreach ($implementors as $impl)
+        {
+            $ipls[SLocalization::get(constant($impl.'::NAME'))] = $impl;
+        }
+        $data = array();
+        $data['implementation'] = array(LConfiguration::get($class), AConfiguration::TYPE_SELECT, $ipls);
+        $e->addClassSettings($this, $this->getPurpose(), $data);
+    }
+    
+    public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
+    {
+        $class = get_class($this);
+        $data = $e->getClassSettings($this);
+        
+        if(!empty($data['implementation']))
+        {
+            LConfiguration::set($class, $data['implementation']);
+        }
+    }
+    
     //serves one purpose
 
     //has assigned interface
@@ -30,6 +55,12 @@ abstract class BProvider
     protected $Implementor = null;
     
     /**
+     * purpose in config section
+     * @var string
+     */
+    protected $Purpose = 'provider';
+    
+    /**
      * interface implementation to handle the requests
      * @var string
      */
@@ -42,6 +73,14 @@ abstract class BProvider
     public function getInterface()
     {
         return $this->Interface;
+    }    
+    /**
+     * getter for $Interface
+     * @return string
+     */
+    public function getPurpose()
+    {
+        return $this->Purpose;
     }
     
     /**

@@ -61,14 +61,6 @@ class STag
 		}
 		return self::$sharedInstance;
 	}
-    
-	/**
-	 * @return STag
-	 */
-    function init()
-    {
-    	return $this;
-    }
 	//end IShareable
 	
 	

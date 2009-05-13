@@ -14,9 +14,6 @@ interface IShareable
 	//instanciate class if neccessary and return a link to the object
 	public static function getSharedInstance();
 	
-	//tell object to establish links to other classes etc
-	//return $this
-	//public function init();
 }
 
 ?>

@@ -37,14 +37,6 @@ class STagPermissions
 		}
 		return self::$sharedInstance;
 	}
-    
-	/**
-	 * @return STagPermissions
-	 */
-	function init()
-    {
-    	return $this;
-    }
 	//end IShareable
     
     private function isProtected(BContent $content)

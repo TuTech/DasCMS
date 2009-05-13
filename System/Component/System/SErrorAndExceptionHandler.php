@@ -12,6 +12,9 @@
 class SErrorAndExceptionHandler
     extends 
         BSystem 
+    implements
+        HRequestingClassSettingsEventHandler,
+        HUpdateClassSettingsEventHandler
 {
     private static $error = null;
     private static $errorMessage = null;
@@ -31,6 +34,21 @@ class SErrorAndExceptionHandler
     
     private static $err_mail = 
     	"\r\n\r\n%s (%d) in \"%s\" at line %d\n\n%s\n\n%s\n\ncwd: %s\nscript: %s\nurl: %s";
+    
+    public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
+    {
+        $data = array('mail_webmaster_on_error' => array(LConfiguration::get('mail_webmaster_on_error'), AConfiguration::TYPE_CHECKBOX, null));
+        $e->addClassSettings($this, 'error_handling', $data);
+    }
+    
+    public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
+    {
+        $data = $e->getClassSettings($this);
+        if(isset($data['mail_webmaster_on_error']))
+        {
+            LConfiguration::set('mail_webmaster_on_error', $data['mail_webmaster_on_error']);
+        }
+    }
     
     private static function mail($kind, $code, $file, $line, $message, $stack, $workingDir)
     {

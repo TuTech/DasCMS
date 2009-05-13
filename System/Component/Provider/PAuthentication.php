@@ -9,7 +9,14 @@
  * @package Bambus
  * @subpackage Provider
  */
-class PAuthentication extends BProvider 
+class PAuthentication 
+    extends
+        BProvider 
+    implements 
+        IShareable, 
+        HRequestingClassSettingsEventHandler, 
+        HUpdateClassSettingsEventHandler
+
 {
     const CLASS_NAME = 'PAuthentication';
     const FAILED_LOGIN = -1;
@@ -29,15 +36,16 @@ class PAuthentication extends BProvider
     private static $active = false;
     private static $implied = false;
     
+    protected $Purpose = 'security';
+    
     private function __construct()
     {
-        
     }
     
     /**
      * @return PAuthentication
      */
-    private static function instance()
+    public static function getSharedInstance()
     {
         if(self::$instance == null)
         {
@@ -45,7 +53,7 @@ class PAuthentication extends BProvider
         }
         return self::$instance;
     }
-
+    
     private static function checkActive()
     {
         if(self::$implied)
@@ -104,7 +112,7 @@ class PAuthentication extends BProvider
             //get the class assigned to do the authentication
             try
             {
-                $implementor = self::instance()->getImplementor();
+                $implementor = self::getSharedInstance()->getImplementor();
             }
             catch(XUndefinedException $e)
             {

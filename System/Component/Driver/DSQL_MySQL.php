@@ -58,6 +58,30 @@ class DSQL_MySQL extends DSQL
 		$dat = LConfiguration::get($key);
 		return empty($dat) ? null : $dat; 
 	}
+	private static $configKeys = array(
+	    'db_server' => 0,'db_port' => 0,'db_user' => 0,'db_password' => '','db_name' => 0
+	);
+	public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
+	{
+	    $data = array();
+        foreach (self::$configKeys as $mk => $altVal)
+        {
+            $data[$mk] = array($altVal === 0 ? LConfiguration::get($mk) : $altVal, AConfiguration::TYPE_TEXT, null);
+        }
+        $e->addClassSettings($this, 'database', $data);
+	}
+	
+	public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
+	{
+	    $data = $e->getClassSettings($this);
+	    foreach (self::$configKeys as $mk => $altVal)
+        {
+            if(isset($data[$mk]))
+            {
+                LConfiguration::set($mk, $data[$mk]);
+            }
+        }
+	}
 	
 	/**
 	 * @return DSQL
@@ -66,14 +90,6 @@ class DSQL_MySQL extends DSQL
 	{
 		throw new Exception('call DSQL::getSharedInstance() instead');
 	}
-	
-    /**
-     * @return DSQL
-     */
-    public function init()
-    {
-    	return $this;
-    }
 	
     /**
 	 * @return string

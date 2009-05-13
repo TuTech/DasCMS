@@ -219,15 +219,6 @@ class SAlias
 		}
 		return self::$sharedInstance;
 	}
-    /**
-     * initialize whatever
-     *
-     * @return SAlias
-     */
-    function init()
-    {
-    	return $this;
-    }
 	//end IShareable
 }
 ?>

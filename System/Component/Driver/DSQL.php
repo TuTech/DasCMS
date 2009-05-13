@@ -9,7 +9,9 @@
  * @package Bambus
  * @subpackage Drivers
  */
-abstract class DSQL extends BDriver implements IShareable 
+abstract class DSQL extends BDriver 
+    implements 
+        IShareable
 {
 	private function __construct(){}
 	const CLASS_NAME = 'DSQL';
@@ -47,17 +49,18 @@ abstract class DSQL extends BDriver implements IShareable
 	        self::$engine = LConfiguration::get('db_engine');
 	    }
 	    return self::$engine;
-	}
+	}	
 	
-	/**
-	 * @return DSQL
-	 * @throws XDatabaseException
-	 */
-	public function init()
+	public static function getEngines()
 	{
-		throw new XDatabaseException("That's not gone well!",0);
+	    //FIXME generate list from component index
+	    return array('MySQL', 'SQLite');
 	}
 	
+	//allow config classes to be configured
+	public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e){}
+	public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e){}
+
 	/**
 	 * database name 
 	 * 

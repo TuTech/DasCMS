@@ -79,14 +79,6 @@ class NListNavigation
 		}
 		return self::$sharedInstance;
 	}
-    
-	/**
-	 * @return NListNavigation
-	 */
-	function init()
-    {
-    	return $this;
-    }
 	//end IShareable
 
 

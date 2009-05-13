@@ -128,14 +128,6 @@ class SBapReader
 		}
 		return self::$sharedInstance;
 	}
-    
-	/**
-	 * @return SBapReader
-	 */
-	function init()
-    {
-    	return $this;
-    }
 	//end IShareable
 }
 ?>

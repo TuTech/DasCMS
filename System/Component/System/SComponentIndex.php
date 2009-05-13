@@ -325,16 +325,6 @@ class SComponentIndex
 		}
 		return self::$sharedInstance;
 	}
-    
-	/**
-	 * Init instance
-	 *
-	 * @return SComponentIndex
-	 */
-    function init()
-    {
-    	return $this;
-    }
 	//end IShareable
 	
 }

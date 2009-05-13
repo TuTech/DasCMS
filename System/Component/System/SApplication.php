@@ -251,13 +251,6 @@ class SApplication
 		}
 		return self::$sharedInstance;
 	}
-    /**
-     * @return SApplication
-     */
-    function init()
-    {
-    	return $this;
-    }
 	//end IShareable
 }
 

@@ -51,15 +51,6 @@ class WSidePanel
 		}
 		return self::$sharedInstance;
 	}
-    
-	/**
-	 * @return WSidePanel
-	 * @see System/Component/Interface/IShareable#init()
-	 */
-	function init()
-    {
-    	return $this;
-    }
 	//end IShareable
 	//loads all components 
 	private function __construct()

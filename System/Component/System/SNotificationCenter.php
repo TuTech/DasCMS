@@ -42,13 +42,6 @@ class SNotificationCenter
 		}
 		return self::$sharedInstance;
 	}
-    /**
-     * @return SNotificationCenter
-     */
-    public function init()
-    {
-    	return $this;
-    }
 	//end IShareable	
 	
 	//bambus 0.20 event handlers

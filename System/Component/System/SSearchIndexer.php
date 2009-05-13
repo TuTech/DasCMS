@@ -36,14 +36,6 @@ class SSearchIndexer
 		}
 		return self::$sharedInstance;
 	}
-    
-	/**
-	 * @return SSearchIndexer
-	 */
-	function init()
-    {
-    	return $this;
-    }
 	//end IShareable
     
     public static function extractFeatures($text)

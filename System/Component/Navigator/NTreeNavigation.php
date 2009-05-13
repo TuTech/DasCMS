@@ -61,14 +61,6 @@ class NTreeNavigation
 		}
 		return self::$sharedInstance;
 	}
-    
-	/**
-	 * @return NTreeNavigation
-	 */
-	function init()
-    {
-    	return $this;
-    }
 	//end IShareable
 	
     public static function set($nav,VSpore $spore, NTreeNavigationObject $tno_root)

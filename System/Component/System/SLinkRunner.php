@@ -33,14 +33,6 @@ class SLinkRunner
 		}
 		return self::$sharedInstance;
 	}
-    
-	/**
-	 * @return SLinkRunner
-	 */
-	function init()
-    {
-    	return $this;
-    }
 	//end IShareable
     
 	public function HandleContentAccessEvent(EContentAccessEvent $e)

@@ -722,14 +722,6 @@ class SUsersAndGroups
         }
         return self::$sharedInstance;
     }
-    
-    /**
-     * @return SUsersAndGroups
-     */
-    function init()
-    {
-        return $this;
-    }
     //end IShareable
 }
 ?>

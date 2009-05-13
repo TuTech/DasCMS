@@ -32,7 +32,6 @@ class DSQL_SQLite extends DSQL
 		return null;
 	}
 	
-	
 	public function __construct()
 	{
 		if(self::$DB == null)
@@ -58,14 +57,6 @@ class DSQL_SQLite extends DSQL
 		throw new Exception('call DSQL::getSharedInstance() instead');
 	}
 	
-    /**
-     * @return DSQL
-     */
-    public function init()
-    {
-    	return $this;
-    }
-    
 	/**
 	 * @return string
 	 */

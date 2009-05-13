@@ -36,14 +36,6 @@ class SContentWatch
 		}
 		return self::$sharedInstance;
 	}
-    
-	/**
-	 * @return SContentWatch
-	 */
-	function init()
-    {
-    	return $this;
-    }
 	//end IShareable
     
     public static function accessedContent()

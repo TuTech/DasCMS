@@ -124,14 +124,6 @@ class SProfiler
         }
         return self::$sharedInstance;
     }
-    
-    /**
-     * @return SProfiler
-     */
-    function init()
-    {
-        return $this;
-    }
     //end IShareable
 }
 ?>

@@ -9,7 +9,12 @@
  * @package Bambus
  * @subpackage Provider
  */
-class PAuthorisation extends BProvider 
+class PAuthorisation 
+    extends BProvider 
+    implements 
+        IShareable, 
+        HRequestingClassSettingsEventHandler, 
+        HUpdateClassSettingsEventHandler
 {
     const ROLE_ADMINISTRATOR = 'administrator';
     const ROLE_DAEMON = self::ROLE_ADMINISTRATOR;
@@ -22,7 +27,8 @@ class PAuthorisation extends BProvider
     const DENY = false;
     const PERMIT = true;
     
-    protected $Interface = 'IAuthorise';
+    protected $Interface = 'IAuthorize';
+    protected $Purpose = 'security';
     private static $instance = null;
 
     private static $roleStatus = array(
@@ -42,14 +48,10 @@ class PAuthorisation extends BProvider
     private static $active = false;
     private static $cache = array();
     
-    private function __construct()
-    {
-    }
-    
     /**
      * @return PAuthorisation
      */
-    private static function instance()
+    public static function getSharedInstance()
     {
         if(self::$instance == null)
         {
@@ -57,7 +59,11 @@ class PAuthorisation extends BProvider
         }
         return self::$instance;
     }
-
+    
+    private function __construct()
+    {
+    }
+    
     private static function load()
     {
         if(!self::$active)
@@ -75,7 +81,7 @@ class PAuthorisation extends BProvider
             {    
                 try
                 {
-                    $implementor = self::instance()->getImplementor();
+                    $implementor = self::getSharedInstance()->getImplementor();
                 }
                 catch(XUndefinedException $e)
                 {

@@ -144,7 +144,11 @@ class AConfiguration
                 $this->sentdata[$classKey][$confKey] = !empty($this->sentdata[$classKey][$confKey]);
             }
         }
+        ob_start();
         $e = new EUpdateClassSettingsEvent($this, $this->sentdata);
+        echo '<!--';
+        ob_end_flush();
+        echo '//-->';
     }
 }
 ?>
