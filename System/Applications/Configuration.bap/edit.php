@@ -7,7 +7,7 @@
  * @version 1.0
  */
 printf('<h2>%s</h2>', SLocalization::get('configuration'));
-$fullinput = "\n\t\t\t<input class=\"fullinput\" type=\"text\" size=\"40\" name=\"%s\" id=\"%s\" value=\"%s\" />\n\t\t";
+$fullinput = "\n\t\t\t<input class=\"fullinput\" type=\"%s\" size=\"40\" name=\"%s\" id=\"%s\" value=\"%s\" />\n\t\t";
 /**
  * @var AConfiguration
  */
@@ -29,7 +29,10 @@ foreach ($settings as $section => $data)
             switch ($type)
             {
                 case AConfiguration::TYPE_TEXT:
-                    $str = sprintf($fullinput, $key, $key, htmlentities($value, ENT_QUOTES, 'UTF-8'));
+                    $str = sprintf($fullinput, 'text', $key, $key, htmlentities($value, ENT_QUOTES, 'UTF-8'));
+                    break;
+                case AConfiguration::TYPE_PASSWORD:
+                    $str = sprintf($fullinput, 'password', $key, $key, htmlentities($value, ENT_QUOTES, 'UTF-8'));
                     break;
                 case AConfiguration::TYPE_CHECKBOX:
                     $str = sprintf(

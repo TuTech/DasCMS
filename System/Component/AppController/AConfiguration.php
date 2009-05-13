@@ -18,6 +18,7 @@ class AConfiguration
     const TYPE_TEXT = 1;
     const TYPE_CHECKBOX = 2;
     const TYPE_SELECT = 3;
+    const TYPE_PASSWORD = 4;
     
     const GUID = 'org.bambuscms.applications.configuration';
     private $keys = array(

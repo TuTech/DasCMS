@@ -33,13 +33,13 @@ class UCFileConfig
     public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
     {
         $data = $e->getClassSettings($this);
-        if(isset($data['width']) && is_int($data['width']))
+        if(!empty($data['width']))
         {
-            LConfiguration::set('CFile_image_width', $data['width']);
+            LConfiguration::set('CFile_image_width', intval($data['width']));
         }
-        if(isset($data['height']) && is_int($data['height']))
+        if(!empty($data['height']))
         {
-            LConfiguration::set('CFile_image_height', $data['height']);
+            LConfiguration::set('CFile_image_height', intval($data['height']));
         }
         if(isset($data['rendering_method']) && in_array($data['rendering_method'], array('0c','1c','1f','1s')))
         {
