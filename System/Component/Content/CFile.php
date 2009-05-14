@@ -67,6 +67,47 @@ class CFile
 	    return $file;
 	}
 	
+	/**
+	 * update file content
+	 * @return void
+	 */
+	public function updateData()
+	{
+    	if(!RFiles::hasFile('CFile'))
+	    {    
+	        throw new XFileNotFoundException('no uploaded file', 'CFile');
+	    }
+	    if(!RFiles::move('CFile', './Content/CFile/'.$this->getId().'.data'))
+	    {
+	        throw new XUndefinedException('upload not moveable');
+	    }
+	    QCFile::saveFileMeta(
+	        $this->getId(),
+	        RFiles::getName('CFile'), 
+	        DFileSystem::suffix(RFiles::getName('CFile')),
+	        md5_file('./Content/CFile/'.$this->getId().'.data',false)
+        );
+        $this->Size = RFiles::getSize('CFile');
+        BContent::setMimeType($this->getAlias(), RFiles::getType('CFile'));
+        $this->saveMetaToDB();
+        SNotificationCenter::report('message', 'file_updated');
+        $fs = DFileSystem::FilesOf('Content/temp/','/^scale\.render\.[\d]+\.'.$this->getId().'-/');
+        SErrorAndExceptionHandler::muteErrors();
+        foreach ($fs as $file)
+        {
+            if(@unlink('Content/temp/'.$file))
+            {
+                SNotificationCenter::report('message', 'cached_rendering_deleted');
+            }
+            else
+            {
+                SNotificationCenter::report('warning', 'could_not_delete_cached_rendering');
+            }
+        }
+        SErrorAndExceptionHandler::reportErrors();
+        $e = new EContentChangedEvent($this, $this);
+	}
+	
 	public static function Delete($alias)
 	{
 	    $file = new CFile($alias);

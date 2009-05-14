@@ -70,6 +70,11 @@ class AFiles
             {
                 $this->target->SubTitle = $param['subtitle'];
             }
+            //set new file content
+            if(RFiles::has('CFile'))
+            {
+                $this->target->updateData();
+            }
         }
     }
     

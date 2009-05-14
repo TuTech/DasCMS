@@ -14,6 +14,7 @@ if($File != null && $File instanceof BContent)
     	$('CommandBarPanel_selection').parentNode.removeChild($('CommandBarPanel_selection'));
     	org.bambuscms.app.hotkeys.unregister('CTRL-a');
     	org.bambuscms.app.hotkeys.unregister('CTRL-e');
+    	var is_in_content_mode = true;
     	");
     echo new WContentTitle($File);
 	if(WImage::supportedMimeType($File->getMimeType()))
@@ -55,9 +56,10 @@ else
 {
     echo new WScript("
     	$('App-Hotkey-CTRL-s').parentNode.removeChild($('App-Hotkey-CTRL-s'));
-    	$('App-Hotkey-CTRL-S').parentNode.removeChild($('App-Hotkey-CTRL-S'));
+    	$('App-Hotkey-CTRL-u').parentNode.removeChild($('App-Hotkey-CTRL-u'));
     	org.bambuscms.app.hotkeys.unregister('CTRL-s');
-    	org.bambuscms.app.hotkeys.unregister('CTRL-S');
+    	org.bambuscms.app.hotkeys.unregister('CTRL-u');
+    	var is_in_content_mode = false;
     	");
         echo '<input type="hidden" name="action" value="delete" />';
     $files = CFile::Index();

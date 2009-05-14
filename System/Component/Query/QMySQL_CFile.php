@@ -28,11 +28,19 @@ class QCFile extends BQuery
 				VALUES
 				(
 					%d, %s, '%s', '%s', '%s' 
-				)";
+				) 
+				ON DUPLICATE KEY 
+					UPDATE
+						originalFileName = '%s',
+						suffix = '%s',
+						md5sum = '%s'";
         $sql = sprintf(
             $sql, 
             $contentID, 
             ($folderID == null ? 'NULL' : $DB->escape($folderID)),
+            $DB->escape($originalFileName),
+            $DB->escape($suffix),
+            $DB->escape($md5Sum),
             $DB->escape($originalFileName),
             $DB->escape($suffix),
             $DB->escape($md5Sum)
