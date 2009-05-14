@@ -14,7 +14,14 @@ define('BAMBUS_HTML_ACCESS', '1');
 $_10Minutes = 600;
 header("Expires: ".date('r', time()+$_10Minutes));
 header("Cache-Control: max-age=".$_10Minutes.", public");
-
+if(!LConfiguration::get('show_errors_on_website'))
+{
+    SErrorAndExceptionHandler::hideErrors();
+}
+if(LConfiguration::get('error_info_text_file') != '')
+{
+    SErrorAndExceptionHandler::showMessageBeforeDying();
+}
 //now we have a running session we might want to kill it
 if(RURL::has('_destroy_session') || RURL::has('_bambus_logout'))
 {
@@ -47,21 +54,14 @@ WTemplate::globalSet('stylesheets', $stylesheetLinks);
 
 $tok = SProfiler::profile(__FILE__, __LINE__,'template engine');
 $generatorAlias = LConfiguration::get('generator_content');
-try
+$pageGenerator = BContent::OpenIfPossible($generatorAlias);
+if ($pageGenerator instanceof IPageGenerator) 
 {
-    $pageGenerator = BContent::OpenIfPossible($generatorAlias);
-    if ($pageGenerator instanceof IPageGenerator) 
-    {
-    	echo $pageGenerator->generatePage(WTemplate::getGlobalEnvironment());
-    }
-    else
-    {
-        echo $pageGenerator->getContent();
-    }
+	echo $pageGenerator->generatePage(WTemplate::getGlobalEnvironment());
 }
-catch(Exception $e)
+else
 {
-    echo 'failed to load page generator';
+    echo $pageGenerator->getContent();
 }
 SProfiler::finish($tok);
 ?>

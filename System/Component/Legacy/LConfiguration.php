@@ -35,7 +35,13 @@ class LConfiguration
     {
         if(self::$configuration == null)
         {
+            $prevfile = SPath::CONTENT.'configuration/system.prev.php';
             $file = SPath::CONTENT.'configuration/system.php';
+            if(RURL::has('@previousconfig') && file_exists($prevfile) && PAuthorisation::has('org.bambuscms.login'))
+            {
+                //show with previous version
+                $file = $prevfile;
+            }
             self::$configuration = DFileSystem::LoadData($file);
             self::$instanceForSavingOnEnd = new LConfiguration();
         }
@@ -116,6 +122,7 @@ class LConfiguration
         if(self::$configurationChanged)
         {
             SNotificationCenter::report('message', 'configuration_saved');
+            copy(SPath::CONTENT.'configuration/system.php', SPath::CONTENT.'configuration/system.prev.php');
             $file = SPath::CONTENT.'configuration/system.php';
             DFileSystem::SaveData($file, self::$configuration);
             self::$configurationChanged = false;

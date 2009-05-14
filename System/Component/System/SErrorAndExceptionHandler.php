@@ -22,6 +22,8 @@ class SErrorAndExceptionHandler
     private static $report = true;
     private static $reportSkipOnce = false;
     
+    private static $showInfoMessage = false;
+    private static $hideErrors = false;
     private static $err_html = 
         '<div style="font-family:sans-serif;border:1px solid #a40000;">
             <div style="border:1px solid #cc0000;z-index:1000000;padding:10px;background:#a40000;color:white;">
@@ -37,7 +39,11 @@ class SErrorAndExceptionHandler
     
     public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
     {
-        $data = array('mail_webmaster_on_error' => array(LConfiguration::get('mail_webmaster_on_error'), AConfiguration::TYPE_CHECKBOX, null));
+        $data = array(
+        	'mail_webmaster_on_error' => array(LConfiguration::get('mail_webmaster_on_error'), AConfiguration::TYPE_CHECKBOX, null),
+        	'show_errors_on_website' => array(LConfiguration::get('show_errors_on_website'), AConfiguration::TYPE_CHECKBOX, null),
+        	'error_info_text_file' => array(LConfiguration::get('error_info_text_file'), AConfiguration::TYPE_TEXT, null)
+        );
         $e->addClassSettings($this, 'error_handling', $data);
     }
     
@@ -47,6 +53,14 @@ class SErrorAndExceptionHandler
         if(isset($data['mail_webmaster_on_error']))
         {
             LConfiguration::set('mail_webmaster_on_error', $data['mail_webmaster_on_error']);
+        }
+        if(isset($data['error_info_text_file']))
+        {
+            LConfiguration::set('error_info_text_file', $data['error_info_text_file']);
+        }
+        if(isset($data['show_errors_on_website']))
+        {
+            LConfiguration::set('show_errors_on_website', $data['show_errors_on_website']);
         }
     }
     
@@ -79,6 +93,16 @@ class SErrorAndExceptionHandler
     public static function reportErrors()
     {
         self::$report = true;
+    }
+    
+    public static function showMessageBeforeDying()
+    {
+        self::$showInfoMessage = true;
+    }
+    
+    public static function hideErrors()
+    {
+        self::$hideErrors = true;
     }
     
     public static function muteErrors()
@@ -140,7 +164,10 @@ class SErrorAndExceptionHandler
                     , $errstr
                     , $context
                     ,getcwd()));
-            echo $err;
+            if(!self::$hideErrors)
+            {
+                echo $err;
+            }
         }
         self::$reportSkipOnce = false;
     }
@@ -170,7 +197,19 @@ class SErrorAndExceptionHandler
             
     public static function exceptionHandler(Exception $e)
     {
-        echo self::reportException($e);
+        $str = self::reportException($e);
+        if(!self::$hideErrors)
+        {
+            echo $str;
+        }
+        if(self::$showInfoMessage)
+        {
+            $f = LConfiguration::get('error_info_text_file');
+            if(!empty($f) && file_exists($f) && is_readable($f) && substr(basename($f),0,1) != '.')
+            {
+                readfile($f);
+            }
+        }
         exit(1);
     }
 }
