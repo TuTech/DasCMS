@@ -8,9 +8,13 @@ PAuthentication::required();
 try
 {
     $file = RURL::get('get');
+    SErrorAndExceptionHandler::muteErrors();
+    $force_download = RURL::has('download');
     if(empty($file))
     {
          $file = substr($_SERVER['PATH_INFO'],1);
+         $end = min(strpos($file, '/'), strpos($file, '&'));
+         if($end != 0)$file = substr($file,0, $end-1);
          if(empty($file))
          {
              throw new Exception('nothing to get', 404);
@@ -32,14 +36,23 @@ try
     if($content instanceof IFileContent)
     {
         list($file, $type, $size) = $content->getDownloadMetaData();
-        header("Content-Disposition: attachment; filename=\"".addslashes($file)."\"");    
-        header("Content-Type: application/force-download");
-        header("Content-Type: application/download");
+        
+        if($force_download)
+        {
+            header("Content-Disposition: attachment; filename=\"".addslashes($file)."\"");    
+            header("Content-Type: application/force-download");
+            header("Content-Type: application/download");
+            header("Content-Description: File Transfer");             
+        }
+        else
+        {
+            header("Content-Disposition: inline; filename=\"".addslashes($file)."\"");    
+            
+        }
         if(!empty($type))
         {
             header("Content-Type: ".$type);
         }
-        header("Content-Description: File Transfer");             
         if(!empty($size))
         {
             header(sprintf("Content-Length: %d", $size));

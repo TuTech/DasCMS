@@ -42,7 +42,10 @@ function Upload()
 	
 	org.bambuscms.app.dialog.create(_('upload_file'), '', div, null, _('cancel'), true);
 	org.bambuscms.app.dialog.setAction(action);
-	finput.click();
+	if(!is_in_content_mode)
+	{
+		finput.click();
+	}
 }
 
 function Delete()
@@ -151,7 +154,7 @@ function downloadSelected(path)
 		if(inputs[i].name.substr(0,7) == 'select_' &&inputs[i].checked)
 		{
 			id = inputs[i].name.replace(/select_/, "");
-			document.getElementById('downloadIFrames').innerHTML += '<iframe src="file.php?get='+escape(id)+'" class="downloadIFrame" />';
+			document.getElementById('downloadIFrames').innerHTML += '<iframe src="file.php?get='+escape(id)+'&amp;download=1" class="downloadIFrame" />';
 		}
 	}	
 }

@@ -233,13 +233,14 @@ class CFile
                     '<p class="CFile-meta-size">%s: %s</p>'.
                 '</div>'.
                 '<div class="CFile-link">'.
-                    '<p><a href="file.php?get=%s">%s</a></p>'.
+                    '<p><a href="file.php%s%s">%s</a></p>'.
                 '</div>'.
             '</div>'
             
             ,$this->getDescription()
             ,SLocalization::get('file_size')
             ,DFileSystem::formatSize($this->getSize())
+            ,LConfiguration::get('wellformed_urls') == '' ? '?get=' : '/'
             ,$this->getAlias()
             ,$this->getFileName()
         );
@@ -247,7 +248,7 @@ class CFile
 	
 	public function enclosureURL()
 	{
-	    return sprintf('%sfile.php?get=%s',SLink::base(),$this->getAlias());
+	    return sprintf('%sfile.php%s%s',SLink::base(), LConfiguration::get('wellformed_urls') == '' ? '?get=' : '/',$this->getAlias());
 	    
 	}
 	
