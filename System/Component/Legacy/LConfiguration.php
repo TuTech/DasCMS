@@ -121,10 +121,17 @@ class LConfiguration
     {
         if(self::$configurationChanged)
         {
-            SNotificationCenter::report('message', 'configuration_saved');
-            copy(SPath::CONTENT.'configuration/system.php', SPath::CONTENT.'configuration/system.prev.php');
+            try{
+                SErrorAndExceptionHandler::muteErrors();
+                $oc = DFileSystem::Load(SPath::CONTENT.'configuration/system.php');
+                DFileSystem::Save(SPath::CONTENT.'configuration/system.prev.php', $oc);
+                SErrorAndExceptionHandler::reportErrors();
+            }
+            catch(Exception $e)
+            {/*then keep the prev prev*/}
             $file = SPath::CONTENT.'configuration/system.php';
             DFileSystem::SaveData($file, self::$configuration);
+            SNotificationCenter::report('message', 'configuration_saved');
             self::$configurationChanged = false;
         }
     }
