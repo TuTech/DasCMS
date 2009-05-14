@@ -41,7 +41,7 @@ class SLinkRunner
 	        && $e->Sender instanceof VSpore) 
 	    {
 	        //if it is accessed directly - redirect to url
-	    	header('Location: '.$e->Content->Content);
+	    	header('Location: '.trim($e->Content->Content));
 	    }
 	    if($e->Content instanceof CLink )
 	    {
