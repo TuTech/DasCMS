@@ -55,6 +55,11 @@ class SContentWatch
         $feeds = array();
         $tags = array();
         $descriptions = array();
+        $cdesc = LConfiguration::get('meta_description');
+        if(!empty($cdesc))
+        {
+            $descriptions[] = $cdesc;
+        }
         $titles = array();
         foreach (self::$accessedContents as $id => $event)
         {
@@ -93,6 +98,8 @@ class SContentWatch
                 }
             }
         }
+        $ctags = STag::parseTagStr(LConfiguration::get('meta_keywords'));
+        $tags = array_merge($ctags, $tags);
         $tags = array_unique($tags);
         if(count($tags) > 0)
         {
