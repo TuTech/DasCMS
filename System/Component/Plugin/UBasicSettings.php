@@ -27,7 +27,6 @@ class UBasicSettings
         'website_rendering' => array(
             'template_for_page_rendering' => 'generator_content',
             'login_template' => 'login_template',
-            'preview_image_quality' => 'preview_image_quality',
             'path_style_urls' => 'wellformed_urls'
         ),
         'logging' => array(
@@ -57,10 +56,6 @@ class UBasicSettings
                         $data[$mk] = array(LConfiguration::get($cc), AConfiguration::TYPE_SELECT, $options);
                         break;
                        
-                    case 'preview_image_quality':
-                        $data[$mk] = array(LConfiguration::get($cc), AConfiguration::TYPE_SELECT,
-                                            array('minimal' => 1, 'low' => 25, 'medium' => 50, 'high' => 75, 'maximum' => 100));
-                        break;
                     case 'wellformed_urls':
                     case 'log_page_accesses':
                         $data[$mk] = array(LConfiguration::get($cc), AConfiguration::TYPE_CHECKBOX, null);

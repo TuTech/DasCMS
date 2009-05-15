@@ -18,7 +18,7 @@ if(!empty($_SERVER['PATH_INFO']))
     {
         exit;
     }
-    $qual = intval(LConfiguration::get('preview_image_quality'));
+    $qual = intval(LConfiguration::get('CFile_image_quality'));
     $parts = explode('/', $path);
     $alias = array_shift($parts);
     //resize key?

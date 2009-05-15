@@ -26,8 +26,10 @@ class UCFileConfig
                 'scale_aspect_and_fill_background' => '1f', 
                 'scale_by_stretch' => '1s'
     		)),
-        	'background_color' => array(LConfiguration::get('CFile_image_background_color'), AConfiguration::TYPE_TEXT, null)
-        ));
+        	'background_color' => array(LConfiguration::get('CFile_image_background_color'), AConfiguration::TYPE_TEXT, null),
+        	'CFile_image_quality' => array(LConfiguration::get('CFile_image_quality'), AConfiguration::TYPE_SELECT,
+                                            array('minimal' => 1, 'low' => 25, 'medium' => 50, 'high' => 75, 'maximum' => 100))
+		));
     }
     
     public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
@@ -48,6 +50,10 @@ class UCFileConfig
         if(isset($data['background_color']))
         {
             LConfiguration::set('CFile_image_background_color', $data['background_color']);
+        }
+        if(isset($data['CFile_image_quality']))
+        {
+            LConfiguration::set('CFile_image_quality', intval($data['CFile_image_quality']));
         }
     }
 }
