@@ -151,7 +151,7 @@ class SContentWatch
             $num = (sprintf('0x%02x%02x%02x%02x',$a, $b, $c, $d));
             $num = hexdec($num);//FIXME anon here
             //send to db
-            if(!$o instanceof CError)
+            if(!$o instanceof CError && LConfiguration::get('log_page_accesses') != '')
             {
                 QBContent::logAccess($o->getId(), $ccid, $num);
             }

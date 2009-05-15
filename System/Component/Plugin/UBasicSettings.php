@@ -29,6 +29,9 @@ class UBasicSettings
             'login_template' => 'login_template',
             'preview_image_quality' => 'preview_image_quality',
             'path_style_urls' => 'wellformed_urls'
+        ),
+        'logging' => array(
+            'log_page_accesses' => 'log_page_accesses'
         )
     );
     
@@ -59,6 +62,7 @@ class UBasicSettings
                                             array('minimal' => 1, 'low' => 25, 'medium' => 50, 'high' => 75, 'maximum' => 100));
                         break;
                     case 'wellformed_urls':
+                    case 'log_page_accesses':
                         $data[$mk] = array(LConfiguration::get($cc), AConfiguration::TYPE_CHECKBOX, null);
                         break;
                     default:
