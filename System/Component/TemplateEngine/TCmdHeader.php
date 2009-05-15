@@ -76,14 +76,14 @@ class TCmdHeader
             return sprintf("	<head>
             <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />%s
             <title>%s</title>
-            <link rel=\"stylesheet\" href=\"./css.php?v=%d&amp;f=default.css\" type=\"text/css\" />%s
+            %s
             %s
             %s
             %s
         </head>"
     			,$baseURI
                 ,$title
-    			,filemtime('Content/stylesheets/default.css')
+    			//,filemtime('Content/stylesheets/default.css')
                 ,file_exists('favicon.ico') ? "\n            <link rel=\"icon\" href=\"favicon.ico\" />": ''
     			,implode($glue, $this->MetaTags)
                 ,implode($glue, $this->LinkTags)
