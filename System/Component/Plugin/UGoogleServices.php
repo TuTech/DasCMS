@@ -19,7 +19,9 @@ class UGoogleServices
     public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
     {
         $e->addClassSettings($this, 'google_services', array(
-        	'verify_v1' => array(LConfiguration::get('google_verify_header'), AConfiguration::TYPE_TEXT, null)
+        	'verify_v1' => array(LConfiguration::get('google_verify_header'), AConfiguration::TYPE_TEXT, null),
+        	'google_maps_key' => array(LConfiguration::get('google_maps_key'), AConfiguration::TYPE_TEXT, null),
+        	'load_maps_support' => array(LConfiguration::get('google_load_maps_support'), AConfiguration::TYPE_CHECKBOX, null)
         ));
     }
     
@@ -27,9 +29,17 @@ class UGoogleServices
     {
         
         $data = $e->getClassSettings($this);
-        if(isset($data['verify_v1']))
+            if(isset($data['verify_v1']))
         {
             LConfiguration::set('google_verify_header', $data['verify_v1']);
+        }
+        if(isset($data['load_maps_support']))
+        {
+            LConfiguration::set('google_load_maps_support', $data['load_maps_support']);
+        }
+        if(isset($data['google_maps_key']))
+        {
+            LConfiguration::set('google_maps_key', $data['google_maps_key']);
         }
     }
     
@@ -45,6 +55,14 @@ class UGoogleServices
             {
                 $e->getHeader()->addMeta($val, $metaKey);
             }
+        }
+        if(LConfiguration::get('google_maps_key') != '') 
+        {
+            $e->getHeader()->addScript('text/javascript', 'http://maps.google.com/maps?file=api&amp;v=2&amp;key='.LConfiguration::get('google_maps_key'));
+        }
+        if(LConfiguration::get('google_load_maps_support') != '')
+        {
+            $e->getHeader()->addScript('text/javascript', 'System/WebsiteSupport/JavaScript/GoogleMapsSupport.js');
         }
     }
 }

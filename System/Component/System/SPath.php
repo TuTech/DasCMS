@@ -26,7 +26,7 @@ class SPath
     const TEMPLATES = './Content/CTemplate/';
     const LOGS = './Content/logs/';
     const DESIGN = './Content/stylesheets/';
+    const SCRIPT = './Content/javascripts/';
     const TEMP = './Content/temp/';
-    
 }
 ?>

@@ -21,6 +21,8 @@ class TCmdHeader
     private $LinkTags = array();
     private $title;
     
+    private $scriptEmbedded = false;
+    
     private $request;
     private $val;
     public $data = array();
@@ -75,8 +77,7 @@ class TCmdHeader
             $glue = "\n            ";
             return sprintf("	<head>
             <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />%s
-            <title>%s</title>
-            %s
+            <title>%s</title>%s
             %s
             %s
             %s
@@ -146,6 +147,10 @@ class TCmdHeader
     
     public function addScript($type, $src = null, $script = null)
     {
+        if(!$this->scriptEmbedded)
+        {
+            $this->ScriptTags[] = '<script type="text/javascript" src="System/WebsiteSupport/JavaScript/bambus.js"></script>';
+        }
         $type = $this->encode($type);
         $src = ($src == null) ? '' : ' src="'.$this->encode($src).'"';
 	    $script = ($script == null) ? '' : $this->encode($script);
