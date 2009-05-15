@@ -14,8 +14,15 @@ $fullinput = "\n\t\t\t<input class=\"fullinput\" type=\"%s\" size=\"40\" name=\"
 $ctrl = SApplication::appController();
 //$ctrl = new AConfiguration();
 $settings = $ctrl->getSettings();
+$sorted = array();
 foreach ($settings as $section => $data)
 {
+    $sorted[$section] = strtolower(SLocalization::get($section));
+}
+asort($sorted, SORT_STRING);
+foreach ($sorted as $section => $loc)
+{
+    $data = $settings[$section];
     if(count($data))
     {
         $tbl = new WTable(WTable::HEADING_LEFT|WTable::HEADING_TOP);
