@@ -25,7 +25,8 @@ class SAuthorizeAll
     
     public function getGroups()
     {
-        return CPerson::isUser(PAuthentication::getUserID()) ? array('Administrator') : array();
+        $uid = PAuthentication::getUserID();
+        return !empty($uid) ? array('Administrator') : array();
     }
     
     public function getPrimaryGroup()
@@ -35,7 +36,8 @@ class SAuthorizeAll
     
     public function getPermissions()
     {
-        return CPerson::isUser(PAuthentication::getUserID()) ? array('*' => PAuthorisation::PERMIT): array();
+        $uid = PAuthentication::getUserID();
+        return !empty($uid) ? array('*' => PAuthorisation::PERMIT): array();
     }
     
     public function getRole()

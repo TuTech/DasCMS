@@ -27,6 +27,7 @@ class SAuthByPhpAuthUser
      */
     public function authenticate()
     {
+        global $_SERVER;
         $user = '';
         $password = '';
         if(!empty($_SERVER["PHP_AUTH_USER"] ))
