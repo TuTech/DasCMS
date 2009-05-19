@@ -164,12 +164,11 @@ class WSidePanel
 		{
 			return '';
 		}
-		$UAG = SUsersAndGroups::getSharedInstance();
 		if(RSent::has('WSidebar-selected') && in_array(RSent::get('WSidebar-selected'), $widgets))
 		{
-			$UAG->setMyPreference('WSidebar-selected', RSent::get('WSidebar-selected'));
+		    RSession::set('WSidebar-selected', RSent::get('WSidebar-selected'));
 		}
-		$selected = $UAG->getMyPreference('WSidebar-selected');
+		$selected = RSession::get('WSidebar-selected');
 		return (in_array($selected, $widgets)) ? $selected : $widgets[0];
 	}
 
