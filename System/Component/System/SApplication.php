@@ -233,6 +233,84 @@ class SApplication
         }
     }
     
+	public static function listApplications()
+	{
+		$available = array();
+		$appPath = SPath::SYSTEM_APPLICATIONS;
+		$dirhdl = opendir($appPath);
+		while($item = readdir($dirhdl))
+		{
+			if(is_dir($appPath.$item) 
+				&& substr($item,0,1) != '.' 
+				&& strtolower(substr($item,-4)) == '.bap' 
+				&& file_exists($appPath.$item.'/Application.xml')
+			)
+			{
+			    $d = new DOMDocument();
+			    $d->load(realpath($appPath.$item.'/Application.xml'));
+			    $xp = new DOMXPath($d);
+			    $perm = $xp->query('/bambus/appController/@guid')->item(0)->nodeValue;
+			    if(!PAuthorisation::has($perm))
+			    {
+			        unset($xp);
+			        unset($d);
+			        continue;
+			    }
+			    $atts = array(
+					 'name' => '/bambus/name'
+					,'desc' => '/bambus/description'
+					,'icon' => '/bambus/icon'
+					,'tabs' => '/bambus/tabs/tab'
+			    );
+			    foreach ($atts as $a => $q)
+			    {
+			        $r = $xp->query($q);
+			        if($a != 'tabs')
+			        {
+			            $atts[$a] = $r->item(0)->nodeValue;
+			        }
+			        else
+			        {
+			            $atts[$a] = array();
+			            for($i = 0; $i < $r->length; $i++)
+			            {
+			                $atts[$a][$r->item($i)->nodeValue] = $xp->query('@icon', $r->item($i))->item(0)->nodeValue;
+			            }
+			            
+			        }
+			    }
+			    $atts['active'] = false;
+			    unset($xp);
+		        unset($d);
+		        $available[$item] = $atts;
+				$app = substr($item,0,((strlen(DFileSystem::suffix($item))+1) * -1));
+			}
+		}
+		closedir($dirhdl);
+		
+		$selectedApp = RURL::get('editor');
+		if(!empty($selectedApp) && isset($available[$selectedApp]))
+		{
+			//select tab
+			$selectedTab = RURL::get('tab');
+			//correct if necessary
+			if(!array_key_exists($selectedTab, $available[$selectedApp]['tabs']))
+			{
+				//right app, wrong tab
+				$tabs = array_keys($available[$selectedApp]['tabs']);
+				if(count($tabs) > 0)
+				{
+					$selectedTab = $tabs[0];
+				}
+			}
+			//prevent failure if no tabs exists
+			if(array_key_exists($selectedTab, $available[$selectedApp]['tabs']))
+			{
+				$available[$selectedApp]['active'] = $selectedTab;
+			}
+		}
+		return $available;
+	}
     
 	//begin IShareable
 	const CLASS_NAME = 'SApplication';

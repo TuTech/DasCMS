@@ -58,61 +58,6 @@ class SBapReader
 		return $result;
 	}
 	
-	public function listAvailable()
-	{
-		$available = array();
-		$appPath = SPath::SYSTEM_APPLICATIONS;
-		$dirhdl = opendir($appPath);
-		while($item = readdir($dirhdl))
-		{
-			if(is_dir($appPath.$item) 
-				&& substr($item,0,1) != '.' 
-				&& strtolower(substr($item,-4)) == '.bap' 
-				&& file_exists($appPath.$item.'/Application.xml')
-			)
-			{
-				$data = self::getAttributesOf($appPath.$item, array('name', 'description', 'icon', 'tabs'));
-				$app = substr($item,0,((strlen(DFileSystem::suffix($item))+1) * -1));
-				//FIXME use app ctrl GUID
-				if(PAuthorisation::has('org.bambusms.application.'.strtolower($app)))
-				{
-					$available[$item] = array(
-						 'name' => $data['name']
-						,'desc' => $data['description']
-						,'icon' => $data['icon']
-						,'tabs' => $data['tabs']
-						,'active' => false
-						);
-				}
-			}
-		}
-		closedir($dirhdl);
-		
-		$selectedApp = RURL::get('editor');
-		if(!empty($selectedApp) && isset($available[$selectedApp]))
-		{
-			//select tab
-			$selectedTab = RURL::get('tab');
-			//correct if necessary
-			if(!array_key_exists($selectedTab, $available[$selectedApp]['tabs']))
-			{
-				//right app, wrong tab
-				$tabs = array_keys($available[$selectedApp]['tabs']);
-				if(count($tabs) > 0)
-				{
-					$selectedTab = $tabs[0];
-				}
-			}
-			//prevent failure if no tabs exists
-			if(array_key_exists($selectedTab, $available[$selectedApp]['tabs']))
-			{
-				$available[$selectedApp]['active'] = $selectedTab;
-			}
-		}
-		return $available;
-	}
-	
-	
 	//IShareable
 	const CLASS_NAME = 'SBapReader';
 	public static $sharedInstance = NULL;

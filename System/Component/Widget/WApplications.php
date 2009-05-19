@@ -16,7 +16,7 @@ class WApplications extends BWidget
 	public function __construct($target = '')//BObject $target
 	{
 		//the current app?
-		$this->apps = SBapReader::getSharedInstance()->listAvailable();
+		$this->apps = SApplication::listApplications();
 		
 		//read apps from dir
 		
