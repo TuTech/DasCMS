@@ -70,7 +70,7 @@ class VSporeHelper
         }
         try{
             self::$spores[$spore] = BContent::Access($alias, $this);
-            $s = new VSpore($name);
+            $s = new VSpore($spore);
             self::$spores[$spore]->InvokedByQueryObject($s);
         }
         catch (Exception $e)
