@@ -195,7 +195,9 @@ class VSporeHelper
 	    {
 	        case 'property':
 	            return $this->{$function}($namedParameters['view'],$namedParameters['name']);
-	        case 'previewimage':
+	        case 'altercontent':
+	            return $this->{$function}($namedParameters['view'],$namedParameters['alias']);
+            case 'previewimage':
 	            foreach(array('width', 'height', 'scale', 'color') as $p)
 	            {
 	                if(!isset($namedParameters[$p]))
