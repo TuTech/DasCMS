@@ -339,7 +339,7 @@ class CSearch
 	        {
 	            if($mode & $cmode)
     	        {
-    	            $data[] = array($option, self::ABOVE, $this->captions[$option][self::ABOVE]);
+    	            $data[] = array($option, $cmode, $this->captions[$option][$cmode]);
     	        }
 	        }
 	    }
