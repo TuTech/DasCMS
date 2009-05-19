@@ -17,7 +17,7 @@ class TCmdView
 {
     private $for, $show;
     public $data = array();
-    private $width = null, $height = null, $scale = null, $color = null;
+    private $width = null, $height = null, $scale = null, $color = null, $fixcontent = null;
     private $res = '';
     
     public function __construct(DOMNode $node)
@@ -29,6 +29,7 @@ class TCmdView
         $height = $atts->getNamedItem('height');
         $scale = $atts->getNamedItem('scale');
         $color = $atts->getNamedItem('color');
+        $fixcontent = $atts->getNamedItem('fixcontent');
         if(!$for || !$show)
         {
             return;
@@ -39,11 +40,19 @@ class TCmdView
         if($height)$this->height = $height->nodeValue;
         if($scale)$this->scale = $scale->nodeValue;
         if($color)$this->color = $color->nodeValue;
+        if($fixcontent)$this->fixcontent = $fixcontent->nodeValue;
     }
     
     public function setUp(array $environment)
     {
         $v = new VSporeHelper();
+        if($this->fixcontent)
+        {
+            $v->TemplateCall('altercontent', array(
+            	'view' => $this->for,
+                'alias' => $this->fixcontent
+            ));
+        }
         if($v->TemplateCallable($this->show))
         {
             $this->res = $v->TemplateCall($this->show, array(
@@ -67,7 +76,7 @@ class TCmdView
 
     public function __sleep()
     {
-        $this->data = array($this->for, $this->show, $this->width, $this->height, $this->scale, $this->color);
+        $this->data = array($this->for, $this->show, $this->width, $this->height, $this->scale, $this->color, $this->fixcontent);
         return array('data');
     }
     
@@ -79,6 +88,7 @@ class TCmdView
         if(isset($this->data[3]))$this->height = $this->data[3];
         if(isset($this->data[4]))$this->scale = $this->data[4];
         if(isset($this->data[5]))$this->color = $this->data[5];
+        if(isset($this->data[6]))$this->fixcontent = $this->data[6];
         $this->data = array();
     }
 }

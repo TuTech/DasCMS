@@ -264,7 +264,7 @@ class QCSearch extends BQuery
         $DB->queryExecute(sprintf("DELETE FROM SearchConfig WHERE contentREL = %d", $contentId));
         if(count($config) > 0)
         {
-            $sql = "INSERT INTO SearchConfig (contentREL, `option`, `mode`, caption) ";
+            $sql = "INSERT INTO SearchConfig (contentREL, `option`, `mode`, caption) VALUES ";
             $dsTpl = sprintf("\n(%d, %%d, %%d, '%%s')", $contentId);
             $sep = '';
             foreach($config as $dataset)

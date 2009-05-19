@@ -34,7 +34,8 @@ class VSporeHelper
         'tags' => array('view'),
         'previewimage' => array('view', 'width', 'height', 'scale'),
         'type' => array('view'),
-    	'property' => array('view', 'name')
+    	'property' => array('view', 'name'),
+    	'altercontent' => array('view', 'alias')
     );
     
     public function __construct()
@@ -55,15 +56,32 @@ class VSporeHelper
         }
         if(!array_key_exists($name, self::$spores))
         {
-            self::$spores[$name] = new VSpore($name);
+            $s = new VSpore($name);
+            self::$spores[$name] = $s->getContent();
         }
-        return self::$spores[$name]->getContent();
+        return self::$spores[$name];
+    }
+    
+    private function altercontent($spore, $alias)
+    {
+        if(!VSpore::exists($spore) || !VSpore::isActive($spore))
+        {
+            throw new XUndefinedIndexException('spore not found: '.$spore);
+        }
+        try{
+            self::$spores[$spore] = BContent::Access($alias, $this);
+        }
+        catch (Exception $e)
+        {
+            echo $e->getMessage();
+        }
     }
     
     private function type($spore)
     {
         return get_class($this->sporeContent($spore));
     }
+    
     
     private function content($spore)
     {
