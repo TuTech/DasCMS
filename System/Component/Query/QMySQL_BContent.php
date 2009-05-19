@@ -52,7 +52,7 @@ class QBContent extends BQuery
     {
         $DB = BQuery::Database();
         $sql = "INSERT INTO relContentsTargetViews (contentREL, viewREL) 
-        			SELECT '%d', viewID FROM SporeViews WHERE viewName = '%s')
+        			(SELECT '%d', viewID FROM SporeViews WHERE viewName = '%s')
         			ON DUPLICATE KEY 
         				UPDATE viewREL = SELECT viewID FROM SporeViews WHERE viewName = '%s'";
         $viewName = $DB->escape($viewName);
