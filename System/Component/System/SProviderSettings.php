@@ -44,7 +44,7 @@ class SProviderSettings
                 $o = BObject::InvokeObjectByDynClass($p);
                 if($o instanceof BProvider)
                 {
-                    $o->HandleRequestingClassSettingsEvent($e);
+                    $o->HandleUpdateClassSettingsEvent($e);
                 }
             }
         }
