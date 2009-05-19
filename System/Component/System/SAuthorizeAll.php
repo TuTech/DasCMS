@@ -25,19 +25,17 @@ class SAuthorizeAll
     
     public function getGroups()
     {
-        $uid = PAuthentication::getUserID();
-        return !empty($uid) ? array('Administrator') : array();
+        return PAuthentication::isAuthenticated() ? array('Administrator') : array();
     }
     
     public function getPrimaryGroup()
     {
-        return null;
+        return PAuthentication::isAuthenticated() ? 'Administrator' : null;
     }
     
     public function getPermissions()
     {
-        $uid = PAuthentication::getUserID();
-        return !empty($uid) ? array('*' => PAuthorisation::PERMIT): array();
+        return PAuthentication::isAuthenticated() ? array('*' => PAuthorisation::PERMIT): array();
     }
     
     public function getRole()
