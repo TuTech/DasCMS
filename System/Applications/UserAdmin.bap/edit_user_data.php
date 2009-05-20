@@ -37,12 +37,13 @@ if(PAuthorisation::has('org.bambuscms.credentials.user.change'))
     {
         $d->askPassword('change_password_from_old','old_password');
         $d->askPassword('set_new_password','new_password');
+        $d->askPassword('confirm_new_password', 'confirm_password');
     }
     else
-    {
-        $d->askPassword('new_password','new_password');
+    {//admin 
+        $d->askPassword('adm_set_password','new_password');
+        $d->askPassword('adm_set_password_confirm','new_password');
     }
-    $d->askPassword('confirm_new_password', 'confirm_password');
     $d->render();
     $jsCreate = WDialog::openCommand('dlg_change_password');
 }
@@ -118,8 +119,8 @@ if($edit_mode == 'usr')
         {
         	//BambusApplicartion-Package
             $i++;
-            list($name, $description, $icon) = array_values(SBapReader::getAttributesOf($item, array('name', 'description', 'icon')));
-            $available[$i] = array('item' => $item,'name' => $name,'desc' => $description,'icon' => $icon, 'type' => 'application');
+            list($name, $description, $icon, $guid) = array_values(SBapReader::getAttributesOf($item, array('name', 'description', 'icon', 'guid')));
+            $available[$i] = array('item' => $item,'name' => $name,'desc' => $description,'icon' => $icon, 'type' => 'application', 'guid' => $guid);
         }  
     }
     closedir($Dir);
@@ -166,7 +167,7 @@ EOX;
 	    $flip = ($flip == '1') ? '2' : '1';
 	    if(!empty($editor))
 	    {
-	        $app_name = substr($editor['item'],0,((strlen(DFileSystem::suffix($editor['item']))+1) * -1));
+	        $app_name = $editor['guid'];
 	        $id = md5($app_name);
 	        $is_admin = $SUsersAndGroups->isMemberOf($victim, 'Administrator');
 	        //printf('%s %s an administrator; ', $victim, ($is_admin) ? 'is' : 'is not');

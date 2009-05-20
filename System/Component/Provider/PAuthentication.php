@@ -146,7 +146,7 @@ class PAuthentication
             $res->free();
             
             //deny access if count exceeds 5 even if login was correct
-            if($fails > 5)
+            if(false && $fails > 5)
             {
                 SNotificationCenter::report(
                     SNotificationCenter::TYPE_WARNING, 
@@ -164,7 +164,7 @@ class PAuthentication
                 self::$userEmail = $relay->getUserEmail();
                 
                 //punish only new logins - not continued session
-                if(self::$userStatus != self::CONTINUED_SESSION && self::$userStatus != self::NO_LOGIN)
+                if(false && self::$userStatus != self::CONTINUED_SESSION && self::$userStatus != self::NO_LOGIN)
                 {
                     //get login history
                     $res = QPAuthentication::countUserFails($relay->getAttemptedUserID());

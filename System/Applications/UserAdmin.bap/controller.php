@@ -270,8 +270,10 @@ if(RSent::hasValue('action'))
 	    while ($item = readdir ($Dir)) {
 	        if((is_dir($item)) 
 	        		&& (substr($item,0,1) != '.') 
-	        		&& (strtolower(substr($item,-4)) == '.bap')){
-	            $items[] = substr($item,0,-4);
+	        		&& (strtolower(substr($item,-4)) == '.bap'))
+	        {
+    		    list($guid) = array_values(SBapReader::getAttributesOf($item, array('guid')));
+	            $items[] = $guid;
 	        }
 	    }
 	    closedir($Dir);
@@ -281,7 +283,7 @@ if(RSent::hasValue('action'))
 	    foreach($items as $item)
 	    {
 	    	//all admins and the current user must have access to this app
-	    	if(!(($victim == PAuthentication::getUserID() || $SUsersAndGroups->isMemberOf($victim, 'Administrator')) && $item == SApplication::getSharedInstance()->getName()))
+	    	if(!(($victim == PAuthentication::getUserID() || $SUsersAndGroups->isMemberOf($victim, 'Administrator')) && $item == SApplication::getSharedInstance()->getGUID()))
 	    	{
 		    	if(RSent::hasValue('editor_'.md5($item)) && ($SUsersAndGroups->hasPermission(PAuthentication::getUserID(), $item) || PAuthorisation::isInGroup('Administrator')))
 		    	{

@@ -25,7 +25,7 @@ class SBapReader
 	public static function getAttributesOf($appDefinition, $requests = array())
 	{
 		$result = array();
-		$requests = array_intersect($requests, array('name', 'description', 'icon', 'priority', 'version', 'purpose', 'tabs'));
+		$requests = array_intersect($requests, array('name', 'description', 'icon', 'priority', 'version', 'purpose', 'tabs', 'guid'));
 		if(substr($appDefinition,-16) != '/Application.xml')
 		{
 			$appDefinition .= '/Application.xml';
@@ -35,7 +35,7 @@ class SBapReader
 			$xml = DFileSystem::Load($appDefinition);
 			foreach ($requests as $tag) 
 			{
-				if($tag == 'tabs')
+							if($tag == 'tabs')
 				{
 					preg_match_all("/<tab[\\s]+icon=\"([a-zA-Z0-9-_]+)\">(.*)<\\/tab>/", $xml, $matches);
 			    	for($i = 0; $i < count($matches[0]); $i++)
@@ -43,6 +43,11 @@ class SBapReader
 			    		//tabs => [tab-name => icon]
 			    		$result['tabs'][$matches[2][$i]] = $matches[1][$i];
 			    	}
+				}
+				if($tag == 'guid')
+				{
+					preg_match("/<appController[\\s]+guid=\"([a-zA-Z0-9-_\.]+)\">(.*)<\/appController>/", $xml, $preg);
+					$result[$tag] = (isset($preg[1])) ? $preg[1] : '';
 				}
 				else
 				{
