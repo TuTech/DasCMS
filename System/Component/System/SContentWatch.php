@@ -134,7 +134,8 @@ class SContentWatch
     {
         //logging
         $o = $e->Content;
-	    if(!array_key_exists($o->getId(), self::$accessedContents))
+	    if($e->Sender instanceof BView 
+	        && !array_key_exists($o->getId(), self::$accessedContents))
 	    {
     	    //country
     	    $ccid = 0;
