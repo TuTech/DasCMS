@@ -54,7 +54,14 @@ WTemplate::globalSet('stylesheets', $stylesheetLinks);
 
 $tok = SProfiler::profile(__FILE__, __LINE__,'template engine');
 $generatorAlias = LConfiguration::get('generator_content');
-$pageGenerator = BContent::OpenIfPossible($generatorAlias);
+try
+{
+    $pageGenerator = BContent::OpenIfPossible($generatorAlias);
+}
+catch (Exception $e)
+{
+    $pageGenerator = CError::Open(500);
+}
 if ($pageGenerator instanceof IPageGenerator) 
 {
 	echo $pageGenerator->generatePage(WTemplate::getGlobalEnvironment());

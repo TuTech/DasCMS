@@ -259,6 +259,10 @@ abstract class BContent extends BObject
 	 */
 	public static function OpenIfPossible($alias)
 	{
+	    if(empty($alias))
+	    {
+	        throw new XUndefinedException('no alias');
+	    }
         $class = QBContent::getClass($alias);
         if(class_exists($class, true))
         {
