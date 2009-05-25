@@ -127,7 +127,7 @@ class QCFeed extends BQuery
     				Contents.description,
     				Contents.pubDate,
     				Aliases.alias,
-					'-' AS 'Users.name',
+					IF(ISNULL(ChangedByUsers.login), '-', ChangedByUsers.login),
 					Contents.pubDate AS 'Changes.date',
     				GROUP_CONCAT(DISTINCT Tags.tag ORDER BY Tags.tag ASC SEPARATOR ', '),
     				Contents.subtitle
@@ -136,6 +136,8 @@ class QCFeed extends BQuery
     				LEFT JOIN Aliases ON (Contents.primaryAlias = Aliases.aliasID)
     				LEFT JOIN relContentsTags ON (Contents.contentID = relContentsTags.contentREL)
     				LEFT JOIN Tags ON (relContentsTags.tagREL = Tags.tagID)
+    				LEFT JOIN Changes ON (Contents.contentID = Changes.contentREL AND Changes.latest = 'Y')
+    				LEFT JOIN ChangedByUsers ON (Changes.userREL = ChangedByUsers.changedByUserID)
 				WHERE
 					relFeedsContents.feedREL = %d
 					AND relFeedsContents.feedREL != relFeedsContents.contentREL
@@ -155,45 +157,7 @@ class QCFeed extends BQuery
         );
         return BQuery::Database()->query($sql, DSQL::NUM);
     }
-    
-    /**
-     * Contents.title, Contents.description, Contents.pubDate, Aliases.alias, Changes.date, concat(Tags.tag, ', ') 
-     * 
-     * @param int $feedID
-     * @return DSQLResult
-     */
-    public static function getItemsForFeed($feedID)
-    {
-        //FIXME optimize join and where for given props
-        $sql = 
-            "SELECT 
-    				Contents.title,
-    				Contents.description,
-    				Contents.pubDate,
-    				Aliases.alias,
-					Contents.pubDate AS 'Changes.date',
-    				GROUP_CONCAT(DISTINCT Tags.tag ORDER BY Tags.tag ASC SEPARATOR ', '),
-					Classes.class,
-					Mimetypes.mimetype,
-					Contents.size
-				FROM relFeedsContents
-    				LEFT JOIN Contents ON (relFeedsContents.contentREL = Contents.contentID)
-    				LEFT JOIN Aliases ON (Contents.primaryAlias = Aliases.aliasID)
-    				LEFT JOIN relContentsTags ON (Contents.contentID = relContentsTags.contentREL)
-    				LEFT JOIN Tags ON (relContentsTags.tagREL = Tags.tagID)
-    				LEFT JOIN Classes ON (Contents.type = Classes.classID)
-    				LEFT JOIN Mimetypes ON (Contents.mimetypeREL = Mimetypes.mimetypeID)
-				WHERE
-					relFeedsContents.feedREL = %d
-					AND relFeedsContents.feedREL != relFeedsContents.contentREL
-					AND Contents.pubDate > 0
-					AND Contents.pubDate <= NOW()
-				GROUP BY Aliases.alias
-				ORDER BY Contents.pubDate DESC
-				LIMIT 15";
-        $sql = sprintf($sql, $feedID);
-        return BQuery::Database()->query($sql, DSQL::NUM);
-    }    
+      
     /**
      * Contents.title, Contents.description, Contents.pubDate, Aliases.alias, Changes.date, concat(Tags.tag, ', ') 
      * 

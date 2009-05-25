@@ -140,6 +140,10 @@ Changes(
     userREL
         INTEGER 
         NULL,
+    latest
+        ENUM('Y', 'N') 
+        DEFAULT 'Y'
+        NOT NULL,
     INDEX changes_date (changeDate),
     INDEX (contentREL),
     INDEX (userREL)

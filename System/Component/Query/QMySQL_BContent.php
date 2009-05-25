@@ -148,12 +148,14 @@ class QBContent extends BQuery
             list($rel) = $res->fetch();
         }
         $res->free();
+        $sql = sprintf("UPDATE Changes SET latest = 'N' WHERE contentREL = %d",$cid);
+        $DB->queryExecute($sql);
         //insert change
         $sql = 
         	"INSERT INTO Changes
-				(contentREL, title, size, userREL)
+				(contentREL, title, size, userREL, latest)
 				VALUES
-				(%d, '%s', %d, %s)";
+				(%d, '%s', %d, %s, 'Y')";
         $sql = sprintf($sql, $cid, $DB->escape($title), $size, $rel);
         $DB->queryExecute($sql);
     }
