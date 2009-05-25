@@ -35,9 +35,9 @@ Changes
         ON DELETE CASCADE
         ON UPDATE NO ACTION,
     ADD CONSTRAINT changed_by FOREIGN KEY (userREL)
-        REFERENCES Users(userID)
-        ON DELETE SET NULL
-        ON UPDATE NO ACTION;
+        REFERENCES ChangedByUsers(changedByUserID)
+        ON DELETE RESTRICT
+        ON UPDATE RESTRICT;
         
         
 -- Foreign keys for Contents

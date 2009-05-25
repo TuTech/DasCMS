@@ -148,6 +148,23 @@ ENGINE = InnoDB
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
 
+-- change log
+CREATE TABLE IF NOT EXISTS 
+ChangedByUsers(
+    changedByUserID 
+        INTEGER 
+        PRIMARY KEY
+        AUTO_INCREMENT
+        NOT NULL,
+    login 
+        VARCHAR(32) 
+        UNIQUE
+        NOT NULL
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
 
 -- Every class will be listed here 
 -- GUID is the global unique id for classes implementing IGlobalUniqueID

@@ -121,16 +121,43 @@ class QBContent extends BQuery
                 $DB->escape($subtitle),
                 $id)
             , DSQL::NUM);
+        self::logChange($id, $title, $size);
+        $DB->commit();
+    }
+
+    private static function logChange($cid, $title, $size)
+    {
+        $DB = BQuery::Database();
+        //set username for change
+        $sql = sprintf("SELECT changedByUserID FROM ChangedByUsers WHERE login = LEFT('%s', 32) LIMIT 1", $DB->escape(PAuthentication::getUserID()));
+        $res = $DB->query($sql, DSQL::NUM);
+        if($res->getRowCount() == 0)
+        {
+            $sql = sprintf("INSERT INTO ChangedByUsers (login) VALUES (LEFT('%s', 32))", $DB->escape(PAuthentication::getUserID()));
+            if($DB->queryExecute($sql))
+            {
+                $rel = 'LAST_INSERT_ID()';
+            }
+            else
+            {
+                $rel = 'NULL';
+            }
+        }
+        else
+        {
+            list($rel) = $res->fetch();
+        }
+        $res->free();
+        //insert change
         $sql = 
         	"INSERT INTO Changes
 				(contentREL, title, size, userREL)
 				VALUES
-				(%d, '%s', %d, (SELECT userID FROM Users WHERE login = '%s'))";
-        $sql = sprintf($sql, $id, $DB->escape($title), $size, $DB->escape(PAuthentication::getUserID()));
+				(%d, '%s', %d, %s)";
+        $sql = sprintf($sql, $cid, $DB->escape($title), $size, $rel);
         $DB->queryExecute($sql);
-        $DB->commit();
     }
-
+    
     public static function deleteContent($alias)
     {
         $sql = 
@@ -177,9 +204,9 @@ class QBContent extends BQuery
             SELECT 
             		Changes.changeDate,
             		Changes.size,
-            		IF(ISNULL(Users.login), 'unknown', Users.login) as user
+            		IF(ISNULL(ChangedByUsers.login), '-', ChangedByUsers.login) as user
             	FROM Changes 
-            	LEFT JOIN Users ON (Changes.userREL = Users.userID)
+            	LEFT JOIN ChangedByUsers ON (Changes.userREL = ChangedByUsers.changedByUserID)
             	LEFT JOIN Aliases ON (Changes.contentREL = Aliases.contentREL)
             	WHERE 
             		Aliases.alias = '%s'
@@ -189,16 +216,25 @@ class QBContent extends BQuery
         $res = $DB->query(sprintf($sql, $DB->escape($alias), 'DESC'), DSQL::NUM);
         if($res->getRowCount() != 1)
         {
-            throw new XUndefinedIndexException();
+            $md = date('Y-m-d H:i:s'); 
+            $sz = 0; 
+            $mb = '-';
         }
-        list($md, $sz, $mb) = $res->fetch();
+        else
+        {
+            list($md, $sz, $mb) = $res->fetch();
+        }
         $res->free();
         $res = $DB->query(sprintf($sql, $DB->escape($alias), 'ASC'), DSQL::NUM);
         if($res->getRowCount() != 1)
         {
-            throw new XUndefinedIndexException();
+            $cd = date('Y-m-d H:i:s'); 
+            $cb = '-';
         }
-        list($cd, $null, $cb) = $res->fetch();
+        else
+        {
+            list($cd, $null, $cb) = $res->fetch();
+        }
         $res->free();
         return array($cb, $cd, $mb, $md, $sz);
     }
@@ -292,11 +328,7 @@ class QBContent extends BQuery
     					GUID = %d
     				WHERE contentID = %d";
             $DB->queryExecute(sprintf($sql, $aliasID, $aliasID, $id));
-            $sql = "INSERT INTO Changes
-    				(contentREL, title, size, userREL)
-    				VALUES
-    				(%d, '%s', 0, (SELECT userID FROM Users WHERE login = '%s'))";
-            $DB->queryExecute(sprintf($sql, $id, $DB->escape($title), $DB->escape(PAuthentication::getUserID())));
+            self::logChange($id, $title, 0);
             $sql = sprintf("SELECT alias FROM Aliases WHERE aliasID = %d", $aliasID);
             list($UUID) = $DB->query($sql, DSQL::NUM)->fetch();
             $DB->commit();
