@@ -39,14 +39,16 @@ try
         
         if($force_download)
         {
-            header("Content-Disposition: attachment; filename=\"".addslashes($file)."\"");    
+            //header("Content-Disposition: attachment; charset=utf-8; filename=\"".addslashes($file)."\"");    
+            header("Content-Disposition: attachment; charset=ISO-8859-1; filename=\"".addslashes(mb_convert_encoding($file, 'ISO-8859-1', 'UTF-8, auto'))."\"");    
             header("Content-Type: application/force-download");
             header("Content-Type: application/download");
             header("Content-Description: File Transfer");             
         }
         else
         {
-            header("Content-Disposition: inline; filename=\"".addslashes($file)."\"");    
+            header("Content-Disposition: inline; charset=ISO-8859-1; filename=\"".addslashes(mb_convert_encoding($file, 'ISO-8859-1', 'UTF-8, auto'))."\"");    
+            //header("Content-Disposition: inline; charset=utf-8; filename=\"".addslashes($file)."\"");    
             
         }
         if(!empty($type))
