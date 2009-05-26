@@ -908,3 +908,9 @@ disable_by_default	Standardmäßig deaktiviert
 force_disabled	Darf nicht benutzt werden
 enable_by_default	Standardmäßig aktiviert
 force_enabled	Muss benutzt werden
+update_data_of_current_file	Vorhandene Datei aktualisieren
+delete_navigation	Navigation löschen
+do_you_really_want_to_delete_this_navigation	Sind Sie sicher, dass Sie diese Navigation löschen wollen?
+include_in_search_index	In den Suchindex aufnehmen
+create_navigation	Navigation anlegen
+filename_for_the_new_navigation	Dateiname der neuen Navigation
