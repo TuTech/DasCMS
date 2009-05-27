@@ -40,7 +40,7 @@ class UAdvancedMetaData
             $data = array();
             foreach ($ks as $mk => $cc)
             {
-                $data[$mk] = array(LConfiguration::get($cc), AConfiguration::TYPE_TEXT, null);
+                $data[$mk] = array(LConfiguration::get($cc), AConfiguration::TYPE_TEXT, null,$mk);
             }
             $e->addClassSettings($this, $sect, $data);
         }

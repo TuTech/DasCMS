@@ -53,15 +53,15 @@ class UBasicSettings
                         {
                             $options[$cdata[0].' ('.$alias.')'] = $alias; 
                         }
-                        $data[$mk] = array(LConfiguration::get($cc), AConfiguration::TYPE_SELECT, $options);
+                        $data[$mk] = array(LConfiguration::get($cc), AConfiguration::TYPE_SELECT, $options, $cc);
                         break;
                        
                     case 'wellformed_urls':
                     case 'log_page_accesses':
-                        $data[$mk] = array(LConfiguration::get($cc), AConfiguration::TYPE_CHECKBOX, null);
+                        $data[$mk] = array(LConfiguration::get($cc), AConfiguration::TYPE_CHECKBOX, null, $cc);
                         break;
                     default:
-                        $data[$mk] = array(LConfiguration::get($cc), AConfiguration::TYPE_TEXT, null);
+                        $data[$mk] = array(LConfiguration::get($cc), AConfiguration::TYPE_TEXT, null, $cc);
                         break;
                 }
             }

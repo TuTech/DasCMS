@@ -59,8 +59,18 @@ class AConfiguration
                 $pfx = '@'.md5($class).'_';
                 foreach($classSettings as $key => $config)
                 {
-                    list($value, $type, $options) = $config;
-                    $dataset[$sect][$pfx.$key] =  array($class.'_'.$key, $value, $type, $options);
+                    //print_r($config);
+                    if(count($config) == 4)
+                    {
+                        list($value, $type, $options, $label) = $config;
+                    }
+                    else
+                    {
+                        print_r($config);
+                        list($value, $type, $options) = $config;
+                        $label = $pfx.$key;
+                    } 
+                    $dataset[$sect][$pfx.$key] =  array($class.'_'.$key, $value, $type, $options, $label);
                 }
             }
         }

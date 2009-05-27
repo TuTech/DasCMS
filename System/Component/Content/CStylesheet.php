@@ -15,7 +15,9 @@ class CStylesheet
         ISupportsSidebar, 
         IGlobalUniqueId,
         ISearchDirectives,
-        Interface_XML_Atom_ProvidesInlineText 
+        IFileContent,
+        Interface_XML_Atom_ProvidesInlineText,
+        IHeaderService
 {
     const GUID = 'org.bambuscms.content.cstylesheet';
     const CLASS_NAME = 'CStylesheet';
@@ -188,6 +190,44 @@ class CStylesheet
         $text = sprintf('<code class="%s" id="_%s">%s</code>', self::CLASS_NAME, $this->GUID, $text);
         return $text;
 	}
+	
+	//IHeaderService
+	public static function getHeaderServideItems($forAlias = null)
+	{
+	    return array('stylesheets' => BContent::GUIDIndex(self::CLASS_NAME));
+	}
+	
+	public static function sendHeaderService($embedGUID, EWillSendHeadersEvent $e)
+	{
+	    $url = 'file.php?get='.$embedGUID;
+	    $e->getHeader()->addLink('utf-8',$url,null,'text/css',null,'stylesheet',null,'all');
+	}
+	
+	//IFileContent
+	public function getFileName()
+	{
+	    return $this->getTitle();
+	}
+	
+    public function getType()
+    {
+        return 'css';
+    }
+    
+    public function getDownloadMetaData()
+    {
+        return array($this->getTitle().'.'.$this->getType(), $this->getMimeType(), null);
+    }
+    
+    public function sendFileContent()
+    {
+        echo $this->getRAWContent();
+    }
+    
+    public function getRawDataPath()
+    {
+        return null;
+    }
 	
 	//ISupportsSidebar
 	public function wantsWidgetsOfCategory($category)

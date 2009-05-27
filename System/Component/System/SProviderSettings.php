@@ -19,7 +19,7 @@ class SProviderSettings
     {
         //db_engine + whatever DSQL gives us
         $e->addClassSettings($this, 'provider', array(
-        	'change_provider_settings' => array('', AConfiguration::TYPE_CHECKBOX, null)
+        	'change_provider_settings' => array('', AConfiguration::TYPE_CHECKBOX, null, 'change_provider_settings')
         ));
         $ps = SComponentIndex::getSharedInstance()->ExtensionsOf('BProvider');
         foreach ($ps as $p)

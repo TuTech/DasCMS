@@ -128,6 +128,39 @@ abstract class BContent extends BObject
 	    $res->free();
 	    return $view;
 	}
+	///////////
+	//chanining
+	
+	//content chained to a class
+	public static function chainContentsToClass($class, array $aliases)
+	{
+	    QBContent::chainContensToClass(is_object($class) ? get_class($class) : $class, $aliases);
+	}
+	
+	public static function getContentsChainedToClass($class)
+	{
+	    $res = QBContent::getContentsChainedToClass(is_object($class) ? get_class($class) : $class);
+	    $guids = array();
+	    while($row = $res->fetch())
+	    {
+	        $guids[$row[0]] = $row[0];
+	    }
+	    return $guids;
+	}
+	
+	public static function releaseContentChainsToClass($class, $aliases = null)
+	{
+	    if(is_array($aliases) || $aliases == null)
+	    {
+	        QBContent::releaseContensChainedToClass(is_object($class) ? get_class($class) : $class, $aliases);
+	    }
+	}
+	
+	//content to other content by a class
+	//...
+	
+	//end chaining
+	//////////////
 	
 	/**
 	 * save meta data to db
@@ -147,7 +180,22 @@ abstract class BContent extends BObject
 	    throw new Exception('not implemented');
 	    //FIXME BContent::Index() not implemented
 	}
-
+		
+	/**
+	 * [alias => [title, pubdate]]
+	 * @return array
+	 */
+	public static function GUIDIndex($ofClass)
+	{
+	    $index = array();
+	    $res = QBContent::getGUIDIndexForClass($ofClass);
+	    while ($row = $res->fetch())
+	    {
+	        $index[$row[0]] = $row[1];
+	    }
+	    return $index;
+	}
+	
 	protected static function Delete($alias)
 	{
 	    try

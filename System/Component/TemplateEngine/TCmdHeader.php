@@ -147,7 +147,7 @@ class TCmdHeader
     
     public function addScript($type, $src = null, $script = null)
     {
-        if(!$this->scriptEmbedded)
+        if(count($this->ScriptTags) == 0)
         {
             $this->ScriptTags[] = '<script type="text/javascript" src="System/WebsiteSupport/JavaScript/bambus.js"></script>';
         }

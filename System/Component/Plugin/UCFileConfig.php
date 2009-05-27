@@ -18,17 +18,17 @@ class UCFileConfig
     public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
     {
         $e->addClassSettings($this, 'image_rendering', array(
-        	'width' => array(LConfiguration::get('CFile_image_width'), AConfiguration::TYPE_TEXT, null),
-        	'height' => array(LConfiguration::get('CFile_image_height'), AConfiguration::TYPE_TEXT, null),
+        	'width' => array(LConfiguration::get('CFile_image_width'), AConfiguration::TYPE_TEXT, null, 'image_width'),
+        	'height' => array(LConfiguration::get('CFile_image_height'), AConfiguration::TYPE_TEXT, null, 'image_height'),
         	'rendering_method' => array(LConfiguration::get('CFile_image_rendering_method'), AConfiguration::TYPE_SELECT, array(
             	'scale_aspect_to_fit_in_boundaries' => '0c', 
                 'scale_aspect_and_crop' => '1c', 
                 'scale_aspect_and_fill_background' => '1f', 
                 'scale_by_stretch' => '1s'
-    		)),
-        	'background_color' => array(LConfiguration::get('CFile_image_background_color'), AConfiguration::TYPE_TEXT, null),
+    		), 'rendering_method'),
+        	'background_color' => array(LConfiguration::get('CFile_image_background_color'), AConfiguration::TYPE_TEXT, null, 'background_color'),
         	'CFile_image_quality' => array(LConfiguration::get('CFile_image_quality'), AConfiguration::TYPE_SELECT,
-                                            array('minimal' => 1, 'low' => 25, 'medium' => 50, 'high' => 75, 'maximum' => 100))
+                                            array('minimal' => 1, 'low' => 25, 'medium' => 50, 'high' => 75, 'maximum' => 100), 'image_quality')
 		));
     }
     

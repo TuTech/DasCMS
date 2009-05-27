@@ -11,6 +11,92 @@
  */
 class QBContent extends BQuery 
 {
+    public static function chainContensToClass($class, array $aliases)
+    {
+        if(count($aliases) == 0)
+        {
+            return;
+        }
+        $DB = BQuery::Database();
+        $eas = array();
+        foreach ($aliases as $alias)
+        {
+            $eas[] = $DB->escape($alias);
+        }
+        $sql = "INSERT IGNORE INTO relClassesChainedContents (chainingClassREL, chainedContentREL)
+        			SELECT Classes.classID, Contents.contentID
+        				FROM Classes
+        					LEFT JOIN Contents ON (1)
+        					LEFT JOIN Aliases ON (Contents.contentID = Aliases.contentREL)
+        				WHERE
+        					Classes.class = '%s'
+        					AND (
+        						Aliases.alias = '%s'
+    						)";
+        $sql = sprintf($sql, $DB->escape($class), implode("' OR  Aliases.alias = '", $eas));
+        return $DB->queryExecute($sql);
+    }
+    /**
+     * 
+     * @param string $class
+     * @return DSQLResult
+     */
+    public static function getContentsChainedToClass($class)
+    {
+        $sql = "SELECT Aliases.alias
+    				FROM Classes
+    					LEFT JOIN relClassesChainedContents ON (Classes.classID = relClassesChainedContents.chainingClassREL)
+    					LEFT JOIN Contents ON (relClassesChainedContents.chainedContentREL = Contents.contentID)
+    					LEFT JOIN Aliases ON (Contents.GUID = Aliases.aliasID)
+    				WHERE
+    					Classes.class = '%s'";
+        $DB = BQuery::Database();
+        return $DB->query(sprintf($sql, $DB->escape($class), DSQL::NUM));
+    }
+    
+    public static function releaseContensChainedToClass($class, $aliases = null)
+    {
+        if(is_array($aliases) && count($aliases) == 0)
+        {
+            return;
+        }
+        $DB = BQuery::Database();
+        $aliasScope = '';
+        if(is_array($aliases))
+        {
+            $eas = array();
+            foreach ($aliases as $alias)
+            {
+                $eas[] = $DB->escape($alias);
+            }
+            $aliasScope = "AND chainedContent IN (SELECT contentREL FROM Aliases WHERE alias = '".implode("' OR  alias = '", $eas)."')";
+        }
+        $sql = "DELETE FROM relClassesChainedContents 
+        			WHERE 
+        				chainingClassREL = (SELECT classID FROM Classes WHERE class = '%s')
+        				%s";
+        $sql = sprintf($sql, $DB->escape($class), $aliasScope);
+        return $DB->queryExecute($sql);
+    }
+    
+    
+    /**
+     * 
+     * @param string $class
+     * @return DSQLResult
+     */
+    public static function getGUIDIndexForClass($class)
+    {
+        $sql = "SELECT Aliases.alias, Contents.title
+    				FROM Classes
+    					LEFT JOIN Contents ON (Classes.classID = Contents.type)
+    					LEFT JOIN Aliases ON (Contents.GUID = Aliases.aliasID)
+    				WHERE
+    					Classes.class = '%s'";
+        $DB = BQuery::Database();
+        return $DB->query(sprintf($sql, $DB->escape($class), DSQL::NUM));
+    }
+    
     /**
      * @param int $contentID
      * @return DSQLResult

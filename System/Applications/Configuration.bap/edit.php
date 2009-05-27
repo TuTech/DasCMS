@@ -31,7 +31,7 @@ foreach ($sorted as $section => $loc)
         $tbl->addRow(array('description', 'value'));
         foreach ($data as $key => $fieldconfig)
         {
-            list($langKey, $value, $type, $options) = $fieldconfig;
+            list($langKey, $value, $type, $options, $label) = $fieldconfig;
             $str = '';
             switch ($type)
             {
@@ -67,7 +67,7 @@ foreach ($sorted as $section => $loc)
                     break;
             }
             
-            $tbl->addRow(array($fieldconfig[0], $str));
+            $tbl->addRow(array($label, $str));
         }
         $tbl->render();
     }

@@ -66,7 +66,7 @@ class DSQL_MySQL extends DSQL
 	    $data = array();
         foreach (self::$configKeys as $mk => $altVal)
         {
-            $data[$mk] = array($altVal === 0 ? LConfiguration::get($mk) : $altVal,($altVal === 0 ? AConfiguration::TYPE_TEXT : AConfiguration::TYPE_PASSWORD), null);
+            $data[$mk] = array($altVal === 0 ? LConfiguration::get($mk) : $altVal,($altVal === 0 ? AConfiguration::TYPE_TEXT : AConfiguration::TYPE_PASSWORD), null, $mk);
         }
         $e->addClassSettings($this, 'database', $data);
 	}

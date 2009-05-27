@@ -15,7 +15,9 @@ class CScript
         ISupportsSidebar, 
         IGlobalUniqueId,
         ISearchDirectives,
-        Interface_XML_Atom_ProvidesInlineText 
+        Interface_XML_Atom_ProvidesInlineText,
+        IHeaderService,
+        IFileContent
 {
     const GUID = 'org.bambuscms.content.cscript';
     const CLASS_NAME = 'CScript';
@@ -190,6 +192,45 @@ class CScript
         return $text;
 	}
 	
+	//IHeaderService
+	public static function getHeaderServideItems($forAlias = null)
+	{
+	    return array('scripts' => BContent::GUIDIndex(self::CLASS_NAME));
+	}
+	
+	public static function sendHeaderService($embedAlias, EWillSendHeadersEvent $e)
+	{
+	    $url = 'file.php?get='.$embedAlias;
+	    $e->getHeader()->addScript('text/javascript',$url,'');
+	}
+	
+	//IFileContent
+	public function getFileName()
+	{
+	    return $this->getTitle();
+	}
+	
+    public function getType()
+    {
+        return 'js';
+    }
+    
+    public function getDownloadMetaData()
+    {
+        return array($this->getTitle().'.'.$this->getType(), $this->getMimeType(), null);
+    }
+    
+    public function sendFileContent()
+    {
+        echo $this->getRAWContent();
+    }
+    
+    public function getRawDataPath()
+    {
+        return null;
+    }
+    
+    
 	//ISupportsSidebar
 	public function wantsWidgetsOfCategory($category)
 	{

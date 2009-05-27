@@ -19,9 +19,9 @@ class UGoogleServices
     public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
     {
         $e->addClassSettings($this, 'google_services', array(
-        	'verify_v1' => array(LConfiguration::get('google_verify_header'), AConfiguration::TYPE_TEXT, null),
-        	'google_maps_key' => array(LConfiguration::get('google_maps_key'), AConfiguration::TYPE_TEXT, null),
-        	'load_maps_support' => array(LConfiguration::get('google_load_maps_support'), AConfiguration::TYPE_CHECKBOX, null)
+        	'verify_v1' => array(LConfiguration::get('google_verify_header'), AConfiguration::TYPE_TEXT, null, 'google_verify_header'),
+        	'google_maps_key' => array(LConfiguration::get('google_maps_key'), AConfiguration::TYPE_TEXT, null, 'google_maps_key'),
+        	'load_maps_support' => array(LConfiguration::get('google_load_maps_support'), AConfiguration::TYPE_CHECKBOX, null, 'google_load_maps_support')
         ));
     }
     

@@ -40,9 +40,9 @@ class SErrorAndExceptionHandler
     public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
     {
         $data = array(
-        	'mail_webmaster_on_error' => array(LConfiguration::get('mail_webmaster_on_error'), AConfiguration::TYPE_CHECKBOX, null),
-        	'show_errors_on_website' => array(LConfiguration::get('show_errors_on_website'), AConfiguration::TYPE_CHECKBOX, null),
-        	'error_info_text_file' => array(LConfiguration::get('error_info_text_file'), AConfiguration::TYPE_TEXT, null)
+        	'mail_webmaster_on_error' => array(LConfiguration::get('mail_webmaster_on_error'), AConfiguration::TYPE_CHECKBOX, null, 'mail_webmaster_on_error'),
+        	'show_errors_on_website' => array(LConfiguration::get('show_errors_on_website'), AConfiguration::TYPE_CHECKBOX, null, 'show_errors_on_website'),
+        	'error_info_text_file' => array(LConfiguration::get('error_info_text_file'), AConfiguration::TYPE_TEXT, null, 'error_info_text_file')
         );
         $e->addClassSettings($this, 'error_handling', $data);
     }

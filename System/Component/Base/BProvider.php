@@ -21,7 +21,7 @@ abstract class BProvider extends BObject
             $ipls[SLocalization::get(constant($impl.'::NAME'))] = $impl;
         }
         $data = array();
-        $data['implementation'] = array(LConfiguration::get($class), AConfiguration::TYPE_SELECT, $ipls);
+        $data['implementation'] = array(LConfiguration::get($class), AConfiguration::TYPE_SELECT, $ipls, $class);
         $e->addClassSettings($this, $this->getPurpose(), $data);
     }
     

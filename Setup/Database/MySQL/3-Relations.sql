@@ -1,3 +1,37 @@
+CREATE TABLE IF NOT EXISTS 
+relContentsClassesChainedContents(
+    ownerContentREL 
+        INTEGER 
+        NOT NULL,
+    chainingClassREL 
+        INTEGER 
+        NOT NULL,    
+    chainedContentREL 
+        INTEGER 
+        NOT NULL,
+    UNIQUE (ownerContentREL, chainingClassREL, chainedContentREL),
+    INDEX(chainingClassREL),
+    INDEX(chainedContentREL)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS 
+relClassesChainedContents(
+    chainingClassREL 
+        INTEGER 
+        NOT NULL,    
+    chainedContentREL 
+        INTEGER 
+        NOT NULL,
+    UNIQUE (chainingClassREL, chainedContentREL),
+    INDEX(chainedContentREL)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
 -- feed to contents relation
 CREATE TABLE IF NOT EXISTS 
 relContentsPreviewImages(
