@@ -128,7 +128,7 @@ class QCFeed extends BQuery
     				Contents.pubDate,
     				Aliases.alias,
 					IF(ISNULL(ChangedByUsers.login), '-', ChangedByUsers.login),
-					Contents.pubDate AS 'Changes.date',
+					Changes.changeDate,
     				GROUP_CONCAT(DISTINCT Tags.tag ORDER BY Tags.tag ASC SEPARATOR ', '),
     				Contents.subtitle
 				FROM relFeedsContents

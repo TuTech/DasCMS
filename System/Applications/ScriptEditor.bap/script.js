@@ -10,6 +10,16 @@ function Create()
 	input.focus();
 }
 
+function Delete()
+{
+	input = $c('input');
+	input.setAttribute('name','delete');
+	input.setAttribute('type','hidden');
+	input.setAttribute('value','yes');
+		
+	org.bambuscms.app.dialog.create(_('delete_script'), _('do_you_really_want_to_delete_this_script'), input, _('yes_delete'), _('no'));
+	org.bambuscms.app.dialog.setAction('delete');
+}
 
 
 org.bambuscms.app.document.insertMedia = function(type, id, title)

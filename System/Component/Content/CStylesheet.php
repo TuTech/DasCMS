@@ -2,14 +2,14 @@
 /**
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 2009-03-09
+ * @since 2009-05-29
  * @license GNU General Public License 3
  */
 /**
  * @package Bambus
  * @subpackage Content
  */
-class CTextBrick
+class CStylesheet
     extends BContent 
     implements 
         ISupportsSidebar, 
@@ -17,8 +17,8 @@ class CTextBrick
         ISearchDirectives,
         Interface_XML_Atom_ProvidesInlineText 
 {
-    const GUID = 'org.bambuscms.content.ctextbrick';
-    const CLASS_NAME = 'CTextBrick';
+    const GUID = 'org.bambuscms.content.cstylesheet';
+    const CLASS_NAME = 'CStylesheet';
     public function getClassGUID()
     {
         return self::GUID;
@@ -27,16 +27,17 @@ class CTextBrick
     private $_contentLoaded = false;
     
 	/**
-	 * @return CTextBrick
+	 * @return CStylesheet
 	 */
 	public static function Create($title)
 	{
 	    list($dbid, $alias) = QBContent::create(self::CLASS_NAME, $title);
 	    DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$dbid.'.php', ' ');
 	    DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$dbid.'.html.php', ' ');
-	    $tpl = new CTextBrick($alias);
-	    new EContentCreatedEvent($tpl, $tpl);
-	    return $tpl;
+	    BContent::setMimeType($alias, 'text/css');
+	    $script = new CStylesheet($alias);
+	    $e = new EContentCreatedEvent($script, $script);
+	    return $script;
 	}
 	
 	public static function Delete($alias)
@@ -62,7 +63,7 @@ class CTextBrick
 	{
 	    try
 	    {
-	        return new CTextBrick($alias);
+	        return new CStylesheet($alias);
 	    }
 	    catch (XArgumentException $e)
 	    {
@@ -101,7 +102,7 @@ class CTextBrick
 	 */
 	public function getIcon()
 	{
-	    return CTextBrick::defaultIcon();
+	    return CStylesheet::defaultIcon();
 	}
 	
 	/**
@@ -124,7 +125,7 @@ class CTextBrick
     }
     public function getInlineText()
     {
-        return $this->getContent();
+        return '<div style="white-space:pre">'.$this->getContent().'</div>';
     }
 	//end Interface_XML_Atom_ProvidesInlineText
 		
@@ -137,14 +138,11 @@ class CTextBrick
 	public function setRAWContent($value)
 	{
 	    //save and compile
-		$this->Size = strlen($value);
 		$this->_contentLoaded = true;
 		$this->_modified = true;
+	    $this->Size = strlen($value);
 		$this->RAWContent = $value;
 		$this->Content = $this->generateHTML($this->RAWContent);
-		$len = 420;
-		$desc = (mb_strlen($value,'UTF-8') > $len) ? mb_substr($value,0,$len,'UTF-8').'...' : $value;
-		$this->Description = $this->generateHTML($desc);
 	}
 	
 	public function getRAWContent()
@@ -166,7 +164,7 @@ class CTextBrick
 			DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$this->Id.'.html.php',$this->Content);
 		}
 		$this->saveMetaToDB();
-		new EContentChangedEvent($this, $this);
+		$e = new EContentChangedEvent($this, $this);
 		if($this->_origPubDate != $this->PubDate)
 		{
 			$e = ($this->__get('PubDate') == 0)
@@ -177,65 +175,24 @@ class CTextBrick
 	
 	protected function generateHTML($text)
 	{
-        preg_replace('/\r?\n/', "\n", $text);
-        $lines = explode("\n", $text);
-        $html = '';
-        $par = '';
-        $first = true;
-        foreach ($lines as $line) 
-        {
-            $line = trim($line);
-            if(empty($line))
-            {
-                $html .= ($par != '' ) 
-                    ? sprintf("<p>%s</p>\n", $par)
-                    : "<br />\n";
-                $par = '';
-            }
-            else
-            {
-                //urls with title
-                $line = preg_replace('/(^|[\s>\*%\-])([a-zA-Z0-9]+:\/\/[^\s{]+)({([^}]+)})/ui', '$1<a href="$2" target="_blank">$4</a>', $line);
-                //urls
-                $line = preg_replace('/(^|[\s>\*%\-])([a-zA-Z0-9]+:\/\/[^\s]+)/ui', '$1<a href="$2" target="_blank">$2</a>', $line);
-                //internal links
-                $line = preg_replace('/(^|[\s>\*%\-])(@[^@]+@)({([^}]+)})/mui', "$1<span title=\"$2\" class=\"cmsLink\">$2 <i>$4</i></span>", $line);
-                $line = preg_replace('/(^|[\s>\*%\-])(@[^@]+@)$/mui', "$1<span title=\"$2\" class=\"cmsLink broken\">$2 <u>$3</u></span>", $line);
-                //bold
-                $line = preg_replace('/\*([^\*]+)\*/u', '<b>$1</b>', $line);
-                //italic
-                $line = preg_replace('/%([^%]+)%/u', '<i>$1</i>', $line);
-                //[stuff]
-                $line = preg_replace('/^\[(root\/tutech.tutech.net\/(.*)\/jpegs\/([^\.]+)(\.jpg|))\]$/mu', "<span title=\"$1\" class=\"cmsEmbed\"><img src=\"img/$2/$3.jpg\" alt=\"$1\" title=\"$1\" /></span>", $line);
-               
-                //lists
-                $line = preg_replace('/^(--)(.*)$/mu', "<ul><ul><li>$2</li></ul></ul>", $line);
-                $line = preg_replace('/^(-|•)(.*)$/mu', "<ul><li>$2</li></ul>", $line);
-                //{stuff}
-                $line = preg_replace('/^{(.*)}$/mu', "<span title=\"$1\" class=\"cmsRef\">$1</span>", $line);
-                //line break
-                $line = $first ? sprintf('<span class="firstLine">%s</span>', $line) : $line;
-                $par .= $line.(substr($line,0,4) == '<ul>' ? '' : "<br />\n");
-                $first = false;
-            }
-        }
-        if(!empty($par))
-        {
-            $html .= sprintf("\t<p>%s</p>\n", $par);
-        }
-        $html = preg_replace('/<\/ul><\/ul><ul><ul>/mu', "", $html);
-        $html = preg_replace('/<\/ul><ul>/mu', "", $html);
-        $html = preg_replace('/(<\/?ul>)/mu', "\n$1\n", $html);
-        $html = preg_replace('/<\/li><li>/mu', "</li>\n<li>", $html);
-        return $html;
+        $text = htmlentities($text, ENT_QUOTES, 'UTF-8');
+        $text = str_replace("\t", '    ', $text);
+        $text = preg_replace("(\r\n|\r|\n)", "\t", $text);
+        $text = preg_replace('/(^|})(.*?)({)/mui', '\\1<b>\\2</b>\\3', $text);
+        $text = preg_replace('/({|;)(\s*)([a-z0-9\-]*?:)/mui', '\\1\\2<span>\\3</span>', $text);
+        $text = preg_replace('/(\/\*.*?\*\/)/mui', '<i>\\1</i>', $text);
+        $text = preg_replace('/(url\s*\(\s*)(.*?)(\s*\))/mui', '\\1<a href="\\2">\\2</a>\\3', $text);
+        $text = preg_replace('/({[^}]*)(#([a-z0-9]{6}|[a-z0-9]{3}))/mui', '\\1&#35;\\3&nbsp;<span@@\\3">&nbsp;&nbsp;</span>', $text);
+        $text = preg_replace('/<span@@([a-z0-9]{6}|[a-z0-9]{3})/mui', '<span class="color" style="background: #\\1', $text);
+        $text = str_replace("\t", "\n", $text);
+        $text = sprintf('<code class="%s" id="_%s">%s</code>', self::CLASS_NAME, $this->GUID, $text);
+        return $text;
 	}
-	
-	public function setDescription($value){}
 	
 	//ISupportsSidebar
 	public function wantsWidgetsOfCategory($category)
 	{
-		return in_array(strtolower($category), array('text', 'media', 'settings', 'information', 'search'));
+		return in_array(strtolower($category), array('text', 'settings', 'information', 'search'));
 	}
 	
 	//ISearchDirectives

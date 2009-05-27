@@ -246,12 +246,6 @@ class CFile
         );
 	}
 	
-	public function enclosureURL()
-	{
-	    return sprintf('%sfile.php%s%s',SLink::base(), LConfiguration::get('wellformed_urls') == '' ? '?get=' : '/',$this->getAlias());
-	    
-	}
-	
 	public function setContent($value)
 	{
 	    throw new XPermissionDeniedException('files are read only');

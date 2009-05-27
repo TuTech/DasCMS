@@ -19,15 +19,16 @@
 			</panel>
 			<panel name="server_actions">
 				<task type="button" hotkey="N" caption="new" icon="action-document-new" action="Create()" />
-				<task type="button" hotkey="X" caption="delete" icon="action-edit-delete" action="delete" mode="html" confirm="do_you_really_want_to_delete_this_file" />
+				<task type="button" hotkey="X" caption="delete" icon="action-edit-delete" action="Delete()" />
 			</panel>
 			<panel name="text_actions">
 				<task type="button" hotkey="R" caption="search_and_replace" icon="action-edit-find-replace" action="org.bambuscms.app.document.searchAndReplace()" />
 			</panel>
 		</interface>
 		<sidebar>
+			<supported mode="PERMISSIONS"/>
+			<supported mode="PROPERTY_EDIT"/>
 			<supported mode="HELPER"/>
-			<supported mode="INFORMATION"/>
 			<processInputs mode="auto"/>
 		</sidebar>
 		<openDialog autoShow="yes"/>

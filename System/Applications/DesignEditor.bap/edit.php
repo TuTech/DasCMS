@@ -3,21 +3,15 @@
  * @copyright Lutz Selke/TuTech Innovation GmbH 
  * @author selke@tutech.de
  * @package org.bambuscms.applications.designeditor
- * @since 2006-10-11
+ * @since 2009-05-27
  * @version 1.0
  */
-$currentFile = SApplication::getControllerContent();
-if(!empty($currentFile))
+$Stylesheet = SApplication::getControllerContent();
+if($Stylesheet instanceof CStylesheet)
 {
-	printf(
-		'<h2>%s</h2>'
-	    ,htmlentities($currentFile, ENT_QUOTES, 'utf-8')
-    );
-    $controller = SApplication::appController();
-    $fileContent = ($controller->getSavedContent() == null)
-        ? DFileSystem::Load(SPath::DESIGN.$currentFile)
-        : $controller->getSavedContent();
-	$editor = new WTextEditor($fileContent);
+    echo new WContentTitle($Stylesheet);
+    $editor = new WTextEditor($Stylesheet->RAWContent);
+    $editor->setWordWrap(false);
     $editor->disableSpellcheck();
     echo $editor;
 }

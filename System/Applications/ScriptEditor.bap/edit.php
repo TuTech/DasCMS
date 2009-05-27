@@ -6,18 +6,12 @@
  * @since 2009-05-15
  * @version 1.0
  */
-$currentFile = SApplication::getControllerContent();
-if(!empty($currentFile))
+$Script = SApplication::getControllerContent();
+if($Script instanceof CScript)
 {
-	printf(
-		'<h2>%s</h2>'
-	    ,htmlentities($currentFile, ENT_QUOTES, 'utf-8')
-    );
-    $controller = SApplication::appController();
-    $fileContent = ($controller->getSavedContent() == null)
-        ? DFileSystem::Load(SPath::SCRIPT.$currentFile)
-        : $controller->getSavedContent();
-	$editor = new WTextEditor($fileContent);
+    echo new WContentTitle($Script);
+    $editor = new WTextEditor($Script->RAWContent);
+    $editor->setWordWrap(false);
     $editor->disableSpellcheck();
     echo $editor;
 }
