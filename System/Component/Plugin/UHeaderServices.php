@@ -49,17 +49,35 @@ class UHeaderServices
     public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
     {
         $data = $e->getClassSettings($this);
+        $classes = SComponentIndex::getSharedInstance()->ImplementationsOf('IHeaderService');
+        $avail = array();
         $cfg = array();
-        foreach ($data as $key => $val)
+        $rem = array();
+        $hasData = false;
+        foreach ($classes as $class)
         {
-            if(!empty($data[$key]))
+            $items = call_user_func($class.'::getHeaderServideItems');
+            foreach ($items as $section => $itemData)
             {
-                $cfg[] = $key;
-            }
+                foreach ($itemData as $GUID => $title)
+                {
+                    if(isset($data[$GUID]))
+                    {
+                        if(!empty($data[$GUID]))
+                        {
+                            $cfg[] = $GUID;
+                        }
+                        else
+                        {
+                            $rem[] = $GUID;
+                        }
+                    }
+                }
+            }    
         }
         $DSQL = DSQL::getSharedInstance();
         $DSQL->beginTransaction();
-        BContent::releaseContentChainsToClass($this);
+        BContent::releaseContentChainsToClass($this, $rem);
         BContent::chainContentsToClass($this, $cfg);
         $DSQL->commit();
     }

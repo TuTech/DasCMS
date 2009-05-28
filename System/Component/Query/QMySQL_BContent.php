@@ -69,7 +69,7 @@ class QBContent extends BQuery
             {
                 $eas[] = $DB->escape($alias);
             }
-            $aliasScope = "AND chainedContent IN (SELECT contentREL FROM Aliases WHERE alias = '".implode("' OR  alias = '", $eas)."')";
+            $aliasScope = "AND chainedContentREL IN (SELECT contentREL FROM Aliases WHERE alias = '".implode("' OR  alias = '", $eas)."')";
         }
         $sql = "DELETE FROM relClassesChainedContents 
         			WHERE 
