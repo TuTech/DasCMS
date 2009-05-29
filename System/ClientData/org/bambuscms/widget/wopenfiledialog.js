@@ -42,11 +42,19 @@ org.bambuscms.wopenfiledialog = {
 	'largePreviewImageScale':'30-30-1-f-ff-ff-ff',
 	'extraLargePreviewImageScale':'B2-B2-1-f-ff-ff-ff',
 	'showExtraLarge':function(itemNr){
+		var cn = $('_item_'+itemNr).className;
 		$('WOpenFileDialog-SidebarPreview').src = 'image.php/'+($('_item_'+itemNr).title)+'/'+org.bambuscms.wopenfiledialog.extraLargePreviewImageScale;
 		$('WOpenFileDialog-SidebarPreview').className = '';
+		var links = $("WOpenFileDialog-ItemWrapper").getElementsByTagName('a');
+		for(var i = 0; i < links.length; i++)
+		{
+			links[i].className = 'WOFD_item';
+		}
+		$('_item_'+itemNr).className = 'WOFD_item WOFD_item_current';
+		return (cn.match("_current") != null);
 	},
 	'hideExtraLarge':function(itemNr){
-		$('WOpenFileDialog-SidebarPreview').className = '_no_preview';
+		//$('WOpenFileDialog-SidebarPreview').className = '_no_preview';
 	},
 	'sortCompare': function(a, b){
 		//a and b are dom objects
@@ -175,8 +183,9 @@ org.bambuscms.wopenfiledialog._build = function()
 			'href': org.bambuscms.wopenfiledialog.linkPrefix+data.items[y][data.itemMap['alias']]+org.bambuscms.wopenfiledialog.linkSuffix,
 			'title':data.items[y][data.itemMap['alias']],
 			'id':'_item_'+y,
-			'onmouseover':'org.bambuscms.wopenfiledialog.showExtraLarge('+y+')',
-			'onmouseout': 'org.bambuscms.wopenfiledialog.hideExtraLarge('+y+')'
+			'onclick':'return org.bambuscms.wopenfiledialog.showExtraLarge('+y+');',
+			'ondblclick':'top.location.href = this.href;'
+			//'onmouseout': 'org.bambuscms.wopenfiledialog.hideExtraLarge('+y+')'
 		});
 		//searchable attributes
 		var search = org.bambuscms.gui.element('span', null, {'style':"display:none"});
