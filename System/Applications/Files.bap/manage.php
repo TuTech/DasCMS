@@ -52,13 +52,13 @@ if($File != null && $File instanceof BContent)
 	$tbl->render();
 
 }
-else
+elseif(false)
 {
     echo new WScript("
     	$('App-Hotkey-CTRL-s').parentNode.removeChild($('App-Hotkey-CTRL-s'));
-    	$('App-Hotkey-CTRL-u').parentNode.removeChild($('App-Hotkey-CTRL-u'));
+    	//$('App-Hotkey-CTRL-u').parentNode.removeChild($('App-Hotkey-CTRL-u'));
     	org.bambuscms.app.hotkeys.unregister('CTRL-s');
-    	org.bambuscms.app.hotkeys.unregister('CTRL-u');
+    	//org.bambuscms.app.hotkeys.unregister('CTRL-u');
     	var is_in_content_mode = false;
     	");
         echo '<input type="hidden" name="action" value="delete" />';
@@ -98,7 +98,6 @@ else
         $flowLayout->addItem($tpl);
     }
     $flowLayout->render();
-    echo new WScript('hideInputs();');
 }
 
 ?>

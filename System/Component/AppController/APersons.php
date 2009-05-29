@@ -305,19 +305,7 @@ class APersons
             'smallIconMap' => array('System/ClientData/Icons/tango/extra-small/mimetypes/CUser.png'),
             'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2, 'pubDate' => 3, 'company' => 4),//, 'tags' => 4
             'sortable' => array('title' => 'title', 'pubDate' => 'pubDate', 'company' => 'company'),
-            'items' => $items,
-            'captions' => array(
-                'detail' => SLocalization::get('detail'),
-                'icon' => SLocalization::get('icon'),
-                'list' => SLocalization::get('list'),
-                'asc' => SLocalization::get('asc'),
-                'desc' => SLocalization::get('desc'),
-                'searchByTitle' => SLocalization::get('search_by_title'),
-                'pubDate' => SLocalization::get('pubDate'),
-                'notPublished' => SLocalization::get('not_published'),
-                'company' => SLocalization::get('company'),
-                'title' => SLocalization::get('title')
-            )
+            'items' => $items
         );
         return $data;
     }

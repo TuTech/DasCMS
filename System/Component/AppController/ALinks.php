@@ -164,20 +164,7 @@ class ALinks
             'smallIconMap' => array(CLink::defaultIcon()->asSize(WIcon::EXTRA_SMALL)->getPath()),
             'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2, 'pubDate' => 3),//, 'tags' => 4
             'sortable' => array('title' => 'title', 'pubDate' => 'pubDate'),
-            'items' => $items,
-            'captions' => array(
-                'detail' => SLocalization::get('detail'),
-                'icon' => SLocalization::get('icon'),
-                'list' => SLocalization::get('list'),
-                'asc' => SLocalization::get('asc'),
-                'desc' => SLocalization::get('desc'),
-                'searchByTitle' => SLocalization::get('search_by_title'),
-                'pubDate' => SLocalization::get('pubDate'),
-                'notPublished' => SLocalization::get('not_published'),
-                'title' => SLocalization::get('title'),
-                'type' => SLocalization::get('type'),                
-                'size' => SLocalization::get('size'),
-            )
+            'items' => $items
         );
         return $data;
     }

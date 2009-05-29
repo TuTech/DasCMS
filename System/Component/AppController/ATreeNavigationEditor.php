@@ -252,19 +252,7 @@ class ATreeNavigationEditor
             'smallIconMap' => array('System/ClientData/Icons/tango/extra-small/mimetypes/NTreeNavigation.png'),
             'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2),//, 'tags' => 4
             'sortable' => array('title' => 'title'),
-            'items' => $items,
-            'captions' => array(
-                'detail' => SLocalization::get('detail'),
-                'icon' => SLocalization::get('icon'),
-                'list' => SLocalization::get('list'),
-                'asc' => SLocalization::get('asc'),
-                'desc' => SLocalization::get('desc'),
-                'searchByTitle' => SLocalization::get('search_by_title'),
-                'size' => SLocalization::get('size'),
-                'notPublished' => SLocalization::get('not_published'),
-                'title' => SLocalization::get('title'),
-                'modified' => SLocalization::get('modified'),
-            )
+            'items' => $items
         );
         return $data;
     }

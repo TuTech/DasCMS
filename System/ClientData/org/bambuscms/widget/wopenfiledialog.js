@@ -38,6 +38,16 @@ org.bambuscms.wopenfiledialog = {
 		}
 	},
 	'closable':true,
+	'extraSmallPreviewImageScale':'10-10-1-f-ff-ff-ff',
+	'largePreviewImageScale':'30-30-1-f-ff-ff-ff',
+	'extraLargePreviewImageScale':'B2-B2-1-f-ff-ff-ff',
+	'showExtraLarge':function(itemNr){
+		$('WOpenFileDialog-SidebarPreview').src = 'image.php/'+($('_item_'+itemNr).title)+'/'+org.bambuscms.wopenfiledialog.extraLargePreviewImageScale;
+		$('WOpenFileDialog-SidebarPreview').className = '';
+	},
+	'hideExtraLarge':function(itemNr){
+		$('WOpenFileDialog-SidebarPreview').className = '_no_preview';
+	},
 	'sortCompare': function(a, b){
 		//a and b are dom objects
 		var ca = a.firstChild.getAttribute(org.bambuscms.wopenfiledialog.sortBy);
@@ -119,6 +129,11 @@ org.bambuscms.wopenfiledialog._build = function()
 	var sidebar = org.bambuscms.gui.element('div', null, {
 		'id':"WOpenFileDialog-sidebar"
 	});
+	sidebar.appendChild(
+		org.bambuscms.gui.element('div', null, {
+			'id':"WOpenFileDialog-sidebarSpacer"
+		})
+	);
 	var filecontainer = org.bambuscms.gui.element('div', null, {
 		'id':"WOpenFileDialog-filecontainer",
 		'class':'WOFD_detail_view'
@@ -157,7 +172,11 @@ org.bambuscms.wopenfiledialog._build = function()
 		//item
 		var item = org.bambuscms.gui.element('a', null, {
 			'class':"WOFD_item", 
-			'href': org.bambuscms.wopenfiledialog.linkPrefix+data.items[y][data.itemMap['alias']]+org.bambuscms.wopenfiledialog.linkSuffix
+			'href': org.bambuscms.wopenfiledialog.linkPrefix+data.items[y][data.itemMap['alias']]+org.bambuscms.wopenfiledialog.linkSuffix,
+			'title':data.items[y][data.itemMap['alias']],
+			'id':'_item_'+y,
+			'onmouseover':'org.bambuscms.wopenfiledialog.showExtraLarge('+y+')',
+			'onmouseout': 'org.bambuscms.wopenfiledialog.hideExtraLarge('+y+')'
 		});
 		//searchable attributes
 		var search = org.bambuscms.gui.element('span', null, {'style':"display:none"});
@@ -182,7 +201,25 @@ org.bambuscms.wopenfiledialog._build = function()
 					'class':'large'
 				})
 			);
-		}		
+		}
+		else
+		{
+			//show preview image
+			item.appendChild(
+				org.bambuscms.gui.element('img', null, {
+						'src': 'image.php/'+data.items[y][data.itemMap['alias']]+'/'+
+									org.bambuscms.wopenfiledialog.extraSmallPreviewImageScale,
+						'class':'extra-small'
+					})
+				);
+			item.appendChild(
+					org.bambuscms.gui.element('img', null, {
+						'src': 'image.php/'+data.items[y][data.itemMap['alias']]+'/'+
+									org.bambuscms.wopenfiledialog.largePreviewImageScale,
+						'class':'large'
+					})
+				);
+		}
 		if(data.items[y][data.itemMap['title']])
 		{
 			item.appendChild(
@@ -192,13 +229,13 @@ org.bambuscms.wopenfiledialog._build = function()
 		if(data.items[y][data.itemMap['description']])
 		{
 			item.appendChild(
-				org.bambuscms.gui.element('div', data.captions.description+': '+data.items[y][data.itemMap['description']], {})
+				org.bambuscms.gui.element('div', _('description')+': '+data.items[y][data.itemMap['description']], {})
 			);
 		}
 		if(data.items[y][data.itemMap['company']])
 		{
 			item.appendChild(
-				org.bambuscms.gui.element('div', data.captions.company+': '+data.items[y][data.itemMap['company']], {})
+				org.bambuscms.gui.element('div', _('company')+': '+data.items[y][data.itemMap['company']], {})
 			);
 		}
 		if(data.items[y][data.itemMap['pubDate']])
@@ -206,14 +243,14 @@ org.bambuscms.wopenfiledialog._build = function()
 			if(data.items[y][data.itemMap['pubDate']] < 1)
 			{
 				item.appendChild(
-					org.bambuscms.gui.element('div', data.captions.notPublished, {})
+					org.bambuscms.gui.element('div', _('not_published'), {})
 				);
 			}
 			else
 			{
 				var d = new Date(data.items[y][data.itemMap['pubDate']] * 1000);
 				item.appendChild(
-					org.bambuscms.gui.element('div', data.captions.pubDate+': '+d.toLocaleString(), {})
+					org.bambuscms.gui.element('div', _('pubDate')+': '+d.toLocaleString(), {})
 				);
 			}
 		}
@@ -221,7 +258,7 @@ org.bambuscms.wopenfiledialog._build = function()
 		{
 			var d = new Date(data.items[y][data.itemMap['modified']] * 1000);
 			item.appendChild(
-				org.bambuscms.gui.element('div', data.captions.modified+': '+d.toLocaleString(), {})
+				org.bambuscms.gui.element('div', _('modified')+': '+d.toLocaleString(), {})
 			);
 		}
 		if(data.items[y][data.itemMap['size']])
@@ -236,7 +273,7 @@ org.bambuscms.wopenfiledialog._build = function()
 			}
 			s = Math.round(s, 2);
 			item.appendChild(
-				org.bambuscms.gui.element('div', data.captions.size+': '+s+u[i], {})
+				org.bambuscms.gui.element('div', _('size')+': '+s+u[i], {})
 			);
 		}
 		filewrapper.appendChild(item);
@@ -244,10 +281,19 @@ org.bambuscms.wopenfiledialog._build = function()
 	//sidebar
 
 	//search box
+	var preview_image = org.bambuscms.gui.element('img', null, {
+		'id':"WOpenFileDialog-SidebarPreview",
+		'class':'_no_preview'
+		
+	});	
+	var preview_image_frame = org.bambuscms.gui.element('div', null, {
+		'id':"WOpenFileDialog-SidebarPreviewFrame"
+	});	
+	preview_image_frame.appendChild(preview_image);
 	var search_container = org.bambuscms.gui.element('div', null, {
 		'id':"WOpenFileDialog-TitleSearchContainer"
 	});	
-	var search_title = org.bambuscms.gui.element('label', data.captions.searchByTitle, {
+	var search_title = org.bambuscms.gui.element('label', _('serach_by_title'), {
 		'for':"WOpenFileDialog-TitleSearch"
 	});
 	
@@ -267,9 +313,9 @@ org.bambuscms.wopenfiledialog._build = function()
 	header.appendChild(org.bambuscms.gui.switchButton(
 		'views',
 		[
-			{'title':data.captions.detail, 'callBack': function(){$('WOpenFileDialog-filecontainer').className = 'WOFD_detail_view';}}, 
-			{'title':data.captions.icon,   'callBack': function(){$('WOpenFileDialog-filecontainer').className = 'WOFD_icon_view';}}, 
-			{'title':data.captions.list,   'callBack': function(){$('WOpenFileDialog-filecontainer').className = 'WOFD_list_view';}}
+			{'title':_('detail'), 'callBack': function(){$('WOpenFileDialog-filecontainer').className = 'WOFD_detail_view';}}, 
+			{'title':_('icon'),   'callBack': function(){$('WOpenFileDialog-filecontainer').className = 'WOFD_icon_view';}}, 
+			{'title':_('list'),   'callBack': function(){$('WOpenFileDialog-filecontainer').className = 'WOFD_list_view';}}
 		],
 		'DetailIconList'
 	));
@@ -278,7 +324,7 @@ org.bambuscms.wopenfiledialog._build = function()
 	for(sort_k in data.sortable)
 	{
 		sort_keys[sort_keys.length] =  {
-			'title':data.captions[data.sortable[sort_k]], 
+			'title':_(data.sortable[sort_k]), 
 			'callBack': function(param){org.bambuscms.wopenfiledialog.sort(param, null);},
 			'param':sort_k
 		};
@@ -295,8 +341,8 @@ org.bambuscms.wopenfiledialog._build = function()
 	header.appendChild(org.bambuscms.gui.switchButton(
 		'sort_order',
 		[
-			{'title':data.captions.asc, 'callBack': function(){org.bambuscms.wopenfiledialog.sort(null, 'ASC');}}, 
-			{'title':data.captions.desc,'callBack': function(){org.bambuscms.wopenfiledialog.sort(null, 'DESC');}}
+			{'title':_('asc'), 'callBack': function(){org.bambuscms.wopenfiledialog.sort(null, 'ASC');}}, 
+			{'title':_('desc'),'callBack': function(){org.bambuscms.wopenfiledialog.sort(null, 'DESC');}}
 		],
 		'UpDown'
 	));
@@ -306,6 +352,7 @@ org.bambuscms.wopenfiledialog._build = function()
 	sidebar.appendChild(search_title);	
 	search_container.appendChild(searchbox);
 	sidebar.appendChild(search_container);	
+	sidebar.appendChild(preview_image_frame);	
 	dialog.appendChild(sidebar);
 	dialog.appendChild(header);
 	dialog.appendChild(filecontainer);

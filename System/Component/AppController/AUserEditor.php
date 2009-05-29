@@ -62,20 +62,7 @@ class AUserEditor
             'smallIconMap' => array('System/ClientData/Icons/tango/extra-small/mimetypes/SUser.png','System/ClientData/Icons/tango/extra-small/mimetypes/SGroup.png'),
             'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2, 'description' => 3),//, 'tags' => 4
             'sortable' => array('title' => 'name', 'icon' => 'type'),
-            'items' => $items,
-            'captions' => array(
-                'detail' => SLocalization::get('detail'),
-                'icon' => SLocalization::get('icon'),
-                'list' => SLocalization::get('list'),
-                'asc' => SLocalization::get('asc'),
-                'desc' => SLocalization::get('desc'),
-                'description' => SLocalization::get('description'),
-                'searchByTitle' => SLocalization::get('search_by_title'),
-                'type' => SLocalization::get('type'),
-                'name' => SLocalization::get('name'),
-                'title' => SLocalization::get('title'),
-                'modified' => SLocalization::get('modified'),
-            )
+            'items' => $items
         );
         return $data;
     }

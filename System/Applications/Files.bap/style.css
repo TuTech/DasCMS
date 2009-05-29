@@ -51,3 +51,6 @@
 	background: url(../../ClientData/Images/processing.gif) 50% 50% no-repeat;
 	height:50px;
 }
+.WFlowLayoutItem input{
+	display: none;
+}

@@ -190,8 +190,11 @@ class AFiles
         $li = array();
         foreach ($types as $type => $index) 
         {
-        	$xsi[$index] = WIcon::pathForMimeIcon($type, WIcon::EXTRA_SMALL);
-        	$li[$index] = WIcon::pathForMimeIcon($type, WIcon::LARGE);
+            if(!WImage::supportedMimeType($type))
+            {
+                $xsi[$index] = WIcon::pathForMimeIcon($type, WIcon::EXTRA_SMALL);
+                $li[$index] = WIcon::pathForMimeIcon($type, WIcon::LARGE);
+            }
         }
         
         $data = array(
@@ -201,19 +204,7 @@ class AFiles
             'smallIconMap' => $xsi,
             'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2, 'pubDate' => 3, 'type' => 4),//, 'tags' => 4
             'sortable' => array('title' => 'title', 'pubDate' => 'pubDate', 'type' => 'type'),
-            'items' => $items,
-            'captions' => array(
-                'detail' => SLocalization::get('detail'),
-                'icon' => SLocalization::get('icon'),
-                'list' => SLocalization::get('list'),
-                'asc' => SLocalization::get('asc'),
-                'desc' => SLocalization::get('desc'),
-                'searchByTitle' => SLocalization::get('search_by_title'),
-                'pubDate' => SLocalization::get('pubDate'),
-                'notPublished' => SLocalization::get('not_published'),
-                'title' => SLocalization::get('title'),
-                'type' => SLocalization::get('type'),
-            )
+            'items' => $items
         );
         return $data;
     }

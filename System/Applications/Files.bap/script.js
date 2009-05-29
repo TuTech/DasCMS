@@ -121,22 +121,6 @@ function selectItems(allOrNone)
 		}
 	}
 }
-function hideInputs()
-{
-	inputs = document.getElementsByTagName('input');
-	for(var i = 0; i < inputs.length; i++)
-	{
-		if(inputs[i].name.substr(0,7) == 'select_')
-		{
-			inputs[i].style.display = 'none';
-			inputs[i].checked = false;
-		}
-		if(inputs[i].name == 'searchFilter')
-		{
-			inputs[i].value = '';
-		}
-	}
-}
 function downloadSelected(path)
 {
 	inputs = document.getElementsByTagName('input');
