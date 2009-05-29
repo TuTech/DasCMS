@@ -51,10 +51,39 @@ org.bambuscms.wopenfiledialog = {
 			links[i].className = 'WOFD_item';
 		}
 		$('_item_'+itemNr).className = 'WOFD_item WOFD_item_current';
-		return (cn.match("_current") != null);
+		var openLink = (cn.match("_current") != null);
+		if(!openLink)
+		{
+			var qobj = org.bambuscms.http.managementRequestURL({
+				'controller':org.bambuscms.app.controller,
+				'call':'provideContentTags'
+			});
+			org.bambuscms.http.fetchJSONObject(
+				qobj,
+				org.bambuscms.wopenfiledialog.setContentTags,
+				org.json.stringify({'alias':$('_item_'+itemNr).title})
+			);
+		}
+		return openLink;
 	},
 	'hideExtraLarge':function(itemNr){
-		//$('WOpenFileDialog-SidebarPreview').className = '_no_preview';
+	},
+	'setContentTags':function(reqObj){
+		var it = $('WOpenFileDialog-ItemTags');
+		it.innerHTML = '';
+		if(reqObj && reqObj.tags && typeof reqObj.tags == 'object')
+		{
+			var txt = reqObj.tags.join(', ');
+			if(txt != '')
+			{
+				var d = $c('div');
+				d.appendChild($t(txt));
+				var l= $c('label');
+				l.appendChild($t(_('tags')));
+				it.appendChild(l);
+				it.appendChild(d);
+			}
+		}
 	},
 	'sortCompare': function(a, b){
 		//a and b are dom objects
@@ -298,6 +327,11 @@ org.bambuscms.wopenfiledialog._build = function()
 	var preview_image_frame = org.bambuscms.gui.element('div', null, {
 		'id':"WOpenFileDialog-SidebarPreviewFrame"
 	});	
+	var preview_image_title = $c('label');
+	preview_image_title.appendChild($t(_('preview_image')));
+	var item_tags = org.bambuscms.gui.element('div', null, {
+		'id':"WOpenFileDialog-ItemTags"
+	});	
 	preview_image_frame.appendChild(preview_image);
 	var search_container = org.bambuscms.gui.element('div', null, {
 		'id':"WOpenFileDialog-TitleSearchContainer"
@@ -361,7 +395,9 @@ org.bambuscms.wopenfiledialog._build = function()
 	sidebar.appendChild(search_title);	
 	search_container.appendChild(searchbox);
 	sidebar.appendChild(search_container);	
+	sidebar.appendChild(preview_image_title);
 	sidebar.appendChild(preview_image_frame);	
+	sidebar.appendChild(item_tags);	
 	dialog.appendChild(sidebar);
 	dialog.appendChild(header);
 	dialog.appendChild(filecontainer);

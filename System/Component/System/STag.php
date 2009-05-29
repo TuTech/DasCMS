@@ -167,9 +167,12 @@ class STag
 	 * @param BContent $content
 	 * @return array
 	 */
-	public function get(BContent $content)
+	public function get($BContentOrAlias)
 	{
-		return $this->getTags($content->Alias);
+	    $alias = ($BContentOrAlias instanceof BContent) 
+	        ? $BContentOrAlias->Alias 
+	        : $BContentOrAlias;
+		return $this->getTags($alias);
 	}
 	
 	/**

@@ -17,6 +17,22 @@ abstract class BAppController
     
     public function commit(){}
     
+    /**
+     * returns all data necessary for the open dialog
+     * @param array $namedParameters
+     * @return array
+     * @throws XPermissionDeniedException
+     * @todo move to BAContentAppController
+     */
+    public function provideContentTags(array $namedParameters)
+    {
+        if(!empty($namedParameters['alias']) 
+            && BContent::contentExists($namedParameters['alias']))
+        {
+            return array('tags' => STag::getSharedInstance()->get($namedParameters['alias']));
+        }
+    }
+    
     protected static function requirePermission($perm)
     {
         if(!PAuthorisation::has($perm))

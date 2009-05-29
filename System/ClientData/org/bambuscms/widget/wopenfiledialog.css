@@ -64,7 +64,8 @@
 	background: #fff url("../../../../ClientData/Icons/16x16/actions/search-gray.png") 1px 50% no-repeat;
 	-moz-border-radius: 5px;
 	margin-left:15px;
-	margin-right:15px;
+	margin-right:15px;	
+	margin-bottom:15px;
 	width:180px;
 }
 
@@ -143,12 +144,21 @@
 }
 #WOpenFileDialog-SidebarPreviewFrame
 {
-	width:180px;
 	height:180px;
+}
+#WOpenFileDialog-ItemTags div
+{
+	padding:5px;
+}
+#WOpenFileDialog-SidebarPreviewFrame,
+#WOpenFileDialog-ItemTags div
+{
+	width:180px;
 	border:1px solid #d3d7cf;
 	display:block;
 	float:left;
 	margin:15px;
+	margin-top:2px;
 	background: white;
 }
 #WOpenFileDialog-SidebarPreview{
