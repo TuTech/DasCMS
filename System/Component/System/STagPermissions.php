@@ -48,7 +48,7 @@ class STagPermissions
         $res->free();
         if($count > 0)
         {
-            $protected = !$this->checkPermissions($id);
+            $protected = !$this->checkPermissions($content->getId());
         }
         return $protected;
     }

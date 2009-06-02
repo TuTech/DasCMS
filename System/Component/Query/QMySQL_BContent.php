@@ -92,7 +92,8 @@ class QBContent extends BQuery
     					LEFT JOIN Contents ON (Classes.classID = Contents.type)
     					LEFT JOIN Aliases ON (Contents.GUID = Aliases.aliasID)
     				WHERE
-    					Classes.class = '%s'";
+    					Classes.class = '%s'
+    					AND NOT ISNULL(alias) ";
         $DB = BQuery::Database();
         return $DB->query(sprintf($sql, $DB->escape($class), DSQL::NUM));
     }
