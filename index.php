@@ -60,7 +60,8 @@ try
 }
 catch (Exception $e)
 {
-    header('Status: 500', true);
+    header("HTTP/1.1 500 Internal Server Error");
+    header('Status: 500 Internal Server Error', true);
     SErrorAndExceptionHandler::reportException($e);
     $pageGenerator = CError::Open(500);
 }
