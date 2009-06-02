@@ -60,7 +60,7 @@
 }
 
 #WOpenFileDialog-TitleSearchContainer{
-	border: 1px solid black;
+	border: 1px solid #d3d7cf;
 	background: #fff url("../../../../ClientData/Icons/16x16/actions/search-gray.png") 1px 50% no-repeat;
 	-moz-border-radius: 5px;
 	margin-left:15px;

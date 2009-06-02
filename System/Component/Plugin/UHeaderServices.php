@@ -42,7 +42,10 @@ class UHeaderServices
         }
         foreach ($data as $sect => $secData)
         {
-            $e->addClassSettings($this, $sect, $secData);
+            if(count($secData) > 0)
+            {
+                $e->addClassSettings($this, $sect, $secData);
+            }
         }
     }
     
