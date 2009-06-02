@@ -466,7 +466,13 @@ class CSearch
 	    {}
 	    if(!empty($value))
 	    {
-	        return sprintf('%sAtom.php/%s?q=%s', SLink::base(), htmlentities($this->getAlias(), ENT_QUOTES, 'utf-8'), urlencode($value));
+	        return sprintf(
+	        	'%s%s/%s?q=%s', 
+	            SLink::base(), 
+	            IGeneratesFeed::FEED_ACCESSOR, 
+	            htmlentities($this->getAlias(), ENT_QUOTES, 'utf-8'), 
+	            urlencode($value)
+	        );
 	    }
 	    else 
 	    {

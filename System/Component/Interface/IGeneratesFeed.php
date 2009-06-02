@@ -11,6 +11,8 @@
  */
 interface IGeneratesFeed
 {
+    const FEED_ACCESSOR = 'Atom.php';
+    
     public function getFeedItemAliases();
     
     public function getLinkToFeed();

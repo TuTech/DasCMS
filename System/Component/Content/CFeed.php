@@ -380,7 +380,12 @@ class CFeed
 	
 	public function getLinkToFeed()
 	{
-	    return sprintf('%sAtom.php/%s', SLink::base(), htmlentities($this->getAlias(), ENT_QUOTES, 'utf-8'));
+	    return sprintf(
+	    	'%s%s/%s', 
+	        SLink::base(), 
+	        IGeneratesFeed::FEED_ACCESSOR, 
+	        htmlentities($this->getAlias(), ENT_QUOTES, 'utf-8')
+        );
 	}
 	
 	public function getFeedTargetView()
