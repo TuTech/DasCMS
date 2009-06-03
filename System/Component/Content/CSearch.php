@@ -431,12 +431,15 @@ class CSearch
 	    $f = SSearchIndexer::extractFeatures($q);
         $features = array();
         $aliases = array();
-        $res = QCSearch::getFeatureIds(array_keys($f));
-        while ($row = $res->fetch())
+        if(count($f))
         {
-            $features[$row[0]] = $row[1];
+            $res = QCSearch::getFeatureIds(array_keys($f));
+            while ($row = $res->fetch())
+            {
+                $features[$row[0]] = $row[1];
+            }
+            $res->free();
         }
-        $res->free();
         if(count($features))
         {
             QCSearch::scoredContents($features);
