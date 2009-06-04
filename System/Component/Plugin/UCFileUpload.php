@@ -21,6 +21,15 @@ class UCFileUpload
     
     private static $uploaded = false;
     private static $message = '';
+    private static $optTags = array();
+    
+    public function setOptionalTags($param)
+    {
+        if(!empty($param['tags']))
+        {
+            self::$optTags = STag::parseTagStr($param['tags']);
+        }
+    }
     
     public function processUpload($param)
     {
@@ -37,6 +46,13 @@ class UCFileUpload
         if(array_key_exists('publish', $param))
         {
             $pub = !empty($param['publish']);
+        }
+        foreach (self::$optTags as $otag)
+        {
+            if(!empty(RSent::get('-tag-'.$otag)))
+            {
+                $tags .= ' '.$otag;
+            }
         }
         if(RFiles::has('CFile') && PAuthorisation::has('org.bambuscms.content.cfile.create'))
         { 
@@ -92,6 +108,20 @@ class UCFileUpload
             $html .= sprintf('<p>%s</p>', (array_key_exists('text', $param)) ? $param['text'] : '');
             $html .= sprintf('<form action="%s" method="post"  enctype="multipart/form-data">', SLink::buildURL());
             $html .= sprintf('<input type="hidden" name="MAX_FILE_SIZE" value="%s" />', $maxSize);
+            if(count(self::$optTags))
+            {
+                $html .= '<ul class="optionalTags">';
+                foreach (self::$optTags as $otag)
+                {
+                    $opt = htmlentities($otag, ENT_QUOTES, 'utf-8');
+                    $html .= sprintf(
+                    	'<li><input type="checkbox" name="-tag-%s" id="-tag-%s" /><label for="-tag-%s">%s</label></li>'
+                                                              ,$opt        ,$opt                  ,$opt,$opt 
+                    );
+                }
+                $html .= '</ul>';
+            }
+            
             $html .= '<input type="file" name="CFile" />';
             $html .= sprintf('<input type="submit" value="%s" />', (array_key_exists('submitText', $param)) ? $param['submitText'] : 'OK');
             $html .= '</form></div>';
@@ -101,7 +131,7 @@ class UCFileUpload
     
 /////////////////////////////////
     private static $functions = array(
-        'processUpload' => array('tags', 'publish'),
+        'processUpload' => array('tags', 'publish', 'optionalTags'),
         'uploadMessage' => array('okMessage', 'failedMessage'),
         'uploadForm' => array('maxSize', 'text', 'submitText')
     );
