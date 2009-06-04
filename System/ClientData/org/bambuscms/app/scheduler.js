@@ -16,7 +16,12 @@ org.bambuscms.app.scheduler.init = function()
 	var d = new Date();
 	org.bambuscms.app.scheduler._reqid = d.getTime();
 	$('bambusJAX').appendChild(org.bambuscms.app.scheduler.image);
-	window.setInterval('org.bambuscms.app.scheduler.run()', 5000);
+	//run scheduler  
+	var runnings = [2,5,10,20];//seconds after load
+	for(var i = 0; i < runnings.length; i++)
+	{
+		window.setTimeout('org.bambuscms.app.scheduler.run()', runnings[i]*1000);
+	}
 };
 (function(){
 	org.bambuscms.autorun.register(function(){org.bambuscms.app.scheduler.init();});

@@ -340,7 +340,7 @@ org.bambuscms.wopenfiledialog._build = function()
 	var search_container = org.bambuscms.gui.element('div', null, {
 		'id':"WOpenFileDialog-TitleSearchContainer"
 	});	
-	var search_title = org.bambuscms.gui.element('label', _('serach_by_title'), {
+	var search_title = org.bambuscms.gui.element('label', _('search_by_title'), {
 		'for':"WOpenFileDialog-TitleSearch"
 	});
 	
