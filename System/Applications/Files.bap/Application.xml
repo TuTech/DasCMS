@@ -22,10 +22,6 @@
 				<task type="button" hotkey="U" caption="upload" icon="action-transfer-upload" action="Upload();" />
 				<task type="button" hotkey="X" caption="delete_selected" icon="action-list-remove" action="MassDelete()" />
 			</panel>
-			<panel name="selection">
-				<task type="button" hotkey="a" caption="select_all" icon="action-edit-select-all" action="selectItems(true);" />
-				<task type="button" hotkey="e" caption="select_none" icon="action-edit-select-none" action="selectItems(false);" />
-			</panel>
 		</interface>
 		<sidebar>
 			<supported mode="RETAIN"/>

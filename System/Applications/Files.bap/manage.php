@@ -9,7 +9,6 @@
 $File = SApplication::getControllerContent();
 if($File != null && $File instanceof BContent)
 {
-
     echo new WScript("
     	$('CommandBarPanel_selection').parentNode.removeChild($('CommandBarPanel_selection'));
     	org.bambuscms.app.hotkeys.unregister('CTRL-a');
@@ -98,6 +97,18 @@ elseif(false)
         $flowLayout->addItem($tpl);
     }
     $flowLayout->render();
+}
+else
+{
+    echo new WScript("
+    	$('App-Hotkey-CTRL-s').parentNode.removeChild($('App-Hotkey-CTRL-s'));
+    	$('App-Hotkey-CTRL-D').parentNode.removeChild($('App-Hotkey-CTRL-D'));
+    	$('App-Hotkey-CTRL-X').parentNode.removeChild($('App-Hotkey-CTRL-X'));
+    	org.bambuscms.app.hotkeys.unregister('CTRL-s');
+    	org.bambuscms.app.hotkeys.unregister('CTRL-D');
+    	org.bambuscms.app.hotkeys.unregister('CTRL-X');
+    	var is_in_content_mode = false;
+    	");
 }
 
 ?>

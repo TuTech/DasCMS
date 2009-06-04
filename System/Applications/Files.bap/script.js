@@ -76,7 +76,7 @@ function MassDelete()
 	input.setAttribute('name','delete');
 	input.setAttribute('type','hidden');
 	input.value = del;
-	org.bambuscms.app.dialog.create(_('delete_file'), _('do_you_really_want_to_delete_these_files'), input, _('yes'), _('no'));
+	org.bambuscms.app.dialog.create(_('delete_file'), _('do_you_really_want_to_delete_this_file'), input, _('yes'), _('no'));
 	org.bambuscms.app.dialog.setAction('massDelete');
 }
 /*****************************/
