@@ -131,9 +131,10 @@ class UCFileUpload
     
 /////////////////////////////////
     private static $functions = array(
-        'processUpload' => array('tags', 'publish', 'optionalTags'),
+        'processUpload' => array('tags', 'publish'),
         'uploadMessage' => array('okMessage', 'failedMessage'),
-        'uploadForm' => array('maxSize', 'text', 'submitText')
+        'uploadForm' => array('maxSize', 'text', 'submitText'),
+        'setOptionalTags' => array('tags')
     );
 
     /**
