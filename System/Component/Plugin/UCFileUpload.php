@@ -49,7 +49,7 @@ class UCFileUpload
         }
         foreach (self::$optTags as $otag)
         {
-            if(!empty(RSent::get('-tag-'.$otag)))
+            if(RSent::hasValue('-tag-'.$otag))
             {
                 $tags .= ' '.$otag;
             }
