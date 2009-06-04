@@ -110,7 +110,9 @@ class UCFileUpload
             $html .= sprintf('<input type="hidden" name="MAX_FILE_SIZE" value="%s" />', $maxSize);
             if(count(self::$optTags))
             {
-                $html .= '<ul class="optionalTags">';
+                $html .= '<ul class="optionalTags"><h3>'.
+                        htmlentities((array_key_exists('optTagsText', $param)) ? $param['optTagsText'] : 'Optionale Tags:', ENT_QUOTES, 'utf-8')
+                        .'</h3>';
                 foreach (self::$optTags as $otag)
                 {
                     $opt = htmlentities($otag, ENT_QUOTES, 'utf-8');
@@ -133,7 +135,7 @@ class UCFileUpload
     private static $functions = array(
         'processUpload' => array('tags', 'publish'),
         'uploadMessage' => array('okMessage', 'failedMessage'),
-        'uploadForm' => array('maxSize', 'text', 'submitText'),
+        'uploadForm' => array('maxSize', 'text', 'submitText', 'optTagsText'),
         'setOptionalTags' => array('tags')
     );
 
