@@ -16,7 +16,7 @@
    version="1.0"
    sodipodi:docname="mimetype-xls-extra-small.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   inkscape:export-filename="/Users/lse/Sites/BambusONE/System/ClientData/Icons/tango/extra-small/mimetypes/doc.png"
+   inkscape:export-filename="/Users/lse/Sites/BambusONE/System/ClientData/Icons/tango/extra-small/mimetypes/xls.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -45,7 +45,7 @@
      inkscape:document-units="px"
      inkscape:window-width="1272"
      inkscape:window-height="899"
-     inkscape:window-x="81"
+     inkscape:window-x="74"
      inkscape:window-y="0"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -113,22 +113,23 @@
        d="M 4.9103962,8.4851484 A 1.0361387,1.0361387 0 1 1 2.8381189,8.4851484 A 1.0361387,1.0361387 0 1 1 4.9103962,8.4851484 z"
        transform="matrix(0.3416989,0,0,0.3441201,0.1995757,7.594277)" />
     <rect
-       style="opacity:0.99460916000000021;fill:#4e9a06;fill-opacity:1;stroke:none;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:18.60000038000000089;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="opacity:0.99460916;fill:#4e9a06;fill-opacity:1;stroke:none;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:18.60000038;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect2671"
        width="13.019306"
        height="5.9990101"
        x="3.0633662"
-       y="0.045049507" />
+       y="2.0450497" />
     <text
        xml:space="preserve"
-       style="font-size:5.56462288px;font-style:normal;font-weight:normal;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-       x="3.5334792"
-       y="5.056632"
-       id="text3443"><tspan
+       style="font-size:5.32694006px;font-style:normal;font-weight:normal;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="4.632154"
+       y="6.8882718"
+       id="text3443"
+       transform="scale(0.978228,1.0222565)"><tspan
          sodipodi:role="line"
          id="tspan3445"
-         x="3.5334792"
-         y="5.056632"
+         x="4.632154"
+         y="6.8882718"
          style="font-weight:bold;fill:#ffffff;fill-opacity:1">XLS</tspan></text>
   </g>
 </svg>

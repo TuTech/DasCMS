@@ -16,7 +16,7 @@
    version="1.0"
    sodipodi:docname="mimetype-pdf-extra-small.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   inkscape:export-filename="/home/lse/public_html/Chimera/System/Icons/tango/small/actions/document-new.png"
+   inkscape:export-filename="/Users/lse/Sites/BambusONE/System/ClientData/Icons/tango/extra-small/mimetypes/pdf.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -45,8 +45,8 @@
      inkscape:document-units="px"
      inkscape:window-width="1272"
      inkscape:window-height="899"
-     inkscape:window-x="81"
-     inkscape:window-y="0"
+     inkscape:window-x="131"
+     inkscape:window-y="84"
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:snap-bbox="true"
@@ -118,17 +118,17 @@
        width="13.019306"
        height="5.9990101"
        x="3.0633662"
-       y="0.045049507" />
+       y="2.0450497" />
     <text
        xml:space="preserve"
-       style="font-size:5.56462287999999994px;font-style:normal;font-weight:normal;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       style="font-size:5.56462288px;font-style:normal;font-weight:normal;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
        x="3.5334792"
-       y="5.056632"
+       y="7.056632"
        id="text3443"><tspan
          sodipodi:role="line"
          id="tspan3445"
          x="3.5334792"
-         y="5.056632"
+         y="7.056632"
          style="font-weight:bold;fill:#ffffff;fill-opacity:1">PDF</tspan></text>
   </g>
 </svg>
