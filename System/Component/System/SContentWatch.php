@@ -108,6 +108,7 @@ class SContentWatch
         $title = LConfiguration::get('sitename');
         if(count($titles) > 0)
         {
+            $titles = array_unique($titles);
             $title .= implode(', ', $titles);
         }
         $e->getHeader()->setTitle($title);
