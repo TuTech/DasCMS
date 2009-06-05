@@ -41,8 +41,8 @@ class QSFeedKeeper extends BQuery
         {
             return;
         }
-        $sep = '';
-        $sql = 
+        $sql = '';
+        $sep = 
             "INSERT IGNORE INTO relFeedsContents (feedREL, contentREL) 
 				VALUES";
         foreach ($feedIds as $id) 
@@ -54,7 +54,10 @@ class QSFeedKeeper extends BQuery
         	$sql .= sprintf('%s (%d, %d)', $sep, $id, $itemId);
         	$sep = ',';
         }
-        BQuery::Database()->queryExecute($sql);
+        if($sql != '')
+        {
+            BQuery::Database()->queryExecute($sql);
+        }
     }
     
     public static function clearFeed($feedId)
