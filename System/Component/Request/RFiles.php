@@ -49,6 +49,17 @@ class RFiles extends BRequest
         return $ret;
     }
     
+    public static function setName($key, $newName)
+    {
+        self::init();
+        $ret = '';
+        if(array_key_exists($key, self::$data))
+        {
+            self::$data[$key]['name'] = $newName;
+        }
+        return $ret;
+    }
+    
     public static function getType($key)
     {
         self::init();
