@@ -19,9 +19,9 @@ class UCFileUpload
         return self::GUID;
     }
     
-    private static $uploaded = false;
-    private static $message = '';
-    private static $optTags = array();
+    protected static $uploaded = false;
+    protected static $message = '';
+    protected static $optTags = array();
     
     public function setOptionalTags($param)
     {
@@ -132,7 +132,7 @@ class UCFileUpload
     }
     
 /////////////////////////////////
-    private static $functions = array(
+    protected static $functions = array(
         'processUpload' => array('tags', 'publish'),
         'uploadMessage' => array('okMessage', 'failedMessage'),
         'uploadForm' => array('maxSize', 'text', 'submitText', 'optTagsText'),
