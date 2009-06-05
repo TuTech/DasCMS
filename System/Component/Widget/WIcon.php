@@ -59,10 +59,11 @@ class WIcon extends BWidget
         {
             return $legacy;
         }
-        else
+        elseif(file_exists($tango))
         {
             return $tango;
         }
+        return sprintf('%s../%dx%d/mimetypes/file.png', SPath::SYSTEM_ICONS,$size,$size);
     }
     
     /**
@@ -98,7 +99,7 @@ class WIcon extends BWidget
     
     public function getType()
     {
-        return  $this->type;
+        return $this->type;
     }
     
     public function getSize()
