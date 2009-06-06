@@ -9,12 +9,7 @@
 $File = SApplication::getControllerContent();
 if($File != null && $File instanceof BContent)
 {
-    echo new WScript("
-    	$('CommandBarPanel_selection').parentNode.removeChild($('CommandBarPanel_selection'));
-    	org.bambuscms.app.hotkeys.unregister('CTRL-a');
-    	org.bambuscms.app.hotkeys.unregister('CTRL-e');
-    	var is_in_content_mode = true;
-    	");
+    echo new WScript("var is_in_content_mode = true;");
     echo new WContentTitle($File);
 	if(WImage::supportedMimeType($File->getMimeType()))
 	{
@@ -50,53 +45,6 @@ if($File != null && $File instanceof BContent)
 	}
 	$tbl->render();
 
-}
-elseif(false)
-{
-    echo new WScript("
-    	$('App-Hotkey-CTRL-s').parentNode.removeChild($('App-Hotkey-CTRL-s'));
-    	//$('App-Hotkey-CTRL-u').parentNode.removeChild($('App-Hotkey-CTRL-u'));
-    	org.bambuscms.app.hotkeys.unregister('CTRL-s');
-    	//org.bambuscms.app.hotkeys.unregister('CTRL-u');
-    	var is_in_content_mode = false;
-    	");
-        echo '<input type="hidden" name="action" value="delete" />';
-    $files = CFile::Index();
-    
-    $itemTemplate = "<a name=\"{id}\" title=\"{title}\" id=\"{id}\" ondblclick=\"org.bambuscms.wopenfiledialog.openAlias('{alias}');\" href=\"javascript:selectImage('{id}');\">
-        <div class=\"helper\"><span class=\"editHelper\" onclick=\"org.bambuscms.wopenfiledialog.openAlias('{alias}');\"></span></div>
-    	{retainCount}
-    	{preview}
-        <input type=\"checkbox\" name=\"select_{id}\" id=\"select_{id}\" />
-        {name}
-    </a>";
-    printf('<h2>%s</h2>', SLocalization::get('files'));
-    $flowLayout = new WFlowLayout();
-    $flowLayout->setAdditionalCSSClasses('WFlowLayoutImage');
-    $retains = WImage::getRetainCounts();
-    foreach($files as $alias => $data){
-        list($Dtitle, $Dpubdate, $Dtype, $Did) = $data;
-        $suffix = 'CFile';
-        $bigIcon = (file_exists(WIcon::pathFor($suffix, 'mimetype', WIcon::LARGE))) ? $suffix : 'file';
-        $prev = (WImage::supportedMimeType($Dtype))
-            ? (WImage::forCFileData($Did,$Dtype,$alias,$Dtitle)->scaled(128, 128,WImage::MODE_FORCE,WImage::FORCE_BY_FILL))
-            : sprintf('<img src="%s" class="mime-icon" alt="%s" />', WIcon::pathForMimeIcon($Dtype, WIcon::LARGE), $Dtype);
-        
-        $output = array('realname'  => htmlentities($Dtitle, ENT_QUOTES, 'UTF-8'),
-            'preview' => $prev,
-            'editIcon' => WIcon::pathFor('edit','action',WIcon::EXTRA_SMALL),
-            'linktarget' => '_blank',
-            'retainCount' => isset($retains[$Did]) ? sprintf('<span class="retainBatch retainBatch-%d">%s</span>', strlen($retains[$Did]), $retains[$Did]) : '',
-            'id' => $alias,
-            'alias' => $alias,
-            'title' => htmlentities($data[0], ENT_QUOTES, 'UTF-8'),
-            'name' => htmlentities($data[0], ENT_QUOTES, 'UTF-8')
-        );
-        $tpl = new WTemplate($itemTemplate, WTemplate::STRING);
-        $tpl->setEnvironment($output);
-        $flowLayout->addItem($tpl);
-    }
-    $flowLayout->render();
 }
 else
 {
