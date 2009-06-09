@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="48"
+   height="48"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   version="1.0"
+   sodipodi:docname="mimetype-doc-large.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   inkscape:export-filename="/Users/lse/Sites/BambusONE/System/ClientData/Icons/tango/large/mimetypes/pdf.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient14316">
+      <stop
+         style="stop-color:#eeeeec;stop-opacity:1"
+         offset="0"
+         id="stop14318" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1"
+         offset="1"
+         id="stop14320" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient2528">
+      <stop
+         style="stop-color:#ad7fa8;stop-opacity:1;"
+         offset="0"
+         id="stop2530" />
+      <stop
+         style="stop-color:#75507b;stop-opacity:1"
+         offset="1"
+         id="stop2532" />
+    </linearGradient>
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective10" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient2528"
+       id="linearGradient2538"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.8335733,0,0,0.8335733,4.0222393,4.1945916)"
+       x1="-0.062015504"
+       y1="0.18604651"
+       x2="3.7829456"
+       y2="47.937984" />
+    <inkscape:perspective
+       id="perspective3770"
+       inkscape:persp3d-origin="8 : 5.3333333 : 1"
+       inkscape:vp_z="16 : 8 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 8 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient14316"
+       id="linearGradient5831"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.998683,4.3825e-2,0.110284)"
+       x1="22.437754"
+       y1="47.392365"
+       x2="22.437754"
+       y2="0.55417728" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="9.4791667"
+     inkscape:cx="52.876829"
+     inkscape:cy="3.6864527"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1390"
+     inkscape:window-height="1094"
+     inkscape:window-x="66"
+     inkscape:window-y="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2383"
+       visible="true"
+       enabled="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:url(#linearGradient5831);fill-opacity:1;fill-rule:evenodd;stroke:#babdb6;stroke-width:1.00551152;stroke-linecap:square;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:18.60000038;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect3776"
+       width="34.024349"
+       height="47.027683"
+       x="6.5680451"
+       y="0.54195356" />
+    <rect
+       style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:0.98500001;stroke-linecap:square;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:18.60000038;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4345"
+       width="31.986614"
+       height="44.957882"
+       x="7.5754147"
+       y="1.5998521" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#555753;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:square;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:18.60000038;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="path4313"
+       sodipodi:cx="3.8742576"
+       sodipodi:cy="8.4851484"
+       sodipodi:rx="1.0361387"
+       sodipodi:ry="1.0361387"
+       d="M 4.9103962,8.4851484 A 1.0361387,1.0361387 0 1 1 2.8381189,8.4851484 A 1.0361387,1.0361387 0 1 1 4.9103962,8.4851484 z"
+       transform="matrix(0.8336279,0,0,0.8336279,6.816486,10.974243)" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#555753;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:square;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:18.60000038;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="path4315"
+       sodipodi:cx="3.8742576"
+       sodipodi:cy="8.4851484"
+       sodipodi:rx="1.0361387"
+       sodipodi:ry="1.0361387"
+       d="M 4.9103962,8.4851484 A 1.0361387,1.0361387 0 1 1 2.8381189,8.4851484 A 1.0361387,1.0361387 0 1 1 4.9103962,8.4851484 z"
+       transform="matrix(0.8336279,0,0,0.8336279,6.8483,23.037797)" />
+    <text
+       xml:space="preserve"
+       style="font-size:4.33341026px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="12.245076"
+       y="4.8572578"
+       id="text8592"
+       transform="scale(0.9736052,1.0271104)"><tspan
+         sodipodi:role="line"
+         id="tspan8594"
+         x="12.245076"
+         y="4.8572578"
+         style="font-size:1.08335257px">Microsoft Word </tspan><tspan
+         sodipodi:role="line"
+         x="12.245076"
+         y="6.2114482"
+         style="font-size:1.08335257px"
+         id="tspan8624">estas verkilo </tspan><tspan
+         sodipodi:role="line"
+         x="12.245076"
+         y="7.565639"
+         style="font-size:1.08335257px"
+         id="tspan8626">por persona </tspan><tspan
+         sodipodi:role="line"
+         x="12.245076"
+         y="8.9602394"
+         style="font-size:1.08335257px"
+         id="tspan8628">uzo aŭ por etaj </tspan><tspan
+         sodipodi:role="line"
+         x="12.245076"
+         y="10.31443"
+         style="font-size:1.08335257px"
+         id="tspan8600">entreprenoj, </tspan><tspan
+         sodipodi:role="line"
+         x="12.245076"
+         y="11.668621"
+         style="font-size:1.08335257px"
+         id="tspan8630">apartenanta </tspan><tspan
+         sodipodi:role="line"
+         x="12.245076"
+         y="13.022812"
+         style="font-size:1.08335257px"
+         id="tspan8632">al la aro </tspan><tspan
+         sodipodi:role="line"
+         x="12.245076"
+         y="14.377003"
+         style="font-size:1.08335257px"
+         id="tspan8634">Microsoft </tspan><tspan
+         sodipodi:role="line"
+         x="12.245076"
+         y="15.731193"
+         style="font-size:1.08335257px"
+         id="tspan8636">Office de la </tspan><tspan
+         sodipodi:role="line"
+         x="12.245076"
+         y="17.085384"
+         style="font-size:1.08335257px"
+         id="tspan8604">entrepreno </tspan><tspan
+         sodipodi:role="line"
+         x="12.245076"
+         y="18.479984"
+         style="font-size:1.08335257px"
+         id="tspan8642">Mikrosofto (Microsoft). Ĝia unua versio publikiĝis </tspan><tspan
+         sodipodi:role="line"
+         x="12.245076"
+         y="19.834175"
+         style="font-size:1.08335257px"
+         id="tspan8606">je 1983, tiam estis nomita Mult-Tool Word </tspan><tspan
+         sodipodi:role="line"
+         x="12.245076"
+         y="21.188366"
+         style="font-size:1.08335257px"
+         id="tspan8644">kaj funkciis sub </tspan><tspan
+         sodipodi:role="line"
+         x="12.245076"
+         y="22.542557"
+         style="font-size:1.08335257px"
+         id="tspan8608">la operaciumo Xenix, kiu estis unu el </tspan><tspan
+         sodipodi:role="line"
+         x="12.245076"
+         y="23.896748"
+         style="font-size:1.08335257px"
+         id="tspan8646">la uniksaj operaciumoj </tspan><tspan
+         sodipodi:role="line"
+         x="12.245076"
+         y="25.250938"
+         style="font-size:1.08335257px"
+         id="tspan8610">de la fino de la sepdekaj jaroj.</tspan><tspan
+         sodipodi:role="line"
+         x="12.245076"
+         y="26.605129"
+         id="tspan8596"
+         style="font-size:1.08335257px">Postaj versioj estis kreskitaj por aliaj </tspan><tspan
+         sodipodi:role="line"
+         x="12.245076"
+         y="27.95932"
+         style="font-size:1.08335257px"
+         id="tspan8648">operaciumoj, kiel D</tspan><tspan
+         sodipodi:role="line"
+         x="12.245076"
+         y="29.35392"
+         style="font-size:1.08335257px"
+         id="tspan8650">OS kaj poste Vindozo (ekde 1989), Vista aŭ Mac </tspan><tspan
+         sodipodi:role="line"
+         x="12.245076"
+         y="30.708111"
+         style="font-size:1.08335257px"
+         id="tspan8654">OS X.</tspan><tspan
+         sodipodi:role="line"
+         x="12.245076"
+         y="32.102711"
+         id="tspan8598"
+         style="font-size:1.08335257px">Ekde 2003, ĝia nomo ŝanĝis por akcenti ĝian </tspan><tspan
+         sodipodi:role="line"
+         x="12.245076"
+         y="33.456902"
+         style="font-size:1.08335257px"
+         id="tspan8616">apartenon al Microsoft Office. Microsoft tiele </tspan><tspan
+         sodipodi:role="line"
+         x="12.245076"
+         y="34.851501"
+         style="font-size:1.08335257px"
+         id="tspan8618">renomumis ĝin Microsoft Office Word anstataŭe </tspan><tspan
+         sodipodi:role="line"
+         x="12.245076"
+         y="36.205692"
+         style="font-size:1.08335257px"
+         id="tspan8620">Microsoft Word. La lasta versio estas la dumilsepa </tspan><tspan
+         sodipodi:role="line"
+         x="12.245076"
+         y="37.600296"
+         style="font-size:1.08335257px"
+         id="tspan8622">kaj daŭras aparteni al la aro Microsoft Office.</tspan></text>
+    <rect
+       style="opacity:0.99460916000000021;fill:#204a87;fill-opacity:1;stroke:none;stroke-width:1;stroke-linejoin:miter;stroke-miterlimit:18.60000038000000089;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect2671"
+       width="30"
+       height="14.01703"
+       x="18"
+       y="2.9081869" />
+    <text
+       xml:space="preserve"
+       style="font-size:12.27158451px;font-style:normal;font-weight:normal;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="20.48955"
+       y="13.743378"
+       id="text3443"
+       transform="scale(0.9334297,1.071318)"><tspan
+         sodipodi:role="line"
+         x="20.48955"
+         y="29.082859"
+         style="font-weight:bold;fill:#ffffff;fill-opacity:1"
+         id="tspan8612">DOC</tspan></text>
+  </g>
+</svg>

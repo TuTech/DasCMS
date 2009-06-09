@@ -226,7 +226,7 @@ class CFile
             '<div class="CFile" id="_'.htmlentities($this->getGUID(), ENT_QUOTES, 'UTF-8').'">'.
                 (in_array($this->getType(), array('jpg','jpeg','png','gif'))
                     ? '<div class="CFile-preview">'.strval($img).'</div>'
-                    : $this->getIcon()->asSize(WIcon::LARGE)
+                    : '<div class="CFile-icon">'.$this->getIcon()->asSize(WIcon::LARGE).'</div>'
                 ).
                 '<div class="CFile-description">%s</div>'.
                 '<div class="CFile-meta">'.
