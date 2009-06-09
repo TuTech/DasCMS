@@ -58,8 +58,12 @@ class CFile
 	        'size' => RFiles::getSize('CFile'),
 	        'suffix' => DFileSystem::suffix(RFiles::getName('CFile'))
         );
-        BContent::setMimeType($alias, RFiles::getType('CFile'));
-	    //DFileSystem::SaveData('./Content/CFile/'.$dbid.'.meta.php',$metadata);
+        $type = RFiles::getType('CFile');
+        if(DFileSystem::suffix(RFiles::getName('CFile')) == 'pdf')
+        {
+            $type = 'application/pdf';
+        }
+        BContent::setMimeType($alias, $type);
 	    $file = new CFile($alias);
 	    $file->Size = $metadata['size'];
 	    $file->saveMetaToDB();
