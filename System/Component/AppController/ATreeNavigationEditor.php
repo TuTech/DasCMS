@@ -71,6 +71,17 @@ class ATreeNavigationEditor
         }
     }
     
+    /**
+     * returns all data necessary for the open dialog
+     * @param array $namedParameters
+     * @return array
+     * @throws XPermissionDeniedException
+     */
+    public function provideContentTags(array $namedParameters)
+    {
+        return array();
+    }
+    
     private static function val($k, array &$a)
     {
         return (isset($a[$k]))

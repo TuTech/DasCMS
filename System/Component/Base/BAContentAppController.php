@@ -33,6 +33,21 @@ abstract class BAContentAppController
     protected $target = null;
     
     /**
+     * returns all data necessary for the open dialog
+     * @param array $namedParameters
+     * @return array
+     * @throws XPermissionDeniedException
+     */
+    public function provideContentTags(array $namedParameters)
+    {
+        if(!empty($namedParameters['alias']) 
+            && BContent::contentExists($namedParameters['alias']))
+        {
+            return array('tags' => STag::getSharedInstance()->get($namedParameters['alias']));
+        }
+    }
+    
+    /**
      * @throws XPermissionDeniedException
      * @param string $action
      * @return void
