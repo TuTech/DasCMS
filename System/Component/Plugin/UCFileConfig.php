@@ -39,7 +39,7 @@ class UCFileConfig
     public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
     {
         $data = $e->getClassSettings($this);
-        foreach(array('width', 'height', 'quality') as $k)
+        foreach(array('width', 'height') as $k)
         {
             if(!empty($data[$k]))
             {
@@ -58,6 +58,10 @@ class UCFileConfig
         if(isset($data['rendering_method']) && in_array($data['rendering_method'], array('0c','1c','1f','1s')))
         {
             LConfiguration::set('CFile_image_rendering_method', $data['rendering_method']);
+        }
+        if(isset($data['CFile_image_quality']))
+        {
+            LConfiguration::set('CFile_image_quality', intval($data['CFile_image_quality']));
         }
     }
 }
