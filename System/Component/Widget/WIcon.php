@@ -63,7 +63,7 @@ class WIcon extends BWidget
         {
             return $tango;
         }
-        return sprintf('%s../%dx%d/mimetypes/file.png', SPath::SYSTEM_ICONS,$size,$size);
+        return sprintf('%s../%s/mimetypes/file.png', SPath::SYSTEM_ICONS,self::$sizes[$size]);
     }
     
     /**
@@ -94,7 +94,7 @@ class WIcon extends BWidget
             	}
             }
         }
-        return sprintf('%s../%dx%d/mimetypes/file.png', SPath::SYSTEM_ICONS,$size,$size);
+        return sprintf('%s../%s/mimetypes/file.png', SPath::SYSTEM_ICONS,self::$sizes[$size]);
     }
     
     public function getType()
