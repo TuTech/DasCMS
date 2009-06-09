@@ -79,7 +79,6 @@ class QBContent extends BQuery
         return $DB->queryExecute($sql);
     }
     
-    
     /**
      * 
      * @param string $class

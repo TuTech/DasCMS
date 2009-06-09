@@ -71,16 +71,36 @@ class UBasicSettings
     
     public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
     {
-        $data = $e->getClassSettings($this);
-        foreach (self::$keys as $sect => $ks)
+        try
         {
-            foreach ($ks as $mk => $cc)
+            $db = DSQL::getSharedInstance();
+            $db->beginTransaction();
+            
+            $data = $e->getClassSettings($this);
+            foreach (self::$keys as $sect => $ks)
             {
-                if(isset($data[$mk]))
+                foreach ($ks as $mk => $cc)
                 {
-                    LConfiguration::set($cc, $data[$mk]);
+                    if(isset($data[$mk]))
+                    {
+                        LConfiguration::set($cc, $data[$mk]);
+                    }
                 }
             }
+            $aliases = array(LConfiguration::get('generator_content'));
+            $lt = LConfiguration::get('login_template');
+            if(!empty($lt))
+            {
+                $aliases[] = $lt;
+            }
+            BContent::releaseContentChainsToClass($this);
+            BContent::chainContentsToClass($this, $aliases);
+            $db->commit();
+        }
+        catch (XDatabaseException $e)
+        {
+            $e->rollback();
+            throw $e;
         }
     }
     
