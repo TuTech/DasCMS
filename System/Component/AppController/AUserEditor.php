@@ -33,6 +33,17 @@ class AUserEditor
      * @return array
      * @throws XPermissionDeniedException
      */
+    public function provideContentTags(array $namedParameters)
+    {
+        return array();
+    }
+    
+    /**
+     * returns all data necessary for the open dialog
+     * @param array $namedParameters
+     * @return array
+     * @throws XPermissionDeniedException
+     */
     public function provideOpenDialogData(array $namedParameters)
     {
         if(!$this->isPermitted('view'))
