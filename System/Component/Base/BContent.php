@@ -145,6 +145,7 @@ abstract class BContent extends BObject
 	    {
 	        $guids[$row[0]] = $row[0];
 	    }
+	    $res->free();
 	    return $guids;
 	}
 	

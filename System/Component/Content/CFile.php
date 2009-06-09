@@ -237,16 +237,17 @@ class CFile
                     '<p class="CFile-meta-size">%s: %s</p>'.
                 '</div>'.
                 '<div class="CFile-link">'.
-                    '<p><a href="file.php%s%s">%s</a></p>'.
+                    '<p><a %shref="file.php%s%s">%s</a></p>'.
                 '</div>'.
             '</div>'
             
             ,$this->getDescription()
             ,SLocalization::get('file_size')
             ,DFileSystem::formatSize($this->getSize())
+            ,LConfiguration::get('CFile_download_target_blank') == '1' ? 'target="_blank" ' : ''
             ,LConfiguration::get('wellformed_urls') == '' ? '?get=' : '/'
             ,$this->getAlias()
-            ,$this->getFileName()
+            ,htmlentities(LConfiguration::get('CFile_download_text') == '' ? $this->getFileName() : LConfiguration::get('CFile_download_text'),ENT_QUOTES, 'utf-8')
         );
 	}
 	

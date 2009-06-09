@@ -30,30 +30,34 @@ class UCFileConfig
         	'CFile_image_quality' => array(LConfiguration::get('CFile_image_quality'), AConfiguration::TYPE_SELECT,
                                             array('minimal' => 1, 'low' => 25, 'medium' => 50, 'high' => 75, 'maximum' => 100), 'image_quality')
 		));
+        $e->addClassSettings($this, 'file_download_links', array(
+        	'text_instead_of_filename' => array(LConfiguration::get('CFile_download_text'), AConfiguration::TYPE_TEXT, null, 'text_instead_of_filename'),
+        	'open_in_new_window' => array(LConfiguration::get('CFile_download_target_blank'), AConfiguration::TYPE_CHECKBOX, null, 'open_download_in_new_window')
+		));
     }
     
     public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
     {
         $data = $e->getClassSettings($this);
-        if(!empty($data['width']))
+        foreach(array('width', 'height', 'quality') as $k)
         {
-            LConfiguration::set('CFile_image_width', intval($data['width']));
+            if(!empty($data[$k]))
+            {
+                LConfiguration::set('CFile_image_'.$k, intval($data[$k]));
+            }
         }
-        if(!empty($data['height']))
+        foreach(array('CFile_image_background_color' => 'background_color',
+        			  'CFile_download_text' => 'text_instead_of_filename',
+                      'CFile_download_target_blank'=>'open_in_new_window') as $ck => $dk)
         {
-            LConfiguration::set('CFile_image_height', intval($data['height']));
+            if(isset($data[$dk]))
+            {
+                LConfiguration::set($ck, $data[$dk]);
+            }
         }
         if(isset($data['rendering_method']) && in_array($data['rendering_method'], array('0c','1c','1f','1s')))
         {
             LConfiguration::set('CFile_image_rendering_method', $data['rendering_method']);
-        }
-        if(isset($data['background_color']))
-        {
-            LConfiguration::set('CFile_image_background_color', $data['background_color']);
-        }
-        if(isset($data['CFile_image_quality']))
-        {
-            LConfiguration::set('CFile_image_quality', intval($data['CFile_image_quality']));
         }
     }
 }
