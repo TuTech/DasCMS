@@ -59,7 +59,14 @@ Contents
         REFERENCES Aliases(aliasID)
         ON DELETE CASCADE
         ON UPDATE RESTRICT;
-        
+
+-- link event dates to their contents        
+ALTER TABLE 
+EventDates
+    ADD FOREIGN KEY (contentREL)
+        REFERENCES Contents(contentID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION;
         
 -- foreign keys for cfile attributes
 ALTER TABLE 
