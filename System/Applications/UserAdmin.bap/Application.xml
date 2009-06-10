@@ -4,7 +4,7 @@
 	<appController guid="org.bambuscms.applications.usereditor">AUserEditor</appController>
 	<name>users</name>
 	<description>deprecated</description>
-	<icon>app-preferences-account-user</icon>
+	<icon>app-preferences-account-user-old</icon>
 	<version>0.10.20061011</version>
 	<priority>1.9</priority>
 	<purpose>system</purpose>
