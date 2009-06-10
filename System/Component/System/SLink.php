@@ -54,7 +54,7 @@ class SLink
             $script = $_SERVER['SCRIPT_NAME'];
             $server = $_SERVER['SERVER_NAME'];
             $http = (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off') ? 'http' : 'https';
-            $port = ($_SERVER['SERVER_PORT'] != 80) ? ':'.$_SERVER['SERVER_PORT'] : '';
+            $port = ($_SERVER['SERVER_PORT'] == 80 || ($_SERVER['SERVER_PORT'] == 443 && $http == 'https')) ? '' : ':'.$_SERVER['SERVER_PORT'];
             //calculate path to cms root
             $path = explode('/', dirname($script));
             $optimizedPath = array();
