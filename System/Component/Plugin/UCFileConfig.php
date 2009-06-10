@@ -32,7 +32,8 @@ class UCFileConfig
 		));
         $e->addClassSettings($this, 'file_download_links', array(
         	'text_instead_of_filename' => array(LConfiguration::get('CFile_download_text'), AConfiguration::TYPE_TEXT, null, 'text_instead_of_filename'),
-        	'open_in_new_window' => array(LConfiguration::get('CFile_download_target_blank'), AConfiguration::TYPE_CHECKBOX, null, 'open_download_in_new_window')
+        	'open_in_new_window' => array(LConfiguration::get('CFile_download_target_blank'), AConfiguration::TYPE_CHECKBOX, null, 'open_download_in_new_window'),
+            'force_download' => array(LConfiguration::get('CFile_force_download'), AConfiguration::TYPE_CHECKBOX, null, 'force_download_for_all_files')
 		));
     }
     
@@ -48,7 +49,8 @@ class UCFileConfig
         }
         foreach(array('CFile_image_background_color' => 'background_color',
         			  'CFile_download_text' => 'text_instead_of_filename',
-                      'CFile_download_target_blank'=>'open_in_new_window') as $ck => $dk)
+                      'CFile_download_target_blank'=>'open_in_new_window',
+                      'CFile_force_download'=>'force_download') as $ck => $dk)
         {
             if(isset($data[$dk]))
             {

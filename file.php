@@ -8,7 +8,8 @@ try
 {
     $file = RURL::get('get');
     SErrorAndExceptionHandler::muteErrors();
-    $force_download = RURL::has('download');
+    $force_download = RURL::has('download') || LConfiguration::get('CFile_force_download') == 1;
+    $extended_cache = RURL::has('extendedCache');
     if(empty($file))
     {
          $file = substr($_SERVER['PATH_INFO'],1);
@@ -23,12 +24,6 @@ try
     {
         //FIXME new WImage() is wrong - do this in an access class
         $content = BContent::Access($file, new WImage(), true);
-        //cache if file is public
-        $cache_1Day = 86400;
-        header("Expires: ".date('r', time()+$cache_1Day));
-        header("Cache-Control: max-age=".$cache_1Day.", public");
-        header("Content-Disposition: inline");
-        header('Pragma:');//disable "Pragma: no-cache" (default for sessions) 
     }
     catch (XPermissionDeniedException $e)
     {
@@ -45,6 +40,13 @@ try
         	exit();
         }
     }
+    $cache_time = ($extended_cache) 
+        ? 315360000 /* 10 years */ 
+        : 86400 /* 1 day */;
+    header("Expires: ".date('r', time()+$cache_time));
+    header("Cache-Control: max-age=".$cache_time.", public");
+    header("Content-Disposition: inline");
+    header('Pragma:');//disable "Pragma: no-cache" (default for sessions) 
     $pubDate = $content->getPubDate();
     if($content instanceof IFileContent)
     {
