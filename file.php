@@ -3,8 +3,7 @@
  * provide file download 
  */
 require_once('./System/Component/Loader.php');
-RSession::start();
-PAuthentication::required();
+PAuthentication::implied();
 try
 {
     $file = RURL::get('get');
@@ -20,12 +19,25 @@ try
              throw new Exception('nothing to get', 404);
          }
     }
-    $content = BContent::OpenIfPossible($file);
-    if(!PAuthorisation::has('org.bambuscms.content.cfile.view'))
+    try
     {
-        $content = BContent::Access($file, $content);
-        $pubDate = $content->getPubDate();
-        if((empty($pubDate) || $pubDate > time()))
+        //FIXME new WImage() is wrong - do this in an access class
+        $content = BContent::Access($file, new WImage(), true);
+        //cache if file is public
+        $cache_1Day = 86400;
+        header("Expires: ".date('r', time()+$cache_1Day));
+        header("Cache-Control: max-age=".$cache_1Day.", public");
+        header("Content-Disposition: inline");
+        header('Pragma:');//disable "Pragma: no-cache" (default for sessions) 
+    }
+    catch (XPermissionDeniedException $e)
+    {
+        if(PAuthorisation::has('org.bambuscms.content.cfile.view'))
+        {
+            //valid user - allowed to view unpublished 
+            $content = BContent::Open($alias);
+        }
+        else
         {
             header('HTTP/1.1 403 Forbidden');
         	header('Status: 403 Forbidden');
@@ -33,24 +45,23 @@ try
         	exit();
         }
     }
+    $pubDate = $content->getPubDate();
     if($content instanceof IFileContent)
     {
         list($file, $type, $size) = $content->getDownloadMetaData();
         
         if($force_download)
         {
-            //header("Content-Disposition: attachment; charset=utf-8; filename=\"".addslashes($file)."\"");    
-            header("Content-Disposition: attachment; charset=ISO-8859-1; filename=\"".addslashes(mb_convert_encoding($file, 'ISO-8859-1', 'UTF-8, auto'))."\"");    
+            header("Content-Disposition: attachment; charset=UTF-8; filename=\"".addslashes(mb_convert_encoding($file, 'ISO-8859-1', 'UTF-8, auto'))."\"");    
             header("Content-Type: application/force-download");
             header("Content-Type: application/download");
             header("Content-Description: File Transfer");             
         }
         else
         {
-            header("Content-Disposition: inline; charset=ISO-8859-1; filename=\"".addslashes(mb_convert_encoding($file, 'ISO-8859-1', 'UTF-8, auto'))."\"");    
-            //header("Content-Disposition: inline; charset=utf-8; filename=\"".addslashes($file)."\"");    
-            
+            header("Content-Disposition: inline; charset=UTF-8; filename=\"".addslashes(mb_convert_encoding($file, 'ISO-8859-1', 'UTF-8, auto'))."\"");    
         }
+        header('Last-modified: '.date('r',$content->getModifyDate()));
         if(!empty($type))
         {
             header("Content-Type: ".$type);

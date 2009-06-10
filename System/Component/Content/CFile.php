@@ -91,6 +91,9 @@ class CFile
 	        DFileSystem::suffix(RFiles::getName('CFile')),
 	        md5_file('./Content/CFile/'.$this->getId().'.data',false)
         );
+		$this->ModifiedBy = PAuthentication::getUserID();
+		$this->ModifyDate = time();
+		$this->_modified = true;
         $this->Size = RFiles::getSize('CFile');
         BContent::setMimeType($this->getAlias(), RFiles::getType('CFile'));
         $this->saveMetaToDB();
