@@ -20,6 +20,7 @@ class SPath
     const SYSTEM_TEMPLATES = './System/Resource/Templates/';
     const SYSTEM_APPLICATIONS = './System/Applications/';
     const SYSTEM_RESOURCES = './System/Resource/';
+    const SYSTEM_EXTERNALS = './System/External/';
     const SYSTEM_RESOURCE_STRINGS = './System/Resource/Strings/';
     
     const CONTENT = './Content/';

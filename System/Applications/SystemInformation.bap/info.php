@@ -47,23 +47,5 @@ $cache_tbl->addRow(array('information', 'value'));
 $cache_tbl->addRow(array('size', $controller->cacheSize()));
 $cache_tbl->render();
 
-$out = array(array(
-    'file', 
-    'readable', 
-    'writeable', 
-    'file_permissions',
-    'path'
-));
-$controller->pdirlist_r();
-if(count($out) == 1)
-{
-    SNotificationCenter::report('message', 'all_file_permissions_are_ok');
-}
-else
-{
-    $fp_table = new WTable(WTable::HEADING_TOP|WTable::HEADING_LEFT, 'file_permissions');
-    $fp_table->setData($out);
-    $fp_table->render();
-}
 echo "<br />";
 ?>

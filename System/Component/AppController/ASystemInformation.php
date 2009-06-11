@@ -33,6 +33,10 @@ class ASystemInformation
         	if(!isset($info[$key]))$info[$key] = 0;
         $files = array();
         $dirs = array();
+        if($dir == './External/')
+        {
+            return;
+        }
         chdir(SPath::SYSTEM);
         if(is_dir($dir)){
             if(@chdir($dir))
