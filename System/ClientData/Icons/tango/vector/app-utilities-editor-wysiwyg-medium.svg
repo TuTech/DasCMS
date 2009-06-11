@@ -15,9 +15,9 @@
    sodipodi:version="0.32"
    inkscape:version="0.46"
    version="1.0"
-   sodipodi:docname="app-utilities-editor-html-medium.svg"
+   sodipodi:docname="app-utilities-editor-wysiwyg-medium.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   inkscape:export-filename="/Users/lse/Sites/BambusONE/System/Icons/tango/medium/apps/utilities-editor-html.png"
+   inkscape:export-filename="/Users/lse/Sites/BambusONE/System/ClientData/Icons/tango/medium/apps/utilities-editor-wysiwyg.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -122,7 +122,7 @@
        x2="31.193798"
        y2="46.821705"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.6466728,0,0,0.6602003,2.3005443,0.2045167)" />
+       gradientTransform="matrix(0.6466728,0,0,0.6602003,2.3005443,-31.863883)" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -163,12 +163,13 @@
      inkscape:groupmode="layer"
      id="layer1">
     <rect
-       style="fill:url(#linearGradient14322);fill-opacity:1;fill-rule:evenodd;stroke:#eeeeec;stroke-width:1.00551140000000006;stroke-linecap:square;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:18.60000038000000089;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       style="fill:url(#linearGradient14322);fill-opacity:1;fill-rule:evenodd;stroke:#eeeeec;stroke-width:1.0055114;stroke-linecap:square;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:18.60000038;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="rect3776"
        width="22.002621"
        height="31.088636"
        x="6.5195794"
-       y="0.48988187" />
+       y="-31.578518"
+       transform="scale(1,-1)" />
     <rect
        style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:0.98500001;stroke-linecap:square;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:18.60000038;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="rect4345"

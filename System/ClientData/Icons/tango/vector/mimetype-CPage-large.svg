@@ -15,9 +15,9 @@
    sodipodi:version="0.32"
    inkscape:version="0.46"
    version="1.0"
-   sodipodi:docname="CPageManager.svg"
+   sodipodi:docname="mimetype-CPage-large.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   inkscape:export-filename="/Users/lse/Sites/BambusONE/System/Icons/tango/large/mimetypes/CPageManager.png"
+   inkscape:export-filename="/Users/lse/Sites/BambusONE/System/ClientData/Icons/tango/large/mimetypes/CPage.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -122,7 +122,7 @@
        x2="31.193798"
        y2="46.821705"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(1,0,0,0.998683,0,6.2584749e-2)" />
+       gradientTransform="matrix(1,0,0,0.998683,0,-47.95361)" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -139,8 +139,8 @@
      showgrid="true"
      inkscape:window-width="1280"
      inkscape:window-height="955"
-     inkscape:window-x="210"
-     inkscape:window-y="67">
+     inkscape:window-x="135"
+     inkscape:window-y="0">
     <inkscape:grid
        type="xygrid"
        id="grid2383"
@@ -163,12 +163,13 @@
      inkscape:groupmode="layer"
      id="layer1">
     <rect
-       style="fill:url(#linearGradient14322);fill-opacity:1;fill-rule:evenodd;stroke:#babdb6;stroke-width:1.00551152;stroke-linecap:square;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:18.60000038;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       style="fill:url(#linearGradient14322);fill-opacity:1;fill-rule:evenodd;stroke:#eeeeec;stroke-width:1.00551152;stroke-linecap:square;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:18.60000038;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="rect3776"
        width="34.024349"
        height="47.027683"
        x="6.5242195"
-       y="0.49425563" />
+       y="-47.521938"
+       transform="scale(1,-1)" />
     <rect
        style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:0.98500001;stroke-linecap:square;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:18.60000038;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="rect4345"

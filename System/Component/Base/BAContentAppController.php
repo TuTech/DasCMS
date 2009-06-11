@@ -28,6 +28,12 @@ abstract class BAContentAppController
     protected $contentClass = 'BContent';
     
     /**
+     * content icon
+     * @var string
+     */
+    protected $contentIcon = 'BContent';
+    
+    /**
 	 * @var BContent
      */
     protected $target = null;
@@ -186,8 +192,8 @@ abstract class BAContentAppController
         $data = array(
             'title' => SLocalization::get('open'),
             'nrOfItems' => count($items),
-            'iconMap' => array('System/ClientData/Icons/tango/large/mimetypes/'.$this->contentClass.'.png'),
-            'smallIconMap' => array('System/ClientData/Icons/tango/extra-small/mimetypes/'.$this->contentClass.'.png'),
+            'iconMap' => array('System/ClientData/Icons/tango/large/mimetypes/'.$this->contentIcon.'.png'),
+            'smallIconMap' => array('System/ClientData/Icons/tango/extra-small/mimetypes/'.$this->contentIcon.'.png'),
             'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2, 'pubDate' => 3),//, 'tags' => 4
             'sortable' => array('title' => 'title', 'pubDate' => 'pubDate'),
             'items' => $items

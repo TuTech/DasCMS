@@ -27,6 +27,12 @@ class AScriptEditor
      * @var string
      */
     protected $contentClass = 'CScript';
+        
+    /**
+     * content icon
+     * @var string
+     */
+    protected $contentIcon = 'CScript';
     
     /**
 	 * @var CScript

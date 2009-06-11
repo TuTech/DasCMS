@@ -122,7 +122,7 @@
        x2="31.193798"
        y2="46.821705"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.6466728,0,0,0.6602003,1.3005443,0.2045167)" />
+       gradientTransform="matrix(0.6466728,0,0,0.6602003,1.3005443,-31.863883)" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -168,7 +168,8 @@
        width="22.002621"
        height="31.088636"
        x="5.5195794"
-       y="0.48988187" />
+       y="-31.578518"
+       transform="scale(1,-1)" />
     <rect
        style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:0.98500001;stroke-linecap:square;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:18.60000038;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="rect4345"

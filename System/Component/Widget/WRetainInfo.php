@@ -12,6 +12,7 @@
 class WRetainInfo extends BWidget implements ISidebarWidget 
 {
 	private $targetObject = null;
+	private static $retains = array();
 	/**
 	 * get an array of string of all supported classes 
 	 * if it supports BObject, it supports all cms classes
@@ -19,11 +20,18 @@ class WRetainInfo extends BWidget implements ISidebarWidget
 	 */
 	public static function isSupported(WSidePanel $sidepanel)
 	{
-	    return (
+	    $wanted = false;
+	    $possible = (
 	        $sidepanel->hasTarget()
 	        && $sidepanel->isTargetObject()
 	        && $sidepanel->isMode(WSidePanel::RETAIN)
 	    );
+	    if($possible)
+	    {
+	        self::$retains = WImage::getRetainersFor($sidepanel->getTarget()->Alias);
+	        $wanted = count(self::$retains) > 0;
+	    }
+	    return $wanted && $possible;
 	}
 	
 	public function getName()
@@ -56,13 +64,12 @@ class WRetainInfo extends BWidget implements ISidebarWidget
 	public function render()
 	{
 	    echo '<div id="WRetainInfo">';
-	    $retains = WImage::getRetainersFor($this->targetObject->Alias);
-	    if(count($retains))
+	    if(count(self::$retains))
 	    {
     	    printf('<dl><dt><label>%s</label></dt><dd><dl>', SLocalization::get('retained_by'));
     	    $i = 1;
     	    $currentClass = '';
-    	    foreach($retains as $alias => $data)
+    	    foreach(self::$retains as $alias => $data)
     	    {
     	        list($class, $title) = $data;
     	        if($currentClass != $class)
@@ -79,10 +86,6 @@ class WRetainInfo extends BWidget implements ISidebarWidget
     	        	);
     	    }
     	    echo '</dl></dd></dl>';
-	    }
-	    else
-	    {
-	        printf('<h3>%s</h3>', SLocalization::get('item_has_not_been_retained'));
 	    }
 	    echo '</div>';
 	}

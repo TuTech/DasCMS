@@ -78,9 +78,9 @@ indent	nach rechts einrücken
 outdent	nach links rücken
 protection_tags	Zugriffschutz
 tag_permissions	Zugriffschutz bearbeiten
-retained_by	Verwendet von...
-retain_info	Information: Bild ist eingebunden von...
-retain_count	Wie oft eingebunden?
+retained_by	Referenziert von
+retain_info	Referenzen zu diesem Inhalt
+retain_count	Referenzen zu diesem Element 
 preview_image	Bildvorschau
 edit_protection_tags	Tags für den Zugriffschutz verwalten
 define_content_routes	Dynamische Bereiche für das Layout definieren

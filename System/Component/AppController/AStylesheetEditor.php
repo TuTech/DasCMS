@@ -29,6 +29,12 @@ class AStylesheetEditor
     protected $contentClass = 'CStylesheet';
     
     /**
+     * content icon
+     * @var string
+     */
+    protected $contentIcon = 'css';
+    
+    /**
 	 * @var CStylesheet
      */
     protected $target = null;
