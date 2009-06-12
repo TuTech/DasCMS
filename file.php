@@ -10,11 +10,13 @@ try
     SErrorAndExceptionHandler::muteErrors();
     $force_download = RURL::has('download') || LConfiguration::get('CFile_force_download') == 1;
     $extended_cache = RURL::has('extendedCache');
+    $send_filename_header = true;
     if(empty($file))
     {
          $file = substr($_SERVER['PATH_INFO'],1);
-         $end = min(strpos($file, '/'), strpos($file, '&'));
-         if($end != 0)$file = substr($file,0, $end-1);
+         $fileParts = explode('/', $file);
+         $file = array_shift($fileParts);
+         $send_filename_header = count($fileParts) == 0;
          if(empty($file))
          {
              throw new Exception('nothing to get', 404);
@@ -23,7 +25,7 @@ try
     try
     {
         //FIXME new WImage() is wrong - do this in an access class
-        $content = BContent::Access($file, new WImage(), true);
+        $content = BContent::Access($file, new UCFileConfig(), true);
     }
     catch (XPermissionDeniedException $e)
     {
@@ -59,7 +61,7 @@ try
             header("Content-Type: application/download");
             header("Content-Description: File Transfer");             
         }
-        else
+        elseif($send_filename_header)
         {
             header("Content-Disposition: inline; charset=UTF-8; filename=\"".addslashes(mb_convert_encoding($file, 'ISO-8859-1', 'UTF-8, auto'))."\"");    
         }
