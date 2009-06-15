@@ -1,5 +1,6 @@
 org.bambuscms.wsidebar = {
-	'show':function(widget)
+	'currentObject':null,
+	'show':function(widget, widgetObj)
 	{
 		var selectors = $('WSidebar-select').getElementsByTagName('a');
 		for(var i = 0; i < selectors.length; i++)
@@ -16,6 +17,19 @@ org.bambuscms.wsidebar = {
 				elements[i].style.display = 'none';
 		}
 		$('WSidebar-child-'+widget).style.display = 'block';
+		if(org.bambuscms.wsidebar.currentObject)
+		{
+			window.setTimeout(org.bambuscms.wsidebar.currentObject+'.hide()', 1);
+		}		
+		if(widgetObj)
+		{
+			org.bambuscms.wsidebar.currentObject = widgetObj;
+			window.setTimeout(widgetObj+'.show()', 1);
+		}
+		else
+		{
+			org.bambuscms.wsidebar.currentObject = null;
+		}
 		return false;
 	}
 }

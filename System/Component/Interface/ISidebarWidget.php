@@ -36,5 +36,10 @@ interface ISidebarWidget
 	 * @return void
 	 */
 	public function processInputs();
+	
+	/**
+	 * @return string|null
+	 */
+	public function associatedJSObject();
 }
 ?>

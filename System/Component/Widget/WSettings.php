@@ -186,5 +186,10 @@ class WSettings extends BWidget implements ISidebarWidget
 		}
 		return $html;
 	}
+	
+	public function associatedJSObject()
+	{
+	    return null;
+	}
 }
 ?>

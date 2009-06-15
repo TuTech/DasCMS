@@ -33,7 +33,7 @@ org.bambuscms.wcolors.run = function(){
 				'g':g,
 				'b':b,
 				'l':(r+g+b),
-				'hex': c,
+				'hex': c
 			};
 		}
 	}

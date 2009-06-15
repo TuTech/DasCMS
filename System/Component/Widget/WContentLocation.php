@@ -58,5 +58,10 @@ class WContentLocation extends BWidget //implements ISidebarWidget
 	    echo '<div id="WContentLocation">';
 	    echo '</div>';
 	}
+	
+	public function associatedJSObject()
+	{
+	    return null;
+	}
 }
 ?>

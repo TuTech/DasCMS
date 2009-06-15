@@ -233,8 +233,9 @@ class WSidePanel
     			foreach ($this->sidebarWidgets as $class => $object) 
     			{
     		        $html .=  sprintf(
-    		        	"<td class=\"tab\"><a onmousedown=\"return org.bambuscms.wsidebar.show('%s')\" href=\"javascript:nil();\" id=\"WSidebar-selector-%s\" title=\"%s\"%s>%s</a></td>\n"
+    		        	"<td class=\"tab\"><a onmousedown=\"return org.bambuscms.wsidebar.show('%s'%s)\" href=\"javascript:nil();\" id=\"WSidebar-selector-%s\" title=\"%s\"%s>%s</a></td>\n"
     		        	,$class
+    		        	,$object->associatedJSObject() == null ? '' : ", '".$object->associatedJSObject()."'"
     		        	,$class
     		        	,SLocalization::get($object->getName())
     		        	,($class == $selectedWidget) ? ' class="selectedWidget"' : ''
@@ -253,7 +254,12 @@ class WSidePanel
     					,($class != $selectedWidget) ? ' style="display:none;"' : ''
     					, strval($object));
     			}
-    			
+    			//show event for corresponding js-object
+			    $html .= sprintf(
+			    	'<script type="text/javascript">org.bambuscms.wsidebar.show(\'%s\'%s)</script>'
+			        ,$selectedWidget
+			        ,$this->sidebarWidgets[$selectedWidget]->associatedJSObject() == null ? '' : ", '".$this->sidebarWidgets[$selectedWidget]->associatedJSObject()."'"
+		        );
     			$html .= "\t</div>\n</div>\n</div>";
     		}
 	    }

@@ -6,7 +6,7 @@ org.bambuscms.wsettings.updateImage = function()
 		var imgs = $('WSearch-PreviewImage').getElementsByTagName('img');
 		imgs[0].src = 'image.php/' + ($('WSearch-PreviewImage-Alias').value) + '/80-60-0-f-ff-ff-ff';
 	}
-}
+};
 org.bambuscms.wsettings.setImage = function(e)
 {
 	var select = this.alt;
@@ -17,7 +17,7 @@ org.bambuscms.wsettings.setImage = function(e)
 		var imgs = $('WSearch-PreviewImage').getElementsByTagName('img');
 		imgs[0].src = 'image.php/' + ($('WSearch-PreviewImage-Alias').value) + '/80-60-0-f-ff-ff-ff';
 	}
-}
+};
 
 org.bambuscms.wsettings.selectImage = function()
 {
@@ -45,7 +45,7 @@ org.bambuscms.wsettings.selectImage = function()
 	org.bambuscms.wsettings.selector = dlg;
 	org.bambuscms.display.setAutosize('wsetting_image_picker', -100, -100, true);
 	org.bambuscms.display.setAutosize('wsettings_img_select', 0, -175, true);
-}
+};
 org.bambuscms.wsettings.fillDialog = function (dataObject)
 {
 	var target = $('wsettings_img_select');
@@ -73,7 +73,7 @@ org.bambuscms.wsettings.fillDialog = function (dataObject)
 			target.appendChild(outer);
 		}
 	}
-}
+};
 
 //WSearch-PubDate
 org.bambuscms.wsettings.pubDateHelper = null;
@@ -86,7 +86,7 @@ org.bambuscms.wsettings.setPubDate = function()
 	}
 	$('WSearch-PubDate').value = (this.title); 
 	$('WSearch-PubDate').focus();
-}
+};
 
 org.bambuscms.wsettings.showPubDateHelper = function()
 {
@@ -123,7 +123,7 @@ org.bambuscms.wsettings.showPubDateHelper = function()
 	}
 	org.bambuscms.wsettings.pubDateHelper = org.bambuscms.app.helper.create('WSearch-PubDate', content);
 	org.bambuscms.wsettings.pubDateHelper.style.width = '200px';
-}
+};
 
 org.bambuscms.wsettings.hidePubDateHelper = function()
 {
@@ -133,7 +133,7 @@ org.bambuscms.wsettings.hidePubDateHelper = function()
 		window.clearTimeout(org.bambuscms.wsettings.pubDateHelperTimeOut);
 		org.bambuscms.wsettings.pubDateHelper = null;
 	}
-}
+};
 org.bambuscms.wsettings.scheduleHidePubDateHelper = function()
 {
 	if(org.bambuscms.wsettings.pubDateHelper)
@@ -141,7 +141,7 @@ org.bambuscms.wsettings.scheduleHidePubDateHelper = function()
 		org.bambuscms.wsettings.pubDateHelperTimeOut = 
 			window.setTimeout('org.bambuscms.wsettings.hidePubDateHelper()', 300);
 	}
-}
+};
 
 org.bambuscms.autorun.register(function(){
 	if($('WSearch-PubDate'))

@@ -168,5 +168,10 @@ class WWYSIWYGPanel extends BWidget implements ISidebarWidget
 	    echo $this->makeList(array('commands' => array('switchWYSIWYG' => 'show design view')));
 	    echo '</div></div>';
 	}
+	
+	public function associatedJSObject()
+	{
+	    return null;
+	}
 }
 ?>

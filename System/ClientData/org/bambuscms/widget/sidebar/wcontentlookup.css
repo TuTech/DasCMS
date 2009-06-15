@@ -1,3 +1,12 @@
+#wcontentlookup-list-more
+{
+	color: #555753;
+	background:#d3d7cf;
+	font-weight: bold;
+	padding: 10px 0px 10px 0px;
+	text-align:center;
+	border-bottom: 1px solid #babdb6;
+}
 #WContentLookupFilter  {
 	background:#fff url(../../../../../ClientData/Icons/16x16/actions/search.png) 1px 50% no-repeat;
 	font-size:12px;

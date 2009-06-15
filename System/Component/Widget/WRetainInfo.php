@@ -89,5 +89,10 @@ class WRetainInfo extends BWidget implements ISidebarWidget
 	    }
 	    echo '</div>';
 	}
+	
+	public function associatedJSObject()
+	{
+	    return null;
+	}
 }
 ?>

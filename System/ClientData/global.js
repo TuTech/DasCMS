@@ -2,9 +2,25 @@ function $(id)
 {
 	return document.getElementById(id);
 }
-function $c(tag)
+function $c(tag, subNodes)
 {
-	return document.createElement(tag);
+	var node = document.createElement(tag);
+	if(subNodes)
+	{
+		if(typeof subNodes == 'object' && subNodes.ownerDocument)
+		{
+			subNodes = [subNodes];
+		}
+		if(typeof subNodes == 'object')
+		{
+			for(k in subNodes)
+			{
+				if(subNodes[k].ownerDocument)
+					node.appendChild(subNodes[k]);
+			}
+		}
+	}
+	return node;
 }
 function $t(text)
 {

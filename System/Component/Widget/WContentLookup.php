@@ -29,15 +29,16 @@ class WContentLookup extends BWidget implements ISidebarWidget
 		    'type' => array(),
 		    'items' => array(),
 		    'hasMore' => false,
-		    'now' => time()
+		    'now' => time(),
+		    'continueList' => false
 		);
 		$opts = array('priv', 'pub', 'sched', 'all');
 		$opt = (isset($namedParameters['mode']) && in_array($namedParameters['mode'], $opts)) ? $namedParameters['mode'] : 'all';
 		$filter = isset($namedParameters['filter']) ?  $namedParameters['filter'] : '';
 		$page = isset($namedParameters['page']) ?  max(1, intval($namedParameters['page'])) : 1;
+		$map['continueList'] = $page > 1;
 		$lastMan = null;
 		$itemsPerPage = 15;
-		$hasMore = 
 	    $res = QWContentLookup::fetchContentList($opt, $filter, $page, $itemsPerPage);
 		while($erg = $res->fetch())
 		{
@@ -100,6 +101,11 @@ class WContentLookup extends BWidget implements ISidebarWidget
 	    );
 		$html = '<div id="WContentLookup"></div>';
 		return strval($Items).$html;
+	}
+	
+	public function associatedJSObject()
+	{
+	    return 'org.bambuscms.wcontentlookup';
 	}
 }
 ?>

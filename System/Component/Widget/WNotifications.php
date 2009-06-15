@@ -51,5 +51,10 @@ class WNotifications extends BWidget implements ISidebarWidget
 		$html .= '</div>';
 		return $html;
 	}
+	
+	public function associatedJSObject()
+	{
+	    return null;
+	}
 }
 ?>

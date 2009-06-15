@@ -1,26 +1,43 @@
 org.bambuscms.wcontentlookup = {};
 org.bambuscms.wcontentlookup.filter = function()
 {
-//	var filterStr
-//	if($('WContentLookupFilter') && $('WContentLookup'))
-//	{
-//		filterStr = $('WContentLookupFilter').value.toLowerCase();
-//		var elements = $('WContentLookup').getElementsByTagName('option');
-//		var str;
-//		for(var i = 0; i < elements.length; i++)
-//		{
-//			str = elements[i].text.toLowerCase();
-//			elements[i].style.display = (str.indexOf(filterStr) > -1) ? 'block' : 'none';
-//		}
-//	}
 	org.bambuscms.wcontentlookup.fetch();
-}
+};
+org.bambuscms.wcontentlookup.show = function()
+{
+	org.bambuscms.wcontentlookup.fetch();
+};
+org.bambuscms.wcontentlookup.hide = function(){};
 org.bambuscms.wcontentlookup.generateList = function(respObject)
 {
 	if(respObject.items)
 	{
-		var html = $c('ul');
+		var html;
+		if(!respObject.continueList)
+		{
+			html = $c('ul');
+			html.id = 'wcontentlookup-list';
+			$('WContentLookup').innerHTML = '';
+			$('WContentLookup').appendChild(html);
+			var inp = $c('input');
+			inp.type = 'hidden';
+			inp.id = "wcontentlookup-list-count";
+			inp.value = 1;
+			$('WContentLookup').appendChild(inp);
+			var lnk = $c('a');
+			lnk.id = "wcontentlookup-list-more";
+			lnk.href =  'javascript:org.bambuscms.wcontentlookup.fetch($(\'wcontentlookup-list-count\').value)';
+			lnk.appendChild($t(_('more')));
+			$('WContentLookup').appendChild(lnk);
+		}
+		else
+		{
+			html = $('wcontentlookup-list');
+			inp = $("wcontentlookup-list-count");
+		}
+		$("wcontentlookup-list-more").style.display = (respObject.hasMore) ? 'block' : 'none';
 		var items = respObject.items;
+		inp.value = parseInt(inp.value) + 1;
 		for(var i = 0; i < items.length; i++)
 		{
 			var item = $c('li');
@@ -41,11 +58,9 @@ org.bambuscms.wcontentlookup.generateList = function(respObject)
 			item.appendChild(pd);
 			html.appendChild(item);
 		}
-		$('WContentLookup').innerHTML = '';
-		$('WContentLookup').appendChild(html);
 	}
-}
-org.bambuscms.wcontentlookup.fetch = function()
+};
+org.bambuscms.wcontentlookup.fetch = function(more)
 {
 	var data = {
 		'controller':org.bambuscms.app.controller,
@@ -55,6 +70,10 @@ org.bambuscms.wcontentlookup.fetch = function()
 		'filter':'',
 		'mode':'all'
 	};
+	if(more)
+	{
+		send.page = more;
+	}
 	if($('WContentLookupFilter'))
 	{
 		send.filter = $('WContentLookupFilter').value;
@@ -70,11 +89,10 @@ org.bambuscms.wcontentlookup.fetch = function()
 		org.bambuscms.wcontentlookup.generateList,
 		send
 	);
-}
+};
 org.bambuscms.autorun.register(function(){
 	if($('WContentLookup'))
 	{
-		org.bambuscms.wcontentlookup.fetch();
 		org.bambuscms.gui.setEventHandler($('WContentLookupFilter'), 'keyup',   org.bambuscms.wcontentlookup.fetch);
 		org.bambuscms.gui.setEventHandler($('WContentLookupFilter'), 'mouseup', org.bambuscms.wcontentlookup.fetch);
 	}

@@ -84,8 +84,6 @@ abstract class BAppController
 	    $appObject = BObject::InvokeObjectByID($appID);
 	    if (!$appObject instanceof BAppController) 
 	    {
-	        echo $appID;
-	        echo get_class($appObject);
 	    	throw new XUndefinedException(get_class($appObject).' is not an app controller');
 	    }
 	    return $appObject;

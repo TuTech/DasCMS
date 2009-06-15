@@ -2,13 +2,42 @@ org.bambuscms.wimagecontentlookup = {};
 org.bambuscms.wimagecontentlookup.filter = function()
 {
 	org.bambuscms.wimagecontentlookup.fetch();
-}
+};
+org.bambuscms.wimagecontentlookup.show = function()
+{
+	org.bambuscms.wimagecontentlookup.fetch();
+};
+org.bambuscms.wimagecontentlookup.hide = function(){};
 org.bambuscms.wimagecontentlookup.generateList = function(respObject)
 {
 	if(respObject.items)
 	{
-		var html = $c('ul');
+		var html;
+		if(!respObject.continueList)
+		{
+			html = $c('ul');
+			html.id = 'wimagecontentlookup-list';
+			$('WImageContentLookup').innerHTML = '';
+			$('WImageContentLookup').appendChild(html);
+			var inp = $c('input');
+			inp.type = 'hidden';
+			inp.id = "wimagecontentlookup-list-count";
+			inp.value = 1;
+			$('WImageContentLookup').appendChild(inp);
+			var lnk = $c('a');
+			lnk.id = "wimagecontentlookup-list-more";
+			lnk.href =  'javascript:org.bambuscms.wimagecontentlookup.fetch($(\'wimagecontentlookup-list-count\').value)';
+			lnk.appendChild($t(_('more')));
+			$('WImageContentLookup').appendChild(lnk);
+		}
+		else
+		{
+			html = $('wimagecontentlookup-list');
+			inp = $("wimagecontentlookup-list-count");
+		}
+		$("wimagecontentlookup-list-more").style.display = (respObject.hasMore) ? 'block' : 'none';
 		var items = respObject.items;
+		inp.value = parseInt(inp.value) + 1;		
 		for(var i = 0; i < items.length; i++)
 		{
 			var item = $c('li');
@@ -30,11 +59,9 @@ org.bambuscms.wimagecontentlookup.generateList = function(respObject)
 			item.appendChild(pd);
 			html.appendChild(item);
 		}
-		$('WImageContentLookup').innerHTML = '';
-		$('WImageContentLookup').appendChild(html);
 	}
-}
-org.bambuscms.wimagecontentlookup.fetch = function()
+};
+org.bambuscms.wimagecontentlookup.fetch = function(more)
 {
 	var data = {
 		'controller':org.bambuscms.app.controller,
@@ -44,6 +71,10 @@ org.bambuscms.wimagecontentlookup.fetch = function()
 		'filter':'',
 		'mode':'all'
 	};
+	if(more)
+	{
+		send.page = more;
+	}
 	if($('WImageContentLookupFilter'))
 	{
 		send.filter = $('WImageContentLookupFilter').value;
@@ -59,11 +90,11 @@ org.bambuscms.wimagecontentlookup.fetch = function()
 		org.bambuscms.wimagecontentlookup.generateList,
 		send
 	);
-}
+};
+
 org.bambuscms.autorun.register(function(){
 	if($('WImageContentLookup'))
 	{
-		org.bambuscms.wimagecontentlookup.fetch();
 		org.bambuscms.gui.setEventHandler($('WImageContentLookupFilter'), 'keyup',   org.bambuscms.wimagecontentlookup.fetch);
 		org.bambuscms.gui.setEventHandler($('WImageContentLookupFilter'), 'mouseup', org.bambuscms.wimagecontentlookup.fetch);
 	}
@@ -72,3 +103,4 @@ org.bambuscms.autorun.register(function(){
 		org.bambuscms.gui.setEventHandler($('WImageContentLookupMode'), 'change', org.bambuscms.wimagecontentlookup.fetch);
 	}
 });
+
