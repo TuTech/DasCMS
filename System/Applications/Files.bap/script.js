@@ -19,7 +19,7 @@ function Upload()
 	minput.setAttribute('type','hidden');
 	minput.setAttribute('value','1000000000');
 	var action = 'create'
-	if(is_in_content_mode)
+	if(is_in_content_mode && !org.bambuscms.wopenfiledialog.shown())
 	{
 		var opt = $c('input');
 		opt.setAttribute('type','checkbox');

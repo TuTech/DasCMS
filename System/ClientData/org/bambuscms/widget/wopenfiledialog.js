@@ -1,4 +1,5 @@
 org.bambuscms.wopenfiledialog = {
+	'shown':function(){return ($("WOpenFileDialog")) ? true : false;/*map to bool*/},
 	'linkPrefix':'javascript:alert("',
 	'linkSuffix':'");',
 	'prepareLinks':function(prefix, suffix){
@@ -26,19 +27,22 @@ org.bambuscms.wopenfiledialog = {
 		window.setTimeout('org.bambuscms.wopenfiledialog._show()', 1);
 	},
 	'hide':function(){
-		if($("WOpenFileDialog"))
+		if($("WOpenFileDialog") && org.bambuscms.wopenfiledialog.closable)
 		{
 			document.body.removeChild($("WOpenFileDialog"));
+			return true;//closed
 		}
+		return false;
 	},
 	'toggle':function(){
 		if($("WOpenFileDialog"))
 		{
-			org.bambuscms.wopenfiledialog.hide();
+			return !org.bambuscms.wopenfiledialog.hide();
 		}
 		else
 		{
 			org.bambuscms.wopenfiledialog.show();
+			return true;
 		}
 	},
 	'closable':true,
@@ -161,7 +165,7 @@ org.bambuscms.wopenfiledialog._build = function()
 	{
 		closer = org.bambuscms.gui.element('a', null, {
 			'id':"WOpenFileDialog-closer",
-			'href':'javascript:org.bambuscms.wopenfiledialog.hide();'
+			'href':'javascript:(function(){org.bambuscms.wopenfiledialog.hide();})();'
 		});
 	}
 	var header = org.bambuscms.gui.element('div', closer, {
