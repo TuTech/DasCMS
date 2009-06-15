@@ -69,7 +69,10 @@ class RURL extends BRequest
             $data = array();
             foreach (self::$data as $k => $v) 
             {
-            	$data[mb_convert_encoding($k, $encoding, 'UTF-8')] = mb_convert_encoding($v, $encoding, 'UTF-8');
+                if(!is_array($v))
+                {
+                    $data[mb_convert_encoding($k, $encoding, 'UTF-8')] = mb_convert_encoding($v, $encoding, 'UTF-8');
+                }
             }
             
         }

@@ -28,7 +28,10 @@ class RSent extends BRequest
             {
                 foreach ($_POST as $key => $value) 
                 {
-                    self::$data[$key] = stripslashes($value);
+                    if(!is_array($value))
+                    {
+                        self::$data[$key] = stripslashes($value);
+                    }
                 }
             }
         }
