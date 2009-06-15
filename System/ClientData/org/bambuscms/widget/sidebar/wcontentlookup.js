@@ -63,7 +63,7 @@ org.bambuscms.wcontentlookup.generateList = function(respObject)
 org.bambuscms.wcontentlookup.fetch = function(more)
 {
 	var data = {
-		'controller':org.bambuscms.app.controller,
+		'controller':'org.bambuscms.plugin.contentlookup',
 		'call':'provideContentLookup'
 	};
 	var send = {

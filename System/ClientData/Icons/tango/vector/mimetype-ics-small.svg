@@ -15,7 +15,7 @@
    sodipodi:version="0.32"
    inkscape:version="0.46"
    version="1.0"
-   inkscape:export-filename="/Users/lse/Sites/BambusONE/System/Icons/tango/large/apps/preferences-tree-navigation.png"
+   inkscape:export-filename="/Users/lse/Sites/BambusONE/System/ClientData/Icons/tango/small/mimetypes/ics.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90"
    sodipodi:docname="mimetype-ics-small.svg"
@@ -109,33 +109,45 @@
        x="3.4999998"
        y="2.5" />
     <path
-       style="opacity:0.99460916000000021;fill:url(#linearGradient4785);fill-opacity:1;stroke:#d3d7cf;stroke-width:0.99999994000000003;stroke-linejoin:miter;stroke-miterlimit:18.60000038000000089;stroke-dashoffset:0;stroke-opacity:1"
-       d="M 3.5,2.5 L 18.5,2.5 L 18.5,10.5 C 18.5,10.5 18.050697,16.092611 19.375,17.1875 C 18.178095,18.645907 11,18.5 11,18.5 L 3.5,18.5 L 3.5,2.5 z"
+       style="opacity:0.99460916000000021;fill:url(#linearGradient4785);fill-opacity:1;stroke:#babdb6;stroke-width:0.99999994000000003;stroke-linejoin:miter;stroke-miterlimit:18.60000038000000089;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 3.5,2.5 L 18.5,2.5 C 18.5,2.5 17.901922,8.2398294 18.146447,10.323223 C 18.390971,12.406617 18.492639,15.120339 19.816942,16.215228 C 17.029046,18.734295 8.4367379,18.5 8.4367379,18.5 L 3.5,18.5 L 3.5,2.5 z"
        id="rect3974"
-       sodipodi:nodetypes="ccccccc" />
+       sodipodi:nodetypes="cczcccc" />
     <text
        xml:space="preserve"
-       style="font-size:12.31795311px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       style="font-size:12.31795310999999948px;font-style:normal;font-weight:normal;fill:#212527;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
        x="7.0316138"
-       y="15.090113"
+       y="16.108492"
        id="text3976"
        transform="scale(1.0183795,0.9819522)"><tspan
          sodipodi:role="line"
          id="tspan3978"
          x="7.0316138"
-         y="15.090113"
-         style="font-weight:bold">7</tspan></text>
-    <path
-       style="fill:#babdb6;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 3.6282892,3.375 L 4.2434207,5.25 L 4.9703945,3.5 C 4.9703945,3.5 5.1381577,4.125 5.1381577,4.1875 C 5.1381577,4.25 5.5855261,3.5625 5.5855261,3.5625 C 5.5855261,3.5625 7.0953945,5.0625 7.0953945,5.1875 C 7.0953945,5.3125 7.2631577,4.375 7.2631577,4.375 L 7.2072366,3.4375 L 8.605263,4.4375 C 8.605263,4.4375 9.2203946,3.4375 9.2763156,3.5 C 9.3322367,3.5625 9.6118416,4.8125 9.6118416,4.8125 L 10.786184,3.625 L 10.953947,5.0625 C 10.953947,5.0625 11.289473,6 11.345395,6 C 11.401315,6 12.072369,4.875 12.072369,4.875 L 12.072369,3.6875 C 12.072369,3.6875 12.911184,4 12.911184,4.0625 C 12.911184,4.125 13.023027,5 13.023027,5 L 13.638158,5.3125 L 13.805921,4.625 L 14.141447,3.6875 L 14.309211,5.125 C 14.309211,5.125 14.476973,3.125 14.532895,3.125 C 14.588816,3.125 15.427631,4.75 15.427631,4.75 L 15.986842,3.875 L 16.825658,4.875 L 17.273027,3.9375 L 18,3.625 L 18,1.5625 L 3.5723681,1.875 L 3.6282892,3.375 z"
-       id="path3982"
-       sodipodi:nodetypes="cccscscccscccsccscccccscccccccc" />
+         y="16.108492"
+         style="font-weight:bold;fill:#212527;fill-opacity:1">7</tspan></text>
     <rect
-       style="opacity:0.99460916000000021;fill:#888a85;fill-opacity:1;stroke:#555753;stroke-width:0.99999987999999995;stroke-linejoin:miter;stroke-miterlimit:18.60000038000000089;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="opacity:0.38005391;fill:#888a85;fill-opacity:1;stroke:#2e3436;stroke-width:0.99999987999999995;stroke-linejoin:miter;stroke-miterlimit:18.60000038000000089;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4843"
+       width="19"
+       height="3"
+       x="1.5"
+       y="-4.5"
+       transform="scale(1,-1)" />
+    <rect
+       style="opacity:0.99460916000000021;fill:#c17d11;fill-opacity:1;stroke:#8f5902;stroke-width:0.99999987999999995;stroke-linejoin:miter;stroke-miterlimit:18.60000038000000089;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect3970"
        width="19"
        height="3"
        x="1.5000001"
-       y="0.49999994" />
+       y="-3.5"
+       transform="scale(1,-1)" />
+    <rect
+       style="opacity:0.38005395;fill:#888a85;fill-opacity:1;stroke:#2e3436;stroke-width:0.99999988;stroke-linejoin:miter;stroke-miterlimit:18.60000038;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4845"
+       width="19"
+       height="3"
+       x="1.5"
+       y="-3.5"
+       transform="scale(1,-1)" />
   </g>
 </svg>

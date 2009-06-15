@@ -41,6 +41,7 @@
 	list-style:none;
 	padding: 2px;
 	display:block;
+	overflow: hidden;
 	border-bottom: 1px solid #9fbc4a;
 }
 #WContentLookup li.alt{

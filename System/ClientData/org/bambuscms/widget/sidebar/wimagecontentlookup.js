@@ -64,7 +64,7 @@ org.bambuscms.wimagecontentlookup.generateList = function(respObject)
 org.bambuscms.wimagecontentlookup.fetch = function(more)
 {
 	var data = {
-		'controller':org.bambuscms.app.controller,
+		'controller':'org.bambuscms.plugin.contentlookup',
 		'call':'provideImageContentLookup'
 	};
 	var send = {

@@ -33,10 +33,14 @@ try
     }
     if(RURL::hasValue('controller'))
     {
-        $appCtrlID = RURL::get('controller');
+        $ctrlID = RURL::get('controller');
         $function = RURL::get('call');
-        $controller = BAppController::getControllerForID($appCtrlID);
-        if(RURL::has('edit'))
+        $controller = BObject::InvokeObjectByID($ctrlID);
+        if(!$controller instanceof BAppController && !$controller instanceof IAjaxAPI)
+        {
+            throw new XPermissionDeniedException('controller is not an ajax handler');
+        }
+        if($controller instanceof BAppController && RURL::has('edit'))
         {
             $controller->setTarget(RURL::get('edit', 'utf-8'));
         }
