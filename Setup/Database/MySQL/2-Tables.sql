@@ -267,7 +267,7 @@ EventDates(
 		ENUM('Y', 'N')
 		DEFAULT 'N'
 		NOT NULL,
-	INDEX(contentREL),
+	UNIQUE(contentREL, startDate, endDate),
 	INDEX(startDate, endDate)
 )
 ENGINE = InnoDB 
