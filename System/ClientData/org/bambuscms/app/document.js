@@ -1,6 +1,7 @@
 org.bambuscms.app.document = {};
 org.bambuscms.app.document.editorElementId = 'org_bambuscms_app_document_editorElementId';
 org.bambuscms.app.document.formElementId = 'documentform';
+org.bambuscms.app.document.alias = null;
 
 org.bambuscms.app.document.open = function(){org.bambuscms.wopenfiledialog.toggle()};
 org.bambuscms.app.document.createNew = function(){};

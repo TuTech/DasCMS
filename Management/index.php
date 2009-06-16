@@ -35,6 +35,7 @@ WTemplate::globalSet('TaskBar','');
 WTemplate::globalSet('SideBar','');
 WTemplate::globalSet('OpenDialog','');
 WTemplate::globalSet('ControllerData','');
+WTemplate::globalSet('ContentAlias','');
 WTemplate::globalSet('DocumentFormAction',  SLink::link());
 
 if(PAuthorisation::has('org.bambuscms.login')) //login ok?
@@ -86,6 +87,7 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
                     	'edit' => $controller->getOpenDialogTarget(), 
                     	'_action' => 'save'))
                 );
+                WTemplate::globalSet('ContentAlias',$controller->getOpenDialogTarget());
             }
             else
             {

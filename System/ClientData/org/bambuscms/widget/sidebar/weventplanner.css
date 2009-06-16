@@ -1,0 +1,54 @@
+#WEventPlanner dd label{
+	font-weight:bold;
+	display:block;
+	margin:0px;
+	margin-top:3px;
+}
+
+#WEventPlanner input{
+	display:block;
+	margin: 0px auto 0px auto !important;
+	width:220px;
+}
+
+#WEventPlanner_button{
+	padding:2px;
+	border:1px solid #babdb6;
+	background:#d3d7cf;
+	width:75px;
+	cursor:pointer;
+	margin-top:5px;
+	margin-bottom:5px;
+}
+#WEventPlanner_Events {
+	margin-top:5px;
+	margin-bottom:5px;
+	padding-left: 5px;
+}
+#WEventPlanner_Events div {
+	margin-left:auto;
+	margin-right:auto;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	padding:2px;
+}
+
+#WEventPlanner_Events b{
+	display:block;
+	float:left;
+	width:10px;
+	height:10px;
+	margin:0px;
+	color:white;
+	text-align: center;
+	background: #2e3436;
+}
+#WEventPlanner_Events span{
+	margin-left:20px;
+	display:block;
+	color: #4e9a06;
+}
+
+#WEventPlanner_Events span.wepe_end{
+	color:#cc0000;
+}

@@ -1,6 +1,6 @@
 {Header}
 	<body>
-		<script type="text/javascript">org.bambuscms.app.controller = "{AppGUID}";</script>
+		<script type="text/javascript">org.bambuscms.app.controller = "{AppGUID}";org.bambuscms.app.document.alias = "{ContentAlias}"</script>
 		<div id="BambusHeader">
 			{WApplications}
 			<div id="BambusRightInfo">
