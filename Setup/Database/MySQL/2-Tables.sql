@@ -437,10 +437,13 @@ Locations(
 		UNIQUE,
 	latitude
 		DOUBLE
-		NOT NULL,
+		NULL,
 	longitude
 		DOUBLE
-		NOT NULL,
+		NULL,
+	address
+		VARCHAR(2048)
+		NULL,
 	INDEX(latitude, longitude)
 )
 ENGINE = InnoDB 
