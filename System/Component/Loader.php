@@ -102,7 +102,7 @@ function component_autoload($className)
 	    if($fc == 'Q')
 	    {
 	        $dbEngine = LConfiguration::get('db_engine');
-	        $file = sprintf("./System/Component/%s/Q%s_%s.php", $ComponentMap[$fc], $dbEngine, substr($className,1));
+	        $file = sprintf("./System/Component/%s/%s/%s.php", $ComponentMap[$fc], $dbEngine, $className);
 	        if(file_exists($file))
 	        {
 	            include_once($file);
