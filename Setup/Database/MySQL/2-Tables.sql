@@ -161,7 +161,7 @@ ChangedByUsers(
         AUTO_INCREMENT
         NOT NULL,
     login 
-        VARCHAR(32) 
+        VARCHAR(64) 
         UNIQUE
         NOT NULL
 )
