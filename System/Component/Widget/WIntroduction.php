@@ -50,11 +50,11 @@ class WIntroduction extends BWidget
         }
         if($this->title != null)
         {
-            $html .= sprintf("<h2>%s</h2>\n", htmlentities($this->title, ENT_QUOTES, 'utf-8'));
+            $html .= sprintf("<h2>%s</h2>\n", htmlentities($this->title, ENT_QUOTES, CHARSET));
         }
         if($this->description != null)
         {
-            $html .= sprintf("<p>%s</p>\n", htmlentities($this->description, ENT_QUOTES, 'utf-8'));
+            $html .= sprintf("<p>%s</p>\n", htmlentities($this->description, ENT_QUOTES, CHARSET));
         }
         $html .= '</div>';
         return $html;

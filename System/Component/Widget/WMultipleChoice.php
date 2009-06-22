@@ -69,7 +69,7 @@ class WMultipleChoice extends BWidget
         	case self::SELECT:
         		printf(
     		        "\n<select name=\"%s\" id=\"%s_%s\">"
-					,htmlentities(mb_convert_encoding($this->name, 'UTF-8', 'ISO-8859-1,UTF-8'), ENT_QUOTES, 'UTF-8')
+					,htmlentities(mb_convert_encoding($this->name, CHARSET, 'ISO-8859-1,UTF-8'), ENT_QUOTES, CHARSET)
 					,self::CLASS_NAME
 					,$this->ID
 				);
@@ -79,7 +79,7 @@ class WMultipleChoice extends BWidget
         			    "\n\t<option value=\"%s\"%s>%s</option>"
 						,$this->convent($name)
         			    ,($name == $this->selected && $this->selected !== null) ? ' selected="selected"' : ''
-						,htmlentities(($this->translateTitles ? SLocalization::get($title) : mb_convert_encoding($title, 'UTF-8', 'ISO-8859-1,UTF-8')), ENT_QUOTES, 'UTF-8')
+						,htmlentities(($this->translateTitles ? SLocalization::get($title) : mb_convert_encoding($title, CHARSET, 'ISO-8859-1,UTF-8')), ENT_QUOTES, CHARSET)
 					);
         		}
         		printf("\n</select>");
@@ -125,7 +125,7 @@ class WMultipleChoice extends BWidget
     
     private function convent($str)
     {
-        return htmlentities(mb_convert_encoding($str, 'UTF-8', 'ISO-8859-1,UTF-8'), ENT_QUOTES, 'UTF-8');
+        return htmlentities(mb_convert_encoding($str, CHARSET, 'ISO-8859-1,UTF-8'), ENT_QUOTES, CHARSET);
     }
     
     public function run()

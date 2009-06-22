@@ -226,7 +226,7 @@ class CFile
 	        );
 	    }
         return sprintf(
-            '<div class="CFile" id="_'.htmlentities($this->getGUID(), ENT_QUOTES, 'UTF-8').'">'.
+            '<div class="CFile" id="_'.htmlentities($this->getGUID(), ENT_QUOTES, CHARSET).'">'.
                 (in_array($this->getType(), array('jpg','jpeg','png','gif'))
                     ? '<div class="CFile-preview">'.strval($img).'</div>'
                     : '<div class="CFile-icon">'.$this->getIcon()->asSize(WIcon::LARGE).'</div>'
@@ -246,7 +246,7 @@ class CFile
             ,LConfiguration::get('CFile_download_target_blank') == '1' ? 'target="_blank" ' : ''
             ,LConfiguration::get('wellformed_urls') == '' ? '?get=' : '/'
             ,$this->getAlias()
-            ,htmlentities(LConfiguration::get('CFile_download_text') == '' ? $this->getFileName() : LConfiguration::get('CFile_download_text'),ENT_QUOTES, 'utf-8')
+            ,htmlentities(LConfiguration::get('CFile_download_text') == '' ? $this->getFileName() : LConfiguration::get('CFile_download_text'),ENT_QUOTES, CHARSET)
         );
 	}
 	

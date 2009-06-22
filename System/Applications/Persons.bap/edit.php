@@ -12,8 +12,8 @@ if(isset($User) && $User instanceof CPerson)
 {
     echo new WContentTitle($User);
     printf('<input type="hidden" id="alias" value="%s" /><input type="hidden" id="CP_UID" value="%s" />'
-    	, htmlentities($User->Alias, ENT_QUOTES, 'UTF-8')
-    	, $User->hasLogin() ? htmlentities($User->getLoginName(), ENT_QUOTES, 'UTF-8') : ''
+    	, htmlentities($User->Alias, ENT_QUOTES, CHARSET)
+    	, $User->hasLogin() ? htmlentities($User->getLoginName(), ENT_QUOTES, CHARSET) : ''
     	);
     $inactive = !$User->hasLogin() 
         ? array('R') //user does not have login so remove Revoke action
@@ -31,19 +31,19 @@ if(isset($User) && $User instanceof CPerson)
     ));
     $table->addRow(array(
         sprintf($label, 'title', SLocalization::get('title')),
-        sprintf($input, 'title', 'title', htmlentities($User->getPersonTitle(), ENT_QUOTES, 'UTF-8'))
+        sprintf($input, 'title', 'title', htmlentities($User->getPersonTitle(), ENT_QUOTES, CHARSET))
     ));
     $table->addRow(array(
         sprintf($label, 'first_name', SLocalization::get('first_name')),
-        sprintf($input, 'first_name', 'first_name', htmlentities($User->getFirstName(), ENT_QUOTES, 'UTF-8'))
+        sprintf($input, 'first_name', 'first_name', htmlentities($User->getFirstName(), ENT_QUOTES, CHARSET))
     ));
     $table->addRow(array(
         sprintf($label, 'last_name', SLocalization::get('last_name')),
-        sprintf($input, 'last_name', 'last_name', htmlentities($User->getLastName(), ENT_QUOTES, 'UTF-8'))
+        sprintf($input, 'last_name', 'last_name', htmlentities($User->getLastName(), ENT_QUOTES, CHARSET))
     ));
     $table->addRow(array(
         sprintf($label, 'company', SLocalization::get('company')),
-        sprintf($input, 'company', 'company', htmlentities($User->getCompany(), ENT_QUOTES, 'UTF-8'))
+        sprintf($input, 'company', 'company', htmlentities($User->getCompany(), ENT_QUOTES, CHARSET))
     ));
     echo $table;
 }

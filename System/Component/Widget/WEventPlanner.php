@@ -60,11 +60,11 @@ class WEventPlanner
 	{
 	    echo '<div id="WEventPlanner"><dl>',
 	    '<dt><label>new schedule</label></dt>',
-	    '<dd><label>Von</label>',
-	    '<input type="text" id="WEventPlanner_begin" />',
-	    '<label>Bis</label>',
-	    '<input type="text" id="WEventPlanner_end" />',
-	    '<div id="WEventPlanner_button" onclick="org.bambuscms.weventplanner.scheduleEvent($(\'WEventPlanner_begin\').value, $(\'WEventPlanner_end\').value);">schedule event</div>',
+	    '<dd><dl><dt><label for="WEventPlanner_begin">Von</label></dt>',
+	    '<dd><input type="text" id="WEventPlanner_begin" /></dd>',
+	    '<dt><label for="WEventPlanner_end">Bis</label></dt>',
+	    '<dd><input type="text" id="WEventPlanner_end" /></dd>',
+	    '</dl><div id="WEventPlanner_button" onclick="org.bambuscms.weventplanner.scheduleEvent($(\'WEventPlanner_begin\').value, $(\'WEventPlanner_end\').value);">schedule event</div>',
 	    '</dd><dt><label>scheduled events</label></dt><dd><ul id="WEventPlanner_Events"></ul></dd></dl>',
 	    '</div>';
 	}

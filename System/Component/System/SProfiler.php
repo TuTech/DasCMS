@@ -74,7 +74,7 @@ class SProfiler
     	}
     	ksort($this->profilings);
     	global $_SERVER;
-    	$xml = new SSimpleXMLWriter('utf-8','1.0',true);
+    	$xml = new SSimpleXMLWriter(CHARSET,'1.0',true);
     	$xml->openTag('profile');
     	$xml->openTag('info');
     	$xml->tag('timestamp',array(),date('c'));

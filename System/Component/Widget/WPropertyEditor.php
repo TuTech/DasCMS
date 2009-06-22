@@ -93,7 +93,7 @@ class WPropertyEditor extends BWidget
 			    ,($name)
 			    ,($data[self::ACTIVE] === false) ? 'inactive' : 'active'
 			    ,($name)
-			    ,htmlentities($this->autotranslate ? (SLocalization::get($data[self::TITLE])) : mb_convert_encoding($data[self::TITLE], 'UTF-8', 'ISO-8859-1,UTF-8'), ENT_QUOTES, 'UTF-8')
+			    ,htmlentities($this->autotranslate ? (SLocalization::get($data[self::TITLE])) : mb_convert_encoding($data[self::TITLE], CHARSET, 'ISO-8859-1,UTF-8'), ENT_QUOTES, CHARSET)
 			);
 		}
 		print("
@@ -117,7 +117,7 @@ class WPropertyEditor extends BWidget
 			    ,$i++
 				,$this->ID
 			    ,($name)
-			    ,htmlentities($this->autotranslate ? (SLocalization::get($data[self::TITLE])) : mb_convert_encoding($data[self::TITLE], 'UTF-8', 'ISO-8859-1,UTF-8'), ENT_QUOTES, 'UTF-8')
+			    ,htmlentities($this->autotranslate ? (SLocalization::get($data[self::TITLE])) : mb_convert_encoding($data[self::TITLE], CHARSET, 'ISO-8859-1,UTF-8'), ENT_QUOTES, CHARSET)
 			);
 			if($data[self::ACTIVE] !== null)
 			{

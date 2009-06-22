@@ -64,7 +64,7 @@ class WApplications extends BWidget
 		foreach ($sortHelp as $app => $sortHelp) 
 		{
 		    $meta = $this->apps[$app];
-			$name = htmlentities(SLocalization::get($meta['name']), ENT_QUOTES, 'UTF-8');
+			$name = htmlentities(SLocalization::get($meta['name']), ENT_QUOTES, CHARSET);
 			$html .= sprintf(
 				"\t<td><a href=\"Management/?editor=%s\" onmousedown=\"return false;\" class=\"application%s\">\n".
 					"\t\t<img src=\"%s\" alt=\"%s\" />\n".
@@ -73,7 +73,7 @@ class WApplications extends BWidget
 					"\t\t\t<span class=\"application-description\">%s</span>\n".
 					"\t\t</span>\n".
 					"\t</a></td>\n"
-				,htmlentities($app, ENT_QUOTES, 'UTF-8')
+				,htmlentities($app, ENT_QUOTES, CHARSET)
 				,($meta['active']) ? ' active' : ''
 				,$this->selectIcon($meta['icon'], $meta['active'])
 				,$name

@@ -6,9 +6,10 @@
 * Description: Handles all AJAX requests and redirects them to the Application AJAX-handler
 * Version      0.9.0
 ************************************************/
-header('Content-Type: text/html; charset=utf-8');
-//load the mighty bambus
 chdir('..');
+require_once('./System/Component/Loader.php');
+header('Content-Type: text/html; charset='.CHARSET);
+//load the mighty bambus
 if(!defined('ERROR_TEMPLATE'))
 {
     define('ERROR_TEMPLATE', 
@@ -22,7 +23,6 @@ if(!defined('ERROR_TEMPLATE'))
 	"cwd":"%s"
 }');
 }
-require_once('./System/Component/Loader.php');
 RSession::start();
 PAuthentication::required();
 try
@@ -42,7 +42,7 @@ try
         }
         if($controller instanceof BAppController && RURL::has('edit'))
         {
-            $controller->setTarget(RURL::get('edit', 'utf-8'));
+            $controller->setTarget(RURL::get('edit', CHARSET));
         }
         if(method_exists($controller, $function))
         {

@@ -172,9 +172,9 @@ class WContentGeoAttribute extends BWidget
             $out .= sprintf("\n\t<span class=\"WCGA-Name\">%s</span>\n\t".
             				"<span class=\"WCGA-Latitude\">%s</span>\n\t".
             				"<span class=\"WCGA-Longitude\">%s</span>\n"
-            	,htmlentities($this->name, ENT_QUOTES, 'UTF-8')
-            	,htmlentities($this->latitude, ENT_QUOTES, 'UTF-8')
-            	,htmlentities($this->longitude, ENT_QUOTES, 'UTF-8')
+            	,htmlentities($this->name, ENT_QUOTES, CHARSET)
+            	,htmlentities($this->latitude, ENT_QUOTES, CHARSET)
+            	,htmlentities($this->longitude, ENT_QUOTES, CHARSET)
         	);
         }
         $out .= "</div>";

@@ -270,9 +270,9 @@ class WImage extends BWidget
             ,empty($this->content) ? $this->alias : $this->content->getAlias()
             ,$this->scaleHash
             ,($this->isPreviewImage ? ' class="PreviewImage"' : '')
-            ,htmlentities(empty($this->content) ? $this->title : $this->content->getTitle(), ENT_QUOTES, 'UTF-8')
-            ,htmlentities(empty($this->content) ? $this->title : $this->content->getTitle(), ENT_QUOTES, 'UTF-8')
-            ,($this->cssID != null) ? 'id="'.htmlentities($this->cssID, ENT_QUOTES, 'utf-8').'" ' : ''
+            ,htmlentities(empty($this->content) ? $this->title : $this->content->getTitle(), ENT_QUOTES, CHARSET)
+            ,htmlentities(empty($this->content) ? $this->title : $this->content->getTitle(), ENT_QUOTES, CHARSET)
+            ,($this->cssID != null) ? 'id="'.htmlentities($this->cssID, ENT_QUOTES, CHARSET).'" ' : ''
         );
     }
 }

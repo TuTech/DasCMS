@@ -25,7 +25,7 @@ $SUsersAndGroups = SUsersAndGroups::getSharedInstance();
 if($edit_mode == 'usr')
 {    
     $intro = new WIntroduction();
-    $intro->setTitle(mb_convert_encoding($victim, 'utf-8', 'iso-8859-1'), false);
+    $intro->setTitle(mb_convert_encoding($victim, CHARSET, 'iso-8859-1'), false);
     $intro->setIcon('mimetype-user');
     echo $intro;
     //group assignment
@@ -131,7 +131,7 @@ else
 /////////////////////
 
     $intro = new WIntroduction();
-    $intro->setTitle(mb_convert_encoding($victim, 'utf-8', 'iso-8859-1'), false);
+    $intro->setTitle(mb_convert_encoding($victim, CHARSET, 'iso-8859-1'), false);
     $intro->setIcon('mimetype-group');
     $intro->setDescription(htmlentities($SUsersAndGroups->getGroupDescription($victim)), false);
     echo $intro;

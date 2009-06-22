@@ -52,8 +52,8 @@ class WTagPermissions extends BWidget implements ISidebarWidget
 	    //DO SAVE
 	    if(RSent::hasValue('WTagPermissions_target'))
 	    {
-	        $name = RSent::get('WTagPermissions_target', 'utf-8');
-	        $type = RSent::get('WTagPermissions_type', 'utf-8');
+	        $name = RSent::get('WTagPermissions_target', CHARSET);
+	        $type = RSent::get('WTagPermissions_type', CHARSET);
 	        $tags = STagPermissions::getProtectedTags();
 	        $setTags = array();
 	        foreach ($tags as $tag) 
@@ -93,7 +93,7 @@ class WTagPermissions extends BWidget implements ISidebarWidget
 		    $wt->addRow(
 		        array(
 		            sprintf("<input type=\"checkbox\" %sname=\"WTagPermissions_%s\" id=\"WTagPermissions_%s\" />", $check, $chksum, $chksum),
-		            sprintf("<label for=\"WTagPermissions_%s\">%s</label>", $chksum, htmlentities($tag, ENT_QUOTES, 'UTF-8'))
+		            sprintf("<label for=\"WTagPermissions_%s\">%s</label>", $chksum, htmlentities($tag, ENT_QUOTES, CHARSET))
 		        )
 		    );
 		}

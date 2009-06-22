@@ -45,8 +45,8 @@ class WSettings extends BWidget implements ISidebarWidget
 		$this->targetObject = $sidepanel->getTarget();
 		if(RSent::has('WSearch-Tags'))
 		{
-			$tagstr = RSent::get('WSearch-Tags', 'utf-8');
-			$chk = RSent::get('WSearch-Tags-chk', 'utf-8');
+			$tagstr = RSent::get('WSearch-Tags', CHARSET);
+			$chk = RSent::get('WSearch-Tags-chk', CHARSET);
 			if($chk != md5($tagstr)) 
 			{
 				$this->targetObject->Tags = $tagstr;
@@ -61,14 +61,14 @@ class WSettings extends BWidget implements ISidebarWidget
 				$this->targetObject->PubDate = $dat;
 			}
 		}
-		$desc = RSent::get('WSearch-Desc', 'utf-8');
+		$desc = RSent::get('WSearch-Desc', CHARSET);
 		if(RSent::has('WSearch-Desc') && $desc != $this->targetObject->Description)
 		{
 			$this->targetObject->Description = $desc;
 		}
 		if(RSent::has('WSearch-PreviewImage-Alias'))
 		{
-		    $prevAlias = RSent::get('WSearch-PreviewImage-Alias', 'utf-8');
+		    $prevAlias = RSent::get('WSearch-PreviewImage-Alias', CHARSET);
 		    $this->targetObject->PreviewImage = $prevAlias;
 		}
 		if(RSent::has('WSearch-sent'))
@@ -103,7 +103,7 @@ class WSettings extends BWidget implements ISidebarWidget
 		//preview
 		if($alias !== null)
 		{
-		    $html .= sprintf('<input type="hidden" name="WSearch-PreviewImage-Alias" id="WSearch-PreviewImage-Alias" value="%s" />', htmlentities($alias, ENT_QUOTES, 'utf-8'));
+		    $html .= sprintf('<input type="hidden" name="WSearch-PreviewImage-Alias" id="WSearch-PreviewImage-Alias" value="%s" />', htmlentities($alias, ENT_QUOTES, CHARSET));
 		}
 		//tags changed?		
 		$html .= sprintf('<input type="hidden" class="hidden" name="WSearch-Tags-chk" value="%s" />', md5($tagstr));
@@ -126,12 +126,12 @@ class WSettings extends BWidget implements ISidebarWidget
 		);
 		$Items->add(   
 		    sprintf("<label for=\"WSearch-Tags\">%s</label>", SLocalization::get('tags')),
-		    sprintf('<textarea id="WSearch-Tags" name="WSearch-Tags">%s</textarea>', htmlentities($tagstr, ENT_QUOTES, 'utf-8'))
+		    sprintf('<textarea id="WSearch-Tags" name="WSearch-Tags">%s</textarea>', htmlentities($tagstr, ENT_QUOTES, CHARSET))
 	    );
 		
 		$Items->add(   
 		    sprintf("<label for=\"WSearch-Desc\">%s</label>", SLocalization::get('description')),
-		    sprintf('<textarea id="WSearch-Desc" name="WSearch-Desc">%s</textarea>', htmlentities($this->targetObject->Description, ENT_QUOTES, 'utf-8'))
+		    sprintf('<textarea id="WSearch-Desc" name="WSearch-Desc">%s</textarea>', htmlentities($this->targetObject->Description, ENT_QUOTES, CHARSET))
 	    );
 	    $si_on = true;
 	    $si_changeable = false;
@@ -169,7 +169,7 @@ class WSettings extends BWidget implements ISidebarWidget
 //		        }
 //		        else
 //		        {
-//		            $val = htmlentities($this->targetObject->{$key}, ENT_QUOTES, 'UTF-8');
+//		            $val = htmlentities($this->targetObject->{$key}, ENT_QUOTES, CHARSET);
 //		        }
 //		    }
 //		    $MetaItems->add($name, $val);

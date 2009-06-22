@@ -8,7 +8,7 @@
 
 chdir('..');
 require_once('./System/Component/Loader.php');
-WHeader::httpHeader('Content-Type: text/html; charset=utf-8');
+WHeader::httpHeader('Content-Type: text/html; charset='.CHARSET);
 
 RSession::start();
 //you want to go? ok!
@@ -71,13 +71,13 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
             //target from url
             if(RURL::has('edit'))
             {
-                $controller->setTarget(RURL::get('edit', 'utf-8'));
+                $controller->setTarget(RURL::get('edit', CHARSET));
             }
             //execute function call
             BAppController::callController(
                 $controller, 
                 RURL::get('_action'), 
-                RSent::data('UTF-8')
+                RSent::data(CHARSET)
             );
             if ($controller instanceof ISupportsOpenDialog) 
             {

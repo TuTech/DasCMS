@@ -173,7 +173,7 @@ class SApplication
     
     private function loadApplicationData($appXML)
     {
-        $dom = new DOMDocument('1.0', 'utf-8');
+        $dom = new DOMDocument('1.0', CHARSET);
         $dom->load($appXML);
         $dom->validate();
         $xp = new DOMXPath($dom);

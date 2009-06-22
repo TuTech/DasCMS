@@ -143,7 +143,7 @@ class CTextBrick
 		$this->RAWContent = $value;
 		$this->Content = $this->generateHTML($this->RAWContent);
 		$len = 420;
-		$desc = (mb_strlen($value,'UTF-8') > $len) ? mb_substr($value,0,$len,'UTF-8').'...' : $value;
+		$desc = (mb_strlen($value,CHARSET) > $len) ? mb_substr($value,0,$len,CHARSET).'...' : $value;
 		$this->Description = $this->generateHTML($desc);
 	}
 	

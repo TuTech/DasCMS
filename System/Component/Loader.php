@@ -24,6 +24,10 @@ if(!defined('BAMBUS_CMS_ROOTDIR'))
 if(!defined('BAMBUS_EXEC_START'))
     define ('BAMBUS_EXEC_START', microtime(true));
 
+if(!defined('CHARSET'))
+    define ('CHARSET', 'UTF-8');
+    
+    
 function __autoload($class)
 {
     $cwd = getcwd();

@@ -36,10 +36,10 @@ foreach ($sorted as $section => $loc)
             switch ($type)
             {
                 case AConfiguration::TYPE_TEXT:
-                    $str = sprintf($fullinput, 'text', $key, $key, htmlentities($value, ENT_QUOTES, 'UTF-8'));
+                    $str = sprintf($fullinput, 'text', $key, $key, htmlentities($value, ENT_QUOTES, CHARSET));
                     break;
                 case AConfiguration::TYPE_PASSWORD:
-                    $str = sprintf($fullinput, 'password', $key, $key, htmlentities($value, ENT_QUOTES, 'UTF-8'));
+                    $str = sprintf($fullinput, 'password', $key, $key, htmlentities($value, ENT_QUOTES, CHARSET));
                     break;
                 case AConfiguration::TYPE_CHECKBOX:
                     $str = sprintf(
@@ -57,9 +57,9 @@ foreach ($sorted as $section => $loc)
                         foreach ($options as $title => $opt)
                         {
                             $str .= sprintf("\t<option value=\"%s\"%s>%s</option>\n" 
-                                ,htmlentities($opt, ENT_QUOTES, 'UTF-8')
+                                ,htmlentities($opt, ENT_QUOTES, CHARSET)
                                 ,$opt == $value ? ' selected="selected"' : ''
-                                ,htmlentities((is_int($title) ? $opt : $title), ENT_QUOTES, 'UTF-8')
+                                ,htmlentities((is_int($title) ? $opt : $title), ENT_QUOTES, CHARSET)
                             );
                         }
                     }

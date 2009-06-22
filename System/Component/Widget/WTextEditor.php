@@ -83,7 +83,7 @@ class WTextEditor extends BWidget
         	$hidinp
         	,$sp
         	,$sp
-        	,$this->encode(RSent::get($sp, 'utf-8'))
+        	,$this->encode(RSent::get($sp, CHARSET))
         );
         //textarea
         $out .= sprintf(
@@ -120,7 +120,7 @@ class WTextEditor extends BWidget
 	
 	private function encode($string)
 	{
-	    return htmlentities(mb_convert_encoding($string, 'UTF-8', 'UTF-8,ISO-8859-1'), ENT_QUOTES, 'UTF-8');
+	    return htmlentities(mb_convert_encoding($string, CHARSET, 'UTF-8,ISO-8859-1'), ENT_QUOTES, CHARSET);
 	}
 
 	public function render()

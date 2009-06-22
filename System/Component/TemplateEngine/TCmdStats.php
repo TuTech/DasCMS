@@ -34,7 +34,7 @@ class TCmdStats
     
     private function encode($val)
     {
-        return htmlentities(mb_convert_encoding($val,'UTF-8','iso-8859-1,utf-8,auto'), ENT_QUOTES, 'UTF-8');
+        return htmlentities(mb_convert_encoding($val,CHARSET,'iso-8859-1,utf-8,auto'), ENT_QUOTES, CHARSET);
     }
     
     public function tearDown()

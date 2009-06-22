@@ -35,7 +35,7 @@ class WIcon extends BWidget
             $this->type = $type;
         }
         $this->icon = $icon;
-        $this->text = mb_convert_encoding($text, 'UTF-8');
+        $this->text = mb_convert_encoding($text, CHARSET);
         $this->setSize($size);
     }
     
@@ -126,8 +126,8 @@ class WIcon extends BWidget
         return sprintf(
             "<img src=\"%s\" alt=\"%s\" title=\"%s\" />"
             ,$this->getPath()
-            ,htmlentities($this->text, ENT_QUOTES, 'UTF-8')
-            ,htmlentities($this->text, ENT_QUOTES, 'UTF-8')
+            ,htmlentities($this->text, ENT_QUOTES, CHARSET)
+            ,htmlentities($this->text, ENT_QUOTES, CHARSET)
         );
     }
 }

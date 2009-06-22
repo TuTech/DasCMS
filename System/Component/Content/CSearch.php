@@ -113,7 +113,7 @@ class CSearch
     	    {
     	        $link = $iqo->buildParameterName('_q');
     	        $open = $iqo->buildParameterName('_open');
-    	        $value = $iqo->GetParameter('q', 'UTF-8');
+    	        $value = $iqo->GetParameter('q', CHARSET);
     	        //link to self and tell us to open this page
     	        $link = SLink::link(array(
 	                $link => $value,
@@ -154,7 +154,7 @@ class CSearch
     	    if($iqo != null && $iqo instanceof VSpore)
     	    {
     	        //have something to open?
-        	    $open = $iqo->GetParameter('open', 'UTF-8');
+        	    $open = $iqo->GetParameter('open', CHARSET);
         	    if(!empty($open) && BContent::contentExists($open))
         	    {
         	        //link this query to the doc to open
@@ -163,11 +163,11 @@ class CSearch
         	    }
                 $link = $iqo->buildParameterName('_q');
                 $pageLink = $iqo->buildParameterName('_page');
-                $value = $iqo->GetParameter('q', 'UTF-8');
-                $page = intval($iqo->GetParameter('page', 'UTF-8'));
+                $value = $iqo->GetParameter('q', CHARSET);
+                $page = intval($iqo->GetParameter('page', CHARSET));
                 $page = max(1, $page);
                 
-              //  $value = RURL::get($link, 'UTF-8');//. isset($_GET[$link]) ? $_GET[$link] : '';
+              //  $value = RURL::get($link, CHARSET);//. isset($_GET[$link]) ? $_GET[$link] : '';
             }
 	    }
 	    catch (Exception $e)
@@ -264,14 +264,14 @@ class CSearch
 	            "</form>\n"
 	            ,$formtarget
 	            ,$formname
-	            ,htmlentities($formvalue, ENT_QUOTES, 'utf-8')
-	            ,htmlentities($this->captions[self::FORM][$mode], ENT_QUOTES, 'utf-8')
+	            ,htmlentities($formvalue, ENT_QUOTES, CHARSET)
+	            ,htmlentities($this->captions[self::FORM][$mode], ENT_QUOTES, CHARSET)
             );
 	    }
 	    //overview
 	    if($this->modes[self::OVERVIEW] & $mode)
 	    {
-	        $control .= '<span class="pageno">'.htmlentities($this->captions[self::OVERVIEW][$mode], ENT_QUOTES, 'utf-8').$pagenr.'</span>';
+	        $control .= '<span class="pageno">'.htmlentities($this->captions[self::OVERVIEW][$mode], ENT_QUOTES, CHARSET).$pagenr.'</span>';
 	    }
 	    return $control.'</div>';
 	}
@@ -282,7 +282,7 @@ class CSearch
             ' <a class="%s" href="%s">%s</a> '
             ,$option == self::NEXT ? 'nextlink' : 'prevlink' 
         	,$url
-        	,htmlentities($this->captions[$option][$mode], ENT_QUOTES, 'utf-8')
+        	,htmlentities($this->captions[$option][$mode], ENT_QUOTES, CHARSET)
     	);
 	}
 	
@@ -426,8 +426,8 @@ class CSearch
 	 */
 	public function getFeedItemAliases()
 	{
-	    $q = RURL::get('q', 'utf-8');
-	    $this->Title .= ': '.htmlentities($q, ENT_QUOTES, 'utf-8');
+	    $q = RURL::get('q', CHARSET);
+	    $this->Title .= ': '.htmlentities($q, ENT_QUOTES, CHARSET);
 	    $f = SSearchIndexer::extractFeatures($q);
         $features = array();
         $aliases = array();
@@ -462,7 +462,7 @@ class CSearch
     	    if($iqo != null && $iqo instanceof VSpore)
     	    {
     	        //have something to open?
-                $value = $iqo->GetParameter('q', 'UTF-8');
+                $value = $iqo->GetParameter('q', CHARSET);
             }
 	    }
 	    catch (Exception $e)
@@ -473,7 +473,7 @@ class CSearch
 	        	'%s%s/%s?q=%s', 
 	            SLink::base(), 
 	            IGeneratesFeed::FEED_ACCESSOR, 
-	            htmlentities($this->getAlias(), ENT_QUOTES, 'utf-8'), 
+	            htmlentities($this->getAlias(), ENT_QUOTES, CHARSET), 
 	            urlencode($value)
 	        );
 	    }

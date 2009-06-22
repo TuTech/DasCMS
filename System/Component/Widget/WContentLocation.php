@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage Widget
  */
-class WContentLocation extends BWidget //implements ISidebarWidget 
+class WContentLocation extends BWidget implements ISidebarWidget 
 {
 	private $targetObject = null;
 	/**
@@ -33,7 +33,7 @@ class WContentLocation extends BWidget //implements ISidebarWidget
 	
 	public function getIcon()
 	{
-	    return new WIcon('worldmap','',WIcon::SMALL,'mimetype');
+	    return new WIcon('locate','',WIcon::SMALL,'action');
 	}
 	
 	public function processInputs()
@@ -55,13 +55,19 @@ class WContentLocation extends BWidget //implements ISidebarWidget
 	
 	public function render()
 	{
-	    echo '<div id="WContentLocation">';
-	    echo '</div>';
+	    $alias = '';
+	    $res = QULocations::getContentLocation($this->targetObject->getAlias());
+	    if($res->getRowCount())
+	    {
+	        list($alias) = $res->fetch();
+	    }
+	    $res->free();
+	    echo '<div id="WContentLocation"><input type="hidden" name="WContentLocation" value="'.htmlentities($alias, ENT_QUOTES, CHARSET).'" /></div>';
 	}
 	
 	public function associatedJSObject()
 	{
-	    return null;
+	    return 'org.bambuscms.wcontentlocation';
 	}
 }
 ?>

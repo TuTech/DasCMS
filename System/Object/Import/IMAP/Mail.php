@@ -68,8 +68,8 @@ class Import_IMAP_Mail extends _Import_IMAP
 //        echo '<hr><pre>';
 //        echo $text;
 //        echo '</pre><hr>';
-        $this->subject = mb_convert_encoding($subject, 'UTF-8',"utf-8, auto");
-        $text = mb_convert_encoding($text, 'UTF-8',"utf-8, auto");
+        $this->subject = mb_convert_encoding($subject, CHARSET,"utf-8, auto");
+        $text = mb_convert_encoding($text, CHARSET,"utf-8, auto");
         $orig = $text;
         $text = preg_replace('/=(\r\n|\r|\n)/misu', '', $text);
         
@@ -103,7 +103,7 @@ class Import_IMAP_Mail extends _Import_IMAP
             foreach($lines as $line)
             {
                 preg_match('/^([>]*)(.*)$/miu', $line, $match);
-                $q = mb_strlen($match[1], 'utf-8');
+                $q = mb_strlen($match[1], CHARSET);
                 $line = $match[2]."\n";
                 $str = '';
                 if($q > $quoteLvl)

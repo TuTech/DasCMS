@@ -26,7 +26,7 @@ class TCompiler extends BTemplate
      */
     public function __construct($template, $source)
     {
-        $this->template = new DOMDocument('1.0', 'utf-8');
+        $this->template = new DOMDocument('1.0', CHARSET);
         $this->template->strictErrorChecking = true;
         $this->source = ($source == parent::SYSTEM) ? (parent::SYSTEM) : (parent::CONTENT);
         $this->templateName = $template;

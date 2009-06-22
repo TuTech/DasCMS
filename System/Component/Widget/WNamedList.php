@@ -51,7 +51,7 @@ class WNamedList extends BWidget
 	
 	private function encode($string)
 	{
-	    return htmlentities(mb_convert_encoding($string, 'UTF-8', 'ISO-8859-1,UTF-8'), ENT_QUOTES, 'UTF-8');
+	    return htmlentities(mb_convert_encoding($string, CHARSET, 'ISO-8859-1,UTF-8'), ENT_QUOTES, CHARSET);
 	}
 
 	public function render()

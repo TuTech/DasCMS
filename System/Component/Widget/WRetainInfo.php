@@ -81,8 +81,8 @@ class WRetainInfo extends BWidget implements ISidebarWidget
     	        printf(
     	        	"<dd class=\"small-padding%s\" title=\"%s\">%s</dd>"
     	        	,($i++%2 ? '':  ' alt')
-    	            ,htmlentities($alias, ENT_QUOTES, 'utf-8')
-    	        	,htmlentities($title, ENT_QUOTES, 'utf-8')
+    	            ,htmlentities($alias, ENT_QUOTES, CHARSET)
+    	        	,htmlentities($title, ENT_QUOTES, CHARSET)
     	        	);
     	    }
     	    echo '</dl></dd></dl>';

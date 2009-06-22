@@ -104,7 +104,7 @@ class WApplicationTaskBar
         {
             $action = sprintf(
             	"if(confirm(_('%s'))){%s}"
-            	,htmlentities($atts['confirm'], ENT_QUOTES, 'utf-8')
+            	,htmlentities($atts['confirm'], ENT_QUOTES, CHARSET)
             	,$action
             );
         }

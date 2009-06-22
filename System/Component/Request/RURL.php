@@ -64,14 +64,14 @@ class RURL extends BRequest
     {
         self::init();
         $data = self::$data;
-        if(strtoupper($encoding) != 'UTF-8')
+        if(strtoupper($encoding) != CHARSET)
         {
             $data = array();
             foreach (self::$data as $k => $v) 
             {
                 if(!is_array($v))
                 {
-                    $data[mb_convert_encoding($k, $encoding, 'UTF-8')] = mb_convert_encoding($v, $encoding, 'UTF-8');
+                    $data[mb_convert_encoding($k, $encoding, CHARSET)] = mb_convert_encoding($v, $encoding, CHARSET);
                 }
             }
             
@@ -87,13 +87,13 @@ class RURL extends BRequest
         {
             $ret = self::$data[$key];
         }
-        return mb_convert_encoding($ret, $encoding, 'UTF-8');
+        return mb_convert_encoding($ret, $encoding, CHARSET);
     }
     
     public static function alter($key, $value, $encoding = "ISO-8859-15")
     {
         self::init();
-        self::$data[$key] = mb_convert_encoding($value, 'UTF-8', $encoding);
+        self::$data[$key] = mb_convert_encoding($value, CHARSET, $encoding);
     }
 }
 ?>

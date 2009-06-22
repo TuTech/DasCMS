@@ -49,11 +49,11 @@ class RSent extends BRequest
         {
             return utf8_decode($ret);
         }
-        if(strtolower($encoding) == 'utf-8')
+        if(strtolower($encoding) == CHARSET)
         {
             return $ret;
         }
-        return mb_convert_encoding($ret, $encoding, 'UTF-8');
+        return mb_convert_encoding($ret, $encoding, CHARSET);
     }
     
     public static function has($key)
@@ -71,19 +71,19 @@ class RSent extends BRequest
     public static function alter($key, $value, $encoding = "ISO-8859-15")
     {
         self::init();
-        self::$data[$key] = mb_convert_encoding($value, 'UTF-8', $encoding);
+        self::$data[$key] = mb_convert_encoding($value, CHARSET, $encoding);
     }
     
     public static function data($encoding = "ISO-8859-15")
     {
         self::init();
         $data = self::$data;
-        if(strtoupper($encoding) != 'UTF-8')
+        if(strtoupper($encoding) != CHARSET)
         {
             $data = array();
             foreach (self::$data as $k => $v) 
             {
-                $data[mb_convert_encoding($k, $encoding, 'UTF-8')] = mb_convert_encoding($v, $encoding, 'UTF-8');
+                $data[mb_convert_encoding($k, $encoding, CHARSET)] = mb_convert_encoding($v, $encoding, CHARSET);
             }
             
         }

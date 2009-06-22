@@ -29,7 +29,7 @@ class SSimpleXMLWriter
 	 * @param bool $standAlone does not need dtd
 	 */
 	private $depth = 0;
-	public function __construct($encoding = 'UTF-8', $version = '1.0', $standAlone = false)
+	public function __construct($encoding = CHARSET, $version = '1.0', $standAlone = false)
 	{
 		$this->nameSpace[0] = null;
 		$this->encoding = $encoding;
@@ -37,7 +37,7 @@ class SSimpleXMLWriter
 		$this->standAlone = empty($standAlone) ? 'no' : 'yes';
 	}
 	
-	public function setInputEncoding($encoding = 'UTF-8')
+	public function setInputEncoding($encoding = CHARSET)
 	{
 	    $this->inputEncoding = $encoding;
 	}

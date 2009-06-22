@@ -174,7 +174,7 @@ class NTreeNavigation
     		}
     		$navigation = sprintf(
     			"\n<div id=\"Navigation-%s\">\n%s</div>\n"
-    		    ,htmlentities($NavigationName, ENT_QUOTES, 'utf-8')
+    		    ,htmlentities($NavigationName, ENT_QUOTES, CHARSET)
     		    ,strval($navigation)
 		    );
     	}

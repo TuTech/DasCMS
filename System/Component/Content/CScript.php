@@ -177,7 +177,7 @@ class CScript
 	
 	protected function generateHTML($text)
 	{
-        $text = htmlentities($text, ENT_QUOTES, 'UTF-8');
+        $text = htmlentities($text, ENT_QUOTES, CHARSET);
         $text = str_replace("\t", '    ', $text);
         $text = preg_replace("(\r\n|\r|\n)", "\t", $text);
         $r =

@@ -177,7 +177,7 @@ class CStylesheet
 	
 	protected function generateHTML($text)
 	{
-        $text = htmlentities($text, ENT_QUOTES, 'UTF-8');
+        $text = htmlentities($text, ENT_QUOTES, CHARSET);
         $text = str_replace("\t", '    ', $text);
         $text = preg_replace("(\r\n|\r|\n)", "\t", $text);
         $text = preg_replace('/(^|})(.*?)({)/mui', '\\1<b>\\2</b>\\3', $text);
@@ -200,7 +200,7 @@ class CStylesheet
 	public static function sendHeaderService($embedGUID, EWillSendHeadersEvent $e)
 	{
 	    $url = 'file.php?get='.$embedGUID;
-	    $e->getHeader()->addLink('utf-8',$url,null,'text/css',null,'stylesheet',null,'all');
+	    $e->getHeader()->addLink(CHARSET,$url,null,'text/css',null,'stylesheet',null,'all');
 	}
 	
 	//IFileContent

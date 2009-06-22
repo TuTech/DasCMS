@@ -41,10 +41,10 @@ class SSearchIndexer
     public static function extractFeatures($text)
     {
         $text = strtolower(strip_tags($text));
-        $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
+        $text = html_entity_decode($text, ENT_QUOTES, CHARSET);
         $text = preg_replace('/[\s\_\-\/]+/mui', ' ', $text);
         $text = str_replace(';', ' ', $text);
-        $text = htmlentities($text, ENT_NOQUOTES, 'UTF-8');
+        $text = htmlentities($text, ENT_NOQUOTES, CHARSET);
         $text = str_replace('&', '', $text);
         $text = str_replace(';', '', $text);
         $words = preg_split('/\b/mui',$text);

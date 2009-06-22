@@ -152,8 +152,8 @@ class WTemplate extends BWidget
         }
         foreach($data as $key => $value)
         {
-            $value = mb_convert_encoding(strval($value), "UTF-8", "auto");
-            $string = str_replace('{{'.$key.'}}', htmlentities($value, ENT_QUOTES, 'UTF-8'), $string);
+            $value = mb_convert_encoding(strval($value), CHARSET, "auto");
+            $string = str_replace('{{'.$key.'}}', htmlentities($value, ENT_QUOTES, CHARSET), $string);
             $string = str_replace('{'.$key.'}', $value, $string);
         }
         return $string;

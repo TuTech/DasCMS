@@ -32,7 +32,7 @@ class TCmdURL
     
     public function setUp(array $environment)
     {
-        $this->val = strval(RURL::get($this->request, 'UTF-8'));
+        $this->val = strval(RURL::get($this->request, CHARSET));
     }
     
     public function run(array $environment)

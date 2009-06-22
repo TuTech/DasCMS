@@ -2,7 +2,7 @@
 chdir('..');
 require_once('./System/Component/Loader.php');
 $cache_1Day = 86400;
-header('Content-Type: text/javascript; charset=utf-8');
+header('Content-Type: text/javascript; charset='.CHARSET);
 header("Expires: ".date('r', time()+$cache_1Day));
 header("Cache-Control: max-age=".$cache_1Day.", public");
 $allTrans = SLocalization::all();

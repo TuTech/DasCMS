@@ -59,7 +59,7 @@ class WPersonUserSettings extends BWidget implements ISidebarWidget
 		{
 		    $Items->add(
 		        sprintf("<label>%s</label>", SLocalization::get('login_name')),
-		        '<h4>'.htmlentities($this->targetObject->getLoginName(), ENT_QUOTES, 'UTF-8').'</h4>'
+		        '<h4>'.htmlentities($this->targetObject->getLoginName(), ENT_QUOTES, CHARSET).'</h4>'
 		    );
 		}
 		$Items->add(

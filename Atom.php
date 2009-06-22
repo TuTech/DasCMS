@@ -27,7 +27,7 @@ if(!empty($_SERVER['PATH_INFO']))
                 }
                 catch (Exception $e){/*does not matter*/}
             }
-            $doc = new DOMDocument('1.0', 'utf-8');
+            $doc = new DOMDocument('1.0', CHARSET);
             $doc->appendChild($p->toXML($doc, 'feed'));
             $doc->formatOutput = true;
             echo $doc->saveXML();

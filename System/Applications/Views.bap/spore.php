@@ -94,7 +94,7 @@ if(count($spores) > 0)
 		}
 		
 		$check = ($data[VSpore::ACTIVE]) ? ' checked="checked"' : '';
-		$outSpore = htmlentities($spore, ENT_QUOTES, 'utf-8');
+		$outSpore = htmlentities($spore, ENT_QUOTES, CHARSET);
 		
 		$tbl->addRow(array(
             $cell1TPL->renderString(array('spore' => $outSpore)),

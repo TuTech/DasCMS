@@ -35,7 +35,7 @@ class TCmdText
     
     public function run(array $environment)
     {
-        return mb_convert_encoding($this->val,'UTF-8','iso-8859-1,utf-8,auto');
+        return mb_convert_encoding($this->val,CHARSET,'iso-8859-1,utf-8,auto');
     }
     
     public function tearDown()

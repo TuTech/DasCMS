@@ -86,7 +86,7 @@ class WInformation extends BWidget implements ISidebarWidget
     		        }
     		        else
     		        {
-    		            $val = htmlentities(wordwrap($this->targetObject->{$key},15,'<wbr />',true), ENT_QUOTES, 'UTF-8');
+    		            $val = htmlentities(wordwrap($this->targetObject->{$key},15,'<wbr />',true), ENT_QUOTES, CHARSET);
     		            $val = str_replace('&lt;wbr /&gt;', '<wbr />', $val);
     		        }
     		    }

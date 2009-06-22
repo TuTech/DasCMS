@@ -49,8 +49,8 @@ class NListNavigation
 				list($alias, $ttl, $man, $pub) = $erg;
 				$html .= '<li class="NavigationObject">';
 				if($spore !== null) $html .= "\n<a href=\"".$spore->LinkTo($alias)."\">";
-				$html .= '<span class="NListNavigation-Type-'.htmlentities($man, ENT_QUOTES, 'UTF-8')
-						.'">'.htmlentities($ttl, ENT_QUOTES, 'UTF-8').'</span>';
+				$html .= '<span class="NListNavigation-Type-'.htmlentities($man, ENT_QUOTES, CHARSET)
+						.'">'.htmlentities($ttl, ENT_QUOTES, CHARSET).'</span>';
 				if($spore !== null) $html .= "</a>\n";
 				$html .= "</li>\n";
 			}

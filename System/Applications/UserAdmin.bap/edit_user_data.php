@@ -53,7 +53,7 @@ echo new WScript('var action_change_password = function(){'.$jsCreate.'};');
 $SUsersAndGroups = SUsersAndGroups::getSharedInstance();
 
 $intro = new WIntroduction();
-$intro->setTitle(mb_convert_encoding($victim, 'utf-8', 'iso-8859-1'), false);
+$intro->setTitle(mb_convert_encoding($victim, CHARSET, 'iso-8859-1'), false);
 $intro->setIcon('mimetype-user');
 echo $intro;
 

@@ -83,7 +83,7 @@ class WWYSIWYGPanel extends BWidget implements ISidebarWidget
 	            	"<img src=\"%s\" alt=\"%s\" title=\"%s\" onclick=\"javascript:org.bambuscms.editor.wysiwyg.editors[0].exec('formatblock','<%s>')\">"
 	                ,WIcon::pathFor('format-'.$tag, 'action',WIcon::SMALL)
 	                ,$name
-	                ,htmlentities(SLocalization::get($name), ENT_QUOTES, 'UTF-8')
+	                ,htmlentities(SLocalization::get($name), ENT_QUOTES, CHARSET)
 	                ,$tag
                 );
 	        case 'paragraph_types':
@@ -91,14 +91,14 @@ class WWYSIWYGPanel extends BWidget implements ISidebarWidget
 	            	"<img src=\"%s\" alt=\"%s\" title=\"%s\" onclick=\"javascript:org.bambuscms.editor.wysiwyg.editors[0].exec('formatblock','<%s>')\">"
 	                ,WIcon::pathFor('format-'.$name, 'action',WIcon::SMALL)
 	                ,$name
-	                ,htmlentities(SLocalization::get($name), ENT_QUOTES, 'UTF-8')
+	                ,htmlentities(SLocalization::get($name), ENT_QUOTES, CHARSET)
 	                ,$tag
                 );
 	        //case 'paragraph_types':
 	            return sprintf(
 	            	"<a href=\"javascript:org.bambuscms.editor.wysiwyg.editors[0].exec('formatblock','<%s>')\">%s</a>"
 	                ,$tag
-	                ,htmlentities(SLocalization::get($name), ENT_QUOTES, 'UTF-8')
+	                ,htmlentities(SLocalization::get($name), ENT_QUOTES, CHARSET)
 	            );
 	        case 'layout':
                 $icon = str_replace('justify', 'align-', $tag);
@@ -106,7 +106,7 @@ class WWYSIWYGPanel extends BWidget implements ISidebarWidget
 	            	"<img src=\"%s\" alt=\"%s\" title=\"%s\" onclick=\"javascript:org.bambuscms.editor.wysiwyg.editors[0].exec('%s')\">"
 	                ,WIcon::pathFor('format-'.$icon, 'action',WIcon::SMALL)
 	                ,$name
-	                ,htmlentities(SLocalization::get($name), ENT_QUOTES, 'UTF-8')
+	                ,htmlentities(SLocalization::get($name), ENT_QUOTES, CHARSET)
 	                ,$tag
                 );	            
             case 'char_formats':
@@ -114,21 +114,21 @@ class WWYSIWYGPanel extends BWidget implements ISidebarWidget
 	            	"<img src=\"%s\" alt=\"%s\" title=\"%s\" onclick=\"javascript:org.bambuscms.editor.wysiwyg.editors[0].exec('%s')\">"
 	                ,WIcon::pathFor('format-'.$tag, 'action',WIcon::SMALL)
 	                ,$name
-	                ,htmlentities(SLocalization::get($name), ENT_QUOTES, 'UTF-8')
+	                ,htmlentities(SLocalization::get($name), ENT_QUOTES, CHARSET)
 	                ,$name
                 );	            
 	        case 'insert':
 	            return sprintf(
 	            	"<a href=\"javascript:org.bambuscms.editor.wysiwyg.editors[0].exec('%s')\">%s</a>"
 	                ,$tag
-	                ,htmlentities(SLocalization::get($name), ENT_QUOTES, 'UTF-8')
+	                ,htmlentities(SLocalization::get($name), ENT_QUOTES, CHARSET)
 	            );
             case 'commands':
 	            if($tag == 'switchWYSIWYG')
 	            {
 	                return sprintf(
     	            	"<a href=\"javascript:void(org.bambuscms.editor.wysiwyg.editors[0].switchWYSIWYG());\">%s</a>"
-    	                ,htmlentities(SLocalization::get($name), ENT_QUOTES, 'UTF-8')
+    	                ,htmlentities(SLocalization::get($name), ENT_QUOTES, CHARSET)
     	            );
 	            }
 	            else
@@ -136,11 +136,11 @@ class WWYSIWYGPanel extends BWidget implements ISidebarWidget
                     return sprintf(
     	            	"<a href=\"javascript:org.bambuscms.editor.wysiwyg.editors[0].exec('%s')\">%s</a>"
     	                ,$tag
-    	                ,htmlentities(SLocalization::get($name), ENT_QUOTES, 'UTF-8')
+    	                ,htmlentities(SLocalization::get($name), ENT_QUOTES, CHARSET)
     	            );
 	            }
             default:
-	            return htmlentities(SLocalization::get($name), ENT_QUOTES, 'UTF-8');
+	            return htmlentities(SLocalization::get($name), ENT_QUOTES, CHARSET);
 	    }
 	}
 

@@ -111,11 +111,11 @@ class UCFileUpload
             if(count(self::$optTags))
             {
                 $html .= '<ul class="optionalTags"><h3>'.
-                        htmlentities((array_key_exists('optTagsText', $param)) ? $param['optTagsText'] : 'Optionale Tags:', ENT_QUOTES, 'utf-8')
+                        htmlentities((array_key_exists('optTagsText', $param)) ? $param['optTagsText'] : 'Optionale Tags:', ENT_QUOTES, CHARSET)
                         .'</h3>';
                 foreach (self::$optTags as $otag)
                 {
-                    $opt = htmlentities($otag, ENT_QUOTES, 'utf-8');
+                    $opt = htmlentities($otag, ENT_QUOTES, CHARSET);
                     $html .= sprintf(
                     	'<li><input type="checkbox" name="-tag-%s" id="-tag-%s" /><label for="-tag-%s">%s</label></li>'
                                                               ,$opt        ,$opt                  ,$opt,$opt 
