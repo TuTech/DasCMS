@@ -20,6 +20,10 @@ class RSession extends BRequest
             session_start();
             global $_SESSION;
             self::$session = &$_SESSION;
+            if(self::$session === null)
+            {
+                self::$session = array();
+            }
         }
     }
     
