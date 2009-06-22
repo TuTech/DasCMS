@@ -164,153 +164,150 @@ org.bambuscms.wopenfiledialog._loadContent= function(data)
 		org.bambuscms.wopenfiledialog._headerFrame.appendChild(title); 
 	}
 	
-	if(data.nrOfItems == 0)
+	if(data.nrOfItems > 0)
 	{
-		return;
-	}
-	
-	//add items
-	for(var y = 0; y < data.nrOfItems; y++)
-	{
-		//item
-		var item = org.bambuscms.gui.element('a', null, {
-			'class':"WOFD_item", 
-			'href': org.bambuscms.wopenfiledialog.linkPrefix+data.items[y][data.itemMap['alias']]+org.bambuscms.wopenfiledialog.linkSuffix,
-			'title':data.items[y][data.itemMap['alias']],
-			'id':'_item_'+y,
-			'onclick':'return org.bambuscms.wopenfiledialog.showExtraLarge('+y+');',
-			'ondblclick':'top.location.href = this.href;'
-			//'onmouseout': 'org.bambuscms.wopenfiledialog.hideExtraLarge('+y+')'
-		});
-		//searchable attributes
-		var search = org.bambuscms.gui.element('span', null, {'style':"display:none"});
-		for(key in data.sortable)
+		//add items
+		for(var y = 0; y < data.nrOfItems; y++)
 		{
-			search.setAttribute(key, data.items[y][data.itemMap[key]]);
-		}
-		item.appendChild(search);
-		
-		//display attributes
-		if(data.iconMap[data.items[y][data.itemMap['icon']]])
-		{
-			item.appendChild(
-				org.bambuscms.gui.element('img', null, {
-					'src': data.smallIconMap[data.items[y][data.itemMap['icon']]],
-					'class':'extra-small'
-				})
-			);
-			item.appendChild(
-				org.bambuscms.gui.element('img', null, {
-					'src': data.iconMap[data.items[y][data.itemMap['icon']]],
-					'class':'large'
-				})
-			);
-		}
-		else
-		{
-			//show preview image
-			item.appendChild(
-				org.bambuscms.gui.element('img', null, {
-						'src': 'image.php/'+data.items[y][data.itemMap['alias']]+'/'+
-									org.bambuscms.wopenfiledialog.extraSmallPreviewImageScale,
+			//item
+			var item = org.bambuscms.gui.element('a', null, {
+				'class':"WOFD_item", 
+				'href': org.bambuscms.wopenfiledialog.linkPrefix+data.items[y][data.itemMap['alias']]+org.bambuscms.wopenfiledialog.linkSuffix,
+				'title':data.items[y][data.itemMap['alias']],
+				'id':'_item_'+y,
+				'onclick':'return org.bambuscms.wopenfiledialog.showExtraLarge('+y+');',
+				'ondblclick':'top.location.href = this.href;'
+				//'onmouseout': 'org.bambuscms.wopenfiledialog.hideExtraLarge('+y+')'
+			});
+			//searchable attributes
+			var search = org.bambuscms.gui.element('span', null, {'style':"display:none"});
+			for(key in data.sortable)
+			{
+				search.setAttribute(key, data.items[y][data.itemMap[key]]);
+			}
+			item.appendChild(search);
+			
+			//display attributes
+			if(data.iconMap[data.items[y][data.itemMap['icon']]])
+			{
+				item.appendChild(
+					org.bambuscms.gui.element('img', null, {
+						'src': data.smallIconMap[data.items[y][data.itemMap['icon']]],
 						'class':'extra-small'
 					})
 				);
-			item.appendChild(
+				item.appendChild(
 					org.bambuscms.gui.element('img', null, {
-						'src': 'image.php/'+data.items[y][data.itemMap['alias']]+'/'+
-									org.bambuscms.wopenfiledialog.largePreviewImageScale,
+						'src': data.iconMap[data.items[y][data.itemMap['icon']]],
 						'class':'large'
 					})
-				);
-		}
-		if(data.items[y][data.itemMap['title']])
-		{
-			item.appendChild(
-				org.bambuscms.gui.element('h4', data.items[y][data.itemMap['title']], {})
-			);
-		}
-		if(data.items[y][data.itemMap['description']])
-		{
-			item.appendChild(
-				org.bambuscms.gui.element('div', _('description')+': '+data.items[y][data.itemMap['description']], {})
-			);
-		}
-		if(data.items[y][data.itemMap['company']])
-		{
-			item.appendChild(
-				org.bambuscms.gui.element('div', _('company')+': '+data.items[y][data.itemMap['company']], {})
-			);
-		}
-		if(data.items[y][data.itemMap['pubDate']])
-		{
-			if(data.items[y][data.itemMap['pubDate']] < 1)
-			{
-				item.appendChild(
-					org.bambuscms.gui.element('div', _('not_published'), {})
 				);
 			}
 			else
 			{
-				var d = new Date(data.items[y][data.itemMap['pubDate']] * 1000);
+				//show preview image
 				item.appendChild(
-					org.bambuscms.gui.element('div', _('pubDate')+': '+d.toLocaleString(), {})
+					org.bambuscms.gui.element('img', null, {
+							'src': 'image.php/'+data.items[y][data.itemMap['alias']]+'/'+
+										org.bambuscms.wopenfiledialog.extraSmallPreviewImageScale,
+							'class':'extra-small'
+						})
+					);
+				item.appendChild(
+						org.bambuscms.gui.element('img', null, {
+							'src': 'image.php/'+data.items[y][data.itemMap['alias']]+'/'+
+										org.bambuscms.wopenfiledialog.largePreviewImageScale,
+							'class':'large'
+						})
+					);
+			}
+			if(data.items[y][data.itemMap['title']])
+			{
+				item.appendChild(
+					org.bambuscms.gui.element('h4', data.items[y][data.itemMap['title']], {})
 				);
 			}
-		}
-		if(data.items[y][data.itemMap['modified']])
-		{
-			var d = new Date(data.items[y][data.itemMap['modified']] * 1000);
-			item.appendChild(
-				org.bambuscms.gui.element('div', _('modified')+': '+d.toLocaleString(), {})
-			);
-		}
-		if(data.items[y][data.itemMap['size']])
-		{
-			var s = data.items[y][data.itemMap['size']];
-			var u = ['Byte', 'KB', 'MB', 'GB', 'TB'];
-			var i = 0;
-			while(s > 1024)
+			if(data.items[y][data.itemMap['description']])
 			{
-				i++;
-				s = s/1024.0;
+				item.appendChild(
+					org.bambuscms.gui.element('div', _('description')+': '+data.items[y][data.itemMap['description']], {})
+				);
 			}
-			s = Math.round(s, 2);
-			item.appendChild(
-				org.bambuscms.gui.element('div', _('size')+': '+s+u[i], {})
-			);
+			if(data.items[y][data.itemMap['company']])
+			{
+				item.appendChild(
+					org.bambuscms.gui.element('div', _('company')+': '+data.items[y][data.itemMap['company']], {})
+				);
+			}
+			if(data.items[y][data.itemMap['pubDate']])
+			{
+				if(data.items[y][data.itemMap['pubDate']] < 1)
+				{
+					item.appendChild(
+						org.bambuscms.gui.element('div', _('not_published'), {})
+					);
+				}
+				else
+				{
+					var d = new Date(data.items[y][data.itemMap['pubDate']] * 1000);
+					item.appendChild(
+						org.bambuscms.gui.element('div', _('pubDate')+': '+d.toLocaleString(), {})
+					);
+				}
+			}
+			if(data.items[y][data.itemMap['modified']])
+			{
+				var d = new Date(data.items[y][data.itemMap['modified']] * 1000);
+				item.appendChild(
+					org.bambuscms.gui.element('div', _('modified')+': '+d.toLocaleString(), {})
+				);
+			}
+			if(data.items[y][data.itemMap['size']])
+			{
+				var s = data.items[y][data.itemMap['size']];
+				var u = ['Byte', 'KB', 'MB', 'GB', 'TB'];
+				var i = 0;
+				while(s > 1024)
+				{
+					i++;
+					s = s/1024.0;
+				}
+				s = Math.round(s, 2);
+				item.appendChild(
+					org.bambuscms.gui.element('div', _('size')+': '+s+u[i], {})
+				);
+			}
+			org.bambuscms.wopenfiledialog._contentFrame.appendChild(item);
 		}
-		org.bambuscms.wopenfiledialog._contentFrame.appendChild(item);
-	}
-	
-	//header controls
-	var sort_keys = [];
-	for(sort_k in data.sortable)
-	{
-		sort_keys[sort_keys.length] =  {
-			'title':_(data.sortable[sort_k]), 
-			'callBack': function(param){org.bambuscms.wopenfiledialog.sort(param, null);},
-			'param':sort_k
-		};
-	}
-	if(sort_keys.length > 1)
-	{
-		//sort-switch
+		
+		//header controls
+		var sort_keys = [];
+		for(sort_k in data.sortable)
+		{
+			sort_keys[sort_keys.length] =  {
+				'title':_(data.sortable[sort_k]), 
+				'callBack': function(param){org.bambuscms.wopenfiledialog.sort(param, null);},
+				'param':sort_k
+			};
+		}
+		if(sort_keys.length > 1)
+		{
+			//sort-switch
+			org.bambuscms.wopenfiledialog._headerFrame.appendChild(org.bambuscms.gui.switchButton(
+				'sort',
+				sort_keys
+			));
+		}
+		//sort-dir-switch
 		org.bambuscms.wopenfiledialog._headerFrame.appendChild(org.bambuscms.gui.switchButton(
-			'sort',
-			sort_keys
+			'sort_order',
+			[
+				{'title':_('asc'), 'callBack': function(){org.bambuscms.wopenfiledialog.sort(null, 'ASC');}}, 
+				{'title':_('desc'),'callBack': function(){org.bambuscms.wopenfiledialog.sort(null, 'DESC');}}
+			],
+			'UpDown'
 		));
 	}
-	//sort-dir-switch
-	org.bambuscms.wopenfiledialog._headerFrame.appendChild(org.bambuscms.gui.switchButton(
-		'sort_order',
-		[
-			{'title':_('asc'), 'callBack': function(){org.bambuscms.wopenfiledialog.sort(null, 'ASC');}}, 
-			{'title':_('desc'),'callBack': function(){org.bambuscms.wopenfiledialog.sort(null, 'DESC');}}
-		],
-		'UpDown'
-	));
-	
 	//show items
 	org.bambuscms.wopenfiledialog._contentFrame.className = '';
 	org.bambuscms.wopenfiledialog._bodyFrame.className = 'WOFD_detail_view';
