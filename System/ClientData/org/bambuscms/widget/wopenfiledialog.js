@@ -152,9 +152,9 @@ org.bambuscms.wopenfiledialog = {
 		top.location.href = org.bambuscms.wopenfiledialog.linkPrefix + alias + org.bambuscms.wopenfiledialog.linkSuffix;
 	}
 };
-org.bambuscms.wopenfiledialog._bodyFrame;
-org.bambuscms.wopenfiledialog._contentFrame;
-org.bambuscms.wopenfiledialog._headerFrame;
+org.bambuscms.wopenfiledialog._bodyFrame = null;
+org.bambuscms.wopenfiledialog._contentFrame = null;
+org.bambuscms.wopenfiledialog._headerFrame = null;
 org.bambuscms.wopenfiledialog._loadContent= function(data)
 {
 	//set title
