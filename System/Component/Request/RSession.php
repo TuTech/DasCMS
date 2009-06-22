@@ -12,15 +12,17 @@
 class RSession extends BRequest 
 {
     private static $session = null;
+    private static $started = false;
     
     public static function start()
     {
-        if(self::$session === null)
+        if(!self::$started)
         {
+            self::$started = true;
             session_start();
             global $_SESSION;
             self::$session = &$_SESSION;
-            if(self::$session === null)
+            if(!is_array(self::$session))
             {
                 self::$session = array();
             }
