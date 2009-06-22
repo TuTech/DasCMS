@@ -152,58 +152,16 @@ org.bambuscms.wopenfiledialog = {
 		top.location.href = org.bambuscms.wopenfiledialog.linkPrefix + alias + org.bambuscms.wopenfiledialog.linkSuffix;
 	}
 };
-
-org.bambuscms.wopenfiledialog._build = function()
+org.bambuscms.wopenfiledialog._bodyFrame;
+org.bambuscms.wopenfiledialog._contentFrame;
+org.bambuscms.wopenfiledialog._headerFrame;
+org.bambuscms.wopenfiledialog._loadContent= function(data)
 {
-	//basic layout
-	var dialog = org.bambuscms.gui.element('div', null, {
-		'id':"WOpenFileDialog",
-		'style':'display:none'
-	});
-	var closer = null;
-	if(org.bambuscms.wopenfiledialog.closable) 
-	{
-		closer = org.bambuscms.gui.element('a', null, {
-			'id':"WOpenFileDialog-closer",
-			'href':'javascript:(function(){org.bambuscms.wopenfiledialog.hide();})();'
-		});
-	}
-	var header = org.bambuscms.gui.element('div', closer, {
-		'id':"WOpenFileDialog-header"
-	});
-	var sidebar = org.bambuscms.gui.element('div', null, {
-		'id':"WOpenFileDialog-sidebar"
-	});
-	sidebar.appendChild(
-		org.bambuscms.gui.element('div', null, {
-			'id':"WOpenFileDialog-sidebarSpacer"
-		})
-	);
-	var filecontainer = org.bambuscms.gui.element('div', null, {
-		'id':"WOpenFileDialog-filecontainer",
-		'class':'WOFD_detail_view'
-	});
-	var filewrapper = org.bambuscms.gui.element('div', null, {
-		'id':"WOpenFileDialog-ItemWrapper"
-	});
-	filecontainer.appendChild(filewrapper);
-
-//SPLIT HERE	
-	if(org.bambuscms.wopenfiledialog.dataSource == null)
-	{
-		org.bambuscms.wopenfiledialog.dataSource = {
-			'controller':org.bambuscms.app.controller,
-			'call':'provideOpenDialogData'
-		}
-	}
-	//fetch data
-	var data = org.bambuscms.http.fetchJSONObject(org.bambuscms.wopenfiledialog.dataSource);
-	
 	//set title
 	if(data.title)
 	{
 		var title = org.bambuscms.gui.element('h2', data.title, {});
-		header.appendChild(title); 
+		org.bambuscms.wopenfiledialog._headerFrame.appendChild(title); 
 	}
 	
 	if(data.nrOfItems == 0)
@@ -322,10 +280,91 @@ org.bambuscms.wopenfiledialog._build = function()
 				org.bambuscms.gui.element('div', _('size')+': '+s+u[i], {})
 			);
 		}
-		filewrapper.appendChild(item);
+		org.bambuscms.wopenfiledialog._contentFrame.appendChild(item);
 	}
-	//sidebar
+	
+	//header controls
+	var sort_keys = [];
+	for(sort_k in data.sortable)
+	{
+		sort_keys[sort_keys.length] =  {
+			'title':_(data.sortable[sort_k]), 
+			'callBack': function(param){org.bambuscms.wopenfiledialog.sort(param, null);},
+			'param':sort_k
+		};
+	}
+	if(sort_keys.length > 1)
+	{
+		//sort-switch
+		org.bambuscms.wopenfiledialog._headerFrame.appendChild(org.bambuscms.gui.switchButton(
+			'sort',
+			sort_keys
+		));
+	}
+	//sort-dir-switch
+	org.bambuscms.wopenfiledialog._headerFrame.appendChild(org.bambuscms.gui.switchButton(
+		'sort_order',
+		[
+			{'title':_('asc'), 'callBack': function(){org.bambuscms.wopenfiledialog.sort(null, 'ASC');}}, 
+			{'title':_('desc'),'callBack': function(){org.bambuscms.wopenfiledialog.sort(null, 'DESC');}}
+		],
+		'UpDown'
+	));
+	
+	//show items
+	org.bambuscms.wopenfiledialog._contentFrame.className = '';
+	org.bambuscms.wopenfiledialog._bodyFrame.className = 'WOFD_detail_view';
+};
+org.bambuscms.wopenfiledialog._build = function()
+{
+	//basic layout
+	var dialog = org.bambuscms.gui.element('div', null, {
+		'id':"WOpenFileDialog",
+		'style':'display:none'
+	});
+	var closer = null;
+	if(org.bambuscms.wopenfiledialog.closable) 
+	{
+		closer = org.bambuscms.gui.element('a', null, {
+			'id':"WOpenFileDialog-closer",
+			'href':'javascript:(function(){org.bambuscms.wopenfiledialog.hide();})();'
+		});
+	}
+	var header = org.bambuscms.gui.element('div', closer, {
+		'id':"WOpenFileDialog-header"
+	});
+	org.bambuscms.wopenfiledialog._headerFrame = header;
+	var sidebar = org.bambuscms.gui.element('div', null, {
+		'id':"WOpenFileDialog-sidebar"
+	});
+	sidebar.appendChild(
+		org.bambuscms.gui.element('div', null, {
+			'id':"WOpenFileDialog-sidebarSpacer"
+		})
+	);
+	var filecontainer = org.bambuscms.gui.element('div', null, {
+		'id':"WOpenFileDialog-filecontainer",
+		'class':'WOFD_detail_view WOpenFileDialog-loading'
+	});
+	org.bambuscms.wopenfiledialog._bodyFrame = filecontainer;
+	var filewrapper = org.bambuscms.gui.element('div', null, {
+		'id':"WOpenFileDialog-ItemWrapper",
+		'class':'WOpenFileDialog-loading'
+	});
+	org.bambuscms.wopenfiledialog._contentFrame = filewrapper;
+	filecontainer.appendChild(filewrapper);
 
+//SPLIT HERE	
+	if(org.bambuscms.wopenfiledialog.dataSource == null)
+	{
+		org.bambuscms.wopenfiledialog.dataSource = {
+			'controller':org.bambuscms.app.controller,
+			'call':'provideOpenDialogData'
+		};
+	}
+	
+	org.bambuscms.http.fetchJSONObject(org.bambuscms.wopenfiledialog.dataSource, org.bambuscms.wopenfiledialog._loadContent);
+	
 	//search box
 	var preview_image = org.bambuscms.gui.element('img', null, {
 		'id':"WOpenFileDialog-SidebarPreview",
@@ -371,34 +410,6 @@ org.bambuscms.wopenfiledialog._build = function()
 		'DetailIconList'
 	));
 	
-	var sort_keys = [];
-	for(sort_k in data.sortable)
-	{
-		sort_keys[sort_keys.length] =  {
-			'title':_(data.sortable[sort_k]), 
-			'callBack': function(param){org.bambuscms.wopenfiledialog.sort(param, null);},
-			'param':sort_k
-		};
-	}
-	if(sort_keys.length > 1)
-	{
-		//sort-switch
-		header.appendChild(org.bambuscms.gui.switchButton(
-			'sort',
-			sort_keys
-		));
-	}
-	//sort-dir-switch
-	header.appendChild(org.bambuscms.gui.switchButton(
-		'sort_order',
-		[
-			{'title':_('asc'), 'callBack': function(){org.bambuscms.wopenfiledialog.sort(null, 'ASC');}}, 
-			{'title':_('desc'),'callBack': function(){org.bambuscms.wopenfiledialog.sort(null, 'DESC');}}
-		],
-		'UpDown'
-	));
-
-
 	//link elements
 	sidebar.appendChild(search_title);	
 	search_container.appendChild(searchbox);

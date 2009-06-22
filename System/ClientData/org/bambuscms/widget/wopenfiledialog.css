@@ -179,10 +179,14 @@ detail view
 }
 #WOpenFileDialog-filecontainer.WOFD_detail_view .WOFD_item img.extra-small{
 	display: none;
+	width:16px;
+	height:16px;
 }
 #WOpenFileDialog-filecontainer.WOFD_detail_view .WOFD_item img.large{
 	float:left;
 	margin-right:5px;
+	width:48px;
+	height:48px;
 }
 #WOpenFileDialog-filecontainer.WOFD_detail_view .WOFD_item{
 	display:block;
@@ -244,8 +248,16 @@ list view
 #WOpenFileDialog-filecontainer.WOFD_list_view .WOFD_item h4{
 	float:left;
 	width:25%;
+	overflow: hidden;
+	display: block;
+}
+#WOpenFileDialog-filecontainer.WOpenFileDialog-loading{
+	background: url(../../../Icons/16x16/animations/loading.gif) 50% 50% no-repeat;
 }
 
+#WOpenFileDialog-ItemWrapper.WOpenFileDialog-loading *{
+	display: none;
+}
 
 
 

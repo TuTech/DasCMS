@@ -17,6 +17,7 @@ class RSession extends BRequest
     {
         if(self::$session === null)
         {
+            //mute errors if session is started by server
             SErrorAndExceptionHandler::muteErrors();
             @session_start();
             SErrorAndExceptionHandler::reportErrors();
