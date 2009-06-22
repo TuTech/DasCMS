@@ -4,7 +4,7 @@ function rebuildAliasDB()
 	var p = $c('p');
 	var p2 = $c('p');
 	var input = $c('input');
-	p.appendChild(document.createTextNode(
+	p.appendChild($t(
 		"Bookmarks may be invalid afterwards. "+
 		"This should only be done if you have a lot of '...~number' aliases  or "+
 		"a lot of aliases blocked by other items caused by some renamings."));

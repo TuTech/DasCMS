@@ -137,7 +137,7 @@ function createNavDiv(parentDiv, nextDiv , c_id, c_title)
 	
 	//link to add child
 	var BAddChild = $c('a');
-	var BAddChildLabel = document.createTextNode(' ');
+	var BAddChildLabel = $t(' ');
 	BAddChild.setAttribute('href', 'javascript:addChild(\''+Id+'\');');
 	BAddChild.setAttribute('title', _('add_child'));
 	BAddChild.setAttribute('class', 'add_child');
@@ -145,13 +145,13 @@ function createNavDiv(parentDiv, nextDiv , c_id, c_title)
 	
 	//link to add sibling
 	var BAddSibling = $c('a');
-	var BAddSiblingLabel = document.createTextNode(' ');
+	var BAddSiblingLabel = $t(' ');
 	BAddSibling.setAttribute('href', 'javascript:addSibling(\''+Id+'\');');
 	BAddSibling.setAttribute('title', _('add_sibling'));
 	BAddSibling.setAttribute('class', 'add_sibling');
 	BAddSibling.appendChild(BAddSiblingLabel);
 	
-	OwnId = document.createTextNode(Id);
+	OwnId = $t(Id);
 	ElementId = $c('b');
 	ElementId.appendChild(OwnId);
 	
@@ -159,11 +159,11 @@ function createNavDiv(parentDiv, nextDiv , c_id, c_title)
 	CDiv.appendChild(BAddSibling);
 	CDiv.appendChild(BAddChild);
 	if(DEBUG)CDiv.appendChild(ElementId);
-	if(DEBUG)CDiv.appendChild($c('b').appendChild(document.createTextNode('f:')));
+	if(DEBUG)CDiv.appendChild($c('b').appendChild($t('f:')));
 	CDiv.appendChild(TFirstChild);
-	if(DEBUG)CDiv.appendChild($c('b').appendChild(document.createTextNode('n:')));
+	if(DEBUG)CDiv.appendChild($c('b').appendChild($t('n:')));
 	CDiv.appendChild(TNext);
-	if(DEBUG)CDiv.appendChild($c('b').appendChild(document.createTextNode('p:')));
+	if(DEBUG)CDiv.appendChild($c('b').appendChild($t('p:')));
 	CDiv.appendChild(TParent);
 	CDiv.appendChild(TContentId);
 	CDiv.appendChild(TContentTitle);
