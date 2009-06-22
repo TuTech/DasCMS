@@ -224,8 +224,6 @@ org.bambuscms.wopenfiledialog._loadContent= function(data)
 			if(data.items[y][data.itemMap['title']])
 			{
 				item.appendChild($c('h4', $t(data.items[y][data.itemMap['title']])));
-					//org.bambuscms.gui.element('h4', ittl/*data.items[y][data.itemMap['title']]*/, {})
-				//);
 			}
 			if(data.items[y][data.itemMap['description']])
 			{

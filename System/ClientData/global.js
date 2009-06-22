@@ -24,6 +24,6 @@ function $c(tag, subNodes)
 }
 function $t(text)
 {
-	return document.createTextNode(text);
+	return document.createTextNode(text.replace(/\_/g, '_\u00AD'));
 }
 function nil(){}
