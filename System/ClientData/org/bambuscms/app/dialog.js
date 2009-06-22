@@ -12,7 +12,7 @@ org.bambuscms.app.dialog.create = function(Ttitle, TDesc, Dcontent, confirmCapti
 	dialog.setAttribute('class', 'dialogue');
 
 	title = $c('h2');
-	title.appendChild(document.createTextNode(Ttitle));
+	title.appendChild($t(Ttitle));
 	dialog.appendChild(title);
 	
 	form = $c('form');
@@ -24,7 +24,7 @@ org.bambuscms.app.dialog.create = function(Ttitle, TDesc, Dcontent, confirmCapti
 		form.setAttribute('enctype','multipart/form-data');
 	}
 	desc = $c('p');
-	desc.appendChild(document.createTextNode(TDesc));
+	desc.appendChild($t(TDesc));
 	form.appendChild(desc);
 	
 
@@ -36,7 +36,7 @@ org.bambuscms.app.dialog.create = function(Ttitle, TDesc, Dcontent, confirmCapti
 		a_ok = $c('a');
 		a_ok.setAttribute('href', 'javascript:'+okFunctionName+'();');
 		a_ok.className = 'dialog_ok';
-		a_ok.appendChild(document.createTextNode(confirmCaption));
+		a_ok.appendChild($t(confirmCaption));
 		dialog.appendChild(a_ok);
 	}
 	if(abortCaption)
@@ -44,7 +44,7 @@ org.bambuscms.app.dialog.create = function(Ttitle, TDesc, Dcontent, confirmCapti
 		a_Cancel = $c('a');
 		a_Cancel.className = 'dialog_cancel';
 		a_Cancel.setAttribute('href', 'javascript:'+cancelFunctionName+'();');
-		a_Cancel.appendChild(document.createTextNode(abortCaption));
+		a_Cancel.appendChild($t(abortCaption));
 		dialog.appendChild(a_Cancel);
 	}
 	end = $c('br');

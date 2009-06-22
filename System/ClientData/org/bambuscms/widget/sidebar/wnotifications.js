@@ -22,7 +22,7 @@ org.bambuscms.wnotifications.report = function(type, message)
 		case 'alert':
 			var html = $c('div');
 			html.className = type;
-			html.appendChild(document.createTextNode(message));
+			html.appendChild($t(message));
 			if($("WNotifications-area"))
 			{
 				if($("WNotifications-area").firstChild && $("WNotifications-area").firstChild.nodeType == 1 && $("WNotifications-area").firstChild.tagName.toUpperCase() == 'P')

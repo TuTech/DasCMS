@@ -98,6 +98,7 @@
 	font-weight: normal;
 	font-size: 1.1em;
 	color: #2e3436;
+	padding:2px;
 }
 .WOFD_item div{
 	padding:2px;
@@ -198,8 +199,8 @@ icon view
 ****/
 #WOpenFileDialog-filecontainer.WOFD_icon_view .WOFD_item{
 	display:block;
-	width:94px;
-	height:94px;
+	width:128px;
+	height:128px;
 	border: 1px solid white;
 	float:left;
 	overflow:hidden;
@@ -212,7 +213,7 @@ icon view
 	display: none;
 }
 #WOpenFileDialog-filecontainer.WOFD_icon_view .WOFD_item img.large{
-	margin-left: 24px;
+	margin-left: 40px;
 	margin-top:6px;
 	margin-bottom:6px;
 	display:block;

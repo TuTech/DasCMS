@@ -55,7 +55,7 @@ org.bambuscms.wdialog = {
 						{
 							var otitle = $c('label');
 							otitle.setAttribute('for', 'WDialog_'+id+'_'+name);
-							otitle.appendChild(document.createTextNode(sect.items[name].title));
+							otitle.appendChild($t(sect.items[name].title));
 							obj.appendChild(otitle);
 							obj.setAttribute('class', 'WDialog_labeled');
 						}

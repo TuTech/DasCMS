@@ -49,13 +49,13 @@ org.bambuscms.wimagecontentlookup.generateList = function(respObject)
 			else if(items[i][2] <= respObject.now)item.className = 'published';
 			else item.className = 'publicationScheduled';
 			if(i%2)item.className += ' alt';
-			item.appendChild(document.createTextNode(items[i][1]));
+			item.appendChild($t(items[i][1]));
 			
 			var pd = $c('span');
 			var d = new Date(items[i][2]*1000);
 			var text = (items[i][2] <= 0) ? _('not_public') : d.toUTCString();
 
-			pd.appendChild(document.createTextNode(text));
+			pd.appendChild($t(text));
 			item.appendChild(pd);
 			html.appendChild(item);
 		}

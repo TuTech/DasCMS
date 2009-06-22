@@ -132,7 +132,7 @@ org.bambuscms.editor.wysiwyg._object = function(elements, wrapper)
 			but.src = 'System/ClientData/Icons/22x22/actions/format-'+commands[func]+'.png';
 			but.onclick = trigger;
 			but.title = func;
-			//but.appendChild(document.createTextNode(commands[func]));
+			//but.appendChild($t(commands[func]));
 			cmdBar.appendChild(but);
 		}
 		this.elements.outer.insertBefore(cmdBar, this.elements.inner);
