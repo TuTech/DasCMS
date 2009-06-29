@@ -38,6 +38,27 @@ class WContentLocation extends BWidget implements ISidebarWidget
 	
 	public function processInputs()
 	{
+	    try
+	    {
+    	    if(RSent::hasValue('WContentLocation_location'))
+    	    {
+    	        $loc = ULocations::getSharedInstance();
+    	        $loc->setLocationData(
+    	            RSent::get('WContentLocation_location', CHARSET), 
+    	            RSent::get('WContentLocation_address', CHARSET),
+    	            RSent::get('WContentLocation_lat', CHARSET),
+    	            RSent::get('WContentLocation_long', CHARSET)
+    	        );
+    	        $loc->setContentLocation(
+    	            $this->targetObject->getAlias(), 
+    	            RSent::get('WContentLocation_location', CHARSET)
+                );
+    	    }
+	    }
+	    catch (Exception $e)
+	    {
+	        echo $e->getMessage();
+	    }
 	}
 	
 	public function __construct(WSidePanel $sidepanel)
@@ -47,27 +68,50 @@ class WContentLocation extends BWidget implements ISidebarWidget
 	
 	public function __toString()
 	{
-	    ob_start();
-	    $this->render();
-	    $html = strval(ob_get_clean());
+	    $html = '';
+	    try
+	    {
+    	    ob_start();
+    	    $this->render();
+    	    $html = strval(ob_get_clean());
+	    }
+	    catch (Exception $e)
+	    {
+	        $html = $e->getMessage();
+	    }
 		return $html;
 	}
 	
 	public function render()
 	{
-	    $alias = '';
-	    $res = QULocations::getContentLocation($this->targetObject->getAlias());
-	    if($res->getRowCount())
-	    {
-	        list($alias) = $res->fetch();
-	    }
-	    $res->free();
-	    echo '<div id="WContentLocation"><input type="hidden" name="WContentLocation" value="'.htmlentities($alias, ENT_QUOTES, CHARSET).'" /></div>';
+	    $loc = ULocations::getSharedInstance();
+	    $location = $loc->getContentLocation($this->targetObject->getAlias());
+	    $Items = new WNamedList();
+		$Items->setTitleTranslation(false);
+		$Items->add(   
+		    sprintf("<label for=\"WContentLocation_address\">%s</label>", SLocalization::get('address')),
+		    sprintf('<textarea id="WContentLocation_address" name="WContentLocation_address">%s</textarea>', htmlentities($location['address'], ENT_QUOTES, CHARSET))
+	    );
+		$Items->add(
+		    sprintf("<label>%s</label>", SLocalization::get('gps_location')),
+		    sprintf(
+		    	'<dl><dt>%s</dt>'.
+		    		'<dd><input type="text" id="WContentLocation_lat" name="WContentLocation_lat" value="%s" /></dd>'.
+		        '<dt>%s</dt>'.
+		    		'<dd><input type="text" id="WContentLocation_long" name="WContentLocation_long" value="%s" /></dd></dl>'
+		    		, SLocalization::get('latitude')
+		    		, htmlentities($location['latitude'], ENT_QUOTES, CHARSET)
+		    		, SLocalization::get('longitude')
+		    		, htmlentities($location['longitude'], ENT_QUOTES, CHARSET)
+	        )
+		);
+	    echo '<div id="WContentLocation">'.
+        		'<input type="hidden" id="WContentLocation_location" name="WContentLocation_location" value="',$this->targetObject->getGUID(),'" />'.
+                $Items->__toString().
+    		'</div>';
+		
 	}
 	
-	public function associatedJSObject()
-	{
-	    return 'org.bambuscms.wcontentlocation';
-	}
+	public function associatedJSObject(){return null;}
 }
 ?>
