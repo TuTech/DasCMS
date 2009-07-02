@@ -315,11 +315,14 @@ class CFeed
 	 */
 	public function __construct($alias)
 	{
-	    if(!self::Exists($alias))
+	    try
+	    {
+	        $this->initBasicMetaFromDB($alias, self::CLASS_NAME);
+	    }
+	    catch (XUndefinedIndexException $e)
 	    {
 	        throw new XArgumentException('content not found');
 	    }
-	    $this->initBasicMetaFromDB($alias);
 	    $dataFile = $this->StoragePath($this->Id);
 	    if(file_exists($dataFile))
 	    {
@@ -512,7 +515,7 @@ class CFeed
         	            $set = true;
                         $captions = $this->caption($type, 'Link');
                         $caption = $captions[self::PREFIX];
-                        $page = $Pagina - 1;
+                        $page = ($Pagina <= 2) ? null : $Pagina - 1;
                         $content = $this->link($page, $caption,false,false);
         	        }
                     break;

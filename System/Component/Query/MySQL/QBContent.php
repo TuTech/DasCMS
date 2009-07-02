@@ -348,7 +348,7 @@ class QBContent extends BQuery
         return $DB->query(sprintf($sql, $DB->escape($alias), $type), DSQL::NUM);
     }
     
-    public static function getBasicMetaData($alias)
+    public static function getBasicMetaData($alias, $class = null)
     {
         $sql = "
             SELECT 
@@ -364,9 +364,13 @@ class QBContent extends BQuery
             	LEFT JOIN Aliases ON (Contents.contentID = Aliases.contentREL)
             	LEFT JOIN Aliases AS GUIDs ON (Contents.GUID = GUIDs.aliasID)
 				LEFT JOIN Mimetypes ON (Contents.mimetypeREL = Mimetypes.mimetypeID)
-            		WHERE Aliases.alias = '%s'";
+				%s
+            		WHERE Aliases.alias = '%s'
+            			%s";
         $DB = BQuery::Database();
-        $res = $DB->query(sprintf($sql, $DB->escape($alias)), DSQL::NUM);
+        $classFilter = $class == null ? '' : ' LEFT JOIN Classes ON (Classes.classID = Contents.type) ';
+        $whereFilter = $class == null ? '' : ' AND Classes.class = "'.$DB->escape($class).'"';
+        $res = $DB->query(sprintf($sql, $classFilter, $DB->escape($alias), $whereFilter), DSQL::NUM);
         if($res->getRowCount() != 1)
         {
             throw new XUndefinedIndexException();

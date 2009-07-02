@@ -40,13 +40,29 @@ class SSearchIndexer
     
     public static function extractFeatures($text)
     {
+        if(is_array($text))
+        {
+            $newText = '';
+            $index = array();
+            foreach ($text as $k => $v)
+            {
+                if(!is_array($v))
+                {
+                    $newText .= ' '.$v;
+                }
+            }
+            $text = $newText;
+        }
+        
+        $text = strval($text);
         $text = strtolower(strip_tags($text));
         $text = html_entity_decode($text, ENT_QUOTES, CHARSET);
-        $text = preg_replace('/[\s\_\-\/]+/mui', ' ', $text);
+        $text = str_replace('&nbsp;', ' ', $text);
+        $text = preg_replace('/[\s\_\-\/\n\t\r]+/mui', ' ', $text);
         $text = str_replace(';', ' ', $text);
         $text = htmlentities($text, ENT_NOQUOTES, CHARSET);
-        $text = str_replace('&', '', $text);
-        $text = str_replace(';', '', $text);
+        $text = str_replace('&', ' ', $text);
+        $text = str_replace(';', ' ', $text);
         $words = preg_split('/\b/mui',$text);
         $index = array();
         foreach ($words as $word)
@@ -54,7 +70,7 @@ class SSearchIndexer
             $strip = '\s\'"?!\.:,;\-_´`\(\)=<>';
             $word = preg_replace('/^['.$strip.']*/mui', '', $word);
             $word = preg_replace('/['.$strip.']*$/mui', '', $word);
-            if(!empty($word) && strlen($word) > 2)
+            if(!empty($word) && strlen($word) > 1)
             {
                 $word = substr($word,0,48);
                 if(!isset($index[$word]))
@@ -161,7 +177,7 @@ class SSearchIndexer
     	    {
                 if(isset($content->{$att}) && !in_array($att, $exclude))
                 {
-                    $features = self::extractFeatures(strval($content->{$att}));
+                    $features = self::extractFeatures($content->{$att});
                     QSSearchIndexer::dumpFeatures(array_keys($features));
                     QSSearchIndexer::linkContentAttributeFeatures($content->getId(), $id, $features);
                 }

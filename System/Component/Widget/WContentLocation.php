@@ -93,7 +93,7 @@ class WContentLocation extends BWidget implements ISidebarWidget
 		    sprintf('<textarea id="WContentLocation_address" name="WContentLocation_address">%s</textarea>', htmlentities($location['address'], ENT_QUOTES, CHARSET))
 	    );
 		$Items->add(
-		    sprintf("<label>%s</label>", SLocalization::get('gps_location')),
+		    sprintf("<label>%s</label>", SLocalization::get('gps_location_in_decimal')),
 		    sprintf(
 		    	'<dl><dt>%s</dt>'.
 		    		'<dd><input type="text" id="WContentLocation_lat" name="WContentLocation_lat" value="%s" /></dd>'.

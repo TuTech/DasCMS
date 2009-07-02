@@ -200,12 +200,14 @@ class CFile
 	 */
 	public function __construct($alias)
 	{
-	    if(!self::Exists($alias))
+	    try
+	    {
+	        $this->initBasicMetaFromDB($alias, self::CLASS_NAME);
+	    }
+	    catch (XUndefinedIndexException $e)
 	    {
 	        throw new XArgumentException('content not found');
 	    }
-	    $this->initBasicMetaFromDB($alias);
-	    //$this->metadata = DFileSystem::LoadData('./Content/CFile/'.$this->getId().'.meta.php');
 	}
 	
 	/**
