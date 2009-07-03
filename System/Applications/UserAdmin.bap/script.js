@@ -1,29 +1,3 @@
-function checkothers(mode)
-{
-	var elem;
-	var i = 1;
-	while(elem = document.getElementById('sysgroup_'+i))
-	{
-		i++;
-		elem.disabled = mode;
-		elem.checked = mode;
-	}
-}
-
-function toggleAddBox()
-{
-	var	addBox = document.getElementById('addBox');
-	var tables;
-	if(addBox.className != 'full')
-	{
-		addBox.className = 'full';
-	}
-	else
-	{
-		addBox.className = 'hide';
-	}
-}
-
 function addUser()
 { 
 	document.getElementById('actionInput').value = 'create_new_user';

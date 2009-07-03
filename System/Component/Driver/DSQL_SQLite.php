@@ -1,15 +1,17 @@
 <?php
 /**
- * @package Bambus
- * @subpackage Drivers
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 28.03.2008
+ * @since 2008-03-28
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage Drivers
  */
 class DSQL_SQLite extends DSQL  
 {
-	const Class_Name = 'DSQL_SQLite';
+	const CLASS_NAME = 'DSQL_SQLite';
 	
 	/**
 	 * @var SQLiteDatabase
@@ -29,7 +31,6 @@ class DSQL_SQLite extends DSQL
 		}
 		return null;
 	}
-	
 	
 	public function __construct()
 	{
@@ -51,19 +52,11 @@ class DSQL_SQLite extends DSQL
 	/**
 	 * @return DSQL
 	 */
-	public static function alloc()
+	public static function getSharedInstance()
 	{
-		throw new Exception('call DSQL::alloc() instead');
+		throw new Exception('call DSQL::getSharedInstance() instead');
 	}
 	
-    /**
-     * @return DSQL
-     */
-    public function init()
-    {
-    	return $this;
-    }
-    
 	/**
 	 * @return string
 	 */
@@ -84,7 +77,7 @@ class DSQL_SQLite extends DSQL
 	public function insertUnescaped($into, array $names, array $values, $ignore = false)
 	{
 		//sanity check
-		if(count($values) == 0 || count($names) == 0 )
+		if(count($values) == 0 || count($names) == 0 )
 		{
 			return true;
 		}		

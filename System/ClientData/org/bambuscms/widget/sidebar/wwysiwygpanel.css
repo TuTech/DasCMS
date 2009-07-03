@@ -1,0 +1,9 @@
+#WWYSIWYGPanel img{
+	margin: 1px;
+}
+#WWYSIWYGPanel li{
+	list-style: none;
+}
+#WWYSIWYGPanel li h3{
+	margin-left: -15px;
+}

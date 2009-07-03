@@ -1,0 +1,54 @@
+@CHARSET "UTF-8";
+.WSwitchButton
+{
+	height:26px;
+	margin:10px;
+	margin-top:5px;
+	float:left;
+	font-size: 9px;
+}
+
+.WSB_button
+{
+	border: 1px solid #d3d7cf;	
+	width:48px;
+	overflow:hidden;
+	height:16px;
+	padding-top:8px;
+	float:left;
+	text-align: center;
+	background: #eeeeec;
+}
+
+.WSB_Sprited a div{
+	width:16px;
+	height:16px;
+	float:left;
+	margin-left:6px;
+}
+.WSB_Sprited .WSB_button{
+	width:28px;
+	padding-top:4px;
+	height:20px;
+}
+.WSB_middle
+{
+	border-right: 1px solid #d3d7cf;
+	border-left-width: 0px;
+}
+
+.WSB_left
+{
+	border-right: 1px solid #d3d7cf;
+}
+
+.WSB_right
+{
+	border-left-width: 0px;
+}
+.WSB_active
+{
+	background: #73d216 url(../../../../ClientData/Images/header_background.png) 0px -30px ;
+	border: 1px solid #555753;
+}
+

@@ -5,17 +5,9 @@ class pre_setup_testenv implements runnable
 	
 	private $dirs = array(
 			'Content/CPage',
-			'Content/document',
-			'Content/MFeedManager',
-			"Content/MPageManager",
 			'Content/NTreeNavigation',
 	);
 	private $files = array(
-			'Content/document/index.php' => array(),
-			'Content/document/meta.php' => array(),
-			'Content/document/feedIndex.php' => array(),
-			'Content/MFeedManager/index.php' => array(),
-			"Content/MPageManager/index.php" => array(),
 			'Content/NTreeNavigation/index.php' => array()
 		);
 			

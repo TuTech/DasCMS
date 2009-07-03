@@ -1,15 +1,22 @@
 <?php
 /**
- * @package Bambus
- * @subpackage System
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 05.03.2008
+ * @since 2008-03-05
  * @license GNU General Public License 3
  */
-class STag extends BSystem implements IShareable, 
-	HContentChangedEventHandler, HContentCreatedEventHandler,
-	HContentDeletedEventHandler 
+/**
+ * @package Bambus
+ * @subpackage System
+ */
+class STag 
+    extends 
+        BSystem 
+    implements 
+        IShareable, 
+    	HContentChangedEventHandler, 
+    	HContentCreatedEventHandler,
+    	HContentDeletedEventHandler 
 {
 	/**
 	 * @param EContentChangedEvent $e
@@ -36,7 +43,7 @@ class STag extends BSystem implements IShareable,
 	}
 	
 	//IShareable
-	const Class_Name = 'STag';
+	const CLASS_NAME = 'STag';
 	/**
 	 * @var STag
 	 */
@@ -45,26 +52,17 @@ class STag extends BSystem implements IShareable,
 	/**
 	 * @return STag
 	 */
-	public static function alloc()
+	public static function getSharedInstance()
 	{
-		$class = self::Class_Name;
+		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)
 		{
 			self::$sharedInstance = new $class();
 		}
 		return self::$sharedInstance;
 	}
-    
-	/**
-	 * @return STag
-	 */
-    function init()
-    {
-    	return $this;
-    }
 	//end IShareable
 	
-	private static $_managers = null;
 	
 	/**
 	 * Uniform way to convert a string with a bunch of tags in a useful array
@@ -88,25 +86,15 @@ class STag extends BSystem implements IShareable,
 		return $tagarr;
 	}
 	
-	private function setTags($managerId, $contentID, $tagstring)
+	private function setTags($alias, $tagstring)
 	{
 		$tags = self::parseTagStr($tagstring);
-		$nfc = NotificationCenter::alloc();
-		$nfc->init();
-		
-		$DB = DSQL::alloc()->init();
-		$DB->beginTransaction();
+		$DB = DSQL::getSharedInstance();
 		$ptok = SProfiler::profile(__FILE__, __LINE__, 'updating tags to '.implode(', ', $tags));
 		try
 		{
-			$res = $DB->query(
-"SELECT ContentIndex.contentID 
-    FROM ContentIndex LEFT JOIN Managers
-	ON (ContentIndex.managerREL = Managers.managerID) 
-	WHERE 
-		ContentIndex.managerContentID = '".$DB->escape($contentID)."' 
-		AND Managers.manager = '".$DB->escape($managerId)."' 
-	LIMIT 1",DSQL::NUM);
+		    $DB->beginTransaction();
+			$res = QSTag::getContentDBID($alias);
 			if($res->getRowCount() != 1)
 			{
 				$res->free();
@@ -115,32 +103,18 @@ class STag extends BSystem implements IShareable,
 			list($CID) = $res->fetch();
 			$res->free();
 			//remove links
-			$DB->queryExecute("DELETE FROM relContentTags WHERE contentREL = ".$DB->escape($CID));	
+			QSTag::removeRelationsTo($CID);
 			$tagval = array();
 			foreach ($tags as $tag) 
 			{
 				$tagval[] = array($tag);
 			}
-			
-			//dump tags in db
 			if(count($tagval) > 0)
 			{
-				$DB->insert('Tags',array('tag'), $tagval, true);
-			}			
-			//FIXME ineffective sql
-			//link tags to content
-			foreach ($tags as $tag) 
-			{
-				$DB->insertUnescaped(
-					'relContentTags',
-					array('contentREL', 'tagREL'),
-					array(
-						$DB->escape($CID),
-						"(SELECT tagID FROM Tags WHERE tag = '".$DB->escape($tag)."' LIMIT 1)"
-					)
-				);
-			}
-			
+				QSTag::dumpNewTags($tagval);
+			}		
+			QSTag::linkTagsTo($tags, $CID);
+			$DB->commit();
 		}
 		catch(Exception $e)
 		{
@@ -150,67 +124,55 @@ class STag extends BSystem implements IShareable,
 			SProfiler::finish($ptok);
 			return false;
 		}
-		$DB->commit();
 		SProfiler::finish($ptok);
 		return true;
 	}
 	
-	private function getTags($managerId, $contentId)
+	private function getTags($alias)
 	{
-		$DB = DSQL::alloc()->init();
 		$tags = array();
-		try
+		$res = QSTag::listTagsOf($alias);
+		while($tag = $res->fetch())
 		{
-			$res = $DB->query(sprintf("SELECT Tags.tag FROM Tags ".
-				"LEFT JOIN relContentTags ON (relContentTags.tagREL = Tags.tagID) ".
-				"LEFT JOIN ContentIndex ON (relContentTags.contentREL = ContentIndex.contentID) ".
-				"LEFT JOIN Managers ON (ContentIndex.managerREL = Managers.managerID) ".
-				"WHERE ContentIndex.managerContentID LIKE '%s' and Managers.manager LIKE '%s' ORDER BY Tags.tag;"
-				, $DB->escape($contentId)
-				, $DB->escape($managerId)
-			), DSQL::ASSOC);
-			while($tag = $res->fetch())
-			{
-				$tags[] = $tag[0];
-			}
-			$res->free();
+			$tags[] = $tag[0];
 		}
-		catch(Exception $e)
-		{
-		}
+		$res->free();
 		return $tags;
 	}
 	
 	/**
-	 * Assign tags to a content-element defined by its controller and its id
+	 * Assign tags to a content-element
 	 *
 	 * @param BContent $content
 	 */
 	public function update(BContent $content)
 	{
-		$this->setTags($content->getManagerName(), $content->Id, implode(',', $content->Tags));
+		$this->setTags($content->Alias, implode(',', $content->Tags));
 	}
 	
 	/**
-	 * Assign tags to a content-element defined by its controller and its id
+	 * Assign tags to a content-element
 	 *
 	 * @param BContent $content
 	 * @param string $tagstr
 	 */
 	public function set(BContent $content, $tagstr)
 	{
-		$this->setTags($content->getManagerName(), $content->Id, $tagstr);
+		$this->setTags($content->Alias, $tagstr);
 	}
 	
 	/**
-	 * Get all tags assigned to a content-element defined by its manager and its id
+	 * Get all tags assigned to a content-element
 	 *
 	 * @param BContent $content
 	 * @return array
 	 */
-	public function get(BContent $content)
+	public function get($BContentOrAlias)
 	{
-		return $this->getTags($content->getManagerName(), $content->Id);
+	    $alias = ($BContentOrAlias instanceof BContent) 
+	        ? $BContentOrAlias->Alias 
+	        : $BContentOrAlias;
+		return $this->getTags($alias);
 	}
 	
 	/**

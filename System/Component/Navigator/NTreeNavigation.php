@@ -1,15 +1,30 @@
 <?php
 /**
- * @package Bambus
- * @subpackage Navigators
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 28.11.2007
+ * @since 2007-11-28
  * @license GNU General Public License 3
  */
-class NTreeNavigation extends BNavigation implements IShareable
+/**
+ * @package Bambus
+ * @subpackage Navigator
+ */
+class NTreeNavigation 
+    extends 
+        BNavigation 
+    implements 
+        IShareable, 
+        ITemplateSupporter, 
+        IGlobalUniqueId
 {
-	//constants
+    const GUID = 'org.bambuscms.navigation.treenavigation';
+    
+    public function getClassGUID()
+    {
+        return self::GUID;
+    }
+    
+    //constants
 	const Spore = 0;
 	const Tree = 1;
 	
@@ -22,17 +37,21 @@ class NTreeNavigation extends BNavigation implements IShareable
 	private $ActiveNodes = array();
 	
 	//IShareable
-	const Class_Name = 'NTreeNavigation';
+	const CLASS_NAME = 'NTreeNavigation';
 	public static $sharedInstance = NULL;
 	private static $initializedInstance = false;
-	public static function alloc()
+	/**
+	 * @return NTreeNavigation
+	 */
+	public static function getSharedInstance()
 	{
-		$class = self::Class_Name;
+		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)
 		{
 			self::$sharedInstance = new $class();
-			try{
-				self::$index = DFileSystem::LoadData('./Content/'.self::Class_Name.'/index.php');
+			try
+		    {
+				self::$index = DFileSystem::LoadData('./Content/'.self::CLASS_NAME.'/index.php');
 			}
 			catch (Exception $e)
 			{
@@ -42,17 +61,12 @@ class NTreeNavigation extends BNavigation implements IShareable
 		}
 		return self::$sharedInstance;
 	}
-    
-    function init()
-    {
-    	return $this;
-    }
 	//end IShareable
 	
-    public static function set($nav,QSpore $spore, NTreeNavigationObject $tno_root)
+    public static function set($nav,VSpore $spore, NTreeNavigationObject $tno_root)
     {
     	//nav names are fs-names
-    	self::alloc();
+    	self::getSharedInstance();
     	self::$index[$nav] = array($spore->GetName(), $tno_root);
     }
     /**
@@ -71,10 +85,10 @@ class NTreeNavigation extends BNavigation implements IShareable
     }
     
     /**
-     * get the QSpore object of a nav
+     * get the VSpore object of a nav
      *
      * @param string $nav
-     * @return QSpore
+     * @return VSpore
      * @throws OutOfRangeException
      */
     public static function sporeOf($nav)
@@ -83,31 +97,31 @@ class NTreeNavigation extends BNavigation implements IShareable
     	{
     		throw new OutOfRangeException();
     	}
-    	if(QSpore::exists(self::$index[$nav][self::Spore]))
+    	if(VSpore::exists(self::$index[$nav][self::Spore]))
     	{
-    		return new QSpore(self::$index[$nav][self::Spore]);
+    		return new VSpore(self::$index[$nav][self::Spore]);
     	}
 		else
 		{
-			$allSpores = QSpore::sporeNames();
+			$allSpores = VSpore::sporeNames();
 			if(count($allSpores) == 0)
 			{
 				//no spores - create one
-				QSpore::set($nav,true,null,null);
-				QSpore::Save();
-				return new QSpore($nav);
+				VSpore::set($nav,true,null,null);
+				VSpore::Save();
+				return new VSpore($nav);
 			}
 			else
 			{
 				//the are some spore use whatever comes first
-				return new QSpore($allSpores[0]);
+				return new VSpore($allSpores[0]);
 			}
 		}
     }
     
     public static function remove($nav)
     {
-    	self::alloc();
+    	self::getSharedInstance();
     	if(self::exists($nav))
     	{
     		unset(self::$index[$nav]);
@@ -116,22 +130,22 @@ class NTreeNavigation extends BNavigation implements IShareable
     
     public static function exists($nav)
     {
-    	self::alloc();
+    	self::getSharedInstance();
     	return array_key_exists($nav, self::$index);
     }
     
     public static function navigations()
     {
-    	self::alloc();
+    	self::getSharedInstance();
     	return array_keys(self::$index);
     }
     
-    //@todo split nav data - one file per nav 
+    //FIXME split nav data - one file per nav 
     
     public static function Save()
     {
-    	self::alloc();
-		DFileSystem::SaveData('./Content/'.self::Class_Name.'/index.php', self::$index);
+    	self::getSharedInstance();
+		DFileSystem::SaveData('./Content/'.self::CLASS_NAME.'/index.php', self::$index);
 		return true;
     }
     
@@ -144,13 +158,13 @@ class NTreeNavigation extends BNavigation implements IShareable
     		$sporeName = self::$index[$NavigationName][self::Spore];
     		$root = self::$index[$NavigationName][self::Tree];
     		
-    		if(QSpore::exists($sporeName) 
+    		if(VSpore::exists($sporeName) 
     			&& $root != null
     			&& $root instanceof NTreeNavigationObject)
     		{
-    			if(QSpore::exists($sporeName) && QSpore::isActive($sporeName))
+    			if(VSpore::exists($sporeName) && VSpore::isActive($sporeName))
     			{
-    				$spore = QSpore::byName($sporeName);
+    				$spore = VSpore::byName($sporeName);
     				$navigation = new NTreeNavigationHelper($root,$spore);
     			}
     			else
@@ -158,9 +172,78 @@ class NTreeNavigation extends BNavigation implements IShareable
     				$navigation = "<!-- spore not found or not active '".$sporeName."' -->";
     			}
     		}
-    		$navigation = '<div id="Navigation-'.htmlentities($NavigationName, ENT_QUOTES, 'utf-8').'">'."\n".strval($navigation).'</div>'."\n";
+    		$navigation = sprintf(
+    			"\n<div id=\"Navigation-%s\">\n%s</div>\n"
+    		    ,htmlentities($NavigationName, ENT_QUOTES, CHARSET)
+    		    ,strval($navigation)
+		    );
     	}
     	return $navigation;
     }
+
+/////////////////////////////////
+
+    /**
+     * return an array with function => array(0..n => parameters [, 'description' =>  desc])
+     *
+     * @return array
+     */
+    public function TemplateProvidedFunctions()
+    {
+        return array('embed' => array('name','description' => 'embeds the Tree-Navigation with the given name'));
+    }
+    
+    /**
+     * return an array with attributeName => description
+     *
+     * @return array
+     */
+    public function TemplateProvidedAttributes()
+    {
+        return array();
+    }
+
+    /**
+	 * @param string $function
+	 * @return boolean
+	 */
+	public function TemplateCallable($function)
+	{
+	    return $function == 'embed';
+	}
+	
+	/**
+	 * @param string $function
+	 * @param array $namedParameters
+	 * @return string in utf-8
+	 */
+	public function TemplateCall($function, array $namedParameters)
+	{
+	    if(!$this->TemplateCallable($function))
+	    {
+	        throw new XTemplateException('called undefined function');
+	    }
+	    if(!array_key_exists('name', $namedParameters))
+	    {
+	        throw new XArgumentException('name must be defined');
+	    }
+	    if(self::exists($namedParameters['name']))
+	    {
+	        return self::navigatieWith($namedParameters['name']);
+	    }
+	    else
+	    {
+	        return '';
+	    }
+	}
+	
+	/**
+	 * @param string $property
+	 * @return string in utf-8
+	 */
+	public function TemplateGet($property)
+	{
+	    return '';
+	}
 }
 ?>

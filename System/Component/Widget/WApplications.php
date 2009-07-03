@@ -1,20 +1,22 @@
 <?php
 /**
- * @package Bambus
- * @subpackage Widgets
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 29.04.2008
+ * @since 2008-04-29
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage Widget
  */
 class WApplications extends BWidget 
 {
 	private $apps = array();
 	
-	public function __construct($target)//BObject $target
+	public function __construct($target = '')//BObject $target
 	{
 		//the current app?
-		$this->apps = SApplication::alloc()->init()->listAvailable();
+		$this->apps = SApplication::listApplications();
 		
 		//read apps from dir
 		
@@ -23,12 +25,12 @@ class WApplications extends BWidget
 		//forek app display icon 
 	}
 	
-	private function selectIcon($name)
+	private function selectIcon($name, $active = true)
 	{
 		$parts = explode('-', $name);
 		//specifyer in name
 		$type = array_shift($parts);
-		$path = SEnviornment::SYSTEM_ICONS.'/large/'.strtolower($type).'s/';
+		$path = SPath::SYSTEM_ICONS.'/'.($active ? 'large' : 'medium').'/'.strtolower($type).'s/';
 		if(ctype_alpha($type) && is_dir($path))
 		{
 			//valid path
@@ -46,34 +48,37 @@ class WApplications extends BWidget
 		}
 		else
 		{
-			return './System/Icons/48x48/apps/'.$name.'.png';
+			return './System/ClientData/Icons/'.($active ? '48x48' : '32x32').'/apps/'.$name.'.png';
 		}
 	}
 	
 	public function __toString()
 	{
 		$html = '<div id="'.get_class($this)."\"><table>\n<tr>";
-		asort($this->apps, SORT_LOCALE_STRING);
-		//@todo remove old
-		$tr = Translation::alloc();
-		$tr->init();
+		$sortHelp = array();
 		foreach ($this->apps as $app => $meta) 
 		{
-			$name = htmlentities($tr->treturn($meta['name']), ENT_QUOTES, 'UTF-8');
+		    $sortHelp[$app] = strtoupper(trim(SLocalization::get($meta['name'])));
+		}
+		asort($sortHelp, SORT_LOCALE_STRING);
+		foreach ($sortHelp as $app => $sortHelp) 
+		{
+		    $meta = $this->apps[$app];
+			$name = htmlentities(SLocalization::get($meta['name']), ENT_QUOTES, CHARSET);
 			$html .= sprintf(
-				"\t<td><a href=\"Management/?editor=%s&amp;tab=%s\" class=\"application%s\">\n".
-					"\t\t<img src=\"%s\" alt=\"%s\" title=\"%s\"/>\n".
-					"\t\t<span class=\"application-name\">%s</span>\n".
-					"\t\t<span class=\"application-description\">%s</span>\n".
-				"\t</a></td>\n"
-				,htmlentities($app, ENT_QUOTES, 'UTF-8')
-				,($meta['active']) ? $meta['active'] : ''
+				"\t<td><a href=\"Management/?editor=%s\" onmousedown=\"return false;\" class=\"application%s\">\n".
+					"\t\t<img src=\"%s\" alt=\"%s\" />\n".
+					"\t\t<span class=\"application-info\">\n".
+					"\t\t\t<span class=\"application-name\">%s</span>\n".
+					"\t\t\t<span class=\"application-description\">%s</span>\n".
+					"\t\t</span>\n".
+					"\t</a></td>\n"
+				,htmlentities($app, ENT_QUOTES, CHARSET)
 				,($meta['active']) ? ' active' : ''
-				,$this->selectIcon($meta['icon'])
+				,$this->selectIcon($meta['icon'], $meta['active'])
 				,$name
 				,$name
-				,$name
-				,$tr->treturn($meta['desc'])
+				,SLocalization::get($meta['desc'])
 			
 			);
 		}

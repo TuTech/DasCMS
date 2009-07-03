@@ -1,8 +1,17 @@
 <?php
 /**
- * @static 
+ * @copyright Lutz Selke/TuTech Innovation GmbH
+ * @author Lutz Selke <selke@tutech.de>
+ * @since 2008-07-04
+ * @license GNU General Public License 3
  */
-class SHTTPStatus extends BSystem 
+/**
+ * @package Bambus
+ * @subpackage System
+ */
+class SHTTPStatus 
+    extends 
+        BSystem 
 {
 	/**
 	 * @var array

@@ -1,94 +1,130 @@
 <?php
 /**
- * @package Bambus
- * @subpackage Contents
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 28.11.2007
+ * @since 2007-11-28
  * @license GNU General Public License 3
  */
-class CPage extends BContent implements ISupportsSidebar 
+/**
+ * @package Bambus
+ * @subpackage Content
+ */
+class CPage 
+    extends BContent 
+    implements 
+        ISupportsSidebar, 
+        IGlobalUniqueId, 
+        ISearchDirectives,
+        Interface_XML_Atom_ProvidesInlineText 
 {
-	//init: load meta data
-	//on access of content/text - load content data
-	//on access of summary/description - load summary data
-	const MANAGER = 'MPageManager';
-	
-	private 
-		$_contentLoaded = false,
-		$_summaryLoaded = false,
-		$_created = false;
+    const GUID = 'org.bambuscms.content.cpage';
+    const CLASS_NAME = 'CPage';
+    
+    public function getClassGUID()
+    {
+        return self::GUID;
+    }
+	private $_contentLoaded = false;
 
+	/**
+	 * @return CPage
+	 */
+	public static function Create($title)
+	{
+	    list($dbid, $alias) = QBContent::create('CPage', $title);
+	    DFileSystem::Save(SPath::CONTENT.'CPage/'.$dbid.'.content.php', ' ');
+	    $page = new CPage($alias);
+	    new EContentCreatedEvent($page, $page);
+	    return $page;
+	}
+	
+	public static function Delete($alias)
+	{
+	    return parent::Delete($alias);
+	}
+	
+	public static function Exists($alias)
+	{
+	    return parent::contentExists($alias, self::CLASS_NAME);
+	}
+	
+	/**
+	 * [alias => [title, pubdate]]
+	 * @return array
+	 */
+	public static function Index()
+	{
+	    return parent::getIndex(self::CLASS_NAME, false);
+	}
+		
+	public static function Open($alias)
+	{
+	    try
+	    {
+	        return new CPage($alias);
+	    }
+	    catch (XArgumentException $e)
+	    {
+	        throw new XUndefinedIndexException($alias);
+	    }
+	}
+	
+	
 	/**
 	 * @param string $id
 	 * @throws XFileNotFoundException
 	 * @throws XFileLockedException
 	 * @throws XInvalidDataException
 	 */
-	public function __construct($id = null)
+	public function __construct($alias)
 	{
-		$manager = MPageManager::alloc()->init(); 
-		$meta = array();
-		$defaults = array(
-			'CreateDate' => time(),
-			'CreatedBy' => BAMBUS_USER,
-			'ModifyDate' => time(),
-			'ModifiedBy' => BAMBUS_USER,
-			'PubDate' => 0,
-			'Size' => 0,
-			'Title' => 'new CPage '.date('r'),
-		);
-		if($id == null || !$manager->Exists($id))
-		{
-			//create
-			$this->Id = ($id == null || strlen($id) != 32)
-				? $manager->generateId()
-				: $id;
-			//saved in content 
-			$this->Content = ' ';
-			
-			//saved in summary
-			$this->Description = ' ';
-			
-			//save settings
-			$this->_created = true;
-			$this->_contentLoaded = true;
-			$this->_summaryLoaded = true;
-		}
-		else
-		{
-			$this->Id = $id;
-			$meta = SContentIndex::alloc()->init()->getMeta($this);
-		}			
-		foreach ($defaults as $var => $default) 
-		{
-			$this->initPropertyValues($var, $meta, $default);
-		}
-		$this->_origPubDate = $this->PubDate;
+	    try
+	    {
+	        $this->initBasicMetaFromDB($alias, self::CLASS_NAME);
+	    }
+	    catch (XUndefinedIndexException $e)
+	    {
+	        throw new XArgumentException('content not found');
+	    }
+	}
+	//Interface_XML_Atom_ProvidesInlineText
+    public function getInlineTextType()
+    {
+        return 'html';
+    }
+    public function getInlineText()
+    {
+        return $this->getContent();
+    }
+	//end Interface_XML_Atom_ProvidesInlineText
+	
+	/**
+	 * Icon for this filetype
+	 * @return WIcon
+	 */
+	public static function defaultIcon()
+	{
+	    return new WIcon('CPage', 'content', WIcon::LARGE, 'mimetype');
 	}
 	
-	private function loadMyData($stream)//<id>.<stream>.php
-	{
-		switch($stream)
-		{
-			case 'content':
-			case 'summary':
-				return DFileSystem::Load($this->StoragePath($this->Id.'.'.$stream));
-			default:
-				throw new XUndefinedIndexException('CPage has no data file for '.$stream);
-		}
-	}
 	/**
-	 * Enter description here...
-	 *
+	 * Icon for this object
+	 * @return WIcon
+	 */
+	public function getIcon()
+	{
+	    return CPage::defaultIcon();
+	}
+    
+	/**
 	 * @return string
 	 */
-	public function _get_Content()
+	public function getContent()
 	{
 		try{
 			if(!$this->_contentLoaded)
 			{
-				$this->Content = $this->loadMyData('content');
+				$this->Content = DFileSystem::Load(SPath::CONTENT.'CPage/'.$this->Id.'.content.php');
 				$this->_contentLoaded = true;
 			}
 		}
@@ -99,82 +135,26 @@ class CPage extends BContent implements ISupportsSidebar
 		return $this->Content;
 	}
 	
-	public function _get_Description()
+	public function setContent($value)
 	{
-		try{
-			if(!$this->_contentLoaded)
-			{
-				$this->Description = $this->loadMyData('summary');
-				$this->_summaryLoaded = true;
-			}
-		}
-		catch(Exception $e)
-		{
-			return $e->getMessage();
-		}
-		return $this->Description;
-	}
-	
-	public function _set_Content($value)
-	{
+	    $this->_contentLoaded = true;
 		$this->Content = $value;
-		$this->Summary = $this->createSummary($value);
-	}
-	
-	/**
-	 * Get a list of all possible meta keys
-	 *
-	 * @return array
-	 */
-	public static function MetaKeys()
-	{
-		return array( 
-			'Summary',
-			'Text',
-			'Title',
-			'Content',
-			'Alias',
-			'PreviousAliases',
-			'PubDate',
-			'CreateDate',
-			'ModifyDate',
-			'ModifiedBy',
-			'Source',
-			'Id',
-			'Tags'
-		);
+		$this->Size = strlen($value);
+		if(empty($this->Description))
+		{
+		    $this->setDescription($this->createSummary($value));
+		}
 	}
 	
 	public function Save()
 	{
-		//count things changed
-		$toSave = count($this->_data__set);
-		
 		//save content
-		if(array_key_exists('Content', $this->_data__set) || $this->_created)
+		if($this->_contentLoaded)
 		{
-			DFileSystem::Save($this->StoragePath($this->Id.'.content'),$this->Content);
-			unset($this->_data__set['Content']);
+			DFileSystem::Save(SPath::CONTENT.'CPage/'.$this->Id.'.content.php',$this->Content);
 		}
-		
-		//save description/summary
-		if(array_key_exists('Description', $this->_data__set) || $this->_created)
-		{
-			DFileSystem::Save($this->StoragePath($this->Id.'.summary'),$this->Content);
-			unset($this->_data__set['Description']);
-		}
-		MPageManager::ChangeIndex($this->Id, $this->Title);
-		
-		//fire events
-		if($this->_created)//just created
-		{
-			new EContentCreatedEvent($this, $this);
-			$this->_created = false;
-		}
-		elseif($toSave = count($this->_data__set))
-		{
-			new EContentChangedEvent($this, $this);
-		}
+		$this->saveMetaToDB();
+		new EContentChangedEvent($this, $this);
 		if($this->_origPubDate != $this->PubDate)
 		{
 			$e = ($this->__get('PubDate') == 0)
@@ -190,12 +170,12 @@ class CPage extends BContent implements ISupportsSidebar
 		$start = -1;
 		$tag = '';
 		
-		$pos = mb_strpos($of, ' id="BCMSTeaser"',0, 'UTF-8');
+		$pos = mb_strpos($of, ' id="BCMSTeaser"',0, CHARSET);
 		if($pos !== false)
 		{
-			$start = mb_strrpos(mb_substr($of,0,$pos, 'UTF-8'), '<','UTF-8');
-			$stop = mb_strpos($of, ' ', $start, 'UTF-8');
-			$tag = mb_substr($of,$start+1,$stop-$start-1, 'UTF-8');
+			$start = mb_strrpos(mb_substr($of,0,$pos, CHARSET), '<',CHARSET);
+			$stop = mb_strpos($of, ' ', $start, CHARSET);
+			$tag = mb_substr($of,$start+1,$stop-$start-1, CHARSET);
 		}
 		else
 		//2. look for first tag
@@ -203,7 +183,7 @@ class CPage extends BContent implements ISupportsSidebar
 			$hits = preg_match('/<([^\/>\s]+)[^\/>]{0,}>/', $of, $matches);
 			if($hits > 0)
 			{
-				$start = mb_strpos($of, '<'.$matches[1], 0, 'UTF-8');
+				$start = mb_strpos($of, '<'.$matches[1], 0, CHARSET);
 				$tag = $matches[1];
 			}
 		}
@@ -211,17 +191,17 @@ class CPage extends BContent implements ISupportsSidebar
 		if($start >= 0)
 		{
 			$teaser = '';
-			$tag = mb_strtolower($tag, 'UTF-8');
-			$text = mb_strtolower($of, 'UTF-8');
-			$len = mb_strlen($text, 'UTF-8');
+			$tag = mb_strtolower($tag, CHARSET);
+			$text = mb_strtolower($of, CHARSET);
+			$len = mb_strlen($text, CHARSET);
 			$offset = $start;
 			$sps = 1;
 			while($sps > 0 && $offset < $len)
 			{
 				//find next end
-				$possibleEnd = mb_strpos($text,'</'.$tag.'>',$offset, 'UTF-8');
+				$possibleEnd = mb_strpos($text,'</'.$tag.'>',$offset, CHARSET);
 				//find more starting tags between start and end
-				$substr = mb_substr($text, $offset+1, $possibleEnd-$offset, 'UTF-8');
+				$substr = mb_substr($text, $offset+1, $possibleEnd-$offset, CHARSET);
 				$psps = preg_match('/<'.$tag.'[^\/>]{0,}>/', $substr);
 				//$psps is the number of other start tags found 
 				$sps += $psps;
@@ -230,20 +210,20 @@ class CPage extends BContent implements ISupportsSidebar
 				//decrease start positions count
 				$sps--;
 			}
-			$textStart = mb_strpos($text,'>', $start, 'UTF-8')+1;// find end of teaser opening tag
+			$textStart = mb_strpos($text,'>', $start, CHARSET)+1;// find end of teaser opening tag
 			$textLength = $possibleEnd+$tag-$textStart;
-			$res = mb_substr($of, $textStart, $textLength, 'UTF-8');
+			$res = mb_substr($of, $textStart, $textLength, CHARSET);
 		}
 		else
 		//3. use the first 1024 chars
 		{
 			$res = strip_tags($of);
-			if(mb_strlen($res, 'UTF-8') > 1024)
+			if(mb_strlen($res, CHARSET) > 1024)
 			{
 				$searchRange = mb_substr($res, 990, 30);
-				$pos = mb_strrpos($searchRange, ' ', 'UTF-8');
+				$pos = mb_strrpos($searchRange, ' ', CHARSET);
 				$chopAt = ($pos !== false) ? 990 + $pos : 1020;
-				$res = mb_substr($res, 0, $chopAt, 'UTF-8').'...';
+				$res = mb_substr($res, 0, $chopAt, CHARSET).'...';
 			}
 		}
 		return $res;
@@ -255,19 +235,22 @@ class CPage extends BContent implements ISupportsSidebar
 		return in_array(strtolower($category), array('text', 'media', 'settings', 'information', 'search'));
 	}
 	
-	/**
-	 * initialized MPageManager object
-	 *
-	 * @return MPageManager
-	 */
-	public function getManager()
+	//ISearchDirectives
+	public function allowSearchIndex()
 	{
-		return MPageManager::alloc()->init();
-	}	
-	
-	public function getManagerName()
-	{
-		return self::MANAGER;
+	    return BContent::isIndexingAllowed($this->getId());
 	}
+	public function excludeAttributesFromSearchIndex()
+	{
+	    return array();
+	}
+	public function isSearchIndexingEditable()
+    {
+        return true;
+    }
+    public function changeSearchIndexingStatus($allow)
+    {
+        QBContent::setAllowSearchIndexing($this->getId(), !empty($allow));
+    }
 }
 ?>

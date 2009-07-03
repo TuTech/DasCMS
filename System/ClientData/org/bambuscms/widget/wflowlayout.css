@@ -1,0 +1,43 @@
+@CHARSET "UTF-8";
+.WFlowLayout{
+    display:block;
+    overflow:auto;
+    padding:5px;
+}
+.WFlowLayoutEnd{
+    clear:both;
+}
+.WFlowLayoutItem{
+    display:block;
+    margin:5px;
+    float:left;
+    overflow:hidden;
+}
+.WFlowLayoutFile,
+.WFlowLayoutImage{
+	width:128px;
+    height:128px;
+    text-align:center;
+}
+.WFlowLayoutImage img{
+    display:block;
+    width:96px;
+    height:96px;
+    margin-left:16px;
+    margin-right:16px;
+}
+
+.WFlowLayoutFile img, .WFlowLayoutImage img.mime-icon{
+    display:block;
+    width:48px;
+    height:48px;
+    margin-left:40px;
+    margin-right:40px;
+    margin-top:10px;
+    margin-bottom:10px;
+}
+.WFlowLayoutImage img.mime-icon
+{
+	margin-top:24px;
+	margin-bottom:24px;
+}

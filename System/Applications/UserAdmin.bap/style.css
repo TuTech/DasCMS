@@ -1,3 +1,108 @@
+.flip_1 td, .flip_1{
+    background: #fff;
+}
+.flip_2 td, .flip_2{
+    background: #ffffe7;
+}
+.flip_1 th{
+    background: #eeeeec;
+}
+.flip_2 th{
+    background: #f3f3e6;
+}
+.borderedtable{
+	border-width:0px;
+    border-left-width:1px;
+    border-bottom-width:1px;
+}
+
+.borderedtable td, .borderedtable th{
+	border-width:0px;
+    border-top-width:1px;
+    border-right-width:1px;
+    text-align:left;
+}
+.borderedtable td input[type=text]{
+	border:0px;
+	display:block;
+	width:98%;
+    margin:2px;
+   	background:transparent;
+    border-bottom-width: 1px;
+    border-bottom-style: dashed;
+    padding:2px;
+    text-align:left;
+}
+.borderedtable td textarea, .borderedtable td select{
+	border-width:1px;
+	display:block;
+    padding:2px;
+    width:98%;
+    margin:2px;
+    text-align:left;
+}
+.borderedtable th{
+    font-weight: bold;
+    font-size:0.9em;
+    white-space: nowrap;
+    vertical-align:top;
+}
+.borderedtable th small{
+    font-size:0.8em;
+    font-weight:normal;
+}
+.borderedtable th[scope=row]{
+	font-size:12px;
+	width: 150px;
+	font-weight:normal;
+	white-space: normal;
+}
+.borderedtable th.left_th{
+	color:#000;
+	width: 150px;
+	font-weight:normal;
+	white-space: normal;
+	background: #eeeeec;
+}
+
+.borderedtable .inactive 
+{
+    opacity:0.25;
+}
+
+.borderedtable th,
+.borderedtable th th
+{
+	border-style: solid;
+	border-color: #4e9a06;
+	background: #4e9a06 url(../../ClientData/Images/header_background.png) 0% 0%;
+	color: #fff;
+}
+.borderedtable th[scope=row]
+{
+	border-color: #4e9a06;
+	border-style: solid;
+	background-color: #d3d7cf;
+	color: #2e3436;
+}
+.borderedtable,
+.borderedtable td, 
+.borderedtable td td
+{
+	border-color: #4e9a06;
+	border-style: solid;
+	background-color: #eeeeec;
+	color: #2e3436;
+}
+.borderedtable td input[type=text],
+.borderedtable td textarea, 
+.borderedtable td select
+{
+	border-color: #4e9a06;
+	border-style: solid;
+	color: #2e3436;
+	background-color: #fff;
+}
 .groupMember, .groupGoldMember
 {
 	position:relative;
@@ -20,17 +125,12 @@
 }
 .groupMember
 {
-	background: #fff url(../../Icons/22x22/mimetypes/user.png) 0px 0px no-repeat;
+	background: #fff url(../../ClientData/Icons/22x22/mimetypes/user.png) 0px 0px no-repeat;
 }
 .groupGoldMember
 {
-	background: #fff url(../../Icons/22x22/mimetypes/administrator.png) 0px 0px no-repeat;
+	background: #fff url(../../ClientData/Icons/22x22/mimetypes/administrator.png) 0px 0px no-repeat;
 }
-
-
-
-
-
 
 #editorianid{
 	width:100%;

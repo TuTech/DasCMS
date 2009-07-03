@@ -1,14 +1,18 @@
 <?php
 /**
- * @package Bambus
- * @subpackage Navigators
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 05.05.2008
+ * @since 2008-05-05
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage Navigator
  */
 class NTreeNavigationObject
 {
+    static $indent = 1;
+    
 	//tree struct
 	public $parent = null;
 	public $next = null;
@@ -147,10 +151,22 @@ class NTreeNavigationObject
 	 */
 	private function rootString()
 	{
-		return sprintf(
-			"<div class=\"NavigationRoot\">\n%s</div>\n"
-			,($this->hasChildren()) ? strval($this->firstChild) : ''
-		);
+		return $this->hasChildren()  
+		        ? sprintf("\t<div class=\"NavigationRoot\">\n%s\t</div>\n" ,strval($this->firstChild) )
+		        : '';
+	}
+	
+	private static function indent($in = true)
+	{
+	    if($in)
+	    {
+	        self::$indent++;
+	    }
+	    else
+	    {
+	        self::$indent--;
+	    }
+	    return str_repeat("\t", self::$indent);
 	}
 	
 	/**
@@ -165,27 +181,37 @@ class NTreeNavigationObject
 			throw new XInvalidDataException('no NTreeNavigation assigned');
 		}
 		$html = '';
+		$pfx = self::indent();
 		if($this->Navigation->isAccessable($this))//$this->accessable)
 		{
+		    $selected = $this->Navigation->isSelectedElement($this);
 			$html = sprintf(
-				"<div class=\"NavigationObject%s%s%s\">\n\t<a href=\"%s\">%s</a>\t"
+				"%s<div class=\"NavigationObject%s%s%s\">\n\t%s<a%s href=\"%s\">%s</a>\n"
+				,$pfx
 				,($this->hasChildren())
 					? ($this->Navigation->isAccessable($this->getFirstChild()) 
 						? ' ExpandedNavigationObject' 
 						: ' ExpandableNavigationObject')
 					:''
-				,($this->Navigation->isSelectedElement($this)) 
+				,($selected) 
 					? ' SelectedNavigationObject' 
 					: ''
-				,' NavigationAlias-'.$this->Navigation->getAlias($this)
-				,$this->Navigation->LinkTo($this)
-				,htmlentities($this->Navigation->getTitle($this), ENT_QUOTES, 'utf-8')
+				,' NavigationAlias-'.preg_replace('/[^a-zA-Z0-9_-]/', '_', $this->Navigation->getAlias($this))
+				,$pfx
+				,($selected) 
+					? ' class="SelectedNavigationLink"' 
+					: ''
+				,strval($this->Navigation->LinkTo($this))
+				,htmlentities(strval($this->Navigation->getTitle($this)), ENT_QUOTES, CHARSET)
 			);		
+			$pfx = self::indent();
 			$html .= ($this->hasChildren())
-				? sprintf("<div class=\"Children\">%s</div>\n\t",strval($this->firstChild))
+				? sprintf("%s<div class=\"Children\">\n%s%s</div>\n",$pfx,strval($this->firstChild),$pfx)
 				: '';
-			$html .= "</div>\n";
+			$pfx = self::indent(false);
+			$html .= $pfx."</div>\n";
 		}
+		$pfx = self::indent(false);
 		$html .= ($this->hasNext())
 			? strval($this->next)
 			: '';
@@ -209,6 +235,7 @@ class NTreeNavigationObject
 	{
 		$this->Navigation = $nav;
 		if($this->alias == $nav->getContentCMSID())
+		//if(SAlias::match($this->alias, $nav->getContentCMSID()))
 		{
 			//report all directly accessed nodes
 			$this->reportVisibility();
@@ -222,6 +249,29 @@ class NTreeNavigationObject
 			$this->next->InitTree($nav);
 		}
 	}
+	
+	/**
+	 * get a list of all aliases used in this navigation
+	 *
+	 * @param NTreeNavigationHelper $nav
+	 */
+	public function getAllAliases(NTreeNavigationHelper $nav)
+	{
+	    $alias = array($this->alias);
+	    $caliases = array();
+	    $naliases = array();
+		if($this->hasChildren())
+		{
+			$caliases = $this->firstChild->getAllAliases($nav);
+		}
+		if($this->hasNext())
+		{
+			$naliases = $this->next->getAllAliases($nav);
+		}
+		$aliases = array_merge($alias, $caliases, $naliases);
+		return $aliases;
+	}
+	
 	/**
 	 * tell the tree navigation that this is an active node
 	 */
@@ -250,19 +300,6 @@ class NTreeNavigationObject
 		}
 		catch (XUndefinedIndexException $e)
 		{}
-	}
-	
-	//@todo remove debugging function
-	private function debug($cid)
-	{
-		$dat = explode(':', $cid);
-		if(count($dat) == 2)
-		{
-			list($m, $c) = $dat;
-			$r = SContentIndex::getTitleAndAlias($m,$c);
-			return $r['Title'];
-		}
-		return ' <i>ROOT</i> ';
 	}
 	
 	/**

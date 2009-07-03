@@ -1,0 +1,49 @@
+#WTagPermissions table{
+    border-width:0px;
+    width:250px;
+    font-size: 0.9em;
+    text-align:left;
+    empty-cells: show;
+    overflow:visible;
+}
+#WTagPermissions table td, #WTagPermissions table th{
+    border-width:0px;
+    border-bottom-width: 1px;
+    border-right-width: 1px;
+}
+#WTagPermissions table, #WTagPermissions table td, #WTagPermissions table th{
+    border-style: solid;
+    border-spacing: 0px;
+    border-color: #9fbc4a;
+}
+#WTagPermissions table th
+{
+    background: #9fbc4a url(../../../../../ClientData/Images/header_background.png) 0% 0%;
+    padding:2px;
+    border-top-width: 1px;
+    color:white;
+}
+
+#WTagPermissions td.cell_x1
+{
+	width: 22px;
+}
+#WTagPermissions td.cell_x2
+{
+	width:228px;
+}
+#WTagPermissions label
+{
+	display: block;
+}
+#WTagPermissions .WTagPermissions_controls a{
+	border: 1px solid #babdb6;
+	background: url(../../../../../ClientData/Images/header_background.png);
+	width:100px;
+	display:block;
+	float:left;
+	padding:5px;
+	margin:3px;
+	text-align:center;
+	font-size: 10px;
+}

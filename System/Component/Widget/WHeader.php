@@ -1,11 +1,13 @@
 <?php
 /**
- * @package Bambus
- * @subpackage Widgets
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 06.05.2008
+ * @since 2008-05-06
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage Widget
  */
 class WHeader extends BWidget 
 {
@@ -58,9 +60,9 @@ class WHeader extends BWidget
 		self::$scripts[$script] = false;
 	} 
 	
-	public static function useStylesheet($style)
+	public static function useStylesheet($style, $media = 'all')
 	{
-		self::relate($style, 'stylesheet', 'text/css');
+		self::relate($style, 'stylesheet', 'text/css', 'media="'.$media.'"');
 	} 
 	
 	public static function relate($link, $as, $type)
@@ -105,7 +107,6 @@ class WHeader extends BWidget
 	
 	public static function setBase($to)
 	{
-		//@todo validate url
 		self::$base = $to;
 	}
 	
@@ -117,7 +118,48 @@ class WHeader extends BWidget
 	
 	private static function enc($str)
 	{
-		return htmlspecialchars($str,ENT_QUOTES, 'UTF-8');
+		return htmlspecialchars($str,ENT_QUOTES, CHARSET);
+	}
+	
+	public static function loadClientData($path = null)
+	{
+	    $path = ($path == null) ? (SPath::SYSTEM_CLIENT_DATA) : $path;
+	    $folders = array();
+	    $files = array();
+	    $oldPath = getcwd();
+	    chdir($path);
+	    $hdl = opendir('.');
+	    while ($item = readdir($hdl))
+	    {
+	        if(is_dir($item) && $item != '.' && $item != '..')
+	        {
+	            $folders[] = $item;
+	        }
+	        elseif(is_file($item))
+	        {
+	            $files[strtoupper($item).$item] = $item;
+	        }
+	    }
+	    chdir($oldPath);
+	    ksort($files);
+	    foreach ($files as $k => $f)
+	    {
+            $s = DFileSystem::suffix($f);
+            switch ($s) 
+            {
+            	case 'css':
+            		self::useStylesheet($path.$f);
+            		break;
+            	case 'js':
+            		self::useScript($path.$f);
+            		break;
+            	default:break;
+            }
+	    }
+	    foreach ($folders as $f)
+	    {
+	        self::loadClientData($path.$f.'/');
+	    }
 	}
 	
 	public function __toString()
@@ -138,32 +180,22 @@ class WHeader extends BWidget
 			$html .= sprintf("\t\t<base href=\"%s\" />\n", self::enc(self::$base));
 		}
 		
+		//$this->loadClientData();
+		
 		//embed custom stylesheets
 		foreach (self::$relations as $relArr) 
 		{
 			//load general stylesheets (lowercase) or for active classes (e.g. WHeader)
-			if(strpos($relArr[0],'/') === false)
-			{
-				//not a path
-				if(strtolower($relArr[1]) == 'stylesheet')
-				{
-					//@todo determine if management | system and load appropriate
-					$relArr[0] = SEnviornment::SYSTEM_STYLESHEETS.$relArr[0]; 
-				}
-			}
-			$html .= sprintf("\t\t<link href=\"%s\" rel=\"%s\" type=\"%s\" />\n"
+			$html .= sprintf("\t\t<link href=\"%s\" rel=\"%s\" type=\"%s\" %s/>\n"
 				, self::enc($relArr[0])
 				, self::enc($relArr[1])
-				, self::enc($relArr[2]));
+				, self::enc($relArr[2])
+				, isset($relArr[3]) ? $relArr[3].' ' : ''
+				);
 		}
 		
 		foreach (self::$scripts as $script => $autoloaded) 
 		{
-			if(strpos($script,'/') === false)
-			{
-				//@todo determine if management | system and load appropriate
-				$script = SEnviornment::SYSTEM_SCRIPTS.$script; 
-			}			
 			$html .= sprintf("\t\t<script type=\"text/javascript\" src=\"%s\">%s</script>\n"
 				, self::enc($script)
 				, ($autoloaded) ? ' /* autoload */ ' : '');;

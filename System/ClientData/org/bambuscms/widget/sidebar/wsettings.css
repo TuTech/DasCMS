@@ -1,0 +1,36 @@
+#WSearch-PreviewImage 
+{
+	text-align: center;
+}
+#WSearch-PreviewImage img
+{
+	margin:auto;
+	margin:5px;
+	border: 1px solid #555753;
+}
+#WSearch-PreviewImage strong 
+{
+	text-align: left;
+}
+#wsettings_img_select{
+	overflow: auto;
+}
+#wsettings_img_select .wsettings_outer{
+	float:left;
+	width:132px;
+	height:100px;
+	margin:5px;
+}
+#wsettings_img_select .wsettings_inner img
+{
+	margin:auto;
+	display:block;
+	border: 1px solid #555753;
+}
+#wsettings_img_select .wsettings_inner img.wsettings_current
+{
+	border: 2px solid #73d216;
+}
+#WSearch-PreviewImage.WSearch-PreviewImage-readonly {
+	background: #d3d7cf;
+}

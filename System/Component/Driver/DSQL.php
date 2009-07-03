@@ -1,16 +1,20 @@
 <?php
 /**
- * @package Bambus
- * @subpackage Drivers
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 28.03.2008
+ * @since 2008-03-28
  * @license GNU General Public License 3
  */
-abstract class DSQL extends BDriver implements IShareable 
+/**
+ * @package Bambus
+ * @subpackage Drivers
+ */
+abstract class DSQL extends BDriver 
+    implements 
+        IShareable
 {
 	private function __construct(){}
-	const Class_Name = 'DSQL';
+	const CLASS_NAME = 'DSQL';
 	private static $engine = null;
 	protected static $Database = null;
 	protected static $Connector = null;
@@ -23,11 +27,11 @@ abstract class DSQL extends BDriver implements IShareable
 	 * @return DSQL
 	 * @throws XDatabaseException
 	 */
-	public static function alloc()
+	public static function getSharedInstance()
 	{
 		if(self::$Connector == null)
 		{
-			self::$engine = Configuration::alloc()->init()->get('db_engine');
+			self::$engine = LConfiguration::get('db_engine');
 			$connector = 'DSQL_'.self::$engine;
 			if(!class_exists($connector, true))
 			{
@@ -38,15 +42,25 @@ abstract class DSQL extends BDriver implements IShareable
 		return self::$Connector;
 	}
 	
-	/**
-	 * @return DSQL
-	 * @throws XDatabaseException
-	 */
-	public function init()
+	public static function getEngineName()
 	{
-		throw new XDatabaseException("That's not gone well!",0);
+	    if(self::$engine == null)
+	    {
+	        self::$engine = LConfiguration::get('db_engine');
+	    }
+	    return self::$engine;
+	}	
+	
+	public static function getEngines()
+	{
+	    //FIXME generate list from component index
+	    return array('MySQL', 'SQLite');
 	}
 	
+	//allow config classes to be configured
+	public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e){}
+	public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e){}
+
 	/**
 	 * database name 
 	 * 
@@ -101,7 +115,7 @@ abstract class DSQL extends BDriver implements IShareable
 			}
 			$escapedValues[] = $block;
 		}
-		return $this->insertUnescaped($into,$escapedNames, $escapedValues);
+		return $this->insertUnescaped($into,$escapedNames, $escapedValues, $ignore);
 	}
 
 	/**

@@ -1,0 +1,21 @@
+.WCodeEditor.org_bambuscms_editor_wysiwyg_source,
+.org_bambuscms_editor_wysiwyg_source{
+	height:1px;
+	width:1px;
+	display: block;
+	overflow: hidden;
+	position: absolute;
+	visibility: hidden;
+	z-index: 0;
+}
+.org_bambuscms_editor_wysiwyg_commandBar{
+	position: absolute;
+	top:70px;
+	left: 280px;
+	z-index: 10000;
+}
+.org_bambuscms_editor_wysiwyg_editor{
+	display: block;
+	width:100%;
+	border:1px solid #9fbc4a;
+}

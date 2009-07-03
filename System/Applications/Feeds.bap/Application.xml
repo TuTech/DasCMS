@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE bambus SYSTEM "../../Resource/DTD/application_v1.dtd">
+<bambus>
+	<appController guid="org.bambuscms.applications.feeds">AFeeds</appController>
+	<name>feeds</name>
+	<description>edit_feeds</description>
+	<icon>app-preferences-feeds</icon>
+	<version>0.1.20081017</version>
+	<priority>2.0</priority>
+	<purpose>manage_content</purpose>
+	<tabs>
+		<tab icon="action-edit">edit</tab>
+	</tabs>
+	<application>
+		<interface name="edit" src="edit.php">
+			<panel name="content_actions">
+				<task type="button" hotkey="o" caption="open" icon="action-document-open" action="org.bambuscms.wopenfiledialog.toggle();" />
+				<task type="button" hotkey="s" caption="save" icon="action-document-save" action="org.bambuscms.app.document.save()" />
+			</panel>
+			<panel name="server_actions">
+				<task type="button" hotkey="N" caption="new" icon="action-document-new" action="Create()" />
+				<task type="button" hotkey="X" caption="delete" icon="action-edit-delete" action="Delete()" />
+			</panel>
+		</interface>
+		<sidebar>
+			<supported mode="PROPERTY_EDIT"/>
+			<supported mode="HELPER"/>
+			<supported mode="PERMISSIONS"/>
+			<processInputs mode="auto"/>
+		</sidebar>
+		<openDialog autoShow="yes"/>
+	</application>
+</bambus>

@@ -1,28 +1,39 @@
 <?php
 /**
- * @package Bambus
- * @subpackage System
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 28.04.2008
+ * @since 2008-04-28
  * @license GNU General Public License 3
  */
-class SComponentIndex extends BSystem implements IShareable 
+/**
+ * @package Bambus
+ * @subpackage System
+ */
+class SComponentIndex 
+    extends 
+        BSystem 
+    implements 
+        IShareable 
 {
 	private static	$_components = array(
-//		'A' => 'AppController',
+		'A' => 'AppController',
 		'B' => 'Base',
 		'C' => 'Content',
 		'D' => 'Driver',
 		'E' => 'Event',
 		'H' => 'EventHandler',
 		'I' => 'Interface',
-		'M' => 'Manager',
+		'J' => 'Job',
+        'L' => 'Legacy',
 		'N' => 'Navigator',
+		'P' => 'Provider',
 		'Q' => 'Query',
-		'R' => 'RenderingEngine',
-		'S' => 'System',
-		'W' => 'Widget',
+		'R' => 'Request',
+        'S' => 'System',
+		'T' => 'TemplateEngine',
+		'U' => 'Plugin',
+        'V' => 'View',
+        'W' => 'Widget',
 		'X' => 'Exception'
 		);
 	
@@ -42,18 +53,8 @@ class SComponentIndex extends BSystem implements IShareable
 	{
 		$fc = substr($class,0,1); //first char
 		$sc = substr($class,1,1); //second char
-		if($sc == strtolower($sc))//valid class name begins with to uppercase chars 
-		{						  //use the content class as default
-			$fc = 'M';
-			$class = 'M'.$class;
-		}
 		return sprintf("./System/Component/%s/%s.php", $Components[$fc], $class);
 	}
-//@todo FIXME dump managers in db  
-//foreach ($managers as $manager) 
-//{
-//	$result = $DB->queryExec("INSERT OR IGNORE INTO Managers (manager) VALUES ('".$manager."');");
-//}
 	/**
 	 * Build index of all component classes
 	 * 
@@ -66,90 +67,83 @@ class SComponentIndex extends BSystem implements IShareable
 		//build class db
 		//build structure.html
 		//allow doing this from cfg app
+
+		$db_class_index = array();
+
 		$err = 0;
 		$errarr = array();
 		self::$_interfaceIndex = array();
 		self::$_classIndex = array();
+		if($verbose)print('<ol>');
 		foreach (self::$_components as $prefix => $var) 
 		{
 			if($verbose)printf("<h3>Component '%s'</h3>\n", $var);
 			$comp = DFileSystem::FilesOf('System/Component/'.$var.'/');
 			foreach ($comp as $c) 
 			{
+			    if($verbose)print('<li>');
 				if($verbose)print('<ul>');
 				try
 				{
-//					ob_start();
-//					echo '<div style="display:block; border:1px solid red;padding:5px;">';
-//					$sys = system('php --syntax-check System/Component/'.$var.'/'.$c, $OKis0);
-//					echo '</div>';
-//					$ob = ob_get_contents();
-//					ob_end_clean();
-					if(true)//$OKis0 == 0)
+					$c = substr($c,0,-4);
+					if(interface_exists($c, true))
 					{
-						$c = substr($c,0,-4);
-						if(interface_exists($c, true))
-						{
-							if($verbose)printf("Interface '<i>%s</i>'<br />", $c);
-							self::$_interfaceIndex[$c] = 1;
-						}
-						elseif(class_exists($c, true))
-						{
-							self::$_classIndex[$c] = array(self::INTERFACES => array(), self::EXTENSIONS => array());
-							if($verbose)printf("Class '<b>%s</b>'<ul><u>implements:</u><ol>", $c);
-							$impl = class_implements($c);
-							foreach ($impl as $itf) 
-							{
-								if($verbose)printf("<li>%s</li>", $itf);
-								self::$_classIndex[$c][self::INTERFACES][$itf] = 1;
-							}
-							////
-							if($verbose)print("</ol><u>extends:</u><ol>");
-							$ext = class_parents($c);
-							foreach ($ext as $par) 
-							{
-								if($verbose)printf("<li>%s </li>", $par);
-								self::$_classIndex[$c][self::EXTENSIONS][$par] = 1;
-							}
-							////
-							if($verbose)print("</ol><u>Functions:</u><ol>");
-							$impl = get_class_methods($c);
-							foreach ($impl as $itf) 
-							{
-								if($verbose)printf("<li>%s</li>", $itf);
-							}
-							////
-							if($verbose)print("</ol><u>Static vars:</u><ol>");
-							$impl = get_class_vars($c);
-							foreach ($impl as $itf => $bla) 
-							{
-								if($verbose)printf("<li>%s</li>", $itf);
-							}
-							if($verbose)print("</ol></ul>");
-						}
-						else
-						{
-							if($verbose)printf("Undefined '<s>%s</s>'<br />", $c);
-						}
+						if($verbose)printf("Interface '<i>%s</i>'<br />", $c);
+						self::$_interfaceIndex[$c] = 1;
 					}
-					else 
+					elseif(class_exists($c, true))
 					{
-						if($verbose)
+						self::$_classIndex[$c] = array(self::INTERFACES => array(), self::EXTENSIONS => array());
+						if($verbose)printf("Class '<b>%s</b>'<ul><u>implements:</u><ol>", $c);
+						$impl = class_implements($c);
+						foreach ($impl as $itf) 
 						{
-							echo '<a name="BADF00D'.$err.'"></a><strong style="color:red">System/Component/'.$var.'/'.$c.' not indexed!<br />Here is why:</strong>';
-							echo $ob;
-							echo var_dump($OKis0);
+							if($verbose)printf("<li>%s</li>", $itf);
+							self::$_classIndex[$c][self::INTERFACES][$itf] = 1;
 						}
-						$errarr[$err] = $var.'/'.$c;
-						$err++;
+						////
+						if($verbose)print("</ol><u>extends:</u><ol>");
+						$ext = class_parents($c);
+						foreach ($ext as $par) 
+						{
+							if($verbose)printf("<li>%s </li>", $par);
+							self::$_classIndex[$c][self::EXTENSIONS][$par] = 1;
+						}
+						////
+						if($verbose)print("</ol><u>Functions:</u><ol>");
+						$impl = get_class_methods($c);
+						foreach ($impl as $itf) 
+						{
+							if($verbose)printf("<li>%s</li>", $itf);
+						}
+						////
+						if($verbose)print("</ol><u>Static vars:</u><ol>");
+						$impl = get_class_vars($c);
+						foreach ($impl as $itf => $bla) 
+						{
+							if($verbose)printf("<li>%s</li>", $itf);
+						}
+						if($verbose)print("</ol></ul>");
+						////DB stuff
+						$guid = '';
+						if(isset(self::$_classIndex[$c][self::INTERFACES]['IGlobalUniqueId']))
+						{
+						    $guid = constant($c.'::GUID');
+						    if($verbose)printf("<p><b>%s</b></p>", $guid);
+						}
+						$db_class_index[$c] = $guid;
 					}
-					
+					else
+					{
+						if($verbose)printf("Undefined '<s>%s</s>'<br />", $c);
+					}
 				}
 				catch(Exception $e)
 				{
 					//ignore the misfits!
 				}
 				if($verbose)print('</ul>');
+				if($verbose)print('</li>');
 			}
 			if($verbose && $err > 0)
 			{
@@ -163,19 +157,12 @@ class SComponentIndex extends BSystem implements IShareable
 				
 			}
 		}
+		if($verbose)print('</ol>');
 		DFileSystem::SaveData($this->StoragePath('classes'), self::$_classIndex);
 		DFileSystem::SaveData($this->StoragePath('interfaces'), self::$_interfaceIndex);
-		$dbEngine = Configuration::alloc()->init()->get('db_engine');
+		$dbEngine = LConfiguration::get('db_engine');
 		
-		$managers = $this->ExtensionsOf("BContentManager");
-		$mangs = array();
-		foreach ($managers as $mngr) 
-		{
-			$mangs[] = array($mngr);
-		}
-
-		$DB = DSQL::alloc()->init();
-		$DB->insert('Managers',array('manager'),$mangs);
+		QSComponentIndex::updateClassIndex($db_class_index);
 	}
 
 	/**
@@ -216,7 +203,7 @@ class SComponentIndex extends BSystem implements IShareable
 	/**
 	 * Find all classes implementing the given interface
 	 *
-	 * @param strring $interface
+	 * @param string $interface
 	 * @return array
 	 * @throws XUndefinedIndexException
 	 */
@@ -307,7 +294,7 @@ class SComponentIndex extends BSystem implements IShareable
 	
 	//IShareable
 	private static $initDone = false;
-	const Class_Name = 'SComponentIndex';
+	const CLASS_NAME = 'SComponentIndex';
 	public static $sharedInstance = NULL;
 	private static $initializedInstance = false;
 	
@@ -316,27 +303,16 @@ class SComponentIndex extends BSystem implements IShareable
 	 *
 	 * @return SComponentIndex
 	 */
-	public static function alloc()
+	public static function getSharedInstance()
 	{
-		$class = self::Class_Name;
+		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)
-			self::$sharedInstance = new $class();
-		return self::$sharedInstance;
-	}
-    
-	/**
-	 * Init instance
-	 *
-	 * @return SComponentIndex
-	 */
-    function init()
-    {
-    	if(!self::$initDone)
-    	{
-    		try
+		{
+		    self::$sharedInstance = new $class();
+		    try
     		{
-    			self::$_classIndex = DFileSystem::LoadData($this->StoragePath('classes'));
-    			self::$_interfaceIndex = DFileSystem::LoadData($this->StoragePath('interfaces'));    		
+    			self::$_classIndex = DFileSystem::LoadData(self::$sharedInstance->StoragePath('classes'));
+    			self::$_interfaceIndex = DFileSystem::LoadData(self::$sharedInstance->StoragePath('interfaces'));    		
     		}
     		catch(XFileNotFoundException $e)
     		{
@@ -346,9 +322,9 @@ class SComponentIndex extends BSystem implements IShareable
     		{
     			echo $e->getMessage().'<br />';
     		}
-    	}
-    	return $this;
-    }
+		}
+		return self::$sharedInstance;
+	}
 	//end IShareable
 	
 }

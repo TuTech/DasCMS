@@ -1,11 +1,13 @@
 <?php
 /**
- * @package Bambus
- * @subpackage BaseClasses
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 28.11.2007
+ * @since 2007-11-28
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage BaseClasses
  */
 abstract class BSystem extends BObject
 {

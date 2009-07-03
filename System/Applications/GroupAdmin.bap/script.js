@@ -10,20 +10,6 @@ function checkothers(mode)
 	}
 }
 
-function toggleAddBox()
-{
-	var	addBox = document.getElementById('addBox');
-	var tables;
-	if(addBox.className != 'full')
-	{
-		addBox.className = 'full';
-	}
-	else
-	{
-		addBox.className = 'hide';
-	}
-}
-
 function addUser()
 { 
 	document.getElementById('actionInput').value = 'create_new_user';

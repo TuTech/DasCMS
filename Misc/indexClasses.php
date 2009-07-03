@@ -7,9 +7,14 @@ function exception_handler($exception) {
 	  '<pre style="border:1px solid #a40000; padding:5px; background:#f68181; color:black;">', $exception->getTraceAsString(),'</pre></div>';
 }
 set_exception_handler('exception_handler');
-require_once('System/Bambus.php');
-$SCI = SComponentIndex::alloc()->init();
-$SCI->Index();
+require_once('./System/Component/Loader.php');
+RSession::start();
+PAuthentication::required();
+if(PAuthorisation::has('org.bambuscms.classes.index'))
+{
+    $SCI = SComponentIndex::getSharedInstance();
+    $SCI->Index();
+}
 ?>
 
 <h1>Finished</h1>

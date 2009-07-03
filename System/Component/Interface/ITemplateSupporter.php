@@ -1,24 +1,37 @@
 <?php
 /**
- * @package Bambus
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 26.03.2008
+ * @since 2008-03-26
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage Interface
  */
 interface ITemplateSupporter
 {
+    /**
+     * return an array with function => array(0..n => parameters [, 'description' =>  desc])
+     *
+     * @return array
+     */
+    public function TemplateProvidedFunctions();
+    
+    /**
+     * return an array with attributeName => description
+     *
+     * @return array
+     */
+    public function TemplateProvidedAttributes();
+    
 	/**
-	 * if $function given return boolean usable,
-	 * else return array of available template functions 
+	 * check function availability and permissions
 	 * 
-	 * function array:
-	 * functionName => array(array(parameterName => type), string description)
-	 *
-	 * @param string|null $function
-	 * @return boolean|array
+	 * @param string $function
+	 * @return boolean
 	 */
-	public function TemplateCallable($function = null);
+	public function TemplateCallable($function);
 	
 	/**
 	 * Call a function from this object

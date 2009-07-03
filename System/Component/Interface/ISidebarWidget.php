@@ -1,28 +1,45 @@
 <?php
 /**
- * @package Bambus
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 19.03.2008
+ * @since 2008-03-19
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage Interface
  */
 interface ISidebarWidget
 {
-	/**
-	 * get category of this widget
-	 * @return string
-	 */
-	public function getCategory();
+    /**
+     * @param WSidePanel $sidepanel
+     */
+    public function __construct(WSidePanel $sidepanel); 
+    
+    /**
+     * @param WSidePanel $sidepanel
+     * @return boolean
+     */
+    public static function isSupported(WSidePanel $sidepanel);
 	
 	/**
 	 * @return string
 	 */
 	public function getName();
+	
 	/**
-	 * get an array of string of all supported classes 
-	 * if it supports BObject, it supports all cms classes
-	 * @return array
+	 * @return WIcon
 	 */
-	public function supportsObject($object);
+	public function getIcon();
+
+	/**
+	 * @return void
+	 */
+	public function processInputs();
+	
+	/**
+	 * @return string|null
+	 */
+	public function associatedJSObject();
 }
 ?>

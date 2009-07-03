@@ -1,3 +1,0 @@
-//org TLD
-
-var org;

@@ -1,14 +1,39 @@
 <?php
 /**
- * @package Bambus
- * @subpackage BaseClasses
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 28.11.2007
+ * @since 2007-11-28
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage BaseClasses
  */
 abstract class BObject
 {
+    private static $_classIndex = null;
+    
+	/**
+	 * load a controller for given app id
+	 *
+	 * @param string $ID
+	 * @return BObject
+	 * @throws XPermissionDeniedException
+	 * @throws XUndefinedException
+	 */
+	public static function InvokeObjectByID($ID)
+	{
+	    if(self::$_classIndex == null)
+	    {
+	        self::$_classIndex = QBObject::preloadClassLookup();
+	    }
+	    if(!array_key_exists($ID, self::$_classIndex))
+	    {
+	        throw new XUndefinedIndexException('class id not indexed');
+	    }
+	    return self::InvokeObjectByDynClass(self::$_classIndex[$ID]);
+	}
+
 	//do path resolve
 	//local id --> cms id path
 	//cms id path --> local id
@@ -29,43 +54,6 @@ abstract class BObject
 				: $defaultValue;
 		}
 	}
-	/**
-	 * get input data
-	 *
-	 * @param string $key
-	 * @param string $inputVarName get/post/cookie/session
-	 * @param mixed $default return this if no data set
-	 * @return mixed
-	 */
-	protected function getDataFromInput($key, $inputVarName,$default = '')
-	{
-		global $_GET,$_POST,$_COOKIE, $_SESSION,$_REQUEST;
-		$inputVarName = strtolower($inputVarName);
-		$inputVarName = (substr($inputVarName,0,1) == '_') ? substr($inputVarName,1) : $inputVarName;
-		$encode = get_magic_quotes_gpc();
-		switch($inputVarName)
-		{
-			case 'get':
-				$array = &$_GET;
-				break;
-			case 'post':
-				$array = &$_POST;
-				break;
-			case 'cookie':
-				$array = &$_COOKIE;
-				break;
-			case 'session':
-				$array = &$_SESSION;
-				$encode = false;
-				break;
-			default:
-				$array = &$_REQUEST;
-				
-		}
-		return isset($array[$key]) ? ($encode ? stripslashes($array[$key]) 
-											  : $array[$key]) 
-								   : $default;
-	}
 	
 	
 	public final static function InvokeObjectByDynClass($class)
@@ -73,15 +61,23 @@ abstract class BObject
 		$object = null;
 		if(class_exists($class, true))
 		{
-			$temp = new $class();
-			if($temp instanceof IShareable)
-			{
-				$object = $temp->alloc()->init();
-			}
-			else
-			{
-				$object = $temp;
-			}
+		    if(class_exists('SComponentIndex',false))
+		    {
+    		    if(SComponentIndex::getSharedInstance()->IsImplementation($class, 'IShareable'))
+    		    {
+    		        $object = call_user_func($class.'::getSharedInstance');
+    		    }
+    			else
+    			{
+    			    $object = new $class();
+    			}
+		    }
+		    if($object === null || !is_object($object))
+		    {
+		        $temp = new $class();
+			    //if SComponentIndex was not available, respect the interfaces will 
+				$object = ($temp instanceof IShareable) ? $temp->getSharedInstance() : $temp;
+		    }
 		}
 		return $object;
 	}

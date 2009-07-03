@@ -1,101 +1,74 @@
 <?php
 /**
- * @package Bambus
- * @subpackage Widgets
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 29.04.2008
+ * @since 2008-04-29
  * @license GNU General Public License 3
+ * @deprecated
  */
-class WContentLookup extends BWidget implements ISidebarWidget  
+/**
+ * @package Bambus
+ * @subpackage Widget
+ */
+class WContentLookup 
+    extends BWidget 
+    implements 
+        ISidebarWidget
 {
-	private $managers = array();
-	/**
-	 * get category of this widget
-	 * @return string
-	 */
-	public function getCategory()
-	{
-		return 'Content';
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getName()
-	{
-		return 'Content Index';
-	}
+    const CLASS_NAME = 'WContentLookup';
 	/**
 	 * get an array of string of all supported classes 
 	 * if it supports BObject, it supports all cms classes
 	 * @return array
 	 */
-	public function supportsObject($object)
+	public static function isSupported(WSidePanel $sidepanel)
 	{
-		return true;
+		return $sidepanel->isMode(WSidePanel::CONTENT_LOOKUP);
 	}
 	
-	public function __construct($target = null)
+	public function getName()
 	{
-		//build content list
-//		$SCI = SComponentIndex::alloc()->init();
-//		$this->managers = $SCI->ExtensionsOf('BContentManager');
+	    return 'content_lookup';
+	}
+		
+	public function getIcon()
+	{
+	    return new WIcon('link','',WIcon::SMALL,'action');
+	}
+	
+	public function processInputs()
+	{
+	}
+	
+	public function __construct(WSidePanel $sidepanel)
+	{
 	}
 	
 	public function __toString()
 	{
-		$html = '<strong>All Contents</strong>';
-		$html .= '<div id="WCLSearchBox"><input type="text" id="WContentLookupFilter" onchange="WCLFilter();" onkeyup="WCLFilter();" /></div>';
-		
-		try
-		{
-			$DB = DSQL::alloc()->init();
-			$managers = SComponentIndex::alloc()->init()->ExtensionsOf('BContentManager');
-			$sql = "SELECT ContentIndex.managerContentID, Managers.manager AS Manager,".
-					"ContentIndex.title AS Title, ContentIndex.pubDate ".
-					"FROM ContentIndex ".
-					"LEFT JOIN Managers ON (ContentIndex.managerREL = Managers.managerID) ".
-					"WHERE ContentIndex.pubDate > -1  ORDER BY Manager,Title ASC";
-			$res = $DB->query($sql, DSQL::NUM);
-			$rows = $res->getRowCount()+count($managers);
-				
-			$html .= '<select id="WContentLookup" onclick="insertMedia(\'content\', this.options[this.selectedIndex].value, this.options[this.selectedIndex].text)" size="'.$rows.'">';
-			
-			$lastMan = null;
-			while($erg = $res->fetch())
-			{
-				list($cid, $man, $ttl, $pub) = $erg;
-				if($man != $lastMan)
-				{
-					if($lastMan != null)  $html .= '</optgroup>';
-					$html .= '<optgroup label="'. substr($man,1).'">';
-					$lastMan = $man;
-				}
-				$class = 'unpublished';
-				$title = 'Not public';
-				if($pub > 0){
-					$class = 'published';
-					$title = 'Published: '.date('r',$pub);
-				}
-				if($pub > time()){
-					$class = 'publicationScheduled';
-					$title = 'Not yet public ('.date('r',$pub).')';
-				}
-				$html .= '<option value="'.$man.':'.$cid.'" class="'.$class.'" title="'.$title.'">'.
-								htmlentities($ttl, ENT_QUOTES, 'UTF-8')
-						.'</option>';
-			}
-			$res->free();
-			if($lastMan != null)  $html .= '</optgroup>';
-			
-			$html .= '</select>';
-		}
-		catch (Exception $e)
-		{
-			$html .= '<div>Ex @ '.$e->getFile().' line '.$e->getLine().'<b>'.$e->getCode().': '.$e->getMessage().'</b></div>';
-		}
-		return $html;
+	    $Items = new WNamedList();
+	    $Items->setTitleTranslation(false);
+	    $opts = array('pub' => 'published', 'sched' => 'scheduled_publication', 'all' => 'all', 'priv' => 'not_published');
+	    $select = '<select id="WContentLookupMode">';
+	    foreach ($opts as $val => $ttl)
+	    {
+	        $select .= sprintf('<option value="%s">%s</option>',$val, SLocalization::get($ttl));
+	    }
+	    $select .= '</select>';
+	    $Items->add(
+	        sprintf("<label>%s</label>", SLocalization::get('search_contens')),
+	        '<div id="WCLSearchBox">'.
+		            '<input type="text" autocomplete="off" id="WContentLookupFilter" />'.
+	                $select.
+		            '</div>'."\n"
+	    );
+		$html = '<div id="WContentLookup"></div>';
+		return strval($Items).$html;
+	}
+	
+	public function associatedJSObject()
+	{
+	    return 'org.bambuscms.wcontentlookup';
 	}
 }
 ?>

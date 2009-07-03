@@ -1,0 +1,150 @@
+#WSidebar 
+{
+    border-color: #9fbc4a;
+    border-style: solid;
+    background-color: #eeeeec;
+    color: #2e3436;
+}
+
+#WSidebar-body strong 
+{
+    border-style: solid;
+    border-color: #9fbc4a;
+    background: #4e9a06 url(../../../../ClientData/Images/header_background.png) 0% 0%;
+    color: #fff;
+}
+
+#WSidebar
+{
+    border-color: #888a85;
+}
+
+#WSidebar{
+	border-width:0px;
+	border-left-width:1px;
+	position:absolute;
+	right:0px;
+	top:0px;
+	height:100%;
+	display: block;
+	width:250px;
+	float:right;
+	z-index:5;
+	overflow: auto;
+}
+#WSidebar-head{
+	position:absolute;
+	z-index:500;
+	right:0px;
+	top:96px;
+	padding: 0px;
+	background: #babdb6;
+	border: 1px solid #888a85;
+	border-top-width:0px;
+	display:block;
+	width: 250px;
+	border-right-width: 0px;
+	border-bottom-width: 0px;
+	border-top: 1px solid #9fbc4a;
+}
+#WSidebar-select{
+	border-spacing: 0px;
+	padding:0px;
+	margin:0px;
+	border:0px;
+	width:100%;
+}
+#WSidebar-select a{
+	display:block;
+	padding:2px;
+	background: #babdb6;
+	border-bottom: 1px solid #888a85;
+}
+#WSidebar-select a.selectedWidget{
+	background: #eeeeec;
+	border-bottom: 1px solid #eeeeec;
+}
+
+#WSidebar-select td{
+	text-align: center;
+	padding:0px;
+	margin:0px;
+	border:0px;
+	height:24px;
+}
+#WSidebar-select td.spacer{
+	border-bottom: 1px solid #888a85;
+}
+#WSidebar-select td.tab{
+	width:42px;
+	border-right: 1px solid #888a85;
+}
+
+#WSidebar-head select{
+	display:block;
+	font-size:14px;
+	display:block;
+	width:100%;
+	padding-top:3px;
+	padding-bottom:3px;
+	margin:0px;
+	font-weight:bold;
+	border-width: 0px;
+	background: #9fbc4a;
+}
+#WSidebar-body{
+	margin-top:40px;
+}
+#WSidebar-body dt{
+	border-width:0px;
+	border-top-width:1px;
+	border-bottom-width:1px;
+	border-style: solid;
+	border-color: #9fbc4a;
+	background: #9fbc4a url(../../../../ClientData/Images/header_background.png) 0% 0%;
+	color: #fff;
+	font-weight:bold;
+}
+#WSidebar-body dd{
+	margin-left:10px;
+	margin-right:10px;
+}
+#WSidebar-body dt label{
+	padding:1px;
+	display: block;
+}
+#WSidebar-body dd input[type=text],
+#WSidebar-body dd select,
+#WSidebar-body dd textarea
+{
+	display:block;
+	width:100%;
+	border:1px solid #555753;
+	margin: 5px 0px 5px 0px;
+}
+#WSidebar-body dd .alt{
+	background: #fafafa;
+	margin-top: 1px;
+	margin-bottom: 1px;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #fff;
+}
+#WSidebar-body dd .small-padding{
+	padding:2px;
+}
+#WSidebar-body dd textarea{
+	height: 150px;
+}
+#WSidebar-body dd dl{
+	border-width:0px; 
+	border-color:#9fbc4a;
+}
+#WSidebar-body dd dt{
+	color: #2e3436;
+	border-color: #babdb6;
+	border-width:0px;
+	border-bottom-width:1px;
+	margin-top:10px;
+	background: none;
+}
+

@@ -1,11 +1,13 @@
 <?php
 /**
- * @package Bambus
- * @subpackage Events
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 25.04.2008
+ * @since 2008-04-25
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage Events
  */
 class EContentAccessEvent extends BEvent
 {

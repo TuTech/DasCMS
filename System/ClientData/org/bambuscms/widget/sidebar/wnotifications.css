@@ -1,0 +1,31 @@
+#WNotifications{
+	padding:5px;
+}
+#WNotifications-area{
+}
+
+#WNotifications-area div{
+	padding:3px;
+	border:1px solid black;
+	margin-bottom:5px;
+}
+
+#WNotifications-area .alert{
+    border-color:  #a40000;
+    background: #cc0000;
+    color: white;
+}
+#WNotifications-area .message{
+    border-color: #4e9a06;
+    background: #73d216;
+    color:#fff;
+}
+#WNotifications-area .warning{
+    border-color: #ce5c00;
+    background: #f57900;
+}
+#WNotifications-area .information{
+	border-color: #204a87;
+	background: #3465a4;
+    color: #fff;
+}

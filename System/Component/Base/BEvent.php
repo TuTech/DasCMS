@@ -1,11 +1,13 @@
 <?php
 /**
- * @package Bambus
- * @subpackage BaseClasses
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 28.11.2007
+ * @since 2007-11-28
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage BaseClasses
  */
 abstract class BEvent extends BObject
 {
@@ -49,15 +51,30 @@ abstract class BEvent extends BObject
 		//HandleContentChangedEvent
 		$handleEvent = sprintf("Handle%s", substr($class,1));
 		
-		$SCI = SComponentIndex::alloc()->init();
+		$SCI = SComponentIndex::getSharedInstance();
 		$listenerClasses = $SCI->ImplementationsOf($handler);
 		foreach ($listenerClasses as $eventListenerClass) 
 		{
-			$c = new $eventListenerClass();
-			
-			$eventListener = $c->alloc();//call_user_func_array(array($eventListenerClass, 'alloc'));
-			$eventListener->init();
-			$eventListener->{$handleEvent}($e);
+		    if(SComponentIndex::getSharedInstance()->IsImplementation($eventListenerClass, 'IShareable'))
+		    {
+		        $eventListener = call_user_func($eventListenerClass.'::getSharedInstance');
+		    }
+			else
+			{
+			    $eventListener = new $eventListenerClass();
+			}
+			if($eventListener instanceof $handler)
+		    {
+    			if(!method_exists($eventListener, $handleEvent))
+    			{
+    			    throw new Exception($eventListenerClass.' ['.get_class($eventListener).'::'.$handleEvent.'()]');
+    			}
+    			$eventListener->{$handleEvent}($e);
+		    }
+		    else
+		    {
+		        SNotificationCenter::report('warning', 'component index out of sync');
+		    }
 		}
 	}
 }

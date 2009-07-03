@@ -1,74 +1,144 @@
 <?php
 /**
- * @package Bambus
- * @subpackage Widgets
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 19.05.2008
+ * @since 2009-03-12
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage Widget
  */
 class WTextEditor extends BWidget 
 {
 	const CLASS_NAME = "WTextEditor";
-	private $ID;
-	private $target = null;
+	private $value;
+	private $spellCheck = true;
+	private $wordWrap = true;
+	private $wysiwyg = false;
+	private $codeAssist = true;
 	
-	public function __construct($target)
+	public function __construct($value = '')
 	{		
-		$this->ID = ++parent::$CurrentWidgetID;
-		if(is_object($target) && $target instanceof BContent)
-		{
-			$this->target = $target;
-		}
+		$this->setContents($value);
 	}
-
+	
+    public function disableSpellcheck()
+    {
+        $this->spellCheck = false;
+    }
+	
+    public function getContents()
+    {
+        return $this->value;
+    }
+    
+    public function setContents($val)
+    {
+        $this->value = $this->encode($val);
+    }
+    
+    public function getWordWrap()
+    {
+        return $this->wordWrap;
+    }
+    
+    public function setWordWrap($yn)
+    {
+        $this->wordWrap = $yn == true;
+    }
+    
+    public function getWYSIWYG()
+    {
+        return $this->wysiwyg;
+    }
+    
+    public function setWYSIWYG($yn)
+    {
+        $this->wysiwyg = $yn == true;
+    }
+    
+    public function getCodeAssist()
+    {
+        return $this->codeAssist;
+    }
+    
+    public function setCodeAssist($yn)
+    {
+        $this->codeAssist = $yn == true;
+    }
+    
 	/**
 	 * get render() output as string
-	 *
 	 * @return string
 	 */
 	public function __toString()
 	{
-		ob_start();
-		$this->render();
-		return ob_get_clean();
+	    $hidinp = '<input type="hidden" name="%s" id="%s" value="%s" />'."\n";
+        $textarea = '<textarea name="content" class="WCodeEditor" id="org_bambuscms_app_document_editorElementId"%s%s>%s</textarea>'."\n";
+	    $script = '<script type="text/javascript">%s%s</script>'."\n";
+        $sp = 'org_bambuscms_wcodeeditor_scrollpos';
+        //scrollpos
+        $out = sprintf(
+        	$hidinp
+        	,$sp
+        	,$sp
+        	,$this->encode(RSent::get($sp, CHARSET))
+        );
+        //textarea
+        $out .= sprintf(
+            $textarea
+            ,$this->wordWrap   ? ' wrap="on"' : ' wrap="off"'
+            ,$this->spellCheck ? ' spellcheck="true"' : ' spellcheck="false"'
+            ,$this->value
+        );
+        //javascript resize/wysiwyg
+        $editorJS = '';
+        if($this->wysiwyg)
+        {
+            //WYSIWYG
+            $editorJS = 'var editor = org.bambuscms.editor.wysiwyg.create(org.bambuscms.app.document.editorElementId, true);';
+        }
+        elseif($this->codeAssist)
+        {
+            //assisting textarea
+            $editorJS = 'org.bambuscms.wcodeeditor.run($(org.bambuscms.app.document.editorElementId));';
+        }
+        
+        $out .= sprintf(
+            $script
+            ,'(function(){'.
+                'var h = ($(org.bambuscms.app.document.editorElementId).offsetTop) '.
+                    '? function(){return ($(org.bambuscms.app.document.editorElementId).offsetTop+5)*-1;} '.
+                    ': -190;'.
+                'org.bambuscms.display.setAutosize(org.bambuscms.app.document.editorElementId,0,h);'.
+            '})();'
+            ,$editorJS
+		);
+		return $out;
 	}
 	
+	private function encode($string)
+	{
+	    return htmlentities(mb_convert_encoding($string, CHARSET, 'UTF-8,ISO-8859-1'), ENT_QUOTES, CHARSET);
+	}
+
 	public function render()
 	{
-		if($this->target != null)
-		{
-			echo "<textarea rows=\"10\" cols=\"60\" onmouseout=\"\$('_",$this->ID, "-ScrollPos').value=this.scrollTop;\" id=\"_",
-				$this->ID,"\" name=\"",$this->target->Id,"-Content\" class=\"",self::CLASS_NAME,"\">";
-			echo htmlentities($this->target->Content, ENT_QUOTES, 'UTF-8');
-			echo "</textarea>\n";
-			echo "<input type=\"hidden\" id=\"_",$this->ID,"-ScrollPos\" name=\"",$this->target->Id,"-Content-ScrollPos\" value=\"",
-				htmlentities($this->getDataFromInput($this->target->Id."-Content-ScrollPos",'post',0), ENT_QUOTES, 'UTF-8')
-			,"\" />\n";
-			echo "<script type=\"text/javascript\">\$('_",$this->ID,"').scrollTop = $('_",$this->ID,"-ScrollPos').value;</script>\n";
-		}
+	    echo strval($this);
 	}
 	
 	public function run()
 	{
-		if($this->target != null)
-		{
-			$data = $this->getDataFromInput($this->target->Id."-Content",'post',null);
-			if($data != null)
-			{
-				//@todo check permissions 
-				$this->target->Content = $data;
-			}
-		}
 	}
 	/**
 	 * return ID of primary editable element or null 
 	 *
-	 * @return string|null
+	 * @return string
 	 */
 	public function getPrimaryInputID()
 	{
-		return "_".$this->ID;
+		return "org_bambuscms_app_document_editorElementId";
 	}
 }
 ?>

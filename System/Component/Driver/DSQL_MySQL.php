@@ -1,15 +1,17 @@
 <?php
 /**
- * @package Bambus
- * @subpackage Drivers
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 28.03.2008
+ * @since 2008-03-28
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage Drivers
  */
 class DSQL_MySQL extends DSQL  
 {
-	const Class_Name = 'DSQL_MySQL';
+	const CLASS_NAME = 'DSQL_MySQL';
 	
 	/**
 	 * @var mysqli
@@ -34,44 +36,60 @@ class DSQL_MySQL extends DSQL
 	{
 		if(self::$DB == null)
     	{
-    		$cfg = Configuration::alloc()->init();
     		//$host $cfg->get()
     		self::$DB = new mysqli(
-				$this->getCfgOrNull($cfg, 'db_server'),
-				$this->getCfgOrNull($cfg, 'db_user'),
-				$this->getCfgOrNull($cfg, 'db_password'),
-				$this->getCfgOrNull($cfg, 'db_name'),
-				$this->getCfgOrNull($cfg, 'db_port'),
-				$this->getCfgOrNull($cfg, 'db_socket'));
+				$this->getCfgOrNull('db_server'),
+				$this->getCfgOrNull('db_user'),
+				$this->getCfgOrNull('db_password'),
+				$this->getCfgOrNull('db_name'),
+				$this->getCfgOrNull('db_port'),
+				$this->getCfgOrNull('db_socket'));
 			if(mysqli_connect_errno() != 0)
 			{
 				throw new XDatabaseException(mysqli_connect_error(), mysqli_connect_errno());
 				self::$DB = null;
 			}
+			$this->queryExecute("SET COLLATION_CONNECTION='utf8_unicode_ci', CHARACTER_SET_CLIENT='utf8',CHARACTER_SET_RESULTS='utf8';");
     	}
 	}
 	
-	private function getCfgOrNull(Configuration $cfg, $key)
+	private function getCfgOrNull($key)
 	{
-		$dat = $cfg->get($key);
+		$dat = LConfiguration::get($key);
 		return empty($dat) ? null : $dat; 
+	}
+	private static $configKeys = array(
+	    'db_server' => 0,'db_port' => 0,'db_user' => 0,'db_password' => '######','db_name' => 0
+	);
+	public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
+	{
+	    $data = array();
+        foreach (self::$configKeys as $mk => $altVal)
+        {
+            $data[$mk] = array($altVal === 0 ? LConfiguration::get($mk) : $altVal,($altVal === 0 ? AConfiguration::TYPE_TEXT : AConfiguration::TYPE_PASSWORD), null, $mk);
+        }
+        $e->addClassSettings($this, 'database', $data);
+	}
+	
+	public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
+	{
+	    $data = $e->getClassSettings($this);
+	    foreach (self::$configKeys as $mk => $altVal)
+        {
+            if(isset($data[$mk]) && !($mk == 'db_password' && $data[$mk] == $altVal))
+            {
+                LConfiguration::set($mk, $data[$mk]);
+            }
+        }
 	}
 	
 	/**
 	 * @return DSQL
 	 */
-	public static function alloc()
+	public static function getSharedInstance()
 	{
-		throw new Exception('call DSQL::alloc() instead');
+		throw new Exception('call DSQL::getSharedInstance() instead');
 	}
-	
-    /**
-     * @return DSQL
-     */
-    public function init()
-    {
-    	return $this;
-    }
 	
     /**
 	 * @return string
@@ -133,7 +151,7 @@ class DSQL_MySQL extends DSQL
 			throw new Exception('no data given');
 		}
 		$sql .= implode(', ', $parts);
-		return $this->queryExecute($sql);//FIXME
+		return $this->queryExecute($sql);
 	}
 	
 	
@@ -145,7 +163,8 @@ class DSQL_MySQL extends DSQL
 	 */
 	public function beginTransaction()
 	{
-		self::$DB->autocommit(false);
+		$this->queryExecute('SET AUTOCOMMIT = 0');
+		$this->queryExecute('START TRANSACTION');
 		return true;
 	}
 	
@@ -156,8 +175,8 @@ class DSQL_MySQL extends DSQL
 	 */
 	public function commit()
 	{
-		self::$DB->commit();
-		self::$DB->autocommit(true);
+		$this->queryExecute('COMMIT');
+		$this->queryExecute('SET AUTOCOMMIT = 1');
 		return true;
 	}
 		
@@ -168,8 +187,8 @@ class DSQL_MySQL extends DSQL
 	 */
 	public function rollback()
 	{
-		self::$DB->rollback();
-		self::$DB->autocommit(true);
+		$this->queryExecute('ROLLBACK');
+		$this->queryExecute('SET AUTOCOMMIT = 1');
 		return true;
 	}
 	
@@ -198,16 +217,26 @@ class DSQL_MySQL extends DSQL
     	return self::$DB->real_escape_string($string);
     }
 
+    
+    private function stripParams($sql)
+    {
+        $sql = preg_replace('/(\'([^\']|[\\][\'])*\'|"([^"]|[\\]["])*")/', '?', $sql);
+        $sql = preg_replace('/[\s\n\t\r]+/m', ' ', trim($sql));
+        $sql = preg_replace('/ ([\d]+|0x[a-fA-F0-9]+)([\s]|[\)]|$)/i', ' ?\2', $sql);
+        return preg_replace('/[\s\n\t\r]+/m', ' ', trim($sql));
+    }
+    
     /**
      * @return int affected rows
      */
     public function queryExecute($string)
     {
-    	$ptok = SProfiler::profile(__FILE__, __LINE__, $string);
+        $usql = $this->stripParams($string);
+    	$ptok = SProfiler::profile(__FILE__, __LINE__, $string, array('queryId' => md5($string), 'functionSQL' => $usql, 'functionId' => md5($usql)));
     	$res = self::$DB->query($string);
     	if(self::$DB->errno != 0)
     	{
-    		throw new XDatabaseException(self::$DB->error, self::$DB->errno);
+    		throw new XDatabaseException(self::$DB->error, self::$DB->errno, $string);
     	}
     	$succ = self::$DB->affected_rows;
     	if(is_object($res))
@@ -223,7 +252,8 @@ class DSQL_MySQL extends DSQL
      */
     public function query($string, $mode = null)
     {
-    	$ptok = SProfiler::profile(__FILE__, __LINE__, $string);
+        $usql = $this->stripParams($string);
+    	$ptok = SProfiler::profile(__FILE__, __LINE__, $string, array('queryId' => md5($string), 'functionSQL' => $usql, 'functionId' => md5($usql)));
     	if ($mode != null) 
     	{
     		$res = self::$DB->query($string, $this->translateMode($mode));
@@ -234,9 +264,13 @@ class DSQL_MySQL extends DSQL
     	}
     	if(self::$DB->errno != 0)
     	{
-    		throw new XDatabaseException(self::$DB->error, self::$DB->errno);
+    		throw new XDatabaseException(self::$DB->error, self::$DB->errno, $string);
     	}
     	SProfiler::finish($ptok);
+    	if(!$res instanceof mysqli_result)
+    	{
+    	    throw new Exception($res);
+    	}
     	return new DSQLResult_MySQL(self::$DB, $res);
     }
 }

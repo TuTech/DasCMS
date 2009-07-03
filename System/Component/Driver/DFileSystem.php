@@ -1,11 +1,13 @@
 <?php
 /**
- * @package Bambus
- * @subpackage Drivers
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 28.11.2007
+ * @since 2007-11-28
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage Drivers
  */
 class DFileSystem extends BDriver
 {
@@ -65,15 +67,11 @@ class DFileSystem extends BDriver
 		chdir(constant('BAMBUS_CMS_ROOTDIR'));
 		//open path and return fp
 		//wait for locked 
-		
 		$openFile = null;
 		if(!file_exists($file) && $write == false)
 		{
 			throw new XFileNotFoundException('open failed',$file);
 		}
-		
-		
-		//FIXME FOPEN etc works? (was r+)
 		$openFile = @fopen($file,$write ? 'w+' : 'r+');
 		if(!$openFile)
 		{
@@ -185,17 +183,12 @@ class DFileSystem extends BDriver
 		{
 			throw new XFileNotFoundException('open failed',$dataFile);
 		}
-		
-		
-		//FIXME FOPEN etc works? (was r+)
 		$fp = @fopen($dataFile,'r');
 		if(!$fp)
 		{
 			throw new XFileLockedException('open failed ',$dataFile);
 		}
-		
 		self::lock($fp);
-		
 		$bin = null;
 		if(filesize($dataFile) > 0)
 		{
@@ -226,7 +219,7 @@ class DFileSystem extends BDriver
 		$suc = false;
 		if($fp != null)
 		{
-			$suc = fwrite($fp, self::FHEADER.$changes);
+			$suc = fwrite($fp, ((self::suffix($dataFile) == 'php') ? (self::FHEADER) : '').$changes);
 		}
 		self::close($fp);
 		if(!$suc)
@@ -236,82 +229,147 @@ class DFileSystem extends BDriver
 		return $suc;
 	} 
 	
-	/**
-	 * Read raw data from file
-	 *
-	 * @param string $dataFile
-	 * @return string
-	 * @throws XFileNotFoundException
-	 * @throws XFileLockedException
-	 */
-	public static function Load($dataFile)
-	{
-		$bin = '';
-		$fp = null;
-		if(!file_exists($dataFile))
-		{
-			throw new XFileNotFoundException('open failed',$dataFile);
-		}
-		
-		
-		//FIXME FOPEN etc works? (was r+)
-		$fp = @fopen($dataFile,'r');
-		if(!$fp)
-		{
-			throw new XFileLockedException('open failed ',$dataFile);
-		}
-		
-		self::lock($fp);
-		if(filesize($dataFile) > 0)
-		{
-			$bin = fread($fp, filesize($dataFile));
-			$pos = (strpos($bin, "\n") === false) ? 0 : strpos($bin, "\n")+1;
-			$bin = substr($bin, $pos);
-		}
-		self::close($fp);
-		return $bin;
-	} 
-	/**
-	 * List files in $dir
-	 * $match can be a regexp for file names
-	 *
-	 * @param string $dir
-	 * @param mixed $match
-	 * @return array
-	 * @throws XFileNotFoundException
-	 */
-	public static function FilesOf($dir, $match = false)
-	{
-		chdir(constant('BAMBUS_CMS_ROOTDIR'));
-		$files = array();
-		if(is_dir($dir) && chdir($dir))
-		{
-			$handle = openDir('.');
-			$i=1;
-			while($item = readdir($handle))
-			{
-				if(is_dir($item))
-				{
-					continue;
-				}
-				if(substr($item,0,1) != '.' 
-					&& (!$match || preg_match($match, $item))
-				)
-				{
-					$files[strtoupper($item).md5($i)] = $item;
-				}
-				$i++;
-			}
-			asort($files, SORT_LOCALE_STRING);
-			closedir($handle);
-		}
-		else
-		{
-			throw new XFileNotFoundException('dir not found ',$dir,1);
-		}
-		chdir(constant('BAMBUS_CMS_ROOTDIR'));
-		return $files;
-	}
+    /**
+     * Read raw data from file
+     *
+     * @param string $dataFile
+     * @return string
+     * @throws XFileNotFoundException
+     * @throws XFileLockedException
+     */
+    public static function Load($dataFile)
+    {
+        $bin = '';
+        $fp = null;
+        if(!file_exists($dataFile))
+        {
+            throw new XFileNotFoundException('open failed',$dataFile);
+        }
+        
+        $fp = @fopen($dataFile,'r');
+        if(!$fp)
+        {
+            throw new XFileLockedException('open failed ',$dataFile);
+        }
+        
+        self::lock($fp);
+        if(filesize($dataFile) > 0)
+        {
+            $bin = fread($fp, filesize($dataFile));
+            if(self::suffix($dataFile) == 'php')
+            {
+                $pos = (strpos($bin, "\n") === false) ? 0 : strpos($bin, "\n")+1;
+                $bin = substr($bin, $pos);
+            }
+        }
+        self::close($fp);
+        return $bin;
+    } 
+    
+   /**
+     * append data to the end of a file 
+     *
+     * @param string $dataFile
+     * @return string
+     * @throws XFileLockedException
+     */
+    public static function Append($dataFile, $data)
+    {
+        $fp = @fopen($dataFile,'a+');
+        if(!$fp)
+        {
+            throw new XFileLockedException('open failed ',$dataFile);
+        }
+        
+        self::lock($fp);
+        fwrite($fp, $data);
+        self::close($fp);
+    } 
+    
+    
+    /**
+     * List files in $dir
+     * $match can be a regexp for file names
+     *
+     * @param string $dir
+     * @param mixed $match
+     * @return array
+     * @throws XFileNotFoundException
+     */
+    public static function FilesOf($dir, $match = false)
+    {
+        chdir(constant('BAMBUS_CMS_ROOTDIR'));
+        $files = array();
+        if(is_dir($dir) && chdir($dir))
+        {
+            $handle = openDir('.');
+            $i=1;
+            while($item = readdir($handle))
+            {
+                if(is_dir($item))
+                {
+                    continue;
+                }
+                if(substr($item,0,1) != '.' 
+                    && (!$match || preg_match($match, $item))
+                )
+                {
+                    $files[] = $item;
+                }
+                $i++;
+            }
+            asort($files, SORT_LOCALE_STRING);
+            closedir($handle);
+        }
+        else
+        {
+            throw new XFileNotFoundException('dir not found ',$dir,1);
+        }
+        chdir(constant('BAMBUS_CMS_ROOTDIR'));
+        return $files;
+    }
+    
+    /**
+     * List files in $dir
+     * $match can be a regexp for file names
+     *
+     * @param string $dir
+     * @param mixed $match
+     * @return array
+     * @throws XFileNotFoundException
+     */
+    public static function DirsOf($dir, $match = false)
+    {
+        chdir(constant('BAMBUS_CMS_ROOTDIR'));
+        $files = array();
+        if(is_dir($dir) && chdir($dir))
+        {
+            $handle = openDir('.');
+            $i=1;
+            while($item = readdir($handle))
+            {
+                if(!is_dir($item))
+                {
+                    continue;
+                }
+                if(substr($item,0,1) != '.' 
+                    && (!$match || preg_match($match, $item))
+                )
+                {
+                    $files[strtoupper($item).md5($i)] = $item;
+                }
+                $i++;
+            }
+            asort($files, SORT_LOCALE_STRING);
+            closedir($handle);
+        }
+        else
+        {
+            throw new XFileNotFoundException('dir not found ',$dir,1);
+        }
+        chdir(constant('BAMBUS_CMS_ROOTDIR'));
+        return $files;
+    }
 	
 	/**
 	 * Checks string being a valid file name
@@ -348,6 +406,90 @@ class DFileSystem extends BDriver
 		  	throw new XFileLockedException('delete failed', $file);
 		}
 	}
+	
+	/**
+	 * get the suffix of a filename
+	 * 
+	 * @param string $of
+	 * @return string
+	 */
+    public static function suffix($of)
+    {
+        $tmp = explode('.',strtolower($of));
+        return array_pop($tmp);
+    }    
+    
+	/**
+	 * remove the suffix of a filename
+	 * 
+	 * @param string $of
+	 * @return string
+	 */
+    public static function name($of)
+    {
+        $tmp = explode('.',basename($of));
+        array_pop($tmp);
+        return implode('.', $tmp);
+    }
+    
+    /**
+     * parse size string and return number of bytes
+     * 
+     * @param string $val
+     * @return int
+     */
+    public static function returnBytes($val) 
+    {
+       $val = strtolower(trim($val));
+       if(substr($val, -1) == 'b')
+       {
+            $last = substr($val, -2, 1);
+            $val =  substr($val, 0, -2);
+       }
+       else
+       {
+            $last = substr($val, -1);
+            $val =  substr($val, 0, -1);
+       }
+       switch($last) 
+       {
+           case 'y':
+               $val *= 1024;
+           case 'z':
+               $val *= 1024;
+           case 'e':
+               $val *= 1024;
+           case 'p':
+               $val *= 1024;
+           case 't':
+               $val *= 1024;
+           case 'g':
+               $val *= 1024;
+           case 'm':
+               $val *= 1024;
+           case 'k':
+               $val *= 1024;
+       }
+       return $val;
+    }
+    
+    /**
+     * format bytes to a more readable form
+     * 
+     * @param int $bytes
+     * @return string
+     */
+    public static function formatSize($bytes)
+    {
+        $units = array('B','KB','MB','GB','TB','PB','EB','ZB','YB');
+        $loops = 0;
+        while($bytes >= 1024)
+        {
+            $loops++;
+            $bytes /= 1024;
+        }        
+        return round($bytes,2).$units[$loops];
+    }
 }
 
 ?>

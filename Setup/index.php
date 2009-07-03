@@ -10,89 +10,10 @@
 $ENABLED = true;
 
 
-$err = <<<ERR
-	<div style="font-family:sans-serif;border:1px solid #a40000;">
-		<div style="border:1px solid #cc0000;padding:10px;background:#a40000;color:white;">
-			<h1 style="border-bottom:1px solid #cc0000;font-size:16px;">%s <code>%d</code> in "%s" at line %d</h1>
-			<p>%s</p>
-			<p><pre>%s</pre></p>
-		</div>
-	</div>
-ERR;
-define('ERROR_TEMPLATE', $err);
+require_once('../System/Component/Loader.php');
 
-function EX_Handler(Exception $e)
-{
-	printf(ERROR_TEMPLATE
-		, get_class($e)
-		, $e->getCode()
-		, $e->getFile()
-		, $e->getLine()
-		, $e->getMessage()
-		, $e->getTraceAsString());
-	exit(1);
-}
 
-function ER_Handler( $errno ,  $errstr ,  $errfile ,  $errline ,  $errcontext  )
-{
-	ob_start();
-	print_r($errcontext);
-	$context = ob_get_contents();
-	ob_end_clean();
-	printf(ERROR_TEMPLATE
-		, 'Error'
-		, $errno
-		, $errfile
-		, $errline
-		, $errstr
-		, $context);
-		exit(1);
-	
-}
-function __autoload($class)
-{
-	$Components = array(
-//		'A' => 'AppController',
-		'B' => 'Base',
-		'C' => 'Content',
-		'D' => 'Driver',
-		'E' => 'Event',
-		'H' => 'EventHandler',
-		'I' => 'Interface',
-		'M' => 'Manager',
-		'N' => 'Navigator',
-		'Q' => 'Query',
-		'R' => 'RenderingEngine',
-		'S' => 'System',
-		'W' => 'Widget',
-		'X' => 'Exception'
-	);
-	
-	$fc = substr($class,0,1); //first char
-	$sc = substr($class,1,1); //second char
-	if($sc == strtolower($sc))//valid class name begins with to uppercase chars 
-	{						  //use the content class as default
-		$fc = 'M';
-		$class = 'M'.$class;
-	}
-	$file = sprintf("./System/Component/%s/%s.php", $Components[$fc], $class);
-	if(array_key_exists($fc, $Components) && file_exists($file))
-	{
-		include_once($file);
-	}
-	elseif(array_key_exists($fc, $Components) && file_exists('.'.$file))
-	{
-		include_once('.'.$file);
-	}
-	else
-	{
-		return false;
-	}
-}
-set_error_handler('ER_Handler');
-set_exception_handler('EX_Handler');
 chdir(dirname(__FILE__));
-//FIXME in production: chdir('..');
 
 //is disable possible
 $self = file(__FILE__);
@@ -116,13 +37,12 @@ if(!$ENABLED)
 //disable self
 $self[9] = "\$ENABLED = false;\n";
 
-//FIXME debug: off
-//$fps = @fopen(__FILE__, 'w+');
-//if(!is_resource($fps) || !fwrite($fps,implode($self)))
-//{
-//	throw new Exception('Cound not write to setup-file. Script aborted for security reasons. You might need a new script.');
-//}
-//fclose($fps);
+$fps = @fopen(__FILE__, 'w+');
+if(!is_resource($fps) || !fwrite($fps,implode($self)))
+{
+	throw new Exception('Cound not write to setup-file. Script aborted for security reasons. You might need a new script.');
+}
+fclose($fps);
 
 
 /**
@@ -163,7 +83,7 @@ class SetupConfiguration
 	}
 }
 
-define('CMS_ROOTDIR', realpath('.'));
+
 
 /*
  *read setup scripts
@@ -219,8 +139,10 @@ while($item = readdir($hdl))
 
 
 echo '<hr />';
-
 chdir('..');
+define('CMS_ROOTDIR', realpath('.'));
+
+
 foreach ($scripts as $stage => $scriptfiles) 
 {
 	foreach ($scriptfiles as $target => $scriptfile) 

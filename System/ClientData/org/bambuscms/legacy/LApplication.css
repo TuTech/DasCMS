@@ -1,0 +1,30 @@
+.CommandBarPanel
+{
+	float:left;
+	margin-left:10px;
+	background: #eeeeec;
+	border:1px solid #babdb6;	
+	border-right-width: 0px;
+	margin-top:1px;
+}
+.CommandBarPanel a 
+{
+	background: #eeeeec;
+	border-right:1px solid #babdb6;	
+	width: 30px;
+	height:28px;
+	float:left;
+	display: block;
+}
+.CommandBarPanel a.CommandPanelItemFirst
+{
+}
+.CommandBarPanel a:hover
+{
+	background: #fff ;
+}
+
+.CommandBarPanel img{
+	padding:3px 4px 3px 4px;
+	
+}

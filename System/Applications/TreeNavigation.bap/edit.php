@@ -1,41 +1,42 @@
 <?php
-/************************************************
-* Bambus CMS 
-* Created:     16. Okt 06
-* License:     GNU GPL Version 2 or later (http://www.gnu.org/copyleft/gpl.html)
-* Copyright:   Lutz Selke/TuTech Innovation GmbH 
-* Description: 
-************************************************/
-if(!class_exists("Bambus"))die('No login? No bambus for you, hungry Panda!');
-
-if(BAMBUS_GRP_EDIT)
-{
-	printf(
-		'<form method="post" id="documentform" name="documentform" action="%s"><input type="hidden" name="posted" value="1" />', 
-		$Bambus->Linker->createQueryString()
-	);
-}
+/**
+ * @copyright Lutz Selke/TuTech Innovation GmbH 
+ * @author selke@tutech.de
+ * @package org.bambuscms.applications.treenavigation
+ * @since 2007-09-21
+ * @version 1.0
+ */
+$edit = SApplication::getControllerContent();
 if($edit != null)
 {
-	
-	
+	try
+	{
+	    $cSpore = NTreeNavigation::sporeOf($edit);
+	    $sporeName = $cSpore->GetName();
+	}
+	catch (Exception $e)
+	{
+	    $sporeName = SLocalization::get('not_set');
+	}
 	?>
 	
-	<div id="objectInspectorActiveFullBox">
-		<h2><?php echo htmlspecialchars($edit,ENT_QUOTES, 'utf-8'); ?></h2>
-		<h3><?php echo $Bambus->Translation->set_target_view; ?></h3>
+		<h2><?php echo htmlspecialchars($edit,ENT_QUOTES, CHARSET); ?></h2>
+		<h3><?php SLocalization::out('set_target_view'); ?></h3>
 		<select name="set_spore">
-			<option value=""><?php echo $Bambus->Translation->dont_change; ?></option>
+			<option value=""><?php echo $sporeName; ?></option>
 		<?php
-		$spores = QSpore::activeSpores();
+		$spores = VSpore::activeSpores();
 		foreach ($spores as $spore) 
 		{
-			echo '<option>',htmlentities($spore, ENT_QUOTES,'UTF-8'),'</option>';
+			if($spore != $sporeName)
+			{
+		        echo '<option>',htmlentities($spore, ENT_QUOTES,CHARSET),'</option>';
+			}
 		}
 		
 			?>
 		</select>
-		<h3><?php echo $Bambus->Translation->edit_navigation_layout; ?></h3>
+		<h3><?php SLocalization::out('edit_navigation_layout'); ?></h3>
 		<div id="navigationLayout">
 			<div id="1">
 				<input type="hidden" name="1_fc" id="1_fc" value="" />
@@ -43,64 +44,57 @@ if($edit != null)
 				<input type="hidden" name="1_p" id="1_p" value="0" />
 			</div>
 		</div>
-	</div>
 	<script type="text/javascript">
 		function buildNav()
 		{
 		<?php
 		$id = 1;
+		$out = false;
 		function createNavJS(NTreeNavigationObject $tno, $parentid, $isChild = true)
 		{
-			global $id;
-			$myid = ++$id;
+			global $id,$out;
+			$myid = $id;
 			$content = SAlias::resolve($tno->getAlias());
-			$title = ($content == null) 
-				? '' 
-				: htmlspecialchars(substr($content->getManagerName(),1).': '.$content->Title, ENT_QUOTES, 'utf-8');
-			if($isChild)
+			if($content != null)
 			{
-				echo 'addChild(\''.$parentid.'\', \''.$tno->getAlias().'\', \''.$title.'\');';
+    			$myid = ++$id;
+    			$title = ($content == null) 
+    				? '' 
+    				: htmlspecialchars($content->Title, ENT_QUOTES, CHARSET);
+    		    if($isChild)
+    			{
+    				echo 'addChild(\''.$parentid.'\', \''.$tno->getAlias().'\', \''.$title.' ('.$tno->getAlias().')\');';
+    				$out = true;
+    			}
+    			else
+    			{
+    				echo 'addSibling(\''.$parentid.'\', \''.$tno->getAlias().'\', \''.$title.' ('.$tno->getAlias().')\');';
+    				$out = true;
+    			}
+    			if($tno->hasChildren())
+    			{
+    				createNavJS($tno->getFirstChild(), $myid, true);
+    			}
 			}
-			else
-			{
-				echo 'addSibling(\''.$parentid.'\', \''.$tno->getAlias().'\', \''.$title.'\');';
-			}
-			if($tno->hasChildren())
-			{
-				createNavJS($tno->getFirstChild(), $myid, true);
-			}
-			if($tno->hasNext())
-			{
-				createNavJS($tno->getNext(), $myid, false);
-			}
+    		if($tno->hasNext())
+    		{
+    			createNavJS($tno->getNext(), $myid, false);
+    		}
 		}
 		$root = NTreeNavigation::getRoot($edit);
 		if($root->hasChildren())
 		{
 			createNavJS($root->getFirstChild(), $id, true);
 		}
-		else
+		if(!$out)
 		{
 			echo 'addChild(\'1\');';
 		}
 		?>
 		}
-		BCMSRunFX[BCMSRunFX.length] = function(){buildNav();};
+		org.bambuscms.autorun.register(buildNav);
 	</script>
 
 <?php	
 }
-elseif(count($navigations) > 0)
-{
-	echo $Bambus->Gui->script('BCMSRunFX[BCMSRunFX.length] = function(){OBJ_ofd.show()};');
-}
-else
-{
-	echo '<h3>', $Bambus->Translation->please_create_a_new_navigation, '</h3>';
-}
-
-if(BAMBUS_GRP_EDIT)
-{
-	echo '</form>';
-}	
 ?>

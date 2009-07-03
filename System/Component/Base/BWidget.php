@@ -1,21 +1,21 @@
 <?php
 /**
- * @package Bambus
- * @subpackage BaseClasses
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 28.04.2008
+ * @since 2008-04-28
  * @license GNU General Public License 3
+ */
+/**
+ * @package Bambus
+ * @subpackage BaseClasses
  */
 abstract class BWidget extends BObject
 {
 	protected static $CurrentWidgetID = 0;
 	
-	abstract public function __construct($target);
-	
 	/**
 	 * return rendered html
-	 *
+	 * @return string
 	 */
 	abstract public function __toString();
 	

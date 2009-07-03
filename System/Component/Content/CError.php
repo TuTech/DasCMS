@@ -1,19 +1,84 @@
 <?php
 /**
- * @package Bambus
- * @subpackage Contents
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 19.11.2007
+ * @since 2007-11-19
  * @license GNU General Public License 3
  */
-class CError extends BContent
+/**
+ * @package Bambus
+ * @subpackage Content
+ */
+class CError extends BContent implements IGlobalUniqueId, ISearchDirectives
 {
-	const MANAGER = 'MError';
+    const GUID = 'org.bambuscms.content.cerror';
+    const CLASS_NAME = 'CError';
+    
+    public function getClassGUID()
+    {
+        return self::GUID;
+    }
+    
+	public static function Create($title)
+	{
+	    throw new Exception('errors are fixed');
+	}
 	
+	public static function Delete($alias)
+	{
+	    throw new Exception('errors are fixed');
+	}
+	
+	public static function Exists($alias)
+	{
+	    return parent::contentExists($alias, self::CLASS_NAME);
+	}
+	
+	/**
+	 * [alias => [title, pubdate]]
+	 * @return array
+	 */
+	public static function Index()
+	{
+	    return parent::getIndex(self::CLASS_NAME, false);
+	}
+	
+	public static function Open($alias)
+	{
+	    $alias = SHTTPStatus::validate($alias);
+	    if($alias == 401)
+	    {
+	        $tpl = LConfiguration::get('login_template');
+	        if(defined('BAMBUS_HTML_ACCESS') && !empty($tpl))
+	        {
+	            try 
+	            {
+	                //returns login form and ends function
+	                return BContent::Open($tpl);
+	            }
+	            catch (Exception $e)
+	            {
+	            	/* not returned the login tpl, send header auth instead */
+	            }
+	        }
+            header("HTTP/1.1 401 Authorization Required");
+            header("WWW-Authenticate: Basic realm=\"BambusCMS\"");
+	    }
+	    //if !401 or no login tpl
+        return new CError($alias == null ? 501 : $alias);
+	}
+	
+	
+	public static function errdesc($code)
+	{
+		$code = SHTTPStatus::validate($code);
+		$code = $code == null ? 501 : $code; 
+		return array($code => SHTTPStatus::byCode($code, false));
+	}
+
 	public function __construct($Id)	
 	{
-		$dat = MError::errdesc($Id);
+		$dat = self::errdesc($Id);
 		$Ids = array_keys($dat);
 		$this->Id = $Ids[0];
 		$meta = array();
@@ -22,10 +87,11 @@ class CError extends BContent
 			'CreatedBy' => 'System',
 			'ModifyDate' => time(),
 			'ModifiedBy' => 'System',
-			'PubDate' => 0,
+			'PubDate' => time(),
 			'Size' => 0,
-			'Title' => 'ERROR '.$Id.' - '.$dat[$Id],
-			'Content' => sprintf('<div class="%s"><h1>ERROR %d - %s</h1></div>',get_class($this),$this->Id,$dat[$this->Id])
+			'Tags' => array(),
+			'Title' => 'ERROR '.$this->Id.' - '.$dat[$this->Id],
+			'Content' => sprintf('<div class="%s"><b>ERROR %d - %s</b></div>',get_class($this),$this->Id,$dat[$this->Id])
 		);
 		foreach ($defaults as $var => $default) 
 		{
@@ -47,23 +113,25 @@ class CError extends BContent
 	
 	public function Save(){}
 	
-	/**
-	 * responsible (initialized) manager object
-	 * @return BContentManager
-	 */
-	public function getManager()
+	public function isModified()
 	{
-		return MError::alloc()->init();
+	    return false;
 	}
+	//ISearchDirectives
+	public function allowSearchIndex()
+	{
+	    return false;
+	}
+	public function excludeAttributesFromSearchIndex()
+	{
+	    return array();
+	}
+    public function isSearchIndexingEditable()
+    {
+        return false;
+    }
+    public function changeSearchIndexingStatus($allow)
+    {}
 	
-	/**
-	 * Name of managing object
-	 *
-	 * @return string
-	 */
-	public function getManagerName()
-	{
-		return self::MANAGER;
-	}
 }
 ?>

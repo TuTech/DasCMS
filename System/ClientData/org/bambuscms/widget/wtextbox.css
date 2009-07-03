@@ -1,0 +1,34 @@
+@CHARSET "UTF-8";
+.WTextBox-wrapper
+{
+	border-width: 0px;
+	border-spacing: 0px;
+}
+.WTextBox-wrapper td,
+.WTextBox-wrapper th
+{
+	border-width: 0px;
+}
+.WTextBox-wrapper th
+{
+	background: #e7f8d7;
+	font-weight: normal;
+}
+.WTextBox-wrapper
+{
+	width:1%;
+}
+.WTextBox-label
+{
+	font-size: 11px;
+	padding: 0px;
+	width:100px;
+	display:block;
+	float:left;
+	color: #2e3436;
+}
+.WTextBox
+{
+	border: 1px solid #9fbc4a;
+	width: 200px;
+}

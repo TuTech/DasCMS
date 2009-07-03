@@ -1,0 +1,59 @@
+.WTable{
+    border-width:0px;
+    border-top-width: 1px;
+    border-left-width: 1px;
+    width:100%;
+    font-size: 0.9em;
+    text-align:left;
+    empty-cells: show;
+}
+.WTable td, .WTable th{
+    border-width:0px;
+    border-bottom-width: 1px;
+    border-right-width: 1px;
+}
+.WTable, .WTable td, .WTable th{
+    border-style: solid;
+    border-spacing: 0px;
+    border-color: #9fbc4a;
+}
+.WTable th
+{
+    background: #9fbc4a url(../../../../ClientData/Images/header_background.png) 00% 00%;
+    padding:2px;
+    color:white;
+}
+.WTable th[scope=row]
+{
+    background: #ecf0de;
+    font-weight:normal;
+    padding-top:2px;
+    padding-bottom:2px;
+    color:black;
+    width:15%;
+}
+.WTable tr.alt_a th[scope=row]
+{
+    background: #e4f0b8;
+}
+.WTable tr
+{
+	vertical-align: top;
+}
+.WTable td
+{
+    background: #ffffff;
+}
+.WTable tr.alt_a td
+{
+    background: #eff9cc;
+}
+.WPE_active
+{
+	color: black;
+}
+.WPE_inactive
+{
+	color: #888a85;
+	font-style: italic;
+}

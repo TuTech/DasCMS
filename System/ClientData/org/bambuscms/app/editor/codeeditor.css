@@ -1,0 +1,12 @@
+#org_bambuscms_wcodeeditor_infobox_linenr
+{
+	position:absolute;
+	top:110px;
+	right:10px;
+	color: #9fbc4a;
+	font-size:12px;
+}
+#objectInspectorActiveFullBox #org_bambuscms_wcodeeditor_infobox_linenr 
+{
+	right:265px;
+}

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE bambus SYSTEM "../../Resource/DTD/application_v1.dtd">
 <bambus>
+	<appController guid="org.bambuscms.applications.configuration">AConfiguration</appController>
 	<name>configuration</name>
 	<description>edit_configuration</description>
 	<icon>app-preferences-enviornment</icon>
@@ -10,9 +12,15 @@
 		<tab icon="action-edit">edit</tab>
 	</tabs>
 	<application>
-		<controller>controller.php</controller>
 		<interface name="edit" src="edit.php">
-			<task type="button" hotkey="s" caption="save" icon="action-document-save" action="EditorSave()" />
+			<panel name="content_actions">
+				<task type="button" hotkey="s" caption="save" icon="action-document-save" action="org.bambuscms.app.document.save()" />
+			</panel>
 		</interface>
+		<sidebar>
+			<supported mode="HELPER"/>
+			<supported mode="INFORMATION"/>
+			<processInputs mode="now"/>
+		</sidebar>
 	</application>
 </bambus>
