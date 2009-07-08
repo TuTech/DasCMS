@@ -215,11 +215,11 @@ class QBContent extends BQuery
     {
         $DB = BQuery::Database();
         //set username for change
-        $sql = sprintf("SELECT changedByUserID FROM ChangedByUsers WHERE login = LEFT('%s', 32) LIMIT 1", $DB->escape(PAuthentication::getUserID()));
+        $sql = sprintf("SELECT changedByUserID FROM ChangedByUsers WHERE login = LEFT('%s', 64) LIMIT 1", $DB->escape(PAuthentication::getUserID()));
         $res = $DB->query($sql, DSQL::NUM);
         if($res->getRowCount() == 0)
         {
-            $sql = sprintf("INSERT INTO ChangedByUsers (login) VALUES (LEFT('%s', 32))", $DB->escape(PAuthentication::getUserID()));
+            $sql = sprintf("INSERT INTO ChangedByUsers (login) VALUES (LEFT('%s', 64))", $DB->escape(PAuthentication::getUserID()));
             if($DB->queryExecute($sql))
             {
                 $rel = 'LAST_INSERT_ID()';
