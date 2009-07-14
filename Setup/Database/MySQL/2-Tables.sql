@@ -232,8 +232,7 @@ Contents(
         DEFAULT '0000-00-00 00:00:00',
     description 
         TEXT
-        NOT NULL 
-        DEFAULT '',
+        NOT NULL,
     allowSearchIndexing
         ENUM('Y', 'N') 
         DEFAULT 'Y'

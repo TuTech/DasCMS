@@ -123,16 +123,22 @@ class LConfiguration
         {
             try{
                 SErrorAndExceptionHandler::muteErrors();
+                //make a backup
                 $oc = DFileSystem::Load(SPath::CONTENT.'configuration/system.php');
                 DFileSystem::Save(SPath::CONTENT.'configuration/system.prev.php', $oc);
+                
+                //save new config
+                $file = SPath::CONTENT.'configuration/system.php';
+                DFileSystem::SaveData($file, self::$configuration);
+                SNotificationCenter::report('message', 'configuration_saved');
+                self::$configurationChanged = false;
+                
                 SErrorAndExceptionHandler::reportErrors();
             }
             catch(Exception $e)
-            {/*then keep the prev prev*/}
-            $file = SPath::CONTENT.'configuration/system.php';
-            DFileSystem::SaveData($file, self::$configuration);
-            SNotificationCenter::report('message', 'configuration_saved');
-            self::$configurationChanged = false;
+            {
+                SNotificationCenter::report('warning', 'configuration_not_saved');
+            }
         }
     }
 
