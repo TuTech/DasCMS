@@ -127,49 +127,56 @@ class SErrorAndExceptionHandler
     
     public static function errorHandler($errno, $errstr, $errfile, $errline, $errcontext)
     {
-        ob_start();
-        print_r($errcontext);
-        $context = ob_get_contents();
-        ob_end_clean();
-        $err = sprintf(
-            self::$err_html
-            , 'Error'
-            , $errno
-            , $errfile
-            , $errline
-            , $errstr
-            , $context
-            ,getcwd());
-        DFileSystem::Append(SPath::LOGS.'Error.log', $err);
-        self::$error = array($errno, $errstr, $errfile, $errline, $errcontext);
-        self::$errorMessage = $err;
-        if(self::$report && !self::$reportSkipOnce)
+        try
         {
-            self::mail(
-            	'Error'
+            ob_start();
+            print_r($errcontext);
+            $context = ob_get_contents();
+            ob_end_clean();
+            $err = sprintf(
+                self::$err_html
+                , 'Error'
                 , $errno
                 , $errfile
                 , $errline
                 , $errstr
                 , $context
                 ,getcwd());
-            SNotificationCenter::report(
-            	'warning',
-                sprintf(
-                	'%s %d in %s at %s: %s'
-                    , 'Error'
+            DFileSystem::Append(SPath::LOGS.'Error.log', $err);
+            self::$error = array($errno, $errstr, $errfile, $errline, $errcontext);
+            self::$errorMessage = $err;
+            if(self::$report && !self::$reportSkipOnce)
+            {
+                self::mail(
+                	'Error'
                     , $errno
                     , $errfile
                     , $errline
                     , $errstr
                     , $context
-                    ,getcwd()));
-            if(!self::$hideErrors)
-            {
-                echo $err;
+                    ,getcwd());
+                SNotificationCenter::report(
+                	'warning',
+                    sprintf(
+                    	'%s %d in %s at %s: %s'
+                        , 'Error'
+                        , $errno
+                        , $errfile
+                        , $errline
+                        , $errstr
+                        , $context
+                        ,getcwd()));
+                if(!self::$hideErrors)
+                {
+                    echo $err;
+                }
             }
+            self::$reportSkipOnce = false;
         }
-        self::$reportSkipOnce = false;
+        catch(Exception $e)
+        {
+            echo 'EXCEPTION IN ERROR HANDLER '.$e."<br />\n";
+        }
     }
     
     public static function reportException(Exception $e)
@@ -197,18 +204,25 @@ class SErrorAndExceptionHandler
             
     public static function exceptionHandler(Exception $e)
     {
-        $str = self::reportException($e);
-        if(!self::$hideErrors)
+        try
         {
-            echo $str;
-        }
-        if(self::$showInfoMessage)
-        {
-            $f = LConfiguration::get('error_info_text_file');
-            if(!empty($f) && file_exists($f) && is_readable($f) && substr(basename($f),0,1) != '.')
+            $str = self::reportException($e);
+            if(!self::$hideErrors)
             {
-                readfile($f);
+                echo $str;
             }
+            if(self::$showInfoMessage)
+            {
+                $f = LConfiguration::get('error_info_text_file');
+                if(!empty($f) && file_exists($f) && is_readable($f) && substr(basename($f),0,1) != '.')
+                {
+                    readfile($f);
+                }
+            }
+        }
+        catch(Exception $e)
+        {
+            echo 'EXCEPTION IN EXCEPTION HANDLER '.$e."<br />\n";
         }
         exit(1);
     }
