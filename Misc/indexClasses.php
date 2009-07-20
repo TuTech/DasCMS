@@ -8,14 +8,21 @@ function exception_handler($exception) {
 }
 set_exception_handler('exception_handler');
 require_once('./System/Component/Loader.php');
-RSession::start();
-PAuthentication::required();
-if(PAuthorisation::has('org.bambuscms.classes.index'))
+$allowed = false;
+if(file_exists(dirname(__FILE__).'/allowIndexClasses'))
+{
+    $allowed = true;
+}
+else
+{
+    RSession::start();
+    PAuthentication::required();
+    $allowed = PAuthorisation::has('org.bambuscms.classes.index');
+}
+if($allowed)
 {
     $SCI = SComponentIndex::getSharedInstance();
     $SCI->Index();
+    echo '<h1>Finished</h1>';
 }
 ?>
-
-<h1>Finished</h1>
-
