@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE bambus SYSTEM "../../Resource/DTD/application_v1.dtd">
+<bambus>
+	<appController guid="org.bambuscms.applications.calendars">ACalendars</appController>
+	<name>calendars</name>
+	<description>configure_calendars</description>
+	<icon>app-utilities-calendars</icon>
+	<version>0.1.20090721</version>
+	<priority>1.9</priority>
+	<purpose>manage_contents</purpose>
+	<tabs>
+		<tab icon="action-edit">edit_ics</tab>
+	</tabs>
+	<application> 
+		<interface name="edit_css" src="edit.php">
+			<panel name="content_actions">
+				<task type="button" hotkey="o" caption="open" icon="action-document-open" action="org.bambuscms.wopenfiledialog.toggle();" />
+				<task type="button" hotkey="s" caption="save" icon="action-document-save" action="org.bambuscms.app.document.save()" />
+			</panel>
+			<panel name="server_actions">
+				<task type="button" hotkey="N" caption="new" icon="action-document-new" action="Create()" />
+				<task type="button" hotkey="X" caption="delete" icon="action-edit-delete" action="Delete()" />
+			</panel>
+		</interface>
+		<sidebar>
+			<supported mode="PERMISSIONS"/>
+			<supported mode="PROPERTY_EDIT"/>
+			<supported mode="HELPER"/>
+			<processInputs mode="auto"/>
+		</sidebar>
+		<openDialog autoShow="yes"/>
+	</application>
+</bambus>

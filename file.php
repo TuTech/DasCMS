@@ -42,9 +42,16 @@ try
         	exit();
         }
     }
-    $cache_time = ($extended_cache) 
-        ? 315360000 /* 10 years */ 
-        : 86400 /* 1 day */;
+    if($content instanceof IFileCacheControl)
+    {
+        $cache_time = $content->getFileCacheLifeTime();
+    }
+    else
+    {
+        $cache_time = ($extended_cache) 
+            ? 315360000 /* 10 years */ 
+            : 86400 /* 1 day */;
+    }
     header("Expires: ".date('r', time()+$cache_time));
     header("Cache-Control: max-age=".$cache_time.", public");
     header("Content-Disposition: inline");
@@ -83,6 +90,5 @@ catch(Exception $e)
 	header('Status: 404 Not Found');
 	echo 'Status: 404 Not Found';
 	echo $e->getMessage();
-	echo $e->getTraceAsString();
 }
 ?>

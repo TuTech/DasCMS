@@ -77,6 +77,10 @@ class SContentWatch
                     'alternate'
                 );
             }
+            if($content instanceof IContentHeaders)
+            {
+                $content->sendContentHeaders($e->getHeader());
+            }
             
             if($event->Sender instanceof BView)
             {

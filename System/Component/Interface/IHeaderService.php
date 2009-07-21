@@ -12,6 +12,9 @@
 interface IHeaderService
 {
     /**
+     * for configuration:
+     * if $forAlias is given it is a per-content config
+     * 
      * show globally embeddable, or embeds for given alias
      * @param string $forAlias global embeds if not set
      * @return array [section => [guid => title]]
