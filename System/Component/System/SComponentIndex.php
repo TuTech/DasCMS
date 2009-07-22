@@ -55,6 +55,119 @@ class SComponentIndex
 		$sc = substr($class,1,1); //second char
 		return sprintf("./System/Component/%s/%s.php", $Components[$fc], $class);
 	}
+	
+	private function getObjectFiles($dir, &$files)
+	{
+	    $items = scandir($dir);
+	    $dir = rtrim($dir, '/');
+	    $dirName = ltrim($dir, './');
+	    foreach ($items as $item)
+	    {
+	        if(is_file($dir.'/'.$item))
+	        {
+	            echo 'adding file: '.$dirName.'_'.$item.'<br />';
+	            if(substr($item,0,1) == '_')
+	            {
+	                $fileName = str_replace('/', '_', '_'.$dirName).'junk';
+	            }
+	            else
+	            {
+	                $fileName = str_replace('/', '_', $dirName.'_'.$item);
+	            }
+	            echo 'as class: <b>'.$fileName.'</b><br />';
+	            $files[] = $fileName;
+	        }
+	        elseif(is_dir($dir.'/'.$item) && substr($item,0,1) != '.')
+	        {
+	            echo 'searching directory: '.$dirName.'_'.$item.'<br />';
+	            $this->getObjectFiles($dir.'/'.$item, $files);
+	        }
+	    }
+	}
+	
+	private function doClasses(array $comp, $verbose, &$db_class_index)
+	{
+	    $err = 0;
+		$errarr = array();
+		foreach ($comp as $c) 
+		{
+		    if($verbose)print('<li>');
+			if($verbose)print('<ul>');
+			try
+			{
+				$c = substr($c,0,-4);
+				if(interface_exists($c, true))
+				{
+					if($verbose)printf("Interface '<i>%s</i>'<br />", $c);
+					self::$_interfaceIndex[$c] = 1;
+				}
+				elseif(class_exists($c, true))
+				{
+					self::$_classIndex[$c] = array(self::INTERFACES => array(), self::EXTENSIONS => array());
+					if($verbose)printf("Class '<b>%s</b>'<ul><u>implements:</u><ol>", $c);
+					$impl = class_implements($c);
+					foreach ($impl as $itf) 
+					{
+						if($verbose)printf("<li>%s</li>", $itf);
+						self::$_classIndex[$c][self::INTERFACES][$itf] = 1;
+					}
+					////
+					if($verbose)print("</ol><u>extends:</u><ol>");
+					$ext = class_parents($c);
+					foreach ($ext as $par) 
+					{
+						if($verbose)printf("<li>%s </li>", $par);
+						self::$_classIndex[$c][self::EXTENSIONS][$par] = 1;
+					}
+					////
+					if($verbose)print("</ol><u>Functions:</u><ol>");
+					$impl = get_class_methods($c);
+					foreach ($impl as $itf) 
+					{
+						if($verbose)printf("<li>%s</li>", $itf);
+					}
+					////
+					if($verbose)print("</ol><u>Static vars:</u><ol>");
+					$impl = get_class_vars($c);
+					foreach ($impl as $itf => $bla) 
+					{
+						if($verbose)printf("<li>%s</li>", $itf);
+					}
+					if($verbose)print("</ol></ul>");
+					////DB stuff
+					$guid = '';
+					if(isset(self::$_classIndex[$c][self::INTERFACES]['IGlobalUniqueId']))
+					{
+					    $guid = constant($c.'::GUID');
+					    if($verbose)printf("<p><b>%s</b></p>", $guid);
+					}
+					$db_class_index[$c] = $guid;
+				}
+				else
+				{
+					if($verbose)printf("Undefined '<s>%s</s>'<br />", $c);
+				}
+			}
+			catch(Exception $e)
+			{
+				//ignore the misfits!
+			}
+			if($verbose)print('</ul>');
+			if($verbose)print('</li>');
+		}
+		if($verbose && $err > 0)
+		{
+			echo '<div style="display:block;font-family:sans-serif; border:1px solid red; background: #a40000; color:white; position:fixed;right:5px;top:5px;padding:5px;">';
+			echo '<b>Errors:</b><br />';
+			foreach ($errarr as $e => $file) 
+			{
+				echo '<a href="#BADF00D',$e,'" style="color:white;">', $file, '</a><br />';
+			}
+			echo '</div>';
+			
+		}
+	}
+	
 	/**
 	 * Build index of all component classes
 	 * 
@@ -67,7 +180,22 @@ class SComponentIndex
 		//build class db
 		//build structure.html
 		//allow doing this from cfg app
-
+					
+		//object loader
+		
+		$cdir = getcwd();
+		chdir('System/Object');
+		$files = array();
+		try{
+		$this->getObjectFiles('.',$files);
+		}catch (Exception $e)
+		{
+		    echo $e;
+		}
+		chdir($cdir);
+		
+		//end object loader
+		
 		$db_class_index = array();
 
 		$err = 0;
@@ -79,84 +207,9 @@ class SComponentIndex
 		{
 			if($verbose)printf("<h3>Component '%s'</h3>\n", $var);
 			$comp = DFileSystem::FilesOf('System/Component/'.$var.'/');
-			foreach ($comp as $c) 
-			{
-			    if($verbose)print('<li>');
-				if($verbose)print('<ul>');
-				try
-				{
-					$c = substr($c,0,-4);
-					if(interface_exists($c, true))
-					{
-						if($verbose)printf("Interface '<i>%s</i>'<br />", $c);
-						self::$_interfaceIndex[$c] = 1;
-					}
-					elseif(class_exists($c, true))
-					{
-						self::$_classIndex[$c] = array(self::INTERFACES => array(), self::EXTENSIONS => array());
-						if($verbose)printf("Class '<b>%s</b>'<ul><u>implements:</u><ol>", $c);
-						$impl = class_implements($c);
-						foreach ($impl as $itf) 
-						{
-							if($verbose)printf("<li>%s</li>", $itf);
-							self::$_classIndex[$c][self::INTERFACES][$itf] = 1;
-						}
-						////
-						if($verbose)print("</ol><u>extends:</u><ol>");
-						$ext = class_parents($c);
-						foreach ($ext as $par) 
-						{
-							if($verbose)printf("<li>%s </li>", $par);
-							self::$_classIndex[$c][self::EXTENSIONS][$par] = 1;
-						}
-						////
-						if($verbose)print("</ol><u>Functions:</u><ol>");
-						$impl = get_class_methods($c);
-						foreach ($impl as $itf) 
-						{
-							if($verbose)printf("<li>%s</li>", $itf);
-						}
-						////
-						if($verbose)print("</ol><u>Static vars:</u><ol>");
-						$impl = get_class_vars($c);
-						foreach ($impl as $itf => $bla) 
-						{
-							if($verbose)printf("<li>%s</li>", $itf);
-						}
-						if($verbose)print("</ol></ul>");
-						////DB stuff
-						$guid = '';
-						if(isset(self::$_classIndex[$c][self::INTERFACES]['IGlobalUniqueId']))
-						{
-						    $guid = constant($c.'::GUID');
-						    if($verbose)printf("<p><b>%s</b></p>", $guid);
-						}
-						$db_class_index[$c] = $guid;
-					}
-					else
-					{
-						if($verbose)printf("Undefined '<s>%s</s>'<br />", $c);
-					}
-				}
-				catch(Exception $e)
-				{
-					//ignore the misfits!
-				}
-				if($verbose)print('</ul>');
-				if($verbose)print('</li>');
-			}
-			if($verbose && $err > 0)
-			{
-				echo '<div style="display:block;font-family:sans-serif; border:1px solid red; background: #a40000; color:white; position:fixed;right:5px;top:5px;padding:5px;">';
-				echo '<b>Errors:</b><br />';
-				foreach ($errarr as $e => $file) 
-				{
-					echo '<a href="#BADF00D',$e,'" style="color:white;">', $file, '</a><br />';
-				}
-				echo '</div>';
-				
-			}
+			$this->doClasses($comp, $verbose, $db_class_index);
 		}
+		$this->doClasses($files, $verbose, $db_class_index);
 		if($verbose)print('</ol>');
 		DFileSystem::SaveData($this->StoragePath('classes'), self::$_classIndex);
 		DFileSystem::SaveData($this->StoragePath('interfaces'), self::$_interfaceIndex);

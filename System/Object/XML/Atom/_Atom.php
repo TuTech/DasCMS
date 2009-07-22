@@ -17,7 +17,7 @@ abstract class _XML_Atom extends _XML
 	* 	xml:base
 	* 	xml:lang
 	* */
-    const NAMESPACE = 'http://www.w3.org/2005/Atom';
+    const NS = 'http://www.w3.org/2005/Atom';
     
     /**
      * list of child nodes
@@ -129,7 +129,7 @@ abstract class _XML_Atom extends _XML
     protected function parseNodeElements(DOMNode $node, array $withElements)
     {
         $this->debug_log('parsing node');
-        $this->assertNamespace($node, _XML_Atom::NAMESPACE);
+        $this->assertNamespace($node, _XML_Atom::NS);
         $elements = $this->fetchElements($node, $withElements);
         $this->applyElementParser($elements);
     }
@@ -169,7 +169,7 @@ abstract class _XML_Atom extends _XML
     protected function parseNodeAttributes(DOMNode $node, array $withAttributes)
     {
         $this->debug_log('parsing node');
-        $this->assertNamespace($node, _XML_Atom::NAMESPACE);
+        $this->assertNamespace($node, _XML_Atom::NS);
         $attributes = $this->fetchAttributes($node, $withAttributes);
         $this->applyAttributeParser($attributes);
     }
