@@ -40,14 +40,18 @@ class WContentLocation extends BWidget implements ISidebarWidget
 	{
 	    try
 	    {
-    	    if(RSent::hasValue('WContentLocation_location'))
+	        if(RSent::hasValue('WContentLocation_location'))
     	    {
     	        $loc = ULocations::getSharedInstance();
+    	        $conv = new Converter_GeoCoordinates(
+    	            RSent::get('WContentLocation_lat', CHARSET),
+    	            RSent::get('WContentLocation_long', CHARSET));
+    	        list($lat,$long) = $conv->getDecimal();
     	        $loc->setLocationData(
     	            RSent::get('WContentLocation_location', CHARSET), 
     	            RSent::get('WContentLocation_address', CHARSET),
-    	            RSent::get('WContentLocation_lat', CHARSET),
-    	            RSent::get('WContentLocation_long', CHARSET)
+    	            $lat,
+    	            $long
     	        );
     	        $loc->setContentLocation(
     	            $this->targetObject->getAlias(), 
@@ -92,6 +96,12 @@ class WContentLocation extends BWidget implements ISidebarWidget
 		    sprintf("<label for=\"WContentLocation_address\">%s</label>", SLocalization::get('address')),
 		    sprintf('<textarea id="WContentLocation_address" name="WContentLocation_address">%s</textarea>', htmlentities($location['address'], ENT_QUOTES, CHARSET))
 	    );
+	    $lat ='';
+	    $long ='';
+	    try{
+	        $conv = new Converter_GeoCoordinates($location['latitude'],$location['longitude']);
+	        list($lat,$long) = $conv->getDMS();
+	    }catch (Exception $e){}
 		$Items->add(
 		    sprintf("<label>%s</label>", SLocalization::get('gps_location_in_decimal')),
 		    sprintf(
@@ -100,9 +110,9 @@ class WContentLocation extends BWidget implements ISidebarWidget
 		        '<dt>%s</dt>'.
 		    		'<dd><input type="text" id="WContentLocation_long" name="WContentLocation_long" value="%s" /></dd></dl>'
 		    		, SLocalization::get('latitude')
-		    		, htmlentities($location['latitude'], ENT_QUOTES, CHARSET)
+		    		, htmlentities($lat, ENT_QUOTES, CHARSET)
 		    		, SLocalization::get('longitude')
-		    		, htmlentities($location['longitude'], ENT_QUOTES, CHARSET)
+		    		, htmlentities($long, ENT_QUOTES, CHARSET)
 	        )
 		);
 	    echo '<div id="WContentLocation">'.

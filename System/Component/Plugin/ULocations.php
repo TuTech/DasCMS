@@ -43,8 +43,8 @@ class ULocations
     
     public function getContentLocation($alias)
     {
-        self::failWithout('org.bambuscms.location.view');
         $location = '';
+        $location = null; $lat = null; $long = null; $addr = null;
 	    $res = QULocations::getContentLocation($alias);
 	    if($res->getRowCount())
 	    {

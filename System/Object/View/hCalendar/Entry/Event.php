@@ -25,6 +25,7 @@ class View_hCalendar_Entry_Event extends _View_hCalendar_Entry implements Interf
         $str.= $this->makeCommand('span','UID',$this->content->getGUID());
         $str.= $this->makeCommand('div','DESCRIPTION',strip_tags($this->content->getDescription()));
         $str.= $this->makeDateCommand('CREATED',$this->content->getCreateDate());
+        $str.= new View_Content_Attribute_Location($this->content);
         return $str;
     }
 }
