@@ -119,7 +119,7 @@ class CCalendar
 	 */
 	public function getContent()
 	{
-	    $cal = new hCalendar_Calendar($this->getTitle());
+	    $cal = new View_hCalendar_Calendar($this->getTitle());
         return $this->buildCalendar($cal);
 	}
 	
@@ -183,7 +183,7 @@ class CCalendar
                     $cal->createEvent(
                         strtotime($row[0]),//start time
                         strtotime($row[1]),//end time
-                        BContent::Access($row[2], $this, true)//open by alias
+                        $row[2]//open by alias
                     )
                 );
             }
@@ -198,7 +198,7 @@ class CCalendar
     
     public function sendFileContent()
     {
-        $cal = new iCalendar_Calendar($this->getTitle());
+        $cal = new View_iCalendar_Calendar($this->getTitle());
         echo $this->buildCalendar($cal);
     }
     

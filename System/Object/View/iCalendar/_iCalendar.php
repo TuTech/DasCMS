@@ -1,5 +1,5 @@
 <?php
-abstract class _iCalendar extends _
+abstract class _View_iCalendar extends _View
 {
     const NL = "\r\n";
 
@@ -26,8 +26,8 @@ abstract class _iCalendar extends _
         {
             $value = $this->escapeString($value);
         }
-        $cmd = sprintf('%s:%s%s', $cmd, $value, _iCalendar::NL);
-        $cmd = rtrim(chunk_split($cmd,72,_iCalendar::NL.' '), _iCalendar::NL.' ')._iCalendar::NL;
+        $cmd = sprintf('%s:%s%s', $cmd, $value, _View_iCalendar::NL);
+        $cmd = rtrim(chunk_split($cmd,72,_View_iCalendar::NL.' '), _View_iCalendar::NL.' ')._View_iCalendar::NL;
         return $cmd;
     }
     

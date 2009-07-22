@@ -8,7 +8,7 @@
 /**
  * @package Bambus
  */
-abstract class _
+abstract class _ extends BObject
 {
     protected function debug_log($msg)
     {

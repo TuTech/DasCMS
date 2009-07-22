@@ -1,5 +1,5 @@
 <?php
-abstract class _hCalendar extends _
+abstract class _View_hCalendar extends _View
 {
     protected $tag = 'div';
     protected $sectionName ;

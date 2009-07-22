@@ -1,5 +1,5 @@
 <?php
-class hCalendar_Calendar extends _hCalendar implements Interface_Calendar_Calendar
+class View_hCalendar_Calendar extends _View_hCalendar implements Interface_Calendar_Calendar
 {
     protected $entries = array();
     protected $title;
@@ -24,9 +24,9 @@ class hCalendar_Calendar extends _hCalendar implements Interface_Calendar_Calend
         $this->entries[] = $entry;
     }
     
-    public function createEvent($startTime, $endTime, BContent $content)
+    public function createEvent($startTime, $endTime, $alias)
     {
-        return new hCalendar_Entry_Event($startTime, $endTime, $content);
+        return new View_hCalendar_Entry_Event($startTime, $endTime, BContent::Access($alias, $this, true));
     }
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-class iCalendar_Entry_Event extends _iCalendar_Entry implements Interface_Calendar_Event
+class View_iCalendar_Entry_Event extends _View_iCalendar_Entry implements Interface_Calendar_Event
 {
     protected $startTime, $endTime;
     /**
@@ -22,7 +22,7 @@ class iCalendar_Entry_Event extends _iCalendar_Entry implements Interface_Calend
         $str.= $this->makeDateCommand('CREATED',$this->content->getCreateDate(), false);
         $str.= $this->makeCommand('SUMMARY',$this->content->getTitle(), true);
         $str.= $this->makeCommand('UID',$this->content->getGUID());
-        $str.= $this->makeCommand('DESCRIPTION',strip_tags($this->content->getDescription()), true);
+        $str.= $this->makeCommand('DESCRIPTION',trim(strip_tags($this->content->getDescription())), true);
         return $str;
     }
 }

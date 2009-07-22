@@ -1,5 +1,5 @@
 <?php
-class hCalendar_Entry_Event extends _hCalendar_Entry implements Interface_Calendar_Event
+class View_hCalendar_Entry_Event extends _View_hCalendar_Entry implements Interface_Calendar_Event
 {
     protected $startTime, $endTime;
     /**

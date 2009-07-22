@@ -10,6 +10,6 @@ interface Interface_Calendar_Calendar
      * @param BContent $content
      * @return Interface_Calendar_Event
      */
-    public function createEvent($startTime, $endTime, BContent $content);
+    public function createEvent($startTime, $endTime, $alias);
 }
 ?>

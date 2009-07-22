@@ -122,6 +122,7 @@ class LConfiguration
         if(self::$configurationChanged)
         {
             try{
+                chdir(BAMBUS_CMS_ROOTDIR);
                 SErrorAndExceptionHandler::muteErrors();
                 //make a backup
                 $oc = DFileSystem::Load(SPath::CONTENT.'configuration/system.php');

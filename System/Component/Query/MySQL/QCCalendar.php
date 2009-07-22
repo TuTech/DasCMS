@@ -19,7 +19,7 @@ class QCCalendar extends BQuery
         $sql = "SELECT EventDates.startDate, EventDates.endDate, Aliases.alias FROM EventDates 
         			LEFT JOIN Contents ON (EventDates.contentREL = Contents.contentID)
         			LEFT JOIN Aliases ON (Contents.primaryAlias = Aliases.aliasID)
-        			WHERE EventDates.startDate >= CURDATE()
+        			WHERE EventDates.startDate >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
         			  AND Contents.pubDate <= NOW()
         			  AND !ISNULL(Contents.pubDate)
         			ORDER BY EventDates.startDate, EventDates.endDate";
