@@ -32,7 +32,7 @@ try
         if(PAuthorisation::has('org.bambuscms.content.cfile.view'))
         {
             //valid user - allowed to view unpublished 
-            $content = BContent::Open($alias);
+            $content = BContent::Open($file);
         }
         else
         {
