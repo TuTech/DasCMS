@@ -61,7 +61,7 @@ class WContentLocation extends BWidget implements ISidebarWidget
 	    }
 	    catch (Exception $e)
 	    {
-	        echo $e->getMessage();
+	        /*no new coords set*/
 	    }
 	}
 	
