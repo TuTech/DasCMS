@@ -5,7 +5,7 @@ class Formatter_Attribute_View_Icon
         Interface_Formatter_Attribute_Linkable,
         Interface_Formatter_Attribute_OptionsSelectable
 {
-    protected $link = false;
+    protected $enableLinking = false;
     protected $selectedOption = WIcon::SMALL;
     protected $options = array(
         WIcon::EXTRA_SMALL => 'extra-small',
@@ -16,12 +16,17 @@ class Formatter_Attribute_View_Icon
     
     public function setLinkingEnabled($enabled)
     {
-        $this->link = $enabled == true;
+        $this->enableLinking = $enabled == true;
     }
 
     public function isLinkingEnabled()
     {
-        return $this->link;
+        return $this->enableLinking;
     }
+    
+    protected function getFormatterClass()
+    {
+        return 'Icon';
+    } 
 }
 ?>

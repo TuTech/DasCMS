@@ -27,5 +27,10 @@ abstract class Formatter_Attribute_Options
             throw new XUndefinedIndexException('given option not available');
         }
     }
+    
+    public function toXHTML()
+    {
+        //FIXME
+    }
 }
 ?>

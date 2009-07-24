@@ -9,5 +9,9 @@ class Formatter_Attribute_View_Title
     //inherit
     //__toString
     //toConfString
+    protected function getFormatterClass()
+    {
+        return 'Title';
+    } 
 }
 ?>

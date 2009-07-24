@@ -6,8 +6,6 @@ abstract class Formatter_Attribute_Link
         Interface_Formatter_Attribute_HasLinkTarget        
 {
     protected $text = '';
-    protected $targetView = '';
-    protected $targetFrame = '';
         
     public function setText($text)
     {
@@ -24,24 +22,7 @@ abstract class Formatter_Attribute_Link
     public function toXHTML($insertString = null)
     {
         $insertString == null ? htmlentities($this->getText(), ENT_QUOTES, CHARSET) : $insertString;
-        $str = '';
-        try{
-            if(!empty($this->targetView))
-            {
-                $v = VSpore::byName($this->targetView);
-                $link = $v->LinkTo($this->getLinkAlias());
-                $str = sprintf(
-                	"<a href=\"%s\"%s>%s</a>\n"
-                    ,$link
-                    ,empty($this->targetFrame) ? '' : ' target="'.htmlentities($this->targetFrame,ENT_QUOTES,CHARSET).'"'
-                    ,$insertString
-                );
-            }
-        }
-        catch (Exception $e)
-        {
-            return '';
-        }
+        $str = $this->createLink($this->getLinkAlias(),$insertString);
         return parent::toXHTML($str);
     }
 }
