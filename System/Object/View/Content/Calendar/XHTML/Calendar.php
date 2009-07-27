@@ -1,12 +1,15 @@
 <?php
-class View_hCalendar_Calendar extends _View_hCalendar implements Interface_Calendar_Calendar
+class View_Content_Calendar_XHTML_Calendar 
+    extends _View_Content_Calendar_XHTML 
+    implements Interface_Calendar_Calendar
 {
     protected $entries = array();
     protected $title;
+    
     public function __construct($title)
     {
         $this->title = $title;
-        $this->sectionName = '';//vcalendar';
+        $this->sectionName = '';
     }
     
     protected function getSectionBody()
@@ -26,7 +29,7 @@ class View_hCalendar_Calendar extends _View_hCalendar implements Interface_Calen
     
     public function createEvent($startTime, $endTime, $alias)
     {
-        return new View_hCalendar_Entry_Event($startTime, $endTime, BContent::Access($alias, $this, true));
+        return new View_Content_Calendar_XHTML_Entry_Event($startTime, $endTime, BContent::Access($alias, $this, true));
     }
 }
 ?>

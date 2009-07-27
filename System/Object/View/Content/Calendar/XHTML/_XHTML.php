@@ -1,17 +1,21 @@
 <?php
-abstract class _View_hCalendar extends _View
+abstract class _View_Content_Calendar_XHTML
+    extends _View_Content_Calendar 
 {
     protected $tag = 'div';
-    protected $sectionName ;
     
-    abstract protected function getSectionBody();
+    protected function withTag($tag)
+    {
+        $this->tag = $tag;
+        return $this;
+    }
     
-    protected function makeDateString($date)
+    protected function makeDateString($date, $utc = true)
     {
         return date("c",intval($date));
     }
     
-    protected function makeDateCommand($cmd, $time)
+    protected function makeDateCommand($cmd, $time, $utc = true)
     {
         return sprintf(
         	"\t\t".'<abbr class="%s" title="%s">%s</abbr>'."\n"
@@ -21,13 +25,13 @@ abstract class _View_hCalendar extends _View
         );
     }
     
-    protected function makeCommand($tag, $cmd, $value, $escape = false)
+    protected function makeCommand($cmd, $value, $escape = false)
     {
         if($escape)
         {
             $value = $this->escapeString($value);
         }
-        return sprintf("\t\t".'<%s class="%s">%s</%s>'."\n", $tag, strtolower($cmd), $value, $tag);
+        return sprintf("\t\t".'<%s class="%s">%s</%s>'."\n", $this->tag, strtolower($cmd), $value, $this->tag);
     }
     
     protected function escapeString($str)
@@ -42,5 +46,5 @@ abstract class _View_hCalendar extends _View
         $str .= sprintf("</%s>\n", $this->tag);
         return $str;
     }
-} 
+}
 ?>

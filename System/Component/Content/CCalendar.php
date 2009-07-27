@@ -30,8 +30,7 @@ class CCalendar
     
     public function getFileCacheLifeTime()
     {
-        //10 seconds
-        return 10;
+        return 10;// seconds
     }
     
 	/**
@@ -119,7 +118,10 @@ class CCalendar
 	 */
 	public function getContent()
 	{
-	    $cal = new View_hCalendar_Calendar($this->getTitle());
+	    $cal = Factory_Calendar::getSharedInstance()->createCalendar(
+	        Factory_Calendar::AS_XHTML, 
+	        $this->getTitle()
+        );
         return $this->buildCalendar($cal);
 	}
 	
@@ -198,7 +200,10 @@ class CCalendar
     
     public function sendFileContent()
     {
-        $cal = new View_iCalendar_Calendar($this->getTitle());
+	    $cal = Factory_Calendar::getSharedInstance()->createCalendar(
+	        Factory_Calendar::AS_FILE, 
+	        $this->getTitle()
+        );
         echo $this->buildCalendar($cal);
     }
     

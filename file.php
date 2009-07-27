@@ -24,7 +24,6 @@ try
     }
     try
     {
-        //FIXME new WImage() is wrong - do this in an access class
         $content = BContent::Access($file, new UCFileConfig(), true);
     }
     catch (XPermissionDeniedException $e)

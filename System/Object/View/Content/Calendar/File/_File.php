@@ -1,11 +1,8 @@
 <?php
-abstract class _View_iCalendar extends _View
+abstract class _View_Content_Calendar_File 
+    extends _View_Content_Calendar 
 {
     const NL = "\r\n";
-
-    protected $sectionName = null;
-    
-    abstract protected function getSectionBody();
     
     protected function makeDateString($date, $utc = true)
     {
@@ -26,8 +23,11 @@ abstract class _View_iCalendar extends _View
         {
             $value = $this->escapeString($value);
         }
-        $cmd = sprintf('%s:%s%s', $cmd, $value, _View_iCalendar::NL);
-        $cmd = rtrim(chunk_split($cmd,72,_View_iCalendar::NL.' '), _View_iCalendar::NL.' ')._View_iCalendar::NL;
+        $cmd = sprintf('%s:%s%s', $cmd, $value, _View_Content_Calendar_File::NL);
+        $cmd = rtrim(
+                chunk_split($cmd,72,_View_Content_Calendar_File::NL.' '), 
+                _View_Content_Calendar_File::NL.' '
+            )._View_Content_Calendar_File::NL;
         return $cmd;
     }
     
@@ -48,5 +48,5 @@ abstract class _View_iCalendar extends _View
         $str .= $this->makeCommand('END', $this->sectionName);
         return $str;
     }
-} 
+}
 ?>

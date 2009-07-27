@@ -1,5 +1,7 @@
 <?php
-class View_iCalendar_Entry_Event extends _View_iCalendar_Entry implements Interface_Calendar_Event
+class View_Content_Calendar_File_Entry_Event 
+    extends _View_Content_Calendar_File_Entry 
+    implements Interface_Calendar_Event
 {
     protected $startTime, $endTime;
     /**

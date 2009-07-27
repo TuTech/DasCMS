@@ -1,8 +1,11 @@
 <?php
-class View_iCalendar_Calendar extends _View_iCalendar implements Interface_Calendar_Calendar
+class View_Content_Calendar_File_Calendar
+    extends _View_Content_Calendar_File
+    implements Interface_Calendar_Calendar
 {
     protected $entries = array();
     protected $title;
+    
     public function __construct($title)
     {
         $this->title = $title;
@@ -28,7 +31,7 @@ class View_iCalendar_Calendar extends _View_iCalendar implements Interface_Calen
     
     public function createEvent($startTime, $endTime, $alias)
     {
-        return new View_iCalendar_Entry_Event($startTime, $endTime, BContent::Access($alias, $this, true));
+        return new View_Content_Calendar_File_Entry_Event($startTime, $endTime, BContent::Access($alias, $this, true));
     }
 }
 ?>
