@@ -8,7 +8,7 @@ abstract class Formatter_Attribute_Options
     
     public function getAvailableOptions()
     {
-        return  $this->options;
+        return $this->options;
     }
     
     public function getSelectedOption()
@@ -26,11 +26,6 @@ abstract class Formatter_Attribute_Options
         {
             throw new XUndefinedIndexException('given option not available');
         }
-    }
-    
-    public function toXHTML()
-    {
-        //FIXME
     }
 }
 ?>

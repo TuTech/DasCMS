@@ -35,7 +35,8 @@ class VSporeHelper
         'previewimage' => array('view', 'width', 'height', 'scale'),
         'type' => array('view'),
     	'property' => array('view', 'name'),
-    	'altercontent' => array('view', 'alias')
+    	'altercontent' => array('view', 'alias'),
+        'formatter' => array('view','use')
     );
     
     public function __construct()
@@ -79,11 +80,21 @@ class VSporeHelper
         }
     }
     
+    private function formatter($spore, $formatter)
+    {
+        try{
+            echo $formatter;
+        return Formatter_Container::unfreezeForFormatting($formatter, $this->sporeContent($spore));
+        }catch (Exception $e)
+        {
+            return $e->getTraceAsString();
+        }
+    }
+    
     private function type($spore)
     {
         return get_class($this->sporeContent($spore));
     }
-    
     
     private function content($spore)
     {
@@ -195,9 +206,11 @@ class VSporeHelper
 	    }
 	    switch ($function)
 	    {
+	        case 'formatter':
+	            return $this->{$function}($namedParameters['view'],$namedParameters['use']);
 	        case 'property':
 	            return $this->{$function}($namedParameters['view'],$namedParameters['name']);
-	        case 'altercontent':
+            case 'altercontent':
 	            return $this->{$function}($namedParameters['view'],$namedParameters['alias']);
             case 'previewimage':
 	            foreach(array('width', 'height', 'scale', 'color') as $p)

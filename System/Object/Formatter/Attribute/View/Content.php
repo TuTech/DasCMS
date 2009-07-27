@@ -9,7 +9,14 @@ class Formatter_Attribute_View_Content
     
     public function toXHTML($insertString = null)
     {
-        return parent::toXHTML($this->getContent()->getContent());
+        try
+        {
+            return parent::toXHTML($this->getContent()->getContent());
+        }
+        catch (Exception $e)
+        {
+            return $e->getTraceAsString();
+        }
     }
 }
 ?>

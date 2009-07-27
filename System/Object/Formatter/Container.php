@@ -5,6 +5,8 @@ class Formatter_Container extends _Formatter
     protected $attachedAttributes = array();
     protected $uniqueName = null;
     
+    protected static $Formatters = array();
+    
     public function __construct($uniqueName)
     {
         $this->uniqueName = $uniqueName;
@@ -44,9 +46,14 @@ class Formatter_Container extends _Formatter
         $str = "<div class=\"".htmlentities($this->uniqueName, ENT_QUOTES, CHARSET)."\">\n";
         foreach ($this->attachedAttributes as $attribute)
         {
+            if($this->targetContent !== null)
+            {
+                $attribute->setTargetContent($this->targetContent);
+            }
             $str .= strval($attribute);
         }
         $str.= "</div>\n";
+        return $str;
     }
     
     public function __sleep()
@@ -54,19 +61,31 @@ class Formatter_Container extends _Formatter
         return array('uniqueName', 'attachedAttributes');
     }
     
+    protected static function makeFileName($name)
+    {
+        if(!preg_match('/[0-9a-z_-]+/ui',$name))
+        {
+            throw new XInvalidDataException('name contains illegal chars or is empty');
+        }
+        return SPath::CONFIGURATION.'/FORMAT_'.$name.'.php';
+    }
+    
     public function freeze()
     {
-        return serialize($this);
+        $file = self::makeFileName($this->uniqueName);
+        DFileSystem::SaveData($file, $this);
     }
+
     
     /**
      * @param string $data
      * @return Formatter_Container
      */
-    public static function unfreeze($data)
+    public static function unfreeze($name)
     {
         //reverse evil
-        $container = unserialize($data);
+        $file = self::makeFileName($name);
+        $container = DFileSystem::LoadData($file);
         if(!$container instanceof Formatter_Container)
         {
             throw new XArgumentException('invalid data - not a container');
@@ -79,9 +98,13 @@ class Formatter_Container extends _Formatter
      * @param BContent $content
      * @return Formatter_Container
      */
-    public static function unfreezeForFormatting($data, BContent $content)
+    public static function unfreezeForFormatting($name, BContent $content)
     {
-        $obj = self::unfreeze($data);
+        if(!array_key_exists($name, self::$Formatters))
+        {
+            self::$Formatters[$name] = self::unfreeze($name);
+        }
+        $obj = clone self::$Formatters[$name];
         $obj->setTargetContent($content);
         return $obj;
     }

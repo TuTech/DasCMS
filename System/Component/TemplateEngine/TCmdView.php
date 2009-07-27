@@ -17,7 +17,7 @@ class TCmdView
 {
     private $for, $show;
     public $data = array();
-    private $width = null, $height = null, $scale = null, $color = null, $fixcontent = null;
+    private $width = null, $height = null, $scale = null, $color = null, $fixcontent = null, $use = null;
     private $res = '';
     
     public function __construct(DOMNode $node)
@@ -29,6 +29,7 @@ class TCmdView
         $height = $atts->getNamedItem('height');
         $scale = $atts->getNamedItem('scale');
         $color = $atts->getNamedItem('color');
+        $use = $atts->getNamedItem('use');
         $fixcontent = $atts->getNamedItem('fixcontent');
         if(!$for || !$show)
         {
@@ -40,6 +41,7 @@ class TCmdView
         if($height)$this->height = $height->nodeValue;
         if($scale)$this->scale = $scale->nodeValue;
         if($color)$this->color = $color->nodeValue;
+        if($use)$this->use = $use->nodeValue;
         if($fixcontent)$this->fixcontent = $fixcontent->nodeValue;
     }
     
@@ -60,7 +62,8 @@ class TCmdView
                 'width' => $this->width,
                 'height' => $this->height,
                 'scale' => $this->scale,
-                'color' => $this->color
+                'color' => $this->color,
+                'use' => $this->use
             ));
         }
     }
@@ -76,7 +79,16 @@ class TCmdView
 
     public function __sleep()
     {
-        $this->data = array($this->for, $this->show, $this->width, $this->height, $this->scale, $this->color, $this->fixcontent);
+        $this->data = array(
+            $this->for, 
+            $this->show, 
+            $this->width, 
+            $this->height, 
+            $this->scale, 
+            $this->color, 
+            $this->fixcontent, 
+            $this->use
+        );
         return array('data');
     }
     
@@ -89,6 +101,7 @@ class TCmdView
         if(isset($this->data[4]))$this->scale = $this->data[4];
         if(isset($this->data[5]))$this->color = $this->data[5];
         if(isset($this->data[6]))$this->fixcontent = $this->data[6];
+        if(isset($this->data[7]))$this->use = $this->data[7];
         $this->data = array();
     }
 }

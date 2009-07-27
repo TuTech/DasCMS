@@ -12,7 +12,7 @@ abstract class Formatter_Attribute_Link
         $this->text = strval($text);
     }
 
-    public function getText($text)
+    public function getText()
     {
         return $this->text;
     }

@@ -7,5 +7,15 @@ class Formatter_Attribute_View_Creator
     {
         return 'Creator';
     } 
+    
+    public function toXHTML($insertString = null)
+    {
+        return parent::toXHTML($this->escapeString($this->getContent()->getCreatedBy()));
+    }
+    
+    public function getLinkAlias()
+    {
+        return $this->getContent()->getAlias();
+    }
 }
 ?>

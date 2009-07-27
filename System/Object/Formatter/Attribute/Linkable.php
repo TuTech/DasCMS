@@ -17,9 +17,9 @@ abstract class Formatter_Attribute_Linkable
     
     abstract function getLinkAlias();
     
-    public function toXHTML()
+    public function toXHTML($insertString = null)
     {
-        //FIXME
+        return parent::toXHTML($insertString);
     }
 }
 ?>

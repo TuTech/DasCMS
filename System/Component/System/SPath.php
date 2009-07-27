@@ -24,6 +24,7 @@ class SPath
     const SYSTEM_RESOURCE_STRINGS = './System/Resource/Strings/';
     
     const CONTENT = './Content/';
+    const CONFIGURATION = './Content/configuration/';
     const TEMPLATES = './Content/CTemplate/';
     const LOGS = './Content/logs/';
     const DESIGN = './Content/stylesheets/';

@@ -1,12 +1,26 @@
 <?php
-class Formatter_Attribute_List
+abstract class Formatter_Attribute_List
     extends _Formatter_Attribute
 {
-    abstract function getListEntries();
+    abstract protected  function getListEntries();
     
-    public function toXHTML()
+    public function toXHTML($insertString = null)
     {
-        //FIXME
+        //for linked list parent call
+        if($insertString == null)
+        {
+            $str = "<ul>\n";
+            foreach ($this->getListEntries() as $entry)
+            {
+                $str .= "<li>".$this->escapeString($entry)."</li>\n";
+            }
+            $str .= "</ul>\n";
+        }
+        else
+        {
+            $str = $insertString;
+        }
+        return parent::toXHTML($str);
     }
 }
 ?>

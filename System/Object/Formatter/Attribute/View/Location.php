@@ -6,5 +6,10 @@ class Formatter_Attribute_View_Location
     {
         return 'Location';
     } 
+    
+    public function toXHTML($insertString = null)
+    {
+        return strval(new View_Content_Attribute_Location($this->getContent()));
+    }
 }
 ?>

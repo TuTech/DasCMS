@@ -60,16 +60,21 @@ abstract class _Formatter_Attribute extends _Formatter
     /**
      * @return VSpore
      */
-    protected function getTargetView()
+    public function getTargetView()
     {
         //FIXME
         $targetView = 'page';
         return VSpore::byName($targetView);
     }
-    protected function getTargetFrame()
+    public function getTargetFrame()
     {
         //FIXME
         return null;
+    }
+    
+    protected function escapeString($string)
+    {
+        return htmlentities($string, ENT_QUOTES, CHARSET);
     }
     
     /**
@@ -77,7 +82,7 @@ abstract class _Formatter_Attribute extends _Formatter
      */
     public function toXHTML($insertString = null)
     {
-        return sprintf("<div class=\"%s\">\n%s</div>\n", $this->getFormatterClass(), $insertString);
+        return sprintf("<div class=\"%s\">\n%s</div>\n\n", $this->getFormatterClass(), $insertString);
     }
     
     public function __toString()

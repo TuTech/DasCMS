@@ -28,5 +28,10 @@ class Formatter_Attribute_View_Icon
     {
         return 'Icon';
     } 
+    
+    public function toXHTML($insertString = null)
+    {
+        return parent::toXHTML(strval($this->getContent()->getIcon()->asSize($this->selectedOption)));
+    }
 }
 ?>
