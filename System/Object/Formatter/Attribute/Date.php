@@ -4,8 +4,9 @@ abstract class Formatter_Attribute_Date
     implements 
         Interface_Formatter_Attribute_DateFormattable
 {
-    protected $dateFormat = 'c';
-
+    protected $dateFormat = 'r';
+    protected $persistentAttributes = array('textAfter','textBefore','dateFormat');
+    
     abstract protected function getDate();
     
     public function getDateFormat()
@@ -21,8 +22,8 @@ abstract class Formatter_Attribute_Date
     public function toXHTML($insertString = null)
     {
         $str = sprintf(
-        	"<span class=\"date\">%s</span>\n", 
-            date(LConfiguration::get('dateformat'), $this->getDate())
+        	"\n<span class=\"date\">%s</span>\n", 
+            date($this->dateFormat, $this->getDate())
         );
         return parent::toXHTML($str);
     }

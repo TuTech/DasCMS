@@ -4,12 +4,22 @@ class Formatter_Container extends _Formatter
     protected static $availableAttributes = null;
     protected $attachedAttributes = array();
     protected $uniqueName = null;
+    protected $persistentAttributes = array('uniqueName', 'attachedAttributes');
+    /**
+     * @var BContent
+     */
+    protected $targetContent = null;
     
     protected static $Formatters = array();
     
     public function __construct($uniqueName)
     {
         $this->uniqueName = $uniqueName;
+    }
+    
+    public function setTargetContent(BContent $content)
+    {
+        $this->targetContent = $content;
     }
     
     public function resetAttributes()
@@ -46,19 +56,11 @@ class Formatter_Container extends _Formatter
         $str = "<div class=\"".htmlentities($this->uniqueName, ENT_QUOTES, CHARSET)."\">\n";
         foreach ($this->attachedAttributes as $attribute)
         {
-            if($this->targetContent !== null)
-            {
-                $attribute->setTargetContent($this->targetContent);
-            }
+            $attribute->setParentContainer($this);
             $str .= strval($attribute);
         }
         $str.= "</div>\n";
         return $str;
-    }
-    
-    public function __sleep()
-    {
-        return array('uniqueName', 'attachedAttributes');
     }
     
     protected static function makeFileName($name)

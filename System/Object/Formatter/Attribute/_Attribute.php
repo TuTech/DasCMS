@@ -1,9 +1,35 @@
 <?php
 abstract class _Formatter_Attribute extends _Formatter
 {
-    protected $enabled = false;
-    protected $title = null;//FIXME to be defined in extending class for display in config
-
+    protected static $title = null;//FIXME to be defined in extending class for display in config
+    
+    /**
+     * @var Formatter_Container
+     */
+    protected $parentContainer = null;
+    
+    public function setParentContainer(Formatter_Container $container)
+    {
+        $this->parentContainer = $container;
+    }
+    
+    /**
+     * @return BContent
+     */
+    protected function getContent()
+    {
+        if($this->parentContainer == null)
+        {
+            throw new XUndefinedException('no parent');
+        }
+        $content = $this->parentContainer->getContent();
+        if($content == null)
+        {
+            throw new XUndefinedException('no content');
+        }
+        return $content;
+    }
+    
     /**
      * @param bool $enabled
      */
@@ -87,7 +113,14 @@ abstract class _Formatter_Attribute extends _Formatter
     
     public function __toString()
     {
-        return $this->toXHTML();
+        try
+        {
+            return $this->toXHTML();
+        }
+        catch (Exception $e)
+        {
+            return strval($e);
+        }
     }
 }
 ?>

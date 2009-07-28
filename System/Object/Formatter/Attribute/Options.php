@@ -3,6 +3,7 @@ abstract class Formatter_Attribute_Options
     extends _Formatter_Attribute
     implements Interface_Formatter_Attribute_OptionsSelectable
 {
+    protected $persistentAttributes = array('selectedOption');
     protected $options = array();
     protected $selectedOption = null;
     

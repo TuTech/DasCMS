@@ -5,6 +5,7 @@ abstract class Formatter_Attribute_Link
         Interface_Formatter_Attribute_TextSettable,
         Interface_Formatter_Attribute_HasLinkTarget        
 {
+    protected $persistentAttributes = array('text');
     protected $text = '';
         
     public function setText($text)

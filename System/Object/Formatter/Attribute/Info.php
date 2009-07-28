@@ -7,7 +7,8 @@ abstract class Formatter_Attribute_Info
 {
     protected $textBefore = '';
     protected $textAfter = '';
-
+    protected $persistentAttributes = array('textAfter','textBefore');
+    
     //Interface_Formatter_Attribute_TextPrependable
     public function getPrependedText()
     {
@@ -34,10 +35,10 @@ abstract class Formatter_Attribute_Info
     {
         $insertString = $insertString == null ? '' : strval($insertString); 
         $str = sprintf(
-        	"<span class=\"textBefore\">%s</span>\n%s<span class=\"textAfter\">%s</span>\n"
+        	"<span class=\"textBefore\">%s</span>%s<span class=\"textAfter\">%s</span>\n"
         	,htmlentities($this->textBefore, ENT_QUOTES, CHARSET)
         	,$insertString
-        	,htmlentities($this->textBefore, ENT_QUOTES, CHARSET)
+        	,htmlentities($this->textAfter, ENT_QUOTES, CHARSET)
     	);
     	return parent::toXHTML($str);
     }

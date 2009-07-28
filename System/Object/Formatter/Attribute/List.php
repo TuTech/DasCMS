@@ -1,20 +1,48 @@
 <?php
 abstract class Formatter_Attribute_List
-    extends _Formatter_Attribute
+    extends Formatter_Attribute_Info
+    implements Interface_Formatter_Attribute_TextSettable
 {
     abstract protected  function getListEntries();
+    protected $persistentAttributes = array('textAfter','textBefore','separator');
+    
+    protected $separator = '';
+    
+    public function getText()
+    {
+        return $this->separator;
+    }
+    
+    public function setText($text)
+    {
+        $this->separator = $text;
+    }
     
     public function toXHTML($insertString = null)
     {
         //for linked list parent call
         if($insertString == null)
         {
-            $str = "<ul>\n";
-            foreach ($this->getListEntries() as $entry)
+            $vals = array_values($this->getListEntries());
+            if(count($vals) > 0)
             {
-                $str .= "<li>".$this->escapeString($entry)."</li>\n";
+                $str = "<ul>\n";
+                $sep = $this->separator != '' ?  '<span class="sep">'.$this->separator.'</span>':'';
+                
+                for($i = 0; $i < count($vals); $i++)
+                {
+                    if($i == count($vals)-1)
+                    {
+                        $sep = '';
+                    }
+                    $str .= "<li>".$this->escapeString($vals[$i]).$sep."</li>\n";
+                }
+                $str .= "</ul>\n";
             }
-            $str .= "</ul>\n";
+            else
+            {
+                return '';//abort here 
+            }
         }
         else
         {

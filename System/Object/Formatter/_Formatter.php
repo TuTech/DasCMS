@@ -1,11 +1,16 @@
 <?php
 abstract class _Formatter extends _
 {
-    protected $targetContent = null;
-    
-    protected function setTargetContent(BContent $content)
+    protected $persistentAttributes = array();
+
+    public function __sleep()
     {
-        $this->targetContent = $content;
+        return array_unique($this->getPersistentAttributes());
+    }
+    
+    protected function getPersistentAttributes(array $add = array())
+    {
+        return array_merge($this->persistentAttributes, $add);
     }
     
     /**

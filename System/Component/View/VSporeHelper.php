@@ -83,8 +83,7 @@ class VSporeHelper
     private function formatter($spore, $formatter)
     {
         try{
-            echo $formatter;
-        return Formatter_Container::unfreezeForFormatting($formatter, $this->sporeContent($spore));
+            return Formatter_Container::unfreezeForFormatting($formatter, $this->sporeContent($spore));
         }catch (Exception $e)
         {
             return $e->getTraceAsString();

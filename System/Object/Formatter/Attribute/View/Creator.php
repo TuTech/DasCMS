@@ -1,7 +1,8 @@
 <?php
 class Formatter_Attribute_View_Creator
-    extends Formatter_Attribute_Linkable
-    implements Interface_Formatter_Attribute_Linkable
+    extends Formatter_Attribute_Info
+    implements Interface_Formatter_Attribute_TextAppendable,
+               Interface_Formatter_Attribute_TextPrependable
 {
     protected function getFormatterClass()
     {
@@ -10,12 +11,7 @@ class Formatter_Attribute_View_Creator
     
     public function toXHTML($insertString = null)
     {
-        return parent::toXHTML($this->escapeString($this->getContent()->getCreatedBy()));
-    }
-    
-    public function getLinkAlias()
-    {
-        return $this->getContent()->getAlias();
+        return parent::toXHTML("\n<span class=\"user\">".$this->escapeString($this->getContent()->getCreatedBy())."</span>\n");
     }
 }
 ?>

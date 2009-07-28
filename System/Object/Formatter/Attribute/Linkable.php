@@ -3,6 +3,7 @@ abstract class Formatter_Attribute_Linkable
     extends _Formatter_Attribute 
     implements Interface_Formatter_Attribute_Linkable
 {
+    protected $persistentAttributes = array('enableLinking');
     protected $enableLinking = false;
 
     public function setLinkingEnabled($enabled)

@@ -5,6 +5,7 @@ class Formatter_Attribute_View_Icon
         Interface_Formatter_Attribute_Linkable,
         Interface_Formatter_Attribute_OptionsSelectable
 {
+    protected $persistentAttributes = array('enableLinking','selectedOption');
     protected $enableLinking = false;
     protected $selectedOption = WIcon::SMALL;
     protected $options = array(
@@ -31,7 +32,7 @@ class Formatter_Attribute_View_Icon
     
     public function toXHTML($insertString = null)
     {
-        return parent::toXHTML(strval($this->getContent()->getIcon()->asSize($this->selectedOption)));
+        return parent::toXHTML(strval($this->getContent()->getIcon()->asSize($this->selectedOption))."\n");
     }
 }
 ?>
