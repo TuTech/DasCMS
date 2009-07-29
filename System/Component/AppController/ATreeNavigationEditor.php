@@ -93,18 +93,18 @@ class ATreeNavigationEditor
     {
         parent::requirePermission('org.bambuscms.content.ntreenavigation.change');
         if($this->target != null
-            && isset($param['1_p'])
-            && $param['1_p'] == '0'
+            && isset($param['_1_p'])
+            && $param['_1_p'] == '0'
             )
         {
             $edit = $this->target;
         	//got data
-        	$data = array(1 => new NTreeNavigationObject('', null, null, null));
+        	$data = array('_1' => new NTreeNavigationObject('', null, null, null));
         	$i = 2;
         	//remove empty next pointers
-        	while(isset($param[$i.'_n']))
+        	while(isset($param['_'.$i.'_n']))
         	{
-        	    $next = $param[$i.'_n'];
+        	    $next = $param['_'.$i.'_n'];
         	    $nextAlias = self::val($next.'_cid', $param);
         	    while(empty($nextAlias) && isset($param[$next.'_n']))
         	    {
@@ -113,16 +113,16 @@ class ATreeNavigationEditor
         	    }
         	    if(!empty($nextAlias))
         	    {
-        	        $param[$i.'_n'] = $next;
+        	        $param['_'.$i.'_n'] = $next;
         	    }
         	    $i++;
         	}
         	$i = 2;
         	//remove empty first-child pointers 
-        	while(isset($param[$i.'_fc']))
+        	while(isset($param['_'.$i.'_fc']))
         	{
         	    //get the first child of element i
-        	    $fc = self::val($i.'_fc', $param);//5
+        	    $fc = self::val('_'.$i.'_fc', $param);//5
         	    $origFc = $fc;
         	    //get its alias
         	    $fcAlias = self::val($fc.'_cid', $param);
@@ -134,17 +134,17 @@ class ATreeNavigationEditor
         	    }
         	    if($origFc != $fc && !empty($fcAlias))
         	    {
-        	        $param[$i.'_fc'] = $fc;
+        	        $param['_'.$i.'_fc'] = $fc;
         	    }
         	    $i++;
         	}
         	$i = 2;
         
         	//get all nav objects 
-        	while(isset($param[$i.'_p']))
+        	while(isset($param['_'.$i.'_p']))
         	{
-        		$cid = self::val($i.'_cid', $param);
-        		$data[$i] = new  NTreeNavigationObject($cid, null, null, null);
+        		$cid = self::val('_'.$i.'_cid', $param);
+        		$data['_'.$i] = new  NTreeNavigationObject($cid, null, null, null);
         		$i++;
         	}
         	//link nav objects
@@ -173,7 +173,7 @@ class ATreeNavigationEditor
         		{
         			$sp = NTreeNavigation::sporeOf($edit);
         		}
-        		NTreeNavigation::set($edit,$sp, $data[1]);
+        		NTreeNavigation::set($edit,$sp, $data['_1']);
         		SNotificationCenter::report('message', 'saved');
         		$this->changed = true;
         	}

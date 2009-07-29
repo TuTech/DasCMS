@@ -38,10 +38,10 @@ if($edit != null)
 		</select>
 		<h3><?php SLocalization::out('edit_navigation_layout'); ?></h3>
 		<div id="navigationLayout">
-			<div id="1">
-				<input type="hidden" name="1_fc" id="1_fc" value="" />
-				<input type="hidden" name="1_n" id="1_n" value="" />
-				<input type="hidden" name="1_p" id="1_p" value="0" />
+			<div id="_1">
+				<input type="hidden" name="_1_fc" id="_1_fc" value="" />
+				<input type="hidden" name="_1_n" id="_1_n" value="" />
+				<input type="hidden" name="_1_p" id="_1_p" value="0" />
 			</div>
 		</div>
 	<script type="text/javascript">
@@ -60,15 +60,15 @@ if($edit != null)
     			$myid = ++$id;
     			$title = ($content == null) 
     				? '' 
-    				: htmlspecialchars($content->Title, ENT_QUOTES, CHARSET);
+    				: addslashes($content->Title);
     		    if($isChild)
     			{
-    				echo 'addChild(\''.$parentid.'\', \''.$tno->getAlias().'\', \''.$title.' ('.$tno->getAlias().')\');';
+    				echo 'addChild(\'_'.$parentid.'\', \''.$tno->getAlias().'\', \''.$title.' ('.$tno->getAlias().')\');';
     				$out = true;
     			}
     			else
     			{
-    				echo 'addSibling(\''.$parentid.'\', \''.$tno->getAlias().'\', \''.$title.' ('.$tno->getAlias().')\');';
+    				echo 'addSibling(\'_'.$parentid.'\', \''.$tno->getAlias().'\', \''.$title.' ('.$tno->getAlias().')\');';
     				$out = true;
     			}
     			if($tno->hasChildren())
@@ -88,7 +88,7 @@ if($edit != null)
 		}
 		if(!$out)
 		{
-			echo 'addChild(\'1\');';
+			echo 'addChild(\'_1\');';
 		}
 		?>
 		}

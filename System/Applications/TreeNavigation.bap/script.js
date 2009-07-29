@@ -86,7 +86,7 @@ function addChild(toElementId, cid, cttl)
 function createNavDiv(parentDiv, nextDiv , c_id, c_title)
 {
 	//our id
-	var Id = ++DivID;
+	var Id = '_'+(++DivID);
 	
 	//nav crap container
 	var CDiv = $c('div');
