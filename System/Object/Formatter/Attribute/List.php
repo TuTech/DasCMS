@@ -50,5 +50,16 @@ abstract class Formatter_Attribute_List
         }
         return parent::toXHTML($str);
     }
+    
+    
+    public function toJSON(array $parentData = array())
+    {
+        if(!isset($parentData['data']))
+        {
+            $parentData['data'] = array();
+        }
+        $parentData['data']['text'] = $this->getText();
+        return parent::toJSON($parentData);
+    }
 }
 ?>

@@ -28,5 +28,16 @@ abstract class Formatter_Attribute_Options
             throw new XUndefinedIndexException('given option not available');
         }
     }
+    
+    public function toJSON(array $parentData = array())
+    {
+        if(!isset($parentData['data']))
+        {
+            $parentData['data'] = array();
+        }
+        $parentData['data']['options'] = $this->getAvailableOptions();
+        $parentData['data']['selectedOption'] = $this->getSelectedOption();
+        return parent::toJSON($parentData);
+    }
 }
 ?>

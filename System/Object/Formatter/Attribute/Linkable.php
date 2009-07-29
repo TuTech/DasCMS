@@ -22,5 +22,15 @@ abstract class Formatter_Attribute_Linkable
     {
         return parent::toXHTML($insertString);
     }
+    
+    public function toJSON(array $parentData = array())
+    {
+        if(!isset($parentData['data']))
+        {
+            $parentData['data'] = array();
+        }
+        $parentData['data']['linkingEnabled'] = $this->isLinkingEnabled();
+        return parent::toJSON($parentData);
+    }
 }
 ?>

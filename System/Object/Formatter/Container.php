@@ -1,5 +1,10 @@
 <?php
-class Formatter_Container extends _Formatter
+class Formatter_Container 
+    extends _Formatter
+    implements 
+        Interface_View_XHTML,
+        Interface_View_JSON,
+        Interface_View_Atom
 {
     protected static $availableAttributes = null;
     protected $attachedAttributes = array();
@@ -48,19 +53,64 @@ class Formatter_Container extends _Formatter
         return self::$availableAttributes;
     }
 
-    public function __toString()
+    public function toJSON()
     {
-        
+        $data = array(
+            'name' => $this->uniqueName,
+            'attributes' => array()
+        );
+        foreach ($this->attachedAttributes as $attribute) 
+        {
+        	$data['attributes'][] = $attribute->toJSON();
+        }
+        print_r($data);
+        return json_encode($data);
+    }
+    
+    public function toXHTML()
+    {
         //IF has content to format format content - else show config
-        
-        $str = "<div class=\"".htmlentities($this->uniqueName, ENT_QUOTES, CHARSET)."\">\n";
+        $str = '';
+        if($this->isVisible())
+        {
+            $str = "<div class=\"".htmlentities($this->uniqueName, ENT_QUOTES, CHARSET)."\">\n";
+            foreach ($this->attachedAttributes as $attribute)
+            {
+                $attribute->setParentContainer($this);
+                $str .= strval($attribute);
+            }
+            $str.= "</div>\n";
+        }
+        return $str;
+    }
+    
+    public function getAtomTag()
+    {
+        return 'entry';
+    }
+    
+    /**
+     * @return XML_Atom_Entry
+     * (non-PHPdoc)
+     * @see System/Object/Interface/View/Interface_View_Atom#toAtom()
+     */
+    public function toAtom()
+    {
+        $entry = XML_Atom_Entry::createWriteableInstance();
         foreach ($this->attachedAttributes as $attribute)
         {
+            if($attribute instanceof Interface_View_Atom)
+            {
+                $entry->addElement($attribute->getAtomTag(), $attribute->toAtom());
+            }
             $attribute->setParentContainer($this);
-            $str .= strval($attribute);
         }
-        $str.= "</div>\n";
-        return $str;
+        return $entry;
+    }
+    
+    public function __toString()
+    {
+        return $this->toXHTML(); 
     }
     
     protected static function makeFileName($name)

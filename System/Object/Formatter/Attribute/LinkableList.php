@@ -22,5 +22,11 @@ abstract class Formatter_Attribute_LinkableList
     {
         //FIXME
     }
+    
+    
+    public function toJSON(array $parentData = array())
+    {
+        //FIXME
+    }
 }
 ?>

@@ -26,5 +26,17 @@ abstract class Formatter_Attribute_Link
         $str = $this->createLink($this->getLinkAlias(),$insertString);
         return parent::toXHTML($str);
     }
+    
+    public function toJSON(array $parentData = array())
+    {
+        if(!isset($parentData['data']))
+        {
+            $parentData['data'] = array();
+        }
+        $parentData['data']['text'] = $this->getText();
+        $parentData['data']['targetView'] = $this->getTargetView();
+        $parentData['data']['targetFrame'] = $this->getTargetFrame();
+        return parent::toJSON($parentData);
+    }
 }
 ?>

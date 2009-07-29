@@ -1,7 +1,11 @@
 <?php
-abstract class _Formatter_Attribute extends _Formatter
+abstract class _Formatter_Attribute 
+    extends _Formatter
+    implements 
+        Interface_View_XHTML,
+        Interface_View_JSON
 {
-    protected static $title = null;//FIXME to be defined in extending class for display in config
+    protected $title = null;//FIXME to be defined in extending class for display in config
     
     /**
      * @var Formatter_Container
@@ -111,11 +115,43 @@ abstract class _Formatter_Attribute extends _Formatter
         return sprintf("<div class=\"%s\">\n%s</div>\n\n", $this->getFormatterClass(), $insertString);
     }
     
+    public function toJSON(array $parentData = array())
+    {
+        //get class name
+        $class = get_class($this);
+        $tmp = explode('_', $class);
+        $parentData['class'] = array_pop($tmp);
+        
+        //get title of element
+        $parentData['title'] = $this->getTitle();
+        $parentData['title'] = empty($parentData['title']) 
+            ? $parentData['class'] 
+            : $parentData['title'];
+        
+        //get behaviours/implemented interfaces for the class
+        $impl = array_values(class_implements($class, false));
+        $parentData['behaviours'] = array();
+        foreach ($impl as $interface)
+        {
+            $tmp = explode('_', $interface);
+            $parentData['behaviours'][] = array_pop($tmp);
+        }
+        
+        //make shure data is set
+        if(!isset($parentData['data']))
+        {
+            $parentData['data'] = array();
+        }
+        $parentData['data']['tagsAllowingVisibility'] = $this->getTagsAllowingVisibility();
+        $parentData['data']['tagsPreventingVisibility'] = $this->getTagsPreventingVisibility();
+        return $parentData;
+    }
+    
     public function __toString()
     {
         try
         {
-            return $this->toXHTML();
+            return ($this->isVisible()) ? $this->toXHTML() : '';
         }
         catch (Exception $e)
         {

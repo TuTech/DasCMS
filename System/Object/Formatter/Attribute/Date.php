@@ -27,5 +27,15 @@ abstract class Formatter_Attribute_Date
         );
         return parent::toXHTML($str);
     }
+    
+    public function toJSON(array $parentData = array())
+    {
+        if(!isset($parentData['data']))
+        {
+            $parentData['data'] = array();
+        }
+        $parentData['data']['dateFormat'] = $this->getDateFormat();
+        return parent::toJSON($parentData);
+    }
 }
 ?>

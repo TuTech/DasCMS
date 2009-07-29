@@ -26,6 +26,8 @@ class XML_Atom_Entry extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
         $c__title,
         $c__updated;
         
+    protected $readOnly = true;
+    
     protected function __construct()
     {
     }
@@ -60,6 +62,69 @@ class XML_Atom_Entry extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
         'updated' 		=> 'XML_Atom_Date'
     );
      
+    /**
+     * @return XML_Atom_Entry
+     */
+    public static function createWriteableInstance()
+    {
+        $o = new XML_Atom_Entry();
+        $o->readOnly = false;
+        return $o;
+    } 
+    
+    public function validateElement($tag, _XML_Atom $element)
+    {
+        $tag = strtolower($tag);
+        $requiredInstance = ($tag == 'content') 
+            ? '_XML_Atom_Content' 
+            : self::$_elementParser[$tag];
+        return (
+            array_key_exists($tag, self::$_elementParser) 
+            && $element instanceof $requiredInstance
+        );
+    }
+    
+    /**
+     * inits the attribute for the tag and returns true if an element can be added
+     * @param $tag
+     * @return bool
+     */
+    protected function initElement($tag)
+    {
+        $tag = strtolower($tag);
+        if(!array_key_exists($tag, self::$_elements))
+        {
+            throw new XUndefinedException('unknown tag');
+        }
+        $att = 'c__'.$tag;
+        if($this->{$att} == null)
+        {
+            $this->{$att} = array();
+        }
+        $type = self::$_elements[$tag]; 
+        
+        return !(($type == _XML::EXACTLY_ONE || $type == _XML::NONE_OR_ONE) && count($this->{$att}) > 0);
+    }
+    
+    public function addElement($tag, _XML_Atom $element)
+    {
+        $tag = strtolower($tag);
+        if($this->readOnly)
+        {
+            throw new XFileLockedException('this element has been created in read-only-mode');
+        }      
+        if($this->validateElement($tag, $element))
+        {
+            throw new XArgumentException('incompatible element given');
+        }
+        $writeable = $this->initElement($tag);
+        if($writeable)
+        {
+            $att = 'c__'.$tag;
+            $this->{$att}[] = $element;
+        }
+    }
+    
     protected function getElementParsers()
     {
         return self::$_elementParser;
