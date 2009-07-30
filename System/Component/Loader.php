@@ -10,7 +10,7 @@ if(!defined('CMS_START_TIME'))
     define('CMS_START_TIME', microtime(true));
 
     if(!defined('BAMBUS_VERSION_NUMBER'))
-    define ('BAMBUS_VERSION_NUMBER', '0.96.0.20090513');
+    define ('BAMBUS_VERSION_NUMBER', '0.97.0.20090730');
         
 if(!defined('BAMBUS_VERSION_NAME'))
     define ('BAMBUS_VERSION_NAME', 'Bambus CMS');

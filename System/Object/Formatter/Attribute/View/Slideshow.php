@@ -1,4 +1,4 @@
-<?php
+<?php /*
 class Formatter_Attribute_View_Slideshow
    extends Formatter_Attribute_LinkableList
 {
@@ -6,5 +6,5 @@ class Formatter_Attribute_View_Slideshow
     {
         return 'SlideShow';
     }         
-}
+} */
 ?>

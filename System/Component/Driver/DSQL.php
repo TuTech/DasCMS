@@ -18,7 +18,8 @@ abstract class DSQL extends BDriver
 	private static $engine = null;
 	protected static $Database = null;
 	protected static $Connector = null;
-
+	protected static $tableNameTemplate = null;
+	
 	const NUM = 0;
 	const ASSOC = 1;
 	const BOTH = 2;
@@ -55,6 +56,20 @@ abstract class DSQL extends BDriver
 	{
 	    //FIXME generate list from component index
 	    return array('MySQL', 'SQLite');
+	}
+	
+	/**
+	 * FIXME pipe all table names through this function to handle table pre-/suffixing
+	 * @param $name plain table name
+	 * @return string table name in the database
+	 */
+	public static final function Table($name)
+	{
+	    if(self::$tableNameTemplate == null)
+	    {
+	        self::$tableNameTemplate = LConfiguration::getOrDefault('db_table_name_template','%s');
+	    }
+	    return sprintf(self::$tableNameTemplate, $name);
 	}
 	
 	//allow config classes to be configured

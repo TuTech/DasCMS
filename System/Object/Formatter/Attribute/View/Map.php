@@ -1,4 +1,4 @@
-<?php
+<?php /*
 class Formatter_Attribute_View_Map
     extends Formatter_Attribute_Info
 {
@@ -6,5 +6,5 @@ class Formatter_Attribute_View_Map
     {
         return 'Map';
     }         
-}
+} */
 ?>

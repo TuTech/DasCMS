@@ -1,4 +1,4 @@
-<?php
+<?php /*
 class Formatter_Attribute_View_Sources
     extends Formatter_Attribute_LinkableList
 {
@@ -6,5 +6,5 @@ class Formatter_Attribute_View_Sources
     {
         return 'Sources';
     }         
-}
-?>
+} */
+?> 
