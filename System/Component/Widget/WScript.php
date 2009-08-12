@@ -43,7 +43,7 @@ class WScript extends BWidget
         if($this->script != null)
         {
         	printf(
-                '<script type="text/%s">%s</script>'
+                '<script type="text/%s" id="_%s">%s</script>'
                 ,$this->language
                 ,$this->ID
                 ,$this->script
@@ -61,6 +61,7 @@ class WScript extends BWidget
      */
     public function getPrimaryInputID()
     {
+        return "_".$this->ID;
     }
 }
 ?>
