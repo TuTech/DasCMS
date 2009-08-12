@@ -87,7 +87,7 @@ class SLink
             $get = RURL::data();
             foreach ($get as $k => $v) 
             {
-                if(substr($k,0,1) != '_')
+                if(substr($k,0,1) != '_' && !is_array($v))
                 {
                     self::$getData[$k] = $v;
                 }
