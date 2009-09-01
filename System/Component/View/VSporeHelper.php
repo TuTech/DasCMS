@@ -27,7 +27,8 @@ class VSporeHelper
     
     private static $functions = array(
         'content' => array('view'),
-        'title' => array('view'),
+        'description' => array('view'),
+    	'title' => array('view'),
         'subtitle' => array('view'),
     	'pubdate' => array('view'),
         'author' => array('view'),
@@ -98,6 +99,11 @@ class VSporeHelper
     private function content($spore)
     {
         return $this->sporeContent($spore)->getContent();
+    }
+    
+    private function description($spore)
+    {
+        return $this->sporeContent($spore)->getDescription();
     }
     
     private function title($spore)
