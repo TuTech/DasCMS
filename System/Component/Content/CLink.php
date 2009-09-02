@@ -134,14 +134,7 @@ class CLink
 		{
 			DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php',$this->Content);
 		}
-		$this->saveMetaToDB();
-		new EContentChangedEvent($this, $this);
-		if($this->_origPubDate != $this->PubDate)
-		{
-			$e = ($this->__get('PubDate') == 0)
-				? new EContentRevokedEvent($this, $this)
-				: new EContentPublishedEvent($this, $this);
-		}
+		parent::Save();
 	}
 	
 	//Interface_XML_Atom_ProvidesInlineText

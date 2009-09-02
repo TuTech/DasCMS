@@ -257,15 +257,8 @@ class CPerson
 	
 	public function Save()
 	{
-		$this->saveMetaToDB();
 		$this->saveXAttr();
-		new EContentChangedEvent($this, $this);
-		if($this->_origPubDate != $this->PubDate)
-		{
-			$e = ($this->__get('PubDate') == 0)
-				? new EContentRevokedEvent($this, $this)
-				: new EContentPublishedEvent($this, $this);
-		}
+		parent::Save();
 	}
 	
 	//extended person Attributes

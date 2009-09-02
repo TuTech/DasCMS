@@ -113,10 +113,6 @@ class CError extends BContent implements IGlobalUniqueId, ISearchDirectives
 	
 	public function Save(){}
 	
-	public function isModified()
-	{
-	    return false;
-	}
 	//ISearchDirectives
 	public function allowSearchIndex()
 	{

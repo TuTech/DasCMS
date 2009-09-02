@@ -101,7 +101,8 @@ class Converter_GeoCoordinates extends _Converter
 
         */
         //already decimal
-        if(preg_match('/^-?[\d]+\.[\d]+$/', $coordinate))
+        if(preg_match('/^-?[\d]+$/', $coordinate) 
+            || preg_match('/^-?[\d]+\.[\d]+$/', $coordinate))
         {
             //decimal - nothing to do
             $decimal = $coordinate;

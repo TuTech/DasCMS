@@ -58,7 +58,7 @@ abstract class _Formatter extends _
      */
     protected function getContent()
     {
-        if($this->targetContent == null)
+        if(!$this->targetContent instanceof BContent)
         {
             throw new XUndefinedException('no content');
         }

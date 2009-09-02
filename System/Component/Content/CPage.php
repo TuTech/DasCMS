@@ -153,14 +153,7 @@ class CPage
 		{
 			DFileSystem::Save(SPath::CONTENT.'CPage/'.$this->Id.'.content.php',$this->Content);
 		}
-		$this->saveMetaToDB();
-		new EContentChangedEvent($this, $this);
-		if($this->_origPubDate != $this->PubDate)
-		{
-			$e = ($this->__get('PubDate') == 0)
-				? new EContentRevokedEvent($this, $this)
-				: new EContentPublishedEvent($this, $this);
-		}
+		parent::Save();
 	}
 	
 	private function createSummary($of)

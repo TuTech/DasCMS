@@ -132,18 +132,7 @@ class CCalendar
 	
 	public function Save()
 	{
-		//save content
-		if($this->_contentLoaded)
-		{
-		}
-		$this->saveMetaToDB();
-		$e = new EContentChangedEvent($this, $this);
-		if($this->_origPubDate != $this->PubDate)
-		{
-			$e = ($this->__get('PubDate') == 0)
-				? new EContentRevokedEvent($this, $this)
-				: new EContentPublishedEvent($this, $this);
-		}
+		parent::Save();
 	}
 	
 	//IHeaderService

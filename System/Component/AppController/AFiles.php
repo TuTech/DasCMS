@@ -122,7 +122,7 @@ class AFiles
     
     public function commit()
     {
-        if($this->target != null && $this->target->isModified())
+        if($this->target != null)
         {
             $this->target->Save();
         }

@@ -72,10 +72,11 @@ class QULocations extends BQuery
         				longitude = %s,
         				address = %s";
         $address = empty($address) ? 'NULL' : "'".$DB->escape($address)."'";
-        $latitude = empty($latitude) || !is_numeric($latitude) ? 'NULL' : "'".$DB->escape($latitude)."'";
-        $longitude = empty($longitude) || !is_numeric($longitude) ? 'NULL' : "'".$DB->escape($longitude)."'";
+        $latitude = empty($latitude) || !is_numeric($latitude) ? 'NULL' : floatval($latitude);
+        $longitude = empty($longitude) || !is_numeric($longitude) ? 'NULL' : floatval($longitude);
         
         $sql = sprintf($sql, $DB->escape($location), $latitude, $longitude, $address, $latitude, $longitude, $address);
+        
         return $DB->queryExecute($sql);
     }
     

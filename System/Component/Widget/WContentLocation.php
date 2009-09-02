@@ -43,10 +43,16 @@ class WContentLocation extends BWidget implements ISidebarWidget
 	        if(RSent::hasValue('WContentLocation_location'))
     	    {
     	        $loc = ULocations::getSharedInstance();
-    	        $conv = new Converter_GeoCoordinates(
-    	            RSent::get('WContentLocation_lat', CHARSET),
-    	            RSent::get('WContentLocation_long', CHARSET));
-    	        list($lat,$long) = $conv->getDecimal();
+    	        $lat = ''; 
+    	        $long = '';
+    	        if(RSent::hasValue('WContentLocation_lat') 
+    	            && RSent::hasValue('WContentLocation_long'))
+    	        {
+    	            $conv = new Converter_GeoCoordinates(
+        	            RSent::get('WContentLocation_lat', CHARSET),
+        	            RSent::get('WContentLocation_long', CHARSET));
+        	        list($lat,$long) = $conv->getDecimal();
+    	        }
     	        $loc->setLocationData(
     	            RSent::get('WContentLocation_location', CHARSET), 
     	            RSent::get('WContentLocation_address', CHARSET),
@@ -61,6 +67,7 @@ class WContentLocation extends BWidget implements ISidebarWidget
 	    }
 	    catch (Exception $e)
 	    {
+	        echo $e;
 	        /*no new coords set*/
 	    }
 	}

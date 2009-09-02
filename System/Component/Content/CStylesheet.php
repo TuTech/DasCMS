@@ -168,14 +168,7 @@ class CStylesheet
 			DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php',$this->RAWContent);
 			DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$this->Id.'.html.php',$this->Content);
 		}
-		$this->saveMetaToDB();
-		$e = new EContentChangedEvent($this, $this);
-		if($this->_origPubDate != $this->PubDate)
-		{
-			$e = ($this->__get('PubDate') == 0)
-				? new EContentRevokedEvent($this, $this)
-				: new EContentPublishedEvent($this, $this);
-		}
+		parent::Save();
 	}
 	
 	protected function generateHTML($text)

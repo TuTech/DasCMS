@@ -93,7 +93,7 @@ class ATemplates
     
     public function commit()
     {
-        if($this->target != null && $this->target->isModified())
+        if($this->target != null)
         {
             try
             {

@@ -103,7 +103,10 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
 		WTemplate::globalSet('SideBar',WSidePanel::getSharedInstance());
 		WTemplate::renderOnce('header', WTemplate::SYSTEM);
 		//do savings here - wsidebar might have done something
-    	SApplication::appController()->commit();
+    	if(count(RSent::data()) > 0)
+    	{
+    	    SApplication::appController()->commit();
+    	}
     	
     	$erg = $App->getInterface();
     	if($erg !== true && (!file_exists($erg) || !include($erg)))

@@ -654,20 +654,10 @@ class CFeed
     public function Save()
 	{
 		//save content
-		if($this->isModified())
-		{
-			DFileSystem::SaveData($this->StoragePath($this->Id),$this->_data);
-    		QCFeed::setFeedType($this->Id,$this->option(CFeed::SETTINGS, 'FilterMethod'));
-    		QCFeed::setFilterTags($this->Id, $this->option(CFeed::SETTINGS, 'Filter'));
-    		$this->saveMetaToDB();
-    		new EContentChangedEvent($this, $this);
-    		if($this->_origPubDate != $this->PubDate)
-    		{
-    			$e = ($this->__get('PubDate') == 0)
-    				? new EContentRevokedEvent($this, $this)
-    				: new EContentPublishedEvent($this, $this);
-    		}
-		}
+		DFileSystem::SaveData($this->StoragePath($this->Id),$this->_data);
+		QCFeed::setFeedType($this->Id,$this->option(CFeed::SETTINGS, 'FilterMethod'));
+		QCFeed::setFilterTags($this->Id, $this->option(CFeed::SETTINGS, 'Filter'));
+		$this-parent::Save();
 	}
 	
 	/**

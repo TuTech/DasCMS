@@ -27,7 +27,7 @@ abstract class _Formatter_Attribute
             throw new XUndefinedException('no parent');
         }
         $content = $this->parentContainer->getContent();
-        if($content == null)
+        if(!$content instanceof BContent)
         {
             throw new XUndefinedException('no content');
         }

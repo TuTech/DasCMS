@@ -71,7 +71,7 @@ class WInformation extends BWidget implements ISidebarWidget
     		    $val = '-';
     		    if(isset($this->targetObject->{$key}) && strlen($this->targetObject->{$key}) > 0) 
     		    {
-    		        if(substr($key,-4) == 'Date') 
+    		        if(substr($key,-4) == 'Date' || $key == 'LastAccess') 
     		        {
     		            $date = $this->targetObject->{$key};
     		            $val = $date > 0 ? date('Y-m-d H:i:s',$this->targetObject->{$key}) : '';

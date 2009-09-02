@@ -12,7 +12,6 @@
 abstract class BContent extends BObject
 {
 	protected 
-		$_data__set = array(),
 		$_origPubDate;
 	protected $_modified = false;
 		
@@ -34,23 +33,63 @@ abstract class BContent extends BObject
 		$Tags = null,	
 		$Description,//meta description - plain text
 		$Size,
-		$MimeType,
-		$Location,
-		$LastAccess = null,
-//		$AccessCountDay,
-//		$AccessCountWeek,
-//		$AccessCountMonth,
-//		$AccessCountYear,
-		$AccessCount = null,
-		$AccessIntervalAverage = null
+		$MimeType
 		;
 	/**
 	 * @var VSpore
 	 */
 	protected $invokingQueryObject = null;
 		
-	protected $_loadLazyData = array('CreatedBy', 'CreateDate', 'ModifiedBy', 'ModifyDate');
+	protected $composites = array(
+	    'Statistics' => array('getLastAccess', 'getAccessCount', 'getAccessIntervalAverage'),
+	    'History' => array('getCreatedBy', 'getCreateDate', 'getModifiedBy', 'getModifyDate'),
+	    'Location' => array('getLocation', 'setLocation')
+	);
+
+	protected $loadedComposites = array();
 	
+	protected function hasMethod($method)
+	{
+	    $indirect = false;
+	    $direct = method_exists($this, $method);
+	    if(!$direct)
+	    {
+	        foreach ($this->composites as $composite => $compMethods)
+    	    {
+    	        $indirect = $indirect || in_array($method, $compMethods);
+    	    }
+	    } 
+	    return $direct || $indirect;
+	}
+	
+	protected function getComposite($compositeName)
+	{
+	    $compositeClass = 'Model_Composite_'.$compositeName;
+	    if(!class_exists($compositeClass, true))
+	    {
+	        throw new XUndefinedException('composite not found');
+	    }
+        if(!isset($this->loadedComposites[$compositeName]))
+        {
+            $this->loadedComposites[$compositeName] = new $compositeClass($this);
+        }
+        return $this->loadedComposites[$compositeName];
+	}
+	
+	public function __call($method, $args)
+	{
+	    foreach ($this->composites as $composite => $compMethods)
+	    {
+	        foreach ($compMethods as $compMethod)
+	        {
+	            if($method == $compMethod)
+	            {
+	                return call_user_func_array(array($this->getComposite($composite), $compMethod), $args);
+	            }
+	        }
+	    }
+	}
+
 	/**
 	 * load some data from db
 	 * @param string $alias
@@ -70,24 +109,6 @@ abstract class BContent extends BObject
 	    $this->MimeType = $mt;
 	    $this->Size = $sz;
 	    $this->GUID = $guid;
-	}
-	
-	/**
-	 * load more metadata from db
-	 * @param string $alias
-	 * @return void
-	 */
-	protected function initAdditionalMetaFromDB($alias)
-	{
-	    if(count($this->_loadLazyData))
-	    {
-    	    $this->_loadLazyData = array();
-    	    list($cb, $cd, $mb, $md, $sz) = QBContent::getAdditionalMetaData($alias);
-    	    $this->CreatedBy = $cb;
-    	    $this->CreateDate = strtotime($cd);
-    	    $this->ModifiedBy = $mb;
-    	    $this->ModifyDate = strtotime($md);
-	    }
 	}
 	
 	/**
@@ -355,7 +376,7 @@ abstract class BContent extends BObject
 	 */
 	public function __get($var)
 	{
-		if(method_exists($this, 'get'.$var))
+		if($this->hasMethod('get'.$var))
 		{
 			return $this->{'get'.$var}();	
 		}
@@ -375,13 +396,9 @@ abstract class BContent extends BObject
 	 */
 	public function __set($var, $value)
 	{
-		if(method_exists($this, 'set'.$var))
+		if($this->hasMethod('set'.$var))
 		{
 		    $this->__get($var); //trigger autoloads
-			$this->ModifiedBy = PAuthentication::getUserID();
-			$this->ModifyDate = time();
-			$this->_modified = true;
-			$this->_data__set[$var] = true;
 			return $this->{'set'.$var}($value);	
 		}
 		else
@@ -398,7 +415,7 @@ abstract class BContent extends BObject
 	 */
 	public function __isset($var)
 	{
-		return method_exists($this, 'get'.$var);
+		return $this->hasMethod('get'.$var);
 	}
 	
 	/**
@@ -445,59 +462,7 @@ abstract class BContent extends BObject
 	    return BContent::defaultIcon();
 	}
 	
-	protected function loadBContentAccessStats()
-	{
-	    if($this->LastAccess === null)
-	    {
-	        $res = QBContent::getAccessStats($this->getId());
-	        if($res->getRowCount() > 0)
-	        {
-	            list(
-	                $firstAccess,//ignore this
-	                $this->LastAccess,
-	                $this->AccessCount,
-	                $this->AccessIntervalAverage
-	            ) = $res->fetch();
-	        }
-	        else
-	        {
-	            $this->LastAccess = 0;
-	            $this->AccessCount = 0;
-	            $this->AccessIntervalAverage = 0;
-	        }
-	        $res->free();
-	    }
-	}
-	
 	/**
-	 * return last access time
-	 * @return int
-	 */
-	public function getLastAccess()
-	{
-	    $this->loadBContentAccessStats();
-	    return $this->LastAccess;
-	}
-	
-	/**
-	 * @return int
-	 */
-	public function getAccessCount($since = null)
-	{
-	    $this->loadBContentAccessStats();
-	    return $this->AccessCount;
-	}
-	
-	/**
-	 * @return int
-	 */
-	public function getAccessIntervalAverage()
-	{
-	    $this->loadBContentAccessStats();
-	    return $this->AccessIntervalAverage;
-	}
-	
-/**
 	 * Icon for this object
 	 * @return WImage
 	 */
@@ -509,28 +474,6 @@ abstract class BContent extends BObject
 	public function setPreviewImage($previewAlias)
 	{
 	    WImage::setPreview($this->getAlias(), $previewAlias);
-	}
-	
-	/**
-	 * Icon for this object
-	 * @return WContentGeoAttribute
-	 */
-	public function getLocation()
-	{
-	    if($this->Location == null)
-	    {
-	        $this->Location = WContentGeoAttribute::forContent($this);
-	    }
-	    return $this->Location;
-	}
-	
-	public function setLocation($locationName)
-	{
-	    $new = WContentGeoAttribute::assignContentLocation($this, $locationName);
-	    if($new != null)
-	    {
-	        $this->Location = $new;
-	    }
 	}
 	
 	/**
@@ -616,23 +559,6 @@ abstract class BContent extends BObject
 	}
 	
 	/**
-	 * @return string
-	 */
-	public function getCreatedBy()
-	{
-	    $this->initAdditionalMetaFromDB($this->Alias);
-		return $this->CreatedBy;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getModifiedBy()
-	{
-	    $this->initAdditionalMetaFromDB($this->Alias);
-		return $this->ModifiedBy;
-	}
-	/**
 	 * @return int
 	 */
 	public function getSize()
@@ -673,24 +599,6 @@ abstract class BContent extends BObject
 	public function getSource()
 	{
 		return 'local';
-	}
-	
-	/**
-	 * @return int
-	 */
-	public function getCreateDate()
-	{
-	    $this->initAdditionalMetaFromDB($this->Alias);
-		return $this->CreateDate;
-	}
-	
-	/**
-	 * @return int
-	 */
-	public function getModifyDate()
-	{
-	    $this->initAdditionalMetaFromDB($this->Alias);
-		return $this->ModifyDate;
 	}
 	
 	/**
@@ -758,11 +666,20 @@ abstract class BContent extends BObject
 	//functions to overwrite
 	public abstract function __construct($Id);	//object should load its data here
 												//$id is class internal id or cms wide id-path
-	public abstract function Save();
+	//public abstract function Save();
 	
-	public function isModified()
+	protected function Save()
 	{
-	    return $this->_modified;
+	    $this->setModifiedBy(PAuthentication::getUserID());
+		$this->setModifyDate(time());
+	    $this->saveMetaToDB();
+		$e = new EContentChangedEvent($this, $this);
+		if($this->_origPubDate != $this->PubDate)
+		{
+			$e = ($this->getPubDate() == 0)
+				? new EContentRevokedEvent($this, $this)
+				: new EContentPublishedEvent($this, $this);
+		}
 	}
 }
 ?>
