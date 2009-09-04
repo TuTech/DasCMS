@@ -1,0 +1,44 @@
+<?php
+class Model_Content_Composite_ContentFormatter extends _Model_Content_Composite
+{
+    private $targetView = null;
+    
+    public function __construct(BContent $compositeFor)
+    {
+        parent::__construct($compositeFor);
+    }
+
+    //getContentFormatter():string
+    //setContentFormatter(string)
+    //formatWithContentFormatter(BContent)
+    
+    public function setTargetView($viewname)
+	{
+	    //if name == '' -> delete
+	    //else insert/update view
+	    if(empty($viewname))
+	    {
+	        QBContent::removeViewBinding($this->compositeFor->getId());
+	    }
+	    else
+	    {
+	        QBContent::setViewBinding($this->compositeFor->getId(), $viewname);
+	    }
+	} 
+	
+	/**
+	 * @return string|null 
+	 */
+	public function getTargetView()
+	{
+	    $res = QBContent::getViewBinding($this->compositeFor->getId());
+	    $view = null;
+	    if($res->getRowCount() == 1)
+	    {
+	        list($view) = $res->fetch(); 
+	    }
+	    $res->free();
+	    return $view;
+	}
+} 
+?>

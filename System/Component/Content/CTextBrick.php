@@ -142,7 +142,6 @@ class CTextBrick
 	    //save and compile
 		$this->Size = strlen($value);
 		$this->_contentLoaded = true;
-		$this->_modified = true;
 		$this->RAWContent = $value;
 		$this->Content = $this->generateHTML($this->RAWContent);
 		$len = 420;

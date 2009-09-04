@@ -1,5 +1,5 @@
 <?php
-class Model_Composite_Statistics extends _Model_Composite
+class Model_Content_Composite_Statistics extends _Model_Content_Composite
 {
     private $LastAccess = 0;
     private $AccessCount = 0;

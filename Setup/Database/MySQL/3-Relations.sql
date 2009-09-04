@@ -49,6 +49,21 @@ CHARACTER SET utf8
 COLLATE utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS 
+relContentsFormatters(
+    contentREL 
+        INTEGER 
+        UNIQUE
+        NOT NULL,    
+    formatterREL 
+        INTEGER 
+        NOT NULL,
+    INDEX(formatterREL)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS 
 relContentsTargetViews(
     contentREL 
         INTEGER 

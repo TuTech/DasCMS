@@ -56,6 +56,13 @@ class CSearch
 	    return parent::getIndex(self::CLASS_NAME, false);
 	}
 		
+	protected function composites()
+	{
+	    $composites = parent::composites();
+	    $composites['TargetView'] = array('setTargetView', 'getTargetView');
+	    return $composites;
+	}
+	
 	public static function Open($alias)
 	{
 	    try
@@ -111,7 +118,7 @@ class CSearch
 	    $link = '#';
 	    try
 	    {
-	        $iqo = $this->invokingQueryObject;
+	        $iqo = $this->getParentView();
     	    if($iqo != null && $iqo instanceof VSpore)
     	    {
     	        $link = $iqo->buildParameterName('_q');
@@ -153,7 +160,7 @@ class CSearch
 	    $hasMore = false;
 	    try
 	    {
-	        $iqo = $this->invokingQueryObject;
+	        $iqo = $this->getParentView();
     	    if($iqo != null && $iqo instanceof VSpore)
     	    {
     	        //have something to open?
@@ -405,16 +412,6 @@ class CSearch
 	    }
 	}
 	
-	public function getTargetView()
-	{
-	    return $this->getBoundView();
-	}
-	
-	public function setTargetView($view)
-	{
-	    $this->bindSelfToView($view);
-	}
-	
 	//IGeneratesFeed
 	/**
 	 * list all aliases for feed use
@@ -454,7 +451,7 @@ class CSearch
 	    $value = '';
 	    try
 	    {
-	        $iqo = $this->invokingQueryObject;
+	        $iqo = $this->getParentView();
     	    if($iqo != null && $iqo instanceof VSpore)
     	    {
     	        //have something to open?

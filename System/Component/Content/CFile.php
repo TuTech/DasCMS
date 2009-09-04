@@ -93,7 +93,6 @@ class CFile
         );
 		$this->ModifiedBy = PAuthentication::getUserID();
 		$this->ModifyDate = time();
-		$this->_modified = true;
         $this->Size = RFiles::getSize('CFile');
         BContent::setMimeType($this->getAlias(), RFiles::getType('CFile'));
         $this->saveMetaToDB();

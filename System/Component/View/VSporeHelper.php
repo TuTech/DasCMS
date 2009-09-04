@@ -73,7 +73,7 @@ class VSporeHelper
         try{
             self::$spores[$spore] = BContent::Access($alias, $this);
             $s = new VSpore($spore);
-            self::$spores[$spore]->InvokedByQueryObject($s);
+            self::$spores[$spore]->setParentView($s);
         }
         catch (Exception $e)
         {

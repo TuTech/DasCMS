@@ -1,19 +1,14 @@
 <?php
-class Model_Composite_History extends _Model_Composite
+class Model_Content_Composite_History extends _Model_Content_Composite
 {
     /**
      * @var WContentGeoAttribute
      */
     private $Location;
-    /**
-     * @var BContent
-     */
-    private $content;
     
     public function __construct(BContent $compositeFor)
     {
         parent::__construct($compositeFor);
-        $this->content = $compositeFor;
         try
         {
     	    $this->Location = WContentGeoAttribute::forContent($compositeFor);
@@ -40,7 +35,7 @@ class Model_Composite_History extends _Model_Composite
 	public function setLocation($locationName)
 	{
 	    #echo '<h1>setting</h1>';
-	    $new = WContentGeoAttribute::assignContentLocation($this->content, $locationName);
+	    $new = WContentGeoAttribute::assignContentLocation($this->compositeFor, $locationName);
 	    if($new != null)
 	    {
 	        $this->Location = $new;

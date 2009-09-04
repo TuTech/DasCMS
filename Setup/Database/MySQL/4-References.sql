@@ -274,6 +274,18 @@ relClassesChainedContents
         ON DELETE RESTRICT
         ON UPDATE NO ACTION;
         
+-- foreign keys for relContentsFormatters
+ALTER TABLE 
+relContentsFormatters
+    ADD FOREIGN KEY (contentREL)
+        REFERENCES Contents(contentID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION,
+    ADD FOREIGN KEY (formatterREL)
+        REFERENCES Formatters(formatterID)
+        ON DELETE RESTRICT
+        ON UPDATE NO ACTION;
+
  -- Foreign keys for relContentsTags
 ALTER TABLE 
 relContentsTags

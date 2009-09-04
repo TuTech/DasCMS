@@ -344,6 +344,25 @@ ENGINE = InnoDB
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
 
+-- formatters table
+CREATE TABLE IF NOT EXISTS  
+Formatters(
+    formatterID 
+        INTEGER 
+        PRIMARY KEY 
+        AUTO_INCREMENT 
+        NOT NULL,
+    name 
+        VARCHAR(32) 
+        UNIQUE 
+        NOT NULL,
+    formatterData 
+    	TEXT
+    	NOT NULL
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
 
 -- groups
 CREATE TABLE IF NOT EXISTS 

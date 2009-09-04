@@ -114,10 +114,10 @@ class SAlias
 	 */
 	private function getUnifiedAlias($title, $pubdate)
 	{
-		$prefix = '';
+		$suffix = '';
 		if(true)// $cfg->get('AliasPubDatePrefix'))
 		{
-			$prefix .= date('Y-m-d-',$pubdate);
+			$suffix .= date('-Y-m-d',$pubdate);
 		}
 		//@todo consult ascii conversion tools IConvertToASCII
 		$dechars = array('ä' => 'ae', 'Ä' => 'Ae', 'ö' => 'oe', 
@@ -128,7 +128,7 @@ class SAlias
 		}
 		
 		$title = preg_replace('/[^a-zA-Z0-9\._]+/i', '-',$title);
-		return substr($prefix.$title,0,64);
+		return substr($title,0,64-strlen($suffix)).$suffix;
 	}
 	
 	/**

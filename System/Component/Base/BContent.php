@@ -11,9 +11,7 @@
  */
 abstract class BContent extends BObject
 {
-	protected 
-		$_origPubDate;
-	protected $_modified = false;
+	protected $_origPubDate;
 		
 	//Properties - to be handled in __get() & __set()
 	protected 
@@ -35,18 +33,46 @@ abstract class BContent extends BObject
 		$Size,
 		$MimeType
 		;
-	/**
-	 * @var VSpore
-	 */
-	protected $invokingQueryObject = null;
-		
-	protected $composites = array(
-	    'Statistics' => array('getLastAccess', 'getAccessCount', 'getAccessIntervalAverage'),
-	    'History' => array('getCreatedBy', 'getCreateDate', 'getModifiedBy', 'getModifyDate'),
-	    'Location' => array('getLocation', 'setLocation')
-	);
 
+	/////////
+	//Linking
+    private $parentView = null;
+    
+	public function setParentView(VSpore $pv)
+	{
+		$this->parentView = $pv;
+	}
+	
+	/**
+	 * @return VSpore
+	 */
+	public function getParentView()
+	{
+		return $this->parentView;
+	}
+	
+	//Linking
+	/////////
+	
+	////////////
+	//Composites
+	
+	/**
+	 * @todo move to component index
+	 * @var array
+	 */
+	protected static $composites = array(
+	    'Statistics' => array('getLastAccess', 'getAccessCount', 'getAccessIntervalAverage'),
+	    'History'    => array('getCreatedBy', 'getCreateDate', 'getModifiedBy', 'getModifyDate'),
+	    'Location'   => array('getLocation', 'setLocation')
+	);
+	
 	protected $loadedComposites = array();
+	
+	protected function composites()
+	{
+	    return self::$composites;
+	}
 	
 	protected function hasMethod($method)
 	{
@@ -54,7 +80,7 @@ abstract class BContent extends BObject
 	    $direct = method_exists($this, $method);
 	    if(!$direct)
 	    {
-	        foreach ($this->composites as $composite => $compMethods)
+	        foreach ($this->composites() as $composite => $compMethods)
     	    {
     	        $indirect = $indirect || in_array($method, $compMethods);
     	    }
@@ -64,7 +90,7 @@ abstract class BContent extends BObject
 	
 	protected function getComposite($compositeName)
 	{
-	    $compositeClass = 'Model_Composite_'.$compositeName;
+	    $compositeClass = 'Model_Content_Composite_'.$compositeName;
 	    if(!class_exists($compositeClass, true))
 	    {
 	        throw new XUndefinedException('composite not found');
@@ -78,7 +104,7 @@ abstract class BContent extends BObject
 	
 	public function __call($method, $args)
 	{
-	    foreach ($this->composites as $composite => $compMethods)
+	    foreach ($this->composites() as $composite => $compMethods)
 	    {
 	        foreach ($compMethods as $compMethod)
 	        {
@@ -89,6 +115,9 @@ abstract class BContent extends BObject
 	        }
 	    }
 	}
+	
+	//Composites
+	////////////
 
 	/**
 	 * load some data from db
@@ -121,34 +150,7 @@ abstract class BContent extends BObject
 	    QBContent::setMimeType($alias, $mime);
 	}
 	
-	protected function bindSelfToView($viewname)
-	{
-	    //if name == '' -> delete
-	    //else insert/update view
-	    if(empty($viewname))
-	    {
-	        QBContent::removeViewBinding($this->getId());
-	    }
-	    else
-	    {
-	        QBContent::setViewBinding($this->getId(), $viewname);
-	    }
-	} 
 	
-	/**
-	 * @return string|null
-	 */
-	protected function getBoundView()
-	{
-	    $res = QBContent::getViewBinding($this->getId());
-	    $view = null;
-	    if($res->getRowCount() == 1)
-	    {
-	        list($view) = $res->fetch(); 
-	    }
-	    $res->free();
-	    return $view;
-	}
 	///////////
 	//chanining
 	
@@ -639,28 +641,6 @@ abstract class BContent extends BObject
 	public function getText()
 	{
 		return strip_tags($this->getContent());
-	}
-	
-	public function InvokedByQueryObject(VSpore $qo)
-	{
-		$this->invokingQueryObject = $qo;
-	}
-	
-	protected function linkWithInvokingQueryObject($to, array $opts = array(), array $tempopts = array())
-	{
-		if($this->invokingQueryObject != null && $this->invokingQueryObject instanceof VSpore)
-		{
-			foreach ($opts as $key => $value) 
-			{	
-				$this->invokingQueryObject->SetLinkParameter($key, $value, false);
-			}
-			foreach ($tempopts as $key => $value) 
-			{	
-				$this->invokingQueryObject->SetLinkParameter($key, $value, true);
-			}
-			return $this->invokingQueryObject->LinkTo($to);
-		}
-		return '#';
 	}
 	
 	//functions to overwrite

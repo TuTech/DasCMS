@@ -145,6 +145,13 @@ class CFeed
         )
     );
     
+	protected function composites()
+	{
+	    $composites = parent::composites();
+	    $composites['TargetView'] = array('setTargetView', 'getTargetView');
+	    return $composites;
+	}
+	
     private function _getConfVal($type, $target, $key)
     {
         $this->assertOnFail(
@@ -159,7 +166,6 @@ class CFeed
         $this->assertOnFail(
             !isset($this->_data[self::CAPTIONS][$forType]) || !isset($this->_data[self::CAPTIONS][$forType][$andKey]), 
             'captions', $forType, $andKey);   
-        $this->_modified = true;
         $this->_data[self::CAPTIONS][$forType][$andKey][self::PREFIX] = $toPrefix;
         $this->_data[self::CAPTIONS][$forType][$andKey][self::SUFFIX] = $andSuffix;
     }
@@ -185,7 +191,6 @@ class CFeed
         $this->assertOnFail(
             !isset($this->_data[self::ORDER][$forType]), 
             'order', $forType, '');    
-	    $this->_modified = true;
         //set to whatever data is given
         foreach ($this->_data[self::ORDER][$forType] as $key => $pos) 
 	    {
@@ -231,11 +236,10 @@ class CFeed
 	    $this->assertOnFail(
 	        !isset($this->_data[self::OPTIONS][$forType]) || !isset($this->_data[self::OPTIONS][$forType][$andKey]), 
 	        'options', $forType, $andKey);
-	    $this->_modified = true;
         $this->_data[self::OPTIONS][$forType][$andKey] = $toValue;
         if($forType == self::SETTINGS && $andKey == 'TargetView')
         {
-            $this->bindSelfToView($toValue);
+            $this->setTargetView($toValue);//to protect the content
         }
 	}
     
@@ -335,7 +339,6 @@ class CFeed
 	    $link = null;
 	    try
 	    {
-	        $iqo = $this->invokingQueryObject;
 	        $target = $this->option(self::SETTINGS, 'TargetView');
     	    if($inTargetView && !empty($target) && VSpore::isActive($target))
             {
@@ -344,13 +347,17 @@ class CFeed
                 $linker->LinkTo($arg);
                 $link = strval($linker);
             }
-            elseif(!$inTargetView && $iqo != null && $iqo instanceof VSpore)
+            elseif(!$inTargetView)
     	    {
-    	        //link to self
-    	        //only param page=
-                $iqo->SetLinkParameter('page', $arg, true);
-                $iqo->LinkTo($this->getAlias());
-                $link = strval($iqo);
+    	        $iqo = $this->getParentView();
+    	        if($iqo != null && $iqo instanceof VSpore)
+    	        {
+        	        //link to self
+        	        //only param page=
+                    $iqo->SetLinkParameter('page', $arg, true);
+                    $iqo->LinkTo($this->getAlias());
+                    $link = strval($iqo);
+    	        }
             }
 	    }
 	    catch (Exception $e)
@@ -417,7 +424,7 @@ class CFeed
         
         //current page        
         $currentPage = 1;
-        $iqo = $this->invokingQueryObject;
+        $iqo = $this->getParentView();
         if($iqo != null && $iqo instanceof VSpore)
         {
             $currentPage = intval($iqo->GetParameter('page'));
@@ -657,7 +664,7 @@ class CFeed
 		DFileSystem::SaveData($this->StoragePath($this->Id),$this->_data);
 		QCFeed::setFeedType($this->Id,$this->option(CFeed::SETTINGS, 'FilterMethod'));
 		QCFeed::setFilterTags($this->Id, $this->option(CFeed::SETTINGS, 'Filter'));
-		$this-parent::Save();
+		parent::Save();
 	}
 	
 	/**

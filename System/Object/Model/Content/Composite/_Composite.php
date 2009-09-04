@@ -1,5 +1,5 @@
 <?php
-abstract class _Model_Composite extends _Model
+abstract class _Model_Content_Composite extends _Model_Content
 {
     /**
      * @var BContent

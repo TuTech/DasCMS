@@ -124,8 +124,9 @@ class Formatter_Container
     
     public function freeze()
     {
-        $file = self::makeFileName($this->uniqueName);
-        DFileSystem::SaveData($file, $this);
+        //$file = self::makeFileName($this->uniqueName);
+        QFormatterContainer::setFormatter($this->uniqueName, serialize($this));
+        //DFileSystem::SaveData($file, $this);
     }
 
     
@@ -136,8 +137,14 @@ class Formatter_Container
     public static function unfreeze($name)
     {
         //reverse evil
-        $file = self::makeFileName($name);
-        $container = DFileSystem::LoadData($file);
+        //$file = self::makeFileName($name);
+        //$container = DFileSystem::LoadData($file);
+        
+        $res = QFormatterContainer::getFormatter($name);
+        list($data) = $res->fetch();
+        $res->free();
+        $container = unserialize($data);
+        
         if(!$container instanceof Formatter_Container)
         {
             throw new XArgumentException('invalid data - not a container');

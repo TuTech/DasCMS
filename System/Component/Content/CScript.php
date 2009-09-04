@@ -144,7 +144,6 @@ class CScript
 	{
 	    //save and compile
 		$this->_contentLoaded = true;
-		$this->_modified = true;
 	    $this->Size = strlen($value);
 		$this->RAWContent = $value;
 		$this->Content = $this->generateHTML($this->RAWContent);

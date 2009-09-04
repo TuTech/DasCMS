@@ -82,7 +82,22 @@ class WInformation extends BWidget implements ISidebarWidget
     		        }
     		        elseif($key == 'AccessIntervalAverage')
     		        {
-    		            $val = $this->targetObject->{$key}.' '.SLocalization::get('seconds');
+    		            $currentUnit = 0;
+    		            $units = array('seconds' => 60, 'minutes' => 60, 'hours' => 24, 'days' => 365, 'years' => 100);
+    		            $val = floatval($this->targetObject->{$key});
+    		            if($val > 0)
+    		            {
+        		            foreach ($units as $unit => $mustBeUnder)
+        		            {
+        		                if($val < $mustBeUnder)
+        		                {
+        		                    $currentUnit = $unit;
+        		                    break;
+        		                }
+        		                $val /= $mustBeUnder;
+        		            }
+        		            $val = round($val). ' '.SLocalization::get($currentUnit);
+    		            }
     		        }
     		        else
     		        {

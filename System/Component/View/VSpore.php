@@ -220,7 +220,7 @@ class VSpore extends BView
 			$content = BContent::Open($alias);
 		}
 		$this->content = BContent::Access($content->Alias, $this);
-		$this->content->InvokedByQueryObject($this);
+		$this->content->setParentView($this);
 		
 		//do once
 	}
