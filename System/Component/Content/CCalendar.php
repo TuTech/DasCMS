@@ -39,31 +39,12 @@ class CCalendar
 	public static function Create($title)
 	{
 	    list($dbid, $alias) = QBContent::create(self::CLASS_NAME, $title);
-	    BContent::setMimeType($alias, 'text/calendar');
+	    QBContent::setMimeType($alias, 'text/calendar');
 	    $content = new CCalendar($alias);
 	    $e = new EContentCreatedEvent($content, $content);
 	    return $content;
 	}
 	
-	public static function Delete($alias)
-	{
-	    return parent::Delete($alias);
-	}
-	
-	public static function Exists($alias)
-	{
-	    return parent::contentExists($alias, self::CLASS_NAME);
-	}
-	
-	/**
-	 * [alias => [title, pubdate]]
-	 * @return array
-	 */
-	public static function Index()
-	{
-	    return parent::getIndex(self::CLASS_NAME, false);
-	}
-		
 	public static function Open($alias)
 	{
 	    try
@@ -138,7 +119,7 @@ class CCalendar
 	//IHeaderService
 	public static function getHeaderServideItems($forAlias = null)
 	{
-	    return array('calendars' => BContent::GUIDIndex(self::CLASS_NAME));
+	    return array('calendars' => Controller_Content::getSharedInstance()->contentGUIDIndex(self::CLASS_NAME));
 	}
 	
 	public static function sendHeaderService($embedAlias, EWillSendHeadersEvent $e)

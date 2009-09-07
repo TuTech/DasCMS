@@ -212,14 +212,14 @@ class VSpore extends BView
 		{
 			$alias = self::$spores[$this->name][self::INIT_CONTENT];
 		}
-		$content = SAlias::resolve($alias);
+		$content = Controller_Content::getSharedInstance()->tryOpenContent($alias);
 		
-		if(!$content instanceof BContent)
+		if($content instanceof CError)
 		{
 			$alias = self::$spores[$this->name][self::ERROR_CONTENT];
-			$content = BContent::Open($alias);
+			$content = Controller_Content::getSharedInstance()->tryOpenContent($alias);
 		}
-		$this->content = BContent::Access($content->Alias, $this);
+		$this->content = Controller_Content::getSharedInstance()->accessContent($content->Alias, $this);
 		$this->content->setParentView($this);
 		
 		//do once
@@ -239,7 +239,7 @@ class VSpore extends BView
 	public function getErrorContent()
 	{
 		$alias = self::$spores[$this->name][self::ERROR_CONTENT];
-		return BContent::Open($alias);
+		return Controller_Content::getSharedInstance()->tryOpenContent($alias);
 	}
 	
 	public function hasContent()

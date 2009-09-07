@@ -27,7 +27,7 @@ abstract class BAppController
     public function provideContentTags(array $namedParameters)
     {
         if(!empty($namedParameters['alias']) 
-            && BContent::contentExists($namedParameters['alias']))
+            && Controller_Content::getSharedInstance()->contentExists($namedParameters['alias']))
         {
             return array('tags' => STag::getSharedInstance()->get($namedParameters['alias']));
         }

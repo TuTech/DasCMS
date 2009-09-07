@@ -37,18 +37,18 @@ if(!empty($_SERVER['PATH_INFO']))
     {
         try
         {
-            $content = BContent::Access($alias, new WImage(), true);
+            $content = Controller_Content::getSharedInstance()->accessContent($alias, new WImage(), true);
         }
         catch (XPermissionDeniedException $e)
         {
             if(PAuthorisation::has('org.bambuscms.login'))
             {
                 //valid user - allowed to view unpublished images
-                $content = BContent::Open($alias);
+                $content = Controller_Content::getSharedInstance()->openContent($alias);
             }
             else
             {
-                $content = CError::Open(401);
+                $content = new CError(401);
             }
         }
         //get the id of the preview image 
@@ -92,7 +92,7 @@ if(!empty($_SERVER['PATH_INFO']))
                 $alias = WImage::resolvePreviewId($id);
                 if(!empty($alias))
                 {
-                    $c = BContent::OpenIfPossible($alias);
+                    $c = Controller_Content::getSharedInstance()->openContent($alias);
                     $img = Image_GD::load($c->getRawDataPath(), $c->getType());
                 }
             }
@@ -153,13 +153,13 @@ if(!empty($_SERVER['PATH_INFO']))
     else
     {
         $img = false;
-        $id = WImage::getPreviewIdForContent(BContent::Open($alias));
+        $id = WImage::getPreviewIdForContent(Controller_Content::getSharedInstance()->tryOpenContent($alias));
         if($id != '_')//load cms default image 
         {
             $alias = WImage::resolvePreviewId($id);
             if(!empty($alias))
             {
-                $c = BContent::OpenIfPossible($alias);
+                $c = Controller_Content::getSharedInstance()->openContent($alias);
                 header('Content-type: '.$c->getType());
                 $img = $c->getRawDataPath();
             }

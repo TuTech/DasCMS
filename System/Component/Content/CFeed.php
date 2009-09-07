@@ -148,7 +148,7 @@ class CFeed
 	protected function composites()
 	{
 	    $composites = parent::composites();
-	    $composites['TargetView'] = array('setTargetView', 'getTargetView');
+	    $composites[] = 'TargetView';
 	    return $composites;
 	}
 	
@@ -280,25 +280,6 @@ class CFeed
 	    return $tpl;
 	}
 	
-	public static function Delete($alias)
-	{
-	    return parent::Delete($alias);
-	}
-	
-	public static function Exists($alias)
-	{
-	    return parent::contentExists($alias, self::CLASS_NAME);
-	}
-	
-	/**
-	 * [alias => [title, pubdate]]
-	 * @return array
-	 */
-	public static function Index()
-	{
-	    return parent::getIndex(self::CLASS_NAME, false);
-	}
-		
 	public static function Open($alias)
 	{
 	    try
@@ -584,7 +565,7 @@ class CFeed
         		    $content = $data[$map[$key]];
         		    break;
                 case 'PreviewImage':
-                    $co = $contentObject ? $contentObject : BContent::Open($data[$map['Alias']]);
+                    $co = $contentObject ? $contentObject : Controller_Content::getSharedInstance()->tryOpenContent($data[$map['Alias']]);
         		    //do not cache content - it was not accessed here
                     $tag = 'div';
                     $content = $co->getPreviewImage()->scaled(
@@ -603,7 +584,7 @@ class CFeed
                     //100,100, WImage::MODE_FORCE,WImage::FORCE_BY_CROP, '#4e9a06');
                     break;
                 case 'Icon':
-                    $co = $contentObject ? $contentObject : BContent::Open($data[$map['Alias']]);
+                    $co = $contentObject ? $contentObject : Controller_Content::getSharedInstance()->tryOpenContent($data[$map['Alias']]);
         		    //do not cache content - it was not accessed here
                     $tag = 'div';
                     $content = $co->getIcon()->asSize($this->option(self::ITEM, 'IconSize'));
@@ -612,7 +593,7 @@ class CFeed
         		        : $content;
                     break;
     		    case 'Content':
-                    $co = $contentObject ? $contentObject : BContent::Access($data[$map['Alias']], $this);
+                    $co = $contentObject ? $contentObject : Controller_Content::getSharedInstance()->accessContent($data[$map['Alias']], $this);
                     $contentObject = $co;//cache accessed content
                     $tag = 'div';
                     $content = $co->getContent();

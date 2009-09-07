@@ -2,43 +2,56 @@
 class Model_Content_Composite_ContentFormatter extends _Model_Content_Composite
 {
     private $targetView = null;
+    private $formatterName = null;
+    
+    public static function getCompositeMethods()
+    {
+        return array(
+        	'getChildContentFormatter', 
+        	'getChildContentFormatter',
+            'formatChildContent'
+        );
+    }
     
     public function __construct(BContent $compositeFor)
     {
         parent::__construct($compositeFor);
     }
 
-    //getContentFormatter():string
-    //setContentFormatter(string)
-    //formatWithContentFormatter(BContent)
-    
-    public function setTargetView($viewname)
+    public function setChildContentFormatter($formatter)
 	{
-	    //if name == '' -> delete
-	    //else insert/update view
-	    if(empty($viewname))
-	    {
-	        QBContent::removeViewBinding($this->compositeFor->getId());
-	    }
-	    else
-	    {
-	        QBContent::setViewBinding($this->compositeFor->getId(), $viewname);
-	    }
+	    QContentFormatter::setFormatter($this->compositeFor->getId(), $formatter);
 	} 
 	
-	/**
-	 * @return string|null 
-	 */
-	public function getTargetView()
+	public function getChildContentFormatter()
 	{
-	    $res = QBContent::getViewBinding($this->compositeFor->getId());
-	    $view = null;
-	    if($res->getRowCount() == 1)
+	    if($this->formatterName === null)
 	    {
-	        list($view) = $res->fetch(); 
+	        $this->formatterName = false;
+    	    $res = QContentFormatter::getFormatterName($this->compositeFor->getId());
+    	    if($res->getRowCount() == 1)
+    	    {
+    	        list($this->formatterName) = $res->fetch(); 
+    	    }
+    	    $res->free();
 	    }
-	    $res->free();
-	    return $view;
+	    return $this->formatterName;
+	}
+	
+	public function formatChildContent(BContent $content)
+	{
+	    try
+	    {
+	        $f = $this->getChildContentFormatter();
+	        if(!$f)    
+	        {
+	            return Formatter_Container::unfreezeForFormatting($f, $content);
+	        }
+	    }
+	    catch (XArgumentException $e)
+	    {}
+	    //no formatter
+        return '';
 	}
 } 
 ?>

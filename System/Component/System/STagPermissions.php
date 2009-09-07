@@ -72,7 +72,7 @@ class STagPermissions
 	{
 	    if($this->isProtected($e->Content))
 	    {
-	        $e->substitute(CError::Open(401));
+	        $e->substitute(new CError(401));
 	    }
 	}
 

@@ -29,7 +29,7 @@ class AWebsiteEditor
         {
             if(!empty($target))
             {
-                $this->target = CPage::Open($target);
+                $this->target = Controller_Content::getSharedInstance()->openContent($target, 'CPage');
             }
         }
         catch (Exception $e)
@@ -83,7 +83,7 @@ class AWebsiteEditor
         if($this->target != null)
         {
             $alias = $this->target->Alias;
-            if(CPage::Delete($alias))
+            if(Controller_Content::getSharedInstance()->deleteContent($alias))
             {
                 $this->target = null;
             }
@@ -145,7 +145,7 @@ class AWebsiteEditor
         {
             throw new XPermissionDeniedException('view');
         }
-        $IDindex = CPage::Index();
+        $IDindex = Controller_Content::getSharedInstance()->contentIndex('CPage');
         $items = array();
         foreach ($IDindex as $alias => $data) 
         {

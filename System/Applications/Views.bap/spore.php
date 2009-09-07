@@ -78,7 +78,7 @@ if(count($spores) > 0)
 		if(!empty($data[VSpore::INIT_CONTENT]))
 		{
 			$alias = $data[VSpore::INIT_CONTENT];
-			$content = BContent::Open($alias);
+			$content = Controller_Content::getSharedInstance()->tryOpenContent($alias);
 			$initCTitle = $content->Title;
 			$initCID = $data[VSpore::INIT_CONTENT];
 		}
@@ -88,7 +88,7 @@ if(count($spores) > 0)
 		if(!empty($data[VSpore::ERROR_CONTENT]))
 		{
 			$alias = $data[VSpore::ERROR_CONTENT];
-			$content = BContent::Open($alias);
+			$content = Controller_Content::getSharedInstance()->tryOpenContent($alias);
 			$errCTitle = $content->Title;
 			$errCID = $data[VSpore::ERROR_CONTENT];
 		}

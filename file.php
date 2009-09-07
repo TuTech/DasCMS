@@ -24,14 +24,14 @@ try
     }
     try
     {
-        $content = BContent::Access($file, new UCFileConfig(), true);
+        $content = Controller_Content::getSharedInstance()->accessContent($file, new UCFileConfig(), true);
     }
     catch (XPermissionDeniedException $e)
     {
         if(PAuthorisation::has('org.bambuscms.content.cfile.view'))
         {
             //valid user - allowed to view unpublished 
-            $content = BContent::Open($file);
+            $content = Controller_Content::getSharedInstance()->openContent($file);
         }
         else
         {

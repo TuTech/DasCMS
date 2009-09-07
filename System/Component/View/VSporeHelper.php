@@ -71,7 +71,7 @@ class VSporeHelper
             throw new XUndefinedIndexException('spore not found: '.$spore);
         }
         try{
-            self::$spores[$spore] = BContent::Access($alias, $this);
+            self::$spores[$spore] = Controller_Content::getSharedInstance()->accessContent($alias, $this);
             $s = new VSpore($spore);
             self::$spores[$spore]->setParentView($s);
         }

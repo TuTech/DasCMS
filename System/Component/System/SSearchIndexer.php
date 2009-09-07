@@ -130,7 +130,7 @@ class SSearchIndexer
 	    if($res->getRowCount())
 	    {
 	        list($alias) = $res->fetch();
-	        $content = BContent::OpenIfPossible($alias);
+	        $content = Controller_Content::getSharedInstance()->openContent($alias);
 	    }
 	    return $content;
 	}

@@ -63,7 +63,7 @@ class CFile
         {
             $type = 'application/pdf';
         }
-        BContent::setMimeType($alias, $type);
+        QBContent::setMimeType($alias, $type);
 	    $file = new CFile($alias);
 	    $file->Size = $metadata['size'];
 	    $file->saveMetaToDB();
@@ -94,7 +94,7 @@ class CFile
 		$this->ModifiedBy = PAuthentication::getUserID();
 		$this->ModifyDate = time();
         $this->Size = RFiles::getSize('CFile');
-        BContent::setMimeType($this->getAlias(), RFiles::getType('CFile'));
+        QBContent::setMimeType($this->getAlias(), RFiles::getType('CFile'));
         $this->saveMetaToDB();
         SNotificationCenter::report('message', 'file_updated');
         $fs = DFileSystem::FilesOf('Content/temp/','/^scale\.render\.[\d]+\.'.$this->getId().'-/');
@@ -112,46 +112,6 @@ class CFile
         }
         SErrorAndExceptionHandler::reportErrors();
         $e = new EContentChangedEvent($this, $this);
-	}
-	
-	public static function Delete($alias)
-	{
-	    $file = new CFile($alias);
-	    $dbid = $file->getId();
-	    unset($file);
-	    try
-	    {
-    	    $succ = QBContent::deleteContent($alias);
-    	    if($succ)
-    	    {
-    	        @unlink('./Content/CFile/'.$dbid.'.data');
-    	    }
-	    }
-	    catch (XDatabaseException $d)
-	    {
-	        SNotificationCenter::report('warning', 'element_is_in_use_and_can_not_be_deleted');
-	        $succ = false;
-	    }
-	    catch (Exception $e)
-	    {
-	        SNotificationCenter::report('warning', 'cfile_delete_failed');
-	        $succ = false;
-	    }
-	    return $succ;
-	}
-	
-	public static function Exists($alias)
-	{
-	    return parent::contentExists($alias, self::CLASS_NAME);
-	}
-	
-	/**
-	 * [alias => [title, pubdate, type, id]]
-	 * @return array
-	 */
-	public static function Index()
-	{
-	    return parent::getIndex(self::CLASS_NAME, false);
 	}
 	
 	public static function Open($alias)

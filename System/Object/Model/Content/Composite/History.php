@@ -6,6 +6,11 @@ class Model_Content_Composite_History extends _Model_Content_Composite
     private $ModifiedBy = '';
     private $ModifyDate = 0;
     
+    public static function getCompositeMethods()
+    {
+        return array('getCreatedBy', 'getModifiedBy', 'getCreateDate', 'getModifyDate');
+    }
+    
     public function __construct(BContent $compositeFor)
     {
         parent::__construct($compositeFor);

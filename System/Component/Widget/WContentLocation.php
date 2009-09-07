@@ -110,7 +110,7 @@ class WContentLocation extends BWidget implements ISidebarWidget
 	        list($lat,$long) = $conv->getDMS();
 	    }catch (Exception $e){}
 		$Items->add(
-		    sprintf("<label>%s</label>", SLocalization::get('gps_location_in_decimal')),
+		    sprintf("<label>%s</label>", SLocalization::get('gps_location')),
 		    sprintf(
 		    	'<dl><dt>%s</dt>'.
 		    		'<dd><input type="text" id="WContentLocation_lat" name="WContentLocation_lat" value="%s" /></dd>'.

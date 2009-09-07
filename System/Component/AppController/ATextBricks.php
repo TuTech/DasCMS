@@ -29,7 +29,7 @@ class ATextBricks
         {
             if(!empty($target))
             {
-                $this->target = CTextBrick::Open($target);
+                $this->target = Controller_Content::getSharedInstance()->openContent($target, 'CTextBrick');
             }
         }
         catch (Exception $e)
@@ -81,7 +81,7 @@ class ATextBricks
         if($this->target != null)
         {
             $alias = $this->target->Alias;
-            if(CTextBrick::Delete($alias))
+            if(Controller_Content::getSharedInstance()->deleteContent($alias))
             {
                 $this->target = null;
             }
@@ -142,7 +142,7 @@ class ATextBricks
         {
             throw new XPermissionDeniedException('view');
         }
-        $IDindex = CTextBrick::Index();
+        $IDindex = Controller_Content::getSharedInstance()->contentIndex('CTextBrick');
         $items = array();
         foreach ($IDindex as $alias => $data) 
         {

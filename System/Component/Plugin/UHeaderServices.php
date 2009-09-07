@@ -20,7 +20,7 @@ class UHeaderServices
     public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
     {
         $classes = SComponentIndex::getSharedInstance()->ImplementationsOf('IHeaderService');
-        $active = BContent::getContentsChainedToClass($this);
+        $active = Controller_Content::getSharedInstance()->getContentsChainedToClass($this);
         $data = array();
         //get all items of all classes 
         //get a list of globally enabled items
@@ -80,8 +80,9 @@ class UHeaderServices
         }
         $DSQL = DSQL::getSharedInstance();
         $DSQL->beginTransaction();
-        BContent::releaseContentChainsToClass($this, $rem);
-        BContent::chainContentsToClass($this, $cfg);
+        $coco = Controller_Content::getSharedInstance();
+        $coco->releaseContentChainsToClass($this, $rem);
+        $coco->chainContentsToClass($this, $cfg);
         $DSQL->commit();
     }
     

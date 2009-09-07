@@ -5,6 +5,11 @@ class Model_Content_Composite_Statistics extends _Model_Content_Composite
     private $AccessCount = 0;
     private $AccessIntervalAverage = 0;
     
+    public static function getCompositeMethods()
+    {
+        return array('getLastAccess', 'getAccessCount', 'getAccessIntervalAverage');
+    }
+    
     public function __construct(BContent $compositeFor)
     {
         parent::__construct($compositeFor);

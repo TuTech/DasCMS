@@ -29,7 +29,7 @@ class AFiles
         {
             if(!empty($target))
             {
-                $this->target = CFile::Open($target);
+                $this->target = Controller_Content::getSharedInstance()->openContent($target, 'CFile');
             }
         }
         catch (Exception $e)
@@ -83,9 +83,13 @@ class AFiles
         parent::requirePermission('org.bambuscms.content.cfile.delete');
         if($this->target != null)
         {
+            $dbid = $this->target->getId();
             $alias = $this->target->Alias;
-            if(CFile::Delete($alias))
+            if(Controller_Content::getSharedInstance()->deleteContent($alias))
             {
+                SErrorAndExceptionHandler::muteErrors();
+                unlink('Content/CFile/'.$dbid.'.data');
+                SErrorAndExceptionHandler::reportErrors();
                 $this->target = null;
             }
         }
@@ -104,7 +108,7 @@ class AFiles
                 {
                     try
                     {
-                        if(CFile::Delete($alias))
+                        if(Controller_Content::getSharedInstance()->deleteContent($alias))
                         {
                             SNotificationCenter::report('message', 'file_deleted');
                         }
@@ -173,7 +177,7 @@ class AFiles
         {
             throw new XPermissionDeniedException('view');
         }
-        $IDindex = CFile::Index();
+        $IDindex = Controller_Content::getSharedInstance()->contentIndex('CFile');
         $items = array();
         $types = array();
         $i = 0;

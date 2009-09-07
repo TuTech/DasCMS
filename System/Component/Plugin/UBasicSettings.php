@@ -48,7 +48,7 @@ class UBasicSettings
                         $options[SLocalization::get('no_login_template')] = '';
                         //don't break
                     case 'generator_content':
-                        $index = BContent::getIndex(CTemplate::CLASS_NAME, false);
+                        $index = Controller_Content::getSharedInstance()->contentIndex(CTemplate::CLASS_NAME);
                         foreach ($index as $alias => $cdata)
                         {
                             $options[$cdata[0].' ('.$alias.')'] = $alias; 
@@ -93,8 +93,9 @@ class UBasicSettings
             {
                 $aliases[] = $lt;
             }
-            BContent::releaseContentChainsToClass($this);
-            BContent::chainContentsToClass($this, $aliases);
+            $coco = Controller_Content::getSharedInstance();
+            $coco->releaseContentChainsToClass($this);
+            $coco->chainContentsToClass($this, $aliases);
             $db->commit();
         }
         catch (XDatabaseException $e)

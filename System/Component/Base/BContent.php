@@ -57,62 +57,122 @@ abstract class BContent extends BObject
 	////////////
 	//Composites
 	
+	const COMPOSITE_PREFIX = 'Model_Content_Composite_';
+	
 	/**
-	 * @todo move to component index
+	 * this must not be used outside of BContent::composites()
+	 * @var unknown_type
+	 */
+	protected static $_composites = array(
+	    'Statistics',
+	    'History',
+	    'Location'
+	);	
+	
+	/**
+	 * compIndex => method
 	 * @var array
 	 */
-	protected static $composites = array(
-	    'Statistics' => array('getLastAccess', 'getAccessCount', 'getAccessIntervalAverage'),
-	    'History'    => array('getCreatedBy', 'getCreateDate', 'getModifiedBy', 'getModifyDate'),
-	    'Location'   => array('getLocation', 'setLocation')
-	);
+	protected $_compositeMethodLookup = null;
 	
+	/**
+	 * complete list of composites loaded from composites()
+	 * compIndex => compName
+	 * @var array
+	 */
+	protected $_compositeLookup = null;
+	
+	/**
+	 * complete list of composites loaded from composites()
+	 * compIndex => compClass
+	 * @var array
+	 */
 	protected $loadedComposites = array();
 	
+	
+	/**
+	 * overwrite for more composites
+	 * compIndex => compName
+	 * @return array
+	 */
 	protected function composites()
 	{
-	    return self::$composites;
+	    return self::$_composites;
+	}
+	
+	protected function initComposites()
+	{
+	    if($this->_compositeMethodLookup === null)
+	    {
+	        //init
+	        $contentType = get_class($this);
+	        $this->_compositeLookup = array_unique($this->composites());
+	        $this->_compositeMethodLookup = array();
+	        
+	        //walk through attached composites
+	        foreach ($this->_compositeLookup as $index => $comp)
+	        {
+	            //build class and lookup names
+	            $class = BContent::COMPOSITE_PREFIX.$comp;
+	            if(class_exists($class, true))
+	            {
+    	            $lookup = $class.'::getCompositeMethods';
+    	            //check lookup
+    	            if(is_callable($lookup, false, $lookup))
+    	            {
+    	                //get the implemented composite methods
+    	                $methods = call_user_func($lookup, $contentType);
+    	                if(is_array($methods))
+    	                {
+    	                    foreach ($methods as $method)
+    	                    {
+    	                        //link the methods to the composite
+    	                        $this->_compositeMethodLookup[$method] = $index;
+    	                    }
+    	                }
+    	            }
+    	        }
+	        }
+	    }
 	}
 	
 	protected function hasMethod($method)
 	{
-	    $indirect = false;
-	    $direct = method_exists($this, $method);
-	    if(!$direct)
-	    {
-	        foreach ($this->composites() as $composite => $compMethods)
-    	    {
-    	        $indirect = $indirect || in_array($method, $compMethods);
-    	    }
-	    } 
-	    return $direct || $indirect;
+	    $this->initComposites();
+	    return method_exists($this, $method) || isset($this->_compositeMethodLookup[$method]);
 	}
 	
-	protected function getComposite($compositeName)
+	protected function getCompositeForIndex($index)
 	{
-	    $compositeClass = 'Model_Content_Composite_'.$compositeName;
-	    if(!class_exists($compositeClass, true))
+	    $this->initComposites();
+	    if(!isset($this->loadedComposites[$index]))
 	    {
-	        throw new XUndefinedException('composite not found');
+	        //check composite
+    	    if(!isset($this->_compositeLookup[$index]))
+    	    {
+    	        throw new XUndefinedIndexException('composite not found');
+    	    }
+    	    
+    	    //check composite class
+    	    $compositeClass = BContent::COMPOSITE_PREFIX.$this->_compositeLookup[$index];
+    	    if(!class_exists($compositeClass, true))
+    	    {
+    	        throw new XUndefinedException('composite not found');
+    	    }
+    	    
+    	    //init composite class
+    	    $this->loadedComposites[$index] = new $compositeClass($this);
 	    }
-        if(!isset($this->loadedComposites[$compositeName]))
-        {
-            $this->loadedComposites[$compositeName] = new $compositeClass($this);
-        }
-        return $this->loadedComposites[$compositeName];
-	}
+	    return $this->loadedComposites[$index];
+	}		
 	
 	public function __call($method, $args)
 	{
-	    foreach ($this->composites() as $composite => $compMethods)
+	    $this->initComposites();
+	    if(isset($this->_compositeMethodLookup[$method]))
 	    {
-	        foreach ($compMethods as $compMethod)
-	        {
-	            if($method == $compMethod)
-	            {
-	                return call_user_func_array(array($this->getComposite($composite), $compMethod), $args);
-	            }
-	        }
+	        $comp = $this->getCompositeForIndex($this->_compositeMethodLookup[$method]);
+	        return call_user_func_array(array($comp, $method), $args);
 	    }
 	}
 	
@@ -141,52 +201,6 @@ abstract class BContent extends BObject
 	}
 	
 	/**
-	 * @param string $alias
-	 * @param string $mime
-	 * @return void
-	 */
-	protected static function setMimeType($alias, $mime)
-	{
-	    QBContent::setMimeType($alias, $mime);
-	}
-	
-	
-	///////////
-	//chanining
-	
-	//content chained to a class
-	public static function chainContentsToClass($class, array $aliases)
-	{
-	    QBContent::chainContensToClass(is_object($class) ? get_class($class) : $class, $aliases);
-	}
-	
-	public static function getContentsChainedToClass($class)
-	{
-	    $res = QBContent::getContentsChainedToClass(is_object($class) ? get_class($class) : $class);
-	    $guids = array();
-	    while($row = $res->fetch())
-	    {
-	        $guids[$row[0]] = $row[0];
-	    }
-	    $res->free();
-	    return $guids;
-	}
-	
-	public static function releaseContentChainsToClass($class, $aliases = null)
-	{
-	    if(is_array($aliases) || $aliases == null)
-	    {
-	        QBContent::releaseContensChainedToClass(is_object($class) ? get_class($class) : $class, $aliases);
-	    }
-	}
-	
-	//content to other content by a class
-	//...
-	
-	//end chaining
-	//////////////
-	
-	/**
 	 * save meta data to db
 	 * @return void
 	 */
@@ -194,179 +208,13 @@ abstract class BContent extends BObject
 	{
 	    QBContent::saveMetaData($this->Id, $this->Title, $this->PubDate, $this->Description, $this->Size, $this->SubTitle);
 	}
-	
-	/**
-	 * [alias => [title, pubdate]]
-	 * @return array
-	 */
-	public static function Index()
-	{
-	    throw new Exception('not implemented');
-	    //FIXME BContent::Index() not implemented
-	}
 		
-	/**
-	 * [alias => [title, pubdate]]
-	 * @return array
-	 */
-	public static function GUIDIndex($ofClass)
-	{
-	    $index = array();
-	    $res = QBContent::getGUIDIndexForClass($ofClass);
-	    while ($row = $res->fetch())
-	    {
-	        $index[$row[0]] = $row[1];
-	    }
-	    return $index;
-	}
-	
-	protected static function Delete($alias)
-	{
-	    try
-	    {
-	        $succ = QBContent::deleteContent($alias);
-	    }
-	    catch (XDatabaseException $d)
-	    {
-	        SNotificationCenter::report('warning', 'element_is_used_by_the_system_and_cannot_be_deleted');
-	        $succ = false;
-	    }
-	    catch (Exception $e)
-	    {
-	        SNotificationCenter::report('warning', 'delete_failed');
-	        $succ = false;
-	    }
-	    return $succ;
-	}
-	
 	protected static function isIndexingAllowed($contentID)
 	{
 	    $res = QBContent::getAllowSearchIndexing($contentID);
 	    $allowed = $res->getRowCount() == 1;
 	    $res->free();
 	    return $allowed;
-	}
-	
-	public static function contentExists($alias, $asType = null)
-	{
-	    $res = QBContent::exists($alias, $asType);
-	    $c = $res->getRowCount();
-	    $res->free();
-	    return $c == 1;
-	}
-	
-	public static function getContentInformationBulk(array $aliases)
-	{
-	    $res = QBContent::getPrimaryAliases($aliases);
-	    $map = array();
-	    $revmap = array();
-	    $infos = array();
-	    while ($erg = $res->fetch())
-		{
-		    list($reqest, $primary) = $erg;
-		    $map[] = $primary;
-		    $revmap[$primary] = $reqest;
-		}
-	    $res->free();
-	    
-	    $res = QBContent::getBasicInformation($map);
-	    while ($erg = $res->fetch())
-		{
-		    list($title, $pubdate, $alias) = $erg;
-		    $infos[$revmap[$alias]] = array(
-		        'Title' => $title, 
-				'Alias' => $alias,
-				'PubDate' => strtotime($pubdate)
-			);
-		}
-		$res->free();
-		return $infos;
-	}
-	
-	/**
-	 * @return array (alias => Title)
-	 */
-	public static function getIndex($class, $simple = true)
-	{
-		try
-		{
-		    $res = QBContent::getBasicInformationForClass($class);
-			$index = array();
-			while ($arr = $res->fetch())
-			{
-			    list($title, $pubdate, $alias, $type, $id) = $arr; 
-				$index[$alias] = $simple ? $title : array($title, $pubdate, $type, $id);
-			}
-			$res->free();
-		}
-		catch (Exception $e)
-		{
-			echo $e->getMessage();
-			$index = array();
-		}
-		return $index;
-	}
-	
-	/**
-	 * open content for alias or error 404 if permission denied
-	 * @param string $alias
-	 * @return BContent
-	 */
-	public static function Open($alias)
-	{
-	    try
-	    {
-	        return self::OpenIfPossible($alias);
-	    }
-	    catch(Exception $e)
-	    {
-            return CError::Open(404);
-	    }
-	}
-	/**
-	 * open content or throw exception if permission deied
-	 * @param string $alias
-	 * @throws XInvalidDataException
-	 * @return BContent
-	 */
-	public static function OpenIfPossible($alias)
-	{
-	    if(empty($alias))
-	    {
-	        throw new XUndefinedException('no alias');
-	    }
-        $class = QBContent::getClass($alias);
-        if(class_exists($class, true))
-        {
-            return call_user_func_array($class.'::Open', array($alias));
-        }
-        else
-        {
-            throw new XInvalidDataException($class.' not found');
-        }
-	}
-	
-	/**
-	 * opens content and sends access events 
-	 * @param string $alias
-	 * @param BObject $from
-	 * @param boolean $exact 
-	 * @return BContent
-	 */
-	public static function Access($alias, BObject $from, $exact = false)
-	{
-	    $o = self::Open($alias);
-	    $e = new EWillAccessContentEvent($from, $o);
-	    if($e->hasContentBeenSubstituted())
-	    {
-	        if($exact)
-	        {
-	            throw new XPermissionDeniedException('content substituted');
-	        }
-	        $o = $e->Content;
-	    }
-	    $e = new EContentAccessEvent($from, $o);
-	    return $o;
 	}
 	
 	/**

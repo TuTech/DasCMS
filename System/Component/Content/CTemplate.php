@@ -44,20 +44,6 @@ class CTemplate
 	{
 	    return parent::Delete($alias);
 	}
-	
-	public static function Exists($alias)
-	{
-	    return parent::contentExists($alias, self::CLASS_NAME);
-	}
-	
-	/**
-	 * [alias => [title, pubdate]]
-	 * @return array
-	 */
-	public static function Index()
-	{
-	    return parent::getIndex(self::CLASS_NAME, false);
-	}
 		
 	public static function Open($alias)
 	{

@@ -47,7 +47,7 @@ abstract class BAContentAppController
     public function provideContentTags(array $namedParameters)
     {
         if(!empty($namedParameters['alias']) 
-            && BContent::contentExists($namedParameters['alias']))
+            && Controller_Content::getSharedInstance()->contentExists($namedParameters['alias']))
         {
             return array('tags' => STag::getSharedInstance()->get($namedParameters['alias']));
         }
@@ -134,7 +134,7 @@ abstract class BAContentAppController
         if($this->target != null)
         {
             $alias = $this->target->Alias;
-            if($this->contentCallStatic('Delete', $alias))
+            if(Controller_Content::getSharedInstance()->deleteContent($alias))
             {
                 $this->target = null;
             }
@@ -182,7 +182,7 @@ abstract class BAContentAppController
     public function provideOpenDialogData(array $namedParameters)
     {
         $this->checkPermission('view');
-        $IDindex = $this->contentCallStatic('Index');
+        $IDindex = Controller_Content::getSharedInstance()->contentIndex($this->contentClass);
         $items = array();
         foreach ($IDindex as $alias => $data) 
         {

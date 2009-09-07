@@ -56,14 +56,14 @@ $tok = SProfiler::profile(__FILE__, __LINE__,'template engine');
 $generatorAlias = LConfiguration::get('generator_content');
 try
 {
-    $pageGenerator = BContent::OpenIfPossible($generatorAlias);
+    $pageGenerator = Controller_Content::getSharedInstance()->openContent($generatorAlias);
 }
 catch (Exception $e)
 {
     header("HTTP/1.1 500 Internal Server Error");
     header('Status: 500 Internal Server Error', true);
     SErrorAndExceptionHandler::reportException($e);
-    $pageGenerator = CError::Open(500);
+    $pageGenerator = new CError(500);
 }
 if ($pageGenerator instanceof IPageGenerator) 
 {

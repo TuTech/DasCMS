@@ -29,7 +29,7 @@ class APersons
         {
             if(!empty($target))
             {
-                $this->target = CPerson::Open($target);
+                $this->target = Controller_Content::getSharedInstance()->openContent($target, 'CPerson');
             }
         }
         catch (Exception $e)
@@ -182,7 +182,7 @@ class APersons
         if($this->target != null)
         {
             $alias = $this->target->Alias;
-            if(CPerson::Delete($alias))
+            if(Controller_Content::getSharedInstance()->deleteContent($alias))
             {
                 $this->target = null;
             }
@@ -291,11 +291,11 @@ class APersons
     public function provideOpenDialogData(array $namedParameters)
     {
         parent::requirePermission('org.bambuscms.content.cperson.view');
-        $IDindex = CPerson::IndexWithCompany();
+        $IDindex = Controller_Content::getSharedInstance()->contentIndex('CPerson');
         $items = array();
         foreach ($IDindex as $alias => $data) 
         {
-        	list($title, $pubdate, $type, $id, $company) = $data;
+        	list($title, $pubdate, $type, $id) = $data;
         	$items[] = array($title, $alias, 0, strtotime($pubdate), $company ? $company : '');
         }
         $data = array(
@@ -303,8 +303,8 @@ class APersons
             'nrOfItems' => count($items),
             'iconMap' => array('System/ClientData/Icons/tango/large/mimetypes/CUser.png'),
             'smallIconMap' => array('System/ClientData/Icons/tango/extra-small/mimetypes/CUser.png'),
-            'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2, 'pubDate' => 3, 'company' => 4),//, 'tags' => 4
-            'sortable' => array('title' => 'title', 'pubDate' => 'pubDate', 'company' => 'company'),
+            'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2, 'pubDate' => 3),//, 'tags' => 4
+            'sortable' => array('title' => 'title', 'pubDate' => 'pubDate'),
             'items' => $items
         );
         return $data;

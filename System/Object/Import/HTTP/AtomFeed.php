@@ -28,7 +28,7 @@ class Import_HTTP_AtomFeed extends _Import_HTTP
         if($res->getRowCount())
         {
             list($alias) = $res->fetch();
-            $content = CPage::Open($alias);
+            $content = Controller_Content::getSharedInstance()->openContent($alias, 'CPage');
         }
         else
         {

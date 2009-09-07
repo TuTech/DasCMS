@@ -33,6 +33,7 @@ class CPage
 	{
 	    list($dbid, $alias) = QBContent::create('CPage', $title);
 	    DFileSystem::Save(SPath::CONTENT.'CPage/'.$dbid.'.content.php', ' ');
+	    QBContent::setMimeType($alias, 'text/html');
 	    $page = new CPage($alias);
 	    new EContentCreatedEvent($page, $page);
 	    return $page;
@@ -41,20 +42,6 @@ class CPage
 	public static function Delete($alias)
 	{
 	    return parent::Delete($alias);
-	}
-	
-	public static function Exists($alias)
-	{
-	    return parent::contentExists($alias, self::CLASS_NAME);
-	}
-	
-	/**
-	 * [alias => [title, pubdate]]
-	 * @return array
-	 */
-	public static function Index()
-	{
-	    return parent::getIndex(self::CLASS_NAME, false);
 	}
 		
 	public static function Open($alias)
@@ -87,6 +74,7 @@ class CPage
 	        throw new XArgumentException('content not found');
 	    }
 	}
+	
 	//Interface_XML_Atom_ProvidesInlineText
     public function getInlineTextType()
     {

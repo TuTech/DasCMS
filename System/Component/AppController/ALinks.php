@@ -29,7 +29,7 @@ class ALinks
         {
             if(!empty($target))
             {
-                $this->target = CLink::Open($target);
+                $this->target = Controller_Content::getSharedInstance()->openContent($target, 'CLink');
             }
         }
         catch (Exception $e)
@@ -88,7 +88,7 @@ class ALinks
         if($this->target != null)
         {
             $alias = $this->target->Alias;
-            if(CLink::Delete($alias))
+            if(Controller_Content::getSharedInstance()->deleteContent($alias))
             {
                 $this->target = null;
             }
@@ -150,7 +150,7 @@ class ALinks
         {
             throw new XPermissionDeniedException('view');
         }
-        $IDindex = CLink::Index();
+        $IDindex = Controller_Content::getSharedInstance()->contentIndex('Clink');
         $items = array();
         foreach ($IDindex as $alias => $data) 
         {

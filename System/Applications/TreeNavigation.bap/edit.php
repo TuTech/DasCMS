@@ -54,8 +54,8 @@ if($edit != null)
 		{
 			global $id,$out;
 			$myid = $id;
-			$content = SAlias::resolve($tno->getAlias());
-			if($content != null)
+			$content = Controller_Content::getSharedInstance()->tryOpenContent($tno->getAlias());
+			if(!$content instanceof CError)
 			{
     			$myid = ++$id;
     			$title = ($content == null) 

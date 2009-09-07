@@ -41,7 +41,7 @@ class NTreeNavigationHelper
     	//no error content defined?
     	if($content == null || !$content instanceof BContent)
     	{
-    		$content = CError::Open(404);
+    		$content = new CError(404);
     	}
     	$this->content = $content;
     	$allAliases = $this->root->getAllAliases($this);
@@ -64,7 +64,7 @@ class NTreeNavigationHelper
     	{
     		$cmsids[$node->getAlias()] = '';
     	}
-    	$this->_nodeData = BContent::getContentInformationBulk(array_keys($cmsids));
+    	$this->_nodeData = Controller_Content::getSharedInstance()->getContentInformationBulk(array_keys($cmsids));
 	}
 	
 	/**

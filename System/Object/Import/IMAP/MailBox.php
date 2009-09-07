@@ -167,7 +167,7 @@ class Import_IMAP_MailBox extends _Import_IMAP
             {
                 if(!empty($alias))
                 {
-                    $content = CPage::Open($alias);
+                    $content = Controller_Content::getSharedInstance()->openContent($alias, 'CPage');
                 }
                 else
                 {

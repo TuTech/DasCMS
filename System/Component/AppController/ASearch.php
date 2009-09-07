@@ -29,7 +29,7 @@ class ASearch
         {
             if(!empty($target))
             {
-                $this->target = CSearch::Open($target);
+                $this->target = Controller_Content::getSharedInstance()->openContent($target, 'CSearch');
             }
         }
         catch (Exception $e)
@@ -79,7 +79,7 @@ class ASearch
         if($this->target != null)
         {
             $alias = $this->target->Alias;
-            if(CSearch::Delete($alias))
+            if(Controller_Content::getSharedInstance()->deleteContent($alias))
             {
                 $this->target = null;
             }
@@ -141,7 +141,7 @@ class ASearch
         {
             throw new XPermissionDeniedException('view');
         }
-        $IDindex = CSearch::Index();
+        $IDindex = Controller_Content::getSharedInstance()->contentIndex('CSearch');
         $items = array();
         foreach ($IDindex as $alias => $data) 
         {

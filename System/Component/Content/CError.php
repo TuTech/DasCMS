@@ -24,25 +24,6 @@ class CError extends BContent implements IGlobalUniqueId, ISearchDirectives
 	    throw new Exception('errors are fixed');
 	}
 	
-	public static function Delete($alias)
-	{
-	    throw new Exception('errors are fixed');
-	}
-	
-	public static function Exists($alias)
-	{
-	    return parent::contentExists($alias, self::CLASS_NAME);
-	}
-	
-	/**
-	 * [alias => [title, pubdate]]
-	 * @return array
-	 */
-	public static function Index()
-	{
-	    return parent::getIndex(self::CLASS_NAME, false);
-	}
-	
 	public static function Open($alias)
 	{
 	    $alias = SHTTPStatus::validate($alias);
@@ -54,7 +35,7 @@ class CError extends BContent implements IGlobalUniqueId, ISearchDirectives
 	            try 
 	            {
 	                //returns login form and ends function
-	                return BContent::Open($tpl);
+	                return Controller_Content::getSharedInstance()->openContent($tpl);
 	            }
 	            catch (Exception $e)
 	            {

@@ -3,6 +3,11 @@ class Model_Content_Composite_TargetView extends _Model_Content_Composite
 {
     private $targetView = null;
     
+    public static function getCompositeMethods()
+    {
+        return array('setTargetView', 'getTargetView');
+    }
+    
     public function __construct(BContent $compositeFor)
     {
         parent::__construct($compositeFor);

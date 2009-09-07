@@ -54,24 +54,6 @@ class SAlias
 	}	
 	
 	/**
-	 * Get content object by alias
-	 *
-	 * @param string $alias
-	 * @return BContent|null
-	 */
-	public static function resolve($alias)
-	{
-		if(QSAlias::reloveAliasToID($alias) === null)
-		{
-		    return null;
-		}
-		else
-		{
-		    return BContent::Open($alias);
-		}
-	}
-	
-	/**
 	 * @param EContentChangedEvent $e
 	 */
 	public function HandleContentChangedEvent(EContentChangedEvent $e)

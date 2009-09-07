@@ -41,25 +41,11 @@ class CSearch
 	{
 	    return parent::Delete($alias);
 	}
-	
-	public static function Exists($alias)
-	{
-	    return parent::contentExists($alias, self::CLASS_NAME);
-	}
-	
-	/**
-	 * [alias => [title, pubdate]]
-	 * @return array
-	 */
-	public static function Index()
-	{
-	    return parent::getIndex(self::CLASS_NAME, false);
-	}
 		
 	protected function composites()
 	{
 	    $composites = parent::composites();
-	    $composites['TargetView'] = array('setTargetView', 'getTargetView');
+	    $composites[] = 'TargetView';
 	    return $composites;
 	}
 	
@@ -165,7 +151,7 @@ class CSearch
     	    {
     	        //have something to open?
         	    $open = $iqo->GetParameter('open', CHARSET);
-        	    if(!empty($open) && BContent::contentExists($open))
+        	    if(!empty($open) && Controller_Content::getSharedInstance()->contentExists($open))
         	    {
         	        //link this query to the doc to open
         	        header('Location: '.SLink::base().$iqo->LinkTo($open));

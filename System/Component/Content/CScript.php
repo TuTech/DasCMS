@@ -36,7 +36,7 @@ class CScript
 	    list($dbid, $alias) = QBContent::create(self::CLASS_NAME, $title);
 	    DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$dbid.'.php', ' ');
 	    DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$dbid.'.html.php', ' ');
-	    BContent::setMimeType($alias, 'text/javascript');
+	    QBContent::setMimeType($alias, 'text/javascript');
 	    $script = new CScript($alias);
 	    $e = new EContentCreatedEvent($script, $script);
 	    return $script;
@@ -47,20 +47,6 @@ class CScript
 	    return parent::Delete($alias);
 	}
 	
-	public static function Exists($alias)
-	{
-	    return parent::contentExists($alias, self::CLASS_NAME);
-	}
-	
-	/**
-	 * [alias => [title, pubdate]]
-	 * @return array
-	 */
-	public static function Index()
-	{
-	    return parent::getIndex(self::CLASS_NAME, false);
-	}
-		
 	public static function Open($alias)
 	{
 	    try
@@ -190,7 +176,7 @@ class CScript
 	//IHeaderService
 	public static function getHeaderServideItems($forAlias = null)
 	{
-	    return array('scripts' => BContent::GUIDIndex(self::CLASS_NAME));
+	    return array('scripts' => Controller_Content::getSharedInstance()->contentGUIDIndex(self::CLASS_NAME));
 	}
 	
 	public static function sendHeaderService($embedAlias, EWillSendHeadersEvent $e)

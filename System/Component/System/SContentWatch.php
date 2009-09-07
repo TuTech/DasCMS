@@ -179,7 +179,7 @@ class SContentWatch
 	    $pubDate = $e->Content->getPubDate();
 	    if(empty($pubDate) || $pubDate > time())
 	    {
-	        $e->substitute(CError::Open(403));
+	        $e->substitute(new CError(403));
 	    }
 	}
 }

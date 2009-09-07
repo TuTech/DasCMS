@@ -36,7 +36,7 @@ class CStylesheet
 	    list($dbid, $alias) = QBContent::create(self::CLASS_NAME, $title);
 	    DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$dbid.'.php', ' ');
 	    DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$dbid.'.html.php', ' ');
-	    BContent::setMimeType($alias, 'text/css');
+	    QBContent::setMimeType($alias, 'text/css');
 	    $script = new CStylesheet($alias);
 	    $e = new EContentCreatedEvent($script, $script);
 	    return $script;
@@ -45,20 +45,6 @@ class CStylesheet
 	public static function Delete($alias)
 	{
 	    return parent::Delete($alias);
-	}
-	
-	public static function Exists($alias)
-	{
-	    return parent::contentExists($alias, self::CLASS_NAME);
-	}
-	
-	/**
-	 * [alias => [title, pubdate]]
-	 * @return array
-	 */
-	public static function Index()
-	{
-	    return parent::getIndex(self::CLASS_NAME, false);
 	}
 		
 	public static function Open($alias)
@@ -189,7 +175,7 @@ class CStylesheet
 	//IHeaderService
 	public static function getHeaderServideItems($forAlias = null)
 	{
-	    return array('stylesheets' => BContent::GUIDIndex(self::CLASS_NAME));
+	    return array('stylesheets' => Controller_Content::getSharedInstance()->contentGUIDIndex(self::CLASS_NAME));
 	}
 	
 	public static function sendHeaderService($embedGUID, EWillSendHeadersEvent $e)
