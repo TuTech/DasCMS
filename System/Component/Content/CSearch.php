@@ -49,19 +49,6 @@ class CSearch
 	    return $composites;
 	}
 	
-	public static function Open($alias)
-	{
-	    try
-	    {
-	        return new CSearch($alias);
-	    }
-	    catch (XArgumentException $e)
-	    {
-	        throw new XUndefinedIndexException($alias);
-	    }
-	}
-	
-	
 	/**
 	 * @param string $id
 	 * @throws XFileNotFoundException

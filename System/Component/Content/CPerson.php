@@ -61,19 +61,6 @@ class CPerson
 		return $index;
 	}
 		
-	public static function Open($alias)
-	{
-	    try
-	    {
-	        return new CPerson($alias);
-	    }
-	    catch (XArgumentException $e)
-	    {
-	        throw new XUndefinedIndexException($alias);
-	    }
-	}
-	
-	
 	/**
 	 * @param string $id
 	 * @throws XFileNotFoundException

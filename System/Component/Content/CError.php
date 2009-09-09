@@ -24,10 +24,17 @@ class CError extends BContent implements IGlobalUniqueId, ISearchDirectives
 	    throw new Exception('errors are fixed');
 	}
 	
-	public static function Open($alias)
+	public static function errdesc($code)
 	{
-	    $alias = SHTTPStatus::validate($alias);
-	    if($alias == 401)
+		$code = SHTTPStatus::validate($code);
+		$code = $code == null ? 501 : $code; 
+		return array($code => SHTTPStatus::byCode($code, false));
+	}
+
+	public function __construct($Id)	
+	{
+	    $Id = SHTTPStatus::validate($Id);
+	    if($Id == 401)
 	    {
 	        $tpl = LConfiguration::get('login_template');
 	        if(defined('BAMBUS_HTML_ACCESS') && !empty($tpl))
@@ -45,20 +52,6 @@ class CError extends BContent implements IGlobalUniqueId, ISearchDirectives
             header("HTTP/1.1 401 Authorization Required");
             header("WWW-Authenticate: Basic realm=\"BambusCMS\"");
 	    }
-	    //if !401 or no login tpl
-        return new CError($alias == null ? 501 : $alias);
-	}
-	
-	
-	public static function errdesc($code)
-	{
-		$code = SHTTPStatus::validate($code);
-		$code = $code == null ? 501 : $code; 
-		return array($code => SHTTPStatus::byCode($code, false));
-	}
-
-	public function __construct($Id)	
-	{
 		$dat = self::errdesc($Id);
 		$Ids = array_keys($dat);
 		$this->Id = $Ids[0];

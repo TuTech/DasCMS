@@ -149,6 +149,7 @@ class CFeed
 	{
 	    $composites = parent::composites();
 	    $composites[] = 'TargetView';
+	    $composites[] = 'ContentFormatter';
 	    return $composites;
 	}
 	
@@ -278,18 +279,6 @@ class CFeed
 	    $tpl = new CFeed($alias);
 	    new EContentCreatedEvent($tpl, $tpl);
 	    return $tpl;
-	}
-	
-	public static function Open($alias)
-	{
-	    try
-	    {
-	        return new CFeed($alias);
-	    }
-	    catch (XArgumentException $e)
-	    {
-	        throw new XUndefinedIndexException($alias);
-	    }
 	}
 	
 	/**
@@ -447,7 +436,7 @@ class CFeed
             $currentPage,
             $itemsPerPage,
             $fetch
-            );
+        );
         
         //html building
         $content = '<div id="_'.$this->getGUID().'" class="CFeed">';
@@ -455,10 +444,27 @@ class CFeed
         {
             $content .= $this->buildControlHtml(self::HEADER, $hasMorePages, $currentPage, $startItem, $endItem, $maxItems);
             $content .= "\n\t<div class=\"CFeed_items\">";
-            while($row = $res->fetch())
-            {
-                $content .= $this->buildItemHtml($row);
-            }
+            if($this->getChildContentFormatter() == false)
+    	    {
+    	        //use feed to format the item ui 
+                while($row = $res->fetch())
+                {
+                    $content .= $this->buildItemHtml($row);
+                }
+    	    }
+    	    else
+    	    {
+    	        //use a formatter for the item ui
+    	        while($row = $res->fetch())
+                {
+                    try
+                    {
+                        $contentObject = Controller_Content::getSharedInstance()->accessContent($row[3], $this, true);
+                        $content .= $this->formatChildContent($contentObject);
+                    }
+                    catch (Exception $e){/*skip this*/}
+                }
+    	    }
             $res->free();
             $content .= "\n\t</div>";
             $content .= $this->buildControlHtml(self::FOOTER, $hasMorePages, $currentPage, $startItem, $endItem, $maxItems);
@@ -528,6 +534,7 @@ class CFeed
         return $html;
 	}
 		
+	
 	private function buildItemHtml(array $data)
 	{
 	    //db result order

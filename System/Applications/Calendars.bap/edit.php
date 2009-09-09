@@ -14,5 +14,7 @@ if($Calendar instanceof CCalendar)
 //    $editor->setWordWrap(false);
 //    $editor->disableSpellcheck();
 //    echo $editor;
+$f = $Calendar->getChildContentFormatter();
+printf('<label>Formatter</label><input type="text" name="formatter" value="%s" />', htmlentities($f, ENT_QUOTES, CHARSET));
 }
 ?>

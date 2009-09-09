@@ -5,6 +5,7 @@ class View_Content_Calendar_XHTML_Calendar
 {
     protected $entries = array();
     protected $title;
+    protected $formatterName = null;
     
     public function __construct($title)
     {
@@ -29,7 +30,17 @@ class View_Content_Calendar_XHTML_Calendar
     
     public function createEvent($startTime, $endTime, $alias)
     {
-        return new View_Content_Calendar_XHTML_Entry_Event($startTime, $endTime, Controller_Content::getSharedInstance()->accessContent($alias, $this, true));
+        return new View_Content_Calendar_XHTML_Entry_Event(
+            $startTime, 
+            $endTime, 
+            Controller_Content::getSharedInstance()->accessContent($alias, $this, true),
+            $this->formatterName
+        );
+    }
+    
+    public function setContentFormatter($formatterName)
+    {
+        $this->formatterName = $formatterName;
     }
 }
 ?>

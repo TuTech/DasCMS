@@ -35,7 +35,7 @@ class QContentFormatter extends BQuery
         	"INSERT INTO relContentsFormatters 
         		SELECT %d as contentREL, formatterID as formatterREL 
         		FROM Formatters 
-        		WHERE Formatter.name = '%s'", $cid, $DB->escape($formattername)));
+        		WHERE Formatters.name = '%s'", $cid, $DB->escape($formattername)));
         $DB->commit();
         return $res;
     }

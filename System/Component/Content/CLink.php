@@ -43,19 +43,6 @@ class CLink
 	    return parent::Delete($alias);
 	}
 	
-	public static function Open($alias)
-	{
-	    try
-	    {
-	        return new CLink($alias);
-	    }
-	    catch (XArgumentException $e)
-	    {
-	        throw new XUndefinedIndexException($alias);
-	    }
-	}
-	
-	
 	/**
 	 * @param string $id
 	 * @throws XFileNotFoundException

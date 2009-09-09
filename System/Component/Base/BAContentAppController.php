@@ -80,7 +80,7 @@ abstract class BAContentAppController
         {
             if(!empty($target))
             {
-                $this->target = $this->contentCallStatic('Open', $target);
+                $this->target = Controller_Content::getSharedInstance()->openContent($target, $this->contentClass);
             }
         }
         catch (Exception $e)

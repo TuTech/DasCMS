@@ -8,7 +8,7 @@ class Model_Content_Composite_ContentFormatter extends _Model_Content_Composite
     {
         return array(
         	'getChildContentFormatter', 
-        	'getChildContentFormatter',
+        	'setChildContentFormatter',
             'formatChildContent'
         );
     }
@@ -40,18 +40,15 @@ class Model_Content_Composite_ContentFormatter extends _Model_Content_Composite
 	
 	public function formatChildContent(BContent $content)
 	{
-	    try
-	    {
-	        $f = $this->getChildContentFormatter();
-	        if(!$f)    
-	        {
-	            return Formatter_Container::unfreezeForFormatting($f, $content);
-	        }
-	    }
-	    catch (XArgumentException $e)
-	    {}
-	    //no formatter
-        return '';
+        $f = $this->getChildContentFormatter();
+        if($f)    
+        {
+            return Formatter_Container::unfreezeForFormatting($f, $content);
+        }
+        else
+        {
+            throw new XUndefinedException('no formatter');
+        }
 	}
 } 
 ?>

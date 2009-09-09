@@ -44,19 +44,6 @@ class CPage
 	    return parent::Delete($alias);
 	}
 		
-	public static function Open($alias)
-	{
-	    try
-	    {
-	        return new CPage($alias);
-	    }
-	    catch (XArgumentException $e)
-	    {
-	        throw new XUndefinedIndexException($alias);
-	    }
-	}
-	
-	
 	/**
 	 * @param string $id
 	 * @throws XFileNotFoundException

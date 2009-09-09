@@ -114,18 +114,6 @@ class CFile
         $e = new EContentChangedEvent($this, $this);
 	}
 	
-	public static function Open($alias)
-	{
-	    try
-	    {
-	        return new CFile($alias);
-	    }
-	    catch (XArgumentException $e)
-	    {
-	        throw new XUndefinedIndexException($alias);
-	    }
-	}
-	
 	protected function loadFileMetaData()
 	{
 	    if(count($this->metadata) == 0)

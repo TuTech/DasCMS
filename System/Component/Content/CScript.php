@@ -47,19 +47,6 @@ class CScript
 	    return parent::Delete($alias);
 	}
 	
-	public static function Open($alias)
-	{
-	    try
-	    {
-	        return new CScript($alias);
-	    }
-	    catch (XArgumentException $e)
-	    {
-	        throw new XUndefinedIndexException($alias);
-	    }
-	}
-	
-	
 	/**
 	 * @param string $id
 	 * @throws XFileNotFoundException

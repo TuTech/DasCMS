@@ -68,6 +68,10 @@ class ACalendars
             {
                 $this->target->SubTitle = $param['subtitle'];
             }
+            if(isset($param['formatter']))
+            {
+                $this->target->setChildContentFormatter($param['formatter']);
+            }
         }
     }
 }

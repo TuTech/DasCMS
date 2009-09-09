@@ -13,7 +13,7 @@ class Factory_Calendar
     /**
      * (non-PHPdoc)
      * @see System/Component/Interface/IShareable#getSharedInstance()
-     * @return View_Content_CalendarFactory
+     * @return Factory_Calendar
      */
     public static function getSharedInstance()
     {

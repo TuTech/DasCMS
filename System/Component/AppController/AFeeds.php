@@ -72,6 +72,11 @@ class AFeeds
             {
                 $this->target->SubTitle = $param['subtitle'];
             }
+            if(isset($param['content_formatter']))
+            {
+                $this->target->setChildContentFormatter($param['content_formatter']);
+            }
+            
     		//////////////
     		//reading data
     		//////////////

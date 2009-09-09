@@ -22,10 +22,19 @@ class CCalendar
 {
     const GUID = 'org.bambuscms.content.ccalendar';
     const CLASS_NAME = 'CCalendar';
+    
     public function getClassGUID()
     {
         return self::GUID;
     }
+    
+    protected function composites()
+    {
+        $cmp = parent::composites();
+        $cmp[] = 'ContentFormatter';
+        return $cmp;
+    }
+    
     private $_contentLoaded = false;
     
     public function getFileCacheLifeTime()
@@ -44,19 +53,6 @@ class CCalendar
 	    $e = new EContentCreatedEvent($content, $content);
 	    return $content;
 	}
-	
-	public static function Open($alias)
-	{
-	    try
-	    {
-	        return new CCalendar($alias);
-	    }
-	    catch (XArgumentException $e)
-	    {
-	        throw new XUndefinedIndexException($alias);
-	    }
-	}
-	
 	
 	/**
 	 * @param string $id
@@ -103,6 +99,10 @@ class CCalendar
 	        Factory_Calendar::AS_XHTML, 
 	        $this->getTitle()
         );
+        if($cal instanceof View_Content_Calendar_XHTML_Calendar)
+        {
+            $cal->setContentFormatter($this->getChildContentFormatter());
+        }
         return $this->buildCalendar($cal);
 	}
 	

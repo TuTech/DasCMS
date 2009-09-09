@@ -44,21 +44,8 @@ class CTextBrick
 	    return parent::Delete($alias);
 	}
 		
-	public static function Open($alias)
-	{
-	    try
-	    {
-	        return new CTextBrick($alias);
-	    }
-	    catch (XArgumentException $e)
-	    {
-	        throw new XUndefinedIndexException($alias);
-	    }
-	}
-	
-	
 	/**
-	 * @param string $id
+	 * @param string $alias
 	 * @throws XFileNotFoundException
 	 * @throws XFileLockedException
 	 * @throws XInvalidDataException

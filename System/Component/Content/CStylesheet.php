@@ -47,19 +47,6 @@ class CStylesheet
 	    return parent::Delete($alias);
 	}
 		
-	public static function Open($alias)
-	{
-	    try
-	    {
-	        return new CStylesheet($alias);
-	    }
-	    catch (XArgumentException $e)
-	    {
-	        throw new XUndefinedIndexException($alias);
-	    }
-	}
-	
-	
 	/**
 	 * @param string $id
 	 * @throws XFileNotFoundException
