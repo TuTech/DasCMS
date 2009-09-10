@@ -103,8 +103,7 @@ org.bambuscms.wsettings.showPubDateHelper = function()
 		var t = _('publish_now');
 		helps = {};
 		//y-m-d h:m:s
-		helps[t] = d.getFullYear()+'-'+dd(d.getMonth()+1)+'-'+dd(d.getDate())+
-					' '+dd(d.getHours())+':'+dd(d.getMinutes())+':'+dd(d.getSeconds());
+		helps[t] = 'now';
 	}
 	else
 	{
