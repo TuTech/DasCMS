@@ -74,6 +74,7 @@ class SBambusSessionAuth
                 '*.create'      => $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Create'),
                 '*.delete'      => $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Delete'),
                 '*.change'      => $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'Edit'),
+                '*.view'        => $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'CMS'),
                 'org.bambuscms.login'=> $SUsersAndGroups->isMemberOf(PAuthentication::getUserID(), 'CMS'),
             );   
             $apps = $this->getAllApps();  
