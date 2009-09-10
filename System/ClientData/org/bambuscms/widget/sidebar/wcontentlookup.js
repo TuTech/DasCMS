@@ -70,7 +70,7 @@ org.bambuscms.wcontentlookup.fetch = function(more)
 		'filter':'',
 		'mode':'all'
 	};
-	if(more)
+	if(more && typeof more != 'object')
 	{
 		send.page = more;
 	}
