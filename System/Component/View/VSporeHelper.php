@@ -35,7 +35,7 @@ class VSporeHelper
         'tags' => array('view'),
         'previewimage' => array('view', 'width', 'height', 'scale'),
         'type' => array('view'),
-    	'property' => array('view', 'name'),
+    	'property' => array('view', 'use'),
     	'altercontent' => array('view', 'alias'),
         'formatter' => array('view','use')
     );
@@ -158,7 +158,10 @@ class VSporeHelper
     
     private function property($spore, $propname)
     {
-        return $this->sporeContent($spore)->__get($propname);
+        try{
+            $s = $this->sporeContent($spore);
+            return $s->__get($propname);
+        }catch (Exception $e){return '';}
     }
     
     /**
@@ -205,7 +208,7 @@ class VSporeHelper
 	    {
 	        throw new XArgumentException('view must be defined');
 	    }
-	    if($function == 'property' && !array_key_exists('name', $namedParameters))
+	    if($function == 'property' && !array_key_exists('use', $namedParameters))
 	    {
 	        throw new XArgumentException('property name not defined');
 	    }
@@ -214,7 +217,7 @@ class VSporeHelper
 	        case 'formatter':
 	            return $this->{$function}($namedParameters['view'],$namedParameters['use']);
 	        case 'property':
-	            return $this->{$function}($namedParameters['view'],$namedParameters['name']);
+	            return $this->{$function}($namedParameters['view'],$namedParameters['use']);
             case 'altercontent':
 	            return $this->{$function}($namedParameters['view'],$namedParameters['alias']);
             case 'previewimage':
