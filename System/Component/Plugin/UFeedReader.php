@@ -68,7 +68,10 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 	 */
 	public function TemplateCall($function, array $namedParameters)
 	{
-	    return $this->embed($namedParameters);
+	    SErrorAndExceptionHandler::muteErrors();
+	    $val = $this->embed($namedParameters);
+	    SErrorAndExceptionHandler::reportErrors();
+	    return $val;
 	}
 	
 	/**
