@@ -39,7 +39,7 @@ if(!empty($_SERVER['PATH_INFO']))
         {
             $content = Controller_Content::getSharedInstance()->accessContent($alias, new WImage(), true);
         }
-        catch (XPermissionDeniedException $e)
+        catch (Exception $e)
         {
             if(PAuthorisation::has('org.bambuscms.login'))
             {
