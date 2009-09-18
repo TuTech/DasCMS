@@ -7,7 +7,7 @@
 	<icon>app-preferences-enviornment</icon>
 	<version>0.10.20061011</version>
 	<priority>1.9</priority>
-	<purpose>system</purpose>
+	<purpose>settings</purpose>
 	<tabs>
 		<tab icon="action-edit">edit</tab>
 	</tabs>

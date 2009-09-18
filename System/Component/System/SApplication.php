@@ -15,7 +15,7 @@ class SApplication
     implements 
         IShareable
 {	
-    private $name, $description, $guid, $version, $icon, $interface, $class;
+    private $name, $description, $guid, $version, $icon, $interface, $class, $purpose;
     /**
      * @var WApplicationTaskBar
      */
@@ -107,6 +107,11 @@ class SApplication
     public function getVersion()
     {
         return $this->version;
+    }    
+    
+    public function getPurpose()
+    {
+        return $this->version;
     }
     
     public function getIcon()
@@ -152,7 +157,7 @@ class SApplication
     protected function __construct()
     {
         $this->taskbar = new WApplicationTaskBar();
-        if(RURL::has('editor'))
+        if(RURL::hasValue('editor'))
         {
             $app = basename(RURL::get('editor'));
             $appXML = SPath::SYSTEM_APPLICATIONS.$app.'/Application.xml';
@@ -182,7 +187,8 @@ class SApplication
             'class'       => '/bambus/appController',
         	'name'        => '/bambus/name',
             'description' => '/bambus/description',
-            'icon'        => '/bambus/icon',
+            'purpose'     => '/bambus/purpose',
+        	'icon'        => '/bambus/icon',
             'version'     => '/bambus/version',
             'controller'  => '/bambus/application/controller',
             'interface'   => '/bambus/application/interface/@src',
@@ -257,10 +263,11 @@ class SApplication
 			        continue;
 			    }
 			    $atts = array(
-					 'name' => '/bambus/name'
-					,'desc' => '/bambus/description'
-					,'icon' => '/bambus/icon'
-					,'tabs' => '/bambus/tabs/tab'
+					 'name'    => '/bambus/name'
+					,'desc'    => '/bambus/description'
+					,'icon'    => '/bambus/icon'
+					,'purpose' => '/bambus/purpose'
+					,'tabs'    => '/bambus/tabs/tab'
 			    );
 			    foreach ($atts as $a => $q)
 			    {
@@ -288,6 +295,7 @@ class SApplication
 		}
 		closedir($dirhdl);
 		
+		//selecting app
 		$selectedApp = RURL::get('editor');
 		if(!empty($selectedApp) && isset($available[$selectedApp]))
 		{

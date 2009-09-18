@@ -7,7 +7,7 @@
 	<icon>app-utilities-editor-javascript</icon>
 	<version>0.13.20070807</version>
 	<priority>1.9</priority>
-	<purpose>manage_scripts</purpose>
+	<purpose>design_and_layout</purpose>
 	<tabs>
 		<tab icon="action-edit">edit_css</tab>
 	</tabs>

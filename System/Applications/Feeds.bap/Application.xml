@@ -7,7 +7,7 @@
 	<icon>app-preferences-feeds</icon>
 	<version>0.1.20081017</version>
 	<priority>2.0</priority>
-	<purpose>manage_content</purpose>
+	<purpose>configure_contents</purpose>
 	<tabs>
 		<tab icon="action-edit">edit</tab>
 	</tabs>

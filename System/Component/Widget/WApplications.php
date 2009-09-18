@@ -54,35 +54,56 @@ class WApplications extends BWidget
 	
 	public function __toString()
 	{
-		$html = '<div id="'.get_class($this)."\"><table>\n<tr>";
+		$html = '<div id="'.get_class($this)."\">";
+		
+		//grouping by purpose
+		$groupHelp = array();
+		foreach ($this->apps as $item => $atts)
+		{
+		    $groupHelp[$atts['purpose']] = SLocalization::get($atts['purpose']);
+		}
+		asort($groupHelp, SORT_LOCALE_STRING);
+		
 		$sortHelp = array();
 		foreach ($this->apps as $app => $meta) 
 		{
 		    $sortHelp[$app] = strtoupper(trim(SLocalization::get($meta['name'])));
 		}
-		asort($sortHelp, SORT_LOCALE_STRING);
-		foreach ($sortHelp as $app => $sortHelp) 
+		$html .= '<table><tr>';
+		foreach ($groupHelp as $group => $locale)
 		{
-		    $meta = $this->apps[$app];
-			$name = htmlentities(SLocalization::get($meta['name']), ENT_QUOTES, CHARSET);
-			$html .= sprintf(
-				"\t<td><a href=\"Management/?editor=%s\" onmousedown=\"return false;\" class=\"application%s\">\n".
-					"\t\t<img src=\"%s\" alt=\"%s\" />\n".
-					"\t\t<span class=\"application-info\">\n".
-					"\t\t\t<span class=\"application-name\">%s</span>\n".
-					"\t\t\t<span class=\"application-description\">%s</span>\n".
-					"\t\t</span>\n".
-					"\t</a></td>\n"
-				,htmlentities($app, ENT_QUOTES, CHARSET)
-				,($meta['active']) ? ' active' : ''
-				,$this->selectIcon($meta['icon'], $meta['active'])
-				,$name
-				,$name
-				,SLocalization::get($meta['desc'])
-			
-			);
-		}
-		$html .= '</tr></table></div>';
+		    $html .= '<th class="appGroup appGroup-'.htmlentities($group, ENT_QUOTES, CHARSET)."\" title=\"".$locale."\"><span>&nbsp;</span></th>";
+		    
+		
+		    
+    		//asort($sortHelp, SORT_LOCALE_STRING);
+    		foreach ($sortHelp as $app => $sortHelper) 
+    		{
+    		    if($this->apps[$app]['purpose'] == $group)
+    		    {
+        		    $meta = $this->apps[$app];
+        			$name = htmlentities(SLocalization::get($meta['name']), ENT_QUOTES, CHARSET);
+        			$html .= sprintf(
+        				"\t<td><a href=\"Management/?editor=%s\" onmousedown=\"return false;\" class=\"application%s\">\n".
+        					"\t\t<img src=\"%s\" alt=\"%s\" />\n".
+        					"\t\t<span class=\"application-info\">\n".
+        					"\t\t\t<span class=\"application-name\">%s</span>\n".
+        					"\t\t\t<span class=\"application-description\">%s</span>\n".
+        					"\t\t</span>\n".
+        					"\t</a></td>\n"
+        				,htmlentities($app, ENT_QUOTES, CHARSET)
+        				,($meta['active']) ? ' active' : ''
+        				,$this->selectIcon($meta['icon'], $meta['active'])
+        				,$name
+        				,$name
+        				,SLocalization::get($meta['desc'])
+        			
+        			);
+    		    }
+    		}
+    		
+		}$html .= '</tr></table></div>';
+		#$html .= '</div>';
 		return $html;
 	}
 	

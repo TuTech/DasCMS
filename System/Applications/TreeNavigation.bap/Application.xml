@@ -7,7 +7,7 @@
 	<icon>app-preferences-tree-navigation</icon>
 	<version>0.16.20080320</version>
 	<priority>1.9</priority>
-	<purpose>system</purpose>
+	<purpose>design_and_layout</purpose>
 	<tabs>
 		<tab icon="action-edit">edit</tab>
 	</tabs>

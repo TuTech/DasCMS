@@ -7,7 +7,7 @@
 	<icon>app-utilities-calendars</icon>
 	<version>0.1.20090721</version>
 	<priority>1.9</priority>
-	<purpose>manage_contents</purpose>
+	<purpose>configure_contents</purpose>
 	<tabs>
 		<tab icon="action-edit">edit_ics</tab>
 	</tabs>

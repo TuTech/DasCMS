@@ -7,7 +7,7 @@
 	<icon>app-system-tagprotect</icon>
 	<version>0.1.20081112</version>
 	<priority>1.0</priority>
-	<purpose>edit_protection_tags</purpose>
+	<purpose>security</purpose>
 	<tabs>
 		<tab icon="action-edit">edit</tab>
 	</tabs>

@@ -7,7 +7,7 @@
 	<icon>app-system-file-manager</icon>
 	<version>0.10.20061011</version>
 	<priority>1.9</priority>
-	<purpose>edit_content</purpose>
+	<purpose>edit_contents</purpose>
 	<tabs>
 		<tab icon="place-folder">manage</tab> 
 	</tabs>

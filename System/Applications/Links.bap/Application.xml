@@ -7,7 +7,7 @@
 	<icon>app-utilities-linker</icon>
 	<version>0.1.20090403</version>
 	<priority>2.0</priority>
-	<purpose>manage_links</purpose>
+	<purpose>edit_contents</purpose>
 	<tabs>
 		<tab icon="action-edit">edit</tab>
 	</tabs>

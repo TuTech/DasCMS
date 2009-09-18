@@ -7,7 +7,7 @@
 	<icon>app-utilities-editor-html</icon>
 	<version>0.13.20070807</version>
 	<priority>2.0</priority>
-	<purpose>manage_content</purpose>
+	<purpose>edit_contents</purpose>
 	<tabs>
 		<tab icon="action-edit">edit</tab>
 	</tabs>
