@@ -2,12 +2,14 @@
 class Model_Content_Composite_ContentAggregator extends _Model_Content_Composite
 {
     private $aggregatorName = null;
+    private $aggregator = null;
     
     public static function getCompositeMethods()
     {
         return array(
-        	'getChildContentAggregator', 
-        	'setChildContentAggregator',
+        	'getContentAggregatorInstance', 
+        	'getContentAggregator', 
+        	'setContentAggregator',
         );
     }
     
@@ -16,37 +18,37 @@ class Model_Content_Composite_ContentAggregator extends _Model_Content_Composite
         parent::__construct($compositeFor);
     }
 
-    public function setChildContentFormatter($formatter)
+    public function setContentAggregator($aggregatorName)
 	{
-	    QContentFormatter::setFormatter($this->compositeFor->getId(), $formatter);
+	    QContentAggregator::setAggregator($this->compositeFor->getId(), $aggregatorName);
 	} 
 	
-	public function getChildContentFormatter()
+	public function getContentAggregator()
 	{
-	    if($this->formatterName === null)
+	    if($this->aggregatorName === null)
 	    {
-	        $this->formatterName = false;
-    	    $res = QContentFormatter::getFormatterName($this->compositeFor->getId());
+	        $this->aggregatorName = false;
+	        $res = QContentAggregator::getAggregatorName($this->compositeFor->getId()); 
     	    if($res->getRowCount() == 1)
     	    {
-    	        list($this->formatterName) = $res->fetch(); 
+    	        list($this->aggregatorName) = $res->fetch(); 
     	    }
     	    $res->free();
 	    }
-	    return $this->formatterName;
+	    return $this->aggregatorName;
 	}
 	
-	public function formatChildContent(BContent $content)
+	public function getContentAggregatorInstance()
 	{
-        $f = $this->getChildContentFormatter();
-        if($f)    
-        {
-            return Formatter_Container::unfreezeForFormatting($f, $content);
-        }
-        else
-        {
-            throw new XUndefinedException('no formatter');
-        }
+	    if($this->aggregator === null)
+	    {
+	        $this->aggregator = false;
+	        if($this->getContentAggregator() != false)
+	        {
+	            $this->aggregator = Controller_Aggregators::getSharedInstance()->getSavedAggregator($this->getContentAggregator());
+	        }
+	    }
+	    return $this->aggregator;
 	}
 } 
 ?>

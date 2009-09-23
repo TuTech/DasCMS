@@ -86,7 +86,6 @@ class Controller_Aggregators
         $rows = 0;
         if($new)
         {
-            echo '*new*';
             $rows = QControllerAggregators::insertAggregator($classID, $name, $data);
         }
         else

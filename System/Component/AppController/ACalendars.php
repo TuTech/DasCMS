@@ -72,6 +72,10 @@ class ACalendars
             {
                 $this->target->setChildContentFormatter($param['formatter']);
             }
+            if(isset($param['aggregator']))
+            {
+                $this->target->setContentAggregator($param['aggregator']);
+            }
         }
     }
 }

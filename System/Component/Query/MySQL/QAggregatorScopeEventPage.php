@@ -17,7 +17,9 @@ class QAggregatorScopeEventPage extends BQuery
         			WHERE 
         				contentAggregatorREL = %d
         				AND Contents.pubDate > '0000-00-00 00:00:00'
-        				AND Contents.pubDate <= NOW()";
+        				AND Contents.pubDate <= NOW()
+                        AND NOT ISNULL(EventDates.startDate)
+                        AND NOT ISNULL(EventDates.endDate)";
         $sql = sprintf($sql, $DB->escape($atbl), $DB->escape($atbl), $aid);
         return $DB->query($sql, DSQL::NUM);
     }

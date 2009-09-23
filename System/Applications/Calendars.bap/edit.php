@@ -10,11 +10,11 @@ $Calendar = SApplication::getControllerContent();
 if($Calendar instanceof CCalendar)
 {
     echo new WContentTitle($Calendar);
-//    $editor = new WTextEditor($Script->RAWContent);
-//    $editor->setWordWrap(false);
-//    $editor->disableSpellcheck();
-//    echo $editor;
-$f = $Calendar->getChildContentFormatter();
-printf('<label>Formatter</label><input type="text" name="formatter" value="%s" />', htmlentities($f, ENT_QUOTES, CHARSET));
+
+    $f = $Calendar->getChildContentFormatter();
+    printf('<p><label>Formatter</label><input type="text" name="formatter" value="%s" /></p>', htmlentities($f, ENT_QUOTES, CHARSET));
+        
+    $a = $Calendar->getContentAggregator();
+    printf('<p><label>Aggregator</label><input type="text" name="aggregator" value="%s" /></p>', htmlentities($a, ENT_QUOTES, CHARSET));
 }
 ?>

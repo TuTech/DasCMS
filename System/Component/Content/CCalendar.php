@@ -34,6 +34,7 @@ class CCalendar
     {
         $cmp = parent::composites();
         $cmp[] = 'ContentFormatter';
+        $cmp[] = 'ContentAggregator';
         return $cmp;
     }
     
@@ -175,34 +176,15 @@ class CCalendar
     
     /*interface Interface_Content_HasScope
 {*/
-    protected $aggregatorController = null;
     protected $aggregatorScope = null;
-    protected $aggregator = null;
-    
-    protected function getAggregatorController()
-    {
-        if($this->aggregatorController === null)
-        {
-            $this->aggregatorController = new Controller_Aggregators();
-        }
-        return $this->aggregatorController;
-    }
-    
-    protected function getAggregator()
-    {
-        if($this->aggregator === null)
-        {
-            $this->aggregator = $this->getAggregatorController()->getSavedAggregator('news');
-        }
-        return $this->aggregator;
-    }
     
     public function getScope()
     {
-        if($this->aggregatorScope === null)
+        $agginst = $this->getContentAggregatorInstance();
+        if($this->aggregatorScope === null && $agginst != false)
         {
             $this->aggregatorScope = new Aggregator_Scope_EventPage(
-                $this->getAggregator(),
+                $agginst,
                 $this,
                 5,
                 1
@@ -217,9 +199,11 @@ class CCalendar
         if($asPage)
         {
             //event-tag aggregator
-            $ca = new Controller_Aggregators();
-            $aggregator = $ca->getSavedAggregator('news');
-            $scope = new Aggregator_Scope_EventPage($aggregator, $this, 5,1);
+            $scope = $this->getScope();
+            if(!$scope)
+            {
+                return '';
+            }
             //event horizon scope
             //get from aggregator
             $pageContents = $scope->getPageContents();
