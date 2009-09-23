@@ -63,10 +63,11 @@ abstract class _Formatter_Attribute
         try
         {
             $str = '';
+            $targetView = $this->getTargetView();
             if(!empty($targetView))
             {
                 $targetFrame = $this->getTargetFrame();
-                $link = $this->getTargetView()->LinkTo($alias);
+                $link = $targetView->LinkTo($alias);
                 $str = sprintf(
                 	"<a href=\"%s\"%s>%s</a>\n"
                     ,$link

@@ -21,6 +21,10 @@ abstract class Formatter_Attribute_Date
     
     public function toXHTML($insertString = null)
     {
+        if($this->getDate() === null)
+        {
+            return '';
+        }
         $str = sprintf(
         	"\n<span class=\"date\">%s</span>\n", 
             date($this->dateFormat, $this->getDate())

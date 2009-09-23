@@ -437,3 +437,41 @@ relContentsTargetViews
         REFERENCES SporeViews(viewID)
         ON DELETE RESTRICT
         ON UPDATE NO ACTION;
+        
+        
+
+ALTER TABLE 
+ReaggregateContents
+    ADD FOREIGN KEY (contentAggregatorREL)
+        REFERENCES ContentAggregators(contentAggregatorID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION,
+    ADD FOREIGN KEY (contentREL)
+        REFERENCES Contents(contentID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION;
+
+ALTER TABLE 
+relAggregatorsContents
+    ADD FOREIGN KEY (contentAggregatorREL)
+        REFERENCES ContentAggregators(contentAggregatorID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION,
+    ADD FOREIGN KEY (contentREL)
+        REFERENCES Contents(contentID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION;
+
+ALTER TABLE 
+relContentsAggregator
+    ADD FOREIGN KEY (contentAggregatorREL)
+        REFERENCES ContentAggregators(contentAggregatorID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION,
+    ADD FOREIGN KEY (contentREL)
+        REFERENCES Contents(contentID)
+        ON DELETE CASCADE
+        ON UPDATE NO ACTION;
+
+        
+        

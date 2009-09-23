@@ -254,3 +254,35 @@ relUsersGroups(
 ENGINE = InnoDB 
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
+
+-- contents assigned to this aggregator
+CREATE TABLE IF NOT EXISTS 
+relAggregatorsContents(
+    contentAggregatorREL 
+        INTEGER 
+        NOT NULL,
+    contentREL 
+        INTEGER 
+        NOT NULL,
+    INDEX(contentAggregatorREL),
+    UNIQUE(contentREL, contentAggregatorREL)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
+-- contents using an aggregator
+CREATE TABLE IF NOT EXISTS 
+relContentsAggregator(
+    contentREL 
+        INTEGER 
+        NOT NULL,
+    contentAggregatorREL 
+        INTEGER 
+        NOT NULL,
+    INDEX(contentAggregatorREL),
+    UNIQUE(contentREL)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;

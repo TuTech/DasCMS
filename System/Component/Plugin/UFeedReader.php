@@ -112,7 +112,7 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 	{
 	    $args = func_get_args();
 	    $format = array_shift($args);
-	    vprintf($format, $args);
+	    //vprintf($format, $args);
 	}
 	
 	//get feed from server or use cached version

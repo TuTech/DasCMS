@@ -88,7 +88,7 @@ class WTextEditor extends BWidget
         //textarea
         $out .= sprintf(
             $textarea
-            ,$this->wordWrap   ? ' wrap="on"' : ' wrap="off"'
+            ,' wrap="off"'//FIXME safari breaks links with saving generated word wraps //was: $this->wordWrap   ? ' wrap="on"' : ' wrap="off"'
             ,$this->spellCheck ? ' spellcheck="true"' : ' spellcheck="false"'
             ,$this->value
         );

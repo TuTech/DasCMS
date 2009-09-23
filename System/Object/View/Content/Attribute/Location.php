@@ -41,14 +41,11 @@ class View_Content_Attribute_Location extends _View_Content_Attribute
         	   	);
             }
         }catch (Exception $e){/*ignore invalid coords*/}
-	   	if($this->address !== null)
+	   	if(!empty($this->address))
 	   	{
 	   	    $str .= "\t<address>".$this->address."</address>\n";
 	   	}
-	   	if($str != '')
-	   	{
-	   	    $str = "<div class=\"geo\">\n".$str."</div>\n";
-	   	}
+   	    $str = "<div class=\"geo\">\n".$str."</div>\n";
 	   	return $str;
     }
 }

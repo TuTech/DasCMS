@@ -246,6 +246,30 @@ ENGINE = InnoDB
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
 
+-- aggregators table
+CREATE TABLE IF NOT EXISTS  
+ContentAggregators(
+    contentAggregatorID 
+        INTEGER 
+        PRIMARY KEY 
+        AUTO_INCREMENT 
+        NOT NULL,
+    name 
+        VARCHAR(32) 
+        UNIQUE 
+        NOT NULL,
+    aggregatorClassREL
+    	INTEGER 
+        NOT NULL,
+    aggregatorData
+    	TEXT
+    	NOT NULL,
+	INDEX(aggregatorClassREL)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
+
 -- contents as calendar events
 CREATE TABLE IF NOT EXISTS 
 EventDates(
@@ -775,6 +799,21 @@ ENGINE = InnoDB
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
 
+-- contents that needs to be reaggregated
+CREATE TABLE IF NOT EXISTS 
+ReaggregateContents(
+    contentAggregatorREL 
+        INTEGER 
+        NOT NULL,
+    contentREL 
+        INTEGER 
+        NOT NULL,   
+    INDEX(contentAggregatorREL),   
+    UNIQUE(contentREL, contentAggregatorREL)
+)
+ENGINE = InnoDB 
+CHARACTER SET utf8 
+COLLATE utf8_unicode_ci;
 
 -- search config
 CREATE TABLE IF NOT EXISTS 

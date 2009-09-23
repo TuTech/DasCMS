@@ -136,10 +136,50 @@ abstract class BContent extends BObject
 	    }
 	}
 	
+	public function attachComposite(Interface_Composites_Attachable $composite)
+	{
+	    $this->initComposites();
+	    #echo 'attach->';
+	    $class = get_class($composite);
+	    $contentType = get_class($this);
+	    $lookup = $class.'::getCompositeMethods';
+        //check lookup
+        if(is_callable($lookup, false, $lookup))
+        {
+            //get the implemented composite methods
+            $methods = call_user_func($lookup, $contentType);
+            $compName = substr($class, strlen(BContent::COMPOSITE_PREFIX));
+            if(is_array($methods) && !in_array($compName, $this->_compositeLookup))
+            {
+                $index = count($this->_compositeLookup);
+                $this->_compositeLookup[$index] = $compName;
+                if($composite->attachedToContent($this))
+                {
+                    $this->loadedComposites[$index] = $composite;
+                    #echo 'ATTACHED';
+                    foreach ($methods as $method)
+                    {
+                        //link the methods to the composite
+                        $this->_compositeMethodLookup[$method] = $index;
+                    }
+                    #print_r($this->_compositeLookup);
+                    #print_r($this->_compositeMethodLookup);
+                }
+            }
+        }
+	}
+	
+	
 	protected function hasMethod($method)
 	{
 	    $this->initComposites();
 	    return method_exists($this, $method) || isset($this->_compositeMethodLookup[$method]);
+	}
+		
+	public function hasComposite($composite)
+	{
+	    $this->initComposites();
+	    return in_array($composite, $this->_compositeLookup);
 	}
 	
 	protected function getCompositeForIndex($index)
@@ -362,14 +402,14 @@ abstract class BContent extends BObject
 	}
 	
 	/**
-	 * allowed html: <b><i><u><s><sub><sup><small>
+	 * allowed html: <b><i><u><s><strong><sub><sup><small><br>
 	 * @param string $value
 	 */
 	public function setSubTitle($value)
 	{
 	    //replace unwanted tags 
 	    //$value = preg_replace('/<\s*\/?\s*(!?:(b|i|u|s|sub|sup))\s*>/mui', '', $value);
-	    $value = strip_tags($value, '<b><i><u><s><sub><sup><small>');
+	    $value = strip_tags($value, '<b><i><u><s><strong><sub><sup><small><br>');
 		$this->SubTitle = $value;
 	}
 	

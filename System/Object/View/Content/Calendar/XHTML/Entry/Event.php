@@ -24,7 +24,8 @@ class View_Content_Calendar_XHTML_Entry_Event
         $str = '';
         if($this->formatterName != null)
         {
-            $str = Formatter_Container::unfreezeForFormatting($this->formatterName, $this->content);
+            Model_Content_Composite_EventDates::setEventDatesForContent($this->content,$this->startTime, $this->endTime);
+            $str .= Formatter_Container::unfreezeForFormatting($this->formatterName, $this->content);
         }
         if($str == '')//formatter failed orwas not set
         {

@@ -18,7 +18,9 @@ class CCalendar
         IHeaderService,
         IFileContent,
         IFileCacheControl,
-        IContentHeaders
+        IContentHeaders,
+        Interface_Content_ScopeCallback,
+        Interface_Content_HasScope
 {
     const GUID = 'org.bambuscms.content.ccalendar';
     const CLASS_NAME = 'CCalendar';
@@ -95,15 +97,19 @@ class CCalendar
 	 */
 	public function getContent()
 	{
-	    $cal = Factory_Calendar::getSharedInstance()->createCalendar(
-	        Factory_Calendar::AS_XHTML, 
-	        $this->getTitle()
-        );
-        if($cal instanceof View_Content_Calendar_XHTML_Calendar)
-        {
-            $cal->setContentFormatter($this->getChildContentFormatter());
-        }
-        return $this->buildCalendar($cal);
+	    try{
+    	    $cal = Factory_Calendar::getSharedInstance()->createCalendar(
+    	        Factory_Calendar::AS_XHTML, 
+    	        $this->getTitle()
+            );
+            if($cal instanceof View_Content_Calendar_XHTML_Calendar)
+            {
+                $cal->setContentFormatter($this->getChildContentFormatter());
+            }
+            return $this->buildCalendar($cal);
+	    }catch (Exception $e){
+	        echo $e;
+	    }
 	}
 	
 	public function setContent($value)
@@ -143,19 +149,100 @@ class CCalendar
     {
         return array($this->getTitle().'.'.$this->getType(), $this->getMimeType(), null);
     }
-    
-    protected function buildCalendar(Interface_Calendar_Calendar $cal)
+/*FIXME interface Interface_Content_ScopeCallback
+{*/
+    public function getLinkWithScopeData(array $data)
     {
-        $res = QCCalendar::getEvents();
-        while($row = $res->fetch())
+        $qu = clone $this->getParentView();
+        foreach ($data as $k => $v)
+        {
+            $qu->SetLinkParameter($k, $v, true);
+        }
+        return strval($qu->LinkTo($this->getAlias()));       //return $this->getParentView()->SetLinkParameter()
+    }
+    
+    public function getScopeData()
+    {
+        $q = $this->getParentView();
+        $page = $q->GetParameter('page');
+        if(!preg_match('/^\d+$/',$page))
+        {
+            $page = 1;
+        }
+        return array('page' => $page);
+    }
+/*}*/
+    
+    /*interface Interface_Content_HasScope
+{*/
+    protected $aggregatorController = null;
+    protected $aggregatorScope = null;
+    protected $aggregator = null;
+    
+    protected function getAggregatorController()
+    {
+        if($this->aggregatorController === null)
+        {
+            $this->aggregatorController = new Controller_Aggregators();
+        }
+        return $this->aggregatorController;
+    }
+    
+    protected function getAggregator()
+    {
+        if($this->aggregator === null)
+        {
+            $this->aggregator = $this->getAggregatorController()->getSavedAggregator('news');
+        }
+        return $this->aggregator;
+    }
+    
+    public function getScope()
+    {
+        if($this->aggregatorScope === null)
+        {
+            $this->aggregatorScope = new Aggregator_Scope_EventPage(
+                $this->getAggregator(),
+                $this,
+                5,
+                1
+            );
+        }
+        return $this->aggregatorScope;
+    }
+/*}*/
+    
+    protected function buildCalendar(Interface_Calendar_Calendar $cal, $asPage = true)
+    {
+        if($asPage)
+        {
+            //event-tag aggregator
+            $ca = new Controller_Aggregators();
+            $aggregator = $ca->getSavedAggregator('news');
+            $scope = new Aggregator_Scope_EventPage($aggregator, $this, 5,1);
+            //event horizon scope
+            //get from aggregator
+            $pageContents = $scope->getPageContents();
+        }
+        else
+        {
+            //get all FIXME use time horizon scope
+            $pageContents = array();
+            while($row = $res->fetch())
+            {
+                $pageContents[] = array($row[2],$row[0],$row[1]);
+            }
+            $res->free();
+        }
+        foreach ($pageContents as $item)
         {
             try
             {
                 $cal->addEntry(
                     $cal->createEvent(
-                        strtotime($row[0]),//start time
-                        strtotime($row[1]),//end time
-                        $row[2]//open by alias
+                        strtotime($item[1]),//start time
+                        strtotime($item[2]),//end time
+                        $item[0]//open by alias
                     )
                 );
             }
@@ -164,7 +251,7 @@ class CCalendar
                 //ignore
             }
         }
-        $res->free();
+        
         return strval($cal);
     }
     

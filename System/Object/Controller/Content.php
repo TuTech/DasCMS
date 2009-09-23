@@ -96,7 +96,7 @@ class Controller_Content
     
     public function contentExists($alias)
     {
-        $res = QBContent::exists($alias, $asType);
+        $res = QBContent::exists($alias);
 	    $c = $res->getRowCount();
 	    $res->free();
 	    return $c == 1;
