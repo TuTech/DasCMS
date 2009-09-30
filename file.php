@@ -48,7 +48,7 @@ try
     else
     {
         $cache_time = ($extended_cache) 
-            ? 315360000 /* 10 years */ 
+            ? 31536000 /* 1 year */ 
             : 86400 /* 1 day */;
     }
     header("Expires: ".date('r', time()+$cache_time));

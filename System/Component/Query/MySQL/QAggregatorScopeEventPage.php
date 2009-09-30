@@ -19,8 +19,9 @@ class QAggregatorScopeEventPage extends BQuery
         				AND Contents.pubDate > '0000-00-00 00:00:00'
         				AND Contents.pubDate <= NOW()
                         AND NOT ISNULL(EventDates.startDate)
-                        AND NOT ISNULL(EventDates.endDate)";
-        $sql = sprintf($sql, $DB->escape($atbl), $DB->escape($atbl), $aid);
+                        AND NOT ISNULL(EventDates.endDate)
+                        AND EventDates.endDate >= '%s 00:00:00'";
+        $sql = sprintf($sql, $DB->escape($atbl), $DB->escape($atbl), $aid, date('Y-m-d'));
         return $DB->query($sql, DSQL::NUM);
     }
     
@@ -47,10 +48,11 @@ class QAggregatorScopeEventPage extends BQuery
         				AND Contents.pubDate <= NOW()
         				AND NOT ISNULL(startDate)
         				AND NOT ISNULL(endDate)
+                        AND EventDates.endDate >= '%s 00:00:00'
     				ORDER BY EventDates.startDate, EventDates.endDate
         			LIMIT %d 
         			OFFSET %d";
-        $sql = sprintf($sql, $DB->escape($atbl), $DB->escape($atbl), $aid, $limit, $offset);
+        $sql = sprintf($sql, $DB->escape($atbl), $DB->escape($atbl), $aid, date('Y-m-d'), $limit, $offset);
         return $DB->query($sql, DSQL::NUM);
     }
 }

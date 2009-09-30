@@ -45,7 +45,7 @@ class UEventPlanner
     
     public function scheduleEvent(array $params)
     {
-        self::failWithout('org.bambuscms.event.schedule');
+        self::failWithout('org.bambuscms.event.create');
         $data = array('success' => 0, 'message' => 'event_not_scheduled');
         $begin = strtotime($params['begin']);
         $end = strtotime($params['end']);
@@ -70,7 +70,7 @@ class UEventPlanner
     
     public function listEvents(array $params)
     {
-        self::failWithout('org.bambuscms.event.list');
+        self::failWithout('org.bambuscms.event.view');
         $list = array();
         $res = QUEventPlanner::listEvents($params['alias']);
         while ($row = $res->fetch())
@@ -83,7 +83,7 @@ class UEventPlanner
     
     public function removeEvent(array $params)
     {
-        self::failWithout('org.bambuscms.event.remove');
+        self::failWithout('org.bambuscms.event.delete');
         $data = array('success' => 0, 'message' => 'event_not_removed');
         $begin = strtotime($params['begin']);
         $end = strtotime($params['end']);

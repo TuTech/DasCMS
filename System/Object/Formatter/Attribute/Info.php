@@ -34,12 +34,16 @@ abstract class Formatter_Attribute_Info
     public function toXHTML($insertString = null)
     {
         $insertString = $insertString == null ? '' : strval($insertString); 
-        $str = sprintf(
-        	"<span class=\"textBefore\">%s</span>%s<span class=\"textAfter\">%s</span>\n"
-        	,htmlentities($this->textBefore, ENT_QUOTES, CHARSET)
-        	,$insertString
-        	,htmlentities($this->textAfter, ENT_QUOTES, CHARSET)
-    	);
+        $str = '';
+        if($this->textBefore != '')
+        {
+            $str .= sprintf("<span class=\"textBefore\">%s</span>", htmlentities($this->textBefore, ENT_QUOTES, CHARSET));
+        }
+        $str .= $insertString;
+        if($this->textAfter != '')
+        {
+            $str .= sprintf("<span class=\"textAfter\">%s</span>", htmlentities($this->textAfter, ENT_QUOTES, CHARSET));
+        }
     	return parent::toXHTML($str);
     }
     

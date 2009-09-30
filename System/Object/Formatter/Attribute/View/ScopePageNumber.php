@@ -6,7 +6,7 @@ class Formatter_Attribute_View_ScopePageNumber
 {
     protected function getFormatterClass()
     {
-        return 'ScopePagesAvailable';
+        return 'ScopePageNumber';
     } 
     
     public function toXHTML($insertString = null)
