@@ -21,7 +21,7 @@ class XDatabaseException extends BDataException
     
     public function __toString() 
     {
-        return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
+        return __CLASS__ . ": [{$this->code}]: {$this->message}\n\n {$this->sql}\n\n".$this->getTraceAsString();
     }
     
     public function rollback()
