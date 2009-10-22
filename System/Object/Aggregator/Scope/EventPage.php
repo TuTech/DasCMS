@@ -41,7 +41,7 @@ class Aggregator_Scope_EventPage
             $res = QAggregatorScopeEventPage::fetchItems(
                 $this->source->getAggregatorTable(), 
                 $this->source->getAggregatorID(),
-                ($this->pageNo-1)*$this->itemsPerPage,//offset
+                max($this->pageNo-1,0)*$this->itemsPerPage,//offset
                 $this->itemsPerPage,//LIMIT
                 'table.field for order',
                 'order direction',
