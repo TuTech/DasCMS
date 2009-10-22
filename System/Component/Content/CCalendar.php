@@ -166,7 +166,11 @@ class CCalendar
     {
     	//FIXME called in management without parent view
         $q = $this->getParentView();
-        $page = $q->GetParameter('page');
+        $page = 1;
+        if($q instanceof VSpore)
+        {
+        	$page = $q->GetParameter('page');
+        }
         if(!preg_match('/^\d+$/',$page))
         {
             $page = 1;
