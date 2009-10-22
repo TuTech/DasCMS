@@ -164,6 +164,7 @@ class CCalendar
     
     public function getScopeData()
     {
+    	//FIXME called in management without parent view
         $q = $this->getParentView();
         $page = $q->GetParameter('page');
         if(!preg_match('/^\d+$/',$page))

@@ -373,7 +373,7 @@ class SComponentIndex
     		}
     		catch (Exception $e)
     		{
-    			echo $e->getMessage().'<br />';
+    			echo $e.'<br />';
     		}
 		}
 		return self::$sharedInstance;
