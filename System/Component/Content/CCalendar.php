@@ -107,7 +107,7 @@ class CCalendar
             {
                 $cal->setContentFormatter($this->getChildContentFormatter());
             }
-            return $this->buildCalendar($cal);
+            return "<div id=\"_".$this->getGUID()."\">\n".$this->buildCalendar($cal)."\n</div>\n";
 	    }catch (Exception $e){
 	        echo $e;
 	    }

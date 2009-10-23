@@ -10,7 +10,7 @@ class View_Content_Calendar_XHTML_Calendar
     public function __construct($title)
     {
         $this->title = $title;
-        $this->sectionName = '';
+        $this->sectionName = 'Calendar';
     }
     
     protected function getSectionBody()

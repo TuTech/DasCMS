@@ -30,6 +30,7 @@ tinyMCE.init({
 });
 </script>
 <?php
+//FIXME tinyMCE Droplist support
 /**
  * @copyright Lutz Selke/TuTech Innovation GmbH 
  * @author selke@tutech.de
