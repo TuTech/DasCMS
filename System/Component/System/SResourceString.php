@@ -11,7 +11,7 @@
  */
 class SResourceString
     extends 
-        BSystem 
+        BObject 
 {    
     public static function get($resource, $key)
     {

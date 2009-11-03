@@ -11,7 +11,7 @@
  */
 class WApplicationTaskBar
     extends 
-        BSystem 
+        BWidget 
 {
     /**
      * @var DOMDocument

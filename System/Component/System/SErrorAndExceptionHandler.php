@@ -11,7 +11,7 @@
  */
 class SErrorAndExceptionHandler
     extends 
-        BSystem 
+        BObject 
     implements
         HRequestingClassSettingsEventHandler,
         HUpdateClassSettingsEventHandler

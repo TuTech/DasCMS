@@ -11,7 +11,7 @@
  */
 class SSearchIndexer 
     extends 
-        BSystem
+        BObject
     implements 
         HContentChangedEventHandler,
         HContentDeletedEventHandler,

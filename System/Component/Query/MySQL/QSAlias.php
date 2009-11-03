@@ -55,28 +55,6 @@ class QSAlias extends BQuery
         ));
     }
     
-    /**
-     * @param string $aliasA
-     * @param string $aliasB
-     * @return DSQLResult
-     */
-    public static function match($aliasA, $aliasB)
-    {
-        $DB = BQuery::Database();
-        $sql = sprintf("
-SELECT contentREL, count(*) 
-	FROM Aliases
- 	WHERE 
-		alias = '%s'
-		OR alias = '%s'
-	GROUP BY contentREL
-"
-			,$DB->escape($aliasA)
-            ,$DB->escape($aliasB)
-        );
-        return $DB->query($sql, DSQL::NUM);
-    }
-    
     public static function getMatching($alias, array $aliases)
     {
         $DB = BQuery::Database();
@@ -101,25 +79,6 @@ SELECT contentREL, count(*)
      * @param string $alias
      * @return DSQLResult
      */
-    public static function resolveAlias($alias)
-    {
-        $DB = BQuery::Database();
-        return $DB->query("
-            SELECT 
-            		Classes.class,
-            		Contents.contentID
-            	FROM Contents
-            	LEFT JOIN Aliases ON (Aliases.contentREL = Contents.contentID)
-            	LEFT JOIN Classes ON (Contents.type = Classes.classID)
-            	WHERE alias ='".$DB->escape($alias)."'", 
-			DSQL::NUM
-		);
-    }
-    
-    /**
-     * @param string $alias
-     * @return DSQLResult
-     */
     public static function reloveAliasToID($alias)
     {
         $DB = BQuery::Database();
@@ -138,30 +97,5 @@ SELECT contentREL, count(*)
             return $c;
         }
     }
-    
-    /**
-     * @param string $someAlias
-     * @return string|null
-     */
-    public static function getPrimaryAlias($someAlias)
-    {
-        $erg = null;
-        $DB = BQuery::Database();
-        $res = $DB->query(sprintf("
-SELECT alias 
-    FROM Aliases 
-    LEFT JOIN Contents ON (contentREL = contentID)
-    WHERE 
-    	contentREL = (SELECT contentREL FROM Aliases WHERE alias = '%s')
-    	AND aliasID = primaryAlias
-",$DB->escape($someAlias)), DSQL::NUM);
-        if($res->getRowCount() == 1)
-        {
-            list($erg) = $res->fetch();
-        }
-        return $erg;
-    }
-    
-    
 }
 ?>

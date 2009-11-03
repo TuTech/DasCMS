@@ -11,7 +11,7 @@
  */
 class STag 
     extends 
-        BSystem 
+        BObject 
     implements 
         IShareable, 
     	HContentChangedEventHandler, 
@@ -90,7 +90,6 @@ class STag
 	{
 		$tags = self::parseTagStr($tagstring);
 		$DB = DSQL::getSharedInstance();
-		$ptok = SProfiler::profile(__FILE__, __LINE__, 'updating tags to '.implode(', ', $tags));
 		try
 		{
 		    $DB->beginTransaction();
@@ -121,10 +120,8 @@ class STag
 			echo $e->getMessage();
 			echo $e->getTraceAsString();
 			$DB->rollback();
-			SProfiler::finish($ptok);
 			return false;
 		}
-		SProfiler::finish($ptok);
 		return true;
 	}
 	

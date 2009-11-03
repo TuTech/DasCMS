@@ -10,7 +10,7 @@
  * @subpackage System
  */
 class SContentWatch 
-    extends BSystem
+    extends BObject
     implements 
         HContentAccessEventHandler,
         HWillAccessContentEventHandler,

@@ -11,7 +11,7 @@
  */
 class SNotificationCenter 
     extends 
-        BSystem 
+        BObject 
     implements 
         IShareable,
     	HContentChangedEventHandler,

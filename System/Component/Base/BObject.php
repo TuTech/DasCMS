@@ -37,24 +37,6 @@ abstract class BObject
 	//do path resolve
 	//local id --> cms id path
 	//cms id path --> local id
-	/**
-	 * initialite property in $var with $dataArray[$var] if it exists or use a default value
-	 * only works if the property is null
-	 *
-	 * @param string $var
-	 * @param array $dataArray
-	 * @param mixed $defaultValue
-	 */
-	protected function initPropertyValues($var,array &$dataArray, $defaultValue)
-	{
-		if($this->{$var} == null)
-		{
-			$this->{$var} = (array_key_exists($var, $dataArray))
-				? $dataArray[$var]
-				: $defaultValue;
-		}
-	}
-	
 	
 	public final static function InvokeObjectByDynClass($class)
 	{

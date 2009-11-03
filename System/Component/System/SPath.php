@@ -11,7 +11,7 @@
  */
 class SPath 
     extends 
-        BSystem 
+        BObject 
 {
     const SYSTEM = './System/';
 	const SYSTEM_CLIENT_DATA = './System/ClientData/';

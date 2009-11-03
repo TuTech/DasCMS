@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage System
  */
-class SJobScheduler extends BSystem 
+class SJobScheduler extends BObject 
 {
     /**
      * process the next job in line

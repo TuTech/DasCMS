@@ -11,7 +11,7 @@
  */
 class SApplication 
     extends 
-        BSystem 
+        BObject 
     implements 
         IShareable
 {	

@@ -52,7 +52,6 @@ if(!empty($stylesheets)){
 }
 WTemplate::globalSet('stylesheets', $stylesheetLinks);
 
-$tok = SProfiler::profile(__FILE__, __LINE__,'template engine');
 $generatorAlias = LConfiguration::get('generator_content');
 try
 {
@@ -73,5 +72,4 @@ else
 {
     echo $pageGenerator->getContent();
 }
-SProfiler::finish($tok);
 ?>

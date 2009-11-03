@@ -11,7 +11,7 @@
  */
 class NTreeNavigation 
     extends 
-        BNavigation 
+        BObject 
     implements 
         IShareable, 
         ITemplateSupporter, 

@@ -11,7 +11,7 @@
  */
 class SAuthByPhpAuthUser 
     extends 
-        BSystem 
+        BObject 
     implements 
         IAuthenticate
 {

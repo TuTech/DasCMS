@@ -11,7 +11,7 @@
  */
 class STagPermissions 
     extends 
-        BSystem
+        BObject
     implements 
         HContentAccessEventHandler ,
         HWillAccessContentEventHandler  

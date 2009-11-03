@@ -11,7 +11,7 @@
  */
 class SBambusSessionAuth 
     extends 
-        BSystem 
+        BObject 
     implements 
         IAuthenticate, 
         IAuthorize 

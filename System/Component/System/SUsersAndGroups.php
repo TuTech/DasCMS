@@ -11,7 +11,7 @@
  */
 class SUsersAndGroups 
     extends 
-        BSystem 
+        BObject 
     implements 
         IShareable
 {

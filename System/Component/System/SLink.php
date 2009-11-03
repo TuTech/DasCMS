@@ -11,7 +11,7 @@
  */
 class SLink 
     extends 
-        BSystem 
+        BObject 
 {
     private static $base = null;
     private static $getData = null;
