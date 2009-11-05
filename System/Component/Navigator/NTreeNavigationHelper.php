@@ -33,12 +33,12 @@ class NTreeNavigationHelper
 		$this->root = $tno;
     	$content = $this->spore->getContent();
     	//no content found?
-    	if($content == null || !$content instanceof BContent)
+    	if($content == null || !$content instanceof Interface_Content)
     	{
     		$content = $this->spore->getErrorContent();
     	}
     	//no error content defined?
-    	if($content == null || !$content instanceof BContent)
+    	if($content == null || !$content instanceof Interface_Content)
     	{
     		$content = new CError(404);
     	}

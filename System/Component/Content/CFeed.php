@@ -11,7 +11,8 @@
  */
 class CFeed 
     extends BContent 
-    implements 
+    implements  
+        Interface_Content,
         ISupportsSidebar, 
         IGlobalUniqueId, 
         IGeneratesFeed, 

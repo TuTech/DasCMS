@@ -7,7 +7,7 @@ PAuthentication::implied();
 try
 {
     $file = RURL::get('get');
-    SErrorAndExceptionHandler::muteErrors();
+    //SErrorAndExceptionHandler::muteErrors();
     $force_download = RURL::has('download') || LConfiguration::get('CFile_force_download') == 1;
     $extended_cache = RURL::has('extendedCache');
     $send_filename_header = true;
@@ -41,7 +41,7 @@ try
         	exit();
         }
     }
-    if($content instanceof IFileCacheControl)
+    if($content->implementsInterface('IFileCacheControl'))
     {
         $cache_time = $content->getFileCacheLifeTime();
     }
@@ -56,7 +56,7 @@ try
     header("Content-Disposition: inline");
     header('Pragma:');//disable "Pragma: no-cache" (default for sessions) 
     $pubDate = $content->getPubDate();
-    if($content instanceof IFileContent)
+    if($content->implementsInterface('IFileContent'))
     {
         list($file, $type, $size) = $content->getDownloadMetaData();
         
@@ -88,6 +88,6 @@ catch(Exception $e)
     header('HTTP/1.1 404 Not Found');
 	header('Status: 404 Not Found');
 	echo 'Status: 404 Not Found';
-	echo $e->getMessage();
+	echo $e;
 }
 ?>

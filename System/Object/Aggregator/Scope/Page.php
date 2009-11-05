@@ -18,12 +18,16 @@ class Aggregator_Scope_Page
      */
     protected $scopeCallback = null;
     /**
-     * @param BContent $source
+     * @param Interface_Content $source
      * @param int $itemsPerPage
      * @param int $pageNo 1-based index
      */
-    public function __construct(_Aggregator $source, Interface_Content_ScopeCallback $host, $itemsPerPage)
+    public function __construct(_Aggregator $source, Interface_Content $host, $itemsPerPage)
     {
+        if(!$host->implementsInterface('Interface_Content_ScopeCallback'))
+        {
+            throw new XArgumentException('content has no scope callback');
+        }
         $this->source = $source;
         $this->itemsPerPage = $itemsPerPage;
         $data = $host->getScopeData();

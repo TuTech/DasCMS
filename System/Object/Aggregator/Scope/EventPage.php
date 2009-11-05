@@ -4,12 +4,16 @@ class Aggregator_Scope_EventPage
     implements Interface_Content_FiniteScope
 {
     /**
-     * @param BContent $source
+     * @param Interface_Content $source
      * @param int $itemsPerPage
      * @param int $pageNo 1-based index
      */
-    public function __construct(_Aggregator $source, Interface_Content_ScopeCallback $host, $itemsPerPage, $pageNo = 1)
+    public function __construct(_Aggregator $source, Interface_Content $host, $itemsPerPage, $pageNo = 1)
     {
+        if(!$host->implementsInterface('Interface_Content_ScopeCallback'))
+        {
+            throw new XArgumentException('content has no scope callback');
+        }
         parent::__construct($source, $host, $itemsPerPage, $pageNo);
     }
     

@@ -55,7 +55,7 @@ class TCmdContent
     public function run(array $environment)
     {
         if(array_key_exists($this->alias, self::$contents)
-            && self::$contents[$this->alias] instanceof BContent
+            && self::$contents[$this->alias] instanceof Interface_Content
             && isset(self::$contents[$this->alias]->{$this->property}))
         {
             return self::$contents[$this->alias]->{$this->property};

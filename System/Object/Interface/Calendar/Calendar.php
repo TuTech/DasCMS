@@ -7,7 +7,7 @@ interface Interface_Calendar_Calendar
      * 
      * @param int $startTime
      * @param int $endTime
-     * @param BContent $content
+     * @param string $alias
      * @return Interface_Calendar_Event
      */
     public function createEvent($startTime, $endTime, $alias);

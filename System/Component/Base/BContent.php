@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage BaseClasses
  */
-abstract class BContent extends BObject
+abstract class BContent extends BObject implements Interface_Content
 {
 	protected $_origPubDate;
 		
@@ -218,7 +218,25 @@ abstract class BContent extends BObject
 	
 	//Composites
 	////////////
-
+	
+	/**
+	 * @param string $interface
+	 * @return bool
+	 */
+	public function implementsInterface($interface)
+	{
+		return $this instanceof $interface;
+	}
+	
+	/**
+	 * @param string $composite
+	 * @return bool
+	 */
+	public function implementsComposite($composite)
+	{
+		return $this->hasComposite($composite);
+	}
+	
 	/**
 	 * load some data from db
 	 * @param string $alias

@@ -121,7 +121,7 @@ class SSearchIndexer
 	}
 	
 	/**
-	 * @return BContent|null
+	 * @return Interface_Content|null
 	 */
 	public static function nextToUpdate()
 	{
@@ -135,10 +135,10 @@ class SSearchIndexer
 	    return $content;
 	}
 	/**
-	 * @param BContent $content
+	 * @param Interface_Content $content
 	 * @return void
 	 */
-	public static function updateFeatures(BContent $content)
+	public static function updateFeatures(Interface_Content $content)
 	{
 	    $DB = DSQL::getSharedInstance();
 	    //$DB->beginTransaction();

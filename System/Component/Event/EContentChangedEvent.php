@@ -11,14 +11,14 @@
  */
 class EContentChangedEvent extends BEvent
 {
-	public function __construct(BObject $sender, BContent $content)
+	public function __construct(BObject $sender, Interface_Content $content)
 	{
 		$this->Sender = $sender;
 		$this->Content = $content;
 		parent::informHandlers($this);
 	}
 	/**
-	 * @var BContent
+	 * @var Interface_Content
 	 */
 	protected $Content;
 }

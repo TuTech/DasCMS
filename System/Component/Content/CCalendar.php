@@ -12,6 +12,7 @@
 class CCalendar
     extends BContent 
     implements 
+        Interface_Content,
         ISupportsSidebar, 
         IGlobalUniqueId,
         ISearchDirectives,

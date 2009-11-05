@@ -14,7 +14,7 @@ class WContentTitle extends BWidget
 	const CLASS_NAME = "WContentTitle";
 	
 	/**
-	 * @var BContent
+	 * @var Interface_Content
 	 */
 	private $content;
 	
@@ -31,7 +31,7 @@ class WContentTitle extends BWidget
 	public function __toString()
 	{
 	    $out = '';
-		if($this->content instanceof BContent)
+		if($this->content instanceof Interface_Content)
         {
             $out = sprintf('<input type="text" title="%s" id="content_title" name="title" value="%s"/>'.
             		'<input type="text" title="%s" id="content_subtitle" name="subtitle" value="%s"/>'

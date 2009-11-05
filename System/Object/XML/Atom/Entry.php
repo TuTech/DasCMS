@@ -142,10 +142,10 @@ class XML_Atom_Entry extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
     
     /**
      * @param IGeneratesFeed $feed
-     * @param BContent $content
+     * @param Interface_Content $content
      * @return XML_Atom_Entry
      */
-    public static function fromContent(IGeneratesFeed $feed, BContent $content)
+    public static function fromContent(IGeneratesFeed $feed, Interface_Content $content)
     {
         $o = new XML_Atom_Entry();
         //author?
@@ -159,15 +159,15 @@ class XML_Atom_Entry extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
         	if(!empty($tag))$o->c__category[] = XML_Atom_Category::create($tag);
         }
         //content?
-        if($content instanceof Interface_XML_Atom_ProvidesInlineXHTML)
+        if($content->implementsInterface('Interface_XML_Atom_ProvidesInlineXHTML'))
         {
             $o->c__content = array(XML_Atom_Content_InlineXHTML::create($content->getInlineXHTML()));
         }
-        elseif($content instanceof Interface_XML_Atom_ProvidesInlineText)
+        elseif($content->implementsInterface('Interface_XML_Atom_ProvidesInlineText'))
         {
             $o->c__content = array(XML_Atom_Content_InlineText::create($content->getInlineText(), $content->getInlineTextType()));
         }
-        elseif($content instanceof Interface_XML_Atom_ProvidesOutOfLineContent)
+        elseif($content->implementsInterface('Interface_XML_Atom_ProvidesOutOfLineContent'))
         {
             $o->c__content = array(XML_Atom_Content_OutOfLine::create($content->getOutOfLineType(), $content->getOutOfLineURI()));
         }
@@ -182,7 +182,7 @@ class XML_Atom_Entry extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
         $o->c__link = array(
             XML_Atom_Link::create(SLink::base().strval($linker), 'alternate', 'application/xml+xhtml')
         );
-        if($content instanceof IFileContent)
+        if($content->implementsInterface('IFileContent'))
         {
             list($filename, $type, $size) = $content->getDownloadMetaData();
             $o->c__link[] = XML_Atom_Link::create(SLink::base().'file.php/'.$content->getAlias(), 'enclosure', $type, null, $content->getFileName(), $size);

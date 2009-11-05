@@ -18,7 +18,7 @@ abstract class _Formatter_Attribute
     }
     
     /**
-     * @return BContent
+     * @return Interface_Content
      */
     protected function getContent()
     {
@@ -27,7 +27,7 @@ abstract class _Formatter_Attribute
             throw new XUndefinedException('no parent');
         }
         $content = $this->parentContainer->getContent();
-        if(!$content instanceof BContent)
+        if(!$content instanceof Interface_Content)
         {
             throw new XUndefinedException('no content');
         }

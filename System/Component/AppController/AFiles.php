@@ -133,7 +133,7 @@ class AFiles
     } 
     
     /**
-     * array(BContent|string file, [string mimetype])
+     * array(CFile)
      * 
      * @return array
      */

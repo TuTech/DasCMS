@@ -39,7 +39,7 @@ class STagPermissions
 	}
 	//end IShareable
     
-    private function isProtected(BContent $content)
+    private function isProtected(Interface_Content $content)
     {
         $protected = false;
         $tags = $content->getTags();
