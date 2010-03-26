@@ -140,7 +140,7 @@ class SErrorAndExceptionHandler
             , $errstr
             , $context
             ,getcwd());
-        DFileSystem::Append(SPath::LOGS().'Error.log', $err);
+        DFileSystem::Append(SPath::LOGS.'Error.log', $err);
         self::$error = array($errno, $errstr, $errfile, $errline, $errcontext);
         self::$errorMessage = $err;
         if(self::$report && !self::$reportSkipOnce)
@@ -195,7 +195,7 @@ class SErrorAndExceptionHandler
             , $e->getMessage()
             , $debugInfo
             ,getcwd());
-        DFileSystem::Append(SPath::LOGS().'Exceptions.log', $err);
+        DFileSystem::Append(SPath::LOGS.'Exceptions.log', $err);
         return $err;
     }
 
