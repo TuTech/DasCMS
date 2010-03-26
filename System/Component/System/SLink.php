@@ -9,13 +9,13 @@
  * @package Bambus
  * @subpackage System
  */
-class SLink 
-    extends 
-        BSystem 
+class SLink
+    extends
+        BSystem
 {
     private static $base = null;
     private static $getData = null;
-    
+
     /**
      * @return boolean
      */
@@ -24,10 +24,10 @@ class SLink
         $path = explode('/', dirname($_SERVER['SCRIPT_NAME']));
         return (count($path) > 0 && $path[count($path)-1] == 'Management');
     }
-    
+
     /**
      * link base
-     * 
+     *
      * @return string
      */
     public static function selfURI()
@@ -42,7 +42,7 @@ class SLink
     }
     /**
      * link base
-     * 
+     *
      * @return string
      */
     public static function base()
@@ -62,7 +62,7 @@ class SLink
             {
                 array_pop($path);
             }
-            foreach ($path as $step) 
+            foreach ($path as $step)
             {
             	if($step != '' && $step != '.')
             	{
@@ -75,9 +75,9 @@ class SLink
         }
         return self::$base;
     }
-    
+
    /**
-    * read data from get request 
+    * read data from get request
     */
    private static function loadInput()
     {
@@ -85,7 +85,7 @@ class SLink
         {
             self::$getData = array();
             $get = RURL::data();
-            foreach ($get as $k => $v) 
+            foreach ($get as $k => $v)
             {
                 if(substr($k,0,1) != '_' && !is_array($v))
                 {
@@ -94,7 +94,7 @@ class SLink
             }
         }
     }
-    
+
     /**
      * combine given data with current request data
      *
@@ -105,7 +105,7 @@ class SLink
     {
         self::loadInput();
         $data = self::$getData;
-        foreach ($withAdditionalData as $k => $v) 
+        foreach ($withAdditionalData as $k => $v)
         {
             if($v === null)
             {
@@ -115,10 +115,10 @@ class SLink
             {
                 $data[$k] = $v;
             }
-        } 
+        }
         return $data;
     }
-    
+
     /**
      * build standard url with given and current data
      *
@@ -136,15 +136,31 @@ class SLink
             $data = self::merge($withAdditionalData);
         }
         $tok = '?';
-        $url = ''; 
-        foreach ($data as $k => $v) 
+        $url = '';
+        $encoded = array();
+        foreach ($data as $k => $v)
         {
-        	$url .= sprintf('%s%s=%s', $tok, urlencode($k), urlencode($v));
+        	self::buildArrayURL($encoded, urlencode($k) ,$v);
+        }
+        foreach ($encoded as $k => $v){
+            $url .= sprintf('%s%s=%s', $tok, $k, $v);
         	$tok = '&';
         }
+
         return $url;
     }
-    
+
+    private static function buildArrayURL(&$data, $k, $v){
+    	if(is_array($v)){
+    		foreach ($k as $nk => $nv){
+				self::buildArrayURL($data, $k.'['.urlencode($nk).']', $nv);
+    		}
+    	}
+    	else{
+    		$data[$k] = urlencode($v);
+    	}
+    }
+
     /**
      * build path-style url with given and current data
      *
@@ -161,10 +177,12 @@ class SLink
         {
             $data = self::merge($withAdditionalData);
         }
-        $url = ''; 
-        foreach ($data as $k => $v) 
+        $url = '';
+        foreach ($data as $k => $v)
         {
-            $url .= sprintf('/%s/%s', urlencode($k), urlencode($v));
+        	if(!is_array($v)){
+            	$url .= sprintf('/%s/%s', urlencode($k), urlencode($v));
+        	}
         }
         return $url;
     }
@@ -192,7 +210,7 @@ class SLink
         }
         return $url;
     }
-    
+
     public static function set($k, $v)
     {
         if($v == null)
@@ -204,7 +222,7 @@ class SLink
             self::$getData[$k] = $v;
         }
     }
-    
+
     public static function get($k)
     {
         return isset(self::$getData[$k]) ? (self::$getData[$k]) : '';
