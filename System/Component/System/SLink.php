@@ -152,7 +152,7 @@ class SLink
 
     private static function buildArrayURL(&$data, $k, $v){
     	if(is_array($v)){
-    		foreach ($k as $nk => $nv){
+    		foreach ($v as $nk => $nv){
 				self::buildArrayURL($data, $k.'['.urlencode($nk).']', $nv);
     		}
     	}
