@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @package Bambus
  * @copyright Lutz Selke/TuTech Innovation GmbH
@@ -10,14 +10,14 @@ if(!defined('CMS_START_TIME'))
     define('CMS_START_TIME', microtime(true));
 
     if(!defined('BAMBUS_VERSION_NUMBER'))
-    define ('BAMBUS_VERSION_NUMBER', '0.97.0.20090730');
-        
+    define ('BAMBUS_VERSION_NUMBER', '0.98.20100414');
+
 if(!defined('BAMBUS_VERSION_NAME'))
     define ('BAMBUS_VERSION_NAME', 'Bambus CMS');
-        
+
 if(!defined('BAMBUS_VERSION'))
     define ('BAMBUS_VERSION', BAMBUS_VERSION_NAME.' '.BAMBUS_VERSION_NUMBER);
-        
+
 if(!defined('BAMBUS_CMS_ROOTDIR'))
     define('BAMBUS_CMS_ROOTDIR',getcwd());
 
@@ -26,8 +26,8 @@ if(!defined('BAMBUS_EXEC_START'))
 
 if(!defined('CHARSET'))
     define ('CHARSET', 'UTF-8');
-    
-    
+
+
 function __autoload($class)
 {
     $cwd = getcwd();
@@ -72,11 +72,11 @@ function object_autoload($class)
 
 /**
  * Class Autoloader (PHP magic function)
- * @param string $className 
+ * @param string $className
  */
 function component_autoload($className)
 {
-    
+
 	$ComponentMap = array(
 		'A' => 'AppController',
 		'B' => 'Base',
@@ -98,8 +98,8 @@ function component_autoload($className)
         'W' => 'Widget',
 		'X' => 'Exception'
 	);
-	$fc = substr($className,0,1); 
-	
+	$fc = substr($className,0,1);
+
 	if(array_key_exists($fc, $ComponentMap))
 	{
 	    //load queries for current database-engine
@@ -112,7 +112,7 @@ function component_autoload($className)
 	            include_once($file);
 	        }
 	    }
-	    
+
 	    $file = sprintf("./System/Component/%s/%s.php", $ComponentMap[$fc], $className);
 		if(file_exists($file))
 		{
