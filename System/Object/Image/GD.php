@@ -13,14 +13,14 @@ class Image_GD extends _Image
 {
     protected $imgRes;
     protected $file = null;
-    
+
     protected function __construct(){}
-    
+
     public function __destruct()
     {
         imagedestroy($this->imgRes);
     }
-    
+
     /**
      * create new image
      * @param int $width
@@ -30,10 +30,10 @@ class Image_GD extends _Image
     public static function create($width, $height)
     {
         $img = new Image_GD();
-        $img->imgRes = imagecreatetruecolor($width, $height);
+        $img->imgRes = imagecreatetruecolor(max(1,$width), max(1,$height));
         return $img;
     }
-    
+
     /**
      * @param string $file
      * @return Image_GD
@@ -43,7 +43,7 @@ class Image_GD extends _Image
         $img = new Image_GD();
         $img->file = $file;
         $suf = ($type == null) ? (DFileSystem::suffix($file)) : strtolower($type);
-        switch ($suf) 
+        switch ($suf)
         {
         	case 'jpg':
         	case 'jpeg':
@@ -77,7 +77,7 @@ class Image_GD extends _Image
         }
         return $img;
     }
-    
+
     /**
      * @param string $file
      * @param int $quality 0..100
@@ -86,8 +86,11 @@ class Image_GD extends _Image
      */
     public function save($file, $quality = 75, $type = null)
     {
+    	if(!$this->imgRes){
+    		throw new Exception('no image');
+    	}
         $suf = ($type == null) ? (DFileSystem::suffix($file)) : strtolower($type);
-        switch ($suf) 
+        switch ($suf)
         {
         	case 'jpg':
         	case 'jpeg':
@@ -107,17 +110,17 @@ class Image_GD extends _Image
         	break;
         }
     }
-    
+
     public function isModified()
     {
         return $this->file == null;
     }
-    
+
     public function getSourceFile()
     {
         return $this->file;
     }
-    
+
     /**
      * write image data to stdout
      * @param string $type jpg,png,bmp,xbm
@@ -128,7 +131,7 @@ class Image_GD extends _Image
     {
         $this->save(null, $quality, $type);
     }
-    
+
     /**
      * @param color $color
      * @param int $x
@@ -137,9 +140,12 @@ class Image_GD extends _Image
      */
     public function fill($color,$x = 0,$y = 0)
     {
+    	if(!$this->imgRes){
+    		throw new Exception('no image');
+    	}
         imagefill($this->imgRes,$x,$y,$color);
     }
-    
+
     /**
      * @param int $r
      * @param int $g
@@ -149,6 +155,10 @@ class Image_GD extends _Image
      */
     public function makeColor($r, $g, $b, $alpha = null)
     {
+        if(!$this->imgRes){
+    		throw new Exception('no image');
+    	}
+
         if($alpha)
         {
             return imagecolorallocatealpha($this->imgRes, $r, $g, $b, $alpha);
@@ -158,15 +168,15 @@ class Image_GD extends _Image
             return imagecolorallocate($this->imgRes, $r, $g, $b);
         }
     }
-    
+
     private function setAntialias(&$imgRes, $on = true)
     {
-        if(function_exists('imageantialias'))
+        if(function_exists('imageantialias') && !empty($imgRes))
         {
             imageantialias($imgRes, $on);
         }
     }
-    
+
     /**
      * fixed size scale method
      * @param $width
@@ -175,6 +185,10 @@ class Image_GD extends _Image
      */
     public function cropscale($width, $heigth)
     {
+        if(!$this->imgRes){
+    		throw new Exception('no image');
+    	}
+
         //get x and y scale factor
         $oldWidth = imagesx($this->imgRes);
         $oldHeight = imagesy($this->imgRes);
@@ -184,11 +198,11 @@ class Image_GD extends _Image
             $xscale = $width/$oldWidth;
             $yscale = $heigth/$oldHeight;
             $scale = ($xscale >= $yscale) ? $xscale : $yscale;
-            
+
             //locate start offset in original file
             $startx = ceil(($oldWidth  - $width/$scale)/2);
             $starty = ceil(($oldHeight  - $heigth/$scale)/2);
-            
+
             //create and copy crop
             $target = Image_GD::create($width, $heigth);
             $this->setAntialias($target->imgRes, true);
@@ -196,7 +210,7 @@ class Image_GD extends _Image
                 $target->imgRes,//dest
                 $this->imgRes,  //src
                 0,0,            //dest x,y
-                $startx, $starty,//src x,y 
+                $startx, $starty,//src x,y
                 $width, $heigth, //dest w,h
                 floor($width/$scale), floor($heigth/$scale)//src w,h
             );
@@ -207,9 +221,9 @@ class Image_GD extends _Image
             return $this;
         }
     }
-    
+
     /**
-     * fixed size scale method 
+     * fixed size scale method
      * @param int $width
      * @param int $heigth
      * @param color$color
@@ -217,7 +231,10 @@ class Image_GD extends _Image
      */
     public function fillscale($width, $heigth, $color)
     {
-            //get x and y scale factor
+    	if(!$this->imgRes){
+    		throw new Exception('no image');
+    	}
+    	//get x and y scale factor
         $oldWidth = imagesx($this->imgRes);
         $oldHeight = imagesy($this->imgRes);
         if($width != $oldWidth || $heigth != $oldHeight)
@@ -226,11 +243,11 @@ class Image_GD extends _Image
             $xscale = $width/$oldWidth;
             $yscale = $heigth/$oldHeight;
             $scale = ($xscale <= $yscale) ? $xscale : $yscale;
-            
+
             //locate start offset in original file
             $startx = ceil(($width  - $oldWidth*$scale)/2);
             $starty = ceil(($heigth  - $oldHeight*$scale)/2);
-            
+
             //create and copy crop
             $target = Image_GD::create($width, $heigth);
             $target->fill($color);
@@ -238,9 +255,9 @@ class Image_GD extends _Image
             imagecopyresampled(
                 $target->imgRes,//dest
                 $this->imgRes,  //src
-                $startx , //dest x        
+                $startx , //dest x
                 $starty,//desty
-                0,0,//src x,y 
+                0,0,//src x,y
                 $oldWidth*$scale, $oldHeight*$scale, //dest w,h
                 $oldWidth, $oldHeight//src w,h
             );
@@ -251,9 +268,9 @@ class Image_GD extends _Image
             return $this;
         }
     }
-    
+
     /**
-     * var size scale method 
+     * var size scale method
      * @param int $width
      * @param int $heigth
      * @param color$color
@@ -261,6 +278,9 @@ class Image_GD extends _Image
      */
     public function scaletofit($width, $heigth)
     {
+    	if(!$this->imgRes){
+    		throw new Exception('no image');
+    	}
                 //get x and y scale factor
         $oldWidth = imagesx($this->imgRes);
         $oldHeight = imagesy($this->imgRes);
@@ -270,20 +290,20 @@ class Image_GD extends _Image
             $xscale = $width/$oldWidth;
             $yscale = $heigth/$oldHeight;
             $scale = ($xscale <= $yscale) ? $xscale : $yscale;
-            
+
             //locate start offset in original file
             $startx = ceil(($width  - $oldWidth*$scale));
             $starty = ceil(($heigth  - $oldHeight*$scale));
-            
+
             //create and copy crop
             $target = Image_GD::create($width-$startx, $heigth-$starty);
             $this->setAntialias($target->imgRes, true);
             imagecopyresampled(
                 $target->imgRes,//dest
                 $this->imgRes,  //src
-                0 , //dest x        
+                0 , //dest x
                 0,//desty
-                0,0,//src x,y 
+                0,0,//src x,y
                 $oldWidth*$scale, $oldHeight*$scale, //dest w,h
                 $oldWidth, $oldHeight//src w,h
             );
@@ -294,16 +314,19 @@ class Image_GD extends _Image
             return $this;
         }
     }
-    
+
     /**
-     * fixed size scale method 
+     * fixed size scale method
      * @param int $width
      * @param int $heigth
      * @return WImage
      */
     public function stretchscale($width, $heigth)
     {
-        //get x and y scale factor
+    	if(!$this->imgRes){
+    		throw new Exception('no image');
+    	}
+    	//get x and y scale factor
         $oldWidth = imagesx($this->imgRes);
         $oldHeight = imagesy($this->imgRes);
         if($width != $oldWidth || $heigth != $oldHeight)
@@ -315,7 +338,7 @@ class Image_GD extends _Image
                 $target->imgRes,//dest
                 $this->imgRes,  //src
                 0, 0,//dest x,y
-                0, 0,//src x,y 
+                0, 0,//src x,y
                 $width,$heigth, //dest w,h
                 $oldWidth, $oldHeight//src w,h
             );
@@ -326,7 +349,7 @@ class Image_GD extends _Image
             return $this;
         }
     }
-    
+
     //stretchscale
 }
 ?>
