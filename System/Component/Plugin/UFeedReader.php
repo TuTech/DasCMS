@@ -1,9 +1,9 @@
 <?php
 /************************************************
-* Bambus CMS 
+* Bambus CMS
 * Created:     30.07.2007
 * License:     GNU GPL Version 2 or later (http://www.gnu.org/copyleft/gpl.html)
-* Copyright:   Lutz Selke/TuTech Innovation GmbH 
+* Copyright:   Lutz Selke/TuTech Innovation GmbH
 * Description: FeedReader.php
 * PHP Version: 5
 *************************************************/
@@ -27,17 +27,17 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
         	'embed' => array(
         			 'feed'
         			,'rows'
-        			,'update' 
+        			,'update'
         			,'titleTag'
-        			,'textTag' 
-        			,'linkTarget' 
-        			,'textLength' 
+        			,'textTag'
+        			,'linkTarget'
+        			,'textLength'
         			,'link'
         			,'alert'
     		)
 		);
     }
-    
+
     /**
      * return an array with attributeName => description
      *
@@ -45,10 +45,10 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
      */
     public function TemplateProvidedAttributes()
     {return array();}
-    
+
 	/**
 	 * check function availability and permissions
-	 * 
+	 *
 	 * @param string $function
 	 * @return boolean
 	 */
@@ -56,12 +56,12 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 	{
 	    return $function == 'embed';
 	}
-	
+
 	/**
 	 * Call a function from this object
 	 *
 	 * USE UTF-8 ENCODING FOR RETURN VALUES
-	 * 
+	 *
 	 * @param string $function
 	 * @param array $namedParameters
 	 * @return string
@@ -73,13 +73,13 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 	    SErrorAndExceptionHandler::reportErrors();
 	    return $val;
 	}
-	
+
 	/**
 	 * Get a property from an object
 	 * return in proper format (e.g format date as set in config)
-	 * 
+	 *
 	 * USE UTF-8 ENCODING FOR RETURN VALUES
-	 * 
+	 *
 	 * @param string $property
 	 * @return string
 	 */
@@ -87,7 +87,7 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 	{
 	    return '';
 	}
-    
+
 	//shareable
 	const Plugin_Name = 'UFeedReader';
 	public static $sharedInstance = NULL;
@@ -102,25 +102,25 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 		return self::$sharedInstance;
 	}
 	//end shareable
-    
+
 	const FEED_MAX_SIZE = 4000000;
 	private $alertOnError = false;
 	private $errorMessage = '';
 	private $emptyXML = '<?xml version="1.0" ?><error>Could not load feed</error>';
-	
+
 	private function log($msg, $_ = '')
 	{
 	    $args = func_get_args();
 	    $format = array_shift($args);
 	    //vprintf($format, $args);
 	}
-	
+
 	//get feed from server or use cached version
 	private function loadResource($url, $minutesToLive = 30)
 	{
 		$temp = SPath::TEMP;
 		$feedId = 'FeedReader_'.md5($url);
-		if(file_exists($temp.$feedId) && filemtime($temp.$feedId) > (time() - $minutesToLive*60)) 
+		if(file_exists($temp.$feedId) && filemtime($temp.$feedId) > (time() - $minutesToLive*60))
 		{
 			//cached version exists
 			$data = DFileSystem::Load($temp.$feedId);
@@ -131,6 +131,7 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 			//load data from url...
 			$st = microtime(true);
 			$readData = 0;
+			SErrorAndExceptionHandler::muteErrors();
 			try
 			{
 				$data = '';
@@ -144,20 +145,23 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 						{
 							$this->errorMessage = sprintf(
 								"Feed '%s' exceeded max feed size: %s \n" .
-									"Bambus install: %s\n" 
+									"Bambus install: %s\n"
 								,$url
 								,$this->maxFeedSize
 								,SLink::base()
 							);
-							return $this->emptyXML;
+							$data = null;
+							break;
 						}
 						$data .= $buf;
 					}
-					DFileSystem::Save($temp.$feedId, $data);
+					if($data !== null){
+						DFileSystem::Save($temp.$feedId, $data);
+					}
 				}
 				else
 				{
-					return $this->emptyXML;
+					$data = null;
 				}
 				$et = microtime(true);
 				$rt = $et-$st;
@@ -167,15 +171,15 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 			{
 				$this->errorMessage = sprintf(
 					"Feed '%s' reading raised exception: %s \n" .
-						"Bambus install: %s\n" 
+						"Bambus install: %s\n"
 					,$url
 					,$e
 					,SLink::base()
 				);
-				return $this->emptyXML;
+				$data = null;
 			}
 		}
-		
+		SErrorAndExceptionHandler::reportErrors();
 		//wherever it came from - we've got our data
 		return empty($data) ? $this->emptyXML : $data;
 	}
@@ -201,7 +205,7 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 		//add error notification
 		if(!empty($args['alert']))
 			$this->alertOnError = $args['alert'];
-			
+
 		//validate input
 		if(empty($args['feed']))
 			return ' <b>ERROR IN: '.__CLASS__.'::'.__FUNCTION__.'() - no feed specified</b> ';
@@ -226,16 +230,16 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 					$options[$keys[$i]] = $args[$keys[$i]];
 			}
 		}
-		
+
 		//gereate a not feed but call independent id for the feed
 		$feedId = 'FeedReader_'.md5(implode('#',$options)).'.html';
 		$temp = SPath::TEMP;
-		if(file_exists($temp.$feedId) && filemtime($temp.$feedId) > (time() -  $options['update']*60)) 
+		if(file_exists($temp.$feedId) && filemtime($temp.$feedId) > (time() -  $options['update']*60))
 		{
 			//cached version exists
 			$html = DFileSystem::Load($temp.$feedId);
 			$this->log("\n<!--Feed Reader: using cached html '%s' for '%s' -->\n",$feedId,$options['feed']);
-			
+
 		}
 		if(empty($html))
 		{
@@ -247,22 +251,22 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 				if(!@$dom->loadXML($this->loadResource($options['feed'], $options['update'])))
 				{
 					//the feed xml is broken - use the last generated version from cache or return an empty string
-					if(file_exists($temp.$feedId)) 
+					if(file_exists($temp.$feedId))
 					{
 						//cached version exists
 						$html = DFileSystem::Load($temp.$feedId);
 						$this->log("\n<!--Feed Reader: could not read feed - using cached html '%s' for '%s' -->\n",$feedId,$options['feed']);
-						
+
 					}
 					return $html;
 				}
 				//printf('<h1>%s</h1>', $dom->encoding);
-	
+
 				//feed for atom / rss for er... rss / rdf for .. you know
 				$rootElement = $dom->documentElement->tagName;
-				
+
 				$readItems = 0;
-				
+
 				$outArr = array();
 				if($rootElement == 'feed')
 				{
@@ -278,9 +282,9 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 						//get feed link
 						if($childNode->nodeName == 'link' && $childNode->hasAttribute('href') && !$sureWithLink)
 							$feedlink = $childNode->getAttribute('href');
-						
+
 						//atom feeds can have multiple links - use any link until all these attributes match
-						if($childNode->nodeName == 'link' 
+						if($childNode->nodeName == 'link'
 							&& $childNode->hasAttribute('href')
 							&& $childNode->hasAttribute('rel')
 							&& $childNode->hasAttribute('type')
@@ -288,12 +292,12 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 							&& $childNode->getAttribute('type') == 'text/html'
 						)
 							$sureWithLink = true;
-						
+
 						//exit foreach if everything looks good
 						if(!empty($feedname) && !empty($feedlink) && $sureWithLink)
 							break;
 					}
-					
+
 					//walk through entries
 					$entries = $dom->getElementsByTagname('entry');
 					foreach($entries as $entry)
@@ -304,10 +308,10 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 						$link = '';
 						$text = '';
 						$sureWithLink = false;
-						
+
 						$nodeList = $entry->getElementsByTagname('title');
 						$title = $nodeList->item(0)->nodeValue;
-	
+
 						//find link(s)
 						$nodeList = $entry->getElementsByTagname('link');
 						foreach($nodeList as $node)
@@ -323,20 +327,20 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 									$sureWithLink = true;
 							}
 						}
-						
+
 						//take text from summary
 						$nodeList = $entry->getElementsByTagname('summary');
 						if($nodeList->length > 0)
 							$text = $nodeList->item(0)->nodeValue;
-							
+
 						//overwrite summary text if there is some content
 						$nodeList = $entry->getElementsByTagname('content');
 						if($nodeList->length > 0)
 							$text = $nodeList->item(0)->nodeValue;
-						
+
 						$outArr[] = array($title, $link, $text);
-						
-						//i've heard enough 
+
+						//i've heard enough
 						if($readItems++ >= (int)$options['rows'])
 							break;
 					}
@@ -347,43 +351,48 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 					$feedname = '';
 					$feedlink = '';
 					$channel = $dom->documentElement->getElementsByTagname('channel')->item(0);
-					foreach($channel->childNodes as $childNode)
+					if(!empty($channel) && !empty($channel->childNodes))
 					{
-						if($childNode->nodeName == 'title')
-							$feedname = $childNode->nodeValue;
-						if($childNode->nodeName == 'link')
-							$feedlink = $childNode->nodeValue;
-						if(!empty($feedname) && !empty($feedlink))
-							break;
+						foreach($channel->childNodes as $childNode)
+						{
+							if($childNode->nodeName == 'title')
+								$feedname = $childNode->nodeValue;
+							if($childNode->nodeName == 'link')
+								$feedlink = $childNode->nodeValue;
+							if(!empty($feedname) && !empty($feedlink))
+								break;
+						}
 					}
-	
 					$entries = $dom->getElementsByTagname('item');
-					foreach($entries as $entry)
+					if(!empty($entries))
 					{
-						$title = '';
-						$link = '';
-						$text = '';
-	
-						$nodeList = $entry->getElementsByTagname('title');
-						if($nodeList->length > 0)
-							$title = $nodeList->item(0)->nodeValue;
-	
-						$nodeList = $entry->getElementsByTagname('link');
-						if($nodeList->length > 0)
-							$link = $nodeList->item(0)->nodeValue;
-	
-						$nodeList = $entry->getElementsByTagname('description');
-						if($nodeList->length > 0)
-							$text = $nodeList->item(0)->nodeValue;
-						$outArr[] = array($title, $link, $text);
-	
-						//i've heard enough 
-						if($readItems++ >= (int)$options['rows'])
-							break;
+						foreach($entries as $entry)
+						{
+							$title = '';
+							$link = '';
+							$text = '';
+
+							$nodeList = $entry->getElementsByTagname('title');
+							if($nodeList->length > 0)
+								$title = $nodeList->item(0)->nodeValue;
+
+							$nodeList = $entry->getElementsByTagname('link');
+							if($nodeList->length > 0)
+								$link = $nodeList->item(0)->nodeValue;
+
+							$nodeList = $entry->getElementsByTagname('description');
+							if($nodeList->length > 0)
+								$text = $nodeList->item(0)->nodeValue;
+							$outArr[] = array($title, $link, $text);
+
+							//i've heard enough
+							if($readItems++ >= (int)$options['rows'])
+								break;
+						}
 					}
 				}
-				
-				//build html 
+
+				//build html
 				$dom->encoding = 'UTF-8';
 				$encode = (strtoupper($dom->encoding) != 'UTF-8');
 				$html = '<div class="FeedReader">';//.$dom->encoding.($encode ? ' recoding' : ' is ok');
@@ -406,7 +415,7 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 					);
 					if(!empty($outArr[$e][2]))
 						$html .= sprintf(
-							"\n\t\t\t<%s class=\"FeedReaderItemText\">%s</%s>" 
+							"\n\t\t\t<%s class=\"FeedReaderItemText\">%s</%s>"
 							,$options['textTag']
 							,$outArr[$e][2]/*($encode) ? ($outArr[$e][2]) : */
 							,$options['textTag']
@@ -420,7 +429,7 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 			{
 				$this->errorMessage = sprintf(
 					"generating Feed '%s' raised exception: %s \n" .
-						"Bambus install: %s\n" 
+						"Bambus install: %s\n"
 					,$args['feed']
 					,$e
 					,SLink::base()
