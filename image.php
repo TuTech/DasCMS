@@ -57,7 +57,7 @@ if(!empty($_SERVER['PATH_INFO']))
 					$content = null;
 	        	}
 			}
-			else
+			elseif($content == null)
 			{
 				$content = new CError(403);
 			}
