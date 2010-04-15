@@ -8,7 +8,7 @@ $cache_1Day = 86400;
 header("Expires: ".date('r', time()+$cache_1Day));
 header("Cache-Control: max-age=".$cache_1Day.", public");
 header("Content-Disposition: inline");
-header('Pragma:');//disable "Pragma: no-cache" (default for sessions) 
+header('Pragma:');//disable "Pragma: no-cache" (default for sessions)
 
 error_reporting(0);
 if(!empty($_SERVER['PATH_INFO']))
@@ -35,24 +35,42 @@ if(!empty($_SERVER['PATH_INFO']))
             ,$key, $match)
         )
     {
-        try
-        {
-            $content = Controller_Content::getSharedInstance()->accessContent($alias, new WImage(), true);
-        }
-        catch (Exception $e)
-        {
-            if(PAuthorisation::has('org.bambuscms.login'))
-            {
-                //valid user - allowed to view unpublished images
-                $content = Controller_Content::getSharedInstance()->openContent($alias);
-            }
-            else
-            {
-                $content = new CError(401);
-            }
-        }
-        //get the id of the preview image 
-        
+    	$ContentController = Controller_Content::getSharedInstance();
+    	if($ContentController->contentExists($alias))
+    	{
+	        try //public open
+	        {
+	            $content = $ContentController->accessContent($alias, new WImage(), true);
+	        }
+	        catch (Exception $e)
+	        {
+	        	$content = null;
+	        }
+	       	if($content == null && PAuthorisation::has('org.bambuscms.login'))
+			{
+	            try //private open
+	            {
+	                $content = $ContentController->openContent($alias);
+	            }
+	        	catch (Exception $e)
+	        	{
+					$content = null;
+	        	}
+			}
+			else
+			{
+				$content = new CError(403);
+			}
+    	}
+    	else
+    	{
+    		$content = new CError(404);
+    	}
+		if($content == null){ //error
+			$content = new CError(500);
+		}
+
+        //get the id of the preview image
         $id = WImage::getPreviewIdForContent($content);
         if(empty($id))
         {
@@ -75,14 +93,14 @@ if(!empty($_SERVER['PATH_INFO']))
             sleep(1);
         }
         if(file_exists(SPath::TEMP.'scale.permit.'.$key) || $userHasPermission)
-        {     
+        {
             list($nil, $width, $height, $mode, $force, $r, $g, $b) = $match;
             //unhex
             foreach(array('width', 'height', 'r', 'g', 'b') as $var)
             {
                 ${$var} = hexdec(${$var});
             }
-            if($id == '_')//load cms default image 
+            if($id == '_')//load cms default image
             {
                 //default img
                 $img = Image_GD::load(SPath::SYSTEM_IMAGES.'no_preview.jpg');
@@ -100,7 +118,7 @@ if(!empty($_SERVER['PATH_INFO']))
             if(!$img)
             {
                 $img = Image_GD::create($width, $height);
-                $img->fill($img->makeColor($r, $g, $b)); 
+                $img->fill($img->makeColor($r, $g, $b));
             }
             if($mode)//resize to fixed size img
             {
@@ -120,7 +138,7 @@ if(!empty($_SERVER['PATH_INFO']))
             }
             else //resite image to fit in boundaries
             {
-                $img = $img->scaletofit($width, $height); 
+                $img = $img->scaletofit($width, $height);
             }
             //save and send image
             $imgFile = SPath::TEMP.'scale.render.'.$qual.'.'.$key;
@@ -154,7 +172,7 @@ if(!empty($_SERVER['PATH_INFO']))
     {
         $img = false;
         $id = WImage::getPreviewIdForContent(Controller_Content::getSharedInstance()->tryOpenContent($alias));
-        if($id != '_')//load cms default image 
+        if($id != '_')//load cms default image
         {
             $alias = WImage::resolvePreviewId($id);
             if(!empty($alias))
