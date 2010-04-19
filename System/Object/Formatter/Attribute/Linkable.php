@@ -4,7 +4,7 @@ abstract class Formatter_Attribute_Linkable
     implements Interface_Formatter_Attribute_Linkable
 {
     protected $persistentAttributes = array('linkTarget');
-    protected $linkTarget = false;
+    protected $linkTarget = null;
 
     public function setLinkingTarget($linkTarget)
     {
