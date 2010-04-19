@@ -5,16 +5,11 @@ class Formatter_Attribute_View_Title
     protected function getFormatterClass()
     {
         return 'Title';
-    } 
-    
+    }
+
     public function toXHTML($insertString = null)
     {
         return parent::toXHTML('<h2>'.$this->escapeString($this->getContent()->getTitle())."</h2>\n");
-    }
-    
-    public function getLinkAlias()
-    {
-        return $this->getContent()->getAlias();
     }
 }
 ?>
