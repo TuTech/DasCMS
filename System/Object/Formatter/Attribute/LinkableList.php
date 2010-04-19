@@ -8,7 +8,7 @@ abstract class Formatter_Attribute_LinkableList
 
     public function setLinkingTarget($linkTarget)
     {
-        $this->linkTarget = strval($linkTarget);
+        $this->linkTarget = $linkTarget;
     }
 
     public function getLinkingTarget()
@@ -18,7 +18,7 @@ abstract class Formatter_Attribute_LinkableList
 
     public function isLinkingEnabled()
     {
-        return $this->linkTarget !== null;
+        return $this->linkTarget != null;
     }
 
     abstract function getLinkListAliases();

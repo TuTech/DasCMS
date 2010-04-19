@@ -17,7 +17,7 @@ class Formatter_Attribute_View_Icon
 
     public function setLinkingTarget($linkTarget)
     {
-        $this->linkTarget = strval($linkTarget);
+        $this->linkTarget = $linkTarget;
     }
 
     public function getLinkingTarget()
@@ -27,7 +27,7 @@ class Formatter_Attribute_View_Icon
 
     public function isLinkingEnabled()
     {
-        return $this->linkTarget !== null;
+        return $this->linkTarget != null;
     }
 
     protected function getFormatterClass()

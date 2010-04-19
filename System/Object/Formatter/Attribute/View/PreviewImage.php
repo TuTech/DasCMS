@@ -90,7 +90,7 @@ class Formatter_Attribute_View_PreviewImage
 
     public function setLinkingTarget($linkTarget)
     {
-        $this->linkTarget = strval($linkTarget);
+        $this->linkTarget = $linkTarget;
     }
 
     public function getLinkingTarget()
@@ -100,7 +100,7 @@ class Formatter_Attribute_View_PreviewImage
 
     public function isLinkingEnabled()
     {
-        return $this->linkTarget !== null;
+        return $this->linkTarget != null;
     }
 
     //_Formatter_Attribute
