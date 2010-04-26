@@ -20,7 +20,7 @@ abstract class BView extends BObject
 			{
 				if(is_array($array[$keys[$i]]))
 				{
-					$array[$keys[$i]] = self::ArrayApplyFunctionRecursive($array[$keys[$i]], $functionName);
+					$array[$keys[$i]] = BSystem::ArrayApplyFunctionRecursive($array[$keys[$i]], $functionName);
 				}
 				else
 				{

@@ -11,7 +11,7 @@ class Model_Content_Composite_History extends _Model_Content_Composite
         return array('getCreatedBy', 'getModifiedBy', 'getCreateDate', 'getModifyDate');
     }
     
-    public function __construct(Interface_Content $compositeFor)
+    public function __construct(BContent $compositeFor)
     {
         parent::__construct($compositeFor);
         try

@@ -33,7 +33,7 @@ class JUpdateSearchIndex extends BJob
         if($content)
             echo $content->Alias;
         $stat = 'ok';
-        if($content instanceof Interface_Content)
+        if($content instanceof BContent)
         {
             echo '<br />';
             SSearchIndexer::updateFeatures($content);

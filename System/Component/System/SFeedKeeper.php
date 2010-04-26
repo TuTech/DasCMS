@@ -11,7 +11,7 @@
  */
 class SFeedKeeper 
     extends 
-        BObject
+        BSystem
     implements 
         HContentChangedEventHandler,
         HContentCreatedEventHandler 

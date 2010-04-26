@@ -19,7 +19,7 @@ class Import_HTTP_AtomFeed extends _Import_HTTP
     }
     
     /**
-     * @return CPage
+     * @return BContent
      */
     protected function loadContentForGUID(XML_Atom_Text $guidNode)
     {

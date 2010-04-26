@@ -11,7 +11,7 @@
  */
 class SHTTPStatus 
     extends 
-        BObject 
+        BSystem 
 {
 	/**
 	 * @var array

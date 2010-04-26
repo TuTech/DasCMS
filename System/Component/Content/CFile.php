@@ -11,8 +11,7 @@
  */
 class CFile
     extends BContent 
-    implements  
-        Interface_Content,
+    implements 
         ISupportsSidebar, 
         IGlobalUniqueId,
         IFileContent,

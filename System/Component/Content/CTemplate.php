@@ -12,7 +12,6 @@
 class CTemplate 
     extends BContent 
     implements 
-        Interface_Content,
         ISupportsSidebar, 
         IGlobalUniqueId,
         IPageGenerator, 
@@ -34,7 +33,7 @@ class CTemplate
 	 */
 	public static function Create($title)
 	{
-	    list($dbid, $alias) = QBContent::create(self::CLASS_NAME, $title);
+	    list($dbid, $alias) = QBContent::create('CTemplate', $title);
 	    DFileSystem::Save(SPath::TEMPLATES.$dbid.'.php', ' ');
 	    $tpl = new CTemplate($alias);
 	    new EContentCreatedEvent($tpl, $tpl);

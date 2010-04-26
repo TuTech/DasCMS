@@ -12,7 +12,7 @@
  */
 class LConfiguration 
     extends 
-        BObject
+        BLegacy
     implements 
         IShareable
 {

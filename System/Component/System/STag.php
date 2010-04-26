@@ -11,7 +11,7 @@
  */
 class STag 
     extends 
-        BObject 
+        BSystem 
     implements 
         IShareable, 
     	HContentChangedEventHandler, 
@@ -90,6 +90,7 @@ class STag
 	{
 		$tags = self::parseTagStr($tagstring);
 		$DB = DSQL::getSharedInstance();
+		$ptok = SProfiler::profile(__FILE__, __LINE__, 'updating tags to '.implode(', ', $tags));
 		try
 		{
 		    $DB->beginTransaction();
@@ -120,8 +121,10 @@ class STag
 			echo $e->getMessage();
 			echo $e->getTraceAsString();
 			$DB->rollback();
+			SProfiler::finish($ptok);
 			return false;
 		}
+		SProfiler::finish($ptok);
 		return true;
 	}
 	
@@ -166,10 +169,110 @@ class STag
 	 */
 	public function get($BContentOrAlias)
 	{
-	    $alias = ($BContentOrAlias instanceof Interface_Content) 
+	    $alias = ($BContentOrAlias instanceof BContent) 
 	        ? $BContentOrAlias->Alias 
 	        : $BContentOrAlias;
 		return $this->getTags($alias);
+	}
+	
+	/**
+	 * Count the usage of each tag in $tagstring 
+	 *
+	 * @param string $tagstr
+	 */
+	public function count($tagstr)
+	{
+		
+	}
+	
+	/**
+	 * All elements having all tags in the $tagstring
+	 *
+	 * @param string $tagstr
+	 */
+	public function having($tagstr)
+	{
+		
+	}
+	
+	/**
+	 * All elements having one or more tags from $tagstring
+	 *
+	 * @param string $tagstr
+	 */
+	public function any($tagstr)
+	{
+		
+	}
+	
+	/**
+	 * All elements having only and exactly the elements in $tagstring
+	 *
+	 * @param string $tagstr
+	 */
+	public function exact($tagstr)
+	{
+		
+	}
+	
+	/**
+	 * Generate an assoc array containg either the most used tags or the tags in $tagstring as key and their usage as value. 
+	 * Item count is limited by $limit. $limit = 0 means NO limit.
+	 *
+	 * @param int $limit
+	 * @param string $tagstr
+	 */
+	public function cloud($limit = 0, $tagstr = null)
+	{
+		
+	}
+	
+	/**
+	 * Generate an assoc array with all elements beginning with $tag ordered by their usage
+	 *
+	 * @param string $tag
+	 */
+	public function complete($tag)
+	{
+		
+	}
+	
+	/**
+	 * return all tags and their usage as assoc array
+	 *
+	 */
+	public function all()
+	{
+		
+	}
+	
+	/**
+	 * return all blocked tags
+	 *
+	 */
+	public function blocked()
+	{
+		
+	}
+	
+	/**
+	 * block all tags in $tagstring
+	 *
+	 * @param string $tagstr
+	 */
+	public function block($tagstr)
+	{
+		
+	}
+	
+	/**
+	 * remove block from all tags in $tagstring
+	 *
+	 * @param string $tagstr
+	 */
+	public function  unblock($tagstr)
+	{
+		
 	}
 }
 ?>

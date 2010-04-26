@@ -5,12 +5,12 @@ class View_Content_Calendar_XHTML_Entry_Event
 {
     protected $startTime, $endTime;
     /**
-     * @var Interface_Content
+     * @var BContent
      */
     protected $content;
     private $formatterName = null;
     
-    public function __construct($startTime, $endTime, Interface_Content $content, $formatterName = null)
+    public function __construct($startTime, $endTime, BContent $content, $formatterName = null)
     {
         $this->sectionName = 'vevent';
         $this->startTime = $startTime;

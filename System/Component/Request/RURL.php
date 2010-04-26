@@ -9,15 +9,15 @@
  * @package Bambus
  * @subpackage Request
  */
-class RURL extends BRequest 
+class RURL extends BRequest
 {
     //read data from server path
     //merge data with $_GET
 
     private static $data = null;
-    
+
     private function __construct(){}
-    
+
     private static function init()
     {
         global $_SERVER, $_GET;
@@ -29,7 +29,7 @@ class RURL extends BRequest
             {
                 //remove / from beginning
                 $path = substr($_SERVER['PATH_INFO'],1);
-                
+
                 //split to key/value pairs
                 $requests = explode('/', $path);
                 while(count($requests) >= 2)
@@ -40,56 +40,48 @@ class RURL extends BRequest
                 }
             }
             //more data sent by $_GET
-            $evilMagic = get_magic_quotes_gpc();
-            foreach ($_GET as $key => $value) 
+            foreach ($_GET as $key => $value)
             {
-            	self::$data[$key] = ($evilMagic ? stripslashes($value) : $value);
+            	self::$data[$key] = $value;
             }
+            BRequest::cleanGPC(self::$data);
         }
     }
-    
+
     public static function has($key)
     {
         self::init();
         return array_key_exists($key, self::$data);
     }
-    
+
     public static function hasValue($key)
     {
         self::init();
         return (array_key_exists($key, self::$data) && !empty(self::$data[$key]));
     }
-    
+
     public static function data($encoding = "ISO-8859-15")
     {
         self::init();
         $data = self::$data;
         if(strtoupper($encoding) != CHARSET)
         {
-            $data = array();
-            foreach (self::$data as $k => $v) 
-            {
-                if(!is_array($v))
-                {
-                    $data[mb_convert_encoding($k, $encoding, CHARSET)] = mb_convert_encoding($v, $encoding, CHARSET);
-                }
-            }
-            
+            $data = BRequest::recodeCharset($data, $encoding);
         }
-        return self::$data;
+        return $data;
     }
-    
+
     public static function get($key, $encoding = "ISO-8859-15")
     {
         self::init();
-        $ret = '';
+                $ret = '';
         if(array_key_exists($key, self::$data))
         {
             $ret = self::$data[$key];
         }
-        return mb_convert_encoding($ret, $encoding, CHARSET);
+        return BRequest::recodeCharset($ret, $encoding);
     }
-    
+
     public static function alter($key, $value, $encoding = "ISO-8859-15")
     {
         self::init();

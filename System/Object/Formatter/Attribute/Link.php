@@ -1,13 +1,13 @@
 <?php
-abstract class Formatter_Attribute_Link 
-    extends _Formatter_Attribute 
-    implements 
+abstract class Formatter_Attribute_Link
+    extends _Formatter_Attribute
+    implements
         Interface_Formatter_Attribute_TextSettable,
-        Interface_Formatter_Attribute_HasLinkTarget        
+        Interface_Formatter_Attribute_HasLinkTarget
 {
     protected $persistentAttributes = array('text');
     protected $text = '';
-        
+
     public function setText($text)
     {
         $this->text = strval($text);
@@ -17,16 +17,14 @@ abstract class Formatter_Attribute_Link
     {
         return $this->text;
     }
-    
-    abstract function getLinkAlias();
-        
+
     public function toXHTML($insertString = null)
     {
         $insertString == null ? htmlentities($this->getText(), ENT_QUOTES, CHARSET) : $insertString;
-        $str = $this->createLink($this->getLinkAlias(),$insertString);
+        $str = $this->createLink($insertString);
         return parent::toXHTML($str);
     }
-    
+
     public function toJSON(array $parentData = array())
     {
         if(!isset($parentData['data']))

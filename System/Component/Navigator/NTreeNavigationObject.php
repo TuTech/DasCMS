@@ -235,6 +235,7 @@ class NTreeNavigationObject
 	{
 		$this->Navigation = $nav;
 		if($this->alias == $nav->getContentCMSID())
+		//if(SAlias::match($this->alias, $nav->getContentCMSID()))
 		{
 			//report all directly accessed nodes
 			$this->reportVisibility();

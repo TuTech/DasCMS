@@ -79,7 +79,7 @@ class WContentGeoAttribute extends BWidget
         return new WContentGeoAttribute(QWContentGeoAttribute::getByName($name));
     }
     
-    public static function forContent(Interface_Content $content)
+    public static function forContent(BContent $content)
     {
         return new WContentGeoAttribute(QWContentGeoAttribute::getByContentId($content->getId()));
     }

@@ -11,7 +11,7 @@
  */
 class STagPermissions 
     extends 
-        BObject
+        BSystem
     implements 
         HContentAccessEventHandler ,
         HWillAccessContentEventHandler  
@@ -39,7 +39,7 @@ class STagPermissions
 	}
 	//end IShareable
     
-    private function isProtected(Interface_Content $content)
+    private function isProtected(BContent $content)
     {
         $protected = false;
         $tags = $content->getTags();

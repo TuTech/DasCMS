@@ -28,24 +28,23 @@ class NTreeNavigationHelper
 	public function __construct(NTreeNavigationObject $tno, VSpore $spore)
 	{
 	    //gather all aliases, 
+	    //NTreeNavigationHelper->getContentCMSID() = SAlias::getMatching(alias, aliases[])
 	    
 		$this->spore = $spore;
 		$this->root = $tno;
     	$content = $this->spore->getContent();
     	//no content found?
-    	if($content == null || !$content instanceof Interface_Content)
+    	if($content == null || !$content instanceof BContent)
     	{
     		$content = $this->spore->getErrorContent();
     	}
     	//no error content defined?
-    	if($content == null || !$content instanceof Interface_Content)
+    	if($content == null || !$content instanceof BContent)
     	{
     		$content = new CError(404);
     	}
     	$this->content = $content;
-    	//aliases of all elements in tree
     	$allAliases = $this->root->getAllAliases($this);
-    	
     	$this->currentAlias = SAlias::getMatching($this->content->Alias, $allAliases);
     	$this->root->InitTree($this);
     	if(count($this->_activeNodes) == 0 && $this->root->hasChildren())

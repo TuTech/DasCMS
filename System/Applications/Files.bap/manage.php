@@ -7,7 +7,7 @@
  * @version 1.0
  */
 $File = SApplication::getControllerContent();
-if($File != null && $File instanceof CFile)
+if($File != null && $File instanceof BContent)
 {
     echo new WScript("var is_in_content_mode = true;");
     echo new WContentTitle($File);

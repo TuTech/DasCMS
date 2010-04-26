@@ -11,7 +11,7 @@
  */
 class SUser 
     extends 
-        BObject 
+        BSystem 
 {
     public $password,$realName,$email;
     public $groups = array();

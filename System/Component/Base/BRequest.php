@@ -9,12 +9,39 @@
  * @package Bambus
  * @subpackage BaseClasses
  */
-abstract class BRequest extends BObject 
+abstract class BRequest extends BObject
 {
     public static function get($key){}
-    
+
     public static function alter($key, $value){}
-    
+
     public static function has($key){}
+
+    protected static function cleanGPC(&$data){
+    	if(!get_magic_quotes_gpc()){
+    		return;
+    	}
+		if(is_array($data)){
+			foreach($data as $k => $v){
+				BRequest::cleanGPC($v);
+			}
+		}
+		else{
+			$data = stripslashes($data);
+		}
+    }
+
+    protected static function recodeCharset($data, $charset){
+		if(is_array($data)){
+			$newData = array();
+			foreach($data as $k => $v){
+				$newData[mb_convert_encoding($k, $charset, CHARSET)] = BRequest::recodeCharset($v, $charset);
+			}
+		}
+		else{
+			$newData = mb_convert_encoding($data, $charset, CHARSET);
+		}
+		return $newData;
+    }
 }
 ?>

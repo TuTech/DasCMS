@@ -11,11 +11,12 @@
  */
 class SAlias 
     extends 
-        BObject 
+        BSystem 
     implements 
         IShareable,
 		HContentChangedEventHandler, 
 		HContentCreatedEventHandler, 
+		HContentDeletedEventHandler,
 		HContentPublishedEventHandler 
 {	
 	
@@ -67,6 +68,14 @@ class SAlias
 	{
 		$this->updateAlias($e->Content);
 	}
+	
+	/**
+	 * @param EContentDeletedEvent $e
+	 */
+	public function HandleContentDeletedEvent(EContentDeletedEvent $e)
+	{
+		$this->removeAliases($e->Content);
+	}
 
 	/**
 	 * @param EContentDeletedEvent $e
@@ -92,7 +101,7 @@ class SAlias
 		{
 			$suffix .= date('-Y-m-d',$pubdate);
 		}
-		//@todo IAliasBuilder
+		//@todo consult ascii conversion tools IConvertToASCII
 		$dechars = array('ä' => 'ae', 'Ä' => 'Ae', 'ö' => 'oe', 
 						'Ö' => 'Oe','ü' => 'ue', 'Ü' => 'Ue', 'ß' => 'ss');
 		foreach ($dechars as $chr => $rep) 
@@ -105,11 +114,23 @@ class SAlias
 	}
 	
 	/**
-	 * @deprecated for NTreeNavigation helper only
-	 * @param string $alias
-	 * @param array $aliasesToMatch
-	 * @return string
+	 * check if 2 aliases point to the same content
 	 */
+	public static function match($alias_a,$alias_b)
+	{
+	    if($alias_a == $alias_b)
+	    {
+	        return true;
+	    }
+	    $res = QSAlias::match($alias_a,$alias_b);
+	    if($res->getRowCount() != 1)
+	    {
+	        return false;
+	    }
+	    list($content, $count) = $res->fetch();
+		return ($count == 2);
+	}
+	
 	public static function getMatching($alias, array $aliasesToMatch)
 	{
 	    if(count($aliasesToMatch) == 0)
@@ -125,6 +146,42 @@ class SAlias
 		return $match;
 	}
 	
+	/**
+	 * Get all assigned aliases in an array
+	 *
+	 * @param BContent $content
+	 * @return array
+	 */
+	public function getAllAssigned(BContent $content)
+	{
+		
+	}
+	
+	/**
+	 * Get active alias 
+	 *
+	 * @param BContent $content
+	 * @return string
+	 */
+	public static function getCurrent($content)
+	{
+	    $alias = (is_object($content) && $content instanceof BContent) 
+	        ? $content->Alias 
+	        : $content;
+		return QSAlias::getPrimaryAlias($alias);
+	}
+
+	/**
+	 * Check existance of an alias
+	 *
+	 * @param string $alias
+	 * @return bool
+	 */
+	public function exists($alias)
+	{
+		return QSAlias::reloveAliasToID($alias) === null;
+	}
+
 	//begin IShareable
 	const CLASS_NAME = 'SAlias';
 	

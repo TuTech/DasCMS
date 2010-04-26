@@ -11,7 +11,7 @@
  */
 class SAuthorizeAll 
     extends 
-        BObject 
+        BSystem 
     implements 
         IAuthorize 
 {

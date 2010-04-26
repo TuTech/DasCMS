@@ -13,7 +13,7 @@ class Model_Content_Composite_ContentFormatter extends _Model_Content_Composite
         );
     }
     
-    public function __construct(Interface_Content $compositeFor)
+    public function __construct(BContent $compositeFor)
     {
         parent::__construct($compositeFor);
     }
@@ -38,7 +38,7 @@ class Model_Content_Composite_ContentFormatter extends _Model_Content_Composite
 	    return $this->formatterName;
 	}
 	
-	public function formatChildContent(Interface_Content $content)
+	public function formatChildContent(BContent $content)
 	{
         $f = $this->getChildContentFormatter();
         if($f)    

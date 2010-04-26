@@ -2,11 +2,11 @@
 abstract class _Model_Content_Composite extends _Model_Content
 {
     /**
-     * @var Interface_Content
+     * @var BContent
      */
     protected $compositeFor;
     
-    public function __construct(Interface_Content $compositeFor)
+    public function __construct(BContent $compositeFor)
     {
         $this->compositeFor = $compositeFor;
     }

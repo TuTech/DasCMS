@@ -232,6 +232,7 @@ class DSQL_MySQL extends DSQL
     public function queryExecute($string)
     {
         $usql = $this->stripParams($string);
+    	$ptok = SProfiler::profile(__FILE__, __LINE__, $string, array('queryId' => md5($string), 'functionSQL' => $usql, 'functionId' => md5($usql)));
     	$res = self::$DB->query($string);
     	if(self::$DB->errno != 0)
     	{
@@ -242,6 +243,7 @@ class DSQL_MySQL extends DSQL
     	{
     		$res->free();
     	}
+    	SProfiler::finish($ptok);
     	return $succ;
     }
        
@@ -251,6 +253,7 @@ class DSQL_MySQL extends DSQL
     public function query($string, $mode = null)
     {
         $usql = $this->stripParams($string);
+    	$ptok = SProfiler::profile(__FILE__, __LINE__, $string, array('queryId' => md5($string), 'functionSQL' => $usql, 'functionId' => md5($usql)));
     	if ($mode != null) 
     	{
     		$res = self::$DB->query($string, $this->translateMode($mode));
@@ -263,6 +266,7 @@ class DSQL_MySQL extends DSQL
     	{
     		throw new XDatabaseException(self::$DB->error, self::$DB->errno, $string);
     	}
+    	SProfiler::finish($ptok);
     	if(!$res instanceof mysqli_result)
     	{
     	    throw new Exception($res);

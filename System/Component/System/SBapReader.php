@@ -11,7 +11,7 @@
  */
 class SBapReader 
     extends 
-        BObject 
+        BSystem 
     implements 
         IShareable 
 {

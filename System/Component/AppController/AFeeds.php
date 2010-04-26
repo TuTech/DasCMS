@@ -317,7 +317,7 @@ class AFeeds
     } 
     
     /**
-     * array(Interface_Content|string file, [string mimetype])
+     * array(BContent|string file, [string mimetype])
      * 
      * @return array
      */

@@ -7,8 +7,7 @@ class Controller_Content
      * @var Controller_Content
      */
 	private static $sharedInstance = null;
-	//alias => [id, content proxy]
-	private $accessedContents = array();
+	
 	/**
      * @return Controller_Content
      */
@@ -23,11 +22,6 @@ class Controller_Content
 	
 	//end IShareable	
 	
-	/**
-	 * @param $alias
-	 * @param $ifIsType
-	 * @return BContent
-	 */
     public function openContent($alias, $ifIsType = null)
     {
 	    if(empty($alias))
@@ -63,39 +57,17 @@ class Controller_Content
 	    }
     }
     
-    /**
-     * @param $alias
-     * @param $opener
-     * @param $failIfReplaced
-     * @return Proxy_Content
-     */
     public function accessContent($alias, BObject $opener, $failIfReplaced = false)
     {
-        //accessed contents are only opened once, except an outdated alias is used
-        if(isset($this->accessedContents[$alias]))
-        {
-            list($origId, $proxy) = $this->accessedContents[$alias];
-        }
-        else
-        {
-            $content = $this->openContent($alias);
-            $origAlias = $content->getAlias();
-            $origGuid = $content->getGUID();
-            $origId = $content->getId();
-            $proxy = Proxy_Content::create($content);
-            $this->accessedContents[$origGuid] = array($origId, $proxy);
-            $this->accessedContents[$origAlias] = &$this->accessedContents[$origGuid];
-            if($proxy->getId() != $origId)
-            {
-                $this->accessedContents[$proxy->getAlias()] = &$this->accessedContents[$origGuid];
-                $this->accessedContents[$proxy->getGUID()] = &$this->accessedContents[$origGuid];
-            }
-        }
-        if($proxy->getId() != $origId && $failIfReplaced)
+        $content = $this->openContent($alias);
+        $e = new EWillAccessContentEvent($opener, $content);
+        if($e->hasContentBeenSubstituted() && $failIfReplaced)
         {
             throw new XInvalidDataException('content replaced but exact open requested');
         }
-        return $proxy;
+        $content = $e->Content;
+        $e = new EContentAccessEvent($opener, $content);
+        return $content;
     }
     
     /*public function createContent($title, $class)

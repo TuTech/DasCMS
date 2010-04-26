@@ -245,7 +245,7 @@ class VSpore extends BView
 	public function hasContent()
 	{
 		$this->loadContent();
-		return ($this->content !== null && $this->content instanceof Interface_Content);
+		return ($this->content !== null && $this->content instanceof BContent);
 	}
 	
 	public static function isActive($sporename)

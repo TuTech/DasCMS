@@ -11,12 +11,12 @@ class Model_Content_Composite_EventDates
     }    
     
     /**
-     * @param Interface_Content $compositeFor
+     * @param BContent $compositeFor
      * @param int $startDate
      * @param int $endDate
      * @return Model_Content_Composite_EventDates
      */
-    public static function setEventDatesForContent(Interface_Content $compositeFor, $startDate, $endDate)
+    public static function setEventDatesForContent(BContent $compositeFor, $startDate, $endDate)
     {
         if(!is_int($startDate) || !is_int($endDate))
         {
@@ -29,12 +29,12 @@ class Model_Content_Composite_EventDates
         return $c;
     }
     
-    public function attachedToContent(Interface_Content $content)
+    public function attachedToContent(BContent $content)
     {
         return true;
     }
     
-    public function __construct(Interface_Content $compositeFor)
+    public function __construct(BContent $compositeFor)
     {
         parent::__construct($compositeFor);
     }

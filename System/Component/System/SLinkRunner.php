@@ -11,7 +11,7 @@
  */
 class SLinkRunner 
     extends 
-        BObject
+        BSystem
     implements 
         HContentAccessEventHandler
 {

@@ -11,7 +11,7 @@
  */
 class SComponentIndex 
     extends 
-        BObject 
+        BSystem 
     implements 
         IShareable 
 {

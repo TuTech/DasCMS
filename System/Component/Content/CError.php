@@ -9,8 +9,7 @@
  * @package Bambus
  * @subpackage Content
  */
-class CError extends BContent implements  
-        Interface_Content,IGlobalUniqueId, ISearchDirectives
+class CError extends BContent implements IGlobalUniqueId, ISearchDirectives
 {
     const GUID = 'org.bambuscms.content.cerror';
     const CLASS_NAME = 'CError';
@@ -31,23 +30,7 @@ class CError extends BContent implements
 		$code = $code == null ? 501 : $code; 
 		return array($code => SHTTPStatus::byCode($code, false));
 	}
-	/**
-	 * initialite property in $var with $dataArray[$var] if it exists or use a default value
-	 * only works if the property is null
-	 *
-	 * @param string $var
-	 * @param array $dataArray
-	 * @param mixed $defaultValue
-	 */
-	protected function initPropertyValues($var,array &$dataArray, $defaultValue)
-	{
-		if($this->{$var} == null)
-		{
-			$this->{$var} = (array_key_exists($var, $dataArray))
-				? $dataArray[$var]
-				: $defaultValue;
-		}
-	}
+
 	public function __construct($Id)	
 	{
 	    $Id = SHTTPStatus::validate($Id);

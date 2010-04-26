@@ -11,7 +11,7 @@ class Formatter_Container
     protected $uniqueName = null;
     protected $persistentAttributes = array('uniqueName', 'attachedAttributes');
     /**
-     * @var Interface_Content
+     * @var BContent
      */
     protected $targetContent = null;
     
@@ -22,7 +22,7 @@ class Formatter_Container
         $this->uniqueName = $uniqueName;
     }
     
-    public function setTargetContent(Interface_Content $content)
+    public function setTargetContent(BContent $content)
     {
         $this->targetContent = $content;
     }
@@ -154,10 +154,10 @@ class Formatter_Container
     
     /**
      * @param string $data
-     * @param Interface_Content $content
+     * @param BContent $content
      * @return Formatter_Container
      */
-    public static function unfreezeForFormatting($name, Interface_Content $content)
+    public static function unfreezeForFormatting($name, BContent $content)
     {
         if(!array_key_exists($name, self::$Formatters))
         {

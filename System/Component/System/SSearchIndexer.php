@@ -11,7 +11,7 @@
  */
 class SSearchIndexer 
     extends 
-        BObject
+        BSystem
     implements 
         HContentChangedEventHandler,
         HContentDeletedEventHandler,
@@ -121,7 +121,7 @@ class SSearchIndexer
 	}
 	
 	/**
-	 * @return Interface_Content|null
+	 * @return BContent|null
 	 */
 	public static function nextToUpdate()
 	{
@@ -135,10 +135,10 @@ class SSearchIndexer
 	    return $content;
 	}
 	/**
-	 * @param Interface_Content $content
+	 * @param BContent $content
 	 * @return void
 	 */
-	public static function updateFeatures(Interface_Content $content)
+	public static function updateFeatures(BContent $content)
 	{
 	    $DB = DSQL::getSharedInstance();
 	    //$DB->beginTransaction();

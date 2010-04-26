@@ -11,7 +11,7 @@
  */
 class SLocalization 
     extends 
-        BObject
+        BSystem
     implements
         IGlobalUniqueId,
         HRequestingClassSettingsEventHandler,

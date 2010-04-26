@@ -11,7 +11,7 @@
  */
 class SPersonBasicAuth 
     extends 
-        BObject 
+        BSystem 
     implements 
         IAuthenticate
 {

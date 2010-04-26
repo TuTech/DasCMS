@@ -8,7 +8,7 @@ class View_Content_Attribute_Location extends _View_Content_Attribute
     public function __construct($aliasOrContent)
     {
         try{
-            $alias = ($aliasOrContent instanceof Interface_Content)
+            $alias = ($aliasOrContent instanceof BContent)
                 ? $aliasOrContent->getAlias()
                 : $aliasOrContent;
             $loc = ULocations::getSharedInstance();

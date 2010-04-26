@@ -8,7 +8,7 @@ class Model_Content_Composite_TargetView extends _Model_Content_Composite
         return array('setTargetView', 'getTargetView');
     }
     
-    public function __construct(Interface_Content $compositeFor)
+    public function __construct(BContent $compositeFor)
     {
         parent::__construct($compositeFor);
     }

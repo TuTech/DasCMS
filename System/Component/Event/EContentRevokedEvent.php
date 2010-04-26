@@ -11,14 +11,14 @@
  */
 class EContentRevokedEvent extends BEvent
 {
-	public function __construct(BObject $sender, Interface_Content $content)
+	public function __construct(BObject $sender, BContent $content)
 	{
 		$this->Sender = $sender;
 		$this->Content = $content;
 		parent::informHandlers($this);
 	}
 	/**
-	 * @var Interface_Content
+	 * @var BContent
 	 */
 	protected $Content;
 }
