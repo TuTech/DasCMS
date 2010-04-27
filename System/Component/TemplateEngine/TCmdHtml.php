@@ -10,15 +10,15 @@
  * @subpackage Template
  */
 class TCmdHtml
-    extends 
+    extends
         BTemplate
-    implements 
-        ITemplateCommand 
+    implements
+        ITemplateCommand
 {
-    private $doctype;
+    private $doctype, $lang = null;
     protected $parsed;
     public $data = array();
-    
+
     public function __construct(DOMNode $node)
     {
         foreach ($node->childNodes as $childNode)
@@ -39,11 +39,15 @@ class TCmdHtml
         {
             SNotificationCenter::report('warning', 'unknown_doctype');
         }
+        $lang = $atts->getNamedItem('lang');
+        if($lang && ctype_alpha($lang)){
+        	$this->lang = $lang;
+        }
     }
-    
+
     public function setUp(array $environment)
     {
-        foreach ($this->parsed as $object) 
+        foreach ($this->parsed as $object)
         {
         	if(is_object($object) && $object instanceof ITemplateCommand)
         	{
@@ -51,11 +55,12 @@ class TCmdHtml
         	}
         }
     }
-    
+
     public function run(array $environment)
     {
-        $out = '<?xml version="1.0" encoding="utf-8"?>'."\n".$this->doctype."\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
-        foreach ($this->parsed as $object) 
+        $out = '<?xml version="1.0" encoding="utf-8"?>'."\n".$this->doctype.
+        		"\n<html".($this->lang == null ? '' : ' lang="'.$this->lang.'"')." xmlns=\"http://www.w3.org/1999/xhtml\">\n";
+        foreach ($this->parsed as $object)
         {
         	if(is_object($object) && $object instanceof ITemplateCommand)
         	{
@@ -68,10 +73,10 @@ class TCmdHtml
         }
         return $out."</html>";
     }
-    
+
     public function tearDown()
     {
-        foreach ($this->parsed as $object) 
+        foreach ($this->parsed as $object)
         {
         	if(is_object($object) && $object instanceof ITemplateCommand)
         	{
@@ -82,14 +87,15 @@ class TCmdHtml
 
     public function __sleep()
     {
-        $this->data = array($this->doctype, $this->parsed);
+        $this->data = array($this->doctype, $this->parsed, $this->lang);
         return array('data');
     }
-    
+
     public function __wakeup()
     {
         $this->doctype = $this->data[0];
         $this->parsed = $this->data[1];
+        $this->lang = (isset($this->data[2])) ? $this->data[2] : null;
         $this->data = array();
     }
 }
