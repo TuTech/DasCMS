@@ -40,8 +40,11 @@ class TCmdHtml
             SNotificationCenter::report('warning', 'unknown_doctype');
         }
         $lang = $atts->getNamedItem('lang');
-        if($lang && ctype_alpha($lang)){
-        	$this->lang = $lang;
+        if($lang){
+        	$lang = strval($lang->nodeValue);
+        	if(ctype_alpha($lang)){
+        		$this->lang = $lang;
+        	}
         }
     }
 
