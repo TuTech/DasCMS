@@ -17,18 +17,19 @@ abstract class BRequest extends BObject
 
     public static function has($key){}
 
-    protected static function cleanGPC(&$data){
+    protected static function cleanGPC($data){
     	if(!get_magic_quotes_gpc()){
     		return;
     	}
 		if(is_array($data)){
 			foreach($data as $k => $v){
-				BRequest::cleanGPC($v);
+				$data[$k] = BRequest::cleanGPC($v);
 			}
 		}
 		else{
 			$data = stripslashes($data);
 		}
+		return $data;
     }
 
     protected static function recodeCharset($data, $charset){

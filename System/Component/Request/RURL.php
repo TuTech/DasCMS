@@ -44,7 +44,7 @@ class RURL extends BRequest
             {
             	self::$data[$key] = $value;
             }
-            BRequest::cleanGPC(self::$data);
+            self::$data = BRequest::cleanGPC(self::$data);
         }
     }
 

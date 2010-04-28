@@ -23,8 +23,7 @@ class RSent extends BRequest
         global $_POST;
         if(self::$data == null)
         {
-            self::$data = $_POST;
-            BRequest::cleanGPC(self::$data);
+            self::$data = BRequest::cleanGPC($_POST);
         }
     }
 
