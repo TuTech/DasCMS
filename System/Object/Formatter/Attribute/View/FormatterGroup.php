@@ -7,17 +7,17 @@ class Formatter_Attribute_View_FormatterGroup
     protected $persistentAttributes = array('textAfter','textBefore', 'formatters', 'className');
     protected $formatters = array();
     protected $className = null;
-    
+
     public function addChildFormatter(_Formatter_Attribute $formatter)
     {
         $this->formatters[] = $formatter;
     }
-    
+
     public function getChildFormatters()
     {
         return $this->formatters;
     }
-    
+
     public function setChildFormatters(array $formatters)
     {
         $this->formatters = array();
@@ -26,17 +26,17 @@ class Formatter_Attribute_View_FormatterGroup
             $this->addChildFormatter($f);
         }
     }
-    
+
     public function getClassName()
     {
         return $this->className;
     }
-    
+
     public function setClassName($text)
     {
         $this->className = strval($text);
     }
-    
+
     /**
      * @param array $formatters
      * @param string $preText
@@ -57,21 +57,21 @@ class Formatter_Attribute_View_FormatterGroup
         $f->setChildFormatters($formatters);
         return $f;
     }
-    
+
     protected function getFormatterClass()
     {
         return 'FormatterGroup'.($this->className !== null ? ' '.$this->className : '');
-    } 
-    
+    }
+
     public function toXHTML($insertString = null)
     {
         $str = '';
         $class = ($this->className === null) ? '' : sprintf(' class="%s"', $this->className);
-        
+
         foreach ($this->formatters as $f)
         {
             $f->setParentContainer($this->parentContainer);
-            $str .= $f->toXHTML();
+            $str .= strval($f);//->toXHTML();
         }
         return parent::toXHTML($str);
     }
