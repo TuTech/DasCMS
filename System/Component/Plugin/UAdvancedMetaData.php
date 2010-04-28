@@ -9,9 +9,9 @@
  * @package Bambus
  * @subpackage Plugin
  */
-class UAdvancedMetaData 
-    extends BPlugin 
-    implements 
+class UAdvancedMetaData
+    extends BPlugin
+    implements
         HRequestingClassSettingsEventHandler,
         HUpdateClassSettingsEventHandler,
         HWillSendHeadersEventHandler
@@ -24,7 +24,7 @@ class UAdvancedMetaData
             'region'    => 'UAdvancedMetaData_region'
         )
     );
-    
+
     private static $map = array(
         'site_location_location' => array('geo.location', 'ICBM'),
         'site_location_longitude' => array(),
@@ -32,7 +32,7 @@ class UAdvancedMetaData
         'site_location_placename' => array('geo.placename'),
         'site_location_region' => array('geo.region')
     );
-    
+
     public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
     {
         foreach (self::$keys as $sect => $ks)
@@ -45,10 +45,10 @@ class UAdvancedMetaData
             $e->addClassSettings($this, $sect, $data);
         }
     }
-    
+
     public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
     {
-        
+
         $data = $e->getClassSettings($this);
         foreach (self::$keys as $sect => $ks)
         {
@@ -61,7 +61,7 @@ class UAdvancedMetaData
             }
         }
     }
-    
+
     public function HandleWillSendHeadersEvent(EWillSendHeadersEvent $e)
     {
         $data = array();
@@ -78,12 +78,14 @@ class UAdvancedMetaData
             $data['site_location_location'] = $data['site_location_latitude'].';'.$data['site_location_longitude'];
         }
         $h = $e->getHeader();
-        
+
         foreach (self::$map as $key => $metaKeys)
         {
             foreach ($metaKeys as $mkey)
             {
-                $h->addMeta($data[$key], $mkey);
+            	if(strlen($data[$key]) > 0){
+            		$h->addMeta($data[$key], $mkey);
+            	}
             }
         }
     }
