@@ -75,7 +75,7 @@ class Formatter_Attribute_View_PreviewImage
 
     public function setBackgroundColor($color)
     {
-        if(!preg_match('/^#([0-9a-f]{3}|[0-9a-f]{6})$/ui'))
+        if(!preg_match('/^#([0-9a-f]{3}|[0-9a-f]{6})$/ui', $color))
         {
             throw new XArgumentException('given valus must be color formatted like #ffffff or #fff');
         }
