@@ -6,17 +6,17 @@ abstract class Formatter_Attribute_Options
     protected $persistentAttributes = array('selectedOption');
     protected $options = array();
     protected $selectedOption = null;
-    
+
     public function getAvailableOptions()
     {
         return $this->options;
     }
-    
+
     public function getSelectedOption()
     {
         return $this->selectedOption;
     }
-        
+
     public function setSelectedOption($option)
     {
         if(array_key_exists($option, $this->getAvailableOptions()))
@@ -28,7 +28,7 @@ abstract class Formatter_Attribute_Options
             throw new XUndefinedIndexException('given option not available');
         }
     }
-    
+
     public function toJSON(array $parentData = array())
     {
         if(!isset($parentData['data']))
@@ -38,6 +38,11 @@ abstract class Formatter_Attribute_Options
         $parentData['data']['options'] = $this->getAvailableOptions();
         $parentData['data']['selectedOption'] = $this->getSelectedOption();
         return parent::toJSON($parentData);
+    }
+
+	public function toXHTML($insertString = null)
+    {
+        return parent::toXHTML($insertString);
     }
 }
 ?>
