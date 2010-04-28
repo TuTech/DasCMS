@@ -9,17 +9,17 @@
  * @package Bambus
  * @subpackage Widget
  */
-class WImage extends BWidget 
+class WImage extends BWidget
 {
     const MODE_SCALE_TO_MAX = 0;
     const MODE_FORCE = 1;
-    
+
     const FORCE_BY_STRETCH = 's';
     const FORCE_BY_CROP = 'c';
     const FORCE_BY_FILL = 'f';
-    
+
     private static $retainCounts = null;
-    
+
     private $width = null;
     private $height = null;
     /**
@@ -32,11 +32,13 @@ class WImage extends BWidget
     private $forceType = '';
     private $fillColor = '';
     private $scaleHash = '';
+    private $noCacheAddOn = '';
     private $imageID = '_';//default cms preview image
     private $allowsPreview = true;
-    
+
     private $isPreviewImage = false;
     private $cssID = null;
+
     /**
      * @return WImage
      */
@@ -45,7 +47,27 @@ class WImage extends BWidget
         $this->isPreviewImage = true;
         return $this;
     }
-    
+
+    /**
+     * @return WImage
+     */
+    public function asUncachedImage()
+    {
+    	$this->noCacheAddOn = '/v/'.sha1('nocache'.time());
+    	return $this;
+    }
+
+    /**
+     * @return WImage
+     */
+    public function asCachedImage()
+    {
+    	$this->noCacheAddOn = '';
+    	return $this;
+    }
+
+
+
     /**
      * create image for output
      * @param IFileContent$content
@@ -64,24 +86,24 @@ class WImage extends BWidget
             $img = '_';
             if($res->getRowCount() == 1)
             {
-                list($pid) = $res->fetch(); 
+                list($pid) = $res->fetch();
                 $img = $pid;
             }
             $res->free();
         }
         return $img;
-    }  
-      
+    }
+
     public function getCSSId()
     {
         return $this->cssID;
     }
-    
+
     public function setCSSId($value)
     {
         $this->cssID = $value;
     }
-    
+
     /**
      * create image for output
      * @param IFileContent$content
@@ -91,7 +113,7 @@ class WImage extends BWidget
     {
         $img = new WImage();
         $img->content = $content;
-        if ($content instanceof IFileContent) 
+        if ($content instanceof IFileContent)
         {
             if(self::supportedMimeType($content->getMimeType()))
             {
@@ -105,7 +127,7 @@ class WImage extends BWidget
             $res = QWImage::getPreviewAlias($content->getId());
             if($res->getRowCount() == 1)
             {
-                list($pid) = $res->fetch(); 
+                list($pid) = $res->fetch();
                 $img->imageID = $pid;
             }
             $res->free();
@@ -113,7 +135,7 @@ class WImage extends BWidget
         return $img;
     }
     /**
-     * returns 
+     * returns
      * 	a) the alias of the preview image
      * 	b) an empty string if no preview is set
      * 	c) null if preview can not be set
@@ -129,7 +151,7 @@ class WImage extends BWidget
         {
             return null;
         }
-    }    
+    }
     public static function resolvePreviewId($id)
     {
         $alias = '';
@@ -141,11 +163,11 @@ class WImage extends BWidget
         $res->free();
         return $alias;
     }
-    
+
     public static function setPreview($contentAlias, $previewAlias)
     {
         $res = QWImage::getpreviewId($previewAlias);
-        //is the content assigned to $previewAlias a valid preview? (mimetype image/(jpe?g|png|gif)) 
+        //is the content assigned to $previewAlias a valid preview? (mimetype image/(jpe?g|png|gif))
         if($res->getRowCount())
         {
             list($pid) = $res->fetch();
@@ -158,21 +180,21 @@ class WImage extends BWidget
         }
         $res->free();
     }
-    
+
     public static function supportedMimeType($type)
     {
         return in_array($type, self::getSupportedMimeTypes());
     }
-        
+
     public static function getSupportedMimeTypes()
     {
         return array('image/jpg','image/jpeg','image/png','image/gif');
     }
-    
+
     public static function getRetainCounts()
     {
         if(self::$retainCounts == null)
-        { 
+        {
             $res = QWImage::getRetainCounts();
             self::$retainCounts = array();
             while($row = $res->fetch())
@@ -182,7 +204,7 @@ class WImage extends BWidget
         }
         return self::$retainCounts;
     }
-    
+
     public static function getRetainersFor($alias)
     {
         $ret = array();
@@ -193,7 +215,7 @@ class WImage extends BWidget
         }
         return $ret;
     }
-    
+
     public static function getAllPreviewContents()
     {
         //alias => title
@@ -204,8 +226,8 @@ class WImage extends BWidget
             $ret[$row[0]] = $row[1];
         }
         return $ret;
-    } 
-    
+    }
+
     public static function forCFileData($id, $type, $alias, $title)
     {
         $img = new WImage();
@@ -217,7 +239,7 @@ class WImage extends BWidget
         }
         return $img;
     }
-    
+
     /**
      * set scale method
      * @param int $width
@@ -234,18 +256,18 @@ class WImage extends BWidget
         $qual = intval(LConfiguration::get('CFile_image_quality'));
         if(!file_exists(SPath::TEMP.'scale.render.'.$qual.'.'.$this->imageID.'-'.$this->scaleHash)
             && !PAuthorisation::has('org.bambuscms.bcontent.previewimage.create') //does not need explicit permission
-            )    
+            )
         {
             //generate temporary permission file
             touch(SPath::TEMP.'scale.permit.'.$this->imageID.'-'.$this->scaleHash);
         }
         return $this;
     }
-    
+
     public static function createScaleHash($width, $heigth, $mode = self::MODE_SCALE_TO_MAX, $forceType = self::FORCE_BY_FILL, $fillColor = '#ffffff')
     {
         $matches = array();
-        //split 3 and 6 letter hex-color-codes into r,g and b 
+        //split 3 and 6 letter hex-color-codes into r,g and b
         preg_match('/^#?(([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})([0-9A-Fa-f]{2}))$/',$fillColor,$matches);
         $r = $g = $b = 'ff';
         if($matches)
@@ -260,15 +282,16 @@ class WImage extends BWidget
             $forceType,
             $r,$g,$b
         );
-        
+
     }
-    
+
     public function __toString()
     {
         return sprintf(
-            "<img src=\"image.php/%s/%s\"%s alt=\"%s\" title=\"%s\" %s/>"
+            "<img src=\"image.php/%s/%s%s\"%s alt=\"%s\" title=\"%s\" %s/>"
             ,empty($this->content) ? $this->alias : $this->content->getAlias()
             ,$this->scaleHash
+            ,$this->noCacheAddOn
             ,($this->isPreviewImage ? ' class="PreviewImage"' : '')
             ,htmlentities(empty($this->content) ? $this->title : $this->content->getTitle(), ENT_QUOTES, CHARSET)
             ,htmlentities(empty($this->content) ? $this->title : $this->content->getTitle(), ENT_QUOTES, CHARSET)
