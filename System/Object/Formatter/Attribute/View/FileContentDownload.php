@@ -19,7 +19,7 @@ extends Formatter_Attribute_Link
 			//only active for contents with scope
 			return '';
 		}
-		$str = $this->createDonwnloadLink($scope,$insertString);
+		$str = $this->createDonwnloadLink($this->getContent());
 		return _Formatter_Attribute::toXHTML($str);
 	}
 
