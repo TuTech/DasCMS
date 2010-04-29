@@ -19,7 +19,7 @@ abstract class BRequest extends BObject
 
     protected static function cleanGPC($data){
     	if(!get_magic_quotes_gpc()){
-    		return;
+    		return $data;
     	}
 		if(is_array($data)){
 			foreach($data as $k => $v){
