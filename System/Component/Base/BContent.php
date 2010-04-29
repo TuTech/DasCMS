@@ -12,9 +12,9 @@
 abstract class BContent extends BObject
 {
 	protected $_origPubDate;
-		
+
 	//Properties - to be handled in __get() & __set()
-	protected 
+	protected
 		$Id, 		//class unique id
 		$GUID,      //Global Unique ID
 		$Title, 	//title of object
@@ -26,9 +26,9 @@ abstract class BContent extends BObject
 		$CreateDate,//creation timestamp of object
 		$CreatedBy,
 		$ModifyDate,//timestamp: last modified
-		$ModifiedBy, 
+		$ModifiedBy,
 		$Source,	//where does it come from local|url
-		$Tags = null,	
+		$Tags = null,
 		$Description,//meta description - plain text
 		$Size,
 		$MimeType
@@ -37,12 +37,12 @@ abstract class BContent extends BObject
 	/////////
 	//Linking
     private $parentView = null;
-    
+
 	public function setParentView(VSpore $pv)
 	{
 		$this->parentView = $pv;
 	}
-	
+
 	/**
 	 * @return VSpore
 	 */
@@ -50,46 +50,47 @@ abstract class BContent extends BObject
 	{
 		return $this->parentView;
 	}
-	
+
 	//Linking
 	/////////
-	
+
 	////////////
 	//Composites
-	
+
 	const COMPOSITE_PREFIX = 'Model_Content_Composite_';
-	
+
 	/**
 	 * this must not be used outside of BContent::composites()
-	 * @var unknown_type
+	 * @var array
 	 */
 	protected static $_composites = array(
 	    'Statistics',
 	    'History',
-	    'Location'
-	);	
-	
+	    'Location',
+		'AssignedRelations'
+	);
+
 	/**
 	 * compIndex => method
 	 * @var array
 	 */
 	protected $_compositeMethodLookup = null;
-	
+
 	/**
 	 * complete list of composites loaded from composites()
 	 * compIndex => compName
 	 * @var array
 	 */
 	protected $_compositeLookup = null;
-	
+
 	/**
 	 * complete list of composites loaded from composites()
 	 * compIndex => compClass
 	 * @var array
 	 */
 	protected $loadedComposites = array();
-	
-	
+
+
 	/**
 	 * overwrite for more composites
 	 * compIndex => compName
@@ -99,7 +100,7 @@ abstract class BContent extends BObject
 	{
 	    return self::$_composites;
 	}
-	
+
 	protected function initComposites()
 	{
 	    if($this->_compositeMethodLookup === null)
@@ -108,7 +109,7 @@ abstract class BContent extends BObject
 	        $contentType = get_class($this);
 	        $this->_compositeLookup = array_unique($this->composites());
 	        $this->_compositeMethodLookup = array();
-	        
+
 	        //walk through attached composites
 	        foreach ($this->_compositeLookup as $index => $comp)
 	        {
@@ -135,7 +136,7 @@ abstract class BContent extends BObject
 	        }
 	    }
 	}
-	
+
 	public function attachComposite(Interface_Composites_Attachable $composite)
 	{
 	    $this->initComposites();
@@ -168,20 +169,20 @@ abstract class BContent extends BObject
             }
         }
 	}
-	
-	
+
+
 	protected function hasMethod($method)
 	{
 	    $this->initComposites();
 	    return method_exists($this, $method) || isset($this->_compositeMethodLookup[$method]);
 	}
-		
+
 	public function hasComposite($composite)
 	{
 	    $this->initComposites();
 	    return in_array($composite, $this->_compositeLookup);
 	}
-	
+
 	protected function getCompositeForIndex($index)
 	{
 	    $this->initComposites();
@@ -192,20 +193,20 @@ abstract class BContent extends BObject
     	    {
     	        throw new XUndefinedIndexException('composite not found');
     	    }
-    	    
+
     	    //check composite class
     	    $compositeClass = BContent::COMPOSITE_PREFIX.$this->_compositeLookup[$index];
     	    if(!class_exists($compositeClass, true))
     	    {
     	        throw new XUndefinedException('composite not found');
     	    }
-    	    
+
     	    //init composite class
     	    $this->loadedComposites[$index] = new $compositeClass($this);
 	    }
 	    return $this->loadedComposites[$index];
-	}		
-	
+	}
+
 	public function __call($method, $args)
 	{
 	    $this->initComposites();
@@ -215,7 +216,7 @@ abstract class BContent extends BObject
 	        return call_user_func_array(array($comp, $method), $args);
 	    }
 	}
-	
+
 	//Composites
 	////////////
 
@@ -239,7 +240,7 @@ abstract class BContent extends BObject
 	    $this->Size = $sz;
 	    $this->GUID = $guid;
 	}
-	
+
 	/**
 	 * save meta data to db
 	 * @return void
@@ -248,7 +249,7 @@ abstract class BContent extends BObject
 	{
 	    QBContent::saveMetaData($this->Id, $this->Title, $this->PubDate, $this->Description, $this->Size, $this->SubTitle);
 	}
-		
+
 	protected static function isIndexingAllowed($contentID)
 	{
 	    $res = QBContent::getAllowSearchIndexing($contentID);
@@ -256,7 +257,7 @@ abstract class BContent extends BObject
 	    $res->free();
 	    return $allowed;
 	}
-	
+
 	/**
 	 * Forwarder for getter functions
 	 *
@@ -266,16 +267,17 @@ abstract class BContent extends BObject
 	 */
 	public function __get($var)
 	{
+		$var = ucfirst($var);
 		if($this->hasMethod('get'.$var))
 		{
-			return $this->{'get'.$var}();	
+			return $this->{'get'.$var}();
 		}
 		else
 		{
 			throw new XUndefinedIndexException($var.' not in object');
 		}
 	}
-	
+
 	/**
 	 * Forwarder for setter functions
 	 *
@@ -286,17 +288,18 @@ abstract class BContent extends BObject
 	 */
 	public function __set($var, $value)
 	{
+		$var = ucfirst($var);
 		if($this->hasMethod('set'.$var))
 		{
 		    $this->__get($var); //trigger autoloads
-			return $this->{'set'.$var}($value);	
+			return $this->{'set'.$var}($value);
 		}
 		else
 		{
 			throw new XPermissionDeniedException($var.' is read only');
 		}
 	}
-	
+
 	/**
 	 * Chech existance of getter function for $var
 	 *
@@ -305,19 +308,19 @@ abstract class BContent extends BObject
 	 */
 	public function __isset($var)
 	{
-		return $this->hasMethod('get'.$var);
+		return $this->hasMethod('get'.ucfirst($var));
 	}
-	
+
 	/**
-	 * String representation of this object 
-	 * 
+	 * String representation of this object
+	 *
 	 * @return string
 	 */
 	public function __toString()
 	{
 		return strval($this->getContent());
 	}
-	
+
 	/**
 	 * @return string
 	 */
@@ -325,7 +328,7 @@ abstract class BContent extends BObject
 	{
 		return $this->Id;
 	}
-	
+
 	/**
 	 * @return string
 	 */
@@ -333,7 +336,7 @@ abstract class BContent extends BObject
 	{
 		return $this->GUID;
 	}
-	
+
 	/**
 	 * Icon for this filetype
 	 * @return WIcon
@@ -342,7 +345,7 @@ abstract class BContent extends BObject
 	{
 	    return new WIcon('BContent', 'content', WIcon::LARGE, 'mimetype');
 	}
-	
+
 	/**
 	 * Icon for this object
 	 * @return WIcon
@@ -351,7 +354,7 @@ abstract class BContent extends BObject
 	{
 	    return BContent::defaultIcon();
 	}
-	
+
 	/**
 	 * Icon for this object
 	 * @return WImage
@@ -360,20 +363,20 @@ abstract class BContent extends BObject
 	{
 	    return WImage::forContent($this);
 	}
-	
+
 	public function setPreviewImage($previewAlias)
 	{
 	    WImage::setPreview($this->getAlias(), $previewAlias);
 	}
-	
+
 	/**
 	 * @return string
 	 */
 	public function getTitle()
 	{
 		return $this->Title;
-	}	
-	
+	}
+
 	/**
 	 * @return string
 	 */
@@ -381,7 +384,7 @@ abstract class BContent extends BObject
 	{
 		return $this->SubTitle;
 	}
-	
+
 	/**
 	 * @return string
 	 */
@@ -389,7 +392,7 @@ abstract class BContent extends BObject
 	{
 		return $this->MimeType;
 	}
-	
+
 	/**
 	 * @param string $value
 	 */
@@ -400,19 +403,19 @@ abstract class BContent extends BObject
 			$this->Title = $value;
 		}
 	}
-	
+
 	/**
 	 * allowed html: <b><i><u><s><strong><sub><sup><small><br>
 	 * @param string $value
 	 */
 	public function setSubTitle($value)
 	{
-	    //replace unwanted tags 
+	    //replace unwanted tags
 	    //$value = preg_replace('/<\s*\/?\s*(!?:(b|i|u|s|sub|sup))\s*>/mui', '', $value);
 	    $value = strip_tags($value, '<b><i><u><s><strong><sub><sup><small><br>');
 		$this->SubTitle = $value;
 	}
-	
+
 	/**
 	 * @return array
 	 */
@@ -424,7 +427,7 @@ abstract class BContent extends BObject
 		}
 		return $this->Tags;
 	}
-	
+
 	/**
 	 * @param array|string $value
 	 */
@@ -439,7 +442,7 @@ abstract class BContent extends BObject
 			$this->Tags = STag::parseTagStr($value);
 		}
 	}
-	
+
 	/**
 	 * @return string
 	 */
@@ -447,7 +450,7 @@ abstract class BContent extends BObject
 	{
 		return $this->Alias;
 	}
-	
+
 	/**
 	 * @return int
 	 */
@@ -455,7 +458,7 @@ abstract class BContent extends BObject
 	{
 		return $this->Size;
 	}
-	
+
 	/**
 	 * @return int
 	 */
@@ -463,7 +466,7 @@ abstract class BContent extends BObject
 	{
 		return ($this->PubDate == 0) ? '' : $this->PubDate;
 	}
-	
+
 	/**
 	 * @param int|string $value
 	 */
@@ -490,7 +493,7 @@ abstract class BContent extends BObject
 	{
 		return 'local';
 	}
-	
+
 	/**
 	 * @return string
 	 */
@@ -498,7 +501,7 @@ abstract class BContent extends BObject
 	{
 		return $this->Content;
 	}
-	
+
 	/**
 	 * @param string $value
 	 */
@@ -506,7 +509,7 @@ abstract class BContent extends BObject
 	{
 		$this->Content = $value;
 	}
-	
+
 	/**
 	 * @return string
 	 */
@@ -514,7 +517,7 @@ abstract class BContent extends BObject
 	{
 		return $this->Description;
 	}
-	
+
 	/**
 	 * @param string $value
 	 */
@@ -522,7 +525,7 @@ abstract class BContent extends BObject
 	{
 		$this->Description = $value;
 	}
-	
+
 	/**
 	 * @return string
 	 */
@@ -530,17 +533,21 @@ abstract class BContent extends BObject
 	{
 		return strip_tags($this->getContent());
 	}
-	
+
 	//functions to overwrite
 	public abstract function __construct($Id);	//object should load its data here
 												//$id is class internal id or cms wide id-path
 	//public abstract function Save();
-	
+
 	protected function Save()
 	{
 	    $this->setModifiedBy(PAuthentication::getUserID());
 		$this->setModifyDate(time());
 	    $this->saveMetaToDB();
+	    //foreach loaded composite: ->save
+	    foreach ($this->loadedComposites as $composite) {
+	    	$composite->contentSaves();
+	    }
 		$e = new EContentChangedEvent($this, $this);
 		if($this->_origPubDate != $this->PubDate)
 		{

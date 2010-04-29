@@ -9,22 +9,22 @@
  * @package Bambus
  * @subpackage View
  */
-class VSporeHelper 
-    extends 
-        BView 
-    implements 
-        ITemplateSupporter, 
-        IGlobalUniqueId 
+class VSporeHelper
+    extends
+        BView
+    implements
+        ITemplateSupporter,
+        IGlobalUniqueId
 {
     const GUID = 'org.bambuscms.view.spore';
-    
+
     public function getClassGUID()
     {
         return self::GUID;
     }
-    
+
     private static $spores = array();
-    
+
     private static $functions = array(
         'content' => array('view'),
         'description' => array('view'),
@@ -39,11 +39,11 @@ class VSporeHelper
     	'altercontent' => array('view', 'alias'),
         'formatter' => array('view','use')
     );
-    
+
     public function __construct()
     {
     }
-    
+
     /**
      * get spore for name
      *
@@ -63,7 +63,7 @@ class VSporeHelper
         }
         return self::$spores[$name];
     }
-    
+
     private function altercontent($spore, $alias)
     {
         if(!VSpore::exists($spore) || !VSpore::isActive($spore))
@@ -80,7 +80,7 @@ class VSporeHelper
             echo $e;
         }
     }
-    
+
     private function formatter($spore, $formatter)
     {
         try{
@@ -90,37 +90,37 @@ class VSporeHelper
             return $e->getTraceAsString();
         }
     }
-    
+
     private function type($spore)
     {
         return get_class($this->sporeContent($spore));
     }
-    
+
     private function content($spore)
     {
         return $this->sporeContent($spore)->getContent();
     }
-    
+
     private function description($spore)
     {
         return $this->sporeContent($spore)->getDescription();
     }
-    
+
     private function title($spore)
     {
         return $this->sporeContent($spore)->getTitle();
     }
-    
+
     private function subtitle($spore)
     {
         return $this->sporeContent($spore)->getSubTitle();
     }
-    
+
     private function pubdate($spore)
     {
         return $this->sporeContent($spore)->getPubDate();
     }
-    
+
     private function previewimage($spore, $width, $height, $scale, $color)
     {
         $img = $this->sporeContent($spore)->getPreviewImage()->asPreviewImage();
@@ -128,7 +128,7 @@ class VSporeHelper
         {
             $mode = WImage::MODE_FORCE;
             $force = WImage::FORCE_BY_CROP;
-            
+
             switch($scale)
             {
                 case 'aspect_fit':
@@ -145,17 +145,17 @@ class VSporeHelper
         $img->setCSSId('_'.$this->sporeContent($spore)->getGUID().'_previewimage');
         return $img;
     }
-    
+
     private function author($spore)
     {
         return $this->sporeContent($spore)->Author;
     }
-    
+
     private function tags($spore)
     {
         return implode(', ',$this->sporeContent($spore)->getTags());
     }
-    
+
     private function property($spore, $propname)
     {
         try{
@@ -163,7 +163,7 @@ class VSporeHelper
             return $s->__get($propname);
         }catch (Exception $e){return '';}
     }
-    
+
     /**
      * return an array with function => array(0..n => parameters [, 'description' =>  desc])
      *
@@ -173,7 +173,7 @@ class VSporeHelper
     {
         return self::$functions;
     }
-    
+
     /**
      * return an array with attributeName => description
      *
@@ -192,7 +192,7 @@ class VSporeHelper
 	{
 	    return in_array($function, array_keys(self::$functions));
 	}
-	
+
 	/**
 	 * @param string $function
 	 * @param array $namedParameters
@@ -231,7 +231,7 @@ class VSporeHelper
 	            return $this->{$function}($namedParameters['view']);
 	    }
 	}
-	
+
 	/**
 	 * @param string $property
 	 * @return string in utf-8

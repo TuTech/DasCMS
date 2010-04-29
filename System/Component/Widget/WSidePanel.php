@@ -9,8 +9,8 @@
  * @package Bambus
  * @subpackage Widget
  */
-class WSidePanel 
-    extends 
+class WSidePanel
+    extends
         BWidget
     implements
         IShareable
@@ -24,12 +24,12 @@ class WSidePanel
     const WYSIWYG = 32;
     const RETAIN = 64;
     const INFORMATION = 128;
-    
+
     private $mode = self::NONE;
     private $mimetype;
     private $object = null;
     private $enableAutoProcess = false;
-    
+
 	private $sidebarWidgets = array();
 	private $inputsProcessed = false;
 	//IShareable
@@ -52,11 +52,11 @@ class WSidePanel
 		return self::$sharedInstance;
 	}
 	//end IShareable
-	//loads all components 
+	//loads all components
 	private function __construct()
 	{
 	}
-	
+
 	public function setTargetContent(BContent $content)
 	{
 	    if(isset($this->object))
@@ -70,7 +70,7 @@ class WSidePanel
 	        $this->processInputs();
 	    }
 	}
-	
+
 	public function setTarget($name, $type)
 	{
 	    if(isset($this->object))
@@ -84,63 +84,63 @@ class WSidePanel
 	        $this->processInputs();
 	    }
 	}
-	
+
 	private function targetFail($failmessage)
 	{
 	    if(!isset($this->object))
 	    {
 	        throw new XInvalidDataException($failmessage);
-	    }	   
+	    }
 	}
-	
+
 	public function hasTarget()
 	{
 	    return $this->object !== null;
 	}
-	
+
 	public function isTargetObject()
 	{
 	    $this->targetFail('target object not set');
 	    return is_object($this->object);
 	}
-	
+
 	public function getTarget()
 	{
-	    $this->targetFail('target object not set');	    
+	    $this->targetFail('target object not set');
 	    return $this->object;
 	}
-	
+
 	public function getTargetMimeType()
 	{
-	    $this->targetFail('target object not set');    
+	    $this->targetFail('target object not set');
 	    return $this->mimetype;
 	}
-	
+
 	public function isMode($mode)
 	{
 	    return ($this->mode & $mode);
 	}
-	
+
 	public function getMode()
 	{
 	    return $this->mode;
 	}
-	
+
 	public function setMode($mode)
 	{
 	    return $this->mode = $mode;
 	}
-	
+
 	private function loadWidgets()
 	{
 		//load all ISidebarWidget
 		$ci = SComponentIndex::getSharedInstance();
 		$widgetNames = $ci->ImplementationsOf("ISidebarWidget");
 		$widgets = array();
-		foreach ($widgetNames as $v) 
+		foreach ($widgetNames as $v)
 		{
-		    if(class_exists($v) 
-		        && is_callable($v.'::isSupported') 
+		    if(class_exists($v)
+		        && is_callable($v.'::isSupported')
 		        && call_user_func($v.'::isSupported', $this))
 		    {
 		        try{
@@ -151,12 +151,12 @@ class WSidePanel
 		    }
 		}
 	}
-	
+
 	public function hasWidgets()
 	{
 	    return count($this->sidebarWidgets) > 0;
 	}
-	
+
 	private function selectWidget()
 	{
 	    $widgets = array_keys($this->sidebarWidgets);
@@ -180,7 +180,7 @@ class WSidePanel
 	        case 'auto': $this->enableAutoProcess = true;break;
 	    }
 	}
-	
+
 	public function processInputs()
 	{
 	    if(!$this->inputsProcessed)
@@ -202,14 +202,14 @@ class WSidePanel
     	    $this->loadWidgets();
     	    if(count($this->sidebarWidgets) > 0)
     		{
-    		    foreach ($this->sidebarWidgets as $class => $object) 
+    		    foreach ($this->sidebarWidgets as $class => $object)
     		    {
     		        $object->processInputs();
     		    }
     		}
 	    }
 	}
-	
+
 	/**
 	 * @return string
 	 */
@@ -230,7 +230,7 @@ class WSidePanel
     			//select
     			$html .= sprintf('<input type="hidden" name="WSidebar-selected" id="WSidebar-selected" value="" />',htmlentities($selectedWidget));
     			$html .= '<table id="WSidebar-select"><tr>'."\n";
-    			foreach ($this->sidebarWidgets as $class => $object) 
+    			foreach ($this->sidebarWidgets as $class => $object)
     			{
     		        $html .=  sprintf(
     		        	"<td class=\"tab\"><a onmousedown=\"return org.bambuscms.wsidebar.show('%s'%s)\" href=\"javascript:nil();\" id=\"WSidebar-selector-%s\" title=\"%s\"%s>%s</a></td>\n"
@@ -242,11 +242,11 @@ class WSidePanel
     		        	,$object->getIcon()
     		        );
     			}
-    			
+
     			$html .= '<td class="spacer"></td></tr></table>';
     			$html .= "\n\t</div>\n<div id=\"WSidebar\">\n\t<div class=\"side-scroll-body\">\n\t<div id=\"WSidebar-body\">\n";
     			//widgets
-    			foreach ($this->sidebarWidgets as $class => $object) 
+    			foreach ($this->sidebarWidgets as $class => $object)
     			{
     				$html .= sprintf(
     					"\t\t<div class=\"WSidebar-child\" id=\"WSidebar-child-%s\"%s>%s</div>\n"

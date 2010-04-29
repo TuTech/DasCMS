@@ -1,13 +1,13 @@
 <?php
-class Controller_Content 
+class Controller_Content
 {
-    //IShareable	
-    
+    //IShareable
+
     /**
      * @var Controller_Content
      */
 	private static $sharedInstance = null;
-	
+
 	/**
      * @return Controller_Content
      */
@@ -19,9 +19,9 @@ class Controller_Content
 		}
 		return self::$sharedInstance;
 	}
-	
-	//end IShareable	
-	
+
+	//end IShareable
+
     public function openContent($alias, $ifIsType = null)
     {
 	    if(empty($alias))
@@ -38,7 +38,7 @@ class Controller_Content
             throw new XInvalidDataException($class.' not found');
         }
     }
-    
+
     /**
      * always returns a content
      * no exceptions
@@ -51,15 +51,23 @@ class Controller_Content
 	    {
 	        return $this->openContent($alias, $ifIsType);
 	    }
+	    catch(XUndefinedException $e)
+	    {
+            return new CError(404);
+	    }
+	    catch(XInvalidDataException $e)
+	    {
+            return new CError(500);
+	    }
 	    catch(Exception $e)
 	    {
             return new CError(404);
 	    }
     }
-    
+
     public function accessContent($alias, BObject $opener, $failIfReplaced = false)
     {
-        $content = $this->openContent($alias);
+        $content = $this->tryOpenContent($alias);
         $e = new EWillAccessContentEvent($opener, $content);
         if($e->hasContentBeenSubstituted() && $failIfReplaced)
         {
@@ -69,12 +77,12 @@ class Controller_Content
         $e = new EContentAccessEvent($opener, $content);
         return $content;
     }
-    
+
     /*public function createContent($title, $class)
     {
-        
+
     }*/
-    
+
     public function deleteContent($alias)
     {
         try
@@ -93,7 +101,7 @@ class Controller_Content
 	    }
 	    return $succ;
     }
-    
+
     public function contentExists($alias)
     {
         $res = QBContent::exists($alias);
@@ -101,7 +109,7 @@ class Controller_Content
 	    $res->free();
 	    return $c == 1;
     }
-    
+
     public function contentIndex($class, $titleOnly = false)
     {
 		try
@@ -110,7 +118,7 @@ class Controller_Content
 			$index = array();
 			while ($arr = $res->fetch())
 			{
-			    list($title, $pubdate, $alias, $type, $id) = $arr; 
+			    list($title, $pubdate, $alias, $type, $id) = $arr;
 				$index[$alias] = $titleOnly ? $title : array($title, $pubdate, $type, $id);
 			}
 			$res->free();
@@ -121,7 +129,7 @@ class Controller_Content
 		}
 		return $index;
     }
-    
+
 	/**
 	 * guid => title
 	 * @return array
@@ -136,7 +144,7 @@ class Controller_Content
 	    }
 	    return $index;
 	}
-	
+
 	public function getContentInformationBulk(array $aliases)
 	{
 	    $res = QBContent::getPrimaryAliases($aliases);
@@ -150,13 +158,13 @@ class Controller_Content
 		    $revmap[$primary] = $reqest;
 		}
 	    $res->free();
-	    
+
 	    $res = QBContent::getBasicInformation($map);
 	    while ($erg = $res->fetch())
 		{
 		    list($title, $pubdate, $alias) = $erg;
 		    $infos[$revmap[$alias]] = array(
-		        'Title' => $title, 
+		        'Title' => $title,
 				'Alias' => $alias,
 				'PubDate' => strtotime($pubdate)
 			);
@@ -164,14 +172,14 @@ class Controller_Content
 		$res->free();
 		return $infos;
 	}
-	
+
 	//content chains
-	
+
 	public function chainContentsToClass($class, array $aliases)
 	{
 	    return QBContent::chainContensToClass(is_object($class) ? get_class($class) : $class, $aliases);
 	}
-	
+
 	public function getContentsChainedToClass($class)
 	{
 	    $res = QBContent::getContentsChainedToClass(is_object($class) ? get_class($class) : $class);
@@ -183,7 +191,7 @@ class Controller_Content
 	    $res->free();
 	    return $guids;
 	}
-	
+
 	public function releaseContentChainsToClass($class, $aliases = null)
 	{
 	    if(is_array($aliases) || $aliases == null)

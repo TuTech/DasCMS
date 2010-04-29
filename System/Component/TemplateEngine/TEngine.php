@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage Template
  */
-class TEngine extends BTemplate 
+class TEngine extends BTemplate
 {
     private $executionStack;
     private $closed = false;
@@ -30,7 +30,7 @@ class TEngine extends BTemplate
         );
         $this->executionStack = DFileSystem::LoadData($filename);
         //setUp()
-        foreach ($this->executionStack as $object) 
+        foreach ($this->executionStack as $object)
         {
         	if(is_object($object) && $object instanceof ITemplateCommand)
         	{
@@ -38,7 +38,7 @@ class TEngine extends BTemplate
         	}
         }
     }
-    
+
     /**
      * execute template
      *
@@ -52,7 +52,7 @@ class TEngine extends BTemplate
         }
         //run()
         $parsed = array();
-        foreach ($this->executionStack as $object) 
+        foreach ($this->executionStack as $object)
         {
         	if(is_object($object) && $object instanceof ITemplateCommand)
         	{
@@ -62,16 +62,16 @@ class TEngine extends BTemplate
         	{
         	    $parsed[] = $object;
         	}
-        }      
+        }
         return implode($parsed);
     }
-    
+
     public function close()
     {
         if(!$this->closed)
         {
             //tearDown()
-            foreach ($this->executionStack as $object) 
+            foreach ($this->executionStack as $object)
             {
             	if(is_object($object) && $object instanceof ITemplateCommand)
             	{
@@ -81,7 +81,7 @@ class TEngine extends BTemplate
             $this->closed = true;
         }
     }
-    
+
     public function __destruct()
     {
         if(!$this->closed)
@@ -92,7 +92,7 @@ class TEngine extends BTemplate
             chdir($cwd);
         }
     }
-    
+
     /**
      * @return string
      */

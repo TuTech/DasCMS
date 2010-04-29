@@ -13,14 +13,14 @@ abstract class BTemplate extends BObject
 {
     const CONTENT = 'C';
     const SYSTEM = 'S';
-    
+
     protected $parsed = array();
     protected $parsedLast = '';
     protected $parsedIndex = -1;
-    
+
     protected function analyze(DOMNode $node)
     {
-        switch ($node->nodeType) 
+        switch ($node->nodeType)
         {
         	case XML_ELEMENT_NODE: //commands live here
         	    if($node->namespaceURI == 'http://www.bambuscms.org/2008/TemplateXML')
@@ -56,7 +56,7 @@ abstract class BTemplate extends BObject
                     //open tag
                     $this->htmlTagBegin($node);
                     //continue with children
-                    foreach ($node->childNodes as $child) 
+                    foreach ($node->childNodes as $child)
                     {
                     	$this->analyze($child);
                     }
@@ -68,37 +68,37 @@ abstract class BTemplate extends BObject
         	case XML_TEXT_NODE:
         	case XML_PI_NODE:
         	case XML_NOTATION_NODE:
-        	case XML_ERROR_NONE:
         	case XML_ENTITY_REF_NODE:
         	case XML_ENTITY_NODE:
         	case XML_ENTITY_DECL_NODE:
         	case XML_ELEMENT_DECL_NODE:
-        	case XML_COMMENT_NODE:
         	case XML_CDATA_SECTION_NODE:
-        	    $this->appendData(strval($node->nodeValue));
+        	    $this->appendData(trim(strval($node->nodeValue)));
         	    break;
-        	default:
+        	case XML_ERROR_NONE:
+            case XML_COMMENT_NODE:
+            default:
         	break;
         }
     }
-    
+
     protected function htmlTagBegin(DOMNode $node)
     {
         $attStr = '';
-        foreach ($node->attributes as $name => $value) 
+        foreach ($node->attributes as $name => $value)
         {
         	$attStr .= sprintf(' %s="%s"', strval($name), htmlentities($value->value, ENT_QUOTES, CHARSET));
         }
         $tag = in_array($node->nodeName, array('br', 'img', 'input', 'wbr', 'hr')) ? '<%s%s' : '<%s%s>';
         $this->appendData(sprintf($tag, $node->nodeName, $attStr));
     }
-    
+
     protected function htmlTagEnd(DOMNode $node)
     {
         $tag = in_array($node->nodeName, array('br', 'img', 'input', 'wbr', 'hr')) ? ' />' : '</%s>';
         $this->appendData(sprintf($tag, $node->nodeName));
     }
-    
+
     protected function appendData($data)
     {
         if($this->parsedIndex == -1 || is_object($this->parsed[$this->parsedIndex]) || is_object($data))
