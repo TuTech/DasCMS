@@ -10,9 +10,9 @@
  * @subpackage Content
  */
 class CScript
-    extends BContent 
-    implements 
-        ISupportsSidebar, 
+    extends BContent
+    implements
+        ISupportsSidebar,
         IGlobalUniqueId,
         ISearchDirectives,
         Interface_XML_Atom_ProvidesInlineText,
@@ -27,7 +27,7 @@ class CScript
     }
     protected $RAWContent;
     private $_contentLoaded = false;
-    
+
 	/**
 	 * @return CScript
 	 */
@@ -36,17 +36,17 @@ class CScript
 	    list($dbid, $alias) = QBContent::create(self::CLASS_NAME, $title);
 	    DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$dbid.'.php', ' ');
 	    DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$dbid.'.html.php', ' ');
-	    QBContent::setMimeType($alias, 'text/javascript');
+	    QBContent::setMimeType($alias, 'application/javascript');
 	    $script = new CScript($alias);
 	    $e = new EContentCreatedEvent($script, $script);
 	    return $script;
 	}
-	
+
 	public static function Delete($alias)
 	{
 	    return parent::Delete($alias);
 	}
-	
+
 	/**
 	 * @param string $id
 	 * @throws XFileNotFoundException
@@ -64,7 +64,7 @@ class CScript
 	        throw new XArgumentException('content not found');
 	    }
 	}
-	
+
 	/**
 	 * Icon for this filetype
 	 * @return WIcon
@@ -73,7 +73,7 @@ class CScript
 	{
 	    return new WIcon(self::CLASS_NAME, 'content', WIcon::LARGE, 'mimetype');
 	}
-	
+
 	/**
 	 * Icon for this object
 	 * @return WIcon
@@ -82,7 +82,7 @@ class CScript
 	{
 	    return CScript::defaultIcon();
 	}
-	
+
 	/**
 	 * @return string
 	 */
@@ -95,7 +95,7 @@ class CScript
 	    }
 	    return $this->Content;
 	}
-	
+
 	//Interface_XML_Atom_ProvidesInlineText
     public function getInlineTextType()
     {
@@ -106,13 +106,13 @@ class CScript
         return '<div style="white-space:pre">'.$this->getContent().'</div>';
     }
 	//end Interface_XML_Atom_ProvidesInlineText
-		
-	
+
+
 	public function setContent($value)
 	{
 	    throw new XPermissionDeniedException('can\'t set html content');
 	}
-	
+
 	public function setRAWContent($value)
 	{
 	    //save and compile
@@ -121,7 +121,7 @@ class CScript
 		$this->RAWContent = $value;
 		$this->Content = $this->generateHTML($this->RAWContent);
 	}
-	
+
 	public function getRAWContent()
 	{
 	    //load
@@ -131,7 +131,7 @@ class CScript
 	    }
 	    return $this->RAWContent;
 	}
-	
+
 	public function Save()
 	{
 		//save content
@@ -142,7 +142,7 @@ class CScript
 		}
 		parent::Save();
 	}
-	
+
 	protected function generateHTML($text)
 	{
         $text = htmlentities($text, ENT_QUOTES, CHARSET);
@@ -159,52 +159,52 @@ class CScript
         $text = sprintf('<code class="%s" id="_%s">%s</code>', self::CLASS_NAME, $this->GUID, $text);
         return $text;
 	}
-	
+
 	//IHeaderService
 	public static function getHeaderServideItems($forAlias = null)
 	{
 	    return array('scripts' => Controller_Content::getSharedInstance()->contentGUIDIndex(self::CLASS_NAME));
 	}
-	
+
 	public static function sendHeaderService($embedAlias, EWillSendHeadersEvent $e)
 	{
 	    $url = 'file.php?get='.$embedAlias;
-	    $e->getHeader()->addScript('text/javascript',$url,'');
+	    $e->getHeader()->addScript('application/javascript',$url,'');
 	}
-	
+
 	//IFileContent
 	public function getFileName()
 	{
 	    return $this->getTitle();
 	}
-	
+
     public function getType()
     {
         return 'js';
     }
-    
+
     public function getDownloadMetaData()
     {
         return array($this->getTitle().'.'.$this->getType(), $this->getMimeType(), null);
     }
-    
+
     public function sendFileContent()
     {
         echo $this->getRAWContent();
     }
-    
+
     public function getRawDataPath()
     {
         return null;
     }
-    
-    
+
+
 	//ISupportsSidebar
 	public function wantsWidgetsOfCategory($category)
 	{
 		return in_array(strtolower($category), array('text', 'settings', 'information', 'search'));
 	}
-	
+
 	//ISearchDirectives
 	public function allowSearchIndex()
 	{
