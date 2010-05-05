@@ -1,0 +1,29 @@
+{
+	"classes":[
+	           "ATemplates",
+	           "BTemplate",
+	           "CTemplate",
+	           "ITemplateCommand",
+	           "TCmdContent",
+	           "TCmdController",
+	           "TCmdEnv",
+	           "TCmdHeader",
+	           "TCmdHtml",
+	           "TCmdRuntime",
+	           "TCmdScheduler",
+	           "TCmdStats",
+	           "TCmdText",
+	           "TCmdTreenavigation",
+	           "TCmdURL",
+	           "TCmdView",
+	           "TCompiler",
+	           "TEngine",
+	           "XTemplateException"
+	],
+	"interfaces":[
+	              "ITemplateCommand",
+	              "ITemplateSupporter"
+	              ],
+	"invokeOnLaunch":[],
+	"invokeOnEvent":[]
+}

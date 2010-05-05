@@ -1,0 +1,9 @@
+{
+	"classes":[
+	           ],
+	"interfaces":[
+	              "IGeneratesFeed"
+	              ],
+	"invokeOnLaunch":[],
+	"invokeOnEvent":[]
+}

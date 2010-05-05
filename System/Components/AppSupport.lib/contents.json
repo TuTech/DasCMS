@@ -1,0 +1,14 @@
+{
+	"classes":[
+	           "BAContentAppController",
+	           "BAppController",
+	           "SApplication",
+	           "SBapReader"
+	           ],
+	"interfaces":[
+	              "ISupportsSidebar",
+	              "ISupportsOpenDialog"
+	              ],
+	"invokeOnLaunch":[],
+	"invokeOnEvent":[]
+}

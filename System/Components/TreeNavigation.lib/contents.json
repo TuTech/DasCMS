@@ -1,0 +1,14 @@
+{
+	"classes":[
+	           "ATreeNavigationEditor",
+	           "NListNavigation",
+	           "NTreeNavigation",
+	           "NTreeNavigationHelper",
+	           "NTreeNavigationObject",
+	           "QNListNavigation"
+	           ],
+	"interfaces":[
+	              ],
+	"invokeOnLaunch":[],
+	"invokeOnEvent":[]
+}

@@ -1,0 +1,10 @@
+{
+	"classes":[
+	           "CFeed",
+	           "AFeeds"
+	           ],
+	"interfaces":[
+	              ],
+	"invokeOnLaunch":[],
+	"invokeOnEvent":[]
+}

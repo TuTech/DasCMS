@@ -1,0 +1,18 @@
+{
+	"classes":[
+	           "BDataException",
+	           "BObject",
+	           "Core",
+	           "DFileSystem",
+	           "LConfiguration",
+	           "SErrorAndExceptionHandler",
+	           "SNotificationCenter",
+	           "SPath"
+	           ],
+	"interfaces":[
+	              "IShareable",
+	              "IGlobalUniqueId"
+	              ],
+	"invokeOnLaunch":[],
+	"invokeOnEvent":[]
+}
