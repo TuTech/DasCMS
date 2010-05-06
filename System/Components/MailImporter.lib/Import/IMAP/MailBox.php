@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage _Import_IMAP
  */
-class Import_IMAP_MailBox extends _Import_IMAP
+class Import_IMAP_MailBox extends _
 {
     private $errors = array();
     private $connection = null;

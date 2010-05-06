@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage _Import_IMAP
  */
-class Import_IMAP_Mail extends _Import_IMAP
+class Import_IMAP_Mail extends _
 {
     private 
         $from,  
