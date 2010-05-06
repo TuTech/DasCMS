@@ -1,6 +1,6 @@
 <?php
 class Aggregator_Scope_Page 
-    extends _Aggregator_Scope
+    extends _
     implements Interface_Content_FiniteScope
 {
     /**

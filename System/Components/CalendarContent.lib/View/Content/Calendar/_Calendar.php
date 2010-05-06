@@ -1,6 +1,6 @@
 <?php
 abstract class _View_Content_Calendar 
-    extends _View_Content 
+    extends _View
 {
     protected $sectionName = null;
     

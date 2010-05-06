@@ -1,5 +1,5 @@
 <?php
-class View_Content_Attribute_Location extends _View_Content_Attribute
+class View_Content_Attribute_Location extends _View
 {
     protected $latitude = null;
     protected $longitude = null;
