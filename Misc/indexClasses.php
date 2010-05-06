@@ -1,4 +1,9 @@
 <?php
+
+
+die('deprecated -  only for reference');
+
+
 chdir('..');
 function exception_handler($exception) {
   echo "<div style=\"position:absolute; bottom:10px;left:10px; z-index:1000; background:#cc0000;padding:10px; border: 1px solid #a40000; color:white;\">",
@@ -7,8 +12,7 @@ function exception_handler($exception) {
 	  '<pre style="border:1px solid #a40000; padding:5px; background:#f68181; color:black;">', $exception->getTraceAsString(),'</pre></div>';
 }
 set_exception_handler('exception_handler');
-require_once('./System/Component/Loader.php');
-$allowed = false;
+require_once 'System/main.php';$allowed = false;
 if(file_exists(dirname(__FILE__).'/allowIndexClasses'))
 {
     $allowed = true;

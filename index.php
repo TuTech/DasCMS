@@ -9,7 +9,7 @@
 * Version:     0.13.0
 ************************************************/
 header('Content-Type: text/html; charset=utf-8');
-require_once('./System/Component/Loader.php');
+require_once 'System/main.php';
 define('BAMBUS_HTML_ACCESS', '1');
 $_10Minutes = 600;
 header("Expires: ".date('r', time()+$_10Minutes));

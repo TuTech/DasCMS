@@ -2,7 +2,7 @@
 /**
  * @todo cleanup code
  */
-require_once('./System/Component/Loader.php');
+require_once 'System/main.php';
 PAuthentication::implied();
 $cache_1Day = 86400;
 header("Expires: ".date('r', time()+$cache_1Day));

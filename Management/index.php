@@ -7,7 +7,7 @@
 ************************************************/
 
 chdir('..');
-require_once('./System/Component/Loader.php');
+require_once 'System/main.php';
 WHeader::httpHeader('Content-Type: text/html; charset='.CHARSET);
 
 RSession::start();

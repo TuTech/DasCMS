@@ -7,7 +7,7 @@
 * Version      0.9.0
 ************************************************/
 chdir('..');
-require_once('./System/Component/Loader.php');
+require_once 'System/main.php';
 header('Content-Type: text/html; charset='.CHARSET);
 //load the mighty bambus
 if(!defined('ERROR_TEMPLATE'))

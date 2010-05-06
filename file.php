@@ -2,7 +2,7 @@
 /**
  * provide file download 
  */
-require_once('./System/Component/Loader.php');
+require_once 'System/main.php';
 PAuthentication::implied();
 try
 {

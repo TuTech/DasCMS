@@ -1,6 +1,6 @@
 <?php 
 chdir('..');
-require_once('./System/Component/Loader.php');
+require_once 'System/main.php';
 $cache_1Day = 86400;
 header('Content-Type: text/javascript; charset='.CHARSET);
 header("Expires: ".date('r', time()+$cache_1Day));

@@ -1,6 +1,6 @@
 <?php
 header('Content-type: application/atom+xml');
-require_once('./System/Component/Loader.php');
+require_once 'System/main.php';
 error_reporting(4095);
 PAuthentication::implied();
 if(!empty($_SERVER['PATH_INFO']))

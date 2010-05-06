@@ -2,7 +2,7 @@
 $_GET = array();
 $_POST = array();
 $_REQUEST = array();
-require_once('./System/Component/Loader.php');
+require_once 'System/main.php';
 PAuthentication::daemonRun();
 header("Expires: ".date('r', 0));
 header("Cache-Control: max-age=0, public");
