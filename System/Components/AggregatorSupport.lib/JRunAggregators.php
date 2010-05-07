@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage Job
  */
-class JRunAggregators extends BJob 
+class JRunAggregators implements ISchedulerJob
 {
     private $message = 'OK';
     private $code = 0;
@@ -20,7 +20,7 @@ class JRunAggregators extends BJob
      */
     public function getInterval()
     {
-        return BJob::SECOND*20;
+        return ISchedulerJob::SECOND*20;
     }
     
     /**
@@ -49,6 +49,11 @@ class JRunAggregators extends BJob
     public function getStatusCode()
     {
         return $this->code;
+    }
+
+	public function getEnd()
+    {
+        return null;
     }
 }
 ?>
