@@ -60,7 +60,12 @@ if(Core::classExists('SErrorAndExceptionHandler')
     set_error_handler('SErrorAndExceptionHandler::errorHandler');
     set_exception_handler('SErrorAndExceptionHandler::exceptionHandler');
 }
-
-//Locale settings
-date_default_timezone_set(LConfiguration::get('timezone'));
-setlocale(LC_ALL, LConfiguration::get('locale'));
+if(Core::classExists('LConfiguration')){
+	//Locale settings
+	date_default_timezone_set(LConfiguration::get('timezone'));
+	setlocale(LC_ALL, LConfiguration::get('locale'));
+}
+else {
+	date_default_timezone_set('UTC');
+	setlocale(LC_ALL, 'en_US');
+}
