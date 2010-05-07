@@ -14,21 +14,21 @@ interface ISchedulerJob {
      * offset for next run
      * @return int seconds
      */
-	abstract public function getInterval();
+	public function getInterval();
     /**
      * @return void
      */
-    abstract public function run();
+    public function run();
     /**
      * get status text for the processed result
      * @return string (max length 64)
      */
-    abstract public function getStatusMessage();
+    public function getStatusMessage();
     /**
      * get status code
      * @return int status const
      */
-    abstract public function getStatusCode();
+    public function getStatusCode();
 
     /**
      * return time to stop this or null
