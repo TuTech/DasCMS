@@ -54,7 +54,8 @@ function __autoload($class){
 }
 
 //error handling
-if(class_exists('SErrorAndExceptionHandler', true))
+if(Core::classExists('SErrorAndExceptionHandler')
+		&& class_exists('SErrorAndExceptionHandler', true))
 {
     set_error_handler('SErrorAndExceptionHandler::errorHandler');
     set_exception_handler('SErrorAndExceptionHandler::exceptionHandler');
