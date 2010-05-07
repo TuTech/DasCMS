@@ -6,7 +6,10 @@
  * @license GNU General Public License 3
  * @since 2010-05-06
  */
- 
+
+chdir(dirname(__FILE__));
+chdir('..');
+
 if(!defined('CMS_START_TIME'))
     define('CMS_START_TIME', microtime(true));
 
@@ -37,9 +40,6 @@ if(!defined('BAMBUS_EXEC_START'))
 if(!defined('CHARSET'))
     define ('CHARSET', 'UTF-8');
 
-
-chdir(dirname(__FILE__));
-chdir('..');
 
 //core class
 require_once constant('CMS_CLASS_PATH').'Core.lib/Core.php';
