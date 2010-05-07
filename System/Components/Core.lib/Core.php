@@ -1,11 +1,14 @@
 <?php
 class Core
 {
+	const GUID_LOOKUP_FILE = 'GUID_Lookup.json';
+	const PACKAGE_INFO = '/contents.json';
+	const PACKAGE_SUFFIX = '.lib';
+
 	/**
 	 * @var array
 	 */
 	private static $interfaceLookup = array();
-	private static $GUIDLookupFile = 'GUID_Lookup.json';
 	private static $GUIDLookup = null;
 	
 	
@@ -57,7 +60,7 @@ class Core
 	public static function getClassNameForGUID($GUID){
 		$class = null;
 		if(self::$GUIDLookup == null){
-			self::$GUIDLookup = self::dataFromJSONFile(constant('CMS_CLASS_CACHE_PATH').self::$GUIDLookupFile);
+			self::$GUIDLookup = self::dataFromJSONFile(constant('CMS_CLASS_CACHE_PATH').self::GUID_LOOKUP_FILE);
 		}
 		if(isset(self::$GUIDLookup[$GUID])){
 			$class = self::$GUIDLookup[$GUID];
@@ -81,7 +84,7 @@ class Core
 				$lookup[$guid] = $class;
 			}
 		}
-		self::dataToJSONFile($lookup, constant('CMS_CLASS_CACHE_PATH').self::$GUIDLookupFile);
+		self::dataToJSONFile($lookup, constant('CMS_CLASS_CACHE_PATH').self::GUID_LOOKUP_FILE);
 	}
 	
 	/**
@@ -96,7 +99,7 @@ class Core
 	 * read data objects
 	 * @param unknown_type $file
 	 */
-	private static function dataFromJSONFile($file){
+	protected static function dataFromJSONFile($file){
 		$data = null;
 		if(file_exists($file)){
 			$data = implode('',file($file));
@@ -110,7 +113,7 @@ class Core
 	 * @param unknown_type $data
 	 * @param unknown_type $file
 	 */
-	private static function dataToJSONFile($data, $file){
+	protected static function dataToJSONFile($data, $file){
 		$fp = fopen($file, 'w+');
 		fwrite($fp, json_encode($data));
 		fclose($fp);

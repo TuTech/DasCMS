@@ -3,9 +3,6 @@ require_once '../../System/main.php';
 
 class CoreUpdate extends Core
 {
-	const PACKAGE_INFO = '/contents.json';
-	const PACKAGE_SUFFIX = '.lib';
-	
 	private static $verbose = false;
 	
 	public static function run(){
@@ -20,16 +17,17 @@ class CoreUpdate extends Core
 			
 			//read components
 			$path = $componentsDir.$currentComponent;
-			$suffix = self::PACKAGE_SUFFIX;
+			$suffix = Core::PACKAGE_SUFFIX;
 			if(is_dir($path) 
 					&& strlen($currentComponent) > strlen($suffix)
-					&& substr($currentComponent, strlen($suffix)*-1) == $suffix)
+					&& substr($currentComponent, strlen($suffix)*-1) == $suffix
+					&& file_exists($path.Core::PACKAGE_INFO))
 			{
 				//component
 				$components[$currentComponent] = array();
 				
 				//get contained classes
-				$contens = json_decode(implode('', file($path.self::PACKAGE_INFO)), true);
+				$contens = json_decode(implode('', file($path.Core::PACKAGE_INFO)), true);
 				
 				foreach(array('classes', "interfaces") as $contentType){
 					if(is_array($contens) 
@@ -38,12 +36,9 @@ class CoreUpdate extends Core
 					{
 						//create class cache
 						foreach($contens[$contentType] as $class){
-							
-							//basic indexing
-							$components[$currentComponent][] = $class;
-							$classCachePath = Core::getClassCachePath($class);
 
 							//build path//
+							$classCachePath = Core::getClassCachePath($class);
 							
 							//spilt namespace parts
 							$namespaceParts = explode('\\', $class);
@@ -57,21 +52,35 @@ class CoreUpdate extends Core
 								$pathComponents[] = sprintf('_%s_', $nsp);
 							}
 							$namespaceParts = $pathComponents;
-							
+
+							$isAbstract = substr($className,0,1) == '_';
+
 							//folders for class inheritance tree
 							$className = str_replace('_', '/', $className);//Foo_Bar -> Foo/Bar
-							
+
+							//abstract classes with '_'-prefix gets this prefix for the php-file
+							if($isAbstract){
+								$classParts = explode('/', $className);
+								$classParts[] = '_'.array_pop($classParts);
+								$className = implode('/', $classParts);
+							}
+
 							//combine namespace and class
-							array_push($namespaceParts, $className);
+							$namespaceParts[] = $className;
 							
 							//build path
 							$classFile = sprintf('%s%s/%s.php', $componentsDir, $currentComponent, implode('/', $namespaceParts));
-							$classContent = trim(php_strip_whitespace($classFile));
-							
-							//write minified class
-							$fp = fopen($classCachePath, 'w+');
-							fwrite($fp, $classContent);
-							fclose($fp);
+							if(file_exists($classFile)){
+								$classContent = trim(php_strip_whitespace($classFile));
+
+								//write minified class
+								$fp = fopen($classCachePath, 'w+');
+								fwrite($fp, $classContent);
+								fclose($fp);
+
+								//save class in index
+								$components[$currentComponent][] = $class;
+							}
 						}//foreach content type class
 					}//if package info exists
 				}//foreach content type
@@ -136,7 +145,7 @@ class CoreUpdate extends Core
 	
 	public static function updateClassIndex(array $classes)
 	{
-		$DB = call_user_func_array(array('DSQL', 'getSharedInstance'));
+		$DB = call_user_func_array(array('DSQL', 'getSharedInstance'), array());
 		if(empty($DB) || !is_object($DB)){
 			return;
 		}
@@ -163,6 +172,10 @@ class CoreUpdate extends Core
 	}
 
 }//class
-
-CoreUpdate::run();
+try{
+	CoreUpdate::run();
+}
+catch (Exception $e){
+	echo $e->getTraceAsString();
+}
 ?>

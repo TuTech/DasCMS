@@ -1,14 +1,1 @@
-{
-	"classes":[
-	           "ATreeNavigationEditor",
-	           "NListNavigation",
-	           "NTreeNavigation",
-	           "NTreeNavigationHelper",
-	           "NTreeNavigationObject",
-	           "QNListNavigation"
-	           ],
-	"interfaces":[
-	              ],
-	"invokeOnLaunch":[],
-	"invokeOnEvent":[]
-}
+{"classes":["ATreeNavigationEditor","NListNavigation","NTreeNavigation","NTreeNavigationHelper","NTreeNavigationObject","QNListNavigation"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}

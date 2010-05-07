@@ -1,0 +1,1 @@
+{"classes":["PAuthentication","PAuthorisation","QPAuthentication","SAuthByPhpAuthUser","SAuthorizeAll","XPermissionDeniedException"],"interfaces":["IAuthenticate","IAuthorize"],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}

@@ -1,18 +1,1 @@
-{
-	"classes":[
-	           "BDataException",
-	           "BObject",
-	           "Core",
-	           "DFileSystem",
-	           "LConfiguration",
-	           "SErrorAndExceptionHandler",
-	           "SNotificationCenter",
-	           "SPath"
-	           ],
-	"interfaces":[
-	              "IShareable",
-	              "IGlobalUniqueId"
-	              ],
-	"invokeOnLaunch":[],
-	"invokeOnEvent":[]
-}
+{"classes":["BDataException","BEvent","BIOException","BObject","BProvider","_Collection_List","Core","DFileSystem","IGlobalUniqueId","IShareable","LConfiguration","QBObject","SErrorAndExceptionHandler","SHTTPStatus","SLink","SNotificationCenter","SPath","XArgumentException","XFileLockedException","XFileNotFoundException","XInvalidDataException","XUndefinedException","XUndefinedIndexException","_","_Collection"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}

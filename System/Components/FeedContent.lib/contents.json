@@ -1,10 +1,1 @@
-{
-	"classes":[
-	           "CFeed",
-	           "AFeeds"
-	           ],
-	"interfaces":[
-	              ],
-	"invokeOnLaunch":[],
-	"invokeOnEvent":[]
-}
+{"classes":["AFeeds","CFeed","QCFeed","QSFeedKeeper","SFeedKeeper"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}

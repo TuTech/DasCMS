@@ -1,13 +1,1 @@
-{
-	"classes":[
-	           "BAppController",
-	           "BAContentAppController",
-	           "SBapReader",
-	           "SApplication"
-	           ],
-	"interfaces":[
-	              "ISupportsOpenDialog"
-	              ],
-	"invokeOnLaunch":[],
-	"invokeOnEvent":[]
-}
+{"classes":["BRequest","RFiles","RSent","RServer","RSession","RURL"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}

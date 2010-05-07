@@ -1,9 +1,1 @@
-{
-	"classes":[
-	           ],
-	"interfaces":[
-	              "IGeneratesFeed"
-	              ],
-	"invokeOnLaunch":[],
-	"invokeOnEvent":[]
-}
+{"classes":["UFeedReader"],"interfaces":["IGeneratesFeed","Interface_XML_Atom_ProvidesInlineText","Interface_XML_Atom_ProvidesInlineXHTML","Interface_XML_Atom_ProvidesOutOfLineContent","Interface_XML_Atom_TextContent","Interface_XML_Atom_ToDOMXML"],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}

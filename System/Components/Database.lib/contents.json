@@ -1,16 +1,1 @@
-{
-	"classes":[
-	           "BQuery",
-	           "DSQL",
-	           "DSQL_MySQL",
-	           "DSQL_SQLite",
-	           "DSQLResult",
-	           "DSQLResult_MySQL",
-	           "DSQLResult_SQLite",
-	           "DSQLSettings",
-	           "XDatabaseException"
-	],
-	"interfaces":[],
-	"invokeOnLaunch":[],
-	"invokeOnEvent":[]
-}
+{"classes":["BQuery","DSQL_MySQL","DSQL_SQLite","DSQL","DSQLResult_MySQL","DSQLResult_SQLite","DSQLResult","DSQLSettings","XDatabaseException"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}
