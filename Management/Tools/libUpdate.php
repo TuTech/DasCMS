@@ -45,11 +45,7 @@ class CoreIndex extends Core
 					printf("%s\n\ttype:\t\t%s\n\tclassName:\t%s\n\n", $pf, self::discoverType($pf), self::makeClassName($pf));
 					$packageInfo[self::discoverType($pf)][] = self::makeClassName($pf);
 				}
-				print_r($packageInfo);
 				Core::dataToJSONFile($packageInfo, $componentDefinitionFile);
-				#print_r($packageFiles);
-				//discover type...
-				//write json file here
 				echo '</pre>';
 			}
 		}
