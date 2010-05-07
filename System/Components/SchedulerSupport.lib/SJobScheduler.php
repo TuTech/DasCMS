@@ -53,7 +53,7 @@ class SJobScheduler extends BObject
                             throw new Exception('Job not found', 1);
                         }
                         $jobObj = new $job;
-                        if (!$jobObj instanceof BJob) 
+                        if (!$jobObj instanceof ISchedulerJob)
                         {
                         	throw new Exception('Job not a valid job', 2);
                         }

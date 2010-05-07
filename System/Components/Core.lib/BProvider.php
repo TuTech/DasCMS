@@ -9,12 +9,12 @@
  * @package Bambus
  * @subpackage BaseClasses
  */
-abstract class BProvider extends BObject
+abstract class BProvider extends BObject implements IProvider
 {
     public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
     {
         $class = get_class($this);
-        $implementors = SComponentIndex::getSharedInstance()->ImplementationsOf($this->getInterface());
+        $implementors = Core::getClassesWithInterface($this->getInterface());
         $ipls = array();
         foreach ($implementors as $impl)
         {

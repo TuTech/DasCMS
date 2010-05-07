@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage Job
  */
-class JUpdateSearchIndex extends BJob 
+class JUpdateSearchIndex implements ISchedulerJob
 {
     private $message = 'OK';
     private $code = 0;
@@ -20,7 +20,7 @@ class JUpdateSearchIndex extends BJob
      */
     public function getInterval()
     {
-        return BJob::SECOND*20;
+        return ISchedulerJob::SECOND*20;
     }
     
     /**
@@ -63,6 +63,11 @@ class JUpdateSearchIndex extends BJob
     public function getStatusCode()
     {
         return $this->code;
+    }
+
+	public function getEnd()
+    {
+        return null;
     }
 }
 ?>

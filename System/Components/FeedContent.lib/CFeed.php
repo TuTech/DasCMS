@@ -55,10 +55,6 @@ class CFeed
      * @var DSQLResult
      */
     private $FeedDBRes = null;
-    /**
-     * @var SComponentIndex
-     */
-    private $SCI;
     
     private $_data = array(
         self::CAPTIONS => array(

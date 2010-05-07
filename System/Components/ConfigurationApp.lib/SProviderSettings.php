@@ -21,7 +21,7 @@ class SProviderSettings
         $e->addClassSettings($this, 'provider', array(
         	'change_provider_settings' => array('', LConfiguration::TYPE_CHECKBOX, null, 'change_provider_settings')
         ));
-        $ps = SComponentIndex::getSharedInstance()->ExtensionsOf('BProvider');
+		$ps = Core::getClassesWithInterface('IProvider');
         foreach ($ps as $p)
         {
             $o = BObject::InvokeObjectByDynClass($p);
@@ -38,7 +38,7 @@ class SProviderSettings
         if(!empty($data['change_provider_settings']))
         {
             SNotificationCenter::report('warning', 'changing_provider_settings');
-            $ps = SComponentIndex::getSharedInstance()->ExtensionsOf('BProvider');
+			$ps = Core::getClassesWithInterface('IProvider');
             foreach ($ps as $p)
             {
                 $o = BObject::InvokeObjectByDynClass($p);

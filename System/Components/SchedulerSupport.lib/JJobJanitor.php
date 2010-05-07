@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage Job
  */
-class JJobJanitor extends BJob 
+class JJobJanitor implements ISchedulerJob
 {
     private $message = 'OK';
     private $code = 0;
@@ -20,7 +20,7 @@ class JJobJanitor extends BJob
      */
     public function getInterval()
     {
-        return BJob::DAY;
+        return ISchedulerJob::DAY;
     }
     
     /**
@@ -33,9 +33,7 @@ class JJobJanitor extends BJob
         $toRemove = array();
         
         //get all indexed job classes
-        $SCI = SComponentIndex::getSharedInstance();
-        $indexed = $SCI->ExtensionsOf('BJob');
-
+		$indexed = Core::getClassesWithInterface('ISchedulerJob');
         //get all registered jobs
         $res = QJJobJanitor::getJobList();
         while($row = $res->fetch())
@@ -66,7 +64,7 @@ class JJobJanitor extends BJob
         	{
         	    try{
         	        $o = new $class();
-    	            if ($o instanceof BJob) 
+    	            if ($o instanceof ISchedulerJob)
     	            {
     	            	$int = $o->getInterval();
     	            	$end = $o->getEnd();
@@ -106,6 +104,11 @@ class JJobJanitor extends BJob
     public function getStatusCode()
     {
         return $this->code;
+    }
+	
+	public function getEnd()
+    {
+        return null;
     }
 }
 ?>

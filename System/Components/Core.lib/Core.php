@@ -67,6 +67,15 @@ class Core
 		}
 		return $class;
 	}
+
+	public static function isImplementation($class, $interface)
+	{
+		$className = (is_object($class)) ? get_class($class) : $class;
+		if(!Core::classExists($className)){
+			throw new XUndefinedIndexException('Class not found');
+		}
+		return in_array($interface, class_implements($className, true));
+	}
 	
 	protected static function storeInterfaceLookup(array $interfaceLookup){
 		foreach ($interfaceLookup as $interface => $classes){

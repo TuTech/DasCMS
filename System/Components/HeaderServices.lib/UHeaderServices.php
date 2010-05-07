@@ -19,7 +19,7 @@ class UHeaderServices
     const CLASS_NAME = 'UHeaderServices';
     public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
     {
-        $classes = SComponentIndex::getSharedInstance()->ImplementationsOf('IHeaderService');
+		$classes = Core::getClassesWithInterface('IHeaderService');
         $active = Controller_Content::getSharedInstance()->getContentsChainedToClass($this);
         $data = array();
         //get all items of all classes 
@@ -52,7 +52,7 @@ class UHeaderServices
     public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
     {
         $data = $e->getClassSettings($this);
-        $classes = SComponentIndex::getSharedInstance()->ImplementationsOf('IHeaderService');
+        $classes = Core::getClassesWithInterface('IHeaderService');
         $avail = array();
         $cfg = array();
         $rem = array();

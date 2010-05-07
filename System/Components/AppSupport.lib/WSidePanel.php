@@ -134,8 +134,7 @@ class WSidePanel
 	private function loadWidgets()
 	{
 		//load all ISidebarWidget
-		$ci = SComponentIndex::getSharedInstance();
-		$widgetNames = $ci->ImplementationsOf("ISidebarWidget");
+		$widgetNames = Core::getClassesWithInterface("ISidebarWidget");
 		$widgets = array();
 		foreach ($widgetNames as $v)
 		{

@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage Job
  */
-class JTruncateJobLog extends BJob 
+class JTruncateJobLog implements ISchedulerJob
 {
     private $message = 'OK';
     private $code = 0;
@@ -20,7 +20,7 @@ class JTruncateJobLog extends BJob
      */
     public function getInterval()
     {
-        return BJob::DAY;
+        return ISchedulerJob::DAY;
     }
     
     /**
@@ -47,6 +47,11 @@ class JTruncateJobLog extends BJob
     public function getStatusCode()
     {
         return $this->code;
+    }
+
+	public function getEnd()
+    {
+        return null;
     }
 }
 ?>
