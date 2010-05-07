@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage Job
  */
-class JImportMails extends BJob 
+class JImportMails implements ISchedulerJob
 {
     private $message = 'OK';
     private $code = 0;
@@ -20,7 +20,7 @@ class JImportMails extends BJob
      */
     public function getInterval()
     {
-        return 20*BJob::SECOND;
+        return 20*ISchedulerJob::SECOND;
     }
     
     /**
@@ -90,6 +90,11 @@ class JImportMails extends BJob
     public function getStatusCode()
     {
         return $this->code;
-    }    
+    }
+
+	public function getEnd()
+    {
+        return null;
+    }
 }
 ?>
