@@ -2,8 +2,8 @@
 abstract class _Formatter_Attribute
     extends _Formatter
     implements
-        Interface_View_XHTML,
-        Interface_View_JSON
+        Interface_View_DisplayXHTML,
+        Interface_View_DisplayJSON
 {
     protected $title = null;//FIXME to be defined in extending class for display in config
 

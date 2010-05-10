@@ -8,7 +8,8 @@
 /**
  * @package Bambus
  * @subpackage Interface
- */interface IFileContent
+ */
+interface IFileContent
 {
     const ENCLOSURE_URL = '%sfile.php/get/%s';
     public function getFileName();// style.css

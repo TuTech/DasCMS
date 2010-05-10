@@ -2,9 +2,9 @@
 class Formatter_Container
     extends _Formatter
     implements
-        Interface_View_XHTML,
-        Interface_View_JSON,
-        Interface_View_Atom
+        Interface_View_DisplayXHTML,
+        Interface_View_DisplayJSON,
+        Interface_View_DisplayAtom
 {
     protected static $availableAttributes = null;
     protected $attachedAttributes = array();
@@ -92,14 +92,14 @@ class Formatter_Container
     /**
      * @return XML_Atom_Entry
      * (non-PHPdoc)
-     * @see System/Object/Interface/View/Interface_View_Atom#toAtom()
+     * @see System/Object/Interface/View/Interface_View_DisplayAtom#toAtom()
      */
     public function toAtom()
     {
         $entry = XML_Atom_Entry::createWriteableInstance();
         foreach ($this->attachedAttributes as $attribute)
         {
-            if($attribute instanceof Interface_View_Atom)
+            if($attribute instanceof Interface_View_DisplayAtom)
             {
                 $entry->addElement($attribute->getAtomTag(), $attribute->toAtom());
             }

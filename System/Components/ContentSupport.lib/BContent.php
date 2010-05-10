@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage BaseClasses
  */
-abstract class BContent extends BObject
+abstract class BContent extends BObject implements Interface_Content
 {
 	protected $_origPubDate;
 

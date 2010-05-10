@@ -1,5 +1,5 @@
 <?php
-interface Interface_View_Atom
+interface Interface_View_DisplayAtom
 {
     /**
      * @return _XML_Atom

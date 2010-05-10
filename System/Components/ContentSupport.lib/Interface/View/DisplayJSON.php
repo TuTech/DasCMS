@@ -1,5 +1,5 @@
 <?php
-interface Interface_View_JSON
+interface Interface_View_DisplayJSON
 {
     /**
      * @return array

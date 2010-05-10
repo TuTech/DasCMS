@@ -109,12 +109,16 @@ class WIcon extends BWidget
     
     public function setSize($size)
     {
-        if(in_array($size, array(self::EXTRA_SMALL, self::SMALL, self::MEDIUM, self::LARGE)))
+        if(self::isSize($size))
         {
             $this->size = $size;
         }
     }
-    
+
+	public static function isSize($size){
+		return in_array($size, array(self::EXTRA_SMALL, self::SMALL, self::MEDIUM, self::LARGE));
+	}
+
     public function asSize($size)
     {
         $this->setSize($size);
