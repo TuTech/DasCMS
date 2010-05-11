@@ -13,6 +13,7 @@ class View_Content_PreviewImage
 {
 	protected $imageWidth,
 			  $imageHeight,
+			  $imageFillColor,
 			  $scaleMethod,
 			  $scaleEnforcementMethod;
 
@@ -21,7 +22,7 @@ class View_Content_PreviewImage
 		if($this->shouldDisplay()){
 			$img = $this->content->getPreviewImage();
 			if($this->imageHeight != null && $this->imageWidth != null){
-				$img = $img->scaled($this->imageWidth, $this->imageHeight, $this->scaleMethod, $this->scaleEnforcementMethod);
+				$img = $img->scaled($this->imageWidth, $this->imageHeight, $this->scaleMethod, $this->scaleEnforcementMethod, $this->imageFillColor);
 			}
 			$val = $this->wrapXHTML('PreviewImage', strval($img));
 		}
@@ -32,9 +33,21 @@ class View_Content_PreviewImage
 		return array(
 			'imageWidth',
 			'imageHeight',
+			'imageFillColor',
 			'scaleMethod',
 			'scaleEnforcementMethod'
 		);
+	}
+
+	public function getImageFillColor(){
+		return $this->imageWidth;
+	}
+
+	public function setImageFillColor($value){
+		if($value != null && !preg_match('/^#[a-fA-F0-9]{6}$/', $value)){
+			return;
+		}
+		$this->imageFillColor = $value;
 	}
 
 	public function getImageWidth(){

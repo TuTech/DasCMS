@@ -22,13 +22,14 @@ class Controller_PreviewImageResizingViewDelegate {
 				$view->getImageHeight($resize['h']);
 				$view->setScaleMethod($resize['m']);
 				$view->setScaleEnforcementMethod($resize['f']);
+				$view->setImageFillColor($resize['c']);
 			}
 		}
 		return true;
 	}
 
-	public function setResizeForTag($tag, $width, $height, $mode, $enforcement){
-		$this->resizeMap[$tag] = array('w' => $width, 'h' => $height, 'm' => $mode, 'f' => $enforcement);
+	public function setResizeForTag($tag, $width, $height, $mode, $enforcement, $color = null){
+		$this->resizeMap[$tag] = array('w' => $width, 'h' => $height, 'm' => $mode, 'f' => $enforcement, 'c' => $color);
 	}
 
 	public function removeResizeTag($tag){
