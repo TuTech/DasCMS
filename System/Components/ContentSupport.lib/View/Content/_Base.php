@@ -148,7 +148,8 @@ class _View_Content_Base
 			'customCSSClass',
 			'linkTragetFrame',
 			'linkTargetView',
-			'linkCaption'
+			'linkCaption',
+			'delegate'
 		);
 		foreach ($baseAttributes as $baseAttribute){
 			if($this->{$baseAttribute} !== null){
