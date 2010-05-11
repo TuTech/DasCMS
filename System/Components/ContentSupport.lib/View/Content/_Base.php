@@ -4,7 +4,8 @@
  *
  * @author lse
  */
-class _View_Content_Base {
+class _View_Content_Base
+	implements Interface_AcceptsContent{
 	/**
 	 * internal use only
 	 * @var array

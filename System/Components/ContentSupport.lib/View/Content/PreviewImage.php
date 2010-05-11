@@ -19,7 +19,11 @@ class View_Content_PreviewImage
 	public function toXHTML() {
 		$val = '';
 		if($this->shouldDisplay()){
-			$val = $this->wrapXHTML('Description', $this->content->getDescription());
+			$img = $this->content->getPreviewImage();
+			if($this->imageHeight != null && $this->imageWidth != null){
+				$img = $img->scaled($this->imageWidth, $this->imageHeight, $this->scaleMethod, $this->scaleEnforcementMethod);
+			}
+			$val = $this->wrapXHTML('PreviewImage', strval($img));
 		}
 		return $val;
 	}

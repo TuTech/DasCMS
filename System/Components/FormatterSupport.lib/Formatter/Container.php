@@ -4,7 +4,8 @@ class Formatter_Container
     implements
         Interface_View_DisplayXHTML,
         Interface_View_DisplayJSON,
-        Interface_View_DisplayAtom
+        Interface_View_DisplayAtom,
+		Interface_AcceptsContent
 {
     protected static $availableAttributes = null;
     protected $attachedAttributes = array();
@@ -22,10 +23,14 @@ class Formatter_Container
         $this->uniqueName = $uniqueName;
     }
 
-    public function setTargetContent(BContent $content)
+    public function setTargetContent(Interface_Content $content)
     {
         $this->targetContent = $content;
     }
+
+	public function acceptContent(Interface_Content $content){
+		$this->setTargetContent($content);
+	}
 
     public function resetAttributes()
     {
@@ -113,22 +118,15 @@ class Formatter_Container
         return $this->toXHTML();
     }
 
-    protected static function makeFileName($name)
+    public function freeze($name = null, $object = null)
     {
-        if(!preg_match('/[0-9a-z_-]+/ui',$name))
-        {
-            throw new XInvalidDataException('name contains illegal chars or is empty');
-        }
-        return SPath::CONFIGURATION.'/FORMAT_'.$name.'.php';
+		Formatter_Container::freezeFormatter($this->uniqueName, $this);
     }
 
-    public function freeze()
-    {
-        //$file = self::makeFileName($this->uniqueName);
-        QFormatterContainer::setFormatter($this->uniqueName, serialize($this));
-        //DFileSystem::SaveData($file, $this);
-    }
-
+	public static function freezeFormatter($name, $object){
+		$data = 'base64:'.base64_encode(serialize($object));
+		QFormatterContainer::setFormatter($name, $data);
+	}
 
     /**
      * @param string $data
@@ -137,9 +135,6 @@ class Formatter_Container
     public static function unfreeze($name)
     {
         //reverse evil
-        //$file = self::makeFileName($name);
-        //$container = DFileSystem::LoadData($file);
-
         $res = QFormatterContainer::getFormatter($name);
         $row = $res->fetch();
         $res->free();
@@ -147,12 +142,10 @@ class Formatter_Container
         	throw new XFileNotFoundException('no formatter named '.$name);
         }
         list($data) = $row;
+		if(substr($data,0,7) == 'base64:'){
+			$data = base64_decode($data);
+		}
         $container = unserialize($data);
-
-        if(!$container instanceof Formatter_Container)
-        {
-            throw new XArgumentException('invalid data - not a container');
-        }
         return $container;
     }
 
@@ -168,7 +161,9 @@ class Formatter_Container
             self::$Formatters[$name] = self::unfreeze($name);
         }
         $obj = clone self::$Formatters[$name];
-        $obj->setTargetContent($content);
+		if($obj instanceof Interface_AcceptsContent){
+			$obj->acceptContent($content);
+		}
         return $obj;
     }
 }
