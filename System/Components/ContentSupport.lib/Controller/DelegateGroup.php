@@ -31,5 +31,9 @@ class Controller_DelegateGroup {
 		}
 		$this->subdelegates = $new;
 	}
+
+	public function  __sleep() {
+		return array('subdelegates');
+	}
 }
 ?>
