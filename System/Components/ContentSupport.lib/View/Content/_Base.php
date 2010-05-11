@@ -6,6 +6,7 @@
  */
 class _View_Content_Base
 	implements Interface_AcceptsContent{
+
 	/**
 	 * internal use only
 	 * @var array
@@ -33,7 +34,8 @@ class _View_Content_Base
 	protected $linkTragetFrame = null,
 			  $linkTargetView = null,
 			  $linkCaption = null;
-
+	protected $linkTargetViewObject = null;
+	
 	/**
 	 * custom css class
 	 * @var string
@@ -98,9 +100,34 @@ class _View_Content_Base
 	 * @param string $val
 	 * @return string
 	 */
-	protected function wrapXHTML($class, $val, $autoLink = true){
-		//TODO do the linking magic
-		return sprintf("\n<div class=\"%s\">%s</div>", $class, $val);
+	protected function wrapXHTML($class, $value, $autoLink = true){
+		//add custom css class
+		if($this->customCSSClass){
+			$class .= ' '.htmlentities($this->customCSSClass, ENT_QUOTES, CHARSET);
+		}
+
+		//build a link wrapper if target view is set
+		if($autoLink && $this->linkTargetView){
+			if($this->linkTargetViewObject == null){
+				if(VSpore::exists($this->linkTargetView)){
+					$this->linkTargetViewObject = VSpore::byName($this->linkTargetView);
+				}
+				else{
+					$this->linkTargetViewObject = false;
+				}
+			}
+			if($this->linkTargetViewObject !== false){
+				$value = sprintf(
+						"<a href=\"%s\"%s>%s</a>",
+						$this->linkTargetViewObject->linkTo($this->content->getAlias()),
+						($this->linkTragetFrame ? ' '.htmlentities($this->linkTragetFrame, ENT_QUOTES, CHARSET) : ''),
+						$value
+					);
+			}
+		}
+
+		//make div box with css styles
+		return sprintf("\n<div class=\"%s\">%s</div>", $class, $value);
 	}
 
 	/**
