@@ -143,7 +143,7 @@ class Formatter_Container
         }
         list($data) = $row;
 		if(substr($data,0,7) == 'base64:'){
-			$data = base64_decode($data);
+			$data = base64_decode(substr($data,7));
 		}
         $container = unserialize($data);
         return $container;
