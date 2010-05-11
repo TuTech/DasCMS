@@ -534,9 +534,6 @@ abstract class BContent extends BObject implements Interface_Content
 		return strip_tags($this->getContent());
 	}
 
-	//functions to overwrite
-	public abstract function __construct($Id);	//object should load its data here
-												//$id is class internal id or cms wide id-path
 	//public abstract function Save();
 
 	protected function Save()
