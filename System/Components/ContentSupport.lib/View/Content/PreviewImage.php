@@ -42,7 +42,7 @@ class View_Content_PreviewImage
 	}
 
 	public function setImageWidth($value){
-		if(!is_numeric($value) || ($value < 1) || ($value >4096)){
+		if(!is_numeric($value) || ($value < 1) || ($value >4096)){
 			return;
 		}
 		$this->imageWidth = $value;
@@ -53,7 +53,7 @@ class View_Content_PreviewImage
 	}
 
 	public function setImageHeight($value){
-		if(!is_numeric($value) || ($value < 1) || ($value >4096)){
+		if(!is_numeric($value) || ($value < 1) || ($value >4096)){
 			return;
 		}
 		$this->imageHeight = $value;
