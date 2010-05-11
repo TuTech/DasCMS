@@ -34,5 +34,9 @@ class View_Content_Title
 	public function setLinkTargetView($value) {
 		parent::setLinkTargetView($value);
 	}
+
+	protected function getWrapperTag() {
+		return 'h2';
+	}
 }
 ?>
