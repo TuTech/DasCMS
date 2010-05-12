@@ -1,4 +1,7 @@
 <?php
+/**
+ * @deprecated use View_Content_* instead
+ */
 abstract class Formatter_Attribute_Info
     extends _Formatter_Attribute 
     implements 

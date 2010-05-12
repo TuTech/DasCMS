@@ -1,4 +1,7 @@
 <?php
+/**
+ * @deprecated
+ */
 interface Interface_Formatter_Attribute_Sizeable
 {
     public function getWidth();

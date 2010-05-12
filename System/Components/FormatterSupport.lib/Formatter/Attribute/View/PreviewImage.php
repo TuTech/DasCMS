@@ -1,4 +1,7 @@
 <?php
+/**
+ * @deprecated use View_Content_* instead
+ */
 class Formatter_Attribute_View_PreviewImage
     extends Formatter_Attribute_Options
     implements

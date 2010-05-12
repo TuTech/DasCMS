@@ -1,4 +1,7 @@
 <?php
+/**
+ * @deprecated use View_Content_* instead
+ */
 abstract class Formatter_Attribute_Linkable
     extends _Formatter_Attribute
     implements Interface_Formatter_Attribute_Linkable

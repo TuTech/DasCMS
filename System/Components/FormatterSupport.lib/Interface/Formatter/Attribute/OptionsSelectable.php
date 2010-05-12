@@ -1,4 +1,7 @@
 <?php
+/**
+ * @deprecated
+ */
 interface Interface_Formatter_Attribute_OptionsSelectable
 {
     public function getAvailableOptions();

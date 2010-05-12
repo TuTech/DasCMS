@@ -1,4 +1,7 @@
 <?php
+/**
+ * @deprecated use View_Content_* instead
+ */
 abstract class Formatter_Attribute_List
     extends Formatter_Attribute_Info
     implements Interface_Formatter_Attribute_TextSettable
