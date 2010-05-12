@@ -25,6 +25,10 @@ class Model_Content_Composite_AssignedRelations
         	get_class($this),
         	$compositeFor->getId()
         );
+		$sysFormatter = LConfiguration::get('Settings_ContentView_relations');
+		if(!empty ($sysFormatter)){
+			$this->setAssignedRelationsFormatter($sysFormatter);
+		}
         try
         {
 			if(file_exists($this->file)){
@@ -108,8 +112,14 @@ class Model_Content_Composite_AssignedRelations
 
 	public function setAssignedRelationsFormatter($value){
 		try{
-			Formatter_Container::unfreeze($value);
-			$this->formatter = strval($value);
+			if(empty ($value)){
+				$this->formatter = null;
+			}
+			elseif(Formatter_Container::exists($value)){
+				Formatter_Container::unfreeze($value);
+				$this->formatter = strval($value);
+			}
+
 		}
 		catch(Exception $e){
 			//formatter loading failed
