@@ -15,7 +15,7 @@ class View_Content_Location
 	public function toXHTML() {
 		$val = '';
 		if($this->shouldDisplay()){
-			$val = $this->wrapXHTML('Location', $this->content->getDescription());
+			$val = $this->wrapXHTML('Location', 'not implemented');
 		}
 		return $val;
 	}
