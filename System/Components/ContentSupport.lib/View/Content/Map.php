@@ -86,11 +86,11 @@ class View_Content_Map
 		);
 	}
 
-	protected function getLinkTargetFrame() {
+	public function getLinkTargetFrame() {
 		parent::getLinkTargetFrame();
 	}
 
-	protected function setLinkTargetFrame($value) {
+	public function setLinkTargetFrame($value) {
 		parent::setLinkTargetFrame($value);
 	}
 
