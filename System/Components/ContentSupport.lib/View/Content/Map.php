@@ -17,6 +17,7 @@ class View_Content_Map
 
 	protected $mapWidth = 100,
 			  $mapHeight = 100,
+			  $mapType = 'roadmap',
 			  $zoom = 13;
 
 	public function toXHTML() {
@@ -31,21 +32,21 @@ class View_Content_Map
 				$long = $location->getLongitude();
 				$lat  = $location->getLatitude();
 
-				if($lat != '' && $long != ''){
+				if(strlen($lat) > 0 && strlen($long) > 0){
 					$poi = sprintf('%f,%f', $lat, $long);
 					$map = '<img src="http://maps.google.com/staticmap?%s" alt="Map" style="width:%dpx;height:%dpx" />';
 					$urldata = array(
 						'center' => $poi,
 						'zoom'   => $this->zoom,
 						'size'   => sprintf('%dx%d', $this->mapWidth, $this->mapHeight),
-						'maptype'=> 'mobile',
+						'maptype'=> $this->mapType,
 						'markers'=> $poi,
 						'key' => LConfiguration::get('google_maps_key'),
 						'sensor' => 'false'
 					);
 					$parts = array();
 					foreach ($urldata as $key => $value){
-						$parts[] = sprintf('%s=%s', urlencode($key), urlencode($value));
+						$parts[] = sprintf('%s=%s', $key, $value);
 					}
 
 					$map = sprintf($map, implode('&', $parts), $this->mapWidth, $this->mapHeight);
@@ -56,10 +57,12 @@ class View_Content_Map
 		}
 		return $val;
 	}
+
 	protected function getPersistentAttributes() {
 		return array(
 			'mapWidth',
 			'mapHeight',
+			'mapType',
 			'zoom'
 		);
 	}
@@ -95,6 +98,16 @@ class View_Content_Map
 			return;
 		}
 		$this->mapHeight = intval($value);
+	}
+
+	public function getMapType(){
+		return $this->mapType;
+	}
+
+	public function setMapType($value){
+		if(in_array($value, array("roadmap", "mobile", "satellite", "terrain", "hybrid"))){
+			$this->mapType = $value;
+		}
 	}
 }
 ?>
