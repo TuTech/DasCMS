@@ -9,7 +9,8 @@
  * @package Bambus
  * @subpackage Drivers
  */
-class DSQLSettings 
+class DSQLSettings
+	extends BObject
     implements
         HUpdateClassSettingsEventHandler,
         HRequestingClassSettingsEventHandler
