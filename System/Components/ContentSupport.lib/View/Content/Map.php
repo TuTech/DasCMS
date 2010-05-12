@@ -34,6 +34,8 @@ class View_Content_Map
 
 				if(strlen($lat) > 0 && strlen($long) > 0){
 					$poi = sprintf('%f,%f', $lat, $long);
+
+					//map image
 					$map = '<img src="http://maps.google.com/staticmap?%s" alt="Map" style="width:%dpx;height:%dpx" />';
 					$urldata = array(
 						'center' => $poi,
@@ -51,6 +53,22 @@ class View_Content_Map
 
 					$map = sprintf($map, implode('&', $parts), $this->mapWidth, $this->mapHeight);
 
+					//map link
+					if(!empty ($this->linkTragetFrame)){
+						//http://maps.google.com/?ll=53.200000,9.600000&z=13&q=hier@53.200000,9.600000&t=m
+						$mapCode = array("roadmap" => 'm', "mobile" => 'm', "satellite" => 'k', "terrain" => 'p', "hybrid" => 'h');
+						$link = '<a href="http://maps.google.com/?ll=%s&z=%d&q=%s@%s&t=%s"%s>%s</a>';
+						$map = sprintf(
+								$link,
+								$poi,
+								$this->zoom,
+								urlencode($this->content->getTitle()),
+								$poi,
+								$mapCode[$this->mapType],
+								sprintf(' target="%s"', $this->linkTragetFrame),
+								$map
+						);
+					}
 					$val = $this->wrapXHTML('Map', $map);
 				}
 			}
@@ -63,8 +81,17 @@ class View_Content_Map
 			'mapWidth',
 			'mapHeight',
 			'mapType',
-			'zoom'
+			'zoom',
+			'linkTragetFrame'
 		);
+	}
+
+	protected function getLinkTargetFrame() {
+		parent::getLinkTargetFrame();
+	}
+
+	protected function setLinkTargetFrame($value) {
+		parent::setLinkTargetFrame($value);
 	}
 
 	public function getMapWidth(){
@@ -94,7 +121,7 @@ class View_Content_Map
 	}
 
 	public function setMapZoom($value){
-		if(!is_numeric($value) || ($value < 1) || ($value >100)){
+		if(!is_numeric($value) || ($value < 1) || ($value > 20)){
 			return;
 		}
 		$this->mapHeight = intval($value);
