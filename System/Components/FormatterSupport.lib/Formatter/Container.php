@@ -128,6 +128,10 @@ class Formatter_Container
 		QFormatterContainer::setFormatter($name, $data);
 	}
 
+	public static function exists($name){
+		return QFormatterContainer::isFormatter($name);
+	}
+
     /**
      * @param string $data
      * @return Formatter_Container

@@ -13,7 +13,7 @@ class PAuthentication
     extends
         BProvider 
     implements 
-        IShareable
+        IShareable, IProvider
 {
     const CLASS_NAME = 'PAuthentication';
     const FAILED_LOGIN = -1;
