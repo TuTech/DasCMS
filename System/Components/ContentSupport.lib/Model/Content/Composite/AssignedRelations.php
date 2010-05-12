@@ -116,7 +116,6 @@ class Model_Content_Composite_AssignedRelations
 				$this->formatter = null;
 			}
 			elseif(Formatter_Container::exists($value)){
-				Formatter_Container::unfreeze($value);
 				$this->formatter = strval($value);
 			}
 
