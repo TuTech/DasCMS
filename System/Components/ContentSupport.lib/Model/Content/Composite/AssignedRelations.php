@@ -25,10 +25,6 @@ class Model_Content_Composite_AssignedRelations
         	get_class($this),
         	$compositeFor->getId()
         );
-		$sysFormatter = LConfiguration::get('Settings_ContentView_relations');
-		if(!empty ($sysFormatter)){
-			$this->setAssignedRelationsFormatter($sysFormatter);
-		}
         try
         {
 			if(file_exists($this->file)){
@@ -65,16 +61,22 @@ class Model_Content_Composite_AssignedRelations
 
     //formatted list
 	public function getAssignedRelations(){
-		if($this->formatter == null || count($this->assigned) == 0){
+		$formatter = $this->formatter;
+		if(empty ($formatter)){
+			$formatter = LConfiguration::get('Settings_ContentView_relations');
+		}
+
+		if(empty ($formatter) || count($this->assigned) == 0){
 			return '<!-- no relations -->';
 		}
+
 		//return widget?
 		//return rendered list?
 		$html = '<ul class="Content_AssignedRelations">';
 		foreach ($this->assigned as $alias) {
 			try{
 				$c = Controller_Content::getSharedInstance()->openContent($alias);
-				$html .= '<li>'.Formatter_Container::unfreezeForFormatting($this->formatter, $c).'</li>';
+				$html .= '<li>'.Formatter_Container::unfreezeForFormatting($formatter, $c).'</li>';
 			}
 			catch(XFileNotFoundException $fnf){
 				return '';
