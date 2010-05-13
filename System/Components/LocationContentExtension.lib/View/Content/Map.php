@@ -18,7 +18,9 @@ class View_Content_Map
 	protected $mapWidth = 100,
 			  $mapHeight = 100,
 			  $mapType = 'roadmap',
-			  $zoom = 13;
+			  $zoom = 13,
+			  $marker = true,
+			  $sensor = 'false';
 
 	public function toXHTML() {
 		$val = '';
@@ -42,10 +44,13 @@ class View_Content_Map
 						'zoom'   => $this->zoom,
 						'size'   => sprintf('%dx%d', $this->mapWidth, $this->mapHeight),
 						'maptype'=> $this->mapType,
-						'markers'=> $poi,
 						'key' => LConfiguration::get('google_maps_key'),
-						'sensor' => 'false'
+						'sensor' => $this->sensor
 					);
+					if($this->marker){
+						$urldata['markers'] = $poi;
+					}
+					
 					$parts = array();
 					foreach ($urldata as $key => $value){
 						$parts[] = sprintf('%s=%s', $key, $value);
@@ -57,13 +62,13 @@ class View_Content_Map
 					if(!empty ($this->linkTragetFrame)){
 						//http://maps.google.com/?ll=53.200000,9.600000&z=13&q=hier@53.200000,9.600000&t=m
 						$mapCode = array("roadmap" => 'm', "mobile" => 'm', "satellite" => 'k', "terrain" => 'p', "hybrid" => 'h');
-						$link = '<a href="http://maps.google.com/?ll=%s&z=%d&q=%s@%s&t=%s"%s>%s</a>';
+						$link = '<a href="http://maps.google.com/?ll=%s&z=%d%s%s&t=%s"%s>%s</a>';
 						$map = sprintf(
 								$link,
 								$poi,
 								$this->zoom,
-								urlencode($this->content->getTitle()),
-								$poi,
+								($this->marker ? '&q='.urlencode($this->content->getTitle()) : ''),
+								($this->marker ? '@'.$poi : ''),
 								$mapCode[$this->mapType],
 								sprintf(' target="%s"', $this->linkTragetFrame),
 								$map
@@ -82,12 +87,30 @@ class View_Content_Map
 			'mapHeight',
 			'mapType',
 			'zoom',
-			'linkTragetFrame'
+			'linkTragetFrame',
+			'marker',
+			'sensor'
 		);
 	}
 
+	public function getDidUseSensorForPosition() {
+		return $this->sensor == 'true';
+	}
+
+	public function setDidUseSensorForPosition($value) {
+		$this->sensor = ($value ? 'true' : 'false');
+	}
+
+	public function getShowMarker() {
+		return $this->marker;
+	}
+
+	public function setShowMarker($value) {
+		$this->marker = $value == true;
+	}
+
 	public function getLinkTargetFrame() {
-		parent::getLinkTargetFrame();
+		return parent::getLinkTargetFrame();
 	}
 
 	public function setLinkTargetFrame($value) {
