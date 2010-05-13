@@ -26,7 +26,6 @@ class View_Content_Map
 		$val = '';
 		if(Core::classExists('UGoogleServices')
 				&& $this->content->hasComposite('Location')
-				&& LConfiguration::get('google_maps_key') != ''
 				&& $this->shouldDisplay()
 		){
 			$location = $this->content->Location;
@@ -35,48 +34,62 @@ class View_Content_Map
 				$lat  = $location->getLatitude();
 
 				if(strlen($lat) > 0 && strlen($long) > 0){
-					$poi = sprintf('%f,%f', $lat, $long);
-
-					//map image
-					$map = '<img src="http://maps.google.com/staticmap?%s" alt="Map" style="width:%dpx;height:%dpx" />';
-					$urldata = array(
-						'center' => $poi,
-						'zoom'   => $this->zoom,
-						'size'   => sprintf('%dx%d', $this->mapWidth, $this->mapHeight),
-						'maptype'=> $this->mapType,
-						'key' => LConfiguration::get('google_maps_key'),
-						'sensor' => $this->sensor
-					);
-					if($this->marker){
-						$urldata['markers'] = $poi;
+					if(LConfiguration::get('google_maps_key') != ''){
+						$poi = sprintf('%f,%f', $lat, $long);
+	
+						//map image
+						$map = '<img src="http://maps.google.com/staticmap?%s" alt="Map" style="width:%dpx;height:%dpx" />';
+						$urldata = array(
+							'center' => $poi,
+							'zoom'   => $this->zoom,
+							'size'   => sprintf('%dx%d', $this->mapWidth, $this->mapHeight),
+							'maptype'=> $this->mapType,
+							'key' => LConfiguration::get('google_maps_key'),
+							'sensor' => $this->sensor
+						);
+						if($this->marker){
+							$urldata['markers'] = $poi;
+						}
+						
+						$parts = array();
+						foreach ($urldata as $key => $value){
+							$parts[] = sprintf('%s=%s', $key, $value);
+						}
+	
+						$map = sprintf($map, implode('&', $parts), $this->mapWidth, $this->mapHeight);
+	
+						//map link
+						if(!empty ($this->linkTragetFrame)){
+							//http://maps.google.com/?ll=53.200000,9.600000&z=13&q=hier@53.200000,9.600000&t=m
+							$mapCode = array("roadmap" => 'm', "mobile" => 'm', "satellite" => 'k', "terrain" => 'p', "hybrid" => 'h');
+							$link = '<a href="http://maps.google.com/?ll=%s&z=%d%s%s&t=%s"%s>%s</a>';
+							$map = sprintf(
+									$link,
+									$poi,
+									$this->zoom,
+									($this->marker ? '&q='.urlencode($this->content->getTitle()) : ''),
+									($this->marker ? '@'.$poi : ''),
+									$mapCode[$this->mapType],
+									sprintf(' target="%s"', $this->linkTragetFrame),
+									$map
+							);
+						}
 					}
-					
-					$parts = array();
-					foreach ($urldata as $key => $value){
-						$parts[] = sprintf('%s=%s', $key, $value);
-					}
-
-					$map = sprintf($map, implode('&', $parts), $this->mapWidth, $this->mapHeight);
-
-					//map link
-					if(!empty ($this->linkTragetFrame)){
-						//http://maps.google.com/?ll=53.200000,9.600000&z=13&q=hier@53.200000,9.600000&t=m
-						$mapCode = array("roadmap" => 'm', "mobile" => 'm', "satellite" => 'k', "terrain" => 'p', "hybrid" => 'h');
-						$link = '<a href="http://maps.google.com/?ll=%s&z=%d%s%s&t=%s"%s>%s</a>';
+					else{
 						$map = sprintf(
-								$link,
-								$poi,
-								$this->zoom,
-								($this->marker ? '&q='.urlencode($this->content->getTitle()) : ''),
-								($this->marker ? '@'.$poi : ''),
-								$mapCode[$this->mapType],
-								sprintf(' target="%s"', $this->linkTragetFrame),
-								$map
+							'<div style="width:%dpx;height:%dpx;overflow:hidden;">Google Maps key not defined</div>', 
+							$this->mapWidth, 
+							$this->mapHeight
 						);
 					}
 					$val = $this->wrapXHTML('Map', $map);
 				}
 			}
+		}
+		elseif(Core::classExists('UGoogleServices')
+				&& $this->content->hasComposite('Location')
+				&& $this->shouldDisplay()
+		){
 		}
 		return $val;
 	}
