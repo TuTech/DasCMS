@@ -1,5 +1,7 @@
 <?php
-class Model_Content_Composite_History extends _Model_Content_Composite
+class Model_Content_Composite_History 
+	extends _Model_Content_Composite
+	implements Interface_Composite_AutoAttach
 {
     private $CreatedBy = '';
     private $CreateDate = 0;

@@ -1,7 +1,8 @@
 <?php
 class Model_Content_Composite_AssignedRelations
     extends _Model_Content_Composite
-    implements Interface_Composites_Attachable
+    implements Interface_Composites_Attachable,
+			   Interface_Composite_AutoAttach
 {
     protected $assigned = array(), $formatter = null, $file;
 	protected $dataChanged = false;
@@ -128,10 +129,5 @@ class Model_Content_Composite_AssignedRelations
 		}
 		$this->dataChanged = true;
 	}
-
-	public function attachedToContent(BContent $content)
-    {
-        return $this->compositeFor->getId() == $content->getId();
-    }
 }
 ?>

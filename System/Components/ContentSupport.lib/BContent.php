@@ -63,12 +63,7 @@ abstract class BContent extends BObject implements Interface_Content
 	 * this must not be used outside of BContent::composites()
 	 * @var array
 	 */
-	protected static $_composites = array(
-	    'Statistics',
-	    'History',
-	    'Location',
-		'AssignedRelations'
-	);
+	protected static $_composites = null;
 
 	/**
 	 * compIndex => method
@@ -98,6 +93,15 @@ abstract class BContent extends BObject implements Interface_Content
 	 */
 	protected function composites()
 	{
+		if(self::$_composites == null){
+			$classes = Core::getClassesWithInterface('Interface_Composite_AutoAttach');
+			self::$_composites = array();
+			foreach ($classes as $class){
+				if(substr($class, 0, strlen(self::COMPOSITE_PREFIX)) == self::COMPOSITE_PREFIX){
+					self::$_composites[] = substr($class, strlen(self::COMPOSITE_PREFIX));
+				}
+			}
+		}
 	    return self::$_composites;
 	}
 

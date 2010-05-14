@@ -1,5 +1,7 @@
 <?php
-class Model_Content_Composite_Statistics extends _Model_Content_Composite
+class Model_Content_Composite_Statistics 
+	extends _Model_Content_Composite
+	implements Interface_Composite_AutoAttach
 {
     private $LastAccess = 0;
     private $AccessCount = 0;

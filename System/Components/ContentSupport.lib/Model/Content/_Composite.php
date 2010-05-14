@@ -1,5 +1,7 @@
 <?php
-abstract class _Model_Content_Composite extends _
+abstract class _Model_Content_Composite 
+	extends _
+	implements Interface_Composites_Attachable
 {
     /**
      * @var BContent
@@ -9,6 +11,11 @@ abstract class _Model_Content_Composite extends _
     public function __construct(BContent $compositeFor)
     {
         $this->compositeFor = $compositeFor;
+    }
+
+	public function attachedToContent(BContent $content)
+    {
+        return $this->compositeFor->getId() == $content->getId();
     }
 
     public function contentSaves(){}
