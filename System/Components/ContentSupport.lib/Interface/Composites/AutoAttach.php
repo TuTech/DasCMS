@@ -3,5 +3,5 @@
  * Labeling interface
  * @author lse
  */
-interface Interface_Composite_AutoAttach {}
+interface Interface_Composites_AutoAttach {}
 ?>

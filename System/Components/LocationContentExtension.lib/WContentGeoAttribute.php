@@ -79,12 +79,12 @@ class WContentGeoAttribute extends BWidget
         return new WContentGeoAttribute(QWContentGeoAttribute::getByName($name));
     }
     
-    public static function forContent(BContent $content)
+    public static function forContent(Interface_Content $content)
     {
         return new WContentGeoAttribute(QWContentGeoAttribute::getByContentId($content->getId()));
     }
     
-    public static function assignContentLocation(BContent $content, $location)
+    public static function assignContentLocation(Interface_Content $content, $location)
     {
         $ret = null;
         try

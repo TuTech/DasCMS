@@ -34,7 +34,7 @@ abstract class BAContentAppController
     protected $contentIcon = 'BContent';
     
     /**
-	 * @var BContent
+	 * @var Interface_Content
      */
     protected $target = null;
     
@@ -150,7 +150,7 @@ abstract class BAContentAppController
     } 
     
     /**
-     * array(BContent|string file, [string mimetype])
+     * array(Interface_Content|string file, [string mimetype])
      * 
      * @return array
      */

@@ -24,9 +24,9 @@ class SAlias
 	 * Handle alias assignments
 	 * to be called by event handlers for content surveillance
 	 *
-	 * @param BContent $content
+	 * @param Interface_Content $content
 	 */
-	public function updateAlias(BContent $content)
+	public function updateAlias(Interface_Content $content)
 	{
 		if($content->PubDate == 0)
 		{
@@ -149,10 +149,10 @@ class SAlias
 	/**
 	 * Get all assigned aliases in an array
 	 *
-	 * @param BContent $content
+	 * @param Interface_Content $content
 	 * @return array
 	 */
-	public function getAllAssigned(BContent $content)
+	public function getAllAssigned(Interface_Content $content)
 	{
 		
 	}
@@ -160,12 +160,12 @@ class SAlias
 	/**
 	 * Get active alias 
 	 *
-	 * @param BContent $content
+	 * @param Interface_Content $content
 	 * @return string
 	 */
 	public static function getCurrent($content)
 	{
-	    $alias = (is_object($content) && $content instanceof BContent) 
+	    $alias = (is_object($content) && $content instanceof Interface_Content)
 	        ? $content->Alias 
 	        : $content;
 		return QSAlias::getPrimaryAlias($alias);

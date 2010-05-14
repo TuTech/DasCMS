@@ -94,7 +94,7 @@ abstract class BContent extends BObject implements Interface_Content
 	protected function composites()
 	{
 		if(self::$_composites == null){
-			$classes = Core::getClassesWithInterface('Interface_Composite_AutoAttach');
+			$classes = Core::getClassesWithInterface('Interface_Composites_AutoAttach');
 			self::$_composites = array();
 			foreach ($classes as $class){
 				if(substr($class, 0, strlen(self::COMPOSITE_PREFIX)) == self::COMPOSITE_PREFIX){

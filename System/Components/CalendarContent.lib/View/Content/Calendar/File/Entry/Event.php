@@ -5,11 +5,11 @@ class View_Content_Calendar_File_Entry_Event
 {
     protected $startTime, $endTime;
     /**
-     * @var BContent
+     * @var Interface_Content
      */
     protected $content;
     
-    public function __construct($startTime, $endTime, BContent $content)
+    public function __construct($startTime, $endTime, Interface_Content $content)
     {
         $this->sectionName = 'VEVENT';
         $this->startTime = $startTime;

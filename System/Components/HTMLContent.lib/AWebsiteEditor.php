@@ -99,7 +99,7 @@ class AWebsiteEditor
     } 
     
     /**
-     * array(BContent|string file, [string mimetype])
+     * array(Interface_Content|string file, [string mimetype])
      * 
      * @return array
      */

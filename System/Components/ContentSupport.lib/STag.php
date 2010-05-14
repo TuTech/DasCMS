@@ -143,9 +143,9 @@ class STag
 	/**
 	 * Assign tags to a content-element
 	 *
-	 * @param BContent $content
+	 * @param Interface_Content $content
 	 */
-	public function update(BContent $content)
+	public function update(Interface_Content $content)
 	{
 		$this->setTags($content->Alias, implode(',', $content->Tags));
 	}
@@ -153,10 +153,10 @@ class STag
 	/**
 	 * Assign tags to a content-element
 	 *
-	 * @param BContent $content
+	 * @param Interface_Content $content
 	 * @param string $tagstr
 	 */
-	public function set(BContent $content, $tagstr)
+	public function set(Interface_Content $content, $tagstr)
 	{
 		$this->setTags($content->Alias, $tagstr);
 	}
@@ -164,12 +164,12 @@ class STag
 	/**
 	 * Get all tags assigned to a content-element
 	 *
-	 * @param BContent $content
+	 * @param Interface_Content $content
 	 * @return array
 	 */
 	public function get($BContentOrAlias)
 	{
-	    $alias = ($BContentOrAlias instanceof BContent) 
+	    $alias = ($BContentOrAlias instanceof Interface_Content)
 	        ? $BContentOrAlias->Alias 
 	        : $BContentOrAlias;
 		return $this->getTags($alias);

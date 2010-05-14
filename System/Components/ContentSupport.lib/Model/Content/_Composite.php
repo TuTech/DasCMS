@@ -4,16 +4,16 @@ abstract class _Model_Content_Composite
 	implements Interface_Composites_Attachable
 {
     /**
-     * @var BContent
+     * @var Interface_Content
      */
     protected $compositeFor;
 
-    public function __construct(BContent $compositeFor)
+    public function __construct(Interface_Content $compositeFor)
     {
         $this->compositeFor = $compositeFor;
     }
 
-	public function attachedToContent(BContent $content)
+	public function attachedToContent(Interface_Content $content)
     {
         return $this->compositeFor->getId() == $content->getId();
     }

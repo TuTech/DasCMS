@@ -21,7 +21,7 @@ class VSpore extends BView
 	//name - to find itself in the configs
 	private $name = null;
 	
-	//resolved content - BContent
+	//resolved content - Interface_Content
 	private $content = null;
 	
 	//current parameter settings - all
@@ -226,9 +226,9 @@ class VSpore extends BView
 	}
 	
 	/**
-	 * Get the assigned BContent object of this VSpore object
+	 * Get the assigned Interface_Content object of this VSpore object
 	 * Only works for active content 
-	 * @return BContent
+	 * @return Interface_Content
 	 */
 	public function getContent()
 	{
@@ -245,7 +245,7 @@ class VSpore extends BView
 	public function hasContent()
 	{
 		$this->loadContent();
-		return ($this->content !== null && $this->content instanceof BContent);
+		return ($this->content !== null && $this->content instanceof Interface_Content);
 	}
 	
 	public static function isActive($sporename)

@@ -43,7 +43,7 @@ class Controller_Content
      * always returns a content
      * no exceptions
      * @param $alias
-     * @return BContent
+     * @return Interface_Content
      */
     public function tryOpenContent($alias, $ifIsType = null)
     {

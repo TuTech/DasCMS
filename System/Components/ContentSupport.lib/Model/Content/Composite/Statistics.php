@@ -1,7 +1,7 @@
 <?php
 class Model_Content_Composite_Statistics 
 	extends _Model_Content_Composite
-	implements Interface_Composite_AutoAttach
+	implements Interface_Composites_AutoAttach
 {
     private $LastAccess = 0;
     private $AccessCount = 0;
@@ -12,7 +12,7 @@ class Model_Content_Composite_Statistics
         return array('getLastAccess', 'getAccessCount', 'getAccessIntervalAverage');
     }
     
-    public function __construct(BContent $compositeFor)
+    public function __construct(Interface_Content $compositeFor)
     {
         parent::__construct($compositeFor);
         try

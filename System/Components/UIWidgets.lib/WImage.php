@@ -23,7 +23,7 @@ class WImage extends BWidget
     private $width = null;
     private $height = null;
     /**
-     * @var BContent
+     * @var Interface_Content
      */
     private $content = null;
     private $imageData;
@@ -73,7 +73,7 @@ class WImage extends BWidget
      * @param IFileContent$content
      * @return string
      */
-    public static function getPreviewIdForContent(BContent $content)
+    public static function getPreviewIdForContent(Interface_Content $content)
     {
         if ($content instanceof IFileContent && self::supportedMimeType($content->getMimeType()))
         {
@@ -109,7 +109,7 @@ class WImage extends BWidget
      * @param IFileContent$content
      * @return WImage
      */
-    public static function forContent(BContent $content)
+    public static function forContent(Interface_Content $content)
     {
         $img = new WImage();
         $img->content = $content;

@@ -95,11 +95,11 @@ abstract class _Formatter extends _
     }
 
     /**
-     * @return BContent
+     * @return Interface_Content
      */
     protected function getContent()
     {
-        if(!$this->targetContent instanceof BContent)
+        if(!$this->targetContent instanceof Interface_Content)
         {
             throw new XUndefinedException('no content');
         }

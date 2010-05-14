@@ -18,7 +18,7 @@ class Aggregator_Scope_Page
      */
     protected $scopeCallback = null;
     /**
-     * @param BContent $source
+     * @param Interface_Content $source
      * @param int $itemsPerPage
      * @param int $pageNo 1-based index
      */

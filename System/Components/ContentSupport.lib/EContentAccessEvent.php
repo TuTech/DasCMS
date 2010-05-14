@@ -11,7 +11,7 @@
  */
 class EContentAccessEvent extends BEvent
 {
-	public function __construct(BObject $sender, BContent $content)
+	public function __construct(BObject $sender, Interface_Content $content)
 	{
 		$this->Sender = $sender;
 		$this->Content = $content;
@@ -19,7 +19,7 @@ class EContentAccessEvent extends BEvent
 	}
 	
 	 /**
-	 * @var BContent
+	 * @var Interface_Content
 	 */
 	protected $Content;
 }

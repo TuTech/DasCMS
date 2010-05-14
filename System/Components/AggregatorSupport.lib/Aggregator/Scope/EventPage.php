@@ -4,7 +4,7 @@ class Aggregator_Scope_EventPage
     implements Interface_Content_FiniteScope
 {
     /**
-     * @param BContent $source
+     * @param Interface_Content $source
      * @param int $itemsPerPage
      * @param int $pageNo 1-based index
      */

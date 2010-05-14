@@ -33,7 +33,7 @@ class JUpdateSearchIndex implements ISchedulerJob
         if($content)
             echo $content->Alias;
         $stat = 'ok';
-        if($content instanceof BContent)
+        if($content instanceof Interface_Content)
         {
             echo '<br />';
             SSearchIndexer::updateFeatures($content);

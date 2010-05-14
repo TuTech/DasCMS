@@ -57,7 +57,7 @@ class WSidePanel
 	{
 	}
 
-	public function setTargetContent(BContent $content)
+	public function setTargetContent(Interface_Content $content)
 	{
 	    if(isset($this->object))
 	    {

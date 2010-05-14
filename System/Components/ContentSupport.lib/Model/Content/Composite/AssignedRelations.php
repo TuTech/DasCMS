@@ -2,7 +2,7 @@
 class Model_Content_Composite_AssignedRelations
     extends _Model_Content_Composite
     implements Interface_Composites_Attachable,
-			   Interface_Composite_AutoAttach
+			   Interface_Composites_AutoAttach
 {
     protected $assigned = array(), $formatter = null, $file;
 	protected $dataChanged = false;
@@ -17,7 +17,7 @@ class Model_Content_Composite_AssignedRelations
         );
     }
 
-    public function __construct(BContent $compositeFor)
+    public function __construct(Interface_Content $compositeFor)
     {
         parent::__construct($compositeFor);
         $this->file = sprintf(

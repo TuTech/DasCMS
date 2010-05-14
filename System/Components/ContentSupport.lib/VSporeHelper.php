@@ -48,7 +48,7 @@ class VSporeHelper
      * get spore for name
      *
      * @param string $name
-     * @return BContent
+     * @return Interface_Content
      */
     private function sporeContent($name)
     {

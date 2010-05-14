@@ -11,14 +11,14 @@
  */
 class EWillAccessContentEvent extends BEvent
 {
-	public function __construct(BObject $sender, BContent $content)
+	public function __construct(BObject $sender, Interface_Content $content)
 	{
 		$this->Sender = $sender;
 		$this->Content = $content;
 		parent::informHandlers($this);
 	}
 	
-	public function substitute(BContent $content)
+	public function substitute(Interface_Content $content)
 	{
 	    $this->Content = $content;
 	    $this->contentSubstituted = true;
@@ -30,7 +30,7 @@ class EWillAccessContentEvent extends BEvent
 	}
 	
 	 /**
-	 * @var BContent
+	 * @var Interface_Content
 	 */
 	protected $Content;
 	private $contentSubstituted = false;

@@ -142,10 +142,10 @@ class XML_Atom_Entry extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
     
     /**
      * @param IGeneratesFeed $feed
-     * @param BContent $content
+     * @param Interface_Content $content
      * @return XML_Atom_Entry
      */
-    public static function fromContent(IGeneratesFeed $feed, BContent $content)
+    public static function fromContent(IGeneratesFeed $feed, Interface_Content $content)
     {
         $o = new XML_Atom_Entry();
         //author?
