@@ -373,7 +373,7 @@ class QBContent extends BQuery
         $res = $DB->query(sprintf($sql, $classFilter, $DB->escape($alias), $whereFilter), DSQL::NUM);
         if($res->getRowCount() != 1)
         {
-            throw new XUndefinedIndexException();
+            throw new XUndefinedIndexException('could not resolve alias');
         }
         list($id, $ttl, $pd, $desc, $mt, $sz, $guid, $sttl) = $res->fetch();
         $sql = "
