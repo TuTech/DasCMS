@@ -206,7 +206,7 @@ class VSpore extends BView
 		$alias = '';
 		if(RURL::has($this->name))
 		{
-			$alias = RURL::get($this->name);
+			$alias = SAlias::cleanAlias(RURL::get($this->name));
 		}
 		else
 		{

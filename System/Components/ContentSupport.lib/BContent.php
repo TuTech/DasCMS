@@ -231,6 +231,7 @@ abstract class BContent extends BObject implements Interface_Content
 	 */
 	protected function initBasicMetaFromDB($alias)
 	{
+		$alias = SAlias::cleanAlias($alias);
 	    list($id, $ttl, $pd, $desc, $tags, $mt, $sz, $guid, $sttl) = QBContent::getBasicMetaData($alias);
 	    $this->Id = $id;
 	    $this->Title = $ttl;
