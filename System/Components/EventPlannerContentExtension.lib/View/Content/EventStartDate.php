@@ -11,12 +11,27 @@ class View_Content_EventStartDate
 		Interface_View_DisplayXHTML,
 		Interface_View_Content
 {
+	protected $dateFormat = null;
+
 	public function toXHTML() {
 		$val = '';
-		if($this->shouldDisplay() && isset($this->content->EventStartDate)){
-			$val = $this->wrapXHTML('EventStartDate', isset($this->content->EventStartDate));
+		if($this->shouldDisplay() && $this->content->hasComposite('EventDates')){
+			$df = ($this->dateFormat == null) ? LConfiguration::get('dateformat') : $this->dateFormat;
+			$val = $this->wrapXHTML('EventStartDate', date($df, $this->content->EventStartDate));
 		}
 		return $val;
+	}
+
+	protected function getPersistentAttributes() {
+		return array('dateFormat');
+	}
+
+	public function getDateFormat(){
+		return $this->dateFormat;
+	}
+
+	public function setDateFormat($value){
+		$this->dateFormat = $value;
 	}
 }
 ?>

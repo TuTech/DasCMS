@@ -1,7 +1,8 @@
 <?php
 class Model_Content_Composite_EventDates 
     extends _Model_Content_Composite
-    implements Interface_Composites_Attachable
+    implements Interface_Composites_Attachable,
+			   Interface_Composites_AutoAttach
 {
     protected $startDate, $endDate;
     
