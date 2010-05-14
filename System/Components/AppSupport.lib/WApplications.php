@@ -63,7 +63,7 @@ class WApplications extends BWidget
 		    $groupHelp[$atts['purpose']] = SLocalization::get($atts['purpose']);
 		}
 		asort($groupHelp, SORT_LOCALE_STRING);
-		
+		$groupHelp = array_reverse($groupHelp, true);
 		$sortHelp = array();
 		foreach ($this->apps as $app => $meta) 
 		{

@@ -87,7 +87,7 @@ class WAssignedRelations
 		   			'<dt><label for="%s_aliases">%s</label></dt>'.
 		    		'<dd><textarea id="%s_aliases" name="%s_aliases">%s</textarea></dd>'.
 		   			'<dt><label for="%s_formatter">%s</label></dt>'.
-		    		'<dd><select id="%s_formatter" type="text" name="%s_formatter">%s</select></dd>'.
+		    		'<dd><select id="%s_formatter" name="%s_formatter">%s</select></dd>'.
 	    '</dl></div>'
 			,$class
 	    	,SLocalization::get('aliases_of_subcontents')
