@@ -66,12 +66,28 @@ class WAssignedRelations
 
 	public function render()
 	{
+		$currentFormatter = $this->targetObject->getAssignedRelationsFormatter();
+		$formatters = Formatter_Container::getFormatterList();
+		$options = array(' - '.SLocalization::get('none').' - '  => '');
+		foreach ($formatters as $f){
+			$options[$f] = $f;
+		}
+		$selectHTML = "";
+		foreach ($options as $title => $value){
+			$selectHTML .= sprintf(
+					'<option value="%s"%s>%s</option>',
+					htmlentities($value, ENT_QUOTES, CHARSET),
+					$value == $currentFormatter ? ' selected="selected"' : '',
+					htmlentities($title, ENT_QUOTES, CHARSET)
+					);
+		}
 		$class = get_class($this);
+
 	    printf('<div id="WAssignedRelations"><dl>'.
 		   			'<dt><label for="%s_aliases">%s</label></dt>'.
 		    		'<dd><textarea id="%s_aliases" name="%s_aliases">%s</textarea></dd>'.
 		   			'<dt><label for="%s_formatter">%s</label></dt>'.
-		    		'<dd><input id="%s_formatter" type="text" name="%s_formatter" value="%s" /></dd>'.
+		    		'<dd><select id="%s_formatter" type="text" name="%s_formatter">%s</select></dd>'.
 	    '</dl></div>'
 			,$class
 	    	,SLocalization::get('aliases_of_subcontents')
@@ -83,7 +99,7 @@ class WAssignedRelations
 	    	,SLocalization::get('formatter_for_contents')
 			,$class
 			,$class
-			,$this->targetObject->getAssignedRelationsFormatter()
+			,$selectHTML
 		);
 	}
 
