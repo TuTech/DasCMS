@@ -79,12 +79,20 @@ if(PAuthorisation::has('org.bambuscms.content.cfeed.change') && $Feed != null)
             WTextBox::TEXT
         )
     ));
+
+	$formatters = Formatter_Container::getFormatterList();
+	$formatterOptions = array('' => ' - '.SLocalization::get('none').' - ');
+		foreach ($formatters as $f){
+			$formatterOptions[$f] = $f;
+		}
     $tbl->addRow(array(
-        'content_formatter', 
-        new WTextBox(
-            'content_formatter', 
-            $Feed->getChildContentFormatter(), 
-            WTextBox::TEXT
+        'content_formatter',
+        new WMultipleChoice(
+            'content_formatter',
+            $formatterOptions,
+            $Feed->getChildContentFormatter(),
+            WMultipleChoice::SELECT,
+            false
         )
     ));
     
