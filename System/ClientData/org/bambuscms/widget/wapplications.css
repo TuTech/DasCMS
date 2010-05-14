@@ -32,13 +32,19 @@ padding:0px;
 	display:block;
 	font-weight: bold;
 }
+#WApplications a:hover
+{
+	background: #9fbc4a;
+}
 #WApplications a:hover span.application-info
 {
-	position:absolute;
+	position:relative;
 	text-align:left;
-	top:57px;
-	margin-left:8px;
-    border:1px solid #9fbc4a;   
+	top:-20px;
+	left:68px;
+	width:250px;
+	margin-left:0px;
+    border:1px solid #9fbc4a;
     display:block;
     padding:2px;
     padding-left:6px;
@@ -54,7 +60,7 @@ padding:0px;
 {
 	background: #f0f9d7;
 }
-#WApplications a img 
+#WApplications a img
 {
 	margin-top:8px;
 	width:32px;
@@ -65,7 +71,7 @@ padding:0px;
 	margin-top:0px;
 	width:48px;
 	height:48px;
-		
+
 }
 #WApplications a:hover img
 {
@@ -79,19 +85,19 @@ padding:0px;
 	padding:0px;
 	background: none;
 }
-#WApplications a.active 
+#WApplications a.active
 {
 	background: #f9fcee ;
     border:1px solid #9fbc4a;
     border-bottom-width:0px;
-    padding-top:1px;   
+    padding-top:1px;
 	width: 56px;
 	height:55px;
 	display: block;
 }
-#WApplications a 
+#WApplications a
 {
-    padding-top:1px;   
+    padding-top:1px;
 	width: 56px;
 	height:55px;
 	display: block;
