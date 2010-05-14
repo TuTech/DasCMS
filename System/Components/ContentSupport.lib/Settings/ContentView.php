@@ -11,7 +11,7 @@ class Settings_ContentView extends BObject
 {
 	public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e) {
 		$formatters = Formatter_Container::getFormatterList();
-		$options = array('none' => '');
+		$options = array(' - '.SLocalization::get('none').' - '  => '');
 		foreach ($formatters as $f){
 			$options[$f] = $f;
 		}
@@ -23,7 +23,8 @@ class Settings_ContentView extends BObject
 	public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e) {
 		$data = $e->getClassSettings($this);
 		$f = $data['default_view_for_relations'];
-		if(!empty($f) && Formatter_Container::exists($f))
+		$f = empty ($f) ? '' : $f;
+		if(empty($f) || Formatter_Container::exists($f))
 		{
 			LConfiguration::set('Settings_ContentView_relations', $f);
 		}
