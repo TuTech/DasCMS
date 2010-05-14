@@ -20,7 +20,7 @@ class SAlias
 		HContentPublishedEventHandler 
 {	
 	public static function cleanAlias($untrustedAlias){
-		return preg_replace('/[^a-zA-Z0-9\._-]+/mui', '', $untrustedAlias);
+		return $untrustedAlias;// preg_replace('/[^a-zA-Z0-9\._-]+/mui', '', $untrustedAlias);
 	}
 
 	/**
