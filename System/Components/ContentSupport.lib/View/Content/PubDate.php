@@ -1,6 +1,6 @@
 <?php
 /**
- * Description of Content
+ * Description of View_Content_PubDate
  *
  * @author lse
  */
@@ -11,12 +11,27 @@ class View_Content_PubDate
 		Interface_View_DisplayXHTML,
 		Interface_View_Content
 {
+	protected $dateFormat = null;
+
 	public function toXHTML() {
 		$val = '';
 		if($this->shouldDisplay()){
-			$val = $this->wrapXHTML('PubDate', $this->content->getPubDate());//TODO date format
+			$df = ($this->dateFormat == null) ? LConfiguration::get('dateformat') : $this->dateFormat;
+			$val = $this->wrapXHTML('PubDate', date($df, $this->content->getPubDate()));
 		}
 		return $val;
+	}
+
+	protected function getPersistentAttributes() {
+		return array('dateFormat');
+	}
+
+	public function getDateFormat(){
+		return $this->dateFormat;
+	}
+
+	public function setDateFormat($value){
+		$this->dateFormat = $value;
 	}
 }
 ?>

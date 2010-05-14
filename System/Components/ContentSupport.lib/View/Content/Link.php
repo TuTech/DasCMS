@@ -11,12 +11,10 @@ class View_Content_Link
 		Interface_View_DisplayXHTML,
 		Interface_View_Content
 {
-	//TODO, caption, targetView, targetFrame
-
 	public function toXHTML() {
 		$val = '';
 		if($this->shouldDisplay()){
-			$val = $this->wrapXHTML('Description', $this->content->getDescription());
+			$val = $this->wrapXHTML('Link', $this->getLinkCaption());
 		}
 		return $val;
 	}

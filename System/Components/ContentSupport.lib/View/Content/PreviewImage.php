@@ -11,11 +11,11 @@ class View_Content_PreviewImage
 		Interface_View_DisplayXHTML,
 		Interface_View_Content
 {
-	protected $imageWidth,
-			  $imageHeight,
-			  $imageFillColor,
-			  $scaleMethod,
-			  $scaleEnforcementMethod;
+	protected $imageWidth = 100,
+			  $imageHeight = 100,
+			  $imageFillColor = '#ffffff',
+			  $scaleMethod = WImage::MODE_SCALE_TO_MAX,
+			  $scaleEnforcementMethod = Wimage::FORCE_BY_FILL;
 
 	public function toXHTML() {
 		$val = '';
