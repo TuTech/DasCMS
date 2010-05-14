@@ -58,7 +58,11 @@ class QFormatterContainer extends BQuery
         $sql = sprintf($sql, $DB->escape($data), $DB->escape($name));
         return $DB->queryExecute($sql);
     }
-        
+
+	/**
+	 *
+	 * @return DSQLResult
+	 */
     public static function listFormatters()
     {
         $sql = "SELECT name FROM Formatters";

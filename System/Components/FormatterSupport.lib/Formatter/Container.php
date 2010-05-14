@@ -123,6 +123,16 @@ class Formatter_Container
 		Formatter_Container::freezeFormatter($this->uniqueName, $this);
     }
 
+	public static function getFormatterList(){
+		$formatters = array();
+		$res = QFormatterContainer::listFormatters();
+		while ($row = $res->fetch()){
+			$formatters[] = $row[0];
+		}
+		$res->free();
+		return $formatters;
+	}
+
 	public static function freezeFormatter($name, $object){
 		$data = 'base64:'.base64_encode(serialize($object));
 		QFormatterContainer::setFormatter($name, $data);

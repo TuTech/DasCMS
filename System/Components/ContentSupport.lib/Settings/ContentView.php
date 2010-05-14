@@ -10,8 +10,13 @@ class Settings_ContentView extends BObject
         HUpdateClassSettingsEventHandler
 {
 	public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e) {
+		$formatters = Formatter_Container::getFormatterList();
+		$options = array('none' => '');
+		foreach ($formatters as $f){
+			$options[$f] = $f;
+		}
 		$e->addClassSettings($this, 'content_view', array(
-        	'default_view_for_relations' => array(LConfiguration::get('Settings_ContentView_relations'), LConfiguration::TYPE_TEXT, null, 'default_view_for_relations')
+        	'default_view_for_relations' => array(LConfiguration::get('Settings_ContentView_relations'), LConfiguration::TYPE_SELECT, $options, 'default_view_for_relations')
 		));
 	}
 	
