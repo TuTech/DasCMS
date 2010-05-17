@@ -41,8 +41,9 @@ if(!defined('CHARSET'))
     define ('CHARSET', 'UTF-8');
 
 
-//core class
+//core classes
 require_once constant('CMS_CLASS_PATH').'Core.lib/Core.php';
+require_once constant('CMS_CLASS_PATH').'Core.lib/Settings.php';
 
 //class loader
 function __autoload($class){

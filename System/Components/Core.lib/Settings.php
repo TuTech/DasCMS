@@ -10,25 +10,48 @@ class Settings extends Core {
     const TYPE_SELECT = 3;
     const TYPE_PASSWORD = 4;
 
+	const FILE_CONFIG = 'Content/configuration/system.php';
+	const FILE_CONFIG_BACKUP = 'Content/configuration/system.prev.php';
+
+	const HEADER = "<?php exit(); /* ENCODING=JSON */ ?>\n";
+
 	protected $confFile, $prevConfFile;
 
+	protected $allowOverwrite = true;
 	protected $updated = false;
 	protected $data;
 
 	protected function  __construct() {
-		$this->prevConfFile = SPath::CONTENT.'configuration/system.prev.php';
-		$this->confFile = SPath::CONTENT.'configuration/system.php';
-
-		$file = $this->confFile;
-		if(RURL::has('@previousconfig')
-				&& file_exists($this->prevConfFile)
+		$file = self::FILE_CONFIG;
+		if(Core::classExists('RURL')
+				&& Core::classExists('PAuthorisation')
+				&& RURL::has('@previousconfig')
+				&& file_exists(self::FILE_CONFIG_BACKUP)
 				&& PAuthorisation::has('org.bambuscms.login')
 		)
 		{
 			//show with previous version
-			$file = $this->prevConfFile;
+			$file = self::FILE_CONFIG_BACKUP;
 		}
-		$this->data = DFileSystem::LoadData($file);
+		if(file_exists($file)){
+			$lines = file($file);
+			if(is_array($lines)){
+				$header = array_shift($lines);//remove header
+				$data = implode('', $lines);
+				if(strpos($header, 'ENCODING=JSON')!== false){
+					//new way
+					$this->data = json_decode($data, true);
+				}
+				else{
+					//old way
+					$this->data = unserialize($data);
+				}
+			}
+		}
+		else{
+			$this->allowOverwrite = false;
+			$this->data = array();
+		}
 	}
 
 	public function get($key){
@@ -55,26 +78,47 @@ class Settings extends Core {
 
 	public function __destruct()
     {
-        if($this->updated)
+		$hasEnv = Core::classExists('SNotificationCenter') && Core::classExists('SErrorAndExceptionHandler');
+
+        if($this->updated && ($this->allowOverwrite || !file_exists(self::FILE_CONFIG)))
         {
             try{
                 chdir(BAMBUS_CMS_ROOTDIR);
-                SErrorAndExceptionHandler::muteErrors();
-                //make a backup
-                $oc = DFileSystem::Load($this->confFile);
-                DFileSystem::Save($this->prevConfFile, $oc);
+                if($hasEnv){
+					SErrorAndExceptionHandler::muteErrors();
+				}
+
+				//make a backup
+				copy(self::FILE_CONFIG, self::FILE_CONFIG_BACKUP);
 
                 //save new config
-                DFileSystem::SaveData($this->confFile, $this->data);
-                SNotificationCenter::report('message', 'configuration_saved');
+				$data = self::HEADER.json_encode($this->data);
+				$this->write(self::FILE_CONFIG, $data);
 
-                SErrorAndExceptionHandler::reportErrors();
+                if($hasEnv){
+					SNotificationCenter::report('message', 'configuration_saved');
+					SErrorAndExceptionHandler::reportErrors();
+				}
             }
             catch(Exception $e)
             {
-                SNotificationCenter::report('warning', 'configuration_not_saved');
+                if($hasEnv){
+					SNotificationCenter::report('warning', 'configuration_not_saved');
+				}
+				else{
+					echo 'WARNING: configuration not saved';
+				}
             }
         }
     }
+
+	protected function write($f, $d){
+		$t = tempnam('.', 'Settings_');
+		$fp = fopen($t, 'w+');
+		fwrite($fp, $d);
+		fclose($fp);
+
+		rename($t, $f);
+	}
 }
 ?>
