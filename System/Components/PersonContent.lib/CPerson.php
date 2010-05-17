@@ -393,7 +393,7 @@ class CPerson
 	    {
 	        throw new XPermissionDeniedException('this username is already assigned to another person', 2);
 	    }
-	    $pwLen = LConfiguration::get('password_min_length');
+	    $pwLen = Core::settings()->get('password_min_length');
 	    if(!empty($pwLen) && is_numeric($pwLen) && !strlen($password) >= $pwLen)
 	    {
 	        throw new Exception('password to short', 3);

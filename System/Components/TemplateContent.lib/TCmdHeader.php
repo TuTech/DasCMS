@@ -64,7 +64,7 @@ class TCmdHeader
         try{
             $events = SContentWatch::accessedContent();
             
-            $wellformed_urls = LConfiguration::get('wellformed_urls');
+            $wellformed_urls = Core::settings()->get('wellformed_urls');
             $baseURI = '';
             if(!empty($wellformed_urls))
             {
@@ -73,7 +73,7 @@ class TCmdHeader
            
             $e = new EWillSendHeadersEvent($this);
             
-            $title = empty($this->title) ? LConfiguration::get('sitename') : $this->title;
+            $title = empty($this->title) ? Core::settings()->get('sitename') : $this->title;
             $glue = "\n            ";
             return sprintf("	<head>
             <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />%s

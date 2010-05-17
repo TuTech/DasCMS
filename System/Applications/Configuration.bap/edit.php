@@ -35,13 +35,13 @@ foreach ($sorted as $section => $loc)
             $str = '';
             switch ($type)
             {
-                case LConfiguration::TYPE_TEXT:
+                case Settings::TYPE_TEXT:
                     $str = sprintf($fullinput, 'text', $key, $key, htmlentities($value, ENT_QUOTES, CHARSET));
                     break;
-                case LConfiguration::TYPE_PASSWORD:
+                case Settings::TYPE_PASSWORD:
                     $str = sprintf($fullinput, 'password', $key, $key, htmlentities($value, ENT_QUOTES, CHARSET));
                     break;
-                case LConfiguration::TYPE_CHECKBOX:
+                case Settings::TYPE_CHECKBOX:
                     $str = sprintf(
                     	"<input type=\"checkbox\" name=\"%s\" id=\"%s\"%s /><input type=\"hidden\" name=\"_%s\" value=\"1\" />"
                         ,$key
@@ -50,7 +50,7 @@ foreach ($sorted as $section => $loc)
                         ,$key
                     );
                     break;
-                case LConfiguration::TYPE_SELECT:
+                case Settings::TYPE_SELECT:
                     $str = sprintf("<select name=\"%s\" id=\"%s\">\n", $key, $key);
                     if(is_array($options))
                     {

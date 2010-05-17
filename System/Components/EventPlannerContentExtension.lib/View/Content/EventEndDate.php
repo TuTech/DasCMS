@@ -16,7 +16,7 @@ class View_Content_EventEndDate
 	public function toXHTML() {
 		$val = '';
 		if($this->shouldDisplay() && $this->content->hasComposite('EventDates')){
-			$df = ($this->dateFormat == null) ? LConfiguration::get('dateformat') : $this->dateFormat;
+			$df = ($this->dateFormat == null) ? Core::settings()->get('dateformat') : $this->dateFormat;
 			$val = $this->wrapXHTML('EventEndDate', date($df, $this->content->EventEndDate));
 		}
 		return $val;

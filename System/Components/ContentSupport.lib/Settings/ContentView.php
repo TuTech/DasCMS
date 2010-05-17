@@ -16,7 +16,7 @@ class Settings_ContentView extends BObject
 			$options[$f] = $f;
 		}
 		$e->addClassSettings($this, 'content_view', array(
-        	'default_view_for_relations' => array(LConfiguration::get('Settings_ContentView_relations'), LConfiguration::TYPE_SELECT, $options, 'default_view_for_relations')
+        	'default_view_for_relations' => array(Core::settings()->get('Settings_ContentView_relations'), Settings::TYPE_SELECT, $options, 'default_view_for_relations')
 		));
 	}
 	
@@ -26,7 +26,7 @@ class Settings_ContentView extends BObject
 		$f = empty ($f) ? '' : $f;
 		if(empty($f) || Formatter_Container::exists($f))
 		{
-			LConfiguration::set('Settings_ContentView_relations', $f);
+			Core::settings()->set('Settings_ContentView_relations', $f);
 		}
 	}
 }

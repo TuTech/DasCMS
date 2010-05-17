@@ -122,7 +122,7 @@ else
     WHeader::setTitle(
 		'Bambus CMS: '.
 	    SLocalization::get('login').' - '.
-	    LConfiguration::get('sitename')
+	    Core::settings()->get('sitename')
     );
     if(RSent::has('bambus_cms_login'))
     {

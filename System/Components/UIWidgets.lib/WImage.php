@@ -253,7 +253,7 @@ class WImage extends BWidget
     {
         $this->scaleHash = self::createScaleHash($width, $heigth, $mode, $forceType, $fillColor);
         //permit rendering this image
-        $qual = intval(LConfiguration::get('CFile_image_quality'));
+        $qual = intval(Core::settings()->get('CFile_image_quality'));
         if(!file_exists(SPath::TEMP.'scale.render.'.$qual.'.'.$this->imageID.'-'.$this->scaleHash)
             && !PAuthorisation::has('org.bambuscms.bcontent.previewimage.create') //does not need explicit permission
             )

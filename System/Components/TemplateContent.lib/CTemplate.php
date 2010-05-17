@@ -111,7 +111,7 @@ class CTemplate
 	public function generatePage(array $environment)
 	{
 	    try {
-            $tpl = new TEngine($this->Id.'.php', BTemplate::CONTENT, LConfiguration::as_array());
+            $tpl = new TEngine($this->Id.'.php', BTemplate::CONTENT, Core::settings()->toArray());
     		return $tpl->execute($environment);
 	    }
 	    catch (Exception $e)

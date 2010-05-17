@@ -36,7 +36,7 @@ class CError extends BContent implements IGlobalUniqueId, ISearchDirectives
 	    $Id = SHTTPStatus::validate($Id);
 	    if($Id == 401)
 	    {
-	        $tpl = LConfiguration::get('login_template');
+	        $tpl = Core::settings()->get('login_template');
 	        if(defined('BAMBUS_HTML_ACCESS') && !empty($tpl))
 	        {
 	            try 

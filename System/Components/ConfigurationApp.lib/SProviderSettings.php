@@ -19,7 +19,7 @@ class SProviderSettings
     {
         //db_engine + whatever DSQL gives us
         $e->addClassSettings($this, 'provider', array(
-        	'change_provider_settings' => array('', LConfiguration::TYPE_CHECKBOX, null, 'change_provider_settings')
+        	'change_provider_settings' => array('', Settings::TYPE_CHECKBOX, null, 'change_provider_settings')
         ));
 		$ps = Core::getClassesWithInterface('IProvider');
         foreach ($ps as $p)

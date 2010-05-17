@@ -14,11 +14,11 @@ define('BAMBUS_HTML_ACCESS', '1');
 $_10Minutes = 600;
 header("Expires: ".date('r', time()+$_10Minutes));
 header("Cache-Control: max-age=".$_10Minutes.", public");
-if(!LConfiguration::get('show_errors_on_website'))
+if(!Core::settings()->get('show_errors_on_website'))
 {
     SErrorAndExceptionHandler::hideErrors();
 }
-if(LConfiguration::get('error_info_text_file') != '')
+if(Core::settings()->get('error_info_text_file') != '')
 {
     SErrorAndExceptionHandler::showMessageBeforeDying();
 }
@@ -34,7 +34,7 @@ if(RSent::has('bambus_cms_login') && RSent::has('bambus_cms_username') && RSent:
 PAuthentication::implied();
 
 //set sometemplate keys
-WTemplate::globalSet('meta_keywords',LConfiguration::get('meta_keywords'));
+WTemplate::globalSet('meta_keywords',Core::settings()->get('meta_keywords'));
 WTemplate::globalSet('bambus_version', BAMBUS_VERSION);
 WTemplate::globalSet('rssfeeds', '');
 WTemplate::globalSet('bambus_my_uri', SLink::buildURL());
@@ -53,7 +53,7 @@ if(!empty($stylesheets)){
 WTemplate::globalSet('stylesheets', $stylesheetLinks);
 
 $tok = SProfiler::profile(__FILE__, __LINE__,'template engine');
-$generatorAlias = LConfiguration::get('generator_content');
+$generatorAlias = Core::settings()->get('generator_content');
 try
 {
     $pageGenerator = Controller_Content::getSharedInstance()->openContent($generatorAlias);

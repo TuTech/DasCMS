@@ -74,7 +74,7 @@ class SApplication
     		WHeader::setTitle(
     			'Bambus CMS: '.
     		    SLocalization::get($this->name).' - '.
-    		    LConfiguration::get('sitename')
+    		    Core::settings()->get('sitename')
 		    );
         }
         else

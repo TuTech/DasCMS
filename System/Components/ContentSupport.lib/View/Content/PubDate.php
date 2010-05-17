@@ -16,7 +16,7 @@ class View_Content_PubDate
 	public function toXHTML() {
 		$val = '';
 		if($this->shouldDisplay()){
-			$df = ($this->dateFormat == null) ? LConfiguration::get('dateformat') : $this->dateFormat;
+			$df = ($this->dateFormat == null) ? Core::settings()->get('dateformat') : $this->dateFormat;
 			$val = $this->wrapXHTML('PubDate', date($df, $this->content->getPubDate()));
 		}
 		return $val;

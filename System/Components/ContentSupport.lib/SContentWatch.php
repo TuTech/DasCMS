@@ -55,7 +55,7 @@ class SContentWatch
         $feeds = array();
         $tags = array();
         $descriptions = array();
-        $cdesc = LConfiguration::get('meta_description');
+        $cdesc = Core::settings()->get('meta_description');
         if(!empty($cdesc))
         {
             $descriptions[] = $cdesc;
@@ -102,14 +102,14 @@ class SContentWatch
                 }
             }
         }
-        $ctags = STag::parseTagStr(LConfiguration::get('meta_keywords'));
+        $ctags = STag::parseTagStr(Core::settings()->get('meta_keywords'));
         $tags = array_merge($ctags, $tags);
         $tags = array_unique($tags);
         if(count($tags) > 0)
         {
             $e->getHeader()->addMeta(implode(', ', $tags), 'keywords');
         }
-        $title = LConfiguration::get('sitename');
+        $title = Core::settings()->get('sitename');
         if(count($titles) > 0)
         {
             $titles = array_unique($titles);
@@ -157,7 +157,7 @@ class SContentWatch
             $num = (sprintf('0x%02x%02x%02x%02x',$a, $b, $c, $d));
             $num = hexdec($num);//FIXME anon here
             //send to db
-            if(!$o instanceof CError && LConfiguration::get('log_page_accesses') != '')
+            if(!$o instanceof CError && Core::settings()->get('log_page_accesses') != '')
             {
                 QBContent::logAccess($o->getId(), $ccid, $num);
             }

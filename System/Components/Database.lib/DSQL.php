@@ -33,7 +33,7 @@ abstract class DSQL
 	{
 		if(self::$Connector == null)
 		{
-			self::$engine = LConfiguration::get('db_engine');
+			self::$engine = Core::settings()->get('db_engine');
 			$connector = 'DSQL_'.self::$engine;
 			if(!class_exists($connector, true))
 			{
@@ -48,7 +48,7 @@ abstract class DSQL
 	{
 	    if(self::$engine == null)
 	    {
-	        self::$engine = LConfiguration::get('db_engine');
+	        self::$engine = Core::settings()->get('db_engine');
 	    }
 	    return self::$engine;
 	}	
@@ -68,7 +68,7 @@ abstract class DSQL
 	{
 	    if(self::$tableNameTemplate == null)
 	    {
-	        self::$tableNameTemplate = LConfiguration::getOrDefault('db_table_name_template','%s');
+	        self::$tableNameTemplate = Core::settings()->getOrDefault('db_table_name_template','%s');
 	    }
 	    return sprintf(self::$tableNameTemplate, $name);
 	}

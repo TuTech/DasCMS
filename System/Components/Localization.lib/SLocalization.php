@@ -48,9 +48,9 @@ class SLocalization
         fclose($fp);
         //locale, timezone, dateformat
         $e->addClassSettings($this, 'country_settings', array(
-        	'locale' => array(LConfiguration::get('locale'), LConfiguration::TYPE_SELECT, $loc, 'locale'),
-        	'timezone' => array(LConfiguration::get('timezone'), LConfiguration::TYPE_SELECT, $tz, 'timezone'),
-        	'date_format' => array(LConfiguration::get('dateformat'), LConfiguration::TYPE_TEXT, null, 'date_format')
+        	'locale' => array(Core::settings()->get('locale'), Settings::TYPE_SELECT, $loc, 'locale'),
+        	'timezone' => array(Core::settings()->get('timezone'), Settings::TYPE_SELECT, $tz, 'timezone'),
+        	'date_format' => array(Core::settings()->get('dateformat'), Settings::TYPE_TEXT, null, 'date_format')
         ));
     }
     
@@ -61,7 +61,7 @@ class SLocalization
         {
             if(isset($data[$mk]))
             {
-                LConfiguration::set($cc, $data[$mk]);
+                Core::settings()->set($cc, $data[$mk]);
             }
         }
     }

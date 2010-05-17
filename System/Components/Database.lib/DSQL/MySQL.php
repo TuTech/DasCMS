@@ -55,7 +55,7 @@ class DSQL_MySQL extends DSQL
 	
 	private function getCfgOrNull($key)
 	{
-		$dat = LConfiguration::get($key);
+		$dat = Core::settings()->get($key);
 		return empty($dat) ? null : $dat; 
 	}
 	private static $configKeys = array(
@@ -66,7 +66,7 @@ class DSQL_MySQL extends DSQL
 	    $data = array();
         foreach (self::$configKeys as $mk => $altVal)
         {
-            $data[$mk] = array($altVal === 0 ? LConfiguration::get($mk) : $altVal,($altVal === 0 ? LConfiguration::TYPE_TEXT : LConfiguration::TYPE_PASSWORD), null, $mk);
+            $data[$mk] = array($altVal === 0 ? Core::settings()->get($mk) : $altVal,($altVal === 0 ? Settings::TYPE_TEXT : Settings::TYPE_PASSWORD), null, $mk);
         }
         $e->addClassSettings($this, 'database', $data);
 	}
@@ -78,7 +78,7 @@ class DSQL_MySQL extends DSQL
         {
             if(isset($data[$mk]) && !($mk == 'db_password' && $data[$mk] == $altVal))
             {
-                LConfiguration::set($mk, $data[$mk]);
+                Core::settings()->set($mk, $data[$mk]);
             }
         }
 	}

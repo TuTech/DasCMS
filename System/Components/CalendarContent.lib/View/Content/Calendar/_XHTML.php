@@ -21,7 +21,7 @@ abstract class _View_Content_Calendar_XHTML
         	"\t\t".'<abbr class="%s" title="%s">%s</abbr>'."\n"
             ,strtolower($cmd)
             ,$this->makeDateString($time)
-            ,date(LConfiguration::get('dateformat'),$time)
+            ,date(Core::settings()->get('dateformat'),$time)
         );
     }
     

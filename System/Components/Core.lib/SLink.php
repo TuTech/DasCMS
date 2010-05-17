@@ -195,7 +195,7 @@ class SLink
      */
     public static function link(array $withAdditionalData = array(), $file = '', $clean = false)
     {
-        $wfu = LConfiguration::get('wellformed_urls');
+        $wfu = Core::settings()->get('wellformed_urls');
         if(self::isManagement())
         {
             $url =  'Management/'.$file.self::buildURL($withAdditionalData, $clean);

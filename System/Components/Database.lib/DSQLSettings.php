@@ -19,8 +19,8 @@ class DSQLSettings
     {
         //db_engine + whatever DSQL gives us
         $e->addClassSettings($this, 'database', array(
-        	'change_database_settings' => array('', LConfiguration::TYPE_CHECKBOX, null, 'change_database_settings'),
-           	'engine' => array(LConfiguration::get('db_engine'), LConfiguration::TYPE_SELECT, DSQL::getEngines(), 'db_engine')
+        	'change_database_settings' => array('', Settings::TYPE_CHECKBOX, null, 'change_database_settings'),
+           	'engine' => array(Core::settings()->get('db_engine'), Settings::TYPE_SELECT, DSQL::getEngines(), 'db_engine')
         ));
         DSQL::getSharedInstance()->HandleRequestingClassSettingsEvent($e);
     }
@@ -33,7 +33,7 @@ class DSQLSettings
             SNotificationCenter::report('warning', 'changing_database_settings');
             if(isset($data['engine']) && in_array($data['engine'], DSQL::getEngines()))
             {
-                LConfiguration::set('db_engine', $data['engine']);
+                Core::settings()->set('db_engine', $data['engine']);
             }
             DSQL::getSharedInstance()->HandleUpdateClassSettingsEvent($e);
         }

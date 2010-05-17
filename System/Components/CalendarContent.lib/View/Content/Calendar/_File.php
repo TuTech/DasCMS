@@ -12,7 +12,7 @@ abstract class _View_Content_Calendar_File
     protected function makeDateCommand($cmd, $time, $utc = true)
     {
         $time = $this->makeDateString($time, $utc);
-        $cmd = $utc ? $cmd : $cmd.';TZID='.LConfiguration::get('timezone');
+        $cmd = $utc ? $cmd : $cmd.';TZID='.Core::settings()->get('timezone');
         return $this->makeCommand($cmd, $time, false);
         
     }

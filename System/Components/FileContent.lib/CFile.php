@@ -164,14 +164,14 @@ class CFile
 	{
 	    if(in_array($this->getType(), array('jpg','jpeg','png','gif')))
 	    {
-	        $rendering = LConfiguration::getOrDefault('CFile_image_rendering_method', '0c');
+	        $rendering = Core::settings()->getOrDefault('CFile_image_rendering_method', '0c');
 	        $img = WImage::forContent($this);
 	        $img = $img->scaled(
-	            LConfiguration::getOrDefault('CFile_image_width', 640),
-	            LConfiguration::getOrDefault('CFile_image_height', 480),
+	            Core::settings()->getOrDefault('CFile_image_width', 640),
+	            Core::settings()->getOrDefault('CFile_image_height', 480),
 	            substr($rendering,0,1),
 	            substr($rendering,1,1),
-	            LConfiguration::getOrDefault('CFile_image_background_color', '#ffffff')
+	            Core::settings()->getOrDefault('CFile_image_background_color', '#ffffff')
 	        );
 	    }
         return sprintf(
@@ -192,10 +192,10 @@ class CFile
             ,$this->getDescription()
             ,SLocalization::get('file_size')
             ,DFileSystem::formatSize($this->getSize())
-            ,LConfiguration::get('CFile_download_target_blank') == '1' ? 'target="_blank" ' : ''
-            ,LConfiguration::get('wellformed_urls') == '' ? '?get=' : '/'
+            ,Core::settings()->get('CFile_download_target_blank') == '1' ? 'target="_blank" ' : ''
+            ,Core::settings()->get('wellformed_urls') == '' ? '?get=' : '/'
             ,$this->getAlias()
-            ,htmlentities(LConfiguration::get('CFile_download_text') == '' ? $this->getFileName() : LConfiguration::get('CFile_download_text'),ENT_QUOTES, CHARSET)
+            ,htmlentities(Core::settings()->get('CFile_download_text') == '' ? $this->getFileName() : Core::settings()->get('CFile_download_text'),ENT_QUOTES, CHARSET)
         );
 	}
 	

@@ -36,7 +36,7 @@ class UHeaderServices
                 }
                 foreach ($itemData as $GUID => $title)
                 {
-                    $data[$section][$GUID] = array(isset($active[$GUID]), LConfiguration::TYPE_CHECKBOX, null, $title);
+                    $data[$section][$GUID] = array(isset($active[$GUID]), Settings::TYPE_CHECKBOX, null, $title);
                 }
             }    
         }

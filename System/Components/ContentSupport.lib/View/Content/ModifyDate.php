@@ -16,7 +16,7 @@ class View_Content_ModifyDate
 	public function toXHTML() {
 		$val = '';
 		if($this->shouldDisplay() && $this->content->hasComposite('History')){
-			$df = ($this->dateFormat == null) ? LConfiguration::get('dateformat') : $this->dateFormat;
+			$df = ($this->dateFormat == null) ? Core::settings()->get('dateformat') : $this->dateFormat;
 			$val = $this->wrapXHTML('ModifyDate', date($df, $this->content->ModifyDate));
 		}
 		return $val;

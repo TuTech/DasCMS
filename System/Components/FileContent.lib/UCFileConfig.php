@@ -18,7 +18,7 @@ class UCFileConfig
 {
     public function HandleContentAccessEvent(EContentAccessEvent $e)
     {
-        if(LConfiguration::get('CFile_redirect_view_access') == 1 
+        if(Core::settings()->get('CFile_redirect_view_access') == 1
             && $e->Content instanceof CFile 
             && $e->Sender instanceof BView)
         {
@@ -29,23 +29,23 @@ class UCFileConfig
     public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
     {
         $e->addClassSettings($this, 'image_rendering', array(
-        	'width' => array(LConfiguration::get('CFile_image_width'), LConfiguration::TYPE_TEXT, null, 'image_width'),
-        	'height' => array(LConfiguration::get('CFile_image_height'), LConfiguration::TYPE_TEXT, null, 'image_height'),
-        	'rendering_method' => array(LConfiguration::get('CFile_image_rendering_method'), LConfiguration::TYPE_SELECT, array(
+        	'width'						=> array(Core::settings()->get('CFile_image_width'), Settings::TYPE_TEXT, null, 'image_width'),
+        	'height'					=> array(Core::settings()->get('CFile_image_height'), Settings::TYPE_TEXT, null, 'image_height'),
+        	'rendering_method'			=> array(Core::settings()->get('CFile_image_rendering_method'), Settings::TYPE_SELECT, array(
             	'scale_aspect_to_fit_in_boundaries' => '0c', 
                 'scale_aspect_and_crop' => '1c', 
                 'scale_aspect_and_fill_background' => '1f', 
                 'scale_by_stretch' => '1s'
     		), 'rendering_method'),
-        	'background_color' => array(LConfiguration::get('CFile_image_background_color'), LConfiguration::TYPE_TEXT, null, 'background_color'),
-        	'CFile_image_quality' => array(LConfiguration::get('CFile_image_quality'), LConfiguration::TYPE_SELECT,
-                                            array('minimal' => 1, 'low' => 25, 'medium' => 50, 'high' => 75, 'maximum' => 100), 'image_quality')
+        	'background_color'			=> array(Core::settings()->get('CFile_image_background_color'), Settings::TYPE_TEXT, null, 'background_color'),
+        	'CFile_image_quality'		=> array(Core::settings()->get('CFile_image_quality'), Settings::TYPE_SELECT,
+												array('minimal' => 1, 'low' => 25, 'medium' => 50, 'high' => 75, 'maximum' => 100), 'image_quality')
 		));
         $e->addClassSettings($this, 'file_download', array(
-        	'text_instead_of_filename' => array(LConfiguration::get('CFile_download_text'), LConfiguration::TYPE_TEXT, null, 'text_instead_of_filename'),
-        	'open_in_new_window' => array(LConfiguration::get('CFile_download_target_blank'), LConfiguration::TYPE_CHECKBOX, null, 'open_download_in_new_window'),
-            'force_download' => array(LConfiguration::get('CFile_force_download'), LConfiguration::TYPE_CHECKBOX, null, 'force_download_for_all_files'),
-            'redirect_view_access' => array(LConfiguration::get('CFile_redirect_view_access'), LConfiguration::TYPE_CHECKBOX, null, 'redirect_html_access_to_file')
+        	'text_instead_of_filename'	=> array(Core::settings()->get('CFile_download_text'), Settings::TYPE_TEXT, null, 'text_instead_of_filename'),
+        	'open_in_new_window'		=> array(Core::settings()->get('CFile_download_target_blank'), Settings::TYPE_CHECKBOX, null, 'open_download_in_new_window'),
+            'force_download'			=> array(Core::settings()->get('CFile_force_download'), Settings::TYPE_CHECKBOX, null, 'force_download_for_all_files'),
+            'redirect_view_access'		=> array(Core::settings()->get('CFile_redirect_view_access'), Settings::TYPE_CHECKBOX, null, 'redirect_html_access_to_file')
 		));
     }
     
@@ -56,7 +56,7 @@ class UCFileConfig
         {
             if(!empty($data[$k]))
             {
-                LConfiguration::set('CFile_image_'.$k, intval($data[$k]));
+                Core::settings()->set('CFile_image_'.$k, intval($data[$k]));
             }
         }
         foreach(array('CFile_image_background_color' => 'background_color',
@@ -68,16 +68,16 @@ class UCFileConfig
         {
             if(isset($data[$dk]))
             {
-                LConfiguration::set($ck, $data[$dk]);
+                Core::settings()->set($ck, $data[$dk]);
             }
         }
         if(isset($data['rendering_method']) && in_array($data['rendering_method'], array('0c','1c','1f','1s')))
         {
-            LConfiguration::set('CFile_image_rendering_method', $data['rendering_method']);
+            Core::settings()->set('CFile_image_rendering_method', $data['rendering_method']);
         }
         if(isset($data['CFile_image_quality']))
         {
-            LConfiguration::set('CFile_image_quality', intval($data['CFile_image_quality']));
+            Core::settings()->set('CFile_image_quality', intval($data['CFile_image_quality']));
         }
     }
 }

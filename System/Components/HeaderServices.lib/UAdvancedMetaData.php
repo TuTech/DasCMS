@@ -40,7 +40,7 @@ class UAdvancedMetaData
             $data = array();
             foreach ($ks as $mk => $cc)
             {
-                $data[$mk] = array(LConfiguration::get($cc), LConfiguration::TYPE_TEXT, null,$mk);
+                $data[$mk] = array(Core::settings()->get($cc), Settings::TYPE_TEXT, null,$mk);
             }
             $e->addClassSettings($this, $sect, $data);
         }
@@ -56,7 +56,7 @@ class UAdvancedMetaData
             {
                 if(isset($data[$mk]))
                 {
-                    LConfiguration::set($cc, $data[$mk]);
+                    Core::settings()->set($cc, $data[$mk]);
                 }
             }
         }
@@ -69,7 +69,7 @@ class UAdvancedMetaData
         {
             foreach ($ks as $mk => $cc)
             {
-                $data[$sect.'_'.$mk] = LConfiguration::get($cc);
+                $data[$sect.'_'.$mk] = Core::settings()->get($cc);
             }
         }
         $data['site_location_location'] = '';

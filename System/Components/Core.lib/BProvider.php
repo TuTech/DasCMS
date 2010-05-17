@@ -21,7 +21,7 @@ abstract class BProvider extends BObject
             $ipls[SLocalization::get(constant($impl.'::NAME'))] = $impl;
         }
         $data = array();
-        $data['implementation'] = array(LConfiguration::get($class), LConfiguration::TYPE_SELECT, $ipls, $class);
+        $data['implementation'] = array(Core::settings()->get($class), Settings::TYPE_SELECT, $ipls, $class);
         $e->addClassSettings($this, $this->getPurpose(), $data);
     }
     
@@ -32,7 +32,7 @@ abstract class BProvider extends BObject
         
         if(!empty($data['implementation']))
         {
-            LConfiguration::set($class, $data['implementation']);
+            Core::settings()->set($class, $data['implementation']);
         }
     }
     
@@ -93,7 +93,7 @@ abstract class BProvider extends BObject
     {
         if($this->HasImplementor === null)
         {
-            $impl = LConfiguration::get(get_class($this));
+            $impl = Core::settings()->get(get_class($this));
             $this->HasImplementor = !empty($impl) && class_exists($impl, true);
             if($this->HasImplementor)
             {
