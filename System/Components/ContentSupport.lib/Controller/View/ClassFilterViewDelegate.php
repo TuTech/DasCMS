@@ -4,7 +4,7 @@
  *
  * @author lse
  */
-class Controller_ClassFilterViewDelegate {
+class Controller_View_ClassFilterViewDelegate {
 	protected $hideClasses = array();
 	protected $showClasses = array();
 

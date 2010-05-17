@@ -4,7 +4,7 @@
  *
  * @author lse
  */
-class Controller_TagFilterViewDelegate {
+class Controller_View_TagFilterViewDelegate {
 	protected $hideIfTagged = array();
 	protected $showIfTagged = array();
 

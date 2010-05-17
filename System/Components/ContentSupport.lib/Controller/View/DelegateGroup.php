@@ -4,7 +4,7 @@
  *
  * @author lse
  */
-class Controller_DelegateGroup {
+class Controller_View_DelegateGroup {
 	protected $subdelegates = array();
 
 	public function  __call($name,  $arguments) {

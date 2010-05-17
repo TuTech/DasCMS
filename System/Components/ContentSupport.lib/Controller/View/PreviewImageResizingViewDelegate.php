@@ -4,7 +4,7 @@
  *
  * @author lse
  */
-class Controller_PreviewImageResizingViewDelegate {
+class Controller_View_PreviewImageResizingViewDelegate {
     //tag => array(w:,h:,m:,f:)
 	protected $resizeMap = array();
 
