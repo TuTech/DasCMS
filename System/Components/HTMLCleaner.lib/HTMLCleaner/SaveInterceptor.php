@@ -16,11 +16,11 @@ class HTMLCleaner_SaveInterceptor
 	public function HandleWillSaveContentEvent(EWillSaveContentEvent $e) {
 		if($e->Content instanceof CPage){
 			if($this->is('HTMLCleaner_Clean_HTML')){
-				$p = new HTMLCleaner_Parser($e->Content);
+				$p = new HTMLCleaner_Parser($e->Content->getContent());
 				if($this->is('HTMLCleaner_Remove_Scripts')){
 					$p->addCleaner(new HTMLCleaner_Cleaner_RemoveScripts());
 				}
-				$e->Content = $p->run();
+				$e->Content->setContent($p->run());
 			}
 		}
 	}

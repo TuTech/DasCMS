@@ -121,14 +121,13 @@ class CPage
 		}
 	}
 	
-	public function Save()
+	protected function saveContentData()
 	{
 		//save content
 		if($this->_contentLoaded)
 		{
 			DFileSystem::Save(SPath::CONTENT.'CPage/'.$this->Id.'.content.php',$this->Content);
 		}
-		parent::Save();
 	}
 	
 	private function createSummary($of)

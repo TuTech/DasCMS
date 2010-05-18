@@ -228,10 +228,9 @@ class CPerson
 	    return $atts;
 	}
 	
-	public function Save()
+	protected function saveContentData()
 	{
 		$this->saveXAttr();
-		parent::Save();
 	}
 	
 	//extended person Attributes

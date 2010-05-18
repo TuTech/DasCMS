@@ -132,7 +132,7 @@ class CStylesheet
 	    return $this->RAWContent;
 	}
 	
-	public function Save()
+	protected function saveContentData()
 	{
 		//save content
 		if($this->_contentLoaded)
@@ -140,7 +140,6 @@ class CStylesheet
 			DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php',$this->RAWContent);
 			DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$this->Id.'.html.php',$this->Content);
 		}
-		parent::Save();
 	}
 	
 	protected function generateHTML($text)

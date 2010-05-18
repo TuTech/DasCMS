@@ -143,7 +143,7 @@ class CTemplate
 	    return $this->RAWContent;
 	}
 	
-	public function Save()
+	protected function saveContentData()
 	{
 		//save content
 		if($this->_contentLoaded)
@@ -155,7 +155,6 @@ class CTemplate
 			    $tc->save();
 			}
 		}
-		parent::Save();
 	}
 	
 	//ISupportsSidebar

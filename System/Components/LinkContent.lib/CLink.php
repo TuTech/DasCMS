@@ -100,14 +100,13 @@ class CLink
 	    $this->Content = $value;
 	}
 	
-	public function Save()
+	protected function saveContentData()
 	{
 		//save content
 		if($this->_contentLoaded)
 		{
 			DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php',$this->Content);
 		}
-		parent::Save();
 	}
 	
 	//Interface_XML_Atom_ProvidesInlineText

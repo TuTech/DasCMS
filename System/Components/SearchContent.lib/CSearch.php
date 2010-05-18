@@ -274,11 +274,10 @@ class CSearch
 	    throw new XFileLockedException('search has dynamic content');
 	}
 	
-	public function Save()
+	protected function saveContentData()
 	{
 		//save content
 		$this->dumbConfig();
-		parent::Save();
 	}
 	
 	//options

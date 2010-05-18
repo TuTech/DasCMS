@@ -118,11 +118,8 @@ class CCalendar
 	    throw new XPermissionDeniedException('can\'t set content');
 	}
 	
-	public function Save()
-	{
-		parent::Save();
-	}
-	
+	protected function saveContentData() {/* FIXME CCalendar saves on set and not here*/}
+
 	//IHeaderService
 	public static function getHeaderServideItems($forAlias = null)
 	{

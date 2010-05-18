@@ -642,13 +642,12 @@ class CFeed
 	    throw new XPermissionDeniedException('feeds are generated');
 	}
 	
-    public function Save()
+	protected function saveContentData()
 	{
 		//save content
 		DFileSystem::SaveData($this->StoragePath($this->Id),$this->_data);
 		QCFeed::setFeedType($this->Id,$this->option(CFeed::SETTINGS, 'FilterMethod'));
 		QCFeed::setFilterTags($this->Id, $this->option(CFeed::SETTINGS, 'Filter'));
-		parent::Save();
 	}
 	
 	/**

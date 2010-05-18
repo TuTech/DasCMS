@@ -210,9 +210,8 @@ class CFile
 	    throw new XPermissionDeniedException('files are read only');
 	}
 	
-	public function Save()
+	protected function saveContentData()
 	{
-		parent::Save();
 	}
 	
     public function getMD5Sum()
