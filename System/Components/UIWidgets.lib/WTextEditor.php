@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage Widget
  */
-class WTextEditor extends BWidget 
+class WTextEditor extends BWidget
 {
 	const CLASS_NAME = "WTextEditor";
 	private $value;
@@ -17,57 +17,57 @@ class WTextEditor extends BWidget
 	private $wordWrap = true;
 	private $wysiwyg = false;
 	private $codeAssist = true;
-	
+
 	public function __construct($value = '')
-	{		
+	{
 		$this->setContents($value);
 	}
-	
+
     public function disableSpellcheck()
     {
         $this->spellCheck = false;
     }
-	
+
     public function getContents()
     {
         return $this->value;
     }
-    
+
     public function setContents($val)
     {
         $this->value = $this->encode($val);
     }
-    
+
     public function getWordWrap()
     {
         return $this->wordWrap;
     }
-    
+
     public function setWordWrap($yn)
     {
         $this->wordWrap = $yn == true;
     }
-    
+
     public function getWYSIWYG()
     {
         return $this->wysiwyg;
     }
-    
+
     public function setWYSIWYG($yn)
     {
         $this->wysiwyg = $yn == true;
     }
-    
+
     public function getCodeAssist()
     {
         return $this->codeAssist;
     }
-    
+
     public function setCodeAssist($yn)
     {
         $this->codeAssist = $yn == true;
     }
-    
+
 	/**
 	 * get render() output as string
 	 * @return string
@@ -104,7 +104,7 @@ class WTextEditor extends BWidget
             //assisting textarea
             $editorJS = 'org.bambuscms.wcodeeditor.run($(org.bambuscms.app.document.editorElementId));';
         }
-        
+
         $out .= sprintf(
             $script
             ,'(function(){'.
@@ -117,22 +117,22 @@ class WTextEditor extends BWidget
 		);
 		return $out;
 	}
-	
+
 	private function encode($string)
 	{
-	    return htmlentities(mb_convert_encoding($string, CHARSET, 'UTF-8,ISO-8859-1'), ENT_QUOTES, CHARSET);
+	    return htmlentities($string, ENT_QUOTES, CHARSET);
 	}
 
 	public function render()
 	{
 	    echo strval($this);
 	}
-	
+
 	public function run()
 	{
 	}
 	/**
-	 * return ID of primary editable element or null 
+	 * return ID of primary editable element or null
 	 *
 	 * @return string
 	 */

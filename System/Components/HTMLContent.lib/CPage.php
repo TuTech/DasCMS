@@ -115,10 +115,6 @@ class CPage
 	    $this->_contentLoaded = true;
 		$this->Content = $value;
 		$this->Size = strlen($value);
-		if(empty($this->Description))
-		{
-		    $this->setDescription($this->createSummary($value));
-		}
 	}
 	
 	protected function saveContentData()
@@ -128,72 +124,6 @@ class CPage
 		{
 			DFileSystem::Save(SPath::CONTENT.'CPage/'.$this->Id.'.content.php',$this->Content);
 		}
-	}
-	
-	private function createSummary($of)
-	{
-		$begin = 0;
-		//1. look for id="Teaser"
-		$start = -1;
-		$tag = '';
-		
-		$pos = mb_strpos($of, ' id="BCMSTeaser"',0, CHARSET);
-		if($pos !== false)
-		{
-			$start = mb_strrpos(mb_substr($of,0,$pos, CHARSET), '<',CHARSET);
-			$stop = mb_strpos($of, ' ', $start, CHARSET);
-			$tag = mb_substr($of,$start+1,$stop-$start-1, CHARSET);
-		}
-		else
-		//2. look for first tag
-		{
-			$hits = preg_match('/<([^\/>\s]+)[^\/>]{0,}>/', $of, $matches);
-			if($hits > 0)
-			{
-				$start = mb_strpos($of, '<'.$matches[1], 0, CHARSET);
-				$tag = $matches[1];
-			}
-		}
-		
-		if($start >= 0)
-		{
-			$teaser = '';
-			$tag = mb_strtolower($tag, CHARSET);
-			$text = mb_strtolower($of, CHARSET);
-			$len = mb_strlen($text, CHARSET);
-			$offset = $start;
-			$sps = 1;
-			while($sps > 0 && $offset < $len)
-			{
-				//find next end
-				$possibleEnd = mb_strpos($text,'</'.$tag.'>',$offset, CHARSET);
-				//find more starting tags between start and end
-				$substr = mb_substr($text, $offset+1, $possibleEnd-$offset, CHARSET);
-				$psps = preg_match('/<'.$tag.'[^\/>]{0,}>/', $substr);
-				//$psps is the number of other start tags found 
-				$sps += $psps;
-				//decrease sps because of the fond end point
-				$offset = $possibleEnd+1;
-				//decrease start positions count
-				$sps--;
-			}
-			$textStart = mb_strpos($text,'>', $start, CHARSET)+1;// find end of teaser opening tag
-			$textLength = $possibleEnd+$tag-$textStart;
-			$res = mb_substr($of, $textStart, $textLength, CHARSET);
-		}
-		else
-		//3. use the first 1024 chars
-		{
-			$res = strip_tags($of);
-			if(mb_strlen($res, CHARSET) > 1024)
-			{
-				$searchRange = mb_substr($res, 990, 30);
-				$pos = mb_strrpos($searchRange, ' ', CHARSET);
-				$chopAt = ($pos !== false) ? 990 + $pos : 1020;
-				$res = mb_substr($res, 0, $chopAt, CHARSET).'...';
-			}
-		}
-		return $res;
 	}
 	
 	//ISupportsSidebar

@@ -10,6 +10,9 @@ class HTMLCleaner_Parser {
 	 */
 	protected $domDocument;
 	protected $cleaners = array();
+	protected static $selfClosingTags = array(
+		"br", "hr", "input", "frame", "img", "area", "link", "col", "base", "basefont", "param"
+	);
 
 	public function  __construct($html = null) {
 		if($html !== null){
@@ -20,6 +23,8 @@ class HTMLCleaner_Parser {
 	public function loadHTML($html){
 		$this->domDocument = new DOMDocument('1.0', CHARSET);
 		$this->domDocument->loadHTML($html);
+		$this->domDocument->encoding = CHARSET;
+		$this->domDocument->preserveWhiteSpace = false;
 	}
 
 	public function addCleaner(HTMLCleaner_Cleaner $cleaner){
@@ -59,15 +64,27 @@ class HTMLCleaner_Parser {
 		}
 	}
 
+	protected static function convCallback($match){
+		$tag = in_array($match[1], self::$selfClosingTags)
+				? '<%s%s />'
+				: '<%s%s></%s>';
+		return sprintf($tag, $match[1], $match[2], $match[1]);
+	}
+
 	public function run(){
 		if(!$this->domDocument){
 			return null;
 		}
 		$root = $this->domDocument->documentElement;
 		$this->nodeWalker($root);
-		$body = $this->domDocument->saveXML($this->domDocument->getElementsByTagName('body')->item(0));
+		$body = $this->domDocument->saveXML();
+		$body = substr($body, strpos($body, '<body>')+6);
+		$body = substr($body, 0, strripos($body, '</body>'));
+		$body = preg_replace_callback('#<(\w+)([^>]*)\s*/>#s', 'HTMLCleaner_Parser::convCallback' , $body);
+		$body = html_entity_decode($body, ENT_QUOTES, CHARSET);
+
 		$this->domDocument = null;
-		return substr($body,6,-7);//strip <body> and </body>
+		return $body;
 	}
 }
 ?>
