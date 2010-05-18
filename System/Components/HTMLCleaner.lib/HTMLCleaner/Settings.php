@@ -21,9 +21,9 @@ class HTMLCleaner_Settings
     public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
     {
         $data = $e->getClassSettings($this);
-		if(isset($data['HTMLCleaner_Remove_Scripts']))
+		if(isset($data['remove_javascript_on_save']))
 		{
-			$active = empty ($data['HTMLCleaner_Remove_Scripts']) ? '' : '1';
+			$active = empty ($data['remove_javascript_on_save']) ? '' : '1';
 			Core::settings()->set('HTMLCleaner_Clean_HTML', $active);
 			Core::settings()->set('HTMLCleaner_Remove_Scripts', $active);
 		}
