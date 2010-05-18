@@ -85,7 +85,7 @@ class CError extends BContent implements IGlobalUniqueId, ISearchDirectives
 		return isset($this->{$var});
 	}
 	
-	public function Save(){}
+	protected function saveContentData() {}
 	
 	//ISearchDirectives
 	public function allowSearchIndex()
