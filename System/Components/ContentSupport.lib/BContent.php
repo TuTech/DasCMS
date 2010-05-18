@@ -543,6 +543,11 @@ abstract class BContent extends BObject implements Interface_Content
 
 	protected function Save()
 	{
+		$e = new EWillSaveContentEvent($this, $this);
+		if($e->isCanceled()){
+			return;//notifications are up to the canceling object
+		}
+
 	    $this->setModifiedBy(PAuthentication::getUserID());
 		$this->setModifyDate(time());
 	    $this->saveMetaToDB();

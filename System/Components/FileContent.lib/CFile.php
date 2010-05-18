@@ -85,6 +85,12 @@ class CFile
 	    {
 	        throw new XUndefinedException('upload not moveable');
 	    }
+		
+		$e = new EWillSaveContentEvent($this, $this);
+		if($e->isCanceled()){
+			return;//notifications are up to the canceling object
+		}
+		
 	    QCFile::saveFileMeta(
 	        $this->getId(),
 	        RFiles::getName('CFile'), 
