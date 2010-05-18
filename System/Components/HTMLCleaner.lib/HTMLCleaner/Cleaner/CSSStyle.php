@@ -31,11 +31,22 @@ class HTMLCleaner_Cleaner_CSSStyle implements HTMLCleaner_Cleaner {
 
 	public function clean(DOMNode $node) {
 		if($node->nodeType == XML_ELEMENT_NODE){
-			$atts = $node->attributes;
-			if($atts != null){
-				$style = $atts->getNamedItem('style');
-				if($style != null){
-					$style->nodeValue = $this->cleanStyleData($style->nodeValue);
+			if($this->mode == self::MODE_REMOVE && count($this->commands) == 0){
+				//nothing to do
+				return true;
+			}
+			if($this->mode == self::MODE_ALLOW_ONLY && count($this->commands) == 0){
+				//no styles at all
+				$node->removeAttribute('style');
+			}
+			else{
+				//remove unwanted styles
+				$atts = $node->attributes;
+				if($atts != null){
+					$style = $atts->getNamedItem('style');
+					if($style != null){
+						$style->nodeValue = $this->cleanStyleData($style->nodeValue);
+					}
 				}
 			}
 		}

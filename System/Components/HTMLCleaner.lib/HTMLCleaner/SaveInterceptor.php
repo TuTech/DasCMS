@@ -20,6 +20,10 @@ class HTMLCleaner_SaveInterceptor
 				if($this->is('HTMLCleaner_Remove_Scripts')){
 					$p->addCleaner(new HTMLCleaner_Cleaner_RemoveScripts());
 				}
+				if ($this->is('HTMLCleaner_Remove_StyleAttribute')){
+					//remove all style atts
+					$p->addCleaner(new HTMLCleaner_Cleaner_CSSStyle(array(), HTMLCleaner_Cleaner_CSSStyle::MODE_ALLOW_ONLY));
+				}
 				$e->Content->setContent($p->run());
 			}
 		}
