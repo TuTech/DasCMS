@@ -93,9 +93,9 @@ class Settings extends Core {
 
                 //save new config
 				$data = self::HEADER.json_encode($this->data);
-				$this->write(self::FILE_CONFIG, $data);
+				Core::dataToFile($data, self::FILE_CONFIG);
 
-                if($hasEnv){
+				if($hasEnv){
 					SNotificationCenter::report('message', 'configuration_saved');
 					SErrorAndExceptionHandler::reportErrors();
 				}
@@ -111,14 +111,5 @@ class Settings extends Core {
             }
         }
     }
-
-	protected function write($f, $d){
-		$t = tempnam('.', 'Settings_');
-		$fp = fopen($t, 'w+');
-		fwrite($fp, $d);
-		fclose($fp);
-
-		rename($t, $f);
-	}
 }
 ?>

@@ -133,9 +133,16 @@ class Core
 	 * @param unknown_type $file
 	 */
 	protected static function dataToJSONFile($data, $file){
-		$fp = fopen($file, 'w+');
-		fwrite($fp, json_encode($data));
+		self::dataToFile(json_encode($data), $file);
+	}
+
+	protected static function dataToFile($data, $file){
+		$t = tempnam(CMS_TEMP, 'Core_tmp_');
+		$fp = fopen($t, 'w+');
+		fwrite($fp, $data);
 		fclose($fp);
+
+		rename($t, $file);
 	}
 	
 	//lock instances

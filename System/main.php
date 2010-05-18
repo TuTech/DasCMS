@@ -27,7 +27,16 @@ if(!defined('BAMBUS_CMS_ROOTDIR'))
     
 if(!defined('CMS_ROOT'))
     define('CMS_ROOT',constant('BAMBUS_CMS_ROOTDIR'));
-    
+
+if(!defined('CMS_TEMP')){
+	$tmpD = constant('CMS_ROOT').'/Content/Temp';
+	if(!file_exists($tmpD) || !is_dir($tmpD) || !is_writable($tmpD)){
+		$tmpD = constant('CMS_ROOT');
+	}
+	define('CMS_TEMP',$tmpD);
+	unset ($tmpD);
+}
+
 if(!defined('CMS_CLASS_CACHE_PATH'))
     define('CMS_CLASS_CACHE_PATH',constant('BAMBUS_CMS_ROOTDIR').'/Content/ClassCache/');
     

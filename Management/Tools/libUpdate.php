@@ -40,13 +40,13 @@ class CoreIndex extends Core
 					"invokeOnLaunch" => array(),
 					"invokeOnEvent" => array()
 				);
-				echo '<h2>'.$path.'</h2><pre>';
+				echo "<h2>\n\t".$path."\n</h2>\n<pre>\n\n";
 				foreach ($packageFiles as $pf){
 					printf("%s\n\ttype:\t\t%s\n\tclassName:\t%s\n\n", $pf, self::discoverType($pf), self::makeClassName($pf));
 					$packageInfo[self::discoverType($pf)][] = self::makeClassName($pf);
 				}
 				Core::dataToJSONFile($packageInfo, $componentDefinitionFile);
-				echo '</pre>';
+				echo "</pre>\n";
 			}
 		}
 	}
