@@ -4,7 +4,7 @@
  *
  * @author lse
  */
-class HTMLCleaner_Settings
+class Settings_HTMLCleaner
 	extends BObject
     implements
         HUpdateClassSettingsEventHandler,
