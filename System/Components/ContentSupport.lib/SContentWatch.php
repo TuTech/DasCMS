@@ -64,9 +64,22 @@ class SContentWatch
         foreach (self::$accessedContents as $id => $event)
         {
             $content = $event->Content;
-            
+			$allowFeed = true;
+			$allowTitle = true;
+			$allowDescription = true;
+            foreach ($content->getTags() as $tag){
+				$t = strtolower($tag);
+				if($t == '@noheaders' || $t == '@noheader'){
+					continue;
+				}
+				$allowFeed = $allowFeed && $t != '@nofeed';
+				$allowTitle = $allowTitle && $t != '@notitle';
+				$allowDescription = $allowDescription && $t != '@nodesc';
+				$allowDescription = $allowDescription && $t != '@nodescription';
+			}
+
             //Atom feeds
-            if($content instanceof IGeneratesFeed && $content->getLinkToFeed($content->Alias) != null)
+            if($allowFeed && $content instanceof IGeneratesFeed && $content->getLinkToFeed($content->Alias) != null)
             {
                 $e->getHeader()->addLink(
                     null,    
@@ -91,11 +104,11 @@ class SContentWatch
                     {
                         $tags = array_merge($tags, $content->Tags);
                     }
-                    if(trim($content->Description) != '')
+                    if($allowDescription && trim($content->Description) != '')
                     {
                         $descriptions[] = $content->Description;
                     }
-                    if(trim($content->Title) != '')
+                    if($allowTitle && trim($content->Title) != '')
                     {
                         $titles[] = $content->Title;
                     }
