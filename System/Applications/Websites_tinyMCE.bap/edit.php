@@ -1,6 +1,26 @@
 <?php
+/**
+ * @copyright Lutz Selke/TuTech Innovation GmbH
+ * @author selke@tutech.de
+ * @package org.bambuscms.applications.websites
+ * @since 2006-10-11
+ * @version 1.0
+ */
+
 $enableWYSIWYG = Core::settings()->get('AWebsiteEditor_WYSIWYG');
 $enableWYSIWYG = !empty ($enableWYSIWYG);
+
+$Page = SApplication::getControllerContent();
+if($enableWYSIWYG && $Page instanceof Interface_Content){
+	//disable wysiwyg for contents tagged with "@nowysiwyg"
+	$tags = $Page->getTags();
+	foreach ($tags as $tag){
+		if(strtolower($tag) == '@nowysiwyg'){
+			$enableWYSIWYG = false;
+			break;
+		}
+	}
+}
 
 if($enableWYSIWYG){
 	?>
@@ -39,15 +59,6 @@ if($enableWYSIWYG){
 	</script>
 	<?php
 }
-//FIXME tinyMCE Droplist support
-/**
- * @copyright Lutz Selke/TuTech Innovation GmbH 
- * @author selke@tutech.de
- * @package org.bambuscms.applications.websites
- * @since 2006-10-11
- * @version 1.0
- */
-$Page = SApplication::getControllerContent();
 if(isset($Page) && $Page instanceof CPage)
 {
     echo new WContentTitle($Page);
