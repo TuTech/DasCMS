@@ -4,7 +4,7 @@
  *
  * @author lse
  */
-class Settings_ContentView extends BObject
+class Settings_ContentRelationsView extends BObject
 	implements
         HRequestingClassSettingsEventHandler,
         HUpdateClassSettingsEventHandler
@@ -16,17 +16,17 @@ class Settings_ContentView extends BObject
 			$options[$f] = $f;
 		}
 		$e->addClassSettings($this, 'content_view', array(
-        	'default_view_for_content' => array(Core::settings()->get('Settings_ContentView_defaultContentView'), Settings::TYPE_SELECT, $options, 'default_view_for_content')
+			'default_view_for_relations' => array(Core::settings()->get('Settings_ContentRelationsView_relations'), Settings::TYPE_SELECT, $options, 'default_view_for_relations')
 		));
 	}
 	
 	public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e) {
 		$data = $e->getClassSettings($this);
-		$f = $data['default_view_for_content'];
+		$f = $data['default_view_for_relations'];
 		$f = empty ($f) ? '' : $f;
 		if(empty($f) || Formatter_Container::exists($f))
 		{
-			Core::settings()->set('Settings_ContentView_defaultContentView', $f);
+			Core::settings()->set('Settings_ContentRelationsView_relations', $f);
 		}
 	}
 }

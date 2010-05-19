@@ -98,7 +98,15 @@ class VSporeHelper
 
     private function content($spore)
     {
-        return $this->sporeContent($spore)->getContent();
+        $c = $this->sporeContent($spore);
+		$formatter = Core::settings()->get('Settings_ContentView_defaultContentView');
+		if($formatter){
+			$content = Formatter_Container::unfreezeForFormatting($formatter, $c);
+		}
+		else{
+			$content = $c->getContent();
+		}
+		return strval($content);
     }
 
     private function description($spore)

@@ -1,1 +1,1 @@
-{"classes":["Model_Content_Composite_AssignedRelations","View_Content_AssignedRelations","WAssignedRelations"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}
+{"classes":["Model_Content_Composite_AssignedRelations","Settings_ContentRelationsView","View_Content_AssignedRelations","WAssignedRelations"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}
