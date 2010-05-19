@@ -105,9 +105,15 @@ class SContentWatch
         $ctags = STag::parseTagStr(Core::settings()->get('meta_keywords'));
         $tags = array_merge($ctags, $tags);
         $tags = array_unique($tags);
-        if(count($tags) > 0)
+		$visibleTags = array();
+		foreach ($tags as $tag){
+			if(substr($tag,0,1) != '@'){
+				$visibleTags[] = $tag;
+			}
+		}
+        if(count($visibleTags) > 0)
         {
-            $e->getHeader()->addMeta(implode(', ', $tags), 'keywords');
+            $e->getHeader()->addMeta(implode(', ', $visibleTags), 'keywords');
         }
         $title = Core::settings()->get('sitename');
         if(count($titles) > 0)
