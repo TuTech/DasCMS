@@ -19,8 +19,8 @@ if(RURL::has('logout')){
 }
 
 PAuthentication::required();
-WHeader::useScript('Management/localization.js.php');
 WHeader::loadClientData();
+WHeader::useScript('Management/localization.js.php');
 WHeader::setBase(SLink::base());
 WHeader::setTitle(BAMBUS_VERSION);
 WHeader::meta('license', 'GNU General Public License/GPL 2 or newer');

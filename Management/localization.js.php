@@ -9,5 +9,5 @@ echo 'document.write(unescape("%3Cscript%20type%3D%22text%2Fjavascript%22%20src%
 		filemtime('System/ClientData/org/bambuscms/localization/'.$lang.'.json'),
 		'%22%3E%3C%2Fscript%3E"));';
 
-echo 'var _ = function(k){return (org.bambus.localization[k]) ? org.bambus.localization[k] : k.replace(/_/g, " ");};';
+echo 'var _ = function(k){return (org.bambuscms.localization[k]) ? org.bambuscms.localization[k] : k.replace(/_/g, " ");};';
 ?>
