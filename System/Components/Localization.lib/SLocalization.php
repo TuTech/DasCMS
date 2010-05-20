@@ -88,15 +88,22 @@ class SLocalization
         // add browser preferences
         // add de_DE
         // use earliest given available in trans dir
-        $language = 'de_DE';
-        $file = 'System/Resource/Translation/'.$language.'.strings';
-        if(!file_exists($file))
-        {
-        	$language = 'nu_LL';
-        }
-        return $language;
+		$langs = array(
+			Core::settings()->get('locale'),
+			'de_DE'
+		);
+		foreach ($langs as $lang){
+			if(file_exists('System/ClientData/org/bambuscms/localization/'.$lang.'.json')){
+				return $lang;
+			}
+		}
+        return 'nu_LL';
     }
-    
+
+	public static function getCurrentLanguageCode(){
+		return self::determineLanguage();
+	}
+
     /**
      * load language
      */
@@ -122,7 +129,7 @@ class SLocalization
         }
         else
         {
-        	self::$currentLang = 'NU_LL';
+        	self::$currentLang = 'nu_LL';
         }
     }
 

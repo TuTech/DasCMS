@@ -136,7 +136,7 @@ class Core
 		self::dataToFile(json_encode($data), $file);
 	}
 
-	protected static function dataToFile($data, $file){
+	public static function dataToFile($data, $file){
 		$t = tempnam(CMS_TEMP, 'Core_tmp_');
 		$fp = fopen($t, 'w+');
 		fwrite($fp, $data);
