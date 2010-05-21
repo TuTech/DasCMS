@@ -15,13 +15,13 @@ $minifyer = function($dir, &$minifyer, &$types = null, &$version){
 					$t = substr($item, strripos($item, '.')+1);
 					if(isset($types[$t])){
 						$data = Core::dataFromFile($abs)."\n";
-						$data = preg_replace('/[\n][ \t]+/mui', "\n", $data);
+						#$data = preg_replace('/[\n][ \t]+/mui', "\n", $data);
 						$data = preg_replace('/[ \t]+/mui', ' ', $data);
 						$data = preg_replace('/[\n]+/mui', "\n", $data);
 						#doomed by single line comments
 						#$data = preg_replace('/[;}{][ ]?\n/mui', ";", $data);
-						$data = preg_replace('/([\[{}\]][;,]?)[\n]/mui', "$1", $data);
-						$data = preg_replace('/\/\*.*\*\//muis', "", $data);
+						#$data = preg_replace('/([\[{}\]][;,]?)[\n]/mui', "$1", $data);
+						#$data = preg_replace('/\/\*.*\*\//muis', "", $data);
 
 						$types[$t] .= $data;
 						$version[$t] = max($version[$t], filemtime($abs));
