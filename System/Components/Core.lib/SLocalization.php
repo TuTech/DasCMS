@@ -40,12 +40,8 @@ class SLocalization
             $tz[] = trim($row);
         }
         fclose($fp);
-        $fp = fopen(SPath::SYSTEM_RESOURCES.'ISO-639-2_utf-8.txt', 'r');
-        while($row = fgetcsv($fp,1024,'|'))
-        {
-            $loc[$row[3]] = $row[0];
-        }
-        fclose($fp);
+
+		$loc = Core::dataFromJSONFile(SPath::SYSTEM_RESOURCES.'locale.json');
         //locale, timezone, dateformat
         $e->addClassSettings($this, 'country_settings', array(
         	'locale' => array(Core::settings()->get('locale'), Settings::TYPE_SELECT, $loc, 'locale'),
@@ -90,14 +86,14 @@ class SLocalization
         // use earliest given available in trans dir
 		$langs = array(
 			Core::settings()->get('locale'),
-			'de_DE'
+			'de-DE'
 		);
 		foreach ($langs as $lang){
 			if(file_exists('System/ClientData/org/bambuscms/localization/'.$lang.'.json')){
 				return $lang;
 			}
 		}
-        return 'nu_LL';
+        return 'de-DE';
     }
 
 	public static function getCurrentLanguageCode(){

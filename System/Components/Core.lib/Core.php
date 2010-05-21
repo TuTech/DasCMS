@@ -118,7 +118,7 @@ class Core
 	 * read data objects
 	 * @param unknown_type $file
 	 */
-	protected static function dataFromJSONFile($file){
+	public static function dataFromJSONFile($file){
 		$data = null;
 		if(file_exists($file)){
 			$data = implode('',file($file));
@@ -132,7 +132,7 @@ class Core
 	 * @param unknown_type $data
 	 * @param unknown_type $file
 	 */
-	protected static function dataToJSONFile($data, $file){
+	public static function dataToJSONFile($data, $file){
 		self::dataToFile(json_encode($data), $file);
 	}
 
