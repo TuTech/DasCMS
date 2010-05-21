@@ -71,5 +71,5 @@ if(Core::classExists('SErrorAndExceptionHandler')
     set_exception_handler('SErrorAndExceptionHandler::exceptionHandler');
 }
 //Locale settings
-date_default_timezone_set(Core::settings()->get('timezone'));
-setlocale(LC_ALL, Core::settings()->get('locale'));
+date_default_timezone_set(Core::settings()->getOrDefault('timezone', 'UTC'));
+setlocale(LC_ALL, Core::settings()->getOrDefault('locale', 'de-DE'));

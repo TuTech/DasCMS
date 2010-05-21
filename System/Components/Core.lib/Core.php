@@ -113,16 +113,24 @@ class Core
 	private static function getCachePath($class){
 		return constant('CMS_CLASS_CACHE_PATH').strtoupper(sha1($class));
 	}
-	
+
 	/**
 	 * read data objects
 	 * @param unknown_type $file
 	 */
 	public static function dataFromJSONFile($file){
+		$data = self::dataFromFile($file);
+		return $data ? @json_decode($data, true) : null;
+	}
+
+	/**
+	 * read data objects
+	 * @param unknown_type $file
+	 */
+	public static function dataFromFile($file){
 		$data = null;
 		if(file_exists($file)){
 			$data = implode('',file($file));
-			$data = @json_decode($data, true);
 		}
 		return $data;
 	}

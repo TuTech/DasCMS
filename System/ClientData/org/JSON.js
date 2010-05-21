@@ -203,11 +203,11 @@ org.json = {};
 
     function quote(string) {
 
-// If the string contains no control characters, no quote characters, and no
-// backslash characters, then we can safely slap some quotes around it.
-// Otherwise we must also replace the offending characters with safe escape
-// sequences.
-
+/* If the string contains no control characters, no quote characters, and no
+   backslash characters, then we can safely slap some quotes around it.
+   Otherwise we must also replace the offending characters with safe escape
+   sequences.
+*/
         escapable.lastIndex = 0;
         return escapable.test(string) ?
             '"' + string.replace(escapable, function (a) {
@@ -350,11 +350,11 @@ org.json = {};
     if (typeof org.json.stringify !== 'function') {
         org.json.stringify = function (value, replacer, space) {
 
-// The stringify method takes a value and an optional replacer, and an optional
-// space parameter, and returns a JSON text. The replacer can be a function
-// that can replace values, or an array of strings that will select the keys.
-// A default replacer method can be provided. Use of the space parameter can
-// produce text that is more easily readable.
+/*The stringify method takes a value and an optional replacer, and an optional
+   space parameter, and returns a JSON text. The replacer can be a function
+   that can replace values, or an array of strings that will select the keys.
+   A default replacer method can be provided. Use of the space parameter can
+   produce text that is more easily readable.*/
 
             var i;
             gap = '';
@@ -436,28 +436,28 @@ org.json = {};
                 });
             }
 
-// In the second stage, we run the text against regular expressions that look
-// for non-JSON patterns. We are especially concerned with '()' and 'new'
-// because they can cause invocation, and '=' because it can cause mutation.
-// But just to be safe, we want to reject all unexpected forms.
+/* In the second stage, we run the text against regular expressions that look
+   for non-JSON patterns. We are especially concerned with '()' and 'new'
+   because they can cause invocation, and '=' because it can cause mutation.
+   But just to be safe, we want to reject all unexpected forms.
 
-// We split the second stage into 4 regexp operations in order to work around
-// crippling inefficiencies in IE's and Safari's regexp engines. First we
-// replace the JSON backslash pairs with '@' (a non-JSON character). Second, we
-// replace all simple value tokens with ']' characters. Third, we delete all
-// open brackets that follow a colon or comma or that begin the text. Finally,
-// we look to see that the remaining characters are only whitespace or ']' or
-// ',' or ':' or '{' or '}'. If that is so, then the text is safe for eval.
+   We split the second stage into 4 regexp operations in order to work around
+   crippling inefficiencies in IE's and Safari's regexp engines. First we
+   replace the JSON backslash pairs with '@' (a non-JSON character). Second, we
+   replace all simple value tokens with ']' characters. Third, we delete all
+   open brackets that follow a colon or comma or that begin the text. Finally,
+   we look to see that the remaining characters are only whitespace or ']' or
+   ',' or ':' or '{' or '}'. If that is so, then the text is safe for eval.*/
 
             if (/^[\],:{}\s]*$/.
 test(text.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g, '@').
 replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
 replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
 
-// In the third stage we use the eval function to compile the text into a
-// JavaScript structure. The '{' operator is subject to a syntactic ambiguity
-// in JavaScript: it can begin a block or an object literal. We wrap the text
-// in parens to eliminate the ambiguity.
+/* In the third stage we use the eval function to compile the text into a
+   JavaScript structure. The '{' operator is subject to a syntactic ambiguity
+   in JavaScript: it can begin a block or an object literal. We wrap the text
+   in parens to eliminate the ambiguity.*/
 
                 j = eval('(' + text + ')');
 

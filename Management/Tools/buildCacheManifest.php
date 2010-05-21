@@ -1,9 +1,62 @@
 <?php
 require_once '../../System/main.php';
 
+//minify and versionate css/js files
+$version = 0;
+$minifyer = function($dir, &$minifyer, &$types = null, &$version){
+	$items = scandir($dir);
+	$ret = array();
+	$parse = array();
+	foreach ($items as $item){
+		if(substr($item,0,1) != '.'){
+			$abs = $dir.'/'.$item;
+			if(is_file($abs)){
+				if (is_array($types) && strpos($item, '.')) {
+					$t = substr($item, strripos($item, '.')+1);
+					if(isset($types[$t])){
+						$data = Core::dataFromFile($abs)."\n";
+						$data = preg_replace('/[\n][ \t]+/mui', "\n", $data);
+						$data = preg_replace('/[ \t]+/mui', ' ', $data);
+						$data = preg_replace('/[\n]+/mui', "\n", $data);
+						#doomed by single line comments
+						#$data = preg_replace('/[;}{][ ]?\n/mui', ";", $data);
+						$data = preg_replace('/([\[{}\]][;,]?)[\n]/mui', "$1", $data);
+						$data = preg_replace('/\/\*.*\*\//muis', "", $data);
+
+						$types[$t] .= $data;
+						$version = max($version, filemtime($abs));
+					}
+				}
+			}
+			elseif(is_dir($abs)){
+				$parse[] = $abs;
+			}
+		}
+	}
+	foreach ($parse as $subDir){
+		$ret = array_merge($ret, $minifyer($subDir, $minifyer, $types, $version));
+	}
+	return $ret;
+};
+$content = array('js' => '', 'css' => '');
+$minifyer('System/ClientData', $minifyer, $content, $version);
+$version = date('Y-m-d-H-i-s', $version);
+
+if(is_dir('Content')){
+	Core::dataToFile($content['js'], 'Content/management-'.$version.'.js');
+	Core::dataToFile($content['css'], 'Content/management-'.$version.'.css');
+}
+
+
+//write manifest
+
+
 $cache = <<<CMF
 <?php header("Content-type: text/cache-manifest"); ?>
 CACHE MANIFEST
+
+Content/management-{$version}.js
+Content/management-{$version}.css
 
 CMF;
 
@@ -22,9 +75,9 @@ Management/ajaxhandler.php
 CMF;
 
 $paths = array(
-	'System/Applications',
-	'System/ClientData',
-	'System/External'
+	'System/Applications' => array('js', 'css', 'png', 'jpg', 'jpeg','gif'),
+	'System/ClientData' =>	 array('png', 'jpg', 'jpeg','gif'),
+	'System/External' =>	 array('js', 'css', 'png', 'jpg', 'jpeg','gif')
 );
 
 $indexer = function($dir, &$indexer, &$types = null){
@@ -34,7 +87,6 @@ $indexer = function($dir, &$indexer, &$types = null){
 	foreach ($items as $item){
 		if(substr($item,0,1) != '.'){
 			$abs = $dir.'/'.$item;
-			printf("%s\n", $abs);
 			if(is_file($abs)){
 				if($types == null){
 					$ret[] = $abs;
@@ -58,8 +110,7 @@ $indexer = function($dir, &$indexer, &$types = null){
 };
 
 $cacheFiles = array();
-$types = array('js', 'css', 'png', 'jpg', 'jpeg','gif');
-foreach ($paths as $p){
+foreach ($paths as $p => $types){
 	$cacheFiles = array_merge($cacheFiles, $indexer($p, $indexer, $types));
 }
 $cache .= implode("\n", $cacheFiles).$network;
