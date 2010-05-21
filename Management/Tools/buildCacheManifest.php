@@ -1,9 +1,10 @@
 <?php
 require_once '../../System/main.php';
 
+$jsmin = Core::classExists('JSMin') && class_exists('JSMin', true);
 //minify and versionate css/js files
 $version = array('js' => 0, 'css' => 0);
-$minifyer = function($dir, &$minifyer, &$types = null, &$version){
+$minifyer = function($dir, &$minifyer, &$types = null, &$version, $jsmin){
 	$items = scandir($dir);
 	$ret = array();
 	$parse = array();
@@ -24,22 +25,24 @@ $minifyer = function($dir, &$minifyer, &$types = null, &$version){
 		}
 	}
 	ksort($ret);
+
 	foreach($ret as $abst){
 		list($abs, $t) = $abst;
 		$data = Core::dataFromFile($abs)."\n";
-		$data = preg_replace('/[\n][ \t]+/mui', "\n", $data);
-		$data = preg_replace('/[ \t]+/mui', ' ', $data);
-		$data = preg_replace('/[\n]+/mui', "\n", $data);
-		#doomed by single line comments
-		#$data = preg_replace('/[;}{][ ]?\n/mui', ";", $data);
-		$data = preg_replace('/([\[{}\]][;,]?)[\n]/mui', "$1", $data);
-		$data = preg_replace('/\/\*.*\*\//muis', "", $data);
+		if($jsmin && $t == 'js'){
+			$data = JSMin::minify($data);
+		}
+		else{
+			$data = preg_replace('/[\n][ \t]+/mui', "\n", $data);
+			$data = preg_replace('/[ \t]+/mui', ' ', $data);
+			$data = preg_replace('/[\n]+/mui', "\n", $data);
+		}
 
 		$types[$t] .= $data;
 		$version[$t] = max($version[$t], filemtime($abs));
 	}
 	foreach ($parse as $subDir){
-		$minifyer($subDir, $minifyer, $types, $version);
+		$minifyer($subDir, $minifyer, $types, $version, $jsmin);
 	}
 };
 /*
