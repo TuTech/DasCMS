@@ -166,11 +166,13 @@ class WHeader extends BWidget
 	{
 		$html = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" ".
 				"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n".
-				"<html xmlns=\"http://www.w3.org/1999/xhtml\" manifest=\"".
-				(self::$base ? self::enc(self::$base) : '').
-				"System/ClientData/cache-manifest.php\" lang=\"".
-				Core::settings()->get('locale').
-				"\">\n\t<head>\n";
+				"<html xmlns=\"http://www.w3.org/1999/xhtml\" ".
+				(
+					file_exists('System/ClientData/cache-manifest.php') 
+						? "manifest=\"".(self::$base ? self::enc(self::$base) : '')."System/ClientData/cache-manifest.php\" "
+						: ''
+				)
+				."lang=\"".Core::settings()->get('locale')."\">\n\t<head>\n";
 				//"\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n";
 		foreach (self::$httpHeader as $cmd => $content) 
 		{

@@ -19,7 +19,7 @@ if(RURL::has('logout')){
 }
 
 PAuthentication::required();
-WHeader::loadClientData();
+
 WHeader::useScript('Management/localization.js.php');
 WHeader::setBase(SLink::base());
 WHeader::setTitle(BAMBUS_VERSION);

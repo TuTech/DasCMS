@@ -2,7 +2,7 @@
 require_once '../../System/main.php';
 
 //minify and versionate css/js files
-$version = 0;
+$version = array('js' => 0, 'css' => 0);
 $minifyer = function($dir, &$minifyer, &$types = null, &$version){
 	$items = scandir($dir);
 	$ret = array();
@@ -24,7 +24,7 @@ $minifyer = function($dir, &$minifyer, &$types = null, &$version){
 						$data = preg_replace('/\/\*.*\*\//muis', "", $data);
 
 						$types[$t] .= $data;
-						$version = max($version, filemtime($abs));
+						$version[$t] = max($version[$t], filemtime($abs));
 					}
 				}
 			}
@@ -40,23 +40,25 @@ $minifyer = function($dir, &$minifyer, &$types = null, &$version){
 };
 $content = array('js' => '', 'css' => '');
 $minifyer('System/ClientData', $minifyer, $content, $version);
-$version = date('Y-m-d-H-i-s', $version);
 
+foreach($version as $type => $timestamp){
+	$v = date('Y-m-d-H-i-s', $timestamp);
+	$version[$type] = $v;
+	if(is_dir('Content')){
+		Core::dataToFile($content[$type], 'Content/management-'.$v.'.'.$type);
+	}
+}
 if(is_dir('Content')){
-	Core::dataToFile($content['js'], 'Content/management-'.$version.'.js');
-	Core::dataToFile($content['css'], 'Content/management-'.$version.'.css');
+	Core::dataToJSONFile($version, 'Content/versioninfo.json');
 }
 
 
 //write manifest
-
-
 $cache = <<<CMF
 <?php header("Content-type: text/cache-manifest"); ?>
 CACHE MANIFEST
-
-Content/management-{$version}.js
-Content/management-{$version}.css
+Content/management-{$version['js']}.js
+Content/management-{$version['css']}.css
 
 CMF;
 
