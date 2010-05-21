@@ -30,14 +30,12 @@ $paths = array(
 $indexer = function($dir, &$indexer, &$types = null){
 	$items = scandir($dir);
 	$ret = array();
+	$parse = array();
 	foreach ($items as $item){
 		if(substr($item,0,1) != '.'){
 			$abs = $dir.'/'.$item;
 			printf("%s\n", $abs);
-			if(is_dir($abs)){
-				$ret = array_merge($ret, $indexer($abs, $indexer, $types));
-			}
-			elseif(is_file($abs)){
+			if(is_file($abs)){
 				if($types == null){
 					$ret[] = $abs;
 				}
@@ -48,7 +46,13 @@ $indexer = function($dir, &$indexer, &$types = null){
 					}
 				}
 			}
+			elseif(is_dir($abs)){
+				$parse[] = $abs;
+			}
 		}
+	}
+	foreach ($parse as $subDir){
+		$ret = array_merge($ret, $indexer($subDir, $indexer, $types));
 	}
 	return $ret;
 };
