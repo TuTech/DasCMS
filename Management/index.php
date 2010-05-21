@@ -19,7 +19,9 @@ if(RURL::has('logout')){
 }
 
 PAuthentication::required();
-
+$media = Core::dataFromJSONFile('Content/versioninfo.json');
+if(isset($media['js']))WHeader::useScript($media['js']);
+if(isset($media['css']))WHeader::useStylesheet($media['css']);
 WHeader::useScript('Management/localization.js.php');
 WHeader::setBase(SLink::base());
 WHeader::setTitle(BAMBUS_VERSION);

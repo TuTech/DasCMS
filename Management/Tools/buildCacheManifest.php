@@ -41,11 +41,12 @@ $minifyer = function($dir, &$minifyer, &$types = null, &$version){
 $content = array('js' => '', 'css' => '');
 $minifyer('System/ClientData', $minifyer, $content, $version);
 
+$versioninfo = array();
 foreach($version as $type => $timestamp){
 	$v = date('Y-m-d-H-i-s', $timestamp);
-	$version[$type] = $v;
+	$versioninfo[$type] = 'Content/management-'.$v.'.'.$type;
 	if(is_dir('Content')){
-		Core::dataToFile($content[$type], 'Content/management-'.$v.'.'.$type);
+		Core::dataToFile($content[$type], $versioninfo[$type]);
 	}
 }
 
@@ -55,8 +56,8 @@ foreach($version as $type => $timestamp){
 $cache = <<<CMF
 <?php header("Content-type: text/cache-manifest"); ?>
 CACHE MANIFEST
-Content/management-{$version['js']}.js
-Content/management-{$version['css']}.css
+{$versioninfo['js']}
+{$versioninfo['css']}
 
 CMF;
 
@@ -115,7 +116,7 @@ foreach ($paths as $p => $types){
 }
 $cache .= implode("\n", $cacheFiles).$network;
 if(is_dir('Content')){
-	Core::dataToJSONFile($version, 'Content/versioninfo.json');
+	Core::dataToJSONFile($versioninfo, 'Content/versioninfo.json');
 	Core::dataToFile($cache, 'Content/cache-manifest.php');
 }
 echo $cache."\n";
