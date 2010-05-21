@@ -42,6 +42,8 @@ class SLocalization
         fclose($fp);
 
 		$loc = Core::dataFromJSONFile(SPath::SYSTEM_RESOURCES.'locale.json');
+		$loc = array_flip($loc);
+		
         //locale, timezone, dateformat
         $e->addClassSettings($this, 'country_settings', array(
         	'locale' => array(Core::settings()->get('locale'), Settings::TYPE_SELECT, $loc, 'locale'),
