@@ -13,7 +13,7 @@
 	width:48px;
 	height:36px;
 	float:left;
-	background:  url("../../../../ClientData/Icons/tango/medium/actions/close-open-file-dialog.png") 50% 50% no-repeat;
+	background:  url("../System/ClientData/Icons/tango/medium/actions/close-open-file-dialog.png") 50% 50% no-repeat;
 }
 #WOpenFileDialog-header{
 	width:100%;
@@ -60,7 +60,7 @@
 
 #WOpenFileDialog-TitleSearchContainer{
 	border: 1px solid #d3d7cf;
-	background: #fff url("../../../../ClientData/Icons/16x16/actions/search-gray.png") 1px 50% no-repeat;
+	background: #fff url("../System/ClientData/Icons/16x16/actions/search-gray.png") 1px 50% no-repeat;
 	-moz-border-radius: 5px;
 	margin-left:15px;
 	margin-right:15px;	
@@ -109,27 +109,27 @@
 
 .Sprite_UpDown_1
 {
-	background: url("../../../../ClientData/Icons/sprites/UpDown_16.png") 0px 0px no-repeat;
+	background: url("../System/ClientData/Icons/sprites/UpDown_16.png") 0px 0px no-repeat;
 }
 
 .Sprite_UpDown_2
 {
-	background: url("../../../../ClientData/Icons/sprites/UpDown_16.png") -16px 0px no-repeat;
+	background: url("../System/ClientData/Icons/sprites/UpDown_16.png") -16px 0px no-repeat;
 }
 
 .Sprite_DetailIconList_1
 {
-	background: url("../../../../ClientData/Icons/sprites/DetailIconList_16.png") 0px 0px no-repeat;
+	background: url("../System/ClientData/Icons/sprites/DetailIconList_16.png") 0px 0px no-repeat;
 }
 
 .Sprite_DetailIconList_2
 {
-	background: url("../../../../ClientData/Icons/sprites/DetailIconList_16.png") -16px 0px no-repeat;
+	background: url("../System/ClientData/Icons/sprites/DetailIconList_16.png") -16px 0px no-repeat;
 }
 
 .Sprite_DetailIconList_3
 {
-	background: url("../../../../ClientData/Icons/sprites/DetailIconList_16.png") -32px 0px no-repeat;
+	background: url("../System/ClientData/Icons/sprites/DetailIconList_16.png") -32px 0px no-repeat;
 }
 
 
@@ -252,7 +252,7 @@ list view
 	display: block;
 }
 #WOpenFileDialog-filecontainer.WOpenFileDialog-loading{
-	background: url(../../../Icons/16x16/animations/loading.gif) 50% 50% no-repeat;
+	background: url(../System/ClientData/Icons/16x16/animations/loading.gif) 50% 50% no-repeat;
 }
 
 #WOpenFileDialog-ItemWrapper.WOpenFileDialog-loading *{

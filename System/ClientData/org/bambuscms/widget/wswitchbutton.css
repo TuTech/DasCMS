@@ -47,7 +47,7 @@
 }
 .WSB_active
 {
-	background: #73d216 url(../../../../ClientData/Images/header_background.png) 0px -30px ;
+	background: #73d216 url(../System/ClientData/Images/header_background.png) 0px -30px ;
 	border: 1px solid #555753;
 }
 

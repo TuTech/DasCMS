@@ -31,7 +31,7 @@ $minifyer = function($dir, &$minifyer, &$types = null, &$version){
 		$data = preg_replace('/[ \t]+/mui', ' ', $data);
 		$data = preg_replace('/[\n]+/mui', "\n", $data);
 		#doomed by single line comments
-		$data = preg_replace('/[;}{][ ]?\n/mui', ";", $data);
+		#$data = preg_replace('/[;}{][ ]?\n/mui', ";", $data);
 		$data = preg_replace('/([\[{}\]][;,]?)[\n]/mui', "$1", $data);
 		$data = preg_replace('/\/\*.*\*\//muis', "", $data);
 

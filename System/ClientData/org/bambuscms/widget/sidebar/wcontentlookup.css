@@ -8,7 +8,7 @@
 	border-bottom: 1px solid #babdb6;
 }
 #WContentLookupFilter  {
-	background:#fff url(../../../../../ClientData/Icons/16x16/actions/search.png) 1px 50% no-repeat;
+	background:#fff url(../System/ClientData/Icons/16x16/actions/search.png) 1px 50% no-repeat;
 	font-size:12px;
 	padding-left:18px;
 	width:90% !important;

@@ -4,7 +4,7 @@
 	left:0px;
 	width:100%;
 	height:100%;
-	background: url(../../../../ClientData/Images/dialogue-bg.png);
+	background: url(../System/ClientData/Images/dialogue-bg.png);
 	z-index:10000;
 }
 #WDialog_container .WDialog div
@@ -42,7 +42,7 @@
 	margin:0px;
 	margin-bottom: 3px;
 	font-weight: bold;
-	background: #9fbc4a url(../../../../ClientData/Images/header_background.png) 0% 0%;
+	background: #9fbc4a url(../System/ClientData/Images/header_background.png) 0% 0%;
 	color:#000;
 	font-size:14px;
 	text-align: center;
@@ -52,7 +52,7 @@
 	float:right;
 	display:block;
 	color: #000;
-	background: url(../../../../ClientData/Images/header_background.png) 0% 0%;
+	background: url(../System/ClientData/Images/header_background.png) 0% 0%;
    	border:1px solid #9fbc4a;
 	padding:4px;
 	min-width:50px;
