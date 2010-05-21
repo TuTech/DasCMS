@@ -14,17 +14,7 @@ $minifyer = function($dir, &$minifyer, &$types = null, &$version){
 				if (is_array($types) && strpos($item, '.')) {
 					$t = substr($item, strripos($item, '.')+1);
 					if(isset($types[$t])){
-						$data = Core::dataFromFile($abs)."\n";
-						#$data = preg_replace('/[\n][ \t]+/mui', "\n", $data);
-						$data = preg_replace('/[ \t]+/mui', ' ', $data);
-						$data = preg_replace('/[\n]+/mui', "\n", $data);
-						#doomed by single line comments
-						#$data = preg_replace('/[;}{][ ]?\n/mui', ";", $data);
-						#$data = preg_replace('/([\[{}\]][;,]?)[\n]/mui', "$1", $data);
-						#$data = preg_replace('/\/\*.*\*\//muis', "", $data);
-
-						$types[$t] .= $data;
-						$version[$t] = max($version[$t], filemtime($abs));
+						$ret[strtoupper($item).$item] = array($abs, $t);
 					}
 				}
 			}
@@ -33,11 +23,32 @@ $minifyer = function($dir, &$minifyer, &$types = null, &$version){
 			}
 		}
 	}
-	foreach ($parse as $subDir){
-		$ret = array_merge($ret, $minifyer($subDir, $minifyer, $types, $version));
+	ksort($ret);
+	foreach($ret as $abst){
+		list($abs, $t) = $abst;
+		$data = Core::dataFromFile($abs)."\n";
+		$data = preg_replace('/[\n][ \t]+/mui', "\n", $data);
+		$data = preg_replace('/[ \t]+/mui', ' ', $data);
+		$data = preg_replace('/[\n]+/mui', "\n", $data);
+		#doomed by single line comments
+		$data = preg_replace('/[;}{][ ]?\n/mui', ";", $data);
+		$data = preg_replace('/([\[{}\]][;,]?)[\n]/mui', "$1", $data);
+		$data = preg_replace('/\/\*.*\*\//muis', "", $data);
+
+		$types[$t] .= $data;
+		$version[$t] = max($version[$t], filemtime($abs));
 	}
-	return $ret;
+	foreach ($parse as $subDir){
+		$minifyer($subDir, $minifyer, $types, $version);
+	}
 };
+/*
+$files[strtoupper($item).$item] = $item;
+	        }
+	    }
+	    chdir($oldPath);
+	    ksort($files);*/
+
 $content = array('js' => '', 'css' => '');
 $minifyer('System/ClientData', $minifyer, $content, $version);
 
