@@ -168,8 +168,8 @@ class WHeader extends BWidget
 				"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n".
 				"<html xmlns=\"http://www.w3.org/1999/xhtml\" ".
 				(
-					file_exists('System/ClientData/cache-manifest.php') 
-						? "manifest=\"".(self::$base ? self::enc(self::$base) : '')."System/ClientData/cache-manifest.php\" "
+					file_exists('Content/cache-manifest.php')
+						? "manifest=\"".(self::$base ? self::enc(self::$base) : '')."Content/cache-manifest.php\" "
 						: ''
 				)
 				."lang=\"".Core::settings()->get('locale')."\">\n\t<head>\n";

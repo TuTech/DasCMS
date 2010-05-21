@@ -48,9 +48,7 @@ foreach($version as $type => $timestamp){
 		Core::dataToFile($content[$type], 'Content/management-'.$v.'.'.$type);
 	}
 }
-if(is_dir('Content')){
-	Core::dataToJSONFile($version, 'Content/versioninfo.json');
-}
+
 
 
 //write manifest
@@ -116,6 +114,9 @@ foreach ($paths as $p => $types){
 	$cacheFiles = array_merge($cacheFiles, $indexer($p, $indexer, $types));
 }
 $cache .= implode("\n", $cacheFiles).$network;
-Core::dataToFile($cache, 'System/ClientData/cache-manifest.php');
+if(is_dir('Content')){
+	Core::dataToJSONFile($version, 'Content/versioninfo.json');
+	Core::dataToFile($cache, 'Content/cache-manifest.php');
+}
 echo $cache."\n";
 ?>
