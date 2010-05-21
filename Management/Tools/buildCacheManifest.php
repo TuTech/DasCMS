@@ -1,10 +1,9 @@
 <?php
 require_once '../../System/main.php';
 
-$jsmin = Core::classExists('JSMin') && class_exists('JSMin', true);
 //minify and versionate css/js files
 $version = array('js' => 0, 'css' => 0);
-$minifyer = function($dir, &$minifyer, &$types = null, &$version, $jsmin){
+$minifyer = function($dir, &$minifyer, &$types, &$version, $jsmin){
 	$items = scandir($dir);
 	$ret = array();
 	$parse = array();
@@ -45,15 +44,9 @@ $minifyer = function($dir, &$minifyer, &$types = null, &$version, $jsmin){
 		$minifyer($subDir, $minifyer, $types, $version, $jsmin);
 	}
 };
-/*
-$files[strtoupper($item).$item] = $item;
-	        }
-	    }
-	    chdir($oldPath);
-	    ksort($files);*/
 
 $content = array('js' => '', 'css' => '');
-$minifyer('System/ClientData', $minifyer, $content, $version);
+$minifyer('System/ClientData', $minifyer, $content, $version, Core::classExists('JSMin') && class_exists('JSMin', true));
 
 $versioninfo = array();
 foreach($version as $type => $timestamp){
@@ -63,8 +56,6 @@ foreach($version as $type => $timestamp){
 		Core::dataToFile($content[$type], $versioninfo[$type]);
 	}
 }
-
-
 
 //write manifest
 $cache = <<<CMF
