@@ -1,6 +1,6 @@
 <?php 
-chdir('..');
-require_once 'System/main.php';
+chdir(dirname(__FILE__));
+require_once '../System/main.php';
 header('Content-Type: text/javascript; charset='.CHARSET);
 $lang = SLocalization::getCurrentLanguageCode();
 echo 'document.write(unescape("%3Cscript%20type%3D%22text%2Fjavascript%22%20src%3D%22',

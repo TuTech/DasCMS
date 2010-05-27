@@ -6,8 +6,8 @@
 * Description: Management (Login and Applcation loader)
 ************************************************/
 
-chdir('..');
-require_once 'System/main.php';
+chdir(dirname(__FILE__));
+require_once '../System/main.php';
 WHeader::httpHeader('Content-Type: text/html; charset='.CHARSET);
 
 RSession::start();

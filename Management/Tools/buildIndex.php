@@ -1,4 +1,5 @@
 <?php
+chdir(dirname(__FILE__));
 require_once '../../System/main.php';
 
 class CoreUpdate extends Core

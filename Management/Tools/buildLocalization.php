@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 //path: $file = 'System/Resource/Translation/'.$language.'.strings';
+chdir(dirname(__FILE__));
 require_once '../../System/main.php';
 
 $path = 'System/Resource/Translation/';

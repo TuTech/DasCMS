@@ -6,8 +6,8 @@
 * Description: Handles all AJAX requests and redirects them to the Application AJAX-handler
 * Version      0.9.0
 ************************************************/
-chdir('..');
-require_once 'System/main.php';
+chdir(dirname(__FILE__));
+require_once '../System/main.php';
 header('Content-Type: text/html; charset='.CHARSET);
 //load the mighty bambus
 if(!defined('ERROR_TEMPLATE'))
