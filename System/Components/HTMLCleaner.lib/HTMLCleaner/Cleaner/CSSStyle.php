@@ -61,6 +61,8 @@ class HTMLCleaner_Cleaner_CSSStyle implements HTMLCleaner_Cleaner {
 		foreach ($rules as $rule){
 			if(!empty($rule)){
 				list($cmd, $data) = explode(':', $rule);
+				$cmd = trim(strtolower($cmd));
+				$data = trim($data);
 				$key = strtolower($cmd);
 				if(($this->mode == self::MODE_REMOVE && !array_key_exists($key, $this->commands))
 						|| ($this->mode == self::MODE_ALLOW_ONLY && array_key_exists($key, $this->commands))
