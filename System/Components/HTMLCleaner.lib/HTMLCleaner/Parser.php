@@ -27,16 +27,17 @@ class HTMLCleaner_Parser {
 			$head = '<?xml version="1.0" encoding="utf-8"?>'.
 					'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" '.
 					'"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'.
-					'<html lang="de" xmlns="http://www.w3.org/1999/xhtml">'.
+					'<html xmlns="http://www.w3.org/1999/xhtml">'.
 					'<head>'.
 					'<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />'.
 					'</head><body>';
 			$foot = '</body></html>';
 		}
 
-
+		SErrorAndExceptionHandler::muteErrors();
 		$this->domDocument = new DOMDocument('1.0', CHARSET);
 		$this->domDocument->loadHTML($head.$html.$foot);
+		SErrorAndExceptionHandler::reportErrors();
 		$this->domDocument->encoding = CHARSET;
 		$this->domDocument->preserveWhiteSpace = false;
 	}
@@ -96,7 +97,6 @@ class HTMLCleaner_Parser {
 		$body = substr($body, strpos($body, '<body>')+6);
 		$body = substr($body, 0, strripos($body, '</body>'));
 		$body = preg_replace_callback('#<(\w+)([^>]*)\s*/>#s', 'HTMLCleaner_Parser::convCallback' , $body);
-		$body = html_entity_decode($body, ENT_QUOTES, CHARSET);
 
 		$this->domDocument = null;
 		return $body;
