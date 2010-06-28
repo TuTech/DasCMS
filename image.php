@@ -103,7 +103,7 @@ if(!empty($_SERVER['PATH_INFO']))
             if($id == '_')//load cms default image
             {
                 //default img
-                $img = Image_GD::load(SPath::SYSTEM_IMAGES.'no_preview.jpg');
+                $img = Image_GD::load(WImage::placeholderFile());
             }
             else //render preview
             {
@@ -185,7 +185,7 @@ if(!empty($_SERVER['PATH_INFO']))
         if(!$img)
         {
             header('Content-type: image/jpeg;');
-            $img = SPath::SYSTEM_IMAGES.'no_preview.jpg';
+            $img = WImage::placeholderFile();
         }
         header('Last-modified: '.date('r',filemtime($img)));
         readfile($img);

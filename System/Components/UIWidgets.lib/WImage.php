@@ -19,6 +19,7 @@ class WImage extends BWidget
     const FORCE_BY_FILL = 'f';
 
     private static $retainCounts = null;
+	private static $placeholderImage = null;
 
     private $width = null;
     private $height = null;
@@ -298,5 +299,18 @@ class WImage extends BWidget
             ,($this->cssID != null) ? 'id="'.htmlentities($this->cssID, ENT_QUOTES, CHARSET).'" ' : ''
         );
     }
+
+	public static function placeholderFile(){
+		if(self::$placeholderImage === null){
+			$img = 'no_preview.jpg';
+			if(file_exists(SPath::CONTENT.$img)){
+				self::$placeholderImage = SPath::CONTENT.$img;
+			}
+			else{
+				self::$placeholderImage = SPath::SYSTEM_IMAGES.$img;
+			}
+		}
+		return self::$placeholderImage;
+	}
 }
 ?>
