@@ -39,7 +39,7 @@ class HTMLCleaner_Parser {
 		$this->domDocument->loadHTML($head.$html.$foot);
 		SErrorAndExceptionHandler::reportErrors();
 		$this->domDocument->encoding = CHARSET;
-		$this->domDocument->preserveWhiteSpace = false;
+		$this->domDocument->preserveWhiteSpace = true;
 	}
 
 	public function addCleaner(HTMLCleaner_Cleaner $cleaner){
@@ -97,6 +97,8 @@ class HTMLCleaner_Parser {
 		$body = substr($body, strpos($body, '<body>')+6);
 		$body = substr($body, 0, strripos($body, '</body>'));
 		$body = preg_replace_callback('#<(\w+)([^>]*)\s*/>#s', 'HTMLCleaner_Parser::convCallback' , $body);
+
+		$body = str_replace(array("&#13;","&#10;","&#9;"), array("\r","\n","\t"), $body);
 
 		$this->domDocument = null;
 		return $body;
