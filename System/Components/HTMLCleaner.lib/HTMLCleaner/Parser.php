@@ -98,6 +98,7 @@ class HTMLCleaner_Parser {
 		$body = substr($body, 0, strripos($body, '</body>'));
 		$body = preg_replace_callback('#<(\w+)([^>]*)\s*/>#s', 'HTMLCleaner_Parser::convCallback' , $body);
 
+		$body = str_replace(array("&#13;\r","&#10;\n","&#9;\t"), array("\r","\n","\t"), $body);
 		$body = str_replace(array("&#13;","&#10;","&#9;"), array("\r","\n","\t"), $body);
 
 		$this->domDocument = null;
