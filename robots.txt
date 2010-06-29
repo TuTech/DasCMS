@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /Management/
+Disallow: /System/
+Disallow: /Misc/
+Disallow: /Setup/
