@@ -136,13 +136,23 @@ class WImage extends BWidget
         return $img;
     }
     /**
+     * returns
+     * 	a) the alias of the preview image
+     * 	b) an empty string if no preview is set
+     * 	c) null if preview can not be set
      * @return string
      */
     public function getAlias()
     {
-		return self::resolvePreviewId($this->imageID);
+        if($this->allowsPreview)
+        {
+            return self::resolvePreviewId($this->imageID);
+        }
+        else
+        {
+            return null;
+        }
     }
-	
     public static function resolvePreviewId($id)
     {
         $alias = '';

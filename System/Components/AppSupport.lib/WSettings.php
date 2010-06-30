@@ -66,7 +66,7 @@ class WSettings extends BWidget implements ISidebarWidget
 		{
 			$this->targetObject->Description = $desc;
 		}
-		if(RSent::has('WSearch-PreviewImage-Alias'))
+		if(RSent::hasValue('WSearch-PreviewImage-Alias'))
 		{
 		    $prevAlias = RSent::get('WSearch-PreviewImage-Alias', CHARSET);
 		    $this->targetObject->PreviewImage = $prevAlias;
@@ -101,7 +101,7 @@ class WSettings extends BWidget implements ISidebarWidget
 			$pubDate = $this->targetObject->PubDate;
 
 			//preview
-			if($alias !== null)
+			if($alias != null)
 			{
 			    $html .= sprintf('<input type="hidden" name="WSearch-PreviewImage-Alias" id="WSearch-PreviewImage-Alias" value="%s" />', htmlentities($alias, ENT_QUOTES, CHARSET));
 			}
