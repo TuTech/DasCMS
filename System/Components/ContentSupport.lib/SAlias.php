@@ -131,6 +131,7 @@ class SAlias
 	        return false;
 	    }
 	    list($content, $count) = $res->fetch();
+		$res->free();
 		return ($count == 2);
 	}
 	

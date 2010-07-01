@@ -16,28 +16,55 @@ class QContentFormatter extends BQuery
      * @param string $name
      * @return DSQLResult 
      */
-    public static function getFormatterName($cid)
+    public static function getFormatterName($cid, $forClass = null)
     {
         $sql = "SELECT name 
         			FROM Formatters 
         			LEFT JOIN relContentsFormatters ON (formatterID = formatterREL) 
-        			WHERE contentREL = %d";
-        $sql = sprintf($sql, $cid);
+        			WHERE 
+						contentREL = %d%s";
+        $sql = sprintf($sql, $cid, self::classFilter($forClass));
         return BQuery::Database()->query($sql, DSQL::NUM);
     }
-        
-    public static function setFormatter($cid, $formattername)
+
+	protected static function classFilter($forClass){
+		$ret = '';
+		if($forClass == null){
+			$ret = ' AND ISNULL(classREL)';
+		}
+		else{
+			$ret = sprintf(" AND classREL = (SELECT classID FROM Classes WHERE class = '%s')", BQuery::Database()->escape($forClass));
+		}
+		return $ret;
+	}
+
+    public static function setFormatter($cid, $formattername, $forClass = null)
     {
         $DB = BQuery::Database();
         $DB->beginTransaction();
-        $DB->queryExecute(sprintf('DELETE FROM relContentsFormatters WHERE contentREL = %d', $cid));
+        $DB->queryExecute(sprintf('DELETE FROM relContentsFormatters WHERE contentREL = %d%s', $cid, self::classFilter($forClass)));
         $res = $DB->queryExecute(sprintf(
         	"INSERT INTO relContentsFormatters 
-        		SELECT %d as contentREL, formatterID as formatterREL 
+        		SELECT 
+					%d AS contentREL,
+					formatterID AS formatterREL,
+					%s AS classREL
         		FROM Formatters 
-        		WHERE Formatters.name = '%s'", $cid, $DB->escape($formattername)));
+        		WHERE Formatters.name = '%s'", 
+				$cid,
+				($forClass == null ? 'NULL' : sprintf("(SELECT classID FROM Classes WHERE class = '%s')", $DB->escape($forClass))),
+				$DB->escape($formattername)));
         $DB->commit();
         return $res;
     }
+	
+	public static function removeFormatter($cid, $forClass = null)
+    {
+        $DB = BQuery::Database();
+        $DB->queryExecute(sprintf('DELETE FROM relContentsFormatters WHERE contentREL = %d%s', $cid, self::classFilter($forClass)));
+        return $res;
+    }
+
+
 }
 ?>

@@ -284,7 +284,12 @@ relContentsFormatters
     ADD FOREIGN KEY (formatterREL)
         REFERENCES Formatters(formatterID)
         ON DELETE RESTRICT
+        ON UPDATE NO ACTION,
+	ADD FOREIGN KEY (classREL)
+        REFERENCES Classes(classID)
+        ON DELETE CASCADE
         ON UPDATE NO ACTION;
+
 
  -- Foreign keys for relContentsTags
 ALTER TABLE 

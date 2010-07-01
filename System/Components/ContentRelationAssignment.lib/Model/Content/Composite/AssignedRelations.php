@@ -16,27 +16,18 @@ class Model_Content_Composite_AssignedRelations
         	'setAssignedRelationsFormatter'
         );
     }
-
     public function __construct(Interface_Content $compositeFor)
     {
         parent::__construct($compositeFor);
-        $this->file = sprintf(
-        	'%s/%s_%d',
-        	SPath::CONFIGURATION,
-        	get_class($this),
-        	$compositeFor->getId()
-        );
         try
         {
-			if(file_exists($this->file)){
-				$data = DFileSystem::LoadData($this->file);
-				if(isset($data['assigned'])){
-					$this->setAssignedRelationsData($data['assigned']);
-				}
-				if(isset($data['formatter'])){
-					$this->setAssignedRelationsFormatter($data['formatter']);
-				}
-			}
+			$this->setAssignedRelationsFormatter($this->getFormatterFromDB());
+
+			//read assignments
+			$AssignCtrl = Controller_ContentRelationManager::getInstance();
+			$assigned = $AssignCtrl->getAllRetainedByContentAndClass($compositeFor->getAlias(), $this);
+			$this->setAssignedRelationsData($assigned);
+
         }
         catch (Exception $e)
         {
@@ -44,16 +35,44 @@ class Model_Content_Composite_AssignedRelations
         }
     }
 
+	protected function getFormatterFromDB(){
+		//FIXME bad access: missing formatter controller
+		$formatterName = null;
+		$res = QContentFormatter::getFormatterName($this->compositeFor->getId(), get_class($this));
+		if($res->getRowCount() == 1)
+		{
+			list($formatterName) = $res->fetch();
+		}
+		$res->free();
+		return $formatterName;
+	}
+
     public function contentSaves(){
     	if(!$this->dataChanged){
     		return ;
     	}
     	try{
-	    	$data = array(
-	    		'assigned'  => $this->getAssignedRelationsData(),
-	    		'formatter' => $this->getAssignedRelationsFormatter()
-	    	);
-			DFileSystem::SaveData($this->file, $data);
+			//FIXME: bad access: missing formatter controller
+			$f = $this->getAssignedRelationsFormatter();
+			if($f == null){
+				QContentFormatter::removeFormatter($this->compositeFor->getId(), get_class($this));
+			}
+			else{
+				QContentFormatter::setFormatter($this->compositeFor->getId(), $f, get_class($this));
+			}
+
+			
+			$AssignCtrl = Controller_ContentRelationManager::getInstance();
+			$assigned = $this->getAssignedRelationsData();
+			$compositeAlias = $this->compositeFor->getAlias();
+
+			//save assignments
+			DSQL::getSharedInstance()->beginTransaction();
+			$AssignCtrl->releaseAllRetainedByContentAndClass($this,	$this->compositeFor->getId());
+			foreach ($assigned as $alias){
+				$AssignCtrl->retain($alias, $compositeAlias, $this);
+			}
+			DSQL::getSharedInstance()->commit();
     	}
     	catch(Exception $e){
 			SNotificationCenter::report(SNotificationCenter::TYPE_WARNING, 'could_not_save_assigned_relations');

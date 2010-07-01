@@ -57,7 +57,11 @@ relContentsFormatters(
     formatterREL 
         INTEGER 
         NOT NULL,
-    INDEX(formatterREL)
+	classREL
+		INTEGER
+		NULL,
+    INDEX(formatterREL),
+	UNIQUE(classREL, contentREL)
 )
 ENGINE = InnoDB 
 CHARACTER SET utf8 
