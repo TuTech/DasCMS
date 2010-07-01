@@ -36,7 +36,7 @@ scale_aspect_and_crop	Mit Beschnitt proportional passend auf angegebene Größe
 scale_aspect_and_fill_background	Mit Hintergrundfarbe ohne Beschnitt proportional passend auf angegebene Größe
 scale_by_stretch	Ohne Beschnitt nicht-proportional auf angegebene Größe strecken
 item_has_not_been_retained	Das Löschen dieses Elements wird von anderen Inhalten nicht blockiert. Prüfen Sie ggf. vor dem Löschen ob das Element in Feeds benötigt wird oder anderweitig verlinkt ist.
-element_is_used_by_the_system_and_cannot_be_deleted	Dieser Inhalt wird von System verwendet und kann daher nicht gelöscht werden.
+element_is_used_by_the_system_and_cannot_be_deleted	Dieser Inhalt wird von einem anderen Inhalt verwendet und kann daher nicht gelöscht werden.
 search_by_title	Nach Titel filtern
 context	Kontext
 original_file_name	Name der Datei
