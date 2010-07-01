@@ -33,7 +33,7 @@ class QControllerContentRelationManager extends BQuery
 		$sql = "SELECT Aliases.alias
 					FROM relContentsClassesChainedContents
 						LEFT JOIN Contents ON (relContentsClassesChainedContents.chainedContentREL = Contents.contentID)
-						LEFT JOIN Alias ON (Contents.primaryAlias = Aliases.aliasID)
+						LEFT JOIN Aliases ON (Contents.primaryAlias = Aliases.aliasID)
 					WHERE relContentsClassesChainedContents.chainingClassREL = (SELECT classID FROM Classes WHERE class = '%s')";
 		return $db->query(sprintf($sql, $db->escape($class)), DSQL::NUM);
 
@@ -44,7 +44,7 @@ class QControllerContentRelationManager extends BQuery
 		$sql = "SELECT Aliases.alias
 					FROM relContentsClassesChainedContents
 						LEFT JOIN Contents ON (relContentsClassesChainedContents.chainedContentREL = Contents.contentID)
-						LEFT JOIN Alias ON (Contents.primaryAlias = Aliases.aliasID)
+						LEFT JOIN Aliases ON (Contents.primaryAlias = Aliases.aliasID)
 					WHERE
 						relContentsClassesChainedContents.ownerContentREL = (SELECT contentREL FROM Aliases WHERE alias = '%s')
 						AND
@@ -108,6 +108,7 @@ class QControllerContentRelationManager extends BQuery
 	}
 
 	public static function deleteClassChains($class){
+		$db = parent::Database();
 		$sql = "DELETE
 					FROM relContentsClassesChainedContents
 					WHERE
@@ -117,6 +118,7 @@ class QControllerContentRelationManager extends BQuery
 	}
 
 	public static function deleteClassChainsForOwner($class, $owner){
+		$db = parent::Database();
 		$sql = "DELETE 
 					FROM relContentsClassesChainedContents
 					WHERE
@@ -128,6 +130,7 @@ class QControllerContentRelationManager extends BQuery
 	}
 
 	public static function deleteOwnerChains($owner){
+		$db = parent::Database();
 		$sql = "DELETE
 					FROM relContentsClassesChainedContents
 					WHERE
@@ -137,6 +140,7 @@ class QControllerContentRelationManager extends BQuery
 	}
 
 	public static function deleteChain($class, $owner, $content){
+		$db = parent::Database();
 		$sql = "DELETE
 					FROM relContentsClassesChainedContents
 					WHERE

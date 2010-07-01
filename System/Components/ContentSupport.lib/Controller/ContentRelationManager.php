@@ -21,7 +21,7 @@ class Controller_ContentRelationManager
 		if(SAlias::match($content, $forOwnerContent)){
 			throw new Exception("a content can't retain itself");
 		}
-		QControllerContentRelationManager::createChain($byClass, $forOwnerContent, $content);
+		QControllerContentRelationManager::createChain($this->resolveClass($byClass), $forOwnerContent, $content);
 		return $this->hasContent($content, $forOwnerContent, $byClass);
 	}
 
@@ -74,7 +74,7 @@ class Controller_ContentRelationManager
 	 * @param mixed $andClass
 	 */
 	public function hasContent($content, $forOwner = null, $andClass = null){
-		return !!$this->fetchSingleValue(QControllerContentRelationManager::isRetained($content, $forOwner, $andClass));
+		return !!$this->fetchSingleValue(QControllerContentRelationManager::isRetained($content, $forOwner, $this->resolveClass($andClass)));
 	}
 
 	/**
@@ -82,7 +82,7 @@ class Controller_ContentRelationManager
 	 * @param mixed $class
 	 */
 	public function releaseAllRetainedByClass($class){
-		return QControllerContentRelationManager::deleteClassChains($class);
+		return QControllerContentRelationManager::deleteClassChains($this->resolveClass($class));
 	}
 
 	/**
@@ -91,7 +91,7 @@ class Controller_ContentRelationManager
 	 * @param string $owner
 	 */
 	public function releaseAllRetainedByContentAndClass($class, $owner){
-		return QControllerContentRelationManager::deleteClassChainsForOwner($class, $owner);
+		return QControllerContentRelationManager::deleteClassChainsForOwner($this->resolveClass($class), $owner);
 	}
 
 	/**
@@ -110,7 +110,7 @@ class Controller_ContentRelationManager
 	 * @param mixed $andClass
 	 */
 	public function release($content, $forOwner, $andClass){
-		return QControllerContentRelationManager::deleteChain($andClass, $forOwner, $content);
+		return QControllerContentRelationManager::deleteChain($this->resolveClass($andClass), $forOwner, $content);
 	}
 
 	/**

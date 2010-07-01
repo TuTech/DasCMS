@@ -62,7 +62,6 @@ class QContentFormatter extends BQuery
     {
         $DB = BQuery::Database();
         $DB->queryExecute(sprintf('DELETE FROM relContentsFormatters WHERE contentREL = %d%s', $cid, self::classFilter($forClass)));
-        return $res;
     }
 
 
