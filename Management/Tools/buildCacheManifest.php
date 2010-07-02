@@ -58,7 +58,7 @@ $headers = array(
 );
 foreach($version as $type => $timestamp){
 	$v = date('Y-m-d-H-i-s', $timestamp);
-	$versioninfo[$type] = 'Content/management-'.$v.'.php';
+	$versioninfo[$type] = 'Content/management-'.$type.'-'.$v.'.php';
 	if(is_dir('Content')){
 		Core::dataToFile($headers[$type].$content[$type], $versioninfo[$type]);
 	}
