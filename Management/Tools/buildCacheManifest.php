@@ -50,11 +50,15 @@ $content = array('js' => '', 'css' => '');
 minifyer('System/ClientData', $content, $version, Core::classExists('JSMin') && class_exists('JSMin', true));
 
 $versioninfo = array();
+$headers = array(
+	'js' =>  "<?php header( 'Content-Type: application/javascript' ); ?>\n",
+	'css' => "<?php header( 'Content-Type: text/css' ); ?>\n"
+);
 foreach($version as $type => $timestamp){
 	$v = date('Y-m-d-H-i-s', $timestamp);
-	$versioninfo[$type] = 'Content/management-'.$v.'.'.$type;
+	$versioninfo[$type] = 'Content/management-'.$v.'.php';
 	if(is_dir('Content')){
-		Core::dataToFile($content[$type], $versioninfo[$type]);
+		Core::dataToFile($headers[$type].$content[$type], $versioninfo[$type]);
 	}
 }
 
