@@ -4,7 +4,7 @@ require_once '../../System/main.php';
 
 //minify and versionate css/js files
 $version = array('js' => 0, 'css' => 0);
-$minifyer = function($dir, &$minifyer, &$types, &$version, $jsmin){
+function minifyer($dir, &$types, &$version, $jsmin){
 	$items = scandir($dir);
 	$ret = array();
 	$parse = array();
@@ -42,12 +42,12 @@ $minifyer = function($dir, &$minifyer, &$types, &$version, $jsmin){
 		$version[$t] = max($version[$t], filemtime($abs));
 	}
 	foreach ($parse as $subDir){
-		$minifyer($subDir, $minifyer, $types, $version, $jsmin);
+		minifyer($subDir, $types, $version, $jsmin);
 	}
 };
 
 $content = array('js' => '', 'css' => '');
-$minifyer('System/ClientData', $minifyer, $content, $version, Core::classExists('JSMin') && class_exists('JSMin', true));
+minifyer('System/ClientData', $content, $version, Core::classExists('JSMin') && class_exists('JSMin', true));
 
 $versioninfo = array();
 foreach($version as $type => $timestamp){
@@ -87,7 +87,7 @@ $paths = array(
 	'System/External' =>	 array('js', 'css', 'png', 'jpg', 'jpeg','gif')
 );
 
-$indexer = function($dir, &$indexer, &$types = null){
+function indexer($dir, &$types = null){
 	$items = scandir($dir);
 	$ret = array();
 	$parse = array();
@@ -111,14 +111,14 @@ $indexer = function($dir, &$indexer, &$types = null){
 		}
 	}
 	foreach ($parse as $subDir){
-		$ret = array_merge($ret, $indexer($subDir, $indexer, $types));
+		$ret = array_merge($ret, indexer($subDir, $types));
 	}
 	return $ret;
 };
 
 $cacheFiles = array();
 foreach ($paths as $p => $types){
-	$cacheFiles = array_merge($cacheFiles, $indexer($p, $indexer, $types));
+	$cacheFiles = array_merge($cacheFiles, indexer($p, $types));
 }
 $cache .= implode("\n", $cacheFiles).$network;
 if(is_dir('Content')){
