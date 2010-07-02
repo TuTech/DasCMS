@@ -22,11 +22,13 @@ class Settings_ContentView extends BObject
 	
 	public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e) {
 		$data = $e->getClassSettings($this);
-		$f = $data['default_view_for_content'];
-		$f = empty ($f) ? '' : $f;
-		if(empty($f) || Formatter_Container::exists($f))
-		{
-			Core::settings()->set('Settings_ContentView_defaultContentView', $f);
+		if(isset($data['default_view_for_content'])){
+			$f = $data['default_view_for_content'];
+			$f = empty ($f) ? '' : $f;
+			if(empty($f) || Formatter_Container::exists($f))
+			{
+				Core::settings()->set('Settings_ContentView_defaultContentView', $f);
+			}
 		}
 	}
 }

@@ -22,11 +22,13 @@ class Settings_ContentRelationsView extends BObject
 	
 	public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e) {
 		$data = $e->getClassSettings($this);
-		$f = $data['default_view_for_relations'];
-		$f = empty ($f) ? '' : $f;
-		if(empty($f) || Formatter_Container::exists($f))
-		{
-			Core::settings()->set('Settings_ContentRelationsView_relations', $f);
+		if(isset($data['default_view_for_relations'])){
+			$f = $data['default_view_for_relations'];
+			$f = empty ($f) ? '' : $f;
+			if(empty($f) || Formatter_Container::exists($f))
+			{
+				Core::settings()->set('Settings_ContentRelationsView_relations', $f);
+			}
 		}
 	}
 }
