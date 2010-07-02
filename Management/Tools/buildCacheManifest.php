@@ -50,9 +50,11 @@ $content = array('js' => '', 'css' => '');
 minifyer('System/ClientData', $content, $version, Core::classExists('JSMin') && class_exists('JSMin', true));
 
 $versioninfo = array();
+$expires = 60 * 60 * 24 * 365 * 10;
+$expireHeaders = "header('Cache-Control:max-age=".$expires.", public');header('Expires:Fri, ".date('r', time()+$expires)."'); ";
 $headers = array(
-	'js' =>  "<?php header( 'Content-Type: application/javascript' ); ?>\n",
-	'css' => "<?php header( 'Content-Type: text/css' ); ?>\n"
+	'js' =>  "<?php header( 'Content-Type: application/javascript' ); ".$expireHeaders."?>\n",
+	'css' => "<?php header( 'Content-Type: text/css' ); ".$expireHeaders."?>\n"
 );
 foreach($version as $type => $timestamp){
 	$v = date('Y-m-d-H-i-s', $timestamp);
