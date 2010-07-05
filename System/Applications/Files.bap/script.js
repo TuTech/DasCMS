@@ -24,8 +24,8 @@ function Upload(reshowParam, publishParam)
 		var opt = $c('input');
 		opt.setAttribute('type','checkbox');
 		opt.id = 'update_file_content';
-		opt.checked = !!reshowParam;
-		action = 'save';
+		opt.checked = !reshowParam;
+		action = opt.checked ? 'save' : 'create';
 		opt.onchange = function(){org.bambuscms.app.dialog.setAction($('update_file_content').checked ? 'save' : 'create');};
 
 		var olb = $c('label');
@@ -75,10 +75,6 @@ function Upload(reshowParam, publishParam)
 
 	org.bambuscms.app.dialog.create(_('upload_file'), '', div, null, _('cancel'), true);
 	org.bambuscms.app.dialog.setAction(action);
-	if(!is_in_content_mode)
-	{
-		finput.click();
-	}
 }
 
 function Delete()
