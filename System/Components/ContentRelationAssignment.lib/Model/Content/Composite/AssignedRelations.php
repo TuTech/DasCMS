@@ -68,7 +68,7 @@ class Model_Content_Composite_AssignedRelations
 
 			//save assignments
 			DSQL::getSharedInstance()->beginTransaction();
-			$AssignCtrl->releaseAllRetainedByContentAndClass($this,	$this->compositeFor->getId());
+			$AssignCtrl->releaseAllRetainedByContentAndClass($this,	$this->compositeFor->getAlias());
 			foreach ($assigned as $alias){
 				$AssignCtrl->retain($alias, $compositeAlias, $this);
 			}
