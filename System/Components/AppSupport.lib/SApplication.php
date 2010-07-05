@@ -76,7 +76,6 @@ class SApplication
     		    SLocalization::get($this->name).' - '.
     		    Core::settings()->get('sitename')
 		    );
-			WHeader::setIcon($this->getIcon());
         }
         else
         {

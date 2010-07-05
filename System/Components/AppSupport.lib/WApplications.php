@@ -27,6 +27,7 @@ class WApplications extends BWidget
 	
 	private function selectIcon($name, $active = true)
 	{
+		$icon = null;
 		$parts = explode('-', $name);
 		//specifyer in name
 		$type = array_shift($parts);
@@ -41,15 +42,18 @@ class WApplications extends BWidget
 				$file = $path.implode('-',$parts).$suffix;
 				if(file_exists($file))
 				{
-					return $file;
+					$icon = $file;
+					break;
 				}
 				array_pop($parts);
 			}
 		}
 		else
 		{
-			return './System/ClientData/Icons/'.($active ? '48x48' : '32x32').'/apps/'.$name.'.png';
+			$icon = './System/ClientData/Icons/'.($active ? '48x48' : '32x32').'/apps/'.$name.'.png';
 		}
+		WHeader::setIcon($icon);
+		return $icon;
 	}
 	
 	public function __toString()
