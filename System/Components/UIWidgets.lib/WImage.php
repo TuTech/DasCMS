@@ -153,6 +153,7 @@ class WImage extends BWidget
             return null;
         }
     }
+	
     public static function resolvePreviewId($id)
     {
         $alias = '';

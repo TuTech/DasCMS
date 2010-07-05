@@ -101,7 +101,7 @@ class WSettings extends BWidget implements ISidebarWidget
 			$pubDate = $this->targetObject->PubDate;
 
 			//preview
-			if($alias != null)
+			if($alias !== null)
 			{
 			    $html .= sprintf('<input type="hidden" name="WSearch-PreviewImage-Alias" id="WSearch-PreviewImage-Alias" value="%s" />', htmlentities($alias, ENT_QUOTES, CHARSET));
 			}
