@@ -44,6 +44,9 @@ if($File != null && $File instanceof Interface_Content)
 	    }
 	}
 	$tbl->render();
+	if(RSent::hasValue('reshow_upload_dialogue')){
+		echo new WScript(sprintf('Upload(true, %s);', RSent::hasValue('autopublish_upload')?'true':'false'));
+	}
 
 }
 else

@@ -46,6 +46,9 @@ class AFiles
             $this->target = CFile::Create(isset($param['create']) ? $param['create'] : '');
             $suffix = strtolower(substr($this->target->getFileName(),-4));
             $this->target->changeSearchIndexingStatus(in_array($suffix, array('.pdf','.ppt','.xls','.doc','.zip')));
+			if(RSent::hasValue('autopublish_upload')){
+				$this->target->setPubDate(time());
+			}
         }
         catch (XFileNotFoundException $e)
         {
