@@ -29,6 +29,7 @@ class WHeader extends BWidget
 	private static $relations = array();
 	private static $base = false;
 	private static $title = '';
+	private static $favicon = 'System/ClientData/Icons/tango/large/apps/utilities.png';
 	private static $meta = array();
 	private static $httpHeader = array();
 	
@@ -109,7 +110,12 @@ class WHeader extends BWidget
 	{
 		self::$base = $to;
 	}
-	
+
+	public static function setIcon($to)
+	{
+		self::$favicon = $to;
+	}
+
 	public static function setTitle($to)
 	{
 		self::$title = self::enc($to);
@@ -184,6 +190,11 @@ class WHeader extends BWidget
 		if(self::$base)//base set?
 		{
 			$html .= sprintf("\t\t<base href=\"%s\" />\n", self::enc(self::$base));
+		}
+
+		if(self::$favicon)
+		{
+			$html .= sprintf("\t\t<link rel=\"icon\" type=\"image/png\" href=\"%s\" />\n", self::enc(self::$favicon));
 		}
 		
 		//$this->loadClientData();
