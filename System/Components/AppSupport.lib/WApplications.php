@@ -52,7 +52,7 @@ class WApplications extends BWidget
 		{
 			$icon = './System/ClientData/Icons/'.($active ? '48x48' : '32x32').'/apps/'.$name.'.png';
 		}
-		WHeader::setIcon($icon);
+		if($active)WHeader::setIcon($icon);
 		return $icon;
 	}
 	
