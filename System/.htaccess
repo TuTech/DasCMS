@@ -1,2 +1,5 @@
 AddType text/css .css
-AddType application/x-javascript .js .json
+AddType application/x-javascript .js
+AddType application/x-javascript .json
+AddType text/html .htm
+AddType text/html .html
