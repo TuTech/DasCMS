@@ -91,7 +91,7 @@ class Controller_ContentRelationManager
 	 * @param mixed $class
 	 * @param string $owner
 	 */
-	public function releaseAllRetainedByContentAndClass($class, $owner){
+	public function releaseAllRetainedByContentAndClass($owner, $class){
 		return QControllerContentRelationManager::deleteClassChainsForOwner($this->resolveClass($class), $owner);
 	}
 
