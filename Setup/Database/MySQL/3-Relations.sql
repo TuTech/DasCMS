@@ -32,22 +32,6 @@ ENGINE = InnoDB
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
 
--- feed to contents relation
-CREATE TABLE IF NOT EXISTS 
-relContentsPreviewImages(
-    contentREL 
-        INTEGER 
-        UNIQUE
-        NOT NULL,
-    previewREL 
-        INTEGER 
-        NOT NULL,
-    INDEX (previewREL)
-)
-ENGINE = InnoDB 
-CHARACTER SET utf8 
-COLLATE utf8_unicode_ci;
-
 CREATE TABLE IF NOT EXISTS 
 relContentsFormatters(
     contentREL 

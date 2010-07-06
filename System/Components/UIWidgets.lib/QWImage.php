@@ -11,17 +11,6 @@
  */
 class QWImage extends BQuery 
 {
-    /**
-     * @return DSQLResult
-     */
-    public static function getPreviewAlias($id)
-    {
-		$sql = "SELECT 
-            		relContentsPreviewImages.previewREL
-            	FROM relContentsPreviewImages
-            	WHERE relContentsPreviewImages.contentREL = %d";
-		return BQuery::Database()->query(sprintf($sql,$id), DSQL::NUM);
-    }
     
     /**
      * @return DSQLResult
@@ -45,37 +34,6 @@ class QWImage extends BQuery
 		return $DB->query($sql, DSQL::NUM);
     }
     
-    /**
-     * @return DSQLResult
-     */
-    public static function getRetainCounts()
-    {
-		$sql = "SELECT 
-			 		relContentsPreviewImages.previewREL,
-			 		COUNT(relContentsPreviewImages.contentREL)
-            	FROM relContentsPreviewImages
-            	GROUP BY relContentsPreviewImages.previewREL";
-		return BQuery::Database()->query($sql, DSQL::NUM);
-    }    
-    
-    /**
-     * @return DSQLResult
-     */
-    public static function getRetainers($alias)
-    {
-        $DB = BQuery::Database();
-		$sql = "SELECT 
-					Aliases.alias,
-					Classes.class,
-					Contents.title
-					FROM relContentsPreviewImages
-            	LEFT JOIN Contents ON (relContentsPreviewImages.contentREL = Contents.contentID)
-            	LEFT JOIN Aliases ON (Contents.primaryAlias = Aliases.aliasID)
-            	LEFT JOIN Classes ON (Classes.classID = Contents.type)
-            	WHERE relContentsPreviewImages.previewREL = (SELECT contentREL FROM Aliases WHERE alias = '%s')
-            	ORDER BY Classes.class,Contents.title ASC";
-		return $DB->query(sprintf($sql, $DB->escape($alias)), DSQL::NUM);
-    }
     
     /**
      * @return DSQLResult
@@ -119,25 +77,5 @@ class QWImage extends BQuery
 		return $DB->query($sql, DSQL::NUM);
     }
     
-    public static function removePreview($contentAlias)
-    {
-        $sql = "DELETE FROM relContentsPreviewImages WHERE relContentsPreviewImages.contentREL = (SELECT contentREL FROM Aliases WHERE alias = '%s')";
-        $DB = BQuery::Database();
-        $DB->queryExecute(sprintf($sql,$DB->escape($contentAlias)));
-    }
-    
-    public static function setPreview($contentAlias, $previewID)
-    {
-        $sql = "INSERT 
-        			INTO 
-        				relContentsPreviewImages (contentREL, previewREL) 
-        			VALUES 
-        				((SELECT contentREL FROM Aliases WHERE alias = '%s'), %d)
-        			ON DUPLICATE KEY UPDATE 
-        				previewREL = %d";
-        $DB = BQuery::Database();
-        $sql = sprintf($sql, $DB->escape($contentAlias), $previewID, $previewID);
-        $DB->queryExecute($sql);
-    }
 }
 ?>

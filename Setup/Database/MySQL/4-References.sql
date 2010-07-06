@@ -234,18 +234,6 @@ PersonLogins
         ON DELETE CASCADE
         ON UPDATE NO ACTION;
 
--- Foreign keys for relContentsPreviewImages
-ALTER TABLE 
-relContentsPreviewImages
-    ADD CONSTRAINT content_previewed FOREIGN KEY (contentREL)
-        REFERENCES Contents(contentID)
-        ON DELETE CASCADE
-        ON UPDATE NO ACTION,
-    ADD CONSTRAINT content_preview_provider FOREIGN KEY (previewREL)
-        REFERENCES Contents(contentID)
-        ON DELETE RESTRICT
-        ON UPDATE NO ACTION;
-        
 -- Foreign keys for relContentsClassesChainedContents
 ALTER TABLE 
 relContentsClassesChainedContents
