@@ -11,6 +11,7 @@
  */
 class WImage extends BWidget
 {
+	const  CLASS_NAME = 'WImage';
     const MODE_SCALE_TO_MAX = 0;
     const MODE_FORCE = 1;
 
@@ -83,14 +84,10 @@ class WImage extends BWidget
         }
         else
         {
-            $res = QWImage::getPreviewAlias($content->getId());
-            $img = '_';
-            if($res->getRowCount() == 1)
-            {
-                list($pid) = $res->fetch();
-                $img = $pid;
-            }
-            $res->free();
+            $img = self::resolvePreview($content->getAlias());
+			if($img === null){
+				$img = '_';
+			}
         }
         return $img;
     }
@@ -125,16 +122,30 @@ class WImage extends BWidget
         }
         else
         {
-            $res = QWImage::getPreviewAlias($content->getId());
-            if($res->getRowCount() == 1)
-            {
-                list($pid) = $res->fetch();
-                $img->imageID = $pid;
-            }
-            $res->free();
+			$id = self::resolvePreview($content->getAlias());
+			if($id !== null){
+				$img->imageID = $id;
+			}
         }
         return $img;
     }
+
+	private static function resolvePreview($alias){
+		$id = null;
+		$RelCtrl = Controller_ContentRelationManager::getInstance();
+		$previews = $RelCtrl->getAllRetainedByContentAndClass($alias, self::CLASS_NAME);
+		if(count($previews) > 0){
+			$palias = array_pop($previews);
+			$res = QWImage::aliasToId($palias);
+			if($res->getRowCount() == 1)
+			{
+				list($id) = $res->fetch();
+			}
+			$res->free();
+		}
+		return $id;
+	}
+
     /**
      * returns
      * 	a) the alias of the preview image
@@ -168,19 +179,20 @@ class WImage extends BWidget
 
     public static function setPreview($contentAlias, $previewAlias)
     {
-        $res = QWImage::getpreviewId($previewAlias);
+		$DB = DSQL::getSharedInstance();
+		$RelCtrl = Controller_ContentRelationManager::getInstance();
+		
+		 $res = QWImage::getpreviewId($previewAlias);
+		 $isOK = $res->getRowCount();
+		 $res->free();
         //is the content assigned to $previewAlias a valid preview? (mimetype image/(jpe?g|png|gif))
-        if($res->getRowCount())
+        if($isOK)
         {
-            list($pid) = $res->fetch();
-            //link cid to pid
-            QWImage::setPreview($contentAlias, $pid);
+			$DB->beginTransaction();
+			$RelCtrl->releaseAllRetainedByContentAndClass($contentAlias, self::CLASS_NAME);
+			$RelCtrl->retain($previewAlias, $contentAlias, self::CLASS_NAME);
+			$DB->commit();
         }
-        else
-        {
-            QWImage::removePreview($contentAlias);
-        }
-        $res->free();
     }
 
     public static function supportedMimeType($type)
@@ -191,31 +203,6 @@ class WImage extends BWidget
     public static function getSupportedMimeTypes()
     {
         return array('image/jpg','image/jpeg','image/png','image/gif');
-    }
-
-    public static function getRetainCounts()
-    {
-        if(self::$retainCounts == null)
-        {
-            $res = QWImage::getRetainCounts();
-            self::$retainCounts = array();
-            while($row = $res->fetch())
-            {
-                self::$retainCounts[$row[0]] = $row[1];
-            }
-        }
-        return self::$retainCounts;
-    }
-
-    public static function getRetainersFor($alias)
-    {
-        $ret = array();
-        $res = QWImage::getRetainers($alias);
-        while($row = $res->fetch())
-        {
-            $ret[$row[0]] = array($row[1], $row[2]);
-        }
-        return $ret;
     }
 
     public static function getAllPreviewContents()

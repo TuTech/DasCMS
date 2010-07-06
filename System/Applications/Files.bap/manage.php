@@ -25,13 +25,14 @@ if($File != null && $File instanceof Interface_Content)
 		,$File->Alias
 	    ,$File->Alias
 	);
-	$retains = WImage::getRetainCounts();
+	$RelCrtl = Controller_ContentRelationManager::getInstance();
+	$retainCount = $RelCrtl->getRetainCount($File->getAlias());
 	$tbl = new WTable(WTable::HEADING_TOP|WTable::HEADING_LEFT, 'attributes');
 	$tbl->addRow(array('attribute','value'));
 	$tbl->addRow(array('original_file_name',$File->FileName));
 	$tbl->addRow(array('mime_type',$File->MimeType));
 	$tbl->addRow(array('md5_sum',$File->MD5Sum));
-	$tbl->addRow(array('retain_count',isset($retains[$File->Id]) ? $retains[$File->Id] : '0'));
+	$tbl->addRow(array('retain_count',$retainCount));
 	if(WImage::supportedMimeType($File->MimeType))
 	{
 	    SErrorAndExceptionHandler::muteErrors();

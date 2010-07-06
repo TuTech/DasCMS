@@ -85,7 +85,16 @@ class QWImage extends BQuery
         $sql = "SELECT alias FROM Aliases WHERE contentREL = %d LIMIT 1";
         return BQuery::Database()->query(sprintf($sql,$id), DSQL::NUM);
     }
-    
+
+    /**
+     * @return DSQLResult
+     */
+    public static function aliasToId($alias)
+    {
+        $sql = "SELECT contentREL FROM Aliases WHERE alias = '%s' LIMIT 1";
+        return BQuery::Database()->query(sprintf($sql,BQuery::Database()->escape($alias)), DSQL::NUM);
+    }
+
     /**
      * fetch content id for alias if it is possible to use as preview
      * @return DSQLResult

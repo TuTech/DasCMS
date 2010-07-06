@@ -28,7 +28,8 @@ class WRetainInfo extends BWidget implements ISidebarWidget
 	    );
 	    if($possible)
 	    {
-	        self::$retains = WImage::getRetainersFor($sidepanel->getTarget()->Alias);
+			$RelCrtl = Controller_ContentRelationManager::getInstance();
+			self::$retains = $RelCrtl->getRetainees($sidepanel->getTarget()->getAlias(), true);
 	        $wanted = count(self::$retains) > 0;
 	    }
 	    return $wanted && $possible;

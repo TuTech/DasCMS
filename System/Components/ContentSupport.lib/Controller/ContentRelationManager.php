@@ -54,8 +54,9 @@ class Controller_ContentRelationManager
 	 * get a list of all contents retaining this content
 	 * @param string $content
 	 */
-	public function getRetainees($content){
-		return $this->fetchList(QControllerContentRelationManager::getContentsChaining($content));
+	public function getRetainees($content, $verbose = false){
+		$res = QControllerContentRelationManager::getContentsChaining($content);
+		return $verbose ? $this->fetchVerboseList($res) : $this->fetchList($res);
 	}
 
 	/**
@@ -132,6 +133,15 @@ class Controller_ContentRelationManager
 		$list = array();
 		while ($row = $res->fetch()){
 			$list[] = $row[0];
+		}
+		$res->free();
+		return $list;
+	}
+
+	protected function fetchVerboseList(DSQLResult $res){
+		$list = array();
+		while ($row = $res->fetch()){
+			$list[$row[0]] = array($row[1], $row[2]);
 		}
 		$res->free();
 		return $list;

@@ -67,10 +67,14 @@ class QControllerContentRelationManager extends BQuery
 	//getRetainees
 	public static function getContentsChaining($content){
 		$db = parent::Database();
-		$sql = "SELECT ChainerAliases.alias
+		$sql = "SELECT 
+						ChainerAliases.alias,
+						Classes.class,
+						Content.title
 					FROM relContentsClassesChainedContents
 						LEFT JOIN Aliases ON (relContentsClassesChainedContents.chainedContentREL = Aliases.contentREL)
 						LEFT JOIN Contents ON (relContentsClassesChainedContents.chainedContentREL = Contents.contentID)
+						LEFT JOIN Classes ON (Contents.type = Classes.classID)
 						LEFT JOIN Aliases AS ChainerAliases ON (Contents.primaryAlias = ChainerAliases.aliasID)
 					WHERE
 						Aliases.alias = '%s'";
