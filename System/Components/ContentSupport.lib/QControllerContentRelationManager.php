@@ -70,7 +70,7 @@ class QControllerContentRelationManager extends BQuery
 		$sql = "SELECT 
 						ChainerAliases.alias,
 						Classes.class,
-						Content.title
+						Contents.title
 					FROM relContentsClassesChainedContents
 						LEFT JOIN Aliases ON (relContentsClassesChainedContents.chainedContentREL = Aliases.contentREL)
 						LEFT JOIN Contents ON (relContentsClassesChainedContents.chainedContentREL = Contents.contentID)
