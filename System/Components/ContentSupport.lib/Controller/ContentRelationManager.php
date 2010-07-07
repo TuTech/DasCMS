@@ -141,7 +141,7 @@ class Controller_ContentRelationManager
 	protected function fetchVerboseList(DSQLResult $res){
 		$list = array();
 		while ($row = $res->fetch()){
-			$list[$row[0]] = array($row[1], $row[2]);
+			$list[$row[0]] = array($row[1], $row[2], $row[3]);
 		}
 		$res->free();
 		return $list;
