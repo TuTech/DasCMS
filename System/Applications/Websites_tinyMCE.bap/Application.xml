@@ -23,6 +23,7 @@
 			</panel>
 		</interface>
 		<sidebar>
+			<supported mode="RETAIN"/>
 			<supported mode="MEDIA_LOOKUP"/>
 			<supported mode="CONTENT_LOOKUP"/>
 			<supported mode="PERMISSIONS"/>

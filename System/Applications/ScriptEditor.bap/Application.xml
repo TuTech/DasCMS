@@ -26,6 +26,7 @@
 			</panel>
 		</interface>
 		<sidebar>
+			<supported mode="RETAIN"/>
 			<supported mode="PERMISSIONS"/>
 			<supported mode="PROPERTY_EDIT"/>
 			<supported mode="HELPER"/>
