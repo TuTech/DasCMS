@@ -12,14 +12,14 @@ class Settings_ContentProtectionTags extends BObject
 	public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e) {
 		$tags = STagPermissions::getProtectedTags();
 		$e->addClassSettings($this, 'permissions', array(
-        	'tags_to_prevent_unauthorized_access' => array(implode(', ', $tags), Settings::TYPE_TEXT, null, 'tags_to_prevent_unauthorized_access')
+        	'define_tags_that_prevent_unauthorized_access' => array(implode(', ', $tags), Settings::TYPE_TEXT, null, 'define_tags_that_prevent_unauthorized_access')
 		));
 	}
 	
 	public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e) {
 		$data = $e->getClassSettings($this);
-		if(isset($data['tags_to_prevent_unauthorized_access'])){
-			$f = $data['tags_to_prevent_unauthorized_access'];
+		if(isset($data['define_tags_that_prevent_unauthorized_access'])){
+			$f = $data['define_tags_that_prevent_unauthorized_access'];
 			$tags = STag::parseTagStr($f);
 			STagPermissions::setProtectedTags($tags);
 		}
