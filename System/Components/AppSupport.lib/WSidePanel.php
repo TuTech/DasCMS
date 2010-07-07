@@ -215,12 +215,12 @@ class WSidePanel
 	public function __toString()
 	{
 	    $html = '';
-	    if($this->enableAutoProcess)
+		try
 	    {
-	        $this->processInputs();
-	    }
-	    try
-	    {
+			if($this->enableAutoProcess)
+			{
+				$this->processInputs();
+			}
     		if(count($this->sidebarWidgets) > 0)
     		{
     		    $selectedWidget = $this->selectWidget();
@@ -264,7 +264,7 @@ class WSidePanel
 	    }
 	    catch (Exception $e)
 	    {
-	        echo $e->getTraceAsString();
+	        return strval($e);
 	    }
 		return $html;
 	}
