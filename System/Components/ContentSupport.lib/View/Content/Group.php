@@ -25,7 +25,7 @@ class View_Content_Group
 	public function toXHTML() {
 		$val = '';
 		if($this->shouldDisplay() && is_array($this->subViews)){
-			$tpl = "\n\t<div class=\"Group_item_%d\">%s</div>";
+			$tpl = "\n\t<div class=\"Group_item Group_item_%d\">%s</div>";
 			for($i = 0; $i < count($this->subViews); $i++){
 				$val .= sprintf($tpl, $i+1, $this->subViews[$i]->toXHTML());
 			}
