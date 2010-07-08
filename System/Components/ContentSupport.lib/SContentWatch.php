@@ -67,17 +67,22 @@ class SContentWatch
 			$allowFeed = true;
 			$allowTitle = true;
 			$allowDescription = true;
+			$noHeaders = false;
             foreach ($content->getTags() as $tag){
 				$t = strtolower($tag);
 				if($t == '@noheaders' || $t == '@noheader'){
-					continue;
+					$noHeaders = true;
 				}
-				$allowFeed = $allowFeed && $t != '@nofeed';
-				$allowTitle = $allowTitle && $t != '@notitle';
-				$allowDescription = $allowDescription && $t != '@nodesc';
-				$allowDescription = $allowDescription && $t != '@nodescription';
+				else{
+					$allowFeed = $allowFeed && $t != '@nofeed';
+					$allowTitle = $allowTitle && $t != '@notitle';
+					$allowDescription = $allowDescription && $t != '@nodesc';
+					$allowDescription = $allowDescription && $t != '@nodescription';
+				}
 			}
-
+			if($noHeaders){
+				continue;
+			}
             //Atom feeds
             if($allowFeed && $content instanceof IGeneratesFeed && $content->getLinkToFeed($content->Alias) != null)
             {
