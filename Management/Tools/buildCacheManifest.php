@@ -77,14 +77,7 @@ $network = <<<CMF
 
    
 NETWORK:
-Atom.php
-file.php
-image.php
-index.php
-scheduler.php
-Management/index.php
-Management/localization.js.php
-Management/ajaxhandler.php
+*
 CMF;
 
 $paths = array(
