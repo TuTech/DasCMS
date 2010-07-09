@@ -170,11 +170,12 @@ class Formatter_Container
      */
     public static function unfreezeForFormatting($name, Interface_Content $content)
     {
-        if(!array_key_exists($name, self::$Formatters))
-        {
-            self::$Formatters[$name] = self::unfreeze($name);
-        }
-        $obj = clone self::$Formatters[$name];
+        //if(!array_key_exists($name, self::$Formatters))
+        //{
+        //    self::$Formatters[$name] = self::unfreeze($name);
+        //}
+        //$obj = clone self::$Formatters[$name];
+		$obj = self::unfreeze($name);
 		if($obj instanceof Interface_AcceptsContent){
 			$obj->acceptContent($content);
 		}
