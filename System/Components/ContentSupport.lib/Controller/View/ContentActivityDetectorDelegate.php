@@ -9,6 +9,8 @@ class Controller_View_ContentActivityDetectorDelegate {
     protected $showIfViewsContainContent = array();
     protected $hideIfViewsContainContent = array();
 
+	protected $viewToCSSMap = array();
+
 	private function isActiveIn(array &$views, &$activeViews, $id){
 		$show = false;
 		foreach ($views as $vcc){
@@ -21,6 +23,14 @@ class Controller_View_ContentActivityDetectorDelegate {
 	}
 
 	public function contentViewShouldDisplay(_View_Content_Base $view, Interface_Content $content){
+		//restore default state if formatters are used in a loop
+		if(!array_key_exists($view, $this->viewToCSSMap)){
+			$this->viewToCSSMap[$view] = $view->getCustomCSSClass();
+		}
+		else{
+			$view->setCustomCSSClass($this->viewToCSSMap[$view]);
+		}
+		
 		$show = true;
 		$activeViews = VSpore::activeSpores();
 		$id = $content->getId();
