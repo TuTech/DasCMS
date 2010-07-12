@@ -29,8 +29,8 @@ class UBasicSettings
             'login_template' => 'login_template',
             'path_style_urls' => 'wellformed_urls'
         ),
-        'logging' => array(
-            'log_page_accesses' => 'log_page_accesses'
+        'management' => array(
+            'enable_management_cache_manifest' => 'enable_management_cache_manifest'
         )
     );
     
@@ -57,7 +57,7 @@ class UBasicSettings
                         break;
                        
                     case 'wellformed_urls':
-                    case 'log_page_accesses':
+                    case 'enable_management_cache_manifest':
                         $data[$mk] = array(Core::settings()->get($cc), Settings::TYPE_CHECKBOX, null, $cc);
                         break;
                     default:
