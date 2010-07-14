@@ -132,7 +132,7 @@ else
     }
     WTemplate::globalSet('logout_text', '');
     WTemplate::renderOnce('header', WTemplate::SYSTEM);
-    $loginTpl = new WTemplate('login', WTemplate::SYSTEM);
+    $loginTpl = new WTemplate('cmslogin', WTemplate::SYSTEM);
     $loginTpl->setEnvironment(array(
         'translate:username' => SLocalization::get('username'),
         'translate:password' => SLocalization::get('password'),
