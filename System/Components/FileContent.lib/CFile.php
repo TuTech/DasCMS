@@ -51,13 +51,6 @@ class CFile
 	        DFileSystem::suffix(RFiles::getName('CFile')),
 	        md5_file('./Content/CFile/'.$dbid.'.data',false)
         );
-	    $metadata = array(
-	        'filename' => RFiles::getName('CFile'), 
-	        'type' => RFiles::getType('CFile'),
-	        'md5' => md5_file('./Content/CFile/'.$dbid.'.data',false),
-	        'size' => RFiles::getSize('CFile'),
-	        'suffix' => DFileSystem::suffix(RFiles::getName('CFile'))
-        );
         $type = RFiles::getType('CFile');
         if(DFileSystem::suffix(RFiles::getName('CFile')) == 'pdf')
         {
@@ -65,7 +58,7 @@ class CFile
         }
         QBContent::setMimeType($alias, $type);
 	    $file = new CFile($alias);
-	    $file->Size = $metadata['size'];
+	    $file->Size = RFiles::getSize('CFile');
 	    $file->saveMetaToDB();
 	    new EContentCreatedEvent($file, $file);
 	    return $file;
