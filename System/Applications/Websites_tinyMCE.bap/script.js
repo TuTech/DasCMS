@@ -25,17 +25,6 @@ org.bambuscms.app.document.remove = function ()
 
 
 var id = 'org_bambuscms_app_document_editorElementId';
-//var h = -190;//org_bambuscms_app_document_editorElementId_ifr
-//if($(tinyMCE.get(id)).offsetTop)
-//{
-//	alert($(tinyMCE.get(id)).offsetTop);
-//	h = function(){return ($(tinyMCE.get(id)).offsetTop+5)*-1;alert($(tinyMCE.get(id)).offsetTop)};
-//}
-//else
-//{
-//	alert('no top');
-//}
-//org.bambuscms.display.setAutosize(tinyMCE.get(id),0,h);
 
 document.write('<script type="text/javascript" src="./System/External/tiny_mce/tiny_mce.js"></script>');
 org.bambuscms.app.document.insertMedia = function(type, url, title)
@@ -57,7 +46,12 @@ org.bambuscms.app.document.insertMedia = function(type, url, title)
 	}
 	if(insert != '')
 	{
-		tinyMCE.execInstanceCommand(id, 'mceInsertContent', false,insert); 
+		if(tinyMCE){
+			tinyMCE.execInstanceCommand(id, 'mceInsertContent', false,insert);
+		}
+		else{
+			org.bambuscms.app.document.insertText(insert);
+		}
 	}
 };
 
