@@ -1,106 +1,67 @@
 <?php
-/**
- * Description of ${name}
- *
- * @author ${user}
- */
 class DatabaseAdapter {
+	//@todo for cache class a config change MUST trigger a cache invalidate -- config changed event
 
-	//////////////
-	//adapter life
-	//////////////
+	//////////
+	//register
+	//////////
+
+	protected static $register = array();
+	protected static $statements = array();
+	protected static $aliases = array();
+	protected static $loaded = array();
+
+	protected function loadDefinition($class)
+	{
+		if(!empty(self::$loaded[$class])){
+			return;
+		}
+		self::$loaded[$class] = true;
+		$file = sprintf('Content/SQLCache/%s/%s.json', Core::settings()->get('db_engine'), $class);
+		if(file_exists($file)){
+			$statements = Core::dataFromJSONFile($file);
+			foreach ($statements as $name => $data){
+				//s:sql,t:type,d:deterministic,m:mutable
+				$this->register($class, $name, $data['s'], $data['t'], $data['d'], $data['m']);
+			}
+		}
+	}
 
 	/**
-	 * global statement index
-	 * sql-hash => statement ref
-	 * @var array
+	 * register sql statement
+	 * public for on the fly built queries
+	 * @param string $statementTemplate
+	 * @param string $parameterDefinition
 	 */
-	private static $prepared = array();
-
-	/**
-	 * prepare for execution / register SQL
-	 * @param string $sql
-	 * @return string statement ID
-	 */
-	public function prepare($sql){
-		$id = sha1($sql);
-		if(array_key_exists($id, $this->prepared)){
-			//@todo replace %PRFX% with configs db table prefix -- a config change MUST trigger a cache invalidate
-			//@todo mysql prepare
-			$ref = null;
-			self::$prepared[$id] = $ref;
+	public function register($class, $name, $statementTemplate, $parameterDefinition = '', $deterministic = false, $mutable = true)
+	{
+		$data = array($statementTemplate, $parameterDefinition, $deterministic, $mutable);
+		$id = sha1(implode(':', $data));
+		if(!array_key_exists($id, self::$register)){
+			self::$register[$id] = $data;
+		}
+		$alias = $class.'::'.$name;
+		if(!array_key_exists($alias, self::$aliases)){
+			self::$aliases[$alias] = $id;
 		}
 		return $id;
 	}
 
-	public function forStatement($statementId){
-		return new DatabaseAdapter($statementId);
-	}
-
-	////////////
-	//query life
-	////////////
-
-	private $statement;
-	private $parameters = array();
-	private $deterministic = false;
-	private $mutable = true;
-
-	/**
-	 * set parameters as array or function args
-	 * @param DatabaseAdapter $params
-	 */
-	public function withParameters($params)
+	protected function getStatement($classNameOrObject, $name)
 	{
-		switch (func_num_args()){
-			case 0: $this->parameters = array();
-			case 1: $this->parameters = (is_array($params)) ? $params : array($params);
-			default: $this->parameters = func_get_args();
+		$class = (is_object($classNameOrObject)) ? get_class($classNameOrObject) : strval($classNameOrObject);
+		$alias = $class.'::'.$name;
+		$this->loadDefinition($class);
+
+		if(!array_key_exists($alias, self::$aliases)){
+			throw new XUndefinedIndexException('statement no registered');
 		}
-		foreach ($this->parameters as $k => $v){
-			$this->parameters[$k] = strval($v);
+		$id = self::$aliases[$alias];
+		if(!array_key_exists($id, self::$statements)){
+			self::$statements[$id] = DSQL::getSharedInstance()->prepare(self::$register[$id]);
 		}
-	}
-
-	/**
-	 * allow caching
-	 * @return DatabaseAdapter
-	 */
-	public function asDeterministic()
-	{
-		$this->deterministic = true;
-		return $this;
-	}
-
-	/**
-	 * the query result changes because of nondeterministic SQL functions (e.g. UUID(), NOW())
-	 * @return DatabaseAdapter
-	 */
-	public function asNonDeterministic()
-	{
-		$this->deterministic = false;
-		return $this;
-	}
-
-	/**
-	 * the query result might change over time, by data from the database (i.e. Contents.pubDate)
-	 * @return DatabaseAdapter
-	 */
-	public function asMutable()
-	{
-		$this->mutable = true;
-		return $this;
-	}
-
-	/**
-	 * this query returns the same result, no matter how old the cache is
-	 * the cache of this file will be invalidated by database modifications
-	 * @return DatabaseAdapter
-	 */
-	public function asImmutable()
-	{
-		$this->mutable = false;
-		return $this;
+		
+		return self::$statements[$id];
 	}
 
 	/**

@@ -195,5 +195,11 @@ abstract class DSQL
 	 * @throws XDatabaseException
 	 */
 	abstract public function query($string, $mode = null);
+
+	/**
+	 * @param string
+	 * @return DSQLStatement
+	 */
+	abstract public function prepare($statement);
 }
 ?>

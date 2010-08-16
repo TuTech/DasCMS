@@ -273,5 +273,14 @@ class DSQL_MySQL extends DSQL
     	}
     	return new DSQLResult_MySQL(self::$DB, $res);
     }
+
+	/**
+	 * @param string
+	 * @return DSQLStatement
+	 */
+	public function prepare($statement)
+	{
+		return self::$DB->prepare($statement);
+	}
 }
 ?>
