@@ -174,47 +174,62 @@ class SErrorAndExceptionHandler
 
     public static function reportException(Exception $e)
     {
-    	$debugInfo = ($e instanceof XDatabaseException)
-    		? $e->getSQL()."\n\n"
-    		: '';
-    	$debugInfo .= $e->getTraceAsString();
-        self::mail(
-            get_class($e)
-            , $e->getCode()
-            , $e->getFile()
-            , $e->getLine()
-            , $e->getMessage()
-            , $debugInfo
-            ,getcwd());
-        $err = sprintf(
-            self::$err_html
-            , get_class($e)
-            , $e->getCode()
-            , $e->getFile()
-            , $e->getLine()
-            , $e->getMessage()
-            , $debugInfo
-            ,getcwd());
-        DFileSystem::Append(SPath::LOGS.'Exceptions.log', $err);
-        return $err;
+		$debugInfo = ($e instanceof XDatabaseException)
+			? $e->getSQL()."\n\n"
+			: '';
+		$debugInfo .= $e->getTraceAsString();
+		self::mail(
+			get_class($e)
+			, $e->getCode()
+			, $e->getFile()
+			, $e->getLine()
+			, $e->getMessage()
+			, $debugInfo
+			,getcwd());
+		$err = sprintf(
+			self::$err_html
+			, get_class($e)
+			, $e->getCode()
+			, $e->getFile()
+			, $e->getLine()
+			, $e->getMessage()
+			, $debugInfo
+			,getcwd());
+		$logFile = SPath::LOGS.'Exceptions.log';
+		if(file_exists($logFile) && is_writable($logFile)){
+			DFileSystem::Append($logFile, $err);
+		}
+		else{
+			printf($tpl, 'could not write to log');
+		}
+		return $err;
     }
 
     public static function exceptionHandler(Exception $e)
     {
-        $str = self::reportException($e);
-        if(!self::$hideErrors)
-        {
-            echo $str;
-        }
-        if(self::$showInfoMessage)
-        {
-            $f = Core::settings()->get('error_info_text_file');
-            if(!empty($f) && file_exists($f) && is_readable($f) && substr(basename($f),0,1) != '.')
-            {
-                readfile($f);
-            }
-        }
-        exit(1);
+		try{
+			$tpl = '<div style="font-family:sans-serif;border:1px solid #a40000;">
+				<div style="border:1px solid #cc0000;z-index:1000000;padding:10px;background:#a40000;color:white;">
+					<h1 style="border-bottom:1px solid #cc0000;font-size:16px;">%s</h1></div></div>';
+			$str = self::reportException($e);
+			if(!self::$hideErrors)
+			{
+				echo $str;
+			}
+			if(self::$showInfoMessage)
+			{
+				$f = Core::settings()->get('error_info_text_file');
+				if(!empty($f) && file_exists($f) && is_readable($f) && substr(basename($f),0,1) != '.')
+				{
+					readfile($f);
+				}
+			}
+		}
+		catch (Exception $e)
+		{
+			printf($tpl, 'Exception in exception handler:<br />'.strval($e).'<br />'.$e->getTraceAsString());
+		}
+        die("Script was terminated because of an uncaught exception");
     }
 }
 ?>
