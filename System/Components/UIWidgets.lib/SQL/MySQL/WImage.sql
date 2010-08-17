@@ -1,6 +1,5 @@
 -- --
 -- name:	getPreviewContents
--- inputTypes:	sssss
 -- deterministic: yes
 -- mutable: no
 -- fields: 2
@@ -15,15 +14,15 @@ SELECT DISTINCT
 	LEFT JOIN
 		__PFX__Mimetypes ON (__PFX__Contents.mimetypeREL = __PFX__Mimetypes.mimetypeID)
 	WHERE
-		__PFX__Mimetypes.mimetype LIKE ?
+		__PFX__Mimetypes.mimetype LIKE 'image/%'
 		AND (
-			__PFX__Mimetypes.mimetype LIKE ?
+			__PFX__Mimetypes.mimetype LIKE '%/jpeg'
 			OR
-			__PFX__Mimetypes.mimetype LIKE ?
+			__PFX__Mimetypes.mimetype LIKE '%/jpg'
 			OR
-			__PFX__Mimetypes.mimetype LIKE ?
+			__PFX__Mimetypes.mimetype LIKE '%/png'
 			OR
-			__PFX__Mimetypes.mimetype LIKE ?
+			__PFX__Mimetypes.mimetype LIKE '%/gif'
 		)
 	ORDER BY
 		__PFX__Contents.title ASC
@@ -59,8 +58,8 @@ SELECT
 	LIMIT 1
 
 -- --
--- name:	idToAlias
--- inputTypes:	ssssss
+-- name:	getPreviewId
+-- inputTypes:	s
 -- deterministic: yes
 -- mutable: no
 -- fields: 1
@@ -75,13 +74,13 @@ SELECT
 		__PFX__Mimetypes ON (__PFX__Contents.mimetypeREL = __PFX__Mimetypes.mimetypeID)
 	WHERE
 		__PFX__Aliases.alias = ?
-		AND __PFX__Mimetypes.mimetype LIKE ?
+		AND __PFX__Mimetypes.mimetype LIKE 'image/%'
 		AND (
-			__PFX__Mimetypes.mimetype LIKE ?
-			OR
-			__PFX__Mimetypes.mimetype LIKE ?
-			OR
-			__PFX__Mimetypes.mimetype LIKE ?
-			OR
-			__PFX__Mimetypes.mimetype LIKE ?
+			__PFX__Mimetypes.mimetype LIKE '%/jpeg'
+    		OR
+			__PFX__Mimetypes.mimetype LIKE '%/jpg'
+    		OR
+			__PFX__Mimetypes.mimetype LIKE '%/png'
+    		OR
+			__PFX__Mimetypes.mimetype LIKE '%/gif'
 		)

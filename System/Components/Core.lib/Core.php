@@ -152,7 +152,18 @@ class Core
 
 		rename($t, $file);
 	}
-	
+
+	/**
+	 * @return Interface_Database_QueryFactory
+	 */
+	public static function Database(){
+		if(class_exists('DatabaseAdapter')){
+			return DatabaseAdapter::getInstance();
+		}
+		return null;
+	}
+
+
 	//lock instances
 	protected function __construct(){}
 	private function __clone(){}

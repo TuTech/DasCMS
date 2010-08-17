@@ -136,12 +136,11 @@ class WImage extends BWidget
 		$previews = $RelCtrl->getAllRetainedByContentAndClass($alias, self::CLASS_NAME);
 		if(count($previews) > 0){
 			$palias = array_pop($previews);
-			$res = QWImage::aliasToId($palias);
-			if($res->getRowCount() == 1)
-			{
-				list($id) = $res->fetch();
-			}
-			$res->free();
+			$id = Core::Database()
+				->createQueryForClass($this)
+				->call('aliasToId')
+				->withParameters($palias)
+				->fetchSingleValue();
 		}
 		return $id;
 	}
@@ -167,13 +166,11 @@ class WImage extends BWidget
 	
     public static function resolvePreviewId($id)
     {
-        $alias = '';
-        $res = QWImage::idToAlias($id);
-        if($res->getRowCount())
-        {
-            list($alias) = $res->fetch();
-        }
-        $res->free();
+		$alias = Core::Database()
+			->createQueryForClass($this)
+			->call('idToAlias')
+			->withParameters($id)
+			->fetchSingleValue();
         return $alias;
     }
 
@@ -181,12 +178,15 @@ class WImage extends BWidget
     {
 		$DB = DSQL::getSharedInstance();
 		$RelCtrl = Controller_ContentRelationManager::getInstance();
-		
-		 $res = QWImage::getpreviewId($previewAlias);
-		 $isOK = $res->getRowCount();
-		 $res->free();
+
+		$palias = Core::Database()
+			->createQueryForClass($this)
+			->call('getPreviewId')
+			->withParameters($previewAlias)
+			->fetchSingleValue();
+
         //is the content assigned to $previewAlias a valid preview? (mimetype image/(jpe?g|png|gif))
-        if($isOK)
+        if(!empty ($palias))
         {
 			$DB->beginTransaction();
 			$RelCtrl->releaseAllRetainedByContentAndClass($contentAlias, self::CLASS_NAME);
@@ -207,14 +207,19 @@ class WImage extends BWidget
 
     public static function getAllPreviewContents()
     {
-        //alias => title
-        $ret = array();
-        $res = QWImage::getPreviewContents();
-        while($row = $res->fetch())
-        {
-            $ret[$row[0]] = $row[1];
-        }
-        return $ret;
+		$alias = '';$title = '';
+		$data = array(&$alias, &$title);
+		$db = Core::Database()
+			->createQueryForClass($this)
+			->call('getPreviewContents')
+			->withParameters($previewAlias)
+			->useResultArray($data);
+
+		$ret = array();
+		while($db->fetch()){
+			$ret[$alias] = $title;
+		}
+		return $ret;
     }
 
     public static function forCFileData($id, $type, $alias, $title)

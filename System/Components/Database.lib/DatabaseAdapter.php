@@ -82,9 +82,9 @@ class DatabaseAdapter
 	public function createQueryForClass($classNameOrObject)
 	{
 		$class = (is_object($classNameOrObject)) ? get_class($classNameOrObject) : strval($classNameOrObject);
+		$self = clone $this;
 		$self->class = $class;
 		return $self;
-		//dbo(WImage)->idToAlias(1,2,3,4,5):dataset
 	}
 
 	////////////////////////
@@ -171,12 +171,18 @@ class DatabaseAdapter
 		if(!$this->statement){
 			throw new Exception('nothing to fetch');
 		}
-		$this->statement->fetch();
+		return $this->statement->fetch();
 	}
 
 	public function fetchResult()
 	{
-		$this->fetch();
+		$res = $this->fetch();
+		if($res === false){
+			throw new Exception('error while fetching query');
+		}
+		if($res === null){
+			return null;
+		}
 		return $this->resultBindings;
 	}
 
