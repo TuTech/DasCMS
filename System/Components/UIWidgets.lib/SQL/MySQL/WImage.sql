@@ -1,8 +1,10 @@
 -- --
 -- name:	getPreviewContents
--- types:	sssss
+-- inputTypes:	sssss
 -- deterministic: yes
 -- mutable: no
+-- fields: 2
+-- type: select
 SELECT DISTINCT 
 		__PFX__Aliases.´alias´,
 		__PFX__Contents.title
@@ -28,9 +30,11 @@ SELECT DISTINCT
 
 -- --
 -- name:	idToAlias
--- types:	i
+-- inputTypes:	i
 -- deterministic: yes
 -- mutable: no
+-- fields: 1
+-- type: select
 SELECT 
 		´alias´
 	FROM
@@ -41,9 +45,11 @@ SELECT
 
 -- --
 -- name:	aliasToId
--- types:	s
+-- inputTypes:	s
 -- deterministic: yes
 -- mutable: no
+-- fields: 1
+-- type: select
 SELECT 
 		contentREL
 	FROM
@@ -54,9 +60,11 @@ SELECT
 
 -- --
 -- name:	idToAlias
--- types:	ssssss
+-- inputTypes:	ssssss
 -- deterministic: yes
 -- mutable: no
+-- fields: 1
+-- type: select
 SELECT
 		__PFX__Aliases.contentREL
 	FROM
