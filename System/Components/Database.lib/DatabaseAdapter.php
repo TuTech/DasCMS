@@ -62,9 +62,9 @@ class DatabaseAdapter
 	protected function getStatement($classNameOrObject, $name)
 	{
 		$class = (is_object($classNameOrObject)) ? get_class($classNameOrObject) : strval($classNameOrObject);
-		$alias = $class.'::'.$name;
 		$this->loadDefinition($class);
 
+		$alias = $class.'::'.$name;
 		if(!array_key_exists($alias, self::$aliases)){
 			throw new XUndefinedIndexException('statement no registered');
 		}
@@ -111,6 +111,9 @@ class DatabaseAdapter
 			return;
 		}
 		
+		//get statement
+		$this->statement = $this->getStatement($this->class, $this->function);
+
 		//validate args
 		$this->parameters = func_get_args();
 		$id = self::$aliases[$this->class.'::'.$this->function];
@@ -119,9 +122,6 @@ class DatabaseAdapter
 		if(strlen($parameterDefinition) != count($this->parameters)){
 			throw new XArgumentException('unexpected argument count');
 		}
-
-		//get statement
-		$this->statement = $this->getStatement($this->class, $this->function);
 
 		//bind params
 		for($i = 0; $i < strlen($parameterDefinition);$i++){
