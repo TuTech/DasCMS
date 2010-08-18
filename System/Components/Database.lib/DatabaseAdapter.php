@@ -250,6 +250,11 @@ class DatabaseAdapter
 		return null;
 	}
 
+	public function execute()
+	{
+		$this->close();
+	}
+
 	public function close()
 	{
 		if($this->statement){

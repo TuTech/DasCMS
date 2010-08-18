@@ -32,7 +32,12 @@ interface Interface_Database_FetchableQuery{
 	 public function getInsertID();
 
 	 /**
-	  * clean up
+	  * run non-query and clean up
+	  */
+	 public function execute();
+
+	 /**
+	  * clean up after fetch
 	  */
 	 public function close();
 }

@@ -20,20 +20,29 @@ class Model_Content_Composite_ContentAggregator extends _Model_Content_Composite
 
     public function setContentAggregator($aggregatorName)
 	{
-	    QContentAggregator::setAggregator($this->compositeFor->getId(), $aggregatorName);
+		DSQL::getSharedInstance()->beginTransaction();
+		Core::Database()
+			->createQueryForClass($this)
+			->call('removeAggregator')
+			->withoutParameters($this->compositeFor->getId())
+			->execute();
+		Core::Database()
+			->createQueryForClass($this)
+			->call('setAggregator')
+			->withParameters($this->compositeFor->getId(), $aggregatorName)
+			->execute();
+		DSQL::getSharedInstance()->commit();
 	} 
 	
 	public function getContentAggregator()
 	{
 	    if($this->aggregatorName === null)
 	    {
-	        $this->aggregatorName = false;
-	        $res = QContentAggregator::getAggregatorName($this->compositeFor->getId()); 
-    	    if($res->getRowCount() == 1)
-    	    {
-    	        list($this->aggregatorName) = $res->fetch(); 
-    	    }
-    	    $res->free();
+			$this->aggregatorName = Core::Database()
+				->createQueryForClass($this)
+				->call('getAggregatorName')
+				->withParameters($this->compositeFor->getId())
+				->fetchSingleValue();
 	    }
 	    return $this->aggregatorName;
 	}

@@ -28,7 +28,7 @@ class JRunAggregators implements ISchedulerJob
      */
     public function run()
     {
-        echo 'aggregator';
+        #echo 'aggregator';
         $c = Controller_Aggregators::getSharedInstance();
         $c->updateOutdatedAggregators();
     }
