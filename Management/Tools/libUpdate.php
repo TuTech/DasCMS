@@ -22,7 +22,9 @@ class CoreIndex extends Core
 			{
 				chdir($path);
 				foreach (scandir('.') as $item){
-					if(substr($item,0,1) != '.' && $item != basename($componentDefinitionFile)){
+					if(substr($item,0,1) != '.'
+							&& $item != basename($componentDefinitionFile))
+					{
 						if(is_file($item)){
 							$packageFiles[] = $item;
 						}
@@ -44,7 +46,9 @@ class CoreIndex extends Core
 				echo "<h2>\n\t".$path."\n</h2>\n<pre>\n\n";
 				foreach ($packageFiles as $pf){
 					printf("%s\n\ttype:\t\t%s\n\tclassName:\t%s\n\n", $pf, self::discoverType($pf), self::makeClassName($pf));
-					$packageInfo[self::discoverType($pf)][] = self::makeClassName($pf);
+					if(substr(strtolower($pf), -4) == '.php'){
+						$packageInfo[self::discoverType($pf)][] = self::makeClassName($pf);
+					}
 				}
 				Core::dataToJSONFile($packageInfo, $componentDefinitionFile);
 				echo "</pre>\n";
