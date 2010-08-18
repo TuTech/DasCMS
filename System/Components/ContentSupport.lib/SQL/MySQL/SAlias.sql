@@ -83,5 +83,4 @@ SELECT
 	WHERE
 		(alias = __@1__)
 		AND contentREL = (SELECT contentREL FROM __PFX__Aliases WHERE alias = ?)
-		ORDER BY alias = ? DESC
 		LIMIT 1

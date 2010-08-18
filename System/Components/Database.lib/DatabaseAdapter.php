@@ -91,6 +91,7 @@ class DatabaseAdapter
 		$class = (is_object($classNameOrObject)) ? get_class($classNameOrObject) : strval($classNameOrObject);
 		$self = clone $this;
 		$self->class = $class;
+		$self->loadDefinition($class);
 		return $self;
 	}
 
@@ -137,10 +138,11 @@ class DatabaseAdapter
 		$newAlias = $this->class.'::'.$newFunction;
 
 		//build & regiter if it is new
-		if(!array_key_exists($alias, self::$aliases)){
+		if(!array_key_exists($newAlias, self::$aliases)){
 
 			//load data from template
-			$templateMeta = self::$statements[self::$aliases[$alias]];
+			$id = self::$aliases[$alias];
+			$templateMeta = self::$register[$id];
 			$sql = $templateMeta[self::SQL_STATEMENT];
 
 			//build

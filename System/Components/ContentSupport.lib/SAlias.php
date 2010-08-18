@@ -153,6 +153,7 @@ class SAlias
 	public static function getMatching($alias, array $aliasesToMatch)
 	{
 		//validate input
+		$aliasesToMatch = array_unique(array_values($aliasesToMatch));
 		$toMatch = count($aliasesToMatch);
 		if($toMatch == 0){
 			return false;
@@ -161,11 +162,17 @@ class SAlias
 		//build parameter info
 		$placeHolder = array();
 		for($i = 0; $i < $toMatch; $i++){
-			$placeHolder[] = '?';
+			if(empty($aliasesToMatch[$i])){
+				unset($aliasesToMatch[$i]);
+			}
+			else{
+				$placeHolder[] = '?';
+			}
 		}
+
+		//define parameters
 		$aliasesToMatch[] = $alias;
-		$aliasesToMatch[] = $alias;
-		$def[Interface_Database_CallableQuery::PARAMETER_DEFINITION] = str_repeat('s', $toMatch+2);
+		$def[Interface_Database_CallableQuery::PARAMETER_DEFINITION] = str_repeat('s', $toMatch+1);
 
 		//build sql and query database
 		$match = Core::Database()
