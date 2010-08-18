@@ -11,24 +11,3 @@ INSERT IGNORE INTO `MailImportFlags` (`mailImportFlagID`, `label`, `flag`) VALUE
 
 INSERT IGNORE INTO `Mimetypes` (`mimetypeID`, `mimetype`) VALUES
 (1, 'cms/internal');
-
-INSERT IGNORE INTO `PersonAttributeTypes` (`personAttributeTypeID`, `personAttributeType`) VALUES
-(1, 'text'),
-(2, 'email'),
-(3, 'phone'),
-(4, 'textbox');
-
-INSERT IGNORE INTO `PersonAttributes` (`personAttributeID`, `personAttribute`, `personAttributeTypeREL`) VALUES
-(1, 'person_data', 1),
-(2, 'phone', 3),
-(3, 'email', 2),
-(4, 'instant_messenger', 1),
-(5, 'address', 4),
-(6, 'additional_information',4);
-
-INSERT INTO `PersonRoles` (`personRoleID`, `personRole`) VALUES
-(1, 'administrator'),
-(2, 'editor'),
-(3, 'user'),
-(4, 'web_account'),
-(5, 'unprivileged');
