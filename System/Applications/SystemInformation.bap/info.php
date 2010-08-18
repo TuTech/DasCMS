@@ -19,7 +19,8 @@ foreach(
 		array('files','','size'),
 		array('php-scripts', 'php-lines', 'php-size'),
 		array('js-scripts', 'js-lines', 'js-size'),
-		array('css-scripts', 'css-lines', 'css-size')
+		array('css-scripts', 'css-lines', 'css-size'),
+		array('sql-scripts', 'sql-lines', 'sql-size')
 		)
 	as
 	$linekeys

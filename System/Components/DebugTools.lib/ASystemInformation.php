@@ -29,7 +29,7 @@ class ASystemInformation
     
     public function dirlist_r($dir = './', $indent = 0){
         global $info;
-        foreach(array('folders', 'files','size', 'php-scripts', 'php-lines', 'php-size', 'js-scripts', 'js-lines', 'js-size', 'css-scripts', 'css-lines', 'css-size') as $key)
+        foreach(array('folders', 'files','size', 'php-scripts', 'php-lines', 'php-size', 'js-scripts', 'js-lines', 'js-size', 'css-scripts', 'css-lines', 'css-size', 'sql-scripts', 'sql-lines', 'sql-size') as $key)
         	if(!isset($info[$key]))$info[$key] = 0;
         $files = array();
         $dirs = array();
@@ -49,7 +49,7 @@ class ASystemInformation
                         $info['files']++;
                         $suffixtemp = explode('.',strtolower($item));
                         $suffix = array_pop($suffixtemp);
-                        if(in_array($suffix, array('php', 'js', 'css'))){
+                        if(in_array($suffix, array('php', 'js', 'css','sql'))){
                             $temp = file($item);
                             $info[$suffix.'-lines'] += count($temp);
                             $info[$suffix.'-scripts']++;
