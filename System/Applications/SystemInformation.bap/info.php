@@ -47,54 +47,5 @@ $cache_tbl->addRow(array('information', 'value'));
 $cache_tbl->addRow(array('size', $controller->cacheSize()));
 $cache_tbl->render();
 
-
-
-function getDataFromSVNXML($xml){
-	SErrorAndExceptionHandler::muteErrors();
-	$ret = array('r' => '', 'd' => '');
-
-	$doc = new DOMDocument('1.0', 'utf-8');
-	$doc->loadXML($xml);
-	$xpath = new DOMXpath($doc);
-
-	$rev = $xpath->query('/info/entry/commit/@revision');
-	if($rev && $rev->length == 1){
-		$ret['r'] = $rev->item(0)->nodeValue;
-	}
-
-	$date = $xpath->query('/info/entry/commit/date');
-	if($date && $date->length == 1){
-		$ret['d'] = $date->item(0)->nodeValue;
-	}
-
-
-	SErrorAndExceptionHandler::reportErrors();
-	return $ret['r'].($ret['d'] == '' ? '' : ' ('.date('r', strtotime($ret['d'])).')');
-}
-
-$hasSVN = -1;
-$output = array();
-exec('svn --version', $output, $hasSVN);
-if($hasSVN == 0){
-	$svn_tbl = new WTable(WTable::HEADING_TOP|WTable::HEADING_LEFT, 'version_control');
-	$svn_tbl->addRow(array('information', 'value'));
-	$svn_tbl->addRow(array('version_control_software', count($output) ? $output[0] : 'unknown'));
-
-	$curInfo = array();
-	$srvInfo = array();
-	exec('svn info --xml', $curInfo, $curInfoOK);
-	exec('svn info --xml -r HEAD', $srvInfo, $srvInfoOK);
-	var_dump($srvInfo);
-	if($curInfoOK == 0){
-		$curXML = implode('', $curInfo);
-		$svn_tbl->addRow(array('installed_version', getDataFromSVNXML($curXML)));
-	}
-	if($curInfoOK == 0 && $srvInfoOK == 0){
-		$srvXML = implode('', $srvInfo);
-		$svn_tbl->addRow(array('latest_version',  getDataFromSVNXML($srvXML)));
-	}
-	$svn_tbl->render();
-}
-
 echo "<br />";
 ?>
