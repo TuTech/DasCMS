@@ -11,7 +11,7 @@
  */
 class WImage extends BWidget
 {
-	const  CLASS_NAME = 'WImage';
+	const CLASS_NAME = 'WImage';
     const MODE_SCALE_TO_MAX = 0;
     const MODE_FORCE = 1;
 
@@ -137,7 +137,7 @@ class WImage extends BWidget
 		if(count($previews) > 0){
 			$palias = array_pop($previews);
 			$id = Core::Database()
-				->createQueryForClass($this)
+				->createQueryForClass(self::CLASS_NAME)
 				->call('aliasToId')
 				->withParameters($palias)
 				->fetchSingleValue();
@@ -167,7 +167,7 @@ class WImage extends BWidget
     public static function resolvePreviewId($id)
     {
 		$alias = Core::Database()
-			->createQueryForClass($this)
+			->createQueryForClass(self::CLASS_NAME)
 			->call('idToAlias')
 			->withParameters($id)
 			->fetchSingleValue();
@@ -180,7 +180,7 @@ class WImage extends BWidget
 		$RelCtrl = Controller_ContentRelationManager::getInstance();
 
 		$palias = Core::Database()
-			->createQueryForClass($this)
+			->createQueryForClass(self::CLASS_NAME)
 			->call('getPreviewId')
 			->withParameters($previewAlias)
 			->fetchSingleValue();
@@ -210,7 +210,7 @@ class WImage extends BWidget
 		$alias = '';$title = '';
 		$data = array(&$alias, &$title);
 		$db = Core::Database()
-			->createQueryForClass($this)
+			->createQueryForClass(self::CLASS_NAME)
 			->call('getPreviewContents')
 			->withParameters($previewAlias)
 			->useResultArray($data);
