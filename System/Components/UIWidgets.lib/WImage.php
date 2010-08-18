@@ -213,8 +213,8 @@ class WImage extends BWidget
 		$db = Core::Database()
 			->createQueryForClass(self::CLASS_NAME)
 			->call('getPreviewContents')
-			->withoutParameters()
-			->useResultArray($data);
+			->useResultArray($data)
+			->withoutParameters();
 
 		$ret = array();
 		while($db->fetch()){

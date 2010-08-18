@@ -1,35 +1,10 @@
 <?php
-interface Interface_Database_Query{
-	/**
-	 * @param string sql statement name
-	 * @return Interface_Database_Query
-	 */
-	public function call($function);
-
-	/**
-	 * takes any number of parameters
-	 * executes statement
-	 * @return Interface_Database_Query
-	 */
-	public function withParameters(/*...*/);
-
-	/**
-	 * executes statement
-	 * @return Interface_Database_Query
-	 */
-	public function withoutParameters();
-
+interface Interface_Database_FetchableQuery{
 	/**
 	 * gets exactly one value from the query and closes ste query
 	 * @return mixed
 	 */
 	 public function fetchSingleValue();
-
-	 /**
-	  * provide an array for the results
-	  * @return Interface_Database_Query
-	  */
-	 public function useResultArray(&$array);
 
 	 /**
 	  * fetches the next line in the result array

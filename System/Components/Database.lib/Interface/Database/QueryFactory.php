@@ -12,7 +12,7 @@ interface Interface_Database_QueryFactory{
 
 	/**
 	 * @param mixed $classNameOrObject
-	 * @return Interface_Database_Query
+	 * @return Interface_Database_CallableQuery
 	 */
 	public function createQueryForClass($classNameOrObject);
 

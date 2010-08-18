@@ -1,6 +1,10 @@
 <?php
 class DatabaseAdapter
-	implements Interface_Database_QueryFactory, Interface_Database_Query
+	implements
+		Interface_Database_QueryFactory,
+		Interface_Database_CallableQuery,
+		Interface_Database_ConfigurableQuery,
+		Interface_Database_FetchableQuery
 {
 	//@todo for cache class a config change MUST trigger a cache invalidate -- config changed event
 
@@ -86,7 +90,7 @@ class DatabaseAdapter
 
 	/**
 	 * @param mixed $classNameOrObject
-	 * @return DatabaseAdapter
+	 * @return Interface_Database_CallableQuery
 	 */
 	public function createQueryForClass($classNameOrObject)
 	{
@@ -104,34 +108,47 @@ class DatabaseAdapter
 	protected $parameters;
 	protected $statement;
 	protected $resultBindings;
+	protected $hasBoundData = false;
 
+	/**
+	 *
+	 * @param string $function
+	 * @return Interface_Database_ConfigurableQuery
+	 */
 	public function call($function)
 	{
 		if(!$this->class){
 			return;
 		}
 		$this->function = $function;
+		$this->hasBoundData = false;
+		$this->statement = $this->getStatement($this->class, $this->function);
 		return $this;
 	}
 
+	/**
+	 * @return Interface_Database_FetchableQuery
+	 */
 	public function withoutParameters(){
 		return $this->withParameters();
 	}
 
+	/**
+	 * @return Interface_Database_FetchableQuery
+	 */
 	public function withParameters(/*...*/)
 	{
 		if(!$this->class || !$this->function){
 			return;
 		}
-		
-		//get statement
-		$this->statement = $this->getStatement($this->class, $this->function);
 
 		//validate args
 		$this->parameters = func_get_args();
 		$id = self::$aliases[$this->class.'::'.$this->function];
 		$parameterDefinition = &self::$register[$id][self::PARAMETER_DEFINITION];
+		if(!$this->hasBoundData){
 			$this->prepareResultFields(&self::$register[$id][self::RETURN_FIELDS]);
+		}
 		if(strlen($parameterDefinition) != count($this->parameters)){
 			throw new XArgumentException('unexpected argument count');
 		}
@@ -160,14 +177,22 @@ class DatabaseAdapter
 		return $res;
 	}
 
+	/**
+	 * @return Interface_Database_ConfigurableQuery
+	 */
 	public function useResultArray(&$array)
 	{
-		if(count($this->resultBindings) > count($array)){
-			throw new Exception('given resut array is too small', count($this->resultBindings) - count($array));
+		if(!is_object($this->statement)){
+			throw new Exception('no statement to bind to');
 		}
-		for($i = 0; $i < count($array); $i++){
-			$array[$i] = &$this->resultBindings[$i];
+		$helper = array();
+		for($i = 0; $i < $nrOfFields; $i++){
+			if(!isset($array[$i])){
+				$array[$i] = '';
+			}
+			$helper[] = &$array[$i];
 		}
+		call_user_func_array(array($this->statement, "bind_result"), $helper);
 		return $this;
 	}
 
@@ -188,6 +213,9 @@ class DatabaseAdapter
 		call_user_func_array(array($this->statement, "bind_result"), $helper);
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function fetch()
 	{
 		if(!is_object($this->statement)){
