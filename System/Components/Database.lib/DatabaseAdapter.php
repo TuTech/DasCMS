@@ -185,6 +185,7 @@ class DatabaseAdapter
 		if(!is_object($this->statement)){
 			throw new Exception('no statement to bind to');
 		}
+		$this->hasBoundData = true;
 		$helper = array();
 		for($i = 0; $i < count($array); $i++){
 			$helper[] = &$array[$i];
