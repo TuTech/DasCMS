@@ -1,1 +1,1 @@
-{"classes":["ATreeNavigationEditor","NListNavigation","NTreeNavigation","NTreeNavigationHelper","NTreeNavigationObject","QNListNavigation"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}
+{"classes":["ATreeNavigationEditor","NTreeNavigation","NTreeNavigationHelper","NTreeNavigationObject"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}
