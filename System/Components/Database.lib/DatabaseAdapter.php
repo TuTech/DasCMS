@@ -162,7 +162,12 @@ class DatabaseAdapter
 
 	public function useResultArray(&$array)
 	{
-		$this->resultBindings = &$array;
+		if(count($this->resultBindings) > count($array)){
+			throw new Exception('given resut array is too small', count($this->resultBindings) - count($array));
+		}
+		for($i = 0; $i < count($array); $i++){
+			$array[$i] = &$this->resultBindings[$i];
+		}
 		return $this;
 	}
 
