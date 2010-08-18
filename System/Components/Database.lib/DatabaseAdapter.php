@@ -165,8 +165,8 @@ class DatabaseAdapter
 	 */
 	protected function prepareResultFields($nrOfFields)
 	{
-		if(!$this->statement){
-			throw new Exception('nothing to fetch');
+		if(!is_object($this->statement)){
+			throw new Exception('no statement to bind to');
 		}
 		for($i = 0; $i < $nrOfFields; $i++){
 			$this->resultBindings[$i] = '';
@@ -176,8 +176,8 @@ class DatabaseAdapter
 
 	public function fetch()
 	{
-		if(!$this->statement){
-			throw new Exception('nothing to fetch');
+		if(!is_object($this->statement)){
+			throw new Exception('no statement to fetch from');
 		}
 		return $this->statement->fetch();
 	}
