@@ -54,7 +54,7 @@ class WInformation extends BWidget implements ISidebarWidget
     	    $MetaItems = new WNamedList();
     	    $MetaItems->setTitleTranslation(true);
     		$meta = array(
-    			'PrimaryAlias' => 'alias',
+    			'Alias' => 'alias',
     			'GUID' => 'id', 
     			'PubDate' => 'pubDate',
     			'ModifyDate' => 'modified',

@@ -152,16 +152,31 @@ class SAlias
 	
 	public static function getMatching($alias, array $aliasesToMatch)
 	{
-	    if(count($aliasesToMatch) == 0)
-	    {
-	        return false;
-	    }
-	    $res = QSAlias::getMatching($alias, $aliasesToMatch);
-	    if($res->getRowCount() != 1)
-	    {
-	        return null;
-	    }
-	    list($match) = $res->fetch();
+		//validate input
+		$toMatch = count($aliasesToMatch);
+		if($toMatch == 0){
+			return false;
+		}
+
+		//build parameter info
+		$placeHolder = array();
+		for($i = 0; $i < $toMatch; $i++){
+			$placeHolder[] = '?';
+		}
+		$aliasesToMatch[] = $alias;
+		$aliasesToMatch[] = $alias;
+		$def[Interface_Database_CallableQuery::PARAMETER_DEFINITION] = str_repeat('s', $toMatch+2);
+
+		//build sql and query database
+		$match = Core::Database()
+			->createQueryForClass('SAlias')
+			->buildAndCall(
+					'getMatching',
+					array(implode(' OR alias = ', $placeHolder)),
+					$def
+				)
+			->withParameterArray($aliasesToMatch)
+			->fetchSingleValue();
 		return $match;
 	}
 	

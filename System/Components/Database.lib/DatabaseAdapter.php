@@ -126,6 +126,47 @@ class DatabaseAdapter
 		return $this;
 	}
 
+	public function buildAndCall($function, array $sqlInjections, array $newOptions = array())
+	{
+		if(!$this->class){
+			return;
+		}
+
+		//check for function template
+		$alias = $this->class.'::'.$function;
+		if(!array_key_exists($alias, self::$aliases)){
+			throw new XUndefinedIndexException('statement no registered');
+		}
+
+		//build new names
+		$newFunction = $function.':'.sha1(implode(':', $sqlInjections));
+		$newAlias = $this->class.'::'.$newFunction;
+
+		//build & regiter if it is new
+		if(!array_key_exists($alias, self::$aliases)){
+
+			//load data from template
+			$templateMeta = self::$statements[self::$aliases[$alias]];
+			$sql = $templateMeta[self::SQL_STATEMENT];
+
+			//build
+			for($i = 0; $i < count($sqlInjections); $i++){
+				$sql = str_replace('__@'.($i+1).'__', $sqlInjections[$i], $sql);
+			}
+			$this->register(
+					$this->class,
+					$newFunction,
+					$sql,
+					(isset($newOptions[self::RETURN_FIELDS]) ? $newOptions[self::RETURN_FIELDS] : $templateMeta[self::RETURN_FIELDS]),
+					(isset($newOptions[self::PARAMETER_DEFINITION]) ? $newOptions[self::PARAMETER_DEFINITION] : $templateMeta[self::PARAMETER_DEFINITION]),
+					(isset($newOptions[self::IS_DETERMINISTIC]) ? $newOptions[self::IS_DETERMINISTIC] : $templateMeta[self::IS_DETERMINISTIC]),
+					(isset($newOptions[self::IS_MUTABLE]) ? $newOptions[self::IS_MUTABLE] : $templateMeta[self::IS_MUTABLE])
+				);
+		}
+		//use call on the new function
+		return $this->call($newFunction);
+	}
+
 	/**
 	 * @return Interface_Database_FetchableQuery
 	 */
@@ -133,17 +174,12 @@ class DatabaseAdapter
 		return $this->withParameters();
 	}
 
-	/**
-	 * @return Interface_Database_FetchableQuery
-	 */
-	public function withParameters(/*...*/)
-	{
+	public function withParameterArray(array $parameters){
 		if(!$this->class || !$this->function){
 			return;
 		}
-
 		//validate args
-		$this->parameters = func_get_args();
+		$this->parameters = $parameters;
 		$id = self::$aliases[$this->class.'::'.$this->function];
 		$parameterDefinition = &self::$register[$id][self::PARAMETER_DEFINITION];
 		if(!$this->hasBoundData){
@@ -164,6 +200,16 @@ class DatabaseAdapter
 		}
 		return $this;
 	}
+
+	/**
+	 * @return Interface_Database_FetchableQuery
+	 */
+	public function withParameters(/*...*/)
+	{
+		return $this->withParameterArray(func_get_args());
+	}
+
+
 
 	public function fetchSingleValue()
 	{

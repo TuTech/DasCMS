@@ -9,6 +9,13 @@ interface Interface_Database_ConfigurableQuery{
 
 	/**
 	 * executes statement
+	 * @param array
+	 * @return Interface_Database_FetchableQuery
+	 */
+	public function withParameterArray(array $parameters);
+
+	/**
+	 * executes statement
 	 * @return Interface_Database_FetchableQuery
 	 */
 	public function withoutParameters();

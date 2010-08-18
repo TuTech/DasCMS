@@ -71,3 +71,17 @@ SELECT
     	contentREL = (SELECT contentREL FROM __PFX__Aliases WHERE alias = ?)
     	AND aliasID = primaryAlias
 
+-- --
+-- name: getMatching
+-- deterministic: yes
+-- mutable: no
+-- fields: 1
+-- type: select-template
+SELECT
+		alias
+	FROM __PFX__Aliases
+	WHERE
+		(alias = __@1__)
+		AND contentREL = (SELECT contentREL FROM __PFX__Aliases WHERE alias = ?)
+		ORDER BY alias = ? DESC
+		LIMIT 1
