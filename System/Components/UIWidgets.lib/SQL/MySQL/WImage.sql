@@ -5,7 +5,7 @@
 -- fields: 2
 -- type: select
 SELECT DISTINCT 
-		__PFX__Aliases.´alias´,
+		__PFX__Aliases.alias,
 		__PFX__Contents.title
 	FROM
 		__PFX__Contents
@@ -35,7 +35,7 @@ SELECT DISTINCT
 -- fields: 1
 -- type: select
 SELECT 
-		´alias´
+		alias
 	FROM
 		__PFX__Aliases
 	WHERE
