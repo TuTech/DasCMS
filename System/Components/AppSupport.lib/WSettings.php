@@ -81,8 +81,7 @@ class WSettings extends BWidget implements ISidebarWidget
 		    }
 		    }catch (Exception $e)
 		    {
-		        echo $e->getMessage();
-		        echo $e->getTraceAsString();
+		        echo $e;
 		    }
 		}
 	}
@@ -155,7 +154,7 @@ class WSettings extends BWidget implements ISidebarWidget
 		}
 		catch (Exception $e)
 		{
-		    return $e->getMessage()."\n".$e->getTraceAsString();
+		    return strval($e);
 		}
 		return $html;
 	}
