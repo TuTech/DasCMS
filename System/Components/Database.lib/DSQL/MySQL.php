@@ -280,7 +280,11 @@ class DSQL_MySQL extends DSQL
 	 */
 	public function prepare($statement)
 	{
-		return self::$DB->prepare($statement);
+		$res = self::$DB->prepare($statement);
+		if(!$res){
+			throw new XDatabaseException('prepare failed: '.self::$DB->error,self::$DB->errno,$statement);
+		}
+		return $res;
 	}
 }
 ?>

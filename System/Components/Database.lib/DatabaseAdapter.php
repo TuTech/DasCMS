@@ -171,10 +171,12 @@ class DatabaseAdapter
 		if(!is_object($this->statement)){
 			throw new Exception('no statement to bind to');
 		}
+		$helper = array();
 		for($i = 0; $i < $nrOfFields; $i++){
 			$this->resultBindings[$i] = '';
+			$helper[] = &$this->resultBindings[$i];
 		}
-		call_user_func_array(array($this->statement, "bind_result"), $this->resultBindings);
+		call_user_func_array(array($this->statement, "bind_result"), $helper);
 	}
 
 	public function fetch()
@@ -226,21 +228,6 @@ class DatabaseAdapter
 	public function  __destruct() {
 		$this->close();
 	}
-
-
-	/*
-	$r=$dba->forClass(WImage)
- 		->call(idToAlias)
- 		->withParameters(eins, undZwei);
-
-		->fetchValue();
-		->expectFields(7);
-		->expectNamedFields(array(one, two, three));
-	while($r->fetch())...
-
-	$r->close()
-
-*/
 
 	///////////
 	//singleton
