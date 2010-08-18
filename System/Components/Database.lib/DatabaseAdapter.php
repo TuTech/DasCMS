@@ -77,6 +77,9 @@ class DatabaseAdapter
 		$id = self::$aliases[$alias];
 		if(!array_key_exists($id, self::$statements)){
 			self::$statements[$id] = DSQL::getSharedInstance()->prepare(self::$register[$id][self::SQL_STATEMENT]);
+			if(!self::$statements[$id]){
+				throw new XDatabaseException('could not prepare statement', 0, self::$register[$id][self::SQL_STATEMENT]);
+			}
 		}
 		return self::$statements[$id];
 	}
