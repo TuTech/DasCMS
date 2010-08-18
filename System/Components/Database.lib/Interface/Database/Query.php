@@ -8,9 +8,16 @@ interface Interface_Database_Query{
 
 	/**
 	 * takes any number of parameters
+	 * executes statement
 	 * @return Interface_Database_Query
 	 */
 	public function withParameters(/*...*/);
+
+	/**
+	 * executes statement
+	 * @return Interface_Database_Query
+	 */
+	public function withoutParameters();
 
 	/**
 	 * gets exactly one value from the query and closes ste query

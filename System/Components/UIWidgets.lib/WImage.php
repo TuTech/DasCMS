@@ -35,7 +35,7 @@ class WImage extends BWidget
     private $fillColor = '';
     private $scaleHash = '';
     private $noCacheAddOn = '';
-    private $imageID = '_';//default cms preview image
+    private $imageID = 0;//default cms preview image
     private $allowsPreview = true;
 
     private $isPreviewImage = false;
@@ -156,7 +156,8 @@ class WImage extends BWidget
     {
         if($this->allowsPreview)
         {
-            return self::resolvePreviewId($this->imageID);
+            $prev = self::resolvePreviewId($this->imageID);
+			return !$prev ? '' : $prev;
         }
         else
         {
@@ -212,7 +213,7 @@ class WImage extends BWidget
 		$db = Core::Database()
 			->createQueryForClass(self::CLASS_NAME)
 			->call('getPreviewContents')
-			->withParameters($previewAlias)
+			->withoutParameters()
 			->useResultArray($data);
 
 		$ret = array();

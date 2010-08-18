@@ -114,6 +114,10 @@ class DatabaseAdapter
 		return $this;
 	}
 
+	public function withoutParameters(){
+		return $this->withParameters();
+	}
+
 	public function withParameters(/*...*/)
 	{
 		if(!$this->class || !$this->function){
