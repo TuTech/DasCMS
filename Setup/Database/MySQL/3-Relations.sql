@@ -132,22 +132,6 @@ ENGINE = InnoDB
 CHARACTER SET utf8 
 COLLATE utf8_unicode_ci;
 
-
--- IMAP Account flags
-CREATE TABLE IF NOT EXISTS 
-relMailImportAccountsMailImportFlags(
-	mailImportAccountREL
-		INTEGER 
-		NOT NULL,
-	mailImportFlagREL
-		INTEGER
-		NOT NULL
-)
-ENGINE = InnoDB 
-CHARACTER SET utf8 
-COLLATE utf8_unicode_ci;
-
-
 -- user and group relation
 CREATE TABLE IF NOT EXISTS 
 relPermissionTagsGroups(

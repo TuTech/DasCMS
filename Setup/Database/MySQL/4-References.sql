@@ -14,19 +14,6 @@ Aliases
         ON DELETE CASCADE
         ON UPDATE NO ACTION;
 
--- foreign keys for atom imports
-ALTER TABLE 
-AtomImports
-    ADD FOREIGN KEY (atomSourceREL)
-        REFERENCES AtomSources(atomSourceID)
-        ON DELETE CASCADE
-        ON UPDATE NO ACTION,
-    ADD FOREIGN KEY (contentREL)
-        REFERENCES Contents(contentID)
-        ON DELETE CASCADE
-        ON UPDATE NO ACTION;
-
-
 -- Foreign keys for Changes
 ALTER TABLE 
 Changes
@@ -128,20 +115,6 @@ relContentsLocations
         ON DELETE CASCADE
         ON UPDATE NO ACTION;
   
-        
--- foreign keys for IMAP Account flags
-ALTER TABLE 
-MailImportMails
-    ADD FOREIGN KEY (mailImportAccountREL)
-        REFERENCES MailImportAccounts(mailImportAccountID)
-        ON DELETE CASCADE
-        ON UPDATE NO ACTION,
-    ADD FOREIGN KEY (contentREL)
-        REFERENCES Contents(contentID)
-        ON DELETE SET NULL
-        ON UPDATE SET NULL;
-
-        
 -- Foreign keys for PermissionTags
 ALTER TABLE 
 PermissionTags
@@ -232,20 +205,6 @@ relFeedsTags
         REFERENCES Tags(tagID)
         ON DELETE CASCADE
         ON UPDATE NO ACTION;
-        
-        
--- foreign keys for IMAP Account flags
-ALTER TABLE 
-relMailImportAccountsMailImportFlags
-    ADD FOREIGN KEY (mailImportAccountREL)
-        REFERENCES MailImportAccounts(mailImportAccountID)
-        ON DELETE CASCADE
-        ON UPDATE NO ACTION,
-    ADD FOREIGN KEY (mailImportFlagREL)
-        REFERENCES MailImportFlags(mailImportFlagID)
-        ON DELETE RESTRICT
-        ON UPDATE NO ACTION;
-        
         
 -- Foreign keys for relPermissionTagsGroups
 ALTER TABLE 
