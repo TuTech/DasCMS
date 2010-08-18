@@ -252,7 +252,9 @@ class DatabaseAdapter
 
 	public function execute()
 	{
+		$affected = $this->getAffectedRows();
 		$this->close();
+		return $affected;
 	}
 
 	public function close()

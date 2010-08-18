@@ -40,16 +40,32 @@ class SAlias
 		try
 		{
 		    $insertAlias = $nice;
-		    $dbid = QSAlias::reloveAliasToID($content->Alias);
+		    $dbid = $this->resolveAliasToId($content->Alias);
 		    for($i = 1; $i <= 9999; $i++)
 		    {
-		        if(QSAlias::insertAndCheckAlias($dbid, $insertAlias))
+				$isOk = Core::Database()
+					->createQueryForClass('SAlias')
+					->call('isAliasAssigned')
+					->withParameters($newAlias, $dbid)
+					->fetchSingleValue();
+				if(!$isOk){
+					$isOk = Core::Database()
+						->createQueryForClass('SAlias')
+						->call('addAlias')
+						->withParameters($newAlias, $dbid)
+						->execute();
+				}
+		        if($isOk == 1)
 		        {
 		            break;
 		        }
 		        $insertAlias = substr($nice,0,58).'~'.$i;
 		    }
-		    QSAlias::setActive($insertAlias); 
+		    Core::Database()
+				->createQueryForClass('SAlias')
+				->call('setActive')
+				->withParameters($alias, $alias)
+				->execute();
 		}
 		catch(Exception $e)
 		{
@@ -125,14 +141,13 @@ class SAlias
 	    {
 	        return true;
 	    }
-	    $res = QSAlias::match($alias_a,$alias_b);
-	    if($res->getRowCount() != 1)
-	    {
-	        return false;
-	    }
-	    list($content, $count) = $res->fetch();
-		$res->free();
-		return ($count == 2);
+	    $differentContents = Core::Database()
+			->createQueryForClass('SAlias')
+			->call('match')
+			->withParameters($aliasA, $aliasB)
+			->fetchSingleValue();
+
+        return $differentContents == 1;
 	}
 	
 	public static function getMatching($alias, array $aliasesToMatch)
@@ -172,7 +187,12 @@ class SAlias
 	    $alias = (is_object($content) && $content instanceof Interface_Content)
 	        ? $content->Alias 
 	        : $content;
-		return QSAlias::getPrimaryAlias($alias);
+		$alias = Core::Database()
+			->createQueryForClass('SAlias')
+			->call('getPrimary')
+			->withParameters($someAlias)
+			->fetchSingleValue();
+		return empty ($alias) ? null : $alias;
 	}
 
 	/**
@@ -183,7 +203,17 @@ class SAlias
 	 */
 	public function exists($alias)
 	{
-		return QSAlias::reloveAliasToID($alias) === null;
+		return $this->resolveAliasToId($alias) === null;
+	}
+
+	protected function resolveAliasToId($alias)
+	{
+		$contentID = Core::Database()
+			->createQueryForClass('SAlias')
+			->call('resolve')
+			->withParameters($alias)
+			->fetchSingleValue();
+		return empty ($contentID) ? null : $contentID;
 	}
 
 	//begin IShareable

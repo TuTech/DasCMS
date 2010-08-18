@@ -33,6 +33,7 @@ interface Interface_Database_FetchableQuery{
 
 	 /**
 	  * run non-query and clean up
+	  * @return int affected rows
 	  */
 	 public function execute();
 
