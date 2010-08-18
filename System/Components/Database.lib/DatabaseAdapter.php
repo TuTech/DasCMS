@@ -186,10 +186,7 @@ class DatabaseAdapter
 			throw new Exception('no statement to bind to');
 		}
 		$helper = array();
-		for($i = 0; $i < $nrOfFields; $i++){
-			if(!isset($array[$i])){
-				$array[$i] = '';
-			}
+		for($i = 0; $i < count($array); $i++){
 			$helper[] = &$array[$i];
 		}
 		call_user_func_array(array($this->statement, "bind_result"), $helper);
