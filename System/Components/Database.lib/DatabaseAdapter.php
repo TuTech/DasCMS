@@ -8,6 +8,12 @@ class DatabaseAdapter
 	//main instance
 	///////////////
 
+	const SQL_STATEMENT = 0;
+	const RETURN_FIELDS = 1;
+	const PARAMETER_DEFINITION = 2;
+	const IS_DETERMINISTIC = 3;
+	const IS_MUTABLE = 4;
+
 	protected static $register = array();
 	protected static $statements = array();
 	protected static $aliases = array();
@@ -70,7 +76,7 @@ class DatabaseAdapter
 		}
 		$id = self::$aliases[$alias];
 		if(!array_key_exists($id, self::$statements)){
-			self::$statements[$id] = DSQL::getSharedInstance()->prepare(self::$register[$id]);
+			self::$statements[$id] = DSQL::getSharedInstance()->prepare(self::$register[$id][self::SQL_STATEMENT]);
 		}
 		return self::$statements[$id];
 	}
@@ -117,8 +123,8 @@ class DatabaseAdapter
 		//validate args
 		$this->parameters = func_get_args();
 		$id = self::$aliases[$this->class.'::'.$this->function];
-		$parameterDefinition = &self::$register[$id][2];
-			$this->prepareResultFields(&self::$register[$id][1]);
+		$parameterDefinition = &self::$register[$id][self::PARAMETER_DEFINITION];
+			$this->prepareResultFields(&self::$register[$id][self::RETURN_FIELDS]);
 		if(strlen($parameterDefinition) != count($this->parameters)){
 			throw new XArgumentException('unexpected argument count');
 		}
