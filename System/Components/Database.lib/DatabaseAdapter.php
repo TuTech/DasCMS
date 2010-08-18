@@ -12,12 +12,6 @@ class DatabaseAdapter
 	//main instance
 	///////////////
 
-	const SQL_STATEMENT = 0;
-	const RETURN_FIELDS = 1;
-	const PARAMETER_DEFINITION = 2;
-	const IS_DETERMINISTIC = 3;
-	const IS_MUTABLE = 4;
-
 	protected static $register = array();
 	protected static $statements = array();
 	protected static $aliases = array();
@@ -80,9 +74,9 @@ class DatabaseAdapter
 		}
 		$id = self::$aliases[$alias];
 		if(!array_key_exists($id, self::$statements)){
-			self::$statements[$id] = DSQL::getSharedInstance()->prepare(self::$register[$id][self::SQL_STATEMENT]);
+			self::$statements[$id] = DSQL::getSharedInstance()->prepare(self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
 			if(!self::$statements[$id]){
-				throw new XDatabaseException('could not prepare statement', 0, self::$register[$id][self::SQL_STATEMENT]);
+				throw new XDatabaseException('could not prepare statement', 0, self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
 			}
 		}
 		return self::$statements[$id];
@@ -157,10 +151,10 @@ class DatabaseAdapter
 					$this->class,
 					$newFunction,
 					$sql,
-					(isset($newOptions[self::RETURN_FIELDS]) ? $newOptions[self::RETURN_FIELDS] : $templateMeta[self::RETURN_FIELDS]),
-					(isset($newOptions[self::PARAMETER_DEFINITION]) ? $newOptions[self::PARAMETER_DEFINITION] : $templateMeta[self::PARAMETER_DEFINITION]),
-					(isset($newOptions[self::IS_DETERMINISTIC]) ? $newOptions[self::IS_DETERMINISTIC] : $templateMeta[self::IS_DETERMINISTIC]),
-					(isset($newOptions[self::IS_MUTABLE]) ? $newOptions[self::IS_MUTABLE] : $templateMeta[self::IS_MUTABLE])
+					(isset($newOptions[Interface_Database_CallableQuery::RETURN_FIELDS]) ? $newOptions[Interface_Database_CallableQuery::RETURN_FIELDS] : $templateMeta[Interface_Database_CallableQuery::RETURN_FIELDS]),
+					(isset($newOptions[Interface_Database_CallableQuery::PARAMETER_DEFINITION]) ? $newOptions[Interface_Database_CallableQuery::PARAMETER_DEFINITION] : $templateMeta[Interface_Database_CallableQuery::PARAMETER_DEFINITION]),
+					(isset($newOptions[Interface_Database_CallableQuery::IS_DETERMINISTIC]) ? $newOptions[Interface_Database_CallableQuery::IS_DETERMINISTIC] : $templateMeta[Interface_Database_CallableQuery::IS_DETERMINISTIC]),
+					(isset($newOptions[Interface_Database_CallableQuery::IS_MUTABLE]) ? $newOptions[Interface_Database_CallableQuery::IS_MUTABLE] : $templateMeta[Interface_Database_CallableQuery::IS_MUTABLE])
 				);
 		}
 		//use call on the new function
@@ -181,9 +175,9 @@ class DatabaseAdapter
 		//validate args
 		$this->parameters = $parameters;
 		$id = self::$aliases[$this->class.'::'.$this->function];
-		$parameterDefinition = &self::$register[$id][self::PARAMETER_DEFINITION];
+		$parameterDefinition = &self::$register[$id][Interface_Database_CallableQuery::PARAMETER_DEFINITION];
 		if(!$this->hasBoundData){
-			$this->prepareResultFields(&self::$register[$id][self::RETURN_FIELDS]);
+			$this->prepareResultFields(&self::$register[$id][Interface_Database_CallableQuery::RETURN_FIELDS]);
 		}
 		if(strlen($parameterDefinition) != count($this->parameters)){
 			throw new XArgumentException('unexpected argument count');
@@ -196,7 +190,7 @@ class DatabaseAdapter
 		}
 		$this->resultBindings = array();
 		if(!$this->statement->execute()){
-			throw new XDatabaseException("statement failed: ".$this->statement->error, $this->statement->errno, self::$register[$id][self::SQL_STATEMENT]);
+			throw new XDatabaseException("statement failed: ".$this->statement->error, $this->statement->errno, self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
 		}
 		return $this;
 	}
