@@ -155,7 +155,7 @@ class WSettings extends BWidget implements ISidebarWidget
 		}
 		catch (Exception $e)
 		{
-		    return $e->getTraceAsString();
+		    return $e->getMessage()."\n".$e->getTraceAsString();
 		}
 		return $html;
 	}
