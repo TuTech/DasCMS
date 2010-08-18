@@ -135,14 +135,16 @@ class DatabaseAdapter
 			$this->statement->bind_param($type, $this->parameters[$i]);
 		}
 		$this->resultBindings = array();
-		$this->statement->execute();
+		if(!$this->statement->execute()){
+			throw new XDatabaseException("statement failed: ".$this->statement->error, $this->statement->errno, self::$register[$id][self::SQL_STATEMENT]);
+		}
 		return $this;
 	}
 
 	public function fetchSingleValue()
 	{
-		if(!$this->statement){
-			throw new Exception('nothing to fetch');
+		if(!is_object($this->statement)){
+			throw new Exception('no statement to fetch from');
 		}
 		$res = '';
 		$val = $this->statement->bind_result($res);
