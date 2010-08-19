@@ -175,21 +175,24 @@ class DatabaseAdapter
 			return;
 		}
 		//validate args
-		$this->parameters = $parameters;
+		$this->parameters = array_values($parameters);
 		$id = self::$aliases[$this->class.'::'.$this->function];
 		$parameterDefinition = &self::$register[$id][Interface_Database_CallableQuery::PARAMETER_DEFINITION];
 		if(!$this->hasBoundData){
 			$this->prepareResultFields(&self::$register[$id][Interface_Database_CallableQuery::RETURN_FIELDS]);
 		}
 		if(strlen($parameterDefinition) != count($this->parameters)){
+
 			throw new XArgumentException('unexpected argument count');
 		}
 
 		//bind params
+		$params = array($parameterDefinition);
 		for($i = 0; $i < strlen($parameterDefinition);$i++){
-			$type = substr($parameterDefinition, $i,1);
-			$this->statement->bind_param($type, $this->parameters[$i]);
+			$params[] = &$this->parameters[$i];
 		}
+		call_user_func_array(array($this->statement, "bind_param"), $params);
+
 		$this->resultBindings = array();
 		if(!$this->statement->execute()){
 			throw new XDatabaseException("statement failed: ".$this->statement->error, $this->statement->errno, self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
@@ -318,7 +321,7 @@ class DatabaseAdapter
 	///////////
 
 	private static $mainInstance = null;
-	
+
 	private function __clone(){}
 
 	private function __construct(){}

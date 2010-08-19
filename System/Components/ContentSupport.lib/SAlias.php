@@ -157,7 +157,8 @@ class SAlias
 
 		//build parameter info
 		$placeHolder = array();
-		for($i = 0; $i < count($aliasesToMatch); $i++){
+		$toMatch = count($aliasesToMatch);
+		for($i = 0; $i < $toMatch; $i++){
 			if(empty($aliasesToMatch[$i])){
 				unset($aliasesToMatch[$i]);
 			}
@@ -170,8 +171,10 @@ class SAlias
 		if($toMatch == 0){
 			return false;
 		}
+		$aliasesToMatch[] = $id;
 
 		//define parameters
+		$def = array();
 		$def[Interface_Database_CallableQuery::PARAMETER_DEFINITION] = str_repeat('s', $toMatch).'i';
 
 		//build sql and query database
