@@ -63,13 +63,14 @@ SELECT
 -- fields: 1
 -- type: select
 SELECT
-		alias
+		PriAlias.alias
     FROM __PFX__Aliases
     LEFT JOIN __PFX__Contents
-		ON (contentREL = contentID)
+		ON (__PFX__Aliases.contentREL = __PFX__Contents.contentID)
+	LEFT JOIN __PFX__Aliases AS PriAlias
+		ON(__PFX__Contents.primaryAlias = PriAlias.aliasID)
     WHERE
-    	contentREL = (SELECT contentREL FROM __PFX__Aliases WHERE alias = ?)
-    	AND aliasID = primaryAlias
+    	__PFX__Aliases.alias = ?
 
 -- --
 -- name: getMatching
@@ -82,5 +83,5 @@ SELECT
 	FROM __PFX__Aliases
 	WHERE
 		(alias = __@1__)
-		AND contentREL = (SELECT contentREL FROM __PFX__Aliases WHERE alias = ?)
+		AND contentREL = ?
 		LIMIT 1

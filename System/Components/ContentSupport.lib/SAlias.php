@@ -150,18 +150,14 @@ class SAlias
         return $differentContents == 1;
 	}
 	
-	public static function getMatching($alias, array $aliasesToMatch)
+	public static function getMatching($id, array $aliasesToMatch)
 	{
 		//validate input
 		$aliasesToMatch = array_unique(array_values($aliasesToMatch));
-		$toMatch = count($aliasesToMatch);
-		if($toMatch == 0){
-			return false;
-		}
 
 		//build parameter info
 		$placeHolder = array();
-		for($i = 0; $i < $toMatch; $i++){
+		for($i = 0; $i < count($aliasesToMatch); $i++){
 			if(empty($aliasesToMatch[$i])){
 				unset($aliasesToMatch[$i]);
 			}
@@ -170,9 +166,13 @@ class SAlias
 			}
 		}
 
+		$toMatch = count($aliasesToMatch);
+		if($toMatch == 0){
+			return false;
+		}
+
 		//define parameters
-		$aliasesToMatch[] = $alias;
-		$def[Interface_Database_CallableQuery::PARAMETER_DEFINITION] = str_repeat('s', $toMatch+1);
+		$def[Interface_Database_CallableQuery::PARAMETER_DEFINITION] = str_repeat('s', $toMatch).'i';
 
 		//build sql and query database
 		$match = Core::Database()
@@ -184,7 +184,7 @@ class SAlias
 				)
 			->withParameterArray($aliasesToMatch)
 			->fetchSingleValue();
-		return $match;
+		return empty($match) ? null : $match;
 	}
 	
 	/**

@@ -28,7 +28,7 @@ class NTreeNavigationHelper
 	public function __construct(NTreeNavigationObject $tno, VSpore $spore)
 	{
 	    //gather all aliases, 
-	    //NTreeNavigationHelper->getContentCMSID() = SAlias::getMatching(alias, aliases[])
+	    //NTreeNavigationHelper->getContentCMSID() = SAlias::getMatching(id, aliases[])
 	    
 		$this->spore = $spore;
 		$this->root = $tno;
@@ -45,7 +45,7 @@ class NTreeNavigationHelper
     	}
     	$this->content = $content;
     	$allAliases = $this->root->getAllAliases($this);
-    	$this->currentAlias = SAlias::getMatching($this->content->Alias, $allAliases);
+    	$this->currentAlias = SAlias::getMatching($this->content->getId(), $allAliases);
     	$this->root->InitTree($this);
     	if(count($this->_activeNodes) == 0 && $this->root->hasChildren())
     	{
