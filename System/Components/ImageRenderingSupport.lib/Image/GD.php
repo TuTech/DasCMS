@@ -242,7 +242,7 @@ class Image_GD
             //scale
             $xscale = $width/$oldWidth;
             $yscale = $heigth/$oldHeight;
-            $scale = ($xscale <= $yscale) ? $xscale : $yscale;
+            $scale = min(1, ($xscale <= $yscale) ? $xscale : $yscale);
 
             //locate start offset in original file
             $startx = ceil(($width  - $oldWidth*$scale)/2);

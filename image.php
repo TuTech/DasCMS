@@ -19,6 +19,7 @@ if(!empty($_SERVER['PATH_INFO']))
         exit;
     }
     $qual = intval(Core::settings()->get('CFile_image_quality'));
+	$overwriteQuality = 0;
     $parts = explode('/', $path);
     $alias = array_shift($parts);
     //resize key?
@@ -104,6 +105,10 @@ if(!empty($_SERVER['PATH_INFO']))
             {
                 //default img
                 $img = Image_GD::load(WImage::placeholderFile());
+				$force = WImage::FORCE_BY_FILL;
+				$r = $g = $b = 255;
+				$mode = WImage::MODE_FORCE;
+				$overwriteQuality = 100;
             }
             else //render preview
             {
@@ -153,7 +158,7 @@ if(!empty($_SERVER['PATH_INFO']))
                 header('Content-type: image/jpeg;');
                 header('Last-modified: '.date('r',$time));
                 $img->save($imgFile, $qual, 'jpg');
-                $img->generate('jpg', $qual);
+                $img->generate('jpg', max($qual, $overwriteQuality));
             }
             else
             {
