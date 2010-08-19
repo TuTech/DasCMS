@@ -144,7 +144,7 @@ class SAlias
 	    $differentContents = Core::Database()
 			->createQueryForClass('SAlias')
 			->call('match')
-			->withParameters($aliasA, $aliasB)
+			->withParameters($alias_a, $alias_b)
 			->fetchSingleValue();
 
         return $differentContents == 1;
