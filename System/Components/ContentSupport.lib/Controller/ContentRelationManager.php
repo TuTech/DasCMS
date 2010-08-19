@@ -21,7 +21,11 @@ class Controller_ContentRelationManager
 		if(SAlias::match($content, $forOwnerContent)){
 			throw new Exception("a content can't retain itself");
 		}
-		QControllerContentRelationManager::createChain($this->resolveClass($byClass), $forOwnerContent, $content);
+		Core::Database()
+			->createQueryForClass($this)
+			->call('createChain')
+			->withParameters($this->resolveClass($byClass), $forOwnerContent, $content)
+			->execute();
 		return $this->hasContent($content, $forOwnerContent, $byClass);
 	}
 
@@ -30,7 +34,11 @@ class Controller_ContentRelationManager
 	 * @param mixed> $class
 	 */
 	public function getAllRetainedByClass($class){
-		return $this->fetchList(QControllerContentRelationManager::getAllChainedToClass($this->resolveClass($class)));
+		return Core::Database()
+			->createQueryForClass($this)
+			->call('getAllChainedToClass')
+			->withParameters($this->resolveClass($class))
+			->fetchList();
 	}
 
 	/**
@@ -39,7 +47,11 @@ class Controller_ContentRelationManager
 	 * @param mixed $class
 	 */
 	public function getAllRetainedByContentAndClass($ownerContent, $class){
-		return $this->fetchList(QControllerContentRelationManager::getAllChainedToClassAndContent($this->resolveClass($class), $ownerContent));
+		return Core::Database()
+			->createQueryForClass($this)
+			->call('getAllChainedToClassAndContent')
+			->withParameters($ownerContent, $this->resolveClass($class))
+			->fetchList();
 	}
 
 	/**
@@ -47,7 +59,11 @@ class Controller_ContentRelationManager
 	 * @param string $content
 	 */
 	public function getClassesRetaining($content){
-		return $this->fetchList(QControllerContentRelationManager::getClassesChaining($content));
+		return Core::Database()
+			->createQueryForClass($this)
+			->call('getClassesChaining')
+			->withParameters($content)
+			->fetchList();
 	}
 
 	/**
@@ -55,8 +71,20 @@ class Controller_ContentRelationManager
 	 * @param string $content
 	 */
 	public function getRetainees($content, $verbose = false){
-		$res = QControllerContentRelationManager::getContentsChaining($content);
-		return $verbose ? $this->fetchVerboseList($res) : $this->fetchList($res);
+		$res =  Core::Database()
+			->createQueryForClass($this)
+			->call('getContentsChaining')
+			->withParameters($content);
+		if($verbose){
+			return $res->fetchList();
+		}
+		else{
+			$ret = array();
+			while ($row = $res->fetchResult()){
+				$ret[] = $row[0];
+			}
+			return $ret;
+		}
 	}
 
 	/**
@@ -64,7 +92,11 @@ class Controller_ContentRelationManager
 	 * @param string $content 
 	 */
 	public function getRetainCount($content){
-		return $this->fetchSingleValue(QControllerContentRelationManager::getRetainCount($content));
+		return Core::Database()
+			->createQueryForClass($this)
+			->call('getRetainCount')
+			->withParameters($content)
+			->fetchSingleValue();
 	}
 
 	/**
@@ -75,7 +107,26 @@ class Controller_ContentRelationManager
 	 * @param mixed $andClass
 	 */
 	public function hasContent($content, $forOwner = null, $andClass = null){
-		return !!$this->fetchSingleValue(QControllerContentRelationManager::isRetained($content, $forOwner, $this->resolveClass($andClass)));
+		$qry = Core::Database()
+			->createQueryForClass($this);
+		if($forOwner == null && $andClass == null){
+			$qry = $qry->call('isRetained')
+				->withParameters($content);
+		}
+		elseif($forOwner == null){
+			$qry = $qry->call('isRetainedClass')
+				->withParameters($content, $this->resolveClass($andClass));
+		}
+		elseif($andClass == null){
+			$qry = $qry->call('isRetainedOwner')
+				->withParameters($content, $forOwner);
+		}
+		else{
+			$qry = $qry->call('isRetainedOwnerClass')
+				->withParameters($content, $forOwner, $this->resolveClass($andClass));
+		}
+		//get count and convert it to bool
+		return !!$qry->fetchSingleValue();
 	}
 
 	/**
@@ -83,7 +134,11 @@ class Controller_ContentRelationManager
 	 * @param mixed $class
 	 */
 	public function releaseAllRetainedByClass($class){
-		return QControllerContentRelationManager::deleteClassChains($this->resolveClass($class));
+		return Core::Database()
+			->createQueryForClass($this)
+			->call('deleteClassChains')
+			->withParameters($this->resolveClass($class))
+			->execute();
 	}
 
 	/**
@@ -92,7 +147,11 @@ class Controller_ContentRelationManager
 	 * @param string $owner
 	 */
 	public function releaseAllRetainedByContentAndClass($owner, $class){
-		return QControllerContentRelationManager::deleteClassChainsForOwner($this->resolveClass($class), $owner);
+		return Core::Database()
+			->createQueryForClass($this)
+			->call('deleteClassChainsForOwner')
+			->withParameters($this->resolveClass($class), $owner)
+			->execute();
 	}
 
 	/**
@@ -100,7 +159,11 @@ class Controller_ContentRelationManager
 	 * @param string $ownerContent
 	 */
 	public function releaseAllRetainedByContent($ownerContent){
-		return QControllerContentRelationManager::deleteOwnerChains($ownerContent);
+		return Core::Database()
+			->createQueryForClass($this)
+			->call('deleteOwnerChains')
+			->withParameters($ownerContent)
+			->execute();
 	}
 
 	/**
@@ -111,7 +174,11 @@ class Controller_ContentRelationManager
 	 * @param mixed $andClass
 	 */
 	public function release($content, $forOwner, $andClass){
-		return QControllerContentRelationManager::deleteChain($this->resolveClass($andClass), $forOwner, $content);
+		return Core::Database()
+			->createQueryForClass($this)
+			->call('deleteChain')
+			->withParameters($this->resolveClass($andClass), $forOwner, $content)
+			->execute();
 	}
 
 	/**

@@ -256,6 +256,24 @@ class DatabaseAdapter
 		call_user_func_array(array($this->statement, "bind_result"), $helper);
 	}
 
+	public function fetchList()
+	{
+		$res = array();
+		$fields = count($this->resultBindings);
+		if($fields == 1){
+			while ($this->fetch()){
+				$res[] = $this->resultBindings[0];
+			}
+		}
+		elseif($fields > 1){
+			while ($this->fetch()){
+				$res[] = array_values($this->resultBindings);
+			}
+		}
+		$this->close();
+		return $res;
+	}
+
 	/**
 	 * @return bool
 	 */

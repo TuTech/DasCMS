@@ -9,6 +9,13 @@ interface Interface_Database_FetchableQuery{
 	 /**
 	  * fetches the next line in the result array
 	  * use this if you have provided a custom array via useResultArray()
+	  * @return array
+	  */
+	 public function fetchList();
+
+	 /**
+	  * fetches the next line in the result array
+	  * use this if you have provided a custom array via useResultArray()
 	  * @return void
 	  */
 	 public function fetch();
