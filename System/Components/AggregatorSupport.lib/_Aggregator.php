@@ -62,14 +62,12 @@ abstract class _Aggregator extends _
     
     public function getContentCount()
     {
-        $id = $this->getAggregatorID();
-        if($id == null)
-        {
-            throw new XUndefinedIndexException('aggregator has no database reference');
-        }
-        $res = QAggregator::countAssignedContents($this->getAggregatorTable(), $this->getAggregatorID());
-        list($nr) = $res->fetch();
-        $res->free();
+
+		$nr = Core::Database()
+			->createQueryForClass('_Aggregator')
+			->buildAndCall('countAssigned', array($this->getAggregatorTable()))
+			->withParameters($this->getAggregatorID())
+			->fetchSingleValue();
         return $nr;
     }
 
