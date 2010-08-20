@@ -94,26 +94,31 @@ class STag
 		try
 		{
 		    $DB->beginTransaction();
-			$res = QSTag::getContentDBID($alias);
-			if($res->getRowCount() != 1)
-			{
-				$res->free();
-				throw new Exception('wrong number of content ids');
-			}
-			list($CID) = $res->fetch();
-			$res->free();
+			$CID = Core::Database()
+				->createQueryForClass('STag')
+				->call('aliasToId')
+				->withParameters($alias)
+				->fetchSingleValue();
+
+			Core::Database()
+				->createQueryForClass('STag')
+				->call('unlink')
+				->withParameters($CID)
+				->execute();
 			//remove links
-			QSTag::removeRelationsTo($CID);
-			$tagval = array();
 			foreach ($tags as $tag) 
 			{
-				$tagval[] = array($tag);
+				Core::Database()
+					->createQueryForClass('STag')
+					->call('setTag')
+					->withParameters($tag, $tag)
+					->execute();
+				Core::Database()
+					->createQueryForClass('STag')
+					->call('linkTag')
+					->withParameters($CID, $tag)
+					->execute();
 			}
-			if(count($tagval) > 0)
-			{
-				QSTag::dumpNewTags($tagval);
-			}		
-			QSTag::linkTagsTo($tags, $CID);
 			$DB->commit();
 		}
 		catch(Exception $e)
@@ -130,14 +135,11 @@ class STag
 	
 	private function getTags($alias)
 	{
-		$tags = array();
-		$res = QSTag::listTagsOf($alias);
-		while($tag = $res->fetch())
-		{
-			$tags[] = $tag[0];
-		}
-		$res->free();
-		return $tags;
+		return Core::Database()
+			->createQueryForClass('STag')
+			->call('listTagsOf')
+			->withParameters($alias)
+			->fetchList();
 	}
 	
 	/**
