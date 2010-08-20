@@ -83,7 +83,7 @@ class CoreSQLUpdate extends Core
 	public static function run(){
 		$runner = new CoreSQLUpdate();
 		$runner->locateSQLFiles();
-		Core::dataToJSONFile($this->data, self::CACHE_FILE);
+		Core::dataToJSONFile($runner->data, self::CACHE_FILE);
 	}
 }
 try{
