@@ -104,9 +104,11 @@ class Controller_Content
 
     public function contentExists($alias)
     {
-        $res = QBContent::exists($alias);
-	    $c = $res->getRowCount();
-	    $res->free();
+		$c = Core::Database()
+			->createQueryForClass('BContent')
+			->call('exists')
+			->withParameters($alias)
+			->fetchSingleValue();
 	    return $c == 1;
     }
 

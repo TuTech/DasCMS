@@ -19,10 +19,6 @@ class SAlias
 		HContentDeletedEventHandler,
 		HContentPublishedEventHandler 
 {	
-	public static function cleanAlias($untrustedAlias){
-		return $untrustedAlias;// preg_replace('/[^a-zA-Z0-9\._-]+/mui', '', $untrustedAlias);
-	}
-
 	/**
 	 * Handle alias assignments
 	 * to be called by event handlers for content surveillance

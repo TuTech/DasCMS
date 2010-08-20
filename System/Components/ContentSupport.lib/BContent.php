@@ -231,19 +231,33 @@ abstract class BContent extends BObject implements Interface_Content
 	 */
 	protected function initBasicMetaFromDB($alias)
 	{
-		$alias = SAlias::cleanAlias($alias);
-	    list($id, $ttl, $pd, $desc, $tags, $mt, $sz, $guid, $sttl) = QBContent::getBasicMetaData($alias);
-	    $this->Id = $id;
-	    $this->Title = $ttl;
-	    $this->SubTitle = $sttl;
-	    $this->PubDate = ($pd == '0000-00-00 00:00:00' ? 0 : strtotime($pd));
-	    $this->_origPubDate = $this->PubDate;
-	    $this->Description = $desc;
-	    $this->Tags = $tags;
-	    $this->Alias = $alias;
-	    $this->MimeType = $mt;
-	    $this->Size = $sz;
-	    $this->GUID = $guid;
+		$res = Core::Database()
+			->createQueryForClass('BContent')
+			->call('basicMeta')
+			->withParameters($alias);
+		list(
+				$this->Id,
+				$this->Title,
+				$pd,
+				$this->Description,
+				$this->MimeType,
+				$this->Size,
+				$this->GUID,
+				$this->Alias,
+				$this->SubTitle
+			) = $res->fetchResult();
+		$res->close();
+
+		//parse pubdate
+		$this->PubDate = ($pd == '0000-00-00 00:00:00' ? 0 : strtotime($pd));
+		$this->_origPubDate = $this->PubDate;
+
+		//load tags
+	    $this->Tags = Core::Database()
+			->createQueryForClass('BContent')
+			->call('tags')
+			->withParameters($this->Id)
+			->fetchList();
 	}
 
 	/**
