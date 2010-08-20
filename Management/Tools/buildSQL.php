@@ -50,11 +50,17 @@ class CoreSQLUpdate extends Core
 		$DB_ENGINE = Core::settings()->getOrDefault('db_engine', 'MySQL');
 		$DB_PREFIX = Core::settings()->getOrDefault('db_table_prefix', '');
 		foreach (scandir($componentsDir) as $currentComponent){
+			if(substr($currentComponent,0,1) == '.'){
+				continue;
+			}
 			printf("COMPONENT: %s\n", $currentComponent);
 			$sqlDir = sprintf('%s/%s/SQL/%s/', $componentsDir, $currentComponent, $DB_ENGINE);
 			if(is_dir($sqlDir)){
 				printf("   has SQL\n");
 				foreach (scandir($sqlDir) as $sqlFile){
+					if(substr($sqlFile,0,1) == '.'){
+						continue;
+					}
 					printf("    FILE: %s\n", $sqlFile);
 					if(substr(strtolower($sqlFile), -4) == '.sql'){
 						$CLASS_NAME = substr($sqlFile,0,-4);

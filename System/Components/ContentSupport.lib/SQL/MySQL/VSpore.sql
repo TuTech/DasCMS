@@ -34,7 +34,7 @@ DELETE
 -- type: insert
 -- inputTypes:	sss
 INSERT
-	INTO SporeViews (viewName, active)
+	INTO __PFX__SporeViews (viewName, active)
 		VALUES (?, ?)
 		ON DUPLICATE KEY UPDATE
 			active = ?,
@@ -46,11 +46,11 @@ INSERT
 -- type: insert
 -- inputTypes:	sssss
 INSERT
-	INTO SporeViews (viewName, active, defaultContentREL)
-		VALUES (?, ?, (SELECT contentREL FROM Aliases WHERE alias =  ? LIMIT 1))
+	INTO __PFX__SporeViews (viewName, active, defaultContentREL)
+		VALUES (?, ?, (SELECT contentREL FROM __PFX__Aliases WHERE alias =  ? LIMIT 1))
 		ON DUPLICATE KEY UPDATE
 			active = ?,
-			defaultContentREL = (SELECT contentREL FROM Aliases WHERE alias =  ? LIMIT 1),
+			defaultContentREL = (SELECT contentREL FROM __PFX__Aliases WHERE alias =  ? LIMIT 1),
 			errorContentREL = NULL;
 
 -- --
@@ -58,26 +58,26 @@ INSERT
 -- type: insert
 -- inputTypes:	sssss
 INSERT
-	INTO SporeViews (viewName, active, errorContentREL)
-		VALUES (?, ?, (SELECT contentREL FROM Aliases WHERE alias =  ? LIMIT 1))
+	INTO __PFX__SporeViews (viewName, active, errorContentREL)
+		VALUES (?, ?, (SELECT contentREL FROM __PFX__Aliases WHERE alias =  ? LIMIT 1))
 		ON DUPLICATE KEY UPDATE
 			active = ?,
 			defaultContentREL = NULL,
-			errorContentREL = (SELECT contentREL FROM Aliases WHERE alias =  ? LIMIT 1);
+			errorContentREL = (SELECT contentREL FROM __PFX__Aliases WHERE alias =  ? LIMIT 1);
 
 -- --
 -- name: setSporeWDefWErr
 -- type: insert
 -- inputTypes:	sssssss
 INSERT
-	INTO SporeViews (viewName, active, defaultContentREL, errorContentREL)
+	INTO __PFX__SporeViews (viewName, active, defaultContentREL, errorContentREL)
 		VALUES (
 			?,
 			?,
-			(SELECT contentREL FROM Aliases WHERE alias =  ? LIMIT 1),
-			(SELECT contentREL FROM Aliases WHERE alias =  ? LIMIT 1)
+			(SELECT contentREL FROM __PFX__Aliases WHERE alias =  ? LIMIT 1),
+			(SELECT contentREL FROM __PFX__Aliases WHERE alias =  ? LIMIT 1)
 		)
 		ON DUPLICATE KEY UPDATE
 			active = ?,
-			defaultContentREL = (SELECT contentREL FROM Aliases WHERE alias =  ? LIMIT 1),
-			errorContentREL = (SELECT contentREL FROM Aliases WHERE alias =  ? LIMIT 1);
+			defaultContentREL = (SELECT contentREL FROM __PFX__Aliases WHERE alias =  ? LIMIT 1),
+			errorContentREL = (SELECT contentREL FROM __PFX__Aliases WHERE alias =  ? LIMIT 1);
