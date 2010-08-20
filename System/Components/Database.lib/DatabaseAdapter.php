@@ -193,7 +193,6 @@ class DatabaseAdapter
 		}
 		call_user_func_array(array($this->statement, "bind_param"), $params);
 
-		$this->resultBindings = array();
 		if(!$this->statement->execute()){
 			throw new XDatabaseException("statement failed: ".$this->statement->error, $this->statement->errno, self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
 		}

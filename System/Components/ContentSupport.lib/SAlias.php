@@ -36,23 +36,22 @@ class SAlias
 			return;
 		}
 		$nice = $this->getUnifiedAlias($content->Title, $content->PubDate);
-		
 		try
 		{
 		    $insertAlias = $nice;
 		    $dbid = $this->resolveAliasToId($content->Alias);
-		    for($i = 1; $i <= 9999; $i++)
+		    for($i = 1; $i <= 999; $i++)
 		    {
 				$isOk = Core::Database()
 					->createQueryForClass('SAlias')
 					->call('isAliasAssigned')
-					->withParameters($newAlias, $dbid)
+					->withParameters($insertAlias, $dbid)
 					->fetchSingleValue();
 				if(!$isOk){
 					$isOk = Core::Database()
 						->createQueryForClass('SAlias')
 						->call('addAlias')
-						->withParameters($newAlias, $dbid)
+						->withParameters($insertAlias, $dbid)
 						->execute();
 				}
 		        if($isOk == 1)
@@ -64,7 +63,7 @@ class SAlias
 		    Core::Database()
 				->createQueryForClass('SAlias')
 				->call('setActive')
-				->withParameters($alias, $alias)
+				->withParameters($insertAlias, $insertAlias)
 				->execute();
 		}
 		catch(Exception $e)
