@@ -187,12 +187,16 @@ class DatabaseAdapter
 		}
 
 		//bind params
-		$params = array($parameterDefinition);
-		for($i = 0; $i < strlen($parameterDefinition);$i++){
-			$params[] = &$this->parameters[$i];
+		$paramCount = strlen($parameterDefinition);
+		
+		//mysqli does not link empty bindings
+		if($paramCount > 0){
+			$params = array($parameterDefinition);
+			for($i = 0; $i < $paramCount;$i++){
+				$params[] = &$this->parameters[$i];
+			}
+			call_user_func_array(array($this->statement, "bind_param"), $params);
 		}
-		call_user_func_array(array($this->statement, "bind_param"), $params);
-
 		if(!$this->statement->execute()){
 			throw new XDatabaseException("statement failed: ".$this->statement->error, $this->statement->errno, self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
 		}
