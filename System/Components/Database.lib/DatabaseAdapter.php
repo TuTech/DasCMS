@@ -330,7 +330,7 @@ class DatabaseAdapter
 			$file = sprintf('Content/SQLCache.json');
 			if(file_exists($file)){
 				$cache = Core::dataFromJSONFile($file);
-				foreach ($cache as $class => $statementsta){
+				foreach ($cache as $class => $statements){
 					foreach ($statements as $name => $data){
 						//s:sql, f:number of fields, p:parameter definition, d:deterministic, m:mutable
 						$this->register($class, $name, $data['s'], $data['f'], $data['p'], $data['d'], $data['m']);
