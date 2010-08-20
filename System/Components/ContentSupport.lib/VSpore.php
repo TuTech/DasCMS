@@ -89,7 +89,7 @@ class VSpore extends BView
 	public static function Save()
 	{
 		self::initialize();
-		$DB = BQuery::Database();
+		$DB = DSQL::getSharedInstance();
 		$DB->beginTransaction();
 		try
 		{
