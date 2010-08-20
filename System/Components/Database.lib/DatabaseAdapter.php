@@ -15,28 +15,6 @@ class DatabaseAdapter
 	protected static $register = array();
 	protected static $statements = array();
 	protected static $aliases = array();
-	protected static $loaded = array();
-
-	/**
-	 * load sql queries for a class
-	 * @param string $class
-	 * @return void
-	 */
-	protected function loadDefinition($class)
-	{
-		if(!empty(self::$loaded[$class])){
-			return;
-		}
-		self::$loaded[$class] = true;
-		$file = sprintf('Content/SQLCache/%s/%s.json', Core::settings()->get('db_engine'), $class);
-		if(file_exists($file)){
-			$statements = Core::dataFromJSONFile($file);
-			foreach ($statements as $name => $data){
-				//s:sql, f:number of fields, p:parameter definition, d:deterministic, m:mutable
-				$this->register($class, $name, $data['s'], $data['f'], $data['p'], $data['d'], $data['m']);
-			}
-		}
-	}
 
 	/**
 	 * register sql statement
@@ -66,7 +44,6 @@ class DatabaseAdapter
 	protected function getStatement($classNameOrObject, $name)
 	{
 		$class = (is_object($classNameOrObject)) ? get_class($classNameOrObject) : strval($classNameOrObject);
-		$this->loadDefinition($class);
 
 		$alias = $class.'::'.$name;
 		if(!array_key_exists($alias, self::$aliases)){
@@ -91,7 +68,6 @@ class DatabaseAdapter
 		$class = (is_object($classNameOrObject)) ? get_class($classNameOrObject) : strval($classNameOrObject);
 		$self = clone $this;
 		$self->class = $class;
-		$self->loadDefinition($class);
 		return $self;
 	}
 
@@ -349,7 +325,20 @@ class DatabaseAdapter
 
 	private function __clone(){}
 
-	private function __construct(){}
+	private function __construct(){
+		if(count(self::$register) == 0){
+			$file = sprintf('Content/SQLCache.json');
+			if(file_exists($file)){
+				$cache = Core::dataFromJSONFile($file);
+				foreach ($cache as $class => $statementsta){
+					foreach ($statements as $name => $data){
+						//s:sql, f:number of fields, p:parameter definition, d:deterministic, m:mutable
+						$this->register($class, $name, $data['s'], $data['f'], $data['p'], $data['d'], $data['m']);
+					}
+				}
+			}
+		}
+	}
 
 	public static function getInstance()
 	{

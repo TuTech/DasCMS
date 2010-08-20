@@ -4,7 +4,8 @@ require_once '../../System/main.php';
 
 class CoreSQLUpdate extends Core
 {
-	const CACHE_DIR = 'Content/SQLCache';
+	const CACHE_FILE = 'Content/SQLCache.json';
+	protected $data = array();
 
 	protected function parseSQLFile($file, $prefix){
 		$result = array();
@@ -67,7 +68,7 @@ class CoreSQLUpdate extends Core
 						printf("    CLASS: %s\n", $CLASS_NAME);
 						$data = $this->parseSQLFile($sqlDir.'/'.$sqlFile, $DB_PREFIX);
 						if(is_array($data) && count($data) > 0){
-							$this->writeSQLDefinition($DB_ENGINE, $CLASS_NAME, $data);
+							$this->saveSQLDefinition($CLASS_NAME, $data);
 						}
 					}
 				}
@@ -75,19 +76,14 @@ class CoreSQLUpdate extends Core
 		}
 	}
 
-	protected function writeSQLDefinition($engine, $class, $data){
-		if(!is_dir(self::CACHE_DIR)){
-			mkdir(self::CACHE_DIR);
-		}
-		if(!is_dir(self::CACHE_DIR.'/'.$engine)){
-			mkdir(self::CACHE_DIR.'/'.$engine);
-		}
-		Core::dataToJSONFile($data, self::CACHE_DIR.'/'.$engine.'/'.$class.'.json');
+	protected function saveSQLDefinition($class, $data){
+		$this->data[$class] = $data;
 	}
 
 	public static function run(){
 		$runner = new CoreSQLUpdate();
 		$runner->locateSQLFiles();
+		Core::dataToJSONFile($this->data, self::CACHE_FILE);
 	}
 }
 try{
