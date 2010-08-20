@@ -247,6 +247,10 @@ class DatabaseAdapter
 		if(!is_object($this->statement)){
 			throw new Exception('no statement to bind to');
 		}
+		//binding empty arrays will break mysqli
+		if($nrOfFields == 0){
+			return;
+		}
 		$helper = array();
 		for($i = 0; $i < $nrOfFields; $i++){
 			$this->resultBindings[$i] = '';
