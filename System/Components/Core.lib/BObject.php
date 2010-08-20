@@ -12,7 +12,7 @@
 abstract class BObject
 {
     private static $_classIndex = null;
-    
+
 	/**
 	 * load a controller for given app id
 	 *
@@ -29,11 +29,11 @@ abstract class BObject
 			$d = Core::Database()
 				->createQueryForClass('BObject')
 				->call('load')
-				->withoutParameters()
-				->fetchList();
-			foreach ($d as $v){
-				self::$_classIndex[$v[0]] = $v[1];
+				->withoutParameters();
+			while($row = $d->fetchResult()){
+				self::$_classIndex[$row[0]] = $row[1];
 			}
+			$d->close();
 	    }
 	    if(!array_key_exists($ID, self::$_classIndex))
 	    {
@@ -58,7 +58,7 @@ abstract class BObject
 		}
 		return $object;
 	}
-	
+
 	//objects are not serializeable by default
 	public function __sleep()
 	{
