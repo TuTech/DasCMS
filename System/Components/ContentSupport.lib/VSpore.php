@@ -47,9 +47,12 @@ class VSpore extends BView
 		{
 			self::$initialized = true;
 			try{
-				$res = QVSpore::loadSpores();
+				$res = Core::Database()
+					->createQueryForClass('VSpore')
+					->call('loadSpores')
+					->withoutParameters();
 				self::$spores = array();
-				while ($row = $res->fetch())
+				while ($row = $res->fetchResult())
 				{
 				    self::$spores[$row[0]] = array(
 				        self::ACTIVE => $row[1] == 'Y',
@@ -57,7 +60,7 @@ class VSpore extends BView
 				        self::ERROR_CONTENT => $row[3],
 			        );
 				}
-				$res->free();
+				$res->close();
 			}
 			catch (Exception $e)
 			{
@@ -86,17 +89,55 @@ class VSpore extends BView
 	public static function Save()
 	{
 		self::initialize();
+		$DB = BQuery::Database();
+		$DB->beginTransaction();
 		try
 		{
-			if(count(self::$toDelete))
+			foreach (self::$toDelete as $name)
 			{
-			    QVSpore::deleteSpores(self::$toDelete);
+				Core::Database()
+					->createQueryForClass('VSpore')
+					->call('deleteSpore')
+					->withParameters($name)
+					->execute();
 			}
-			QVSpore::saveSpores(self::$spores);
+			foreach (self::$spores as $name => $data){
+				//init 
+				$q = Core::Database()
+					->createQueryForClass('VSpore');
+				$def = $data[VSpore::INIT_CONTENT];
+				$err = $data[VSpore::ERROR_CONTENT];
+				$noDef = empty($def);
+				$noErr = empty($err);
+				$active = $data[VSpore::ACTIVE] ? 'Y' : 'N';
+
+				if($noDef && $noErr){
+					$q->call('setSpore')
+						->withParameters($name, $active, $active)
+						->execute();
+				}
+				elseif($noErr){
+					$q->call('setSporeWDef')
+						->withParameters($name, $active, $def, $active, $def)
+						->execute();
+				}
+				elseif($noDef){
+					$q->call('setSporeWErr')
+						->withParameters($name, $active, $err, $active, $err)
+						->execute();
+				}
+				else{
+					$q->call('setSporeWDefWErr')
+						->withParameters($name, $active, $def, $err, $active, $def, $err)
+						->execute();
+				}
+			}
+			$DB->commit();
 			return true;
 		}
 		catch (Exception $e)
 		{
+			$DB->rollback();
 			SNotificationCenter::report('warning', 'spores_not_saved');
 			echo $e->getTraceAsString();
 			return false;
