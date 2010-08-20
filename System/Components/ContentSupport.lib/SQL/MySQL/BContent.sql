@@ -14,7 +14,7 @@ SELECT COUNT(*)
 -- inputTypes:	s
 -- deterministic: yes
 -- mutable: no
--- fields: 8
+-- fields: 9
 -- type: select
 SELECT
 		__PFX__Contents.contentID,
