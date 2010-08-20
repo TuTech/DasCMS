@@ -17,8 +17,9 @@ class CoreSQLUpdate extends Core
 			$lines = explode("\n", $def);
 			foreach ($lines as $line){
 				if(substr($line,0,3) == '-- '){
-					preg_match('/--\s+(\w+)\s*:\s*(.+)/', $line, $matches);
-					$meta[$matches[1]] = $matches[2];
+					if(preg_match('/--\s+(\w+)\s*:\s*(.+)/', $line, $matches)){
+						$meta[$matches[1]] = $matches[2];
+					}
 				}
 				else{
 					$statementLines[] = trim($line, " \r\n\t");
@@ -27,13 +28,6 @@ class CoreSQLUpdate extends Core
 			$statement = trim(implode(" ", $statementLines), " \r\n\t");
 			$statement = str_replace('__PFX__', $prefix, $statement);
 			if(!empty ($statement) && !empty ($meta['name'])){
-				
-				//debug
-				#$frame = '/'.str_repeat('*', strlen($meta['name'])+2)."/\n";
-				#echo "\n".$frame.'/*'.$meta['name']."*/\n".$frame;
-				#print_r($meta);
-				#echo "\n".$statement."\n";
-				//end debug
 
 				//s:sql, f:number of fields, r:return, p:parameter definition, d:deterministic, m:mutable
 				$result[$meta['name']] = array(

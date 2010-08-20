@@ -1,6 +1,5 @@
 -- --
 -- name: loadSpores
--- inputTypes:
 -- deterministic: yes
 -- mutable: no
 -- fields: 4
