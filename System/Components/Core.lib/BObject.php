@@ -25,7 +25,15 @@ abstract class BObject
 	{
 	    if(self::$_classIndex == null)
 	    {
-	        self::$_classIndex = QBObject::preloadClassLookup();
+			self::$_classIndex = array();
+			$d = Core::Database()
+				->createQueryForClass('BObject')
+				->call('load')
+				->withoutParameters()
+				->fetchList();
+			foreach ($d as $v){
+				self::$_classIndex[$v[0]] = $v[1];
+			}
 	    }
 	    if(!array_key_exists($ID, self::$_classIndex))
 	    {
@@ -34,28 +42,6 @@ abstract class BObject
 	    return self::InvokeObjectByDynClass(self::$_classIndex[$ID]);
 	}
 
-	//do path resolve
-	//local id --> cms id path
-	//cms id path --> local id
-	/**
-	 * initialite property in $var with $dataArray[$var] if it exists or use a default value
-	 * only works if the property is null
-	 *
-	 * @param string $var
-	 * @param array $dataArray
-	 * @param mixed $defaultValue
-	 */
-	protected function initPropertyValues($var,array &$dataArray, $defaultValue)
-	{
-		if($this->{$var} == null)
-		{
-			$this->{$var} = (array_key_exists($var, $dataArray))
-				? $dataArray[$var]
-				: $defaultValue;
-		}
-	}
-	
-	
 	public final static function InvokeObjectByDynClass($class)
 	{
 		$object = null;
@@ -78,24 +64,6 @@ abstract class BObject
 	{
 		return array();
 	}
-	/**
-	 * Return path to a given file or just the path for files 
-	 * if $file is not set or null 
-	 *
-	 * @param string $file
-	 * @return string file system path
-	 */
-	public function StoragePath($file = null, $addSuffix = true)
-	{
-		$path = sprintf(
-			"./Content/%s/"
-			,get_class($this)
-		);
-		if($file != null)
-		{
-			$path .= ($addSuffix) ? $file.'.php' : $file;
-		}
-		return $path;
-	}
+
 }
 ?>

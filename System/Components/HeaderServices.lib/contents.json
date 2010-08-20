@@ -1,1 +1,1 @@
-{"classes":["EWillSendHeadersEvent","QUHeaderServices","UAdvancedMetaData","UBasicSettings","UGoogleServices","UHeaderServices"],"interfaces":["HWillSendHeadersEventHandler","IHeaderAPI","IHeaderService"],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}
+{"classes":["EWillSendHeadersEvent","UAdvancedMetaData","UBasicSettings","UGoogleServices","UHeaderServices"],"interfaces":["HWillSendHeadersEventHandler","IHeaderAPI","IHeaderService"],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}

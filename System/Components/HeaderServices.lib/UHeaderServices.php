@@ -89,8 +89,11 @@ class UHeaderServices
     public function HandleWillSendHeadersEvent(EWillSendHeadersEvent $e)
     {
         try{
-            $res = QUHeaderServices::getServicesToEmbed(self::CLASS_NAME);
-            while ($row = $res->fetch())
+			$res = Core::Database()
+				->createQueryForClass(self::CLASS_NAME)
+				->call('getServices')
+				->withParameters(self::CLASS_NAME);
+            while ($row = $res->fetchResult())
             {
                 list($class, $alias) = $row;
                 if(is_callable($class.'::sendHeaderService'))
@@ -98,6 +101,7 @@ class UHeaderServices
                     call_user_func($class.'::sendHeaderService', $alias, $e);
                 }
             }
+			$res->close();
         }
         catch (Exception $ex)
         {

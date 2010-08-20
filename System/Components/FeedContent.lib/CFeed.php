@@ -735,5 +735,25 @@ class CFeed
     {
         QBContent::setAllowSearchIndexing($this->getId(), !empty($allow));
     }
+
+	/**
+	 * Return path to a given file or just the path for files
+	 * if $file is not set or null
+	 *
+	 * @param string $file
+	 * @return string file system path
+	 */
+	public function StoragePath($file = null, $addSuffix = true)
+	{
+		$path = sprintf(
+			"./Content/%s/"
+			,get_class($this)
+		);
+		if($file != null)
+		{
+			$path .= ($addSuffix) ? $file.'.php' : $file;
+		}
+		return $path;
+	}
 }
 ?>
