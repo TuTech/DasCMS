@@ -29,15 +29,15 @@ SELECT
 		LEFT JOIN __PFX__Mimetypes ON (__PFX__Contents.mimetypeREL = __PFX__Mimetypes.mimetypeID)
 
 -- --
--- name: getContents
+-- name: getMetaData
 -- deterministic: yes
 -- mutable: no
 -- fields: 3
 -- inputTypes:	i
 -- type: select
 SELECT
-		FileAttributes.originalFileName,
-		FileAttributes.suffix,
-		FileAttributes.md5sum
-	FROM FileAttributes
-	WHERE FileAttributes.contentREL = %d
+		__PFX__FileAttributes.originalFileName,
+		__PFX__FileAttributes.suffix,
+		__PFX__FileAttributes.md5sum
+	FROM __PFX__FileAttributes
+	WHERE __PFX__FileAttributes.contentREL = %d
