@@ -20,20 +20,32 @@ class Model_Content_Composite_ContentFormatter extends _Model_Content_Composite
 
     public function setChildContentFormatter($formatter)
 	{
-	    QContentFormatter::setFormatter($this->compositeFor->getId(), $formatter);
+		DSQL::getSharedInstance()->beginTransaction();
+		Core::Database()
+			->createQueryForClass($this)
+			->call('unlink')
+			->withParameters($this->compositeFor->getId())
+			->execute();
+		Core::Database()
+			->createQueryForClass($this)
+			->call('link')
+			->withParameters($this->compositeFor->getId(), $f)
+			->execute();
+		DSQL::getSharedInstance()->commit();
 	} 
 	
 	public function getChildContentFormatter()
 	{
 	    if($this->formatterName === null)
 	    {
-	        $this->formatterName = false;
-    	    $res = QContentFormatter::getFormatterName($this->compositeFor->getId());
-    	    if($res->getRowCount() == 1)
-    	    {
-    	        list($this->formatterName) = $res->fetch(); 
-    	    }
-    	    $res->free();
+			$this->formatterName = Core::Database()
+				->createQueryForClass($this)
+				->call('contentFormatter')
+				->withParameters($this->compositeFor->getId())
+				->fetchSingleValue();
+			if(empty($this->formatterName)){
+				$this->formatterName = false;
+			}
 	    }
 	    return $this->formatterName;
 	}

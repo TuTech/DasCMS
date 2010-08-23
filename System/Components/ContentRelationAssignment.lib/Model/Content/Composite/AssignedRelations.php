@@ -36,15 +36,12 @@ class Model_Content_Composite_AssignedRelations
     }
 
 	protected function getFormatterFromDB(){
-		//FIXME bad access: missing formatter controller
-		$formatterName = null;
-		$res = QContentFormatter::getFormatterName($this->compositeFor->getId(), get_class($this));
-		if($res->getRowCount() == 1)
-		{
-			list($formatterName) = $res->fetch();
-		}
-		$res->free();
-		return $formatterName;
+		$formatterName = Core::Database()
+			->createQueryForClass($this)
+			->call('contentFormatter')
+			->withParameters($this->compositeFor->getId(), get_class($this))
+			->fetchSingleValue();
+		return empty($formatterName) ? null : $formatterName;
 	}
 
     public function contentSaves(){
@@ -54,13 +51,20 @@ class Model_Content_Composite_AssignedRelations
     	try{
 			//FIXME: bad access: missing formatter controller
 			$f = $this->getAssignedRelationsFormatter();
-			if($f == null){
-				QContentFormatter::removeFormatter($this->compositeFor->getId(), get_class($this));
+			DSQL::getSharedInstance()->beginTransaction();
+			Core::Database()
+				->createQueryForClass($this)
+				->call('unlink')
+				->withParameters($this->compositeFor->getId(), get_class($this))
+				->execute();
+			if($f != null){
+				Core::Database()
+					->createQueryForClass($this)
+					->call('link')
+					->withParameters($this->compositeFor->getId(), get_class($this), $f)
+					->execute();
 			}
-			else{
-				QContentFormatter::setFormatter($this->compositeFor->getId(), $f, get_class($this));
-			}
-
+			DSQL::getSharedInstance()->commit();
 			
 			$AssignCtrl = Controller_ContentRelationManager::getInstance();
 			$assigned = $this->getAssignedRelationsData();
