@@ -4,7 +4,7 @@
 -- inputTypes:	iss
 INSERT
 	INTO __PFX__AuthorisationLog (IPAdr, UserName, Status)
-	VALUES (%d, '%s', '%s')
+	VALUES (?, ?, ?)
 
 -- --
 -- name: latestFails

@@ -134,7 +134,7 @@ class PAuthentication
             if(self::$userStatus == self::FAILED_LOGIN)
             {
 				Core::Database()
-					->createQueryForClass($this)
+					->createQueryForClass(self::CLASS_NAME)
 					->call('log')
 					->withParameters(
 							RServer::getNumericRemoteAddress(),
@@ -146,7 +146,7 @@ class PAuthentication
             
             //check the failed login count of the last 15 minutes
 			$fails = Core::Database()
-				->createQueryForClass($this)
+				->createQueryForClass(self::CLASS_NAME)
 				->call('latestFails')
 				->withParameters(RServer::getNumericRemoteAddress(), $relay->getAttemptedUserID())
 				->fetchSingleValue();
@@ -174,13 +174,13 @@ class PAuthentication
                 {
                     //get login history
 					$userFails = Core::Database()
-						->createQueryForClass($this)
+						->createQueryForClass(self::CLASS_NAME)
 						->call('latestUserFails')
 						->withParameters($relay->getAttemptedUserID())
 						->fetchSingleValue();
 
 					$ipadrFails = Core::Database()
-						->createQueryForClass($this)
+						->createQueryForClass(self::CLASS_NAME)
 						->call('latestIPAdrFails')
 						->withParameters(RServer::getNumericRemoteAddress())
 						->fetchSingleValue();
