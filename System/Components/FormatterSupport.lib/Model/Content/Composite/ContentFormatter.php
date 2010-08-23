@@ -29,7 +29,7 @@ class Model_Content_Composite_ContentFormatter extends _Model_Content_Composite
 		Core::Database()
 			->createQueryForClass($this)
 			->call('link')
-			->withParameters($this->compositeFor->getId(), $f)
+			->withParameters($this->compositeFor->getId(), $formatter)
 			->execute();
 		DSQL::getSharedInstance()->commit();
 	} 
