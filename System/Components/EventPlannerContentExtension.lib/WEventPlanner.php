@@ -11,7 +11,7 @@
  */
 class WEventPlanner 
     extends BWidget 
-    implements ISidebarWidget 
+   // implements ISidebarWidget
 {
 	private $targetObject = null;
 	private static $retains = array();
