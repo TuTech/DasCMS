@@ -133,17 +133,23 @@ class PAuthentication
             //log failed attempts
             if(self::$userStatus == self::FAILED_LOGIN)
             {
-                QPAuthentication::logAccess(
-                    RServer::getNumericRemoteAddress(), 
-                    $relay->getAttemptedUserID(), 
-                    self::$userStatus >= self::VALID_USER 
-                );
+				Core::Database()
+					->createQueryForClass($this)
+					->call('log')
+					->withParameters(
+							RServer::getNumericRemoteAddress(),
+							$relay->getAttemptedUserID(),
+							(self::$userStatus >= self::VALID_USER)  ? 'SUCCESS' : 'FAIL'
+						)
+					->execute();
             }
             
             //check the failed login count of the last 15 minutes
-            $res = QPAuthentication::latestFails(RServer::getNumericRemoteAddress(), $relay->getAttemptedUserID());
-            list($fails) = $res->fetch();
-            $res->free();
+			$fails = Core::Database()
+				->createQueryForClass($this)
+				->call('latestFails')
+				->withParameters(RServer::getNumericRemoteAddress(), $relay->getAttemptedUserID())
+				->fetchSingleValue();
             
             //deny access if count exceeds 5 even if login was correct
             if($fails > 5)
@@ -167,12 +173,17 @@ class PAuthentication
                 if(self::$userStatus != self::CONTINUED_SESSION && self::$userStatus != self::NO_LOGIN)
                 {
                     //get login history
-                    $res = QPAuthentication::countUserFails($relay->getAttemptedUserID());
-                    list($userFails) = $res->fetch();
-                    $res->free();
-                    $res = QPAuthentication::countIPAdrFails(RServer::getNumericRemoteAddress());
-                    list($ipadrFails) = $res->fetch();
-                    $res->free();
+					$userFails = Core::Database()
+						->createQueryForClass($this)
+						->call('latestUserFails')
+						->withParameters($relay->getAttemptedUserID())
+						->fetchSingleValue();
+
+					$ipadrFails = Core::Database()
+						->createQueryForClass($this)
+						->call('latestIPAdrFails')
+						->withParameters(RServer::getNumericRemoteAddress())
+						->fetchSingleValue();
                     
                     //calculate punishment delay
                     $punishment = min(10, $userFails)+min(15, $ipadrFails*2);
