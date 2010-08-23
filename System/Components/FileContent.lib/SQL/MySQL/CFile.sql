@@ -40,4 +40,4 @@ SELECT
 		__PFX__FileAttributes.suffix,
 		__PFX__FileAttributes.md5sum
 	FROM __PFX__FileAttributes
-	WHERE __PFX__FileAttributes.contentREL = %d
+	WHERE __PFX__FileAttributes.contentREL = ?
