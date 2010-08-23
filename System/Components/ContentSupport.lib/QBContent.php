@@ -79,23 +79,6 @@ class QBContent extends BQuery
         return $DB->queryExecute($sql);
     }
     
-    /**
-     * 
-     * @param string $class
-     * @return DSQLResult
-     */
-    public static function getGUIDIndexForClass($class)
-    {
-        $sql = "SELECT Aliases.alias, Contents.title
-    				FROM Classes
-    					LEFT JOIN Contents ON (Classes.classID = Contents.type)
-    					LEFT JOIN Aliases ON (Contents.GUID = Aliases.aliasID)
-    				WHERE
-    					Classes.class = '%s'
-    					AND NOT ISNULL(alias) ";
-        $DB = BQuery::Database();
-        return $DB->query(sprintf($sql, $DB->escape($class), DSQL::NUM));
-    }
     
     /**
      * @param int $contentID
@@ -113,66 +96,7 @@ class QBContent extends BQuery
         return BQuery::Database()->query(sprintf($sql, $contentID), DSQL::NUM);
     }
     
-    public static function removeViewBinding($contentId)
-    {
-        $sql = 
-            "DELETE 
-            	FROM relContentsTargetViews 
-            	WHERE contentREL = %d";
-        $DB = BQuery::Database();
-        return $DB->queryExecute(sprintf($sql, $contentId));
-    }
-    
-    public static function getViewBinding($contentId)
-    {
-        $sql = 
-            "SELECT viewName
-            	FROM relContentsTargetViews 
-            	LEFT JOIN SporeViews ON (relContentsTargetViews.viewREL = SporeViews.viewID)
-            	WHERE relContentsTargetViews.contentREL = %d";
-        $DB = BQuery::Database();
-        return $DB->query(sprintf($sql, $contentId), DSQL::NUM);
-    }
-    
-    public static function setViewBinding($contentId, $viewName)
-    {
-        $DB = BQuery::Database();
-        $sql = "INSERT INTO relContentsTargetViews (contentREL, viewREL) 
-        			(SELECT '%d', viewID FROM SporeViews WHERE viewName = '%s')
-        			ON DUPLICATE KEY 
-        				UPDATE viewREL =  (SELECT viewID FROM SporeViews WHERE viewName = '%s' LIMIT 1)";
-        $viewName = $DB->escape($viewName);
-        $DB->queryExecute(sprintf($sql, $contentId, $viewName, $viewName, $contentId));
-    }
-    
-    
-    /**
-     * @param int $contentID
-     * @return DSQLResult
-     */
-    public static function getAllowSearchIndexing($contentID)
-    {
-        $sql = "SELECT 
-        				1 AS 'yes'
-					FROM Contents
-        				WHERE 
-        					contentID = %d
-        					AND allowSearchIndexing = 'Y'";
-        $sql = sprintf($sql, $contentID);
-        return BQuery::Database()->query($sql, DSQL::NUM);
-    }
        
-    public static function setAllowSearchIndexing($contentID, $allowed)
-    {
-        $sql = "UPDATE Contents
-        			SET 
-        				allowSearchIndexing = '%s'
-    				WHERE 
-    					contentID = %d";
-        return BQuery::Database()->queryExecute(sprintf($sql, empty($allowed) ? 'N' : 'Y', $contentID), DSQL::NUM);
-    }
-    
-    
     public static function logAccess($contentID, $countyCodeHash, $ipAddressHash)
     {
         $sql = 

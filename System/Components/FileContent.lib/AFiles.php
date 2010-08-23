@@ -217,25 +217,6 @@ class AFiles
     }
     
     /**
-     * provide list of folders 
-     * @param array $param
-     * @throws XPermissionDeniedException
-     * @return array
-     */
-    public function getFolders(array $param)
-    {
-        if(!$this->isPermitted('view'))
-        {
-            throw new XPermissionDeniedException('view');
-        }
-        //sleep(2);
-        $data =  CFile::getFolders();
-        return array(
-            'folders' => array_values($data), 
-            'folderIds' => array_keys($data));
-    }
-    
-    /**
      * provide list of files in given folder
      * @param array $params
      * @return array

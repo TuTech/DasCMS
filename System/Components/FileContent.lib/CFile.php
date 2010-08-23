@@ -45,7 +45,7 @@ class CFile
 	    {
 	        throw new XUndefinedException('upload not moveable');
 	    }
-	    QCFile::saveFileMeta(
+	    $this->saveFileMeta(
 	        $dbid,
 	        RFiles::getName('CFile'), 
 	        DFileSystem::suffix(RFiles::getName('CFile')),
@@ -83,8 +83,7 @@ class CFile
 		if($e->isCanceled()){
 			return;//notifications are up to the canceling object
 		}
-		
-	    QCFile::saveFileMeta(
+	    $this->saveFileMeta(
 	        $this->getId(),
 	        RFiles::getName('CFile'), 
 	        DFileSystem::suffix(RFiles::getName('CFile')),
@@ -112,12 +111,24 @@ class CFile
         SErrorAndExceptionHandler::reportErrors();
         $e = new EContentChangedEvent($this, $this);
 	}
-	
+
+	protected function saveFileMeta($id, $fileName, $suffix, $md5)
+	{
+		return Core::Database()
+			->createQueryForClass('CFile')
+			->call('setFileMeta')
+			->withParameters($id, $fileName, $suffix, $md5, $fileName, $suffix, $md5)
+			->execute();
+	}
+
+
+
+
 	protected function loadFileMetaData()
 	{
 	    if(count($this->metadata) == 0)
 	    {
-	        $metadata = array(
+	        $this->metadata = array(
 	            'folder' => '',
 	            'folderID' => '',
 	            'filename' => '', 
@@ -126,15 +137,16 @@ class CFile
     	        'size' => '',
     	        'suffix' => ''
 	        );
-	        $res = QCFile::getMetaData($this->Id);
+	        $res = Core::Database()
+				->createQueryForClass('CFile')
+				->call('getMetaData')
+				->withParameters($this->Id);
 	        list(
-	            $metadata['folder'],
-	            $metadata['filename'],
-	            $metadata['suffix'],
-	            $metadata['md5'],
-	            $metadata['folderID']
-            ) = $res->fetch();
-            $this->metadata = $metadata;
+	            $this->metadata['filename'],
+	            $this->metadata['suffix'],
+	            $this->metadata['md5']
+            ) = $res->fetchResult();
+			$res->close();
 	    }
 	}
 	
@@ -278,41 +290,22 @@ class CFile
 		return in_array(strtolower($category), array('binary', 'data', 'settings', 'information', 'search'));
 	}
 	
-	//file management
-	public static function getFolders()
-	{
-	    $folders = array('0' => SLocalization::get('unassigned_files'));
-	    $res = QCFile::getChildFolders();
-	    while($row = $res->fetch())
-	    {
-	        $folders[$row[0]] = $row[1];
-	    }
-	    $res->free();
-	    return $folders;
-	}
-	
 	public static function getFilesOfFolder($fid)
 	{
 	    $contents = array();
 	    //Contents.contentID, Aliases.alias, Contents.title, Contents.size Mimetypes.mimetype
-	    $res = QCFile::getFolderContents(($fid == 0 ? null : $fid));
-	    while($row = $res->fetch())
+		$res = Core::Database()
+			->createQueryForClass('CFile')
+			->call('getContents')
+			->withoutParameters();
+	    while($row = $res->fetchResult())
 	    {
 	        $contents[$row[0]] = array($row[1], $row[2], $row[3], $row[4]);
 	    }
-	    $res->free();
+	    $res->close();
 	    return $contents;
 	}
 	
-	public static function createFolder($name)
-	{
-	    QCFile::createFolder($name);
-	}
-	
-	public static function deleteFolder($fid)
-	{
-	    QCFile::deleteFolder($fid);
-	}
 	//ISearchDirectives
 	public function allowSearchIndex()
 	{
@@ -328,7 +321,7 @@ class CFile
     }
     public function changeSearchIndexingStatus($allow)
     {
-        QBContent::setAllowSearchIndexing($this->getId(), !empty($allow));
+        BContent::setIndexingAllowed($this->getId(), !empty($allow));
     }
 	
 }

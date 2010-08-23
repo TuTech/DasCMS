@@ -228,9 +228,6 @@ FileAttributes(
 	contentREL
 		INTEGER 
 		NOT NULL,
-	folderREL
-		INTEGER
-		NULL,
 	originalFileName
 		VARCHAR(255)
 		NOT NULL,
@@ -241,29 +238,7 @@ FileAttributes(
 		CHAR(32)
 		NOT NULL
 		DEFAULT '',
-	UNIQUE(contentREL),
-	INDEX(folderREL)
-)
-ENGINE = InnoDB 
-CHARACTER SET utf8 
-COLLATE utf8_unicode_ci;
-
-
--- folders for cfiles
-CREATE TABLE IF NOT EXISTS 
-Folders(
-	folderID
-        INTEGER 
-		PRIMARY KEY
-		AUTO_INCREMENT
-        NOT NULL,
-	parentFolderREL
-		INTEGER
-		NULL,
-	name
-		VARCHAR(128)
-		NOT NULL,
-	UNIQUE(parentFolderREL, name)
+	UNIQUE(contentREL)
 )
 ENGINE = InnoDB 
 CHARACTER SET utf8 

@@ -1,15 +1,4 @@
 -- --
--- name: exists
--- inputTypes:	s
--- deterministic: no
--- mutable: no
--- fields: 1
--- type: select
-SELECT COUNT(*)
-	FROM __PFX__Aliases
-	WHERE alias = ?
-
--- --
 -- name: basicMeta
 -- inputTypes:	s
 -- deterministic: yes
@@ -47,4 +36,28 @@ SELECT tag
 			ON (__PFX__Tags.tagID = __PFX__relContentsTags.tagREL)
 	WHERE
 		__PFX__relContentsTags.contentREL = ?
-	ORDER BY tag 
+	ORDER BY tag
+
+-- --
+-- name: searchable
+-- inputTypes:	i
+-- deterministic: yes
+-- mutable: no
+-- fields: 1
+-- type: select
+SELECT COUNT(*)
+	FROM __PFX__Contents
+	WHERE
+		contentID = ?
+		AND
+		allowSearchIndexing = 'Y'
+
+-- --
+-- name: setSearchable
+-- type: insert
+-- inputTypes:	si
+UPDATE __PFX__Contents
+	SET
+		allowSearchIndexing = ?
+	WHERE
+		contentID = ?

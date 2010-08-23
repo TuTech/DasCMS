@@ -105,7 +105,7 @@ class Controller_Content
     public function contentExists($alias)
     {
 		$c = Core::Database()
-			->createQueryForClass('BContent')
+			->createQueryForClass($this)
 			->call('exists')
 			->withParameters($alias)
 			->fetchSingleValue();
@@ -139,11 +139,15 @@ class Controller_Content
 	public function contentGUIDIndex($ofClass)
 	{
 	    $index = array();
-	    $res = QBContent::getGUIDIndexForClass($ofClass);
-	    while ($row = $res->fetch())
+		$res = Core::Database()
+			->createQueryForClass($this)
+			->call('contentsForClassGuid')
+			->withParameters($ofClass);
+	    while ($row = $res->fetchResult())
 	    {
 	        $index[$row[0]] = $row[1];
 	    }
+		$res->close();
 	    return $index;
 	}
 

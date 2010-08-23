@@ -61,10 +61,6 @@ FileAttributes
     ADD FOREIGN KEY (contentREL)
         REFERENCES Contents(contentID)
         ON DELETE CASCADE
-        ON UPDATE NO ACTION,
-    ADD FOREIGN KEY (folderREL)
-        REFERENCES Folders(folderID)
-        ON DELETE SET NULL
         ON UPDATE NO ACTION;
 
 
@@ -76,16 +72,6 @@ Feeds
         ON DELETE CASCADE
         ON UPDATE NO ACTION;
         
-        
--- foreign keys for cfile folders
-ALTER TABLE 
-Folders
-    ADD FOREIGN KEY (parentFolderREL)
-        REFERENCES Folders(folderID)
-        ON DELETE CASCADE
-        ON UPDATE NO ACTION;
-
-
 -- Foreign keys for PermissionTags
 ALTER TABLE 
 Jobs

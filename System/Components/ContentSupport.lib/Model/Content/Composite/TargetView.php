@@ -19,11 +19,19 @@ class Model_Content_Composite_TargetView extends _Model_Content_Composite
 	    //else insert/update view
 	    if(empty($viewname))
 	    {
-	        QBContent::removeViewBinding($this->compositeFor->getId());
+			Core::Database()
+				->createQueryForClass($this)
+				->call('removeViewBinding')
+				->withParameters($this->compositeFor->getId())
+				->execute();
 	    }
 	    else
 	    {
-	        QBContent::setViewBinding($this->compositeFor->getId(), $viewname);
+			Core::Database()
+				->createQueryForClass($this)
+				->call('setViewBinding')
+				->withParameters($this->compositeFor->getId(), $viewname, $viewname)
+				->execute();
 	    }
 	} 
 	
@@ -32,14 +40,13 @@ class Model_Content_Composite_TargetView extends _Model_Content_Composite
 	 */
 	public function getTargetView()
 	{
-	    $res = QBContent::getViewBinding($this->compositeFor->getId());
-	    $view = null;
-	    if($res->getRowCount() == 1)
-	    {
-	        list($view) = $res->fetch(); 
-	    }
-	    $res->free();
-	    return $view;
+		$res = Core::Database()
+			->createQueryForClass($this)
+			->call('getViewBinding')
+			->withParameters($this->compositeFor->getId())
+			->fetchSingleValue();
+
+	    return empty($res) ? null : $res;
 	}
 	
 } 

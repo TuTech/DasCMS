@@ -271,10 +271,20 @@ abstract class BContent extends BObject implements Interface_Content
 
 	protected static function isIndexingAllowed($contentID)
 	{
-	    $res = QBContent::getAllowSearchIndexing($contentID);
-	    $allowed = $res->getRowCount() == 1;
-	    $res->free();
-	    return $allowed;
+		return !!Core::Database()
+			->createQueryForClass('BContent')
+			->call('searchable')
+			->withParameters($contentID)
+			->fetchSingleValue();
+	}
+
+	protected static function setIndexingAllowed($contentID, $isAllowed)
+	{
+		Core::Database()
+			->createQueryForClass('BContent')
+			->call('setSearchable')
+			->withParameters($isAllowed ? 'Y' : 'N', $contentID)
+			->execute();
 	}
 
 	/**

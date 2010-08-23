@@ -733,7 +733,7 @@ class CFeed
     }
     public function changeSearchIndexingStatus($allow)
     {
-        QBContent::setAllowSearchIndexing($this->getId(), !empty($allow));
+        BContent::setIndexingAllowed($this->getId(), !empty($allow));
     }
 
 	/**
