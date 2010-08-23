@@ -41,7 +41,7 @@ DELETE
 -- --
 -- name: link
 -- type: insert
--- inputTypes:	i
+-- inputTypes:	ii
 INSERT IGNORE
 	INTO __PFX__relFeedsContents (feedREL, contentREL)
 	VALUES (?, ?)
