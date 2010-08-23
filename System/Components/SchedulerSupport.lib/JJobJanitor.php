@@ -35,8 +35,11 @@ class JJobJanitor implements ISchedulerJob
         //get all indexed job classes
 		$indexed = Core::getClassesWithInterface('ISchedulerJob');
         //get all registered jobs
-        $res = QJJobJanitor::getJobList();
-        while($row = $res->fetch())
+        $res = Core::Database()
+			->createQueryForClass($this)
+			->call('list')
+			->withoutParameters();
+        while($row = $res->fetchResult())
         {
             list($id, $class, $start, $stop) = $row;
             $jobs[$class] = $id;
@@ -45,8 +48,14 @@ class JJobJanitor implements ISchedulerJob
                 $toRemove[] = $id;
             }
         }
-        //remove jobs that are not indexed
-        QJJobJanitor::removeJobs($toRemove);
+		$res->close();
+		foreach ($toRemove as $rm){
+			Core::Database()
+				->createQueryForClass($this)
+				->call('delete')
+				->withParameters($rm)
+				->execute();
+		}
         
         //find jobs that are not registered
         foreach ($indexed as $class) 
@@ -68,8 +77,25 @@ class JJobJanitor implements ISchedulerJob
     	            {
     	            	$int = $o->getInterval();
     	            	$end = $o->getEnd();
-    	            	QJJobJanitor::addNewJob($class, $int, $end);
-    	            	QJJobJanitor::scheduleNewJob($class);
+						if($end === null){
+							Core::Database()
+								->createQueryForClass($this)
+								->call('add')
+								->withParameters($class, $int)
+								->execute();
+						}
+						else{
+							Core::Database()
+								->createQueryForClass($this)
+								->call('addEnding')
+								->withParameters($class, date('"Y-m-d H:i:s"', $end),  $int)
+								->execute();
+						}
+						Core::Database()
+							->createQueryForClass($this)
+							->call('schedule')
+							->withParameters($class)
+							->execute();
     	            }
     	            unset($o);
         	    }
