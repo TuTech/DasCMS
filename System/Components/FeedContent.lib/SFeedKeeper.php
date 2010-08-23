@@ -46,41 +46,70 @@ class SFeedKeeper
     	    if(get_class($e->Content) == 'CFeed')
     	    {
     	        //remove all items from feed
-	            QSFeedKeeper::clearFeed($CID);
+				Core::Database()
+					->createQueryForClass($this)
+					->call('clear')
+					->withParameters($CID)
+					->execute();
 	            //add all matching items for the current filter type
-	            $res = QSFeedKeeper::getFeedType($CID);
-	            list($type) = $res->fetch();
-	            $res->free();
+				$type = Core::Database()
+					->createQueryForClass($this)
+					->call('getType')
+					->withParameters($CID)
+					->fetchSingleValue();
 	            switch($type)
 	            {
 	                case CFeed::ALL:
 	                    SNotificationCenter::report('message','assignItemsUsingAll');
-	                    QSFeedKeeper::assignItemsUsingAll($CID);
+						Core::Database()
+							->createQueryForClass($this)
+							->call('assignToAll')
+							->withParameters($CID, $CID)
+							->execute();
 	                    break;
 	                case CFeed::MATCH_ALL:
 	                    SNotificationCenter::report('message','assignItemsUsingMatchAll');
-	                    QSFeedKeeper::assignItemsUsingMatchAll($CID);
+						Core::Database()
+							->createQueryForClass($this)
+							->call('assignMatchAll')
+							->withParameters($CID, $CID, $CID)
+							->execute();
 	                    break;
 	                case CFeed::MATCH_SOME:
 	                    SNotificationCenter::report('message','assignItemsUsingMatchSome');
-	                    QSFeedKeeper::assignItemsUsingMatchSome($CID);
+						Core::Database()
+							->createQueryForClass($this)
+							->call('assignMatchSome')
+							->withParameters($CID, $CID)
+							->execute();
 	                    break;
 	                case CFeed::MATCH_NONE:
 	                    SNotificationCenter::report('message','assignItemsUsingMatchNone');
-	                    QSFeedKeeper::assignItemsUsingMatchNone($CID);
+	                    Core::Database()
+							->createQueryForClass($this)
+							->call('assignMatchNone')
+							->withParameters($CID, $CID)
+							->execute();
 	                    break;
 	                default:SNotificationCenter::report('warning', 'unknown_type '.$type);
 	            }
-	            QSFeedKeeper::updateStats($CID);
+				$this->updateStats($CID);
     	    }
     	    //feeds may be in other feeds.. so this is for all
 	        //remove item from all feeds
-            QSFeedKeeper::unlinkItem($CID);
-            $res = QSFeedKeeper::getFeedsWithTypeAndTags();
+			Core::Database()
+				->createQueryForClass($this)
+				->call('unlink')
+				->withParameters($CID)
+				->execute();
+            $res = Core::Database()
+				->createQueryForClass($this)
+				->call('feedsWithTypeAndTags')
+				->withoutParameters();
             $feedTags = array();
             $feedTypes = array();
             //build array with type string and tag array for each feed
-            while($row = $res->fetch())
+            while($row = $res->fetchResult())
             {
                 list($fid, $type, $tag) = $row;
                 if(!isset($feedTags[$fid]))
@@ -90,7 +119,7 @@ class SFeedKeeper
                 $feedTags[$fid][] = $tag;
                 $feedTypes[$fid] = $type;
             }
-            $res->free();
+            $res->close();
             //add item to all feeds with matching filter
             $itemsToAdd = array();
             foreach ($feedTypes as $fid => $type)
@@ -124,14 +153,15 @@ class SFeedKeeper
                 }
             }
             //add this item to all matching feeds
-            if(count($itemsToAdd) > 0)
-            {
-                QSFeedKeeper::linkItem($CID, $itemsToAdd);
-            }
             //set feed update time and item count
             foreach ($itemsToAdd as $fid) 
             {
-            	QSFeedKeeper::updateStats($fid);
+				Core::Database()
+					->createQueryForClass($this)
+					->call('link')
+					->withParameters($fid, $CID)
+					->execute();
+            	$this->updateStats($CID);
             }
     	    $DB->commit();
 	    }
@@ -152,31 +182,43 @@ class SFeedKeeper
             if(get_class($e->Content) == 'CFeed')
             {
     	        //set up data in "Feeds"
-    	        QSFeedKeeper::setFeedType($CID, CFeed::ALL);
+				Core::Database()
+					->createQueryForClass($this)
+					->call('setType')
+					->withParameters($feedId, CFeed::ALL, CFeed::ALL)
+					->execute();
     	        //add all items
-    	        QSFeedKeeper::assignItemsUsingAll($CID);
-    	        QSFeedKeeper::updateStats($CID);
+				Core::Database()
+					->createQueryForClass($this)
+					->call('assignToAll')
+					->withParameters($CID, $CID)
+					->execute();
+    	       $this->updateStats($CID);
             }
             else
             {
     	        //check filter for all feeds and add if matching
-    	        $res = QSFeedKeeper::getFeedsWithType();
+				$res = Core::Database()
+					->createQueryForClass($this)
+					->call('feedsWithType')
+					->withoutParameters();
 	            $feeds = array();
-	            while($row = $res->fetch())
+	            while($row = $res->fetchResult())
 	            {
 	                if($row[1] == CFeed::ALL)
 	                {
 	                    $feeds[] = $row[0];
 	                }
 	            }
-	            $res->free();
-	            if(count($feeds) > 0)
-	            {
-	                QSFeedKeeper::linkItem($CID, $feeds);
-	            }
+	            $res->close();
 	            foreach ($feeds as $fid) 
 	            {
-	            	QSFeedKeeper::updateStats($fid);
+					Core::Database()
+						->createQueryForClass($this)
+						->call('link')
+						->withParameters($fid, $CID)
+						->execute();
+	            	$this->updateStats($CID);
 	            }
             }
     	    $DB->commit();
@@ -186,6 +228,14 @@ class SFeedKeeper
 	        $DB->rollback();
 	        throw $e;
 	    }
+	}
+
+	protected function updateStats($id){
+		Core::Database()
+			->createQueryForClass($this)
+			->call('updateStats')
+			->withParameters($id, $id)
+			->execute();
 	}
 }
 ?>
