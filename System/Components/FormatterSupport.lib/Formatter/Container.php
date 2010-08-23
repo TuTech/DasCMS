@@ -7,6 +7,7 @@ class Formatter_Container
         Interface_View_DisplayAtom,
 		Interface_AcceptsContent
 {
+	const CLASS_NAME = 'Formatter_Container';
     protected static $availableAttributes = null;
     protected $attachedAttributes = array();
     protected $uniqueName = null;
@@ -124,22 +125,36 @@ class Formatter_Container
     }
 
 	public static function getFormatterList(){
-		$formatters = array();
-		$res = QFormatterContainer::listFormatters();
-		while ($row = $res->fetch()){
-			$formatters[] = $row[0];
-		}
-		$res->free();
-		return $formatters;
+		return Core::Database()
+			->createQueryForClass(self::CLASS_NAME)
+			->call('list')
+			->withoutParameters()
+			->fetchList();
 	}
 
 	public static function freezeFormatter($name, $object){
 		$data = 'base64:'.base64_encode(serialize($object));
-		QFormatterContainer::setFormatter($name, $data);
+		return Core::Database()
+			->createQueryForClass(self::CLASS_NAME)
+			->call('set')
+			->withParameters($data, $name, $data)
+			->execute();
+	}
+
+	public static function deleteFormatter($name){
+		return Core::Database()
+			->createQueryForClass(self::CLASS_NAME)
+			->call('del')
+			->withParameters($name)
+			->execute();
 	}
 
 	public static function exists($name){
-		return QFormatterContainer::isFormatter($name);
+		return !!Core::Database()
+			->createQueryForClass(self::CLASS_NAME)
+			->call('exists')
+			->withParameters($name)
+			->fetchSingleValue();
 	}
 
     /**
@@ -149,13 +164,14 @@ class Formatter_Container
     public static function unfreeze($name)
     {
         //reverse evil
-        $res = QFormatterContainer::getFormatter($name);
-        $row = $res->fetch();
-        $res->free();
-        if(!$row){
-        	throw new XFileNotFoundException('no formatter named '.$name);
-        }
-        list($data) = $row;
+		$res = Core::Database()
+			->createQueryForClass(self::CLASS_NAME)
+			->call('load')
+			->withParameters($name);
+		if($res->getRows() != 1){
+			throw new XFileNotFoundException('no formatter named '.$name);
+		}
+        $data = $res->fetchSingleValue();
 		if(substr($data,0,7) == 'base64:'){
 			$data = base64_decode(substr($data,7));
 		}
@@ -170,11 +186,6 @@ class Formatter_Container
      */
     public static function unfreezeForFormatting($name, Interface_Content $content)
     {
-        //if(!array_key_exists($name, self::$Formatters))
-        //{
-        //    self::$Formatters[$name] = self::unfreeze($name);
-        //}
-        //$obj = clone self::$Formatters[$name];
 		$obj = self::unfreeze($name);
 		if($obj instanceof Interface_AcceptsContent){
 			$obj->acceptContent($content);

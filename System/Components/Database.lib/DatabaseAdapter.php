@@ -288,6 +288,14 @@ class DatabaseAdapter
 		return null;
 	}
 
+	public function getRows()
+	{
+		if($this->statement){
+			return $this->statement->num_rows;
+		}
+		return null;
+	}
+
 	public function getInsertID()
 	{
 		if($this->statement){

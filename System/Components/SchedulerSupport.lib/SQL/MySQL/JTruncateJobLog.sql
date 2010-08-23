@@ -2,5 +2,5 @@
 -- name: cleanup
 -- type: delete
 DELETE
-	FROM JobSchedules
+	FROM __PFX__JobSchedules
 	WHERE started <= DATE_SUB(NOW(), INTERVAL 1 WEEK)
