@@ -28,7 +28,14 @@ class JTruncateJobLog implements ISchedulerJob
      */
     public function run()
     {
-        $this->message = sprintf('%d job schedules removed', QJTruncateJobLog::removeJobs());
+        $this->message = sprintf(
+				'%d job schedules removed',
+				Core::Database()
+					->createQueryForClass($this)
+					->call('cleanup')
+					->withoutParameters()
+					->execute()
+			);
     }
     
     /**
