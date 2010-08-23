@@ -164,14 +164,14 @@ class Formatter_Container
     public static function unfreeze($name)
     {
         //reverse evil
-		$res = Core::Database()
+		$data = Core::Database()
 			->createQueryForClass(self::CLASS_NAME)
 			->call('load')
-			->withParameters($name);
-		if($res->getRows() != 1){
-			throw new XFileNotFoundException('no formatter named '.$name);
+			->withParameters($name)
+			->fetchSingleValue();
+		if(empty ($data)){
+			throw new XFileNotFoundException('formatter not found',$name);
 		}
-        $data = $res->fetchSingleValue();
 		if(substr($data,0,7) == 'base64:'){
 			$data = base64_decode(substr($data,7));
 		}
