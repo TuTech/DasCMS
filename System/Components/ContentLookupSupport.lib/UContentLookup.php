@@ -47,7 +47,7 @@ class UContentLookup
 		$itemsPerPage = 15;
 
 		$res = Core::Database()
-			->createQueryForClass($this)
+			->createQueryForClass(self::CLASS_NAME)
 			->call('list'.ucfirst($opt))
 			->withParameters('%'.$filter.'%', $itemsPerPage+1, $page * $itemsPerPage - $itemsPerPage);
 		while($erg = $res->fetchResult())
@@ -90,7 +90,7 @@ class UContentLookup
 		$lastMan = null;
 		$itemsPerPage = 10;
 	    $res = Core::Database()
-			->createQueryForClass($this)
+			->createQueryForClass(self::CLASS_NAME)
 			->call('listImg'.ucfirst($opt))
 			->withParameters('%'.$filter.'%', $itemsPerPage+1, $page * $itemsPerPage - $itemsPerPage);
 		while($erg = $res->fetchResult())
