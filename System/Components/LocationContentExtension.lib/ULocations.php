@@ -45,10 +45,13 @@ class ULocations
     {
         $location = '';
         $location = null; $lat = null; $long = null; $addr = null;
-	    $res = QULocations::getContentLocation($alias);
-	    if($res->getRowCount())
+		$res = Core::Database()
+			->createQueryForClass($this)
+			->call('get')
+			->withParameters($alias);
+	    if($res->getRows() > 0)
 	    {
-	        list($location, $lat, $long, $addr) = $res->fetch();
+	        list($location, $lat, $long, $addr) = $res->fetchResult();
 	    }
 	    $res->free();
 	    return array('location' => $location,
@@ -60,28 +63,52 @@ class ULocations
     public function setContentLocation($alias, $location)
     {
         self::failWithout('org.bambuscms.location.edit');
-	    return QULocations::setContentLocation($alias, $location);
+		$dbid = Core::Database()
+			->createQueryForClass($this)
+			->call('getId')
+			->withParameters($alias)
+			->fetchSingleValue();
+		if($dbid == null){
+			//set location to null/remove location data
+			Core::Database()
+				->createQueryForClass($this)
+				->call('unlink')
+				->withParameters($alias)
+				->execute();
+		}
+		else{
+			//set new location data
+			Core::Database()
+				->createQueryForClass($this)
+				->call('link')
+				->withParameters($dbid, $alias, $dbid)
+				->execute();
+		}
     }
         
     public function setLocationData($location, $address, $latitude, $longitude)
     {
         self::failWithout('org.bambuscms.location.edit');
-        return QULocations::setLocationData($location, $address, $latitude, $longitude);
+		$address = empty($address) ? null : $address;
+		$latitude = empty($latitude) ? null : $latitude;
+		$longitude = empty($longitude) ? null : $longitude;
+		return Core::Database()
+			->createQueryForClass($this)
+			->call('set')
+			->withParameters($location, $latitude, $longitude, $address, $latitude, $longitude, $address)
+			->execute();
     }
     
     public function getLocationList(array $params)
     {
         self::failWithout('org.bambuscms.location.list');
         //params: query
-        $q = isset($params['query']) ? $params['query'] : '';
-        $ret = array();
-        $res = QULocations::getLocationList($q);
-        while($row = $res->fetch())
-        {
-            $ret[] = $row[0];
-        }
-        $res->free();
-        return $ret;
+        $q = isset($params['query']) ? '%'.$params['query'].'%' : '%';
+		return Core::Database()
+			->createQueryForClass($this)
+			->call('list')
+			->withParameters($q)
+			->fetchList();
     }
     
     public function createLocation(array $params)
