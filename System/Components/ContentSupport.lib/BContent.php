@@ -251,13 +251,6 @@ abstract class BContent extends BObject implements Interface_Content
 		//parse pubdate
 		$this->PubDate = ($pd == '0000-00-00 00:00:00' ? 0 : strtotime($pd));
 		$this->_origPubDate = $this->PubDate;
-
-		//load tags
-	    $this->Tags = Core::Database()
-			->createQueryForClass('BContent')
-			->call('tags')
-			->withParameters($this->Id)
-			->fetchList();
 	}
 
 	/**
@@ -452,7 +445,12 @@ abstract class BContent extends BObject implements Interface_Content
 	{
 		if($this->Tags === null)
 		{
-			$this->Tags = STag::getSharedInstance()->get($this);
+			//load tags
+			$this->Tags = Core::Database()
+				->createQueryForClass('BContent')
+				->call('tags')
+				->withParameters($this->Id)
+				->fetchList();
 		}
 		return $this->Tags;
 	}

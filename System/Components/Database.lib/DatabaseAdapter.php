@@ -197,7 +197,7 @@ class DatabaseAdapter
 			throw new Exception('no statement to fetch from');
 		}
 		$res = '';
-		$val = $this->statement->bind_result($res);
+		$this->statement->bind_result($res);
 		$this->statement->fetch();
 		$this->free();
 		return $res;
@@ -309,6 +309,7 @@ class DatabaseAdapter
 	public function execute()
 	{
 		$affected = $this->getAffectedRows();
+		$this->free();
 		return $affected;
 	}
 
@@ -317,8 +318,12 @@ class DatabaseAdapter
 		if($this->statement){
 			$this->statement->free_result();
 		}
+		$this->class = null;
 		$this->function = null;
 		$this->parameters = null;
+		$this->statement = null;
+		$this->resultBindings = null;
+		$this->hasBoundData = false;
 	}
 
 	public function  __destruct()
