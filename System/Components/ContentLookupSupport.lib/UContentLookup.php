@@ -45,8 +45,12 @@ class UContentLookup
 		$map['continueList'] = $page > 1;
 		$lastMan = null;
 		$itemsPerPage = 15;
-	    $res = QWContentLookup::fetchContentList($opt, $filter, $page, $itemsPerPage);
-		while($erg = $res->fetch())
+
+		$res = Core::Database()
+			->createQueryForClass($this)
+			->call('list'.ucfirst($opt))
+			->withParameters('%'.$filter.'%', $itemsPerPage+1, $page * $itemsPerPage - $itemsPerPage);
+		while($erg = $res->fetchResult())
 		{
 			list($ctype, $alias, $ttl, $pub) = $erg;
 			$pub = ($pub == '0000-00-00 00:00:00') ? 0 : strtotime($pub);
@@ -85,8 +89,11 @@ class UContentLookup
 		$map['continueList'] = $page > 1;
 		$lastMan = null;
 		$itemsPerPage = 10;
-	    $res = QWContentLookup::fetchContentList($opt, $filter, $page, $itemsPerPage, WImage::getSupportedMimeTypes());
-		while($erg = $res->fetch())
+	    $res = Core::Database()
+			->createQueryForClass($this)
+			->call('listImg'.ucfirst($opt))
+			->withParameters('%'.$filter.'%', $itemsPerPage+1, $page * $itemsPerPage - $itemsPerPage);
+		while($erg = $res->fetchResult())
 		{
 			list($ctype, $alias, $ttl, $pub) = $erg;
 			$pub = ($pub == '0000-00-00 00:00:00') ? 0 : strtotime($pub);
