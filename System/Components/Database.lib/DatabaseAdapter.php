@@ -197,6 +197,7 @@ class DatabaseAdapter
 			throw new Exception('no statement to fetch from');
 		}
 		if($this->getRows() == 0){
+			$this->free();
 			return null;
 		}
 		$res = '';
