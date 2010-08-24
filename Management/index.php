@@ -6,6 +6,7 @@
 * Description: Management (Login and Applcation loader)
 ************************************************/
 
+$start_time = microtime(true);
 chdir(dirname(__FILE__));
 require_once '../System/main.php';
 WHeader::httpHeader('Content-Type: text/html; charset='.CHARSET);
@@ -116,6 +117,8 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
 			//interface is coded in php an needs to be called here
 			SNotificationCenter::report('alert', 'invalid_application');
     	}
+		$end_time = microtime(true);
+		WTemplate::globalSet('gentime','<!-- gen time '.($end_time-$start_time).'s -->');
 		WTemplate::renderOnce('footer', WTemplate::SYSTEM);
     }
 }
@@ -139,6 +142,7 @@ else
         'translate:login' => SLocalization::get('login')
     ));
     $loginTpl->render();
+	WTemplate::globalSet('gentime','');
     WTemplate::renderOnce('footer', WTemplate::SYSTEM);
 }
 ?>
