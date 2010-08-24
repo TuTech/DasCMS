@@ -60,7 +60,7 @@ class VSpore extends BView
 				        self::ERROR_CONTENT => $row[3],
 			        );
 				}
-				$res->close();
+				$res->free();
 			}
 			catch (Exception $e)
 			{

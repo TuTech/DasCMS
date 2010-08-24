@@ -119,7 +119,7 @@ class SFeedKeeper
                 $feedTags[$fid][] = $tag;
                 $feedTypes[$fid] = $type;
             }
-            $res->close();
+            $res->free();
             //add item to all feeds with matching filter
             $itemsToAdd = array();
             foreach ($feedTypes as $fid => $type)
@@ -210,7 +210,7 @@ class SFeedKeeper
 	                    $feeds[] = $row[0];
 	                }
 	            }
-	            $res->close();
+	            $res->free();
 	            foreach ($feeds as $fid) 
 	            {
 					Core::Database()

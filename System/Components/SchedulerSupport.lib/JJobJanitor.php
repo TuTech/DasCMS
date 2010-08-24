@@ -48,7 +48,7 @@ class JJobJanitor implements ISchedulerJob
                 $toRemove[] = $id;
             }
         }
-		$res->close();
+		$res->free();
 		foreach ($toRemove as $rm){
 			Core::Database()
 				->createQueryForClass($this)

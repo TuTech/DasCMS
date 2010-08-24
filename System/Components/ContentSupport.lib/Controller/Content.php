@@ -147,7 +147,7 @@ class Controller_Content
 	    {
 	        $index[$row[0]] = $row[1];
 	    }
-		$res->close();
+		$res->free();
 	    return $index;
 	}
 

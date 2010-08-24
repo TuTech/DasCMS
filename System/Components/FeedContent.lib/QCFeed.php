@@ -129,13 +129,11 @@ class QCFeed extends BQuery
     				Aliases.alias,
 					IF(ISNULL(ChangedByUsers.login), '-', ChangedByUsers.login),
 					Changes.changeDate,
-    				GROUP_CONCAT(DISTINCT Tags.tag ORDER BY Tags.tag ASC SEPARATOR ', '),
+    				'' AS Placeholder,
     				Contents.subtitle
 				FROM relFeedsContents
     				LEFT JOIN Contents ON (relFeedsContents.contentREL = Contents.contentID)
     				LEFT JOIN Aliases ON (Contents.primaryAlias = Aliases.aliasID)
-    				LEFT JOIN relContentsTags ON (Contents.contentID = relContentsTags.contentREL)
-    				LEFT JOIN Tags ON (relContentsTags.tagREL = Tags.tagID)
     				LEFT JOIN Changes ON (Contents.contentID = Changes.contentREL AND Changes.latest = 'Y')
     				LEFT JOIN ChangedByUsers ON (Changes.userREL = ChangedByUsers.changedByUserID)
 				WHERE
@@ -143,7 +141,6 @@ class QCFeed extends BQuery
 					AND relFeedsContents.feedREL != relFeedsContents.contentREL
 					AND Contents.pubDate > 0
 					AND Contents.pubDate <= NOW()
-				GROUP BY Aliases.alias
 				ORDER BY %s %s
 				LIMIT %d
 				OFFSET %d";

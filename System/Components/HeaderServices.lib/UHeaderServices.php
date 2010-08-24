@@ -101,7 +101,7 @@ class UHeaderServices
                     call_user_func($class.'::sendHeaderService', $alias, $e);
                 }
             }
-			$res->close();
+			$res->free();
         }
         catch (Exception $ex)
         {

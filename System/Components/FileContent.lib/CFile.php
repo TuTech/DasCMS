@@ -146,7 +146,7 @@ class CFile
 	            $this->metadata['suffix'],
 	            $this->metadata['md5']
             ) = $res->fetchResult();
-			$res->close();
+			$res->free();
 	    }
 	}
 	
@@ -302,7 +302,7 @@ class CFile
 	    {
 	        $contents[$row[0]] = array($row[1], $row[2], $row[3], $row[4]);
 	    }
-	    $res->close();
+	    $res->free();
 	    return $contents;
 	}
 	

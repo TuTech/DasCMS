@@ -33,7 +33,7 @@ abstract class BObject
 			while($row = $d->fetchResult()){
 				self::$_classIndex[$row[0]] = $row[1];
 			}
-			$d->close();
+			$d->free();
 	    }
 	    if(!array_key_exists($ID, self::$_classIndex))
 	    {

@@ -47,7 +47,7 @@ interface Interface_Database_FetchableQuery{
 	 /**
 	  * clean up after fetch
 	  */
-	 public function close();
+	 public function free();
 }
 
 ?>

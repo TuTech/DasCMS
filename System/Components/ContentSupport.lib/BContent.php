@@ -246,7 +246,7 @@ abstract class BContent extends BObject implements Interface_Content
 				$this->Alias,
 				$this->SubTitle
 			) = $res->fetchResult();
-		$res->close();
+		$res->free();
 
 		//parse pubdate
 		$this->PubDate = ($pd == '0000-00-00 00:00:00' ? 0 : strtotime($pd));

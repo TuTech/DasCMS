@@ -65,10 +65,8 @@ class DatabaseAdapter
 	 */
 	public function createQueryForClass($classNameOrObject)
 	{
-		$class = (is_object($classNameOrObject)) ? get_class($classNameOrObject) : strval($classNameOrObject);
-		$self = clone $this;
-		$self->class = $class;
-		return $self;
+		$this->class = (is_object($classNameOrObject)) ? get_class($classNameOrObject) : strval($classNameOrObject);
+		return $this;
 	}
 
 	////////////////////////
@@ -197,7 +195,7 @@ class DatabaseAdapter
 		$res = '';
 		$val = $this->statement->bind_result($res);
 		$this->statement->fetch();
-		$this->close();
+		$this->free();
 		return $res;
 	}
 
@@ -253,7 +251,7 @@ class DatabaseAdapter
 				$res[] = array_values($this->resultBindings);
 			}
 		}
-		$this->close();
+		$this->free();
 		return $res;
 	}
 
@@ -307,22 +305,23 @@ class DatabaseAdapter
 	public function execute()
 	{
 		$affected = $this->getAffectedRows();
-		$this->close();
 		return $affected;
 	}
 
-	public function close()
+	public function free()
 	{
 		if($this->statement){
 			$this->statement->free_result();
-			$this->statement = null;
 		}
 		$this->function = null;
 		$this->parameters = null;
 	}
 
-	public function  __destruct() {
-		$this->close();
+	public function  __destruct()
+	{
+		foreach (self::$statements as $stmnt){
+			$stmnt->close();
+		}
 	}
 
 	///////////

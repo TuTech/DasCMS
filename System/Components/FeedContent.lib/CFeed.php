@@ -561,7 +561,7 @@ class CFeed
         	{
                 case 'Tags':
         		    $tag = 'div';
-        		    $content = htmlentities($data[$map[$key]], ENT_QUOTES, CHARSET);
+        		    $content = htmlentities(implode(', ', STag::getSharedInstance()->get($data[$map['Alias']])), ENT_QUOTES, CHARSET);
         		    break;
                 case 'Description':
         		    $tag = 'div';
