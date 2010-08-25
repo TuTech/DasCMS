@@ -243,11 +243,8 @@ org.bambuscms.app.document.insertMedia = function(type, id, title)
 {
 	if(lastFocus != null)
 	{
-		if(type == 'content')
-		{
-			document.getElementById(lastFocus+'_cid').value = id;
-			document.getElementById(lastFocus+'_ct').value = title;
-		}
+		document.getElementById(lastFocus+'_cid').value = id;
+		document.getElementById(lastFocus+'_ct').value = title;
 		document.getElementById(lastFocus+'_ct').focus();
 	}
 };
