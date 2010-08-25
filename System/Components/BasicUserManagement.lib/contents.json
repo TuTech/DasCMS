@@ -1,1 +1,1 @@
-{"classes":["AGroupManager","AUserEditor","QSTagPermissions","QSUsersAndGroups","SBambusSessionAuth","STagPermissions","SUser","SUsersAndGroups","Settings_ContentProtectionTags"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}
+{"classes":["AGroupManager","AUserEditor","QSTagPermissions","SBambusSessionAuth","STagPermissions","SUser","SUsersAndGroups","Settings_ContentProtectionTags"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}

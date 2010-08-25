@@ -66,6 +66,7 @@ class SJobScheduler extends BObject
 						->withParameters($e->getCode(), 'Scheduler failed: '.$e->getMessage(), $jobId, $scheduled)
 						->execute();
 				}
+				$DB->rollback();
 				$job = null;
 			}
 			//run the job
@@ -91,7 +92,7 @@ class SJobScheduler extends BObject
 				}
 				catch (Exception $e)
 				{
-					$e->rollback();
+					$DB->rollback();
 					$ergNo = $e->getCode();
 					$ergStr = $e->getMessage();
 					$ok = 'stopped';

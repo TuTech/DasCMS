@@ -25,6 +25,41 @@ class SUsersAndGroups
     {
     }
 
+	protected function dbSetPrimaryGroup($user, $primaryGroup){
+		//set as primary group
+		Core::Database()
+			->createQueryForClass($this)
+			->call('setPriGrp')
+			->withParameters($primaryGroup, $user)
+			->execute();
+		//assign to group
+		if(!empty ($primaryGroup)){
+			Core::Database()
+				->createQueryForClass($this)
+				->call('linkUserToGroup')
+				->withParameters($user, $primaryGroup)
+				->execute();
+		}
+	}
+
+	protected function dbSetGroup($user, array $groups, $primaryGroup){
+		$this->dbSetPrimaryGroup($user, $primaryGroup);
+		Core::Database()
+			->createQueryForClass($this)
+			->call('clearGroupsExcept')
+			->withParameters($user, $primaryGroup)
+			->execute();
+		foreach ($groups as $grp){
+			Core::Database()
+				->createQueryForClass($this)
+				->call('link')
+				->withParameters($user, $grp)
+				->execute();
+		}
+	}
+
+
+
 ///////////////////////////////////////////////////////////////////////
 ///// Groups
 ///////////////////////////////////////////////////////////////////////
@@ -78,7 +113,11 @@ class SUsersAndGroups
         if(!isset($grouplist[$name]))
         {
             $grouplist[$name] = $description;
-            QSUsersAndGroups::createGroup($name, $description);
+			Core::Database()
+				->createQueryForClass($this)
+				->call('addGroup')
+				->withParameters($name, $description)
+				->execute();
             $this->saveGroups();
             return true;
         }
@@ -97,7 +136,11 @@ class SUsersAndGroups
         {
             unset($grouplist[$name]);
             $this->saveGroups();
-            QSUsersAndGroups::deleteGroup($name);
+			Core::Database()
+				->createQueryForClass($this)
+				->call('delGroup')
+				->withParameters($name)
+				->execute();
             return true;
         }
         else
@@ -115,7 +158,11 @@ class SUsersAndGroups
         {
             $grouplist[$group]['description'] = $description;
             $this->saveGroups();
-            QSUsersAndGroups::setGroupDescription($group, $description);
+			Core::Database()
+				->createQueryForClass($this)
+				->call('setDesc')
+				->withParameters($description, $group)
+				->execute();
             return true;
         }
         else
@@ -185,7 +232,7 @@ class SUsersAndGroups
         {
             $pri = '';
         }
-        QSUsersAndGroups::setGroups($user, $add, $pri);
+		$this->dbSetGroup($user, $add, $pri);
     }
     
     public function setPrimaryGroup($userOrUsers, $group)
@@ -202,7 +249,7 @@ class SUsersAndGroups
                 {
                     if($userlist[$user]->setPrimaryGroup($group))
                     {
-                        QSUsersAndGroups::setPrimaryGroup($user, $group);
+						$this->dbSetPrimaryGroup($user, $group);
                     }
                 }
             }
@@ -454,7 +501,11 @@ class SUsersAndGroups
         {
             $res = $userlist[$username]->setEmail($email);
             $this->saveUsers();
-            QSUsersAndGroups::setUserData($username, null, $email);
+			Core::Database()
+				->createQueryForClass($this)
+				->call('setEMail')
+				->withParameters($username, $email)
+				->execute();
             return $res;
         }
         return false;
@@ -477,7 +528,11 @@ class SUsersAndGroups
         {
             $res = $userlist[$username]->setRealName($realName);
             $this->saveUsers();
-            QSUsersAndGroups::setUserData($username, $realName, null);
+			Core::Database()
+				->createQueryForClass($this)
+				->call('setName')
+				->withParameters($username, $realName)
+				->execute();
             return $res;
         }
         return false;
@@ -502,7 +557,11 @@ class SUsersAndGroups
         {
             //let the sublass do the work
             $userlist[$name] = new SUser($password,  $realName, $email, $this->checkGroups($groups), $permissions);
-            QSUsersAndGroups::createUser($name, $realName, $email, '');
+			Core::Database()
+				->createQueryForClass($this)
+				->call('addUser')
+				->withParameters($name, $realName, $email)
+				->execute();
             $this->saveUsers();
             return true;
         }
@@ -523,7 +582,11 @@ class SUsersAndGroups
             {
                 unset($userlist[$name]);
                 $this->saveUsers();
-                QSUsersAndGroups::deleteUser($name);
+				Core::Database()
+					->createQueryForClass($this)
+					->call('delUser')
+					->withParameters($name)
+					->execute();
                 return true;
             }
             else
@@ -535,7 +598,11 @@ class SUsersAndGroups
                     {
                         unset($userlist[$name]);
                         $this->saveUsers();
-                        QSUsersAndGroups::deleteUser($name);
+						Core::Database()
+							->createQueryForClass($this)
+							->call('delUser')
+							->withParameters($name)
+							->execute();
                         return true;
                     }
                 }
