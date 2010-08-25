@@ -17,9 +17,11 @@ class SJobScheduler extends BObject
     public static function runJob()
     {
         $ok = true;
-        $res = QSJobScheduler::hasAnyJobs();
-        list($jobs) = $res->fetch();
-        $res->free();
+		$jobs = Core::Database()
+			->createQueryForClass('SJobScheduler')
+			->call('count')
+			->withoutParameters()
+			->fetchSingleValue();
         if($jobs == 0 && class_exists('JJobJanitor', true))
         {
             $job = new JJobJanitor();
@@ -28,56 +30,79 @@ class SJobScheduler extends BObject
         else
         {
             $DB = DSQL::getSharedInstance();
-            $DB->beginTransaction();
             try
             {
-                $res = QSJobScheduler::getNextJob();
-                if($res->getRowCount() == 1)
+				//re-/schedule
+				$DB->beginTransaction();
+                $res = Core::Database()
+					->createQueryForClass('SJobScheduler')
+					->call('next')
+					->withoutParameters();
+				$row = $res->fetchResult();
+				$res->free();
+				$job = null;
+                if($row)
                 {
-                    list($job, $jobId, $scheduled) = $res->fetch();
-                    $res->free();
-                    $res = QSJobScheduler::lockJob($jobId, $scheduled);
-                    if($res == 0)
-                    {
-                        return 'conflict';
-                    }
-                    QSJobScheduler::setStarted($jobId, $scheduled);
-                    QSJobScheduler::rescheduleJob($jobId);
-                    $DB->commit();
-                    $DB->beginTransaction();
-                    $ergStr = '(null)';
-                    $ergNo = 0;
-                    
-                        if(!class_exists($job, true))
-                        {
-                            throw new Exception('Job not found', 1);
-                        }
-                        $jobObj = new $job;
-                        if (!$jobObj instanceof ISchedulerJob)
-                        {
-                        	throw new Exception('Job not a valid job', 2);
-                        }
-                        $ok = $jobObj->run();
-                        $ergNo = $jobObj->getStatusCode();
-                        $ergStr = $jobObj->getStatusMessage();
-                    
-                    QSJobScheduler::finishJob($jobId,$scheduled,$ergNo, $ergStr);
-                }
-                $DB->commit();
-            }
-            catch (XDatabaseException $e)
-            {
-                $e->rollback();
-                $ergNo = $e->getCode();
-                $ergStr = $e->getMessage();
-                $ok = 'fail';
-            }
-            catch (Exception $e)
-            {
-                $ergNo = $e->getCode();
-                $ergStr = $e->getMessage();
-                $ok = 'stopped';
-            }
+                    list($job, $jobId, $scheduled) = $row;
+					Core::Database()
+						->createQueryForClass('SJobScheduler')
+						->call('start')
+						->withParameters($jobId, $scheduled)
+						->execute();
+					Core::Database()
+						->createQueryForClass('SJobScheduler')
+						->call('schedule')
+						->withParameters($jobId, $jobId)
+						->execute();
+				}
+				$DB->commit();
+			}
+			catch (Exception $e){
+				SErrorAndExceptionHandler::reportException($e);
+				if(!empty($jobs)){
+					Core::Database()
+						->createQueryForClass('SJobScheduler')
+						->call('report')
+						->withParameters($e->getCode(), 'Scheduler failed: '.$e->getMessage(), $jobId, $scheduled)
+						->execute();
+				}
+				$job = null;
+			}
+			//run the job
+			if($job != null){
+				$DB->beginTransaction();
+				try
+				{
+					$ergStr = '(null)';
+					$ergNo = 0;
+
+					if(!class_exists($job, true))
+					{
+						throw new Exception('Job not found', 1);
+					}
+					$jobObj = new $job;
+					if (!$jobObj instanceof ISchedulerJob)
+					{
+						throw new Exception('Job not a valid job', 2);
+					}
+					$ok = $jobObj->run();
+					$ergNo = $jobObj->getStatusCode();
+					$ergStr = $jobObj->getStatusMessage();
+				}
+				catch (Exception $e)
+				{
+					$e->rollback();
+					$ergNo = $e->getCode();
+					$ergStr = $e->getMessage();
+					$ok = 'stopped';
+				}
+				Core::Database()
+					->createQueryForClass('SJobScheduler')
+					->call('report')
+					->withParameters($ergNo, $ergStr, $jobId, $scheduled)
+					->execute();
+				$DB->commit();
+			}
         }
         return $ok;
     }

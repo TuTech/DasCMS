@@ -1,1 +1,1 @@
-{"classes":["JJobJanitor","JTruncateJobLog","QSJobScheduler","SJobScheduler"],"interfaces":["ISchedulerJob"],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}
+{"classes":["JJobJanitor","JTruncateJobLog","SJobScheduler"],"interfaces":["ISchedulerJob"],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}
