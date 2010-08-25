@@ -49,7 +49,11 @@ class WContentGeoAttribute extends BWidget
         $ret = null;
         try
         {
-            $stat = QWContentGeoAttribute::add($name, $latitude, $longitude);
+			$stat = Core::Database()
+				->createQueryForClass(self::CLASS_NAME)
+				->call('add')
+				->withParameters($name, floatval($latitude), floatval($longitude))
+				->execute();
             if($stat)
             {
                 $ret = self::byName($name);
@@ -66,22 +70,39 @@ class WContentGeoAttribute extends BWidget
         $stat = false;
         try
         {
-            $stat = QWContentGeoAttribute::delete($name);
+			$stat = Core::Database()
+				->createQueryForClass(self::CLASS_NAME)
+				->call('delete')
+				->withParameters($name)
+				->execute();
         }
         catch (XDatabaseException $e)
         {
         }
         return $stat == 1;
     }
-    
+
+	protected static function load($call, $param){
+		$res = Core::Database()
+			->createQueryForClass(self::CLASS_NAME)
+			->call($call)
+			->withParameters($param);
+		$row = $res->fetchResult();
+		$res->free();
+		if(!$row){
+			throw new Exception('location not found');
+		}
+		return new WContentGeoAttribute($row[0], $row[1], $row[2]);
+	}
+
     public static function byName($name)
     {
-        return new WContentGeoAttribute(QWContentGeoAttribute::getByName($name));
+		return self::load('get', $name);
     }
     
     public static function forContent(Interface_Content $content)
     {
-        return new WContentGeoAttribute(QWContentGeoAttribute::getByContentId($content->getId()));
+        return self::load('getForContent', $content->getId());
     }
     
     public static function assignContentLocation(Interface_Content $content, $location)
@@ -89,7 +110,16 @@ class WContentGeoAttribute extends BWidget
         $ret = null;
         try
         {
-            $stat = QWContentGeoAttribute::assignContentLocation($content->getId(), $location);
+			Core::Database()
+				->createQueryForClass(self::CLASS_NAME)
+				->call('unlink')
+				->withParameters($content->getId())
+				->execute();
+			$stat = Core::Database()
+				->createQueryForClass(self::CLASS_NAME)
+				->call('link')
+				->withParameters($content->getId(), $location)
+				->execute();
             if($stat)
             {
                 $ret = self::byName($location); 
@@ -106,7 +136,11 @@ class WContentGeoAttribute extends BWidget
         $stat = false;
         try
         {
-            $stat = QWContentGeoAttribute::rename($this->name, $name);
+			$stat = Core::Database()
+				->createQueryForClass(self::CLASS_NAME)
+				->call('rename')
+				->withParameters($name, $this->name)
+				->execute();
             $this->name = $name;
         }
         catch (XDatabaseException $e)
@@ -122,7 +156,11 @@ class WContentGeoAttribute extends BWidget
         $stat = false;
         try
         {
-            $stat = QWContentGeoAttribute::relocate($this->name, $latitude, $longitude);
+			$stat = Core::Database()
+				->createQueryForClass(self::CLASS_NAME)
+				->call('relocate')
+				->withParameters(floatval($latitude), floatval($longitude), $this->name)
+				->execute();
         }
         catch (XDatabaseException $e)
         {
@@ -146,17 +184,11 @@ class WContentGeoAttribute extends BWidget
     }
     
     
-    protected function __construct(DSQLResult $res)
-    {       
-        if($res->getRowCount() == 1)
-        {
-            list(
-                $this->name,
-                $this->latitude,
-                $this->longitude
-            ) = $res->fetch();
-        }
-        $res->free();
+    protected function __construct($name, $lat, $long)
+    {
+		$this->name = $name;
+		$this->latitude = $lat;
+		$this->longitude = $long;
     }
 
     /**
