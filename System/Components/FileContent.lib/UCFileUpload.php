@@ -80,16 +80,23 @@ class UCFileUpload
     public function uploadMessage($param)
     {
         $html = '';
-        if(self::$message != '')
+        if(RURL::has('_upload'))
         {
-            $succ = self::$uploaded ? 'ok' : 'failed';
+            $succ = (RURL::get('_upload') == '1') ? 'ok' : 'failed';
             $html = sprintf(
                 '<div class="UCFileUpload_upload_%s">%s</div>'
 				,$succ
-                ,array_key_exists($succ.'Message', $param) 
-                    ? $param[$succ.'Message'] 
-                    : (SLocalization::get(self::$message))
+                ,array_key_exists($succ.'Message', $param)
+                    ? $param[$succ.'Message']
+                    : (SLocalization::get('upload_'.$succ))
             );
+        }
+        if(self::$message != '')
+        {
+            $succ = self::$uploaded ? '1' : '-';
+            $html = '<script type="text/javascript">top.location.href = "'.
+                SLink::base().SLink::link(array('_upload'=>$succ))
+                .'";</script>';
         }
         return $html;
     }
