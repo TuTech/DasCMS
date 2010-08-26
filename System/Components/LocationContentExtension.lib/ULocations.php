@@ -49,9 +49,9 @@ class ULocations
 			->createQueryForClass($this)
 			->call('get')
 			->withParameters($alias);
-	    if($res->getRows() > 0)
+	    if($row = $res->fetchResult())
 	    {
-	        list($location, $lat, $long, $addr) = $res->fetchResult();
+	        list($location, $lat, $long, $addr) = $row;
 	    }
 	    $res->free();
 	    return array('location' => $location,
@@ -66,7 +66,7 @@ class ULocations
 		$dbid = Core::Database()
 			->createQueryForClass($this)
 			->call('getId')
-			->withParameters($alias)
+			->withParameters($location)
 			->fetchSingleValue();
 		if($dbid == null){
 			//set location to null/remove location data

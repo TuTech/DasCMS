@@ -5,13 +5,16 @@
 -- mutable: no
 -- fields: 4
 -- type: select
-SELECT 	location,
-		IF(ISNULL(latitude),'',latitude),
-		IF(ISNULL(longitude),'',longitude),
-		IF(ISNULL(address),'',address)
-	FROM __PFX__Aliases
-	LEFT JOIN __PFX__relContentsLocations USING (contentREL)
-	LEFT JOIN __PFX__Locations ON (__PFX__relContentsLocations.locationREL = __PFX__Locations.locationID)
+SELECT
+		location,
+		latitude,
+		longitude,
+		address
+	FROM __PFX__Locations
+		LEFT JOIN __PFX__relContentsLocations
+			ON (__PFX__relContentsLocations.locationREL = __PFX__Locations.locationID)
+		LEFT JOIN __PFX__Aliases
+			USING (contentREL)
 	WHERE __PFX__Aliases.alias = ?
 
 -- --
