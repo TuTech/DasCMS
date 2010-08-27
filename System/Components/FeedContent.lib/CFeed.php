@@ -346,11 +346,15 @@ class CFeed
 	public function getFeedItemAliases()
 	{
 	    $aliases = array();
-	    $res = QCFeed::getAliasesForFeed($this->Id);
-	    while ($row = $res->fetch()) 
+		$res = Core::Database()
+			->createQueryForClass($this)
+			->call('feedAliases')
+			->withParameters($this->getId());
+	    while ($row = $res->fetchResult())
 	    {
 	    	$aliases[] = $row[0];
 	    }
+		$res->free();
 	    return $aliases;
 	}
 	
@@ -376,9 +380,11 @@ class CFeed
 	{
 	    $this->lineNo = 0;
 	    //fetch meta data
-	    $res = QCFeed::countItemsForFeed($this->getId());
-	    list($count) = $res->fetch();
-        $res->free();
+		$count = Core::Database()
+			->createQueryForClass($this)
+			->call('countItems')
+			->withParameters($this->getId())
+			->fetchSingleValue();
         
         $hasMorePages = true;
         
@@ -425,15 +431,12 @@ class CFeed
         	}
         }
         
-        $res = QCFeed::getItemsForPage(
-            $this->getId(), 
-            $this->option(self::SETTINGS, 'SortBy'),
-            $this->option(self::SETTINGS, 'SortOrder'),
-            $currentPage,
-            $itemsPerPage,
-            $fetch
-        );
-        
+		$orderBY = strtolower($this->option(self::SETTINGS, 'SortBy')) == 'title' ? 'title' : 'pubDate';
+		$order = $this->option(self::SETTINGS, 'SortOrder') ? 'DESC' : 'ASC';
+		$res = Core::Database()
+			->createQueryForClass($this)
+			->buildAndCall('items', array($orderBY, $order))
+			->withParameters($this->getId(), $itemsPerPage, ($page-1)*$itemsPerPage);
         //html building
         $content = '<div id="_'.$this->getGUID().'" class="CFeed">';
         if($count > 0)
@@ -443,7 +446,7 @@ class CFeed
             if($this->getChildContentFormatter() == false)
     	    {
     	        //use feed to format the item ui 
-                while($row = $res->fetch())
+                while($row = $res->fetchResult())
                 {
                     $content .= $this->buildItemHtml($row);
                 }
@@ -451,7 +454,7 @@ class CFeed
     	    else
     	    {
     	        //use a formatter for the item ui
-    	        while($row = $res->fetch())
+    	        while($row = $res->fetchResult())
                 {
                     try
                     {
@@ -646,8 +649,42 @@ class CFeed
 	{
 		//save content
 		DFileSystem::SaveData($this->StoragePath($this->Id),$this->_data);
-		QCFeed::setFeedType($this->Id,$this->option(CFeed::SETTINGS, 'FilterMethod'));
-		QCFeed::setFilterTags($this->Id, $this->option(CFeed::SETTINGS, 'Filter'));
+		
+		//validate and save type
+		$type = array_search($this->option(CFeed::SETTINGS, 'FilterMethod'), array('',CFeed::ALL, CFeed::MATCH_SOME, CFeed::MATCH_ALL, CFeed::MATCH_NONE));
+		Core::Database()
+			->createQueryForClass($this)
+			->call('setType')
+			->withParameters($this->getId(), $type, $type)
+			->execute();
+
+		//dump tags for filter
+		$tags = $this->option(CFeed::SETTINGS, 'Filter');
+		foreach ($tags as $tag){
+			Core::Database()
+				->createQueryForClass($this)
+				->call('addTag')
+				->withParameters($tag, $tag)
+				->execute();
+		}
+
+		//set tags tags
+		DSQL::getSharedInstance()->beginTransaction();
+		//remove old tags
+		Core::Database()
+			->createQueryForClass($this)
+			->call('unlink')
+			->withParameters($this->getId())
+			->execute();
+		//link new tags
+		foreach ($tags as $tag){
+			Core::Database()
+				->createQueryForClass($this)
+				->call('link')
+				->withParameters($this->getId(), $tag)
+				->execute();
+		}
+		DSQL::getSharedInstance()->commit();
 	}
 	
 	/**
@@ -692,8 +729,11 @@ class CFeed
         if(!empty($spore))
         {
             $base = SLink::base();  
-            $res = QCFeed::getSiteMapData($this->getId());
-            while ($row = $res->fetch())
+			$res = Core::Database()
+				->createQueryForClass($this)
+				->call('sitemapData')
+				->withParameters($this->getId());
+            while ($row = $res->fetchResult())
             {
                 echo "\t<url>\n";
                 echo "\t\t<loc>";
@@ -704,6 +744,7 @@ class CFeed
                 echo "</lastmod>\n";
                 echo "\t</url>\n";
             }
+			$res->free();
         }
         echo "</urlset>";
     }
