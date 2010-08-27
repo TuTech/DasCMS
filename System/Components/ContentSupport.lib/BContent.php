@@ -347,7 +347,7 @@ abstract class BContent extends BObject implements Interface_Content
 		Core::Database()
 			->createQueryForClass('BContent')
 			->call('addMime')
-			->withParameters($type)
+			->withParameters($type,$type)
 			->execute();
 		Core::Database()
 			->createQueryForClass('BContent')
