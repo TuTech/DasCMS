@@ -87,9 +87,14 @@ class _View_Content_Base
 	 * @return string
 	 */
 	public function  __toString() {
-		$val = '';
-		if($this instanceof Interface_View_DisplayXHTML){
-			$val = $this->{"toXHTML"}();
+		try{
+			$val = '';
+			if($this instanceof Interface_View_DisplayXHTML){
+				$val = $this->{"toXHTML"}();
+			}
+		}
+		catch (Exception $e){
+			return '<!-- Error: '.strval($e) .' -->';
 		}
 		return $val;
 	}

@@ -436,7 +436,7 @@ class CFeed
 		$res = Core::Database()
 			->createQueryForClass($this)
 			->buildAndCall('items', array($orderBY, $order))
-			->withParameters($this->getId(), $itemsPerPage, ($page-1)*$itemsPerPage);
+			->withParameters($this->getId(), $itemsPerPage, ($currentPage-1)*$itemsPerPage);
         //html building
         $content = '<div id="_'.$this->getGUID().'" class="CFeed">';
         if($count > 0)
@@ -464,7 +464,6 @@ class CFeed
                     catch (Exception $e){/*skip this*/}
                 }
     	    }
-            $res->free();
             $content .= "\n\t</div>";
             $content .= $this->buildControlHtml(self::FOOTER, $hasMorePages, $currentPage, $startItem, $endItem, $maxItems);
         }
@@ -472,6 +471,7 @@ class CFeed
         {
             $content .= '<p>'.implode('<br />', $this->caption(self::ITEM, 'NoItemsFound')).'</p>';
         }
+		$res->free();
         $content .= '</div>';
         return $content;
 	}
