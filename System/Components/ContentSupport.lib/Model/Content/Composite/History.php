@@ -24,6 +24,7 @@ class Model_Content_Composite_History
 		if($this->init){
 			return;
 		}
+		$this->init = true;
 		try
         {
 			$res = Core::Database()
