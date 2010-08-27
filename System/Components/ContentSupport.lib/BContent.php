@@ -265,7 +265,7 @@ abstract class BContent extends BObject implements Interface_Content
 			->call('saveMeta')
 			->withParameters($this->Title, $pubDate, $this->Description, $this->Size, $this->SubTitle, $this->Id)
 			->execute();
-		  BContent::logChange($id, $title, $size);
+		  BContent::logChange($this->Id, $this->Title, $this->Size);
 	}
 
 	protected static function logChange($id, $title, $size, $retried = false){
@@ -312,7 +312,11 @@ abstract class BContent extends BObject implements Interface_Content
 				->call('createContent')
 				->withParameters($title, $class)
 				->execute();
-			$cid = $DB->lastInsertID();
+			$cid = Core::Database()
+				->createQueryForClass('BContent')
+				->call('lastInsertID')
+				->withoutParameters()
+				->fetchSingleValue();
 			if($cid == null){
 				throw new Exception('could not create Content');
 			}
@@ -346,12 +350,12 @@ abstract class BContent extends BObject implements Interface_Content
 
 	protected static function setMIMEType($alias, $type){
 		Core::Database()
-			->createQueryForClass($this)
+			->createQueryForClass('BContent')
 			->call('addMime')
 			->withParameters($type)
 			->execute();
 		Core::Database()
-			->createQueryForClass($this)
+			->createQueryForClass('BContent')
 			->call('setMime')
 			->withParameters($type, $alias)
 			->execute();

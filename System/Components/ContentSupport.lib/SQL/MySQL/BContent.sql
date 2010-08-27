@@ -172,3 +172,10 @@ UPDATE __PFX__Contents
 	SET mimetypeREL = (SELECT mimetypeID from __PFX__Mimetypes WHERE mimetype = ?)
 	WHERE contentID = (SELECT contentREL FROM __PFX__Aliases WHERE alias = ?)
 
+-- --
+-- name: lastInsertID
+-- deterministic: no
+-- mutable: yes
+-- fields: 1
+-- type: select
+SELECT LAST_INSERT_ID()
