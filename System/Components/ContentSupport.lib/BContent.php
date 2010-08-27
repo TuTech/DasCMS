@@ -307,28 +307,23 @@ abstract class BContent extends BObject implements Interface_Content
 		$DB = DSQL::getSharedInstance();
 		$DB->beginTransaction();
 		try{
-			Core::Database()
+			$cid = Core::Database()
 				->createQueryForClass('BContent')
 				->call('createContent')
 				->withParameters($title, $class)
-				->execute();
-			$cid = Core::Database()
-				->createQueryForClass('BContent')
-				->call('lastInsertID')
-				->withoutParameters()
-				->fetchSingleValue();
+				->executeInsert();
 			if($cid == null){
 				throw new Exception('could not create Content');
 			}
-			Core::Database()
+			$aid = Core::Database()
 				->createQueryForClass('BContent')
 				->call('createGUID')
 				->withParameters($cid)
-				->execute();
+				->executeInsert();
 			Core::Database()
 				->createQueryForClass('BContent')
 				->call('linkGUID')
-				->withParameters($cid)
+				->withParameters($aid, $aid, $cid)
 				->execute();
 			$DB->commit();
 		}

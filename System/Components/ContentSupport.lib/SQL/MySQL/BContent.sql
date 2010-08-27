@@ -136,10 +136,10 @@ INSERT
 -- --
 -- name: linkGUID
 -- type: update
--- inputTypes:	i
+-- inputTypes:	iii
 UPDATE __PFX__Contents
-	SET primaryAlias = LAST_INSERT_ID(),
-		GUID = LAST_INSERT_ID()
+	SET primaryAlias = ?,
+		GUID = ?
 	WHERE contentID = ?
 
 -- --
@@ -171,11 +171,3 @@ INSERT
 UPDATE __PFX__Contents
 	SET mimetypeREL = (SELECT mimetypeID from __PFX__Mimetypes WHERE mimetype = ?)
 	WHERE contentID = (SELECT contentREL FROM __PFX__Aliases WHERE alias = ?)
-
--- --
--- name: lastInsertID
--- deterministic: no
--- mutable: yes
--- fields: 1
--- type: select
-SELECT LAST_INSERT_ID()

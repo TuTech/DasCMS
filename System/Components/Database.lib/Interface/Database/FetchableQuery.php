@@ -45,6 +45,12 @@ interface Interface_Database_FetchableQuery{
 	 public function execute();
 
 	 /**
+	  * run non-query and clean up
+	  * @return int last insert id
+	  */
+	 public function executeInsert();
+
+	 /**
 	  * clean up after fetch
 	  */
 	 public function free();

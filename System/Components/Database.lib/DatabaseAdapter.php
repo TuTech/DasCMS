@@ -308,6 +308,13 @@ class DatabaseAdapter
 		return null;
 	}
 
+	public function executeInsert()
+	{
+		$insertID= $this->getInsertID();
+		$this->free();
+		return $insertID;
+	}
+
 	public function execute()
 	{
 		$affected = $this->getAffectedRows();
