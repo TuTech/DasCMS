@@ -433,6 +433,9 @@ class CFeed
         
 		$orderBY = strtolower($this->option(self::SETTINGS, 'SortBy')) == 'title' ? 'title' : 'pubDate';
 		$order = $this->option(self::SETTINGS, 'SortOrder') ? 'DESC' : 'ASC';
+		//load child formatter outside of the fetch loop to prevent sql out of sync errors
+		$childFormatter = $this->getChildContentFormatter();
+		
 		$res = Core::Database()
 			->createQueryForClass($this)
 			->buildAndCall('items', array($orderBY, $order))
@@ -443,7 +446,7 @@ class CFeed
         {
             $content .= $this->buildControlHtml(self::HEADER, $hasMorePages, $currentPage, $startItem, $endItem, $maxItems);
             $content .= "\n\t<div class=\"CFeed_items\">";
-            if($this->getChildContentFormatter() == false)
+            if($childFormatter == false)
     	    {
     	        //use feed to format the item ui 
                 while($row = $res->fetchResult())
