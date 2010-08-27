@@ -61,3 +61,114 @@ UPDATE __PFX__Contents
 		allowSearchIndexing = ?
 	WHERE
 		contentID = ?
+
+-- --
+-- name: saveMeta
+-- inputTypes: sssisi
+-- type: update
+UPDATE __PFX__Contents
+	SET
+		title = ?,
+		pubDate = ?,
+		description = ?,
+		size = ?,
+		subtitle = ?
+	WHERE
+		contentID = ?
+
+-- --
+-- name: logUID
+-- inputTypes:	s
+-- deterministic: yes
+-- mutable: no
+-- fields: 1
+-- type: select
+SELECT changedByUserID
+	FROM __PFX__ChangedByUsers
+	WHERE login = LEFT(?, 64)
+	LIMIT 1
+
+-- --
+-- name: addLogUser
+-- type: insert
+-- inputTypes:	s
+INSERT
+	INTO __PFX__ChangedByUsers(login)
+	VALUES (LEFT(?, 64))
+
+-- --
+-- name: setLogOutdated
+-- type: update
+-- inputTypes:	i
+UPDATE __PFX__Changes
+	SET latest = 'N'
+	WHERE contentREL = ?
+
+-- --
+-- name: log
+-- type: insert
+-- inputTypes:	isis
+INSERT
+	INTO __PFX__Changes (contentREL, title, size, userREL, latest)
+	VALUES (?, ?, ?, ?, 'Y')
+
+-- --
+-- name: createContent
+-- type: insert
+-- inputTypes:	ss
+INSERT
+	INTO __PFX__Contents(type, title, description)
+    SELECT
+			classID,
+			? AS title,
+			'' AS description
+		FROM __PFX__Classes
+		WHERE class = ?
+
+-- --
+-- name: createGUID
+-- type: insert
+-- inputTypes:	i
+INSERT
+	INTO __PFX__Aliases(alias, contentREL)
+    VALUES(UUID(), ?)
+
+-- --
+-- name: linkGUID
+-- type: update
+-- inputTypes:	i
+UPDATE __PFX__Contents
+	SET primaryAlias = LAST_INSERT_ID(),
+		GUID = LAST_INSERT_ID()
+	WHERE contentID = ?
+
+-- --
+-- name: getGUID
+-- inputTypes:	i
+-- deterministic: yes
+-- mutable: no
+-- fields: 1
+-- type: select
+SELECT __PFX__Aliases.alias
+	FROM __PFX__Contents
+		LEFT JOIN __PFX__Aliases ON (GUID = aliasID)
+	WHERE contentID = ?
+
+-- --
+-- name: addMime
+-- type: insert
+-- inputTypes:	ss
+INSERT
+	INTO __PFX__Mimetypes (mimetype)
+		VALUES (?)
+	ON DUPLICATE KEY UPDATE
+		mimetype = ?
+
+-- --
+-- name: setMime
+-- type: update
+-- inputTypes:	ss
+UPDATE __PFX__Contents
+	SET mimetypeREL = (SELECT mimetypeID from __PFX__Mimetypes WHERE mimetype = ?)
+	WHERE contentID = (SELECT contentREL FROM __PFX__Aliases WHERE alias = ?)
+

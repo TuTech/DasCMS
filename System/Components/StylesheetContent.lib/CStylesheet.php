@@ -33,10 +33,10 @@ class CStylesheet
 	 */
 	public static function Create($title)
 	{
-	    list($dbid, $alias) = QBContent::create(self::CLASS_NAME, $title);
+	    list($dbid, $alias) = BContent::createContent(self::CLASS_NAME, $title);
 	    DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$dbid.'.php', ' ');
 	    DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$dbid.'.html.php', ' ');
-	    QBContent::setMimeType($alias, 'text/css');
+	    BContent::setMIMEType($alias, 'text/css');
 	    $script = new CStylesheet($alias);
 	    $e = new EContentCreatedEvent($script, $script);
 	    return $script;

@@ -7,8 +7,10 @@ class Model_Content_Composite_History
     private $CreateDate = 0;
     private $ModifiedBy = '';
     private $ModifyDate = 0;
-    
-    public static function getCompositeMethods()
+	private $init = false;
+
+
+	public static function getCompositeMethods()
     {
         return array('getCreatedBy', 'getModifiedBy', 'getCreateDate', 'getModifyDate');
     }
@@ -16,25 +18,42 @@ class Model_Content_Composite_History
     public function __construct(Interface_Content $compositeFor)
     {
         parent::__construct($compositeFor);
-        try
+    }
+
+	protected function init(){
+		if($this->init){
+			return;
+		}
+		try
         {
-    	    list($cb, $cd, $mb, $md, $sz) = QBContent::getAdditionalMetaData($compositeFor->getAlias());
-    	    $this->CreatedBy = $cb;
-    	    $this->CreateDate = strtotime($cd);
-    	    $this->ModifiedBy = $mb;
-    	    $this->ModifyDate = strtotime($md);
+			$res = Core::Database()
+				->createQueryForClass($this)
+				->call('latest')
+				->withParameters($this->compositeFor->getId());
+			list($changeDate, $this->ModifiedBy) = $res->fetchResult();
+	  	    $this->ModifyDate = strtotime($changeDate);
+ 			$res->free();
+			
+			$res = Core::Database()
+				->createQueryForClass($this)
+				->call('created')
+				->withParameters($this->compositeFor->getId());
+			list($createDate, $this->CreatedBy) = $res->fetchResult();
+    	    $this->CreateDate = strtotime($createDate);
+			$res->free();
         }
         catch (Exception $e)
         {
             SErrorAndExceptionHandler::reportException($e);
         }
-    }
-    
+	}
+
 	/**
 	 * @return string
 	 */
 	public function getCreatedBy()
 	{
+		$this->init();
 		return $this->CreatedBy;
 	}
 	
@@ -43,6 +62,7 @@ class Model_Content_Composite_History
 	 */
 	public function getModifiedBy()
 	{
+		$this->init();
 		return $this->ModifiedBy;
 	}
 	
@@ -51,6 +71,7 @@ class Model_Content_Composite_History
 	 */
 	public function getCreateDate()
 	{
+		$this->init();
 		return $this->CreateDate;
 	}
 	
@@ -59,6 +80,7 @@ class Model_Content_Composite_History
 	 */
 	public function getModifyDate()
 	{
+		$this->init();
 		return $this->ModifyDate;
 	}
 } 

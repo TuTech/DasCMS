@@ -17,15 +17,19 @@ class Model_Content_Composite_Statistics
         parent::__construct($compositeFor);
         try
         {
-            $res = QBContent::getAccessStats($compositeFor->getId());
-            if($res->getRowCount() > 0)
+			$res = Core::Database()
+				->createQueryForClass($this)
+				->call('stats')
+				->withParameters($compositeFor->getId());
+			$row = $res->fetchResult();
+            if($row)
             {
                 list(
                     $firstAccess,//ignore this
                     $this->LastAccess,
                     $this->AccessCount,
                     $this->AccessIntervalAverage
-                ) = $res->fetch();
+                ) = $row;
             }
             $res->free();
             $this->LastAccess = strtotime($this->LastAccess);

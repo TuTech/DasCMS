@@ -33,7 +33,7 @@ class CTemplate
 	 */
 	public static function Create($title)
 	{
-	    list($dbid, $alias) = QBContent::create('CTemplate', $title);
+	    list($dbid, $alias) = BContent::createContent('CTemplate', $title);
 	    DFileSystem::Save(SPath::TEMPLATES.$dbid.'.php', ' ');
 	    $tpl = new CTemplate($alias);
 	    new EContentCreatedEvent($tpl, $tpl);

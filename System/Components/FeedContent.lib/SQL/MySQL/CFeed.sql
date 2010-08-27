@@ -134,7 +134,7 @@ SELECT DISTINCT
 		LEFT JOIN __PFX__Aliases
 			ON (__PFX__Contents.primaryAlias = __PFX__Aliases.aliasID)
 	WHERE
-		__PFX__relFeedsContents.feedREL = %d
+		__PFX__relFeedsContents.feedREL = ?
 		AND 
 		__PFX__relFeedsContents.feedREL != __PFX__relFeedsContents.contentREL
 		AND 

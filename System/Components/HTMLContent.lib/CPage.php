@@ -31,9 +31,9 @@ class CPage
 	 */
 	public static function Create($title)
 	{
-	    list($dbid, $alias) = QBContent::create('CPage', $title);
+	    list($dbid, $alias) = BContent::createContent('CPage', $title);
 	    DFileSystem::Save(SPath::CONTENT.'CPage/'.$dbid.'.content.php', ' ');
-	    QBContent::setMimeType($alias, 'text/html');
+	    BContent::setMIMEType($alias, 'text/html');
 	    $page = new CPage($alias);
 	    new EContentCreatedEvent($page, $page);
 	    return $page;

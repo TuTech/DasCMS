@@ -259,7 +259,102 @@ abstract class BContent extends BObject implements Interface_Content
 	 */
 	protected function saveMetaToDB()
 	{
-	    QBContent::saveMetaData($this->Id, $this->Title, $this->PubDate, $this->Description, $this->Size, $this->SubTitle);
+		$pubDate = ($this->PubDate > 0) ? date('Y-m-d H:i:s', $this->PubDate) : '0000-00-00 00:00:00';
+		Core::Database()
+			->createQueryForClass('BContent')
+			->call('saveMeta')
+			->withParameters($this->Title, $pubDate, $this->Description, $this->Size, $this->SubTitle, $this->Id)
+			->execute();
+		  BContent::logChange($id, $title, $size);
+	}
+
+	protected static function logChange($id, $title, $size, $retried = false){
+		$uid = Core::Database()
+			->createQueryForClass('BContent')
+			->call('logUID')
+			->withParameters(PAuthentication::getUserID())
+			->fetchSingleValue();
+
+		//failed and exit
+		if($uid == null && $retried){
+			return;
+		}
+		
+		//unknown user: add and retry
+		if($uid == null){
+			Core::Database()
+				->createQueryForClass('BContent')
+				->call('addLogUser')
+				->withParameters(PAuthentication::getUserID())
+				->execute();
+			  return self::logChange($id, $title, $size, true);
+		}
+
+		//all well, going on
+		Core::Database()
+			->createQueryForClass('BContent')
+			->call('setLogOutdated')
+			->withParameters($id)
+			->execute();
+		Core::Database()
+			->createQueryForClass('BContent')
+			->call('log')
+			->withParameters($id, $title, $size, $uid)
+			->execute();
+	}
+
+	protected static function createContent($class, $title){
+		$DB = DSQL::getSharedInstance();
+		$DB->beginTransaction();
+		try{
+			Core::Database()
+				->createQueryForClass('BContent')
+				->call('createContent')
+				->withParameters($title, $class)
+				->execute();
+			$cid = $DB->lastInsertID();
+			if($cid == null){
+				throw new Exception('could not create Content');
+			}
+			Core::Database()
+				->createQueryForClass('BContent')
+				->call('createGUID')
+				->withParameters($cid)
+				->execute();
+			Core::Database()
+				->createQueryForClass('BContent')
+				->call('linkGUID')
+				->withParameters($cid)
+				->execute();
+			$DB->commit();
+		}
+		catch (XDatabaseException $dbe)
+	    {
+	        $dbe->rollback();
+	        throw $dbe;
+	    }
+		
+		BContent::logChange($cid, $title, 0);
+			
+		$guid = Core::Database()
+			->createQueryForClass('BContent')
+			->call('getGUID')
+			->withParameters($cid)
+			->fetchSingleValue();
+		return array($cid, $guid);
+	}
+
+	protected static function setMIMEType($alias, $type){
+		Core::Database()
+			->createQueryForClass($this)
+			->call('addMime')
+			->withParameters($type)
+			->execute();
+		Core::Database()
+			->createQueryForClass($this)
+			->call('setMime')
+			->withParameters($type, $alias)
+			->execute();
 	}
 
 	protected static function isIndexingAllowed($contentID)

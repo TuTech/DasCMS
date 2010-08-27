@@ -183,7 +183,11 @@ class SContentWatch
             //send to db
             if(!$o instanceof CError && Core::settings()->get('log_page_accesses') != '')
             {
-                QBContent::logAccess($o->getId(), $ccid, $num);
+				Core::Database()
+					->createQueryForClass($this)
+					->call('log')
+					->withParameters($o->getId(), $ccid, $num)
+					->execute();
             }
 	    }
         self::$accessedContents[$e->Content->Id] = $e;

@@ -271,7 +271,7 @@ class CFeed
 	 */
 	public static function Create($title)
 	{
-	    list($dbid, $alias) = QBContent::create(self::CLASS_NAME, $title);
+	    list($dbid, $alias) = BContent::createContent(self::CLASS_NAME, $title);
 	    $tpl = new CFeed($alias);
 	    new EContentCreatedEvent($tpl, $tpl);
 	    return $tpl;

@@ -21,6 +21,7 @@ class UHeaderServices
     {
 		$classes = Core::getClassesWithInterface('IHeaderService');
         $active = Controller_Content::getSharedInstance()->getContentsChainedToClass($this);
+		$active = array_flip($active);
         $data = array();
         //get all items of all classes 
         //get a list of globally enabled items

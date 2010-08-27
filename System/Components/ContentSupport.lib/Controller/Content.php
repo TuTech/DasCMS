@@ -28,7 +28,11 @@ class Controller_Content
 	    {
 	        throw new XUndefinedException('no alias');
 	    }
-        $class = QBContent::getClass($alias);
+        $class = Core::Database()
+			->createQueryForClass($this)
+			->call('getClass')
+			->withParameters($alias)
+			->fetchSingleValue();
         if(class_exists($class, true) && ($ifIsType == null || $class == $ifIsType))
         {
             return new $class($alias);
@@ -87,7 +91,11 @@ class Controller_Content
     {
         try
 	    {
-	        $succ = QBContent::deleteContent($alias);
+			$succ = Core::Database()
+				->createQueryForClass($this)
+				->call('delete')
+				->withParameters($alias)
+				->execute();
 	    }
 	    catch (XDatabaseException $d)
 	    {
@@ -116,9 +124,12 @@ class Controller_Content
     {
 		try
 		{
-		    $res = QBContent::getBasicInformationForClass($class);
+			$res = Core::Database()
+				->createQueryForClass($this)
+				->call('index')
+				->withParameters($class);
 			$index = array();
-			while ($arr = $res->fetch())
+			while ($arr = $res->fetchResult())
 			{
 			    list($title, $pubdate, $alias, $type, $id) = $arr;
 				$index[$alias] = $titleOnly ? $title : array($title, $pubdate, $type, $id);
@@ -153,29 +164,21 @@ class Controller_Content
 
 	public function getContentInformationBulk(array $aliases)
 	{
-	    $res = QBContent::getPrimaryAliases($aliases);
-	    $map = array();
-	    $revmap = array();
-	    $infos = array();
-	    while ($erg = $res->fetch())
-		{
-		    list($reqest, $primary) = $erg;
-		    $map[] = $primary;
-		    $revmap[$primary] = $reqest;
+		$infos = array();
+		foreach ($aliases as $alias){
+			$res = Core::Database()
+				->createQueryForClass($this)
+				->call('getPri')
+				->withParameters($alias);
+			if($row = $res->fetchResult()){
+				$infos[$alias] = array(
+					'Title' => $row[0],
+					'Alias' => $row[1],//primary alias
+					'PubDate' => strtotime($row[2])
+				);
+			}
+			$res->free();
 		}
-	    $res->free();
-
-	    $res = QBContent::getBasicInformation($map);
-	    while ($erg = $res->fetch())
-		{
-		    list($title, $pubdate, $alias) = $erg;
-		    $infos[$revmap[$alias]] = array(
-		        'Title' => $title,
-				'Alias' => $alias,
-				'PubDate' => strtotime($pubdate)
-			);
-		}
-		$res->free();
 		return $infos;
 	}
 
@@ -183,26 +186,47 @@ class Controller_Content
 
 	public function chainContentsToClass($class, array $aliases)
 	{
-	    return QBContent::chainContensToClass(is_object($class) ? get_class($class) : $class, $aliases);
+		$i = 0;
+		foreach ($aliases as $alias){
+			$i += Core::Database()
+				->createQueryForClass($this)
+				->call('chainToClass')
+				->withParameters($class, $alias)
+				->execute();
+		}
+		return $i;
 	}
 
 	public function getContentsChainedToClass($class)
 	{
-	    $res = QBContent::getContentsChainedToClass(is_object($class) ? get_class($class) : $class);
-	    $guids = array();
-	    while($row = $res->fetch())
-	    {
-	        $guids[$row[0]] = $row[0];
-	    }
-	    $res->free();
-	    return $guids;
+		$list = Core::Database()
+			->createQueryForClass($this)
+			->call('getChainedToClass')
+			->withParameters($class)
+			->fetchList();
+		return $list;
 	}
 
 	public function releaseContentChainsToClass($class, $aliases = null)
 	{
-	    if(is_array($aliases) || $aliases == null)
+	    if(is_array($aliases))
+		{
+			foreach ($aliases as $alias){
+				Core::Database()
+					->createQueryForClass($this)
+					->call('unlinkContent')
+					->withParameters($class, $alias)
+					->execute();
+			}
+			return true;
+		}
+		if($aliases == null)
 	    {
-	        QBContent::releaseContensChainedToClass(is_object($class) ? get_class($class) : $class, $aliases);
+			Core::Database()
+				->createQueryForClass($this)
+				->call('unlinkClass')
+				->withParameters($class)
+				->execute();
 	        return true;
 	    }
 	    return false;

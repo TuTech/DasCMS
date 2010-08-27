@@ -40,7 +40,7 @@ class CFile
 	    {
 	        throw new XFileNotFoundException('no uploaded file', 'CFile');
 	    }
-	    list($dbid, $alias) = QBContent::create('CFile', $title);
+	    list($dbid, $alias) = BContent::createContent('CFile', $title);
 	    if(!RFiles::move('CFile', './Content/CFile/'.$dbid.'.data'))
 	    {
 	        throw new XUndefinedException('upload not moveable');
@@ -56,7 +56,7 @@ class CFile
         {
             $type = 'application/pdf';
         }
-        QBContent::setMimeType($alias, $type);
+		BContent::setMIMEType($alias, $type);
 	    $file = new CFile($alias);
 	    $file->Size = RFiles::getSize('CFile');
 	    $file->saveMetaToDB();
@@ -92,7 +92,7 @@ class CFile
 		$this->ModifiedBy = PAuthentication::getUserID();
 		$this->ModifyDate = time();
         $this->Size = RFiles::getSize('CFile');
-        QBContent::setMimeType($this->getAlias(), RFiles::getType('CFile'));
+        BContent::setMIMEType($this->getAlias(), RFiles::getType('CFile'));
         $this->saveMetaToDB();
         SNotificationCenter::report('message', 'file_updated');
         $fs = DFileSystem::FilesOf('Content/temp/','/^scale\.render\.[\d]+\.'.$this->getId().'-/');

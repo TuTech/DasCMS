@@ -33,10 +33,10 @@ class CScript
 	 */
 	public static function Create($title)
 	{
-	    list($dbid, $alias) = QBContent::create(self::CLASS_NAME, $title);
+	    list($dbid, $alias) = BContent::createContent(self::CLASS_NAME, $title);
 	    DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$dbid.'.php', ' ');
 	    DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$dbid.'.html.php', ' ');
-	    QBContent::setMimeType($alias, 'application/javascript');
+	    BContent::setMIMEType($alias, 'application/javascript');
 	    $script = new CScript($alias);
 	    $e = new EContentCreatedEvent($script, $script);
 	    return $script;
