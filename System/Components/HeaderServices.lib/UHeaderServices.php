@@ -20,7 +20,7 @@ class UHeaderServices
     public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
     {
 		$classes = Core::getClassesWithInterface('IHeaderService');
-        $active = Controller_Content::getSharedInstance()->getContentsChainedToClass($this);
+        $active = Controller_Content::getSharedInstance()->getContentsChainedToClass(self::CLASS_NAME);
 		$active = array_flip($active);
         $data = array();
         //get all items of all classes 
