@@ -21,7 +21,10 @@ class UHeaderServices
     {
 		$classes = Core::getClassesWithInterface('IHeaderService');
         $active = Controller_Content::getSharedInstance()->getContentsChainedToClass(self::CLASS_NAME);
-		$active = array_flip($active);
+		$activeIndex = array();
+		foreach ($active as $k => $v){
+			$activeIndex[$v] = 1;
+		}
         $data = array();
         //get all items of all classes 
         //get a list of globally enabled items
@@ -37,7 +40,7 @@ class UHeaderServices
                 }
                 foreach ($itemData as $GUID => $title)
                 {
-                    $data[$section][$GUID] = array(isset($active[$GUID]), Settings::TYPE_CHECKBOX, null, $title);
+                    $data[$section][$GUID] = array(isset($activeIndex[$GUID]), Settings::TYPE_CHECKBOX, null, $title);
                 }
             }    
         }
