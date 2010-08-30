@@ -85,7 +85,19 @@ class STag
 		$tagarr = array_unique($tagarr);
 		return $tagarr;
 	}
-	
+
+	public function addTags(array $tags){
+		foreach ($tags as $tag)
+		{
+			Core::Database()
+				->createQueryForClass('STag')
+				->call('setTag')
+				->withParameters($tag, $tag)
+				->execute();
+		}
+	}
+
+
 	private function setTags($alias, $tagstring)
 	{
 		$tags = self::parseTagStr($tagstring);

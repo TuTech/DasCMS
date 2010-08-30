@@ -41,26 +41,39 @@ class STagPermissions
     
     private function isProtected(Interface_Content $content)
     {
-        $protected = false;
-        $tags = $content->getTags();
-        $res = QSTagPermissions::hasProtectedTags($tags);
-        list($count) = $res->fetch();
-        $res->free();
-        if($count > 0)
-        {
-            $protected = !$this->checkPermissions($content->getId());
-        }
-        return $protected;
-    }
-    
-	private function checkPermissions($id)
-	{
-	    if(!isset(self::$_permCache[$id]))
+		$id = $content->getId();
+		//check if content is protected
+		if(!isset(self::$_permCache[$id]))
 	    {
-	        self::$_permCache[$id] = QSTagPermissions::isPermitted($id, PAuthentication::getUserID());
-	    }
-	    return self::$_permCache[$id];
-	}
+			//fill cache 
+			self::$_permCache[$id] = array(
+				//c: the count of protecting tags
+				'c' => Core::Database()
+					->createQueryForClass($this)
+					->call('isProtected')
+					->withParameters($content->getId())
+					->fetchSingleValue(),
+				//p: protected flag
+				'p' => null
+			);
+		}
+		//if it is protected check if the user has permission to access it
+		if(self::$_permCache[$id]['p'] == null){
+			if(self::$_permCache[$id]['c'] == 0){
+				//not protected
+				self::$_permCache[$id]['p'] = false;
+			}
+			else{
+				//check permission for this user
+				self::$_permCache[$id]['p'] =  0 < Core::Database()
+						->createQueryForClass($this)
+						->call('check')
+						->withParameters($id, PAuthentication::getUserID(),PAuthentication::getUserID())
+						->fetchSingleValue();
+			}
+		}
+        return self::$_permCache[$id]['p'];
+    }
 	
 	/**
 	 * before accessing content this event happens
@@ -96,8 +109,11 @@ class STagPermissions
 	 */
 	public static function getProtectedTags()
 	{
-	    $erg = QSTagPermissions::getProtectedTags();
-	    return self::fetchTags($erg);
+		return Core::Database()
+			->createQueryForClass(self::CLASS_NAME)
+			->call('getTags')
+			->withoutParameters()
+			->fetchList();
 	}
 	
 	/**
@@ -105,7 +121,27 @@ class STagPermissions
 	 */
 	public static function setProtectedTags(array $tags)
 	{
-	    QSTagPermissions::setProtectedTags($tags);
+		STag::getSharedInstance()->addTags($tags);
+		DSQL::getSharedInstance()->beginTransaction();
+		try{
+			Core::Database()
+				->createQueryForClass(self::CLASS_NAME)
+				->call('clear')
+				->withoutParameters()
+				->execute();
+			foreach ($tags as $tag){
+				Core::Database()
+					->createQueryForClass(self::CLASS_NAME)
+					->call('set')
+					->withParameters($tag)
+					->execute();
+			}
+			DSQL::getSharedInstance()->commit();
+		}
+		catch (Exception $e){
+			DSQL::getSharedInstance()->rollback();
+			throw $e;
+		}
 	}
 	
 	/////////
@@ -115,7 +151,7 @@ class STagPermissions
 	 */
 	public static function setUserPermissions($name, array $tags)
 	{
-	    QSTagPermissions::setUserPermissions($name, $tags); 
+		self::dbSet('User', $name, $tags);
 	}
 	
 	/**
@@ -123,8 +159,7 @@ class STagPermissions
 	 */
 	public static function getUserPermissionTags($name)
 	{
-	    $erg = QSTagPermissions::getUserPermissionTags($name);
-	    return self::fetchTags($erg);
+		return self::dbGet('getUserTags', $name);
 	}
 	
 	/**
@@ -132,7 +167,7 @@ class STagPermissions
 	 */
 	public static function setGroupPermissions($name, array $tags)
 	{
-	    QSTagPermissions::setGroupPermissions($name, $tags); 
+		self::dbSet('Group', $name, $tags);
 	}
 	
 	/**
@@ -140,23 +175,40 @@ class STagPermissions
 	 */
 	public static function getGroupPermissionTags($name)
 	{
-	    $erg = QSTagPermissions::getGroupPermissionTags($name);
-	    return self::fetchTags($erg);
+	    return self::dbGet('getGroupTags', $name);
+	}
+
+	private static function dbGet($fx, $name){
+		return Core::Database()
+			->createQueryForClass(self::CLASS_NAME)
+			->call($fx)
+			->withParameters($name)
+			->fetchList();
 	}
 	
-	/////////
-	
-	/**
-	 * @return array
-	 */
-	private static function fetchTags(DSQLResult $erg)
-	{
-	    $tags = array();
-	    while($row = $erg->fetch())
-	    {
-	        $tags[] = $row[0];
-	    }
-	    return $tags;
+	private static function dbSet($type, $name, $tags){
+		DSQL::getSharedInstance()->beginTransaction();
+		try{
+			Core::Database()
+				->createQueryForClass(self::CLASS_NAME)
+				->call('clear'.$type)
+				->withParameters($name)
+				->execute();
+			foreach ($tags as $tag){
+				Core::Database()
+					->createQueryForClass(self::CLASS_NAME)
+					->call('set'.$type)
+					->withParameters($name, $tag)
+					->execute();
+			}
+			DSQL::getSharedInstance()->commit();
+		}
+		catch (Exception $e){
+			DSQL::getSharedInstance()->rollback();
+			throw $e;
+		}
 	}
+
+
 }
 ?>
