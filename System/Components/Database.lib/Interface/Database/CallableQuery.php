@@ -4,7 +4,6 @@ interface Interface_Database_CallableQuery{
 	const RETURN_FIELDS = 1;
 	const PARAMETER_DEFINITION = 2;
 	const IS_DETERMINISTIC = 3;
-	const IS_MUTABLE = 4;
 
 	/**
 	 * @param string sql statement name

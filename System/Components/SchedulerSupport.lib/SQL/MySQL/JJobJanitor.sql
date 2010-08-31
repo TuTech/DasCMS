@@ -1,7 +1,6 @@
 -- --
 -- name: list
 -- deterministic: yes
--- mutable: no
 -- fields: 4
 -- type: select
 SELECT
@@ -10,7 +9,7 @@ SELECT
 		__PFX__Jobs.start,
 		__PFX__Jobs.stop
 	FROM __PFX__Jobs
-		LEFT JOIN __PFX__Classes ON (Jobs.classREL = Classes.classID)
+		LEFT JOIN __PFX__Classes ON (__PFX__Jobs.classREL = __PFX__Classes.classID)
 
 -- --
 -- name: delete

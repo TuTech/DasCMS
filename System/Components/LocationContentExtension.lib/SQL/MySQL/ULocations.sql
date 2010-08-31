@@ -2,7 +2,6 @@
 -- name: get
 -- deterministic: yes
 -- inputTypes:	s
--- mutable: no
 -- fields: 4
 -- type: select
 SELECT
@@ -21,7 +20,6 @@ SELECT
 -- name: getId
 -- deterministic: yes
 -- inputTypes:	s
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT locationID
@@ -43,7 +41,7 @@ INSERT
 -- type: delete
 DELETE
 	FROM __PFX__relContentsLocations
-	WHERE relContentsLocations.contentREL = (SELECT contentREL FROM __PFX__Aliases WHERE alias = ?)
+	WHERE __PFX__relContentsLocations.contentREL = (SELECT contentREL FROM __PFX__Aliases WHERE alias = ?)
 
 -- --
 -- name: set
@@ -61,7 +59,6 @@ INSERT
 -- name: list
 -- deterministic: yes
 -- inputTypes:	s
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT location

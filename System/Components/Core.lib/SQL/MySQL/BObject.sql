@@ -1,7 +1,6 @@
 -- --
 -- name: load
 -- deterministic: yes
--- mutable: no
 -- fields: 2
 -- type: select
 SELECT guid, class

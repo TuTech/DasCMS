@@ -2,7 +2,6 @@
 -- name: load
 -- inputTypes:	s
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT formatterData
@@ -14,7 +13,6 @@ SELECT formatterData
 -- name: exists
 -- inputTypes:	s
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT COUNT(*)
@@ -44,7 +42,6 @@ DELETE
 -- --
 -- name: list
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT name

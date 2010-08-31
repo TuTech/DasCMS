@@ -2,7 +2,6 @@
 -- name: stats
 -- inputTypes:	i
 -- deterministic: no
--- mutable: yes
 -- fields: 4
 -- type: select
 SELECT

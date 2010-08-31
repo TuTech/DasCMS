@@ -27,12 +27,11 @@ INSERT
 -- name: getViewBinding
 -- inputTypes:	i
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT viewName
 	FROM __PFX__relContentsTargetViews
 		LEFT JOIN __PFX__SporeViews
-			ON (relContentsTargetViews.viewREL = SporeViews.viewID)
+			ON (__PFX__relContentsTargetViews.viewREL = __PFX__SporeViews.viewID)
 	WHERE __PFX__relContentsTargetViews.contentREL = ?
 	LIMIT 1

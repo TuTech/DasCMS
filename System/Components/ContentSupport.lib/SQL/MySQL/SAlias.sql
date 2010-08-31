@@ -2,7 +2,6 @@
 -- name: isAliasAssigned
 -- inputTypes:	si
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT
@@ -33,7 +32,6 @@ INSERT IGNORE
 -- name: match
 -- inputTypes:	ss
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT
@@ -47,7 +45,6 @@ SELECT
 -- name: resolve
 -- inputTypes:	s
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT
@@ -59,7 +56,6 @@ SELECT
 -- name: getPrimary
 -- inputTypes:	s
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT
@@ -75,7 +71,6 @@ SELECT
 -- --
 -- name: getMatching
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select-template
 SELECT

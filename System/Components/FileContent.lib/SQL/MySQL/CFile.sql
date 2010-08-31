@@ -14,7 +14,6 @@ INSERT
 -- --
 -- name: getContents
 -- deterministic: yes
--- mutable: no
 -- fields: 5
 -- type: select
 SELECT
@@ -31,7 +30,6 @@ SELECT
 -- --
 -- name: getMetaData
 -- deterministic: yes
--- mutable: no
 -- fields: 3
 -- inputTypes:	i
 -- type: select

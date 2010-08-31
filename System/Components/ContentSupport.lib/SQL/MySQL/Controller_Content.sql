@@ -1,8 +1,7 @@
 -- --
 -- name: exists
 -- inputTypes:	s
--- deterministic: no
--- mutable: no
+-- deterministic: yes
 -- fields: 1
 -- type: select
 SELECT COUNT(*)
@@ -13,7 +12,6 @@ SELECT COUNT(*)
 -- name: contentsForClassGuid
 -- inputTypes:	s
 -- deterministic: yes
--- mutable: no
 -- fields: 2
 -- type: select
 SELECT
@@ -38,7 +36,7 @@ INSERT IGNORE
 	SELECT 
 			__PFX__Classes.classID,
 			__PFX__Contents.contentID
-		FROM Classes
+		FROM __PFX__Classes
 			LEFT JOIN __PFX__Contents ON (1)
 			LEFT JOIN __PFX__Aliases ON (__PFX__Contents.contentID = __PFX__Aliases.contentREL)
 		WHERE
@@ -50,7 +48,6 @@ INSERT IGNORE
 -- name: getChainedToClass
 -- inputTypes:	s
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT
@@ -97,7 +94,6 @@ DELETE
 -- name: getClass
 -- inputTypes:	s
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT __PFX__Classes.class
@@ -110,7 +106,6 @@ SELECT __PFX__Classes.class
 -- name: getPri
 -- inputTypes:	s
 -- deterministic: yes
--- mutable: no
 -- fields: 3
 -- type: select
 SELECT
@@ -126,7 +121,6 @@ SELECT
 -- name: index
 -- inputTypes:	s
 -- deterministic: yes
--- mutable: no
 -- fields: 5
 -- type: select
 SELECT

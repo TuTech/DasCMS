@@ -2,7 +2,6 @@
 -- name: countItems
 -- deterministic: no
 -- inputTypes:	i
--- mutable: yes
 -- fields: 1
 -- type: select
 SELECT COUNT(*)
@@ -10,7 +9,7 @@ SELECT COUNT(*)
 		LEFT JOIN __PFX__Contents ON (__PFX__relFeedsContents.contentREL = __PFX__Contents.contentID)
 	WHERE
 		__PFX__relFeedsContents.feedREL = ?
-		AND __PFX__relFeedsContents.feedREL != relFeedsContents.contentREL
+		AND __PFX__relFeedsContents.feedREL != __PFX__relFeedsContents.contentREL
 		AND __PFX__Contents.pubDate > 0
 		AND __PFX__Contents.pubDate <= NOW()
 
@@ -18,7 +17,6 @@ SELECT COUNT(*)
 -- name: sitemapData
 -- deterministic: no
 -- inputTypes:	i
--- mutable: yes
 -- fields: 2
 -- type: select
 SELECT
@@ -68,7 +66,7 @@ INSERT
 -- type: delete
 DELETE
 	FROM __PFX__relFeedsTags
-	WHERE feedREL =
+	WHERE feedREL = ?
 
 -- --
 -- name: link
@@ -86,7 +84,6 @@ INSERT
 -- name: items
 -- deterministic: no
 -- inputTypes:	iii
--- mutable: yes
 -- fields: 8
 -- type: select-template
 SELECT
@@ -104,7 +101,7 @@ SELECT
 		LEFT JOIN __PFX__Aliases
 			ON (__PFX__Contents.primaryAlias = __PFX__Aliases.aliasID)
 		LEFT JOIN __PFX__Changes
-			ON (__PFX__Contents.contentID = Changes.contentREL AND __PFX__Changes.latest = 'Y')
+			ON (__PFX__Contents.contentID = __PFX__Changes.contentREL AND __PFX__Changes.latest = 'Y')
 		LEFT JOIN __PFX__ChangedByUsers
 			ON (__PFX__Changes.userREL = __PFX__ChangedByUsers.changedByUserID)
 	WHERE
@@ -123,7 +120,6 @@ SELECT
 -- name: feedAliases
 -- deterministic: no
 -- inputTypes:	i
--- mutable: yes
 -- fields: 1
 -- type: select
 SELECT DISTINCT

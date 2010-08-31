@@ -2,7 +2,6 @@
 -- name: isProtected
 -- deterministic: yes
 -- inputTypes:	i
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT COUNT(*)
@@ -14,7 +13,6 @@ SELECT COUNT(*)
 -- name: check
 -- deterministic: yes
 -- inputTypes:	iss
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT
@@ -48,7 +46,6 @@ SELECT
 -- --
 -- name: getTags
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT tag
@@ -59,7 +56,6 @@ SELECT tag
 -- name: getUserTags
 -- deterministic: yes
 -- inputTypes:	s
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT	__PFX__Tags.tag
@@ -76,7 +72,6 @@ SELECT	__PFX__Tags.tag
 -- name: getGroupTags
 -- deterministic: yes
 -- inputTypes:	s
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT	__PFX__Tags.tag

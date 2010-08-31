@@ -1,6 +1,6 @@
 -- --
 -- name: updateStats
--- type: insert
+-- type: update
 -- inputTypes:	ii
 UPDATE __PFX__Feeds
 	SET lastUpdate = NOW(),
@@ -50,7 +50,6 @@ INSERT IGNORE
 -- name: getType
 -- deterministic: yes
 -- inputTypes:	i
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT filterType
@@ -61,7 +60,6 @@ SELECT filterType
 -- --
 -- name: feedsWithType
 -- deterministic: yes
--- mutable: no
 -- fields: 2
 -- type: select
 SELECT contentREL,filterType
@@ -70,7 +68,6 @@ SELECT contentREL,filterType
 -- --
 -- name: feedsWithTypeAndTags
 -- deterministic: yes
--- mutable: no
 -- fields: 3
 -- type: select
 SELECT

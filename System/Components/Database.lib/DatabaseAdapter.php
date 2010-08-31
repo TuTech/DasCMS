@@ -22,9 +22,9 @@ class DatabaseAdapter
 	 * @param string $statementTemplate
 	 * @param string $parameterDefinition
 	 */
-	public function register($class, $name, $statementTemplate, $returnFields, $parameterDefinition = '', $deterministic = false, $mutable = true)
+	public function register($class, $name, $statementTemplate, $returnFields, $parameterDefinition = '', $deterministic = false)
 	{
-		$data = array($statementTemplate, $returnFields, $parameterDefinition, $deterministic, $mutable);
+		$data = array($statementTemplate, $returnFields, $parameterDefinition, $deterministic);
 		$id = sha1(implode(':', $data));
 		if(!array_key_exists($id, self::$register)){
 			self::$register[$id] = $data;
@@ -133,8 +133,7 @@ class DatabaseAdapter
 					$sql,
 					(isset($newOptions[Interface_Database_CallableQuery::RETURN_FIELDS]) ? $newOptions[Interface_Database_CallableQuery::RETURN_FIELDS] : $templateMeta[Interface_Database_CallableQuery::RETURN_FIELDS]),
 					(isset($newOptions[Interface_Database_CallableQuery::PARAMETER_DEFINITION]) ? $newOptions[Interface_Database_CallableQuery::PARAMETER_DEFINITION] : $templateMeta[Interface_Database_CallableQuery::PARAMETER_DEFINITION]),
-					(isset($newOptions[Interface_Database_CallableQuery::IS_DETERMINISTIC]) ? $newOptions[Interface_Database_CallableQuery::IS_DETERMINISTIC] : $templateMeta[Interface_Database_CallableQuery::IS_DETERMINISTIC]),
-					(isset($newOptions[Interface_Database_CallableQuery::IS_MUTABLE]) ? $newOptions[Interface_Database_CallableQuery::IS_MUTABLE] : $templateMeta[Interface_Database_CallableQuery::IS_MUTABLE])
+					(isset($newOptions[Interface_Database_CallableQuery::IS_DETERMINISTIC]) ? $newOptions[Interface_Database_CallableQuery::IS_DETERMINISTIC] : $templateMeta[Interface_Database_CallableQuery::IS_DETERMINISTIC])
 				);
 		}
 		//use call on the new function
@@ -358,7 +357,7 @@ class DatabaseAdapter
 				foreach ($cache as $class => $statements){
 					foreach ($statements as $name => $data){
 						//s:sql, f:number of fields, p:parameter definition, d:deterministic, m:mutable
-						$this->register($class, $name, $data['s'], $data['f'], $data['p'], $data['d'], $data['m']);
+						$this->register($class, $name, $data['s'], $data['f'], $data['p'], $data['d']);
 					}
 				}
 			}

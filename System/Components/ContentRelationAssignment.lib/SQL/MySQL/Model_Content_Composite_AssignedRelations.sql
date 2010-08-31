@@ -1,7 +1,6 @@
 -- --
 -- name: contentFormatter
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- inputTypes:	is
 -- type: select

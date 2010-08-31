@@ -10,7 +10,6 @@ INSERT
 -- name: latestFails
 -- inputTypes:	is
 -- deterministic: no
--- mutable: yes
 -- fields: 1
 -- type: select
 SELECT COUNT(*)
@@ -28,7 +27,6 @@ SELECT COUNT(*)
 -- name: latestUserFails
 -- inputTypes:	s
 -- deterministic: no
--- mutable: yes
 -- fields: 1
 -- type: select
 SELECT COUNT(*)
@@ -44,7 +42,6 @@ SELECT COUNT(*)
 -- name: latestIPAdrFails
 -- inputTypes:	i
 -- deterministic: no
--- mutable: yes
 -- fields: 1
 -- type: select
 SELECT COUNT(*)

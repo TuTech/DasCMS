@@ -35,8 +35,7 @@ class CoreSQLUpdate extends Core
 					's' => $statement,
 					'f' => empty ($meta['fields']) ? 0 : intval($meta['fields']),
 					'p' => empty ($meta['inputTypes']) ? '' : $meta['inputTypes'],
-					'd' => empty ($meta['deterministic']) ? 0 : (strtolower($meta['deterministic']) == 'yes' ? 1 : 0),
-					'm' => empty ($meta['mutable']) ? 1 : (strtolower($meta['mutable']) == 'yes' ? 1 : 0),
+					'd' => empty ($meta['deterministic']) ? 0 : (strtolower($meta['deterministic']) == 'yes' ? 1 : 0)
 				);
 			}
 		}

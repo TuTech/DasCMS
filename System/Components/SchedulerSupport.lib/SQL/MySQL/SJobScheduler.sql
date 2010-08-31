@@ -1,7 +1,6 @@
 -- --
 -- name: count
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT COUNT(*)
@@ -10,7 +9,6 @@ SELECT COUNT(*)
 -- --
 -- name: next
 -- deterministic: no
--- mutable: yes
 -- fields: 3
 -- type: select
 SELECT
@@ -42,7 +40,7 @@ SELECT
 -- --
 -- name: start
 -- inputTypes: is
--- type:insert
+-- type:update
 UPDATE __PFX__JobSchedules
 	SET
 		started = NOW()

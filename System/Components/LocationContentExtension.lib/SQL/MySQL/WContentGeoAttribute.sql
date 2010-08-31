@@ -36,7 +36,6 @@ DELETE
 -- name: get
 -- deterministic: yes
 -- inputTypes:	s
--- mutable: no
 -- fields: 3
 -- type: select
 SELECT
@@ -50,14 +49,13 @@ SELECT
 -- name: getForContent
 -- deterministic: yes
 -- inputTypes:	i
--- mutable: no
 -- fields: 3
 -- type: select
 SELECT
 		__PFX__Locations.location,
 		__PFX__Locations.latitude,
 		__PFX__Locations.longitude
-	FROM Locations
+	FROM __PFX__Locations
 		LEFT JOIN __PFX__relContentsLocations
 			ON (__PFX__relContentsLocations.locationREL = __PFX__Locations.locationID)
 	WHERE __PFX__relContentsLocations.contentREL = ?

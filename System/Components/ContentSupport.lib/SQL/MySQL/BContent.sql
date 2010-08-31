@@ -2,7 +2,6 @@
 -- name: basicMeta
 -- inputTypes:	s
 -- deterministic: yes
--- mutable: no
 -- fields: 9
 -- type: select
 SELECT
@@ -27,7 +26,6 @@ SELECT
 -- name: tags
 -- inputTypes:	i
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT tag
@@ -42,7 +40,6 @@ SELECT tag
 -- name: searchable
 -- inputTypes:	i
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT COUNT(*)
@@ -54,7 +51,7 @@ SELECT COUNT(*)
 
 -- --
 -- name: setSearchable
--- type: insert
+-- type: update
 -- inputTypes:	si
 UPDATE __PFX__Contents
 	SET
@@ -80,7 +77,6 @@ UPDATE __PFX__Contents
 -- name: logUID
 -- inputTypes:	s
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT changedByUserID
@@ -146,7 +142,6 @@ UPDATE __PFX__Contents
 -- name: getGUID
 -- inputTypes:	i
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT __PFX__Aliases.alias

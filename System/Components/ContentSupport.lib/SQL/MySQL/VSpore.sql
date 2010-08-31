@@ -1,7 +1,6 @@
 -- --
 -- name: loadSpores
 -- deterministic: yes
--- mutable: no
 -- fields: 4
 -- type: select
 SELECT

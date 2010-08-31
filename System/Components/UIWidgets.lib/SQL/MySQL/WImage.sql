@@ -1,7 +1,6 @@
 -- --
 -- name:	getPreviewContents
 -- deterministic: yes
--- mutable: no
 -- fields: 2
 -- type: select
 SELECT DISTINCT 
@@ -31,7 +30,6 @@ SELECT DISTINCT
 -- name:	idToAlias
 -- inputTypes:	i
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT 
@@ -46,7 +44,6 @@ SELECT
 -- name:	aliasToId
 -- inputTypes:	s
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT 
@@ -61,7 +58,6 @@ SELECT
 -- name:	getPreviewId
 -- inputTypes:	s
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT

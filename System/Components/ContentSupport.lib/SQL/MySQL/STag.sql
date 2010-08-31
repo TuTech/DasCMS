@@ -2,16 +2,15 @@
 -- name: listTagsOf
 -- inputTypes:	s
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT __PFX__Tags.tag
 	FROM __PFX__Contents
 		LEFT JOIN __PFX__relContentsTags
 			ON (__PFX__Contents.contentID = __PFX__relContentsTags.contentREL)
-		LEFT JOIN Tags
+		LEFT JOIN __PFX__Tags
 			ON (__PFX__relContentsTags.tagREL = __PFX__Tags.tagID)
-		LEFT JOIN Aliases
+		LEFT JOIN __PFX__Aliases
 			ON (__PFX__Contents.contentID = __PFX__Aliases.contentREL)
 	WHERE
 		__PFX__Aliases.alias = ?
@@ -21,7 +20,6 @@ SELECT __PFX__Tags.tag
 -- name: aliasToId
 -- inputTypes:	s
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT

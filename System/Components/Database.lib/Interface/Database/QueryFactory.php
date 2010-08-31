@@ -8,7 +8,7 @@ interface Interface_Database_QueryFactory{
 	 * @param string $parameterDefinition
 	 * @return void
 	 */
-	public function register($class, $name, $statementTemplate, $returnType, $parameterDefinition = '', $deterministic = false, $mutable = true);
+	public function register($class, $name, $statementTemplate, $returnType, $parameterDefinition = '', $deterministic = false);
 
 	/**
 	 * @param mixed $classNameOrObject

@@ -2,7 +2,6 @@
 -- name: latest
 -- deterministic: yes
 -- inputTypes:	i
--- mutable: no
 -- fields: 2
 -- type: select
 SELECT
@@ -19,9 +18,9 @@ SELECT
 -- name: created
 -- deterministic: yes
 -- inputTypes:	i
--- mutable: no
 -- fields: 2
 -- type: select
+SELECT
 		__PFX__Changes.changeDate,
 		IF(ISNULL(__PFX__ChangedByUsers.login), '-', __PFX__ChangedByUsers.login) as user
 	FROM __PFX__Changes

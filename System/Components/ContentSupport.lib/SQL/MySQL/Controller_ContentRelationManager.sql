@@ -18,7 +18,6 @@ INSERT IGNORE
 -- name: getAllChainedToClass
 -- inputTypes:	s
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT __PFX__Aliases.alias
@@ -38,7 +37,6 @@ SELECT __PFX__Aliases.alias
 -- name: getAllChainedToClassAndContent
 -- inputTypes:	ss
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT __PFX__Aliases.alias
@@ -60,7 +58,6 @@ SELECT __PFX__Aliases.alias
 -- name: getClassesChaining
 -- inputTypes:	s
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT __PFX__Classes.class
@@ -76,7 +73,6 @@ SELECT __PFX__Classes.class
 -- name: getContentsChaining
 -- inputTypes:	s
 -- deterministic: yes
--- mutable: no
 -- fields: 4
 -- type: select
 SELECT
@@ -102,7 +98,6 @@ SELECT
 -- name: getRetainCount
 -- inputTypes:	s
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT COUNT(*)
@@ -166,7 +161,6 @@ DELETE
 -- name: isRetained
 -- inputTypes:	s
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT COUNT(*)
@@ -180,7 +174,6 @@ SELECT COUNT(*)
 -- name: isRetainedOwner
 -- inputTypes:	ss
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT COUNT(*)
@@ -198,7 +191,6 @@ SELECT COUNT(*)
 -- name: isRetainedClass
 -- inputTypes:	ss
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT COUNT(*)
@@ -215,7 +207,6 @@ SELECT COUNT(*)
 -- name: isRetainedOwnerClass
 -- inputTypes:	sss
 -- deterministic: yes
--- mutable: no
 -- fields: 1
 -- type: select
 SELECT COUNT(*)

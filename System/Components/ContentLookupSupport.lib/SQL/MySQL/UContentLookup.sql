@@ -2,7 +2,6 @@
 -- name: listAll
 -- deterministic: yes
 -- inputTypes:	sii
--- mutable: no
 -- fields: 4
 -- type: select
 SELECT
@@ -23,7 +22,6 @@ SELECT
 -- name: listPriv
 -- deterministic: yes
 -- inputTypes:	sii
--- mutable: no
 -- fields: 4
 -- type: select
 SELECT
@@ -46,7 +44,6 @@ SELECT
 -- name: listSched
 -- deterministic: no
 -- inputTypes:	sii
--- mutable: yes
 -- fields: 4
 -- type: select
 SELECT
@@ -68,7 +65,6 @@ SELECT
 -- name: listPub
 -- deterministic: no
 -- inputTypes:	sii
--- mutable: yes
 -- fields: 4
 -- type: select
 SELECT
@@ -94,7 +90,6 @@ SELECT
 -- name: listImgAll
 -- deterministic: yes
 -- inputTypes:	sii
--- mutable: no
 -- fields: 4
 -- type: select
 SELECT
@@ -125,7 +120,6 @@ SELECT
 -- name: listImgPriv
 -- deterministic: yes
 -- inputTypes:	sii
--- mutable: no
 -- fields: 4
 -- type: select
 SELECT
@@ -158,7 +152,6 @@ SELECT
 -- name: listImgSched
 -- deterministic: no
 -- inputTypes:	sii
--- mutable: yes
 -- fields: 4
 -- type: select
 SELECT
@@ -190,7 +183,6 @@ SELECT
 -- name: listImgPub
 -- deterministic: no
 -- inputTypes:	sii
--- mutable: yes
 -- fields: 4
 -- type: select
 SELECT

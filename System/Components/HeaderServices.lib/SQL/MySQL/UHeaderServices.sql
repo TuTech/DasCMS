@@ -2,7 +2,6 @@
 -- name: getServices
 -- inputTypes:	s
 -- deterministic: no
--- mutable: yes
 -- fields: 2
 -- type: select
 SELECT
