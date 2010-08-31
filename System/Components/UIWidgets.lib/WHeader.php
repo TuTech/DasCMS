@@ -170,9 +170,8 @@ class WHeader extends BWidget
 	
 	public function __toString()
 	{
-		$html = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" ".
-				"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n".
-				"<html xmlns=\"http://www.w3.org/1999/xhtml\" ".
+		$html = "<!DOCTYPE html>\n".
+				"<html ".
 				(
 					file_exists('Content/cache-manifest.php') && Core::settings()->getOrDefault('enable_management_cache_manifest', false)
 						? "manifest=\"".(self::$base ? self::enc(self::$base) : '')."Content/cache-manifest.php\" "

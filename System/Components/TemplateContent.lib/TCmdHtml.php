@@ -61,8 +61,13 @@ class TCmdHtml
 
     public function run(array $environment)
     {
-        $out = '<?xml version="1.0" encoding="utf-8"?>'."\n".$this->doctype.
-        		"\n<html".($this->lang == null ? '' : ' lang="'.$this->lang.'"')." xmlns=\"http://www.w3.org/1999/xhtml\">\n";
+		$out = $this->doctype;
+		$ns = '';
+		if(strpos($this->doctype, 'xhtml')){
+			$out .= "\n".'<?xml version="1.0" encoding="utf-8"?>';
+			$ns = ' xmlns="http://www.w3.org/1999/xhtml"';
+		}
+        $out .=	"\n<html".($this->lang == null ? '' : ' lang="'.$this->lang.'"').$ns.">\n";
         foreach ($this->parsed as $object)
         {
         	if(is_object($object) && $object instanceof ITemplateCommand)
