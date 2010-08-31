@@ -165,7 +165,7 @@ class Core
 		if($compressed){
 			$data = '';
 			$fp = gzopen($file, 'r');
-			while($blob = gzread($file, 4096)){
+			while($blob = gzread($fp, 4096)){
 				$data .= $blob;
 			}
 			gzclose($fp);
