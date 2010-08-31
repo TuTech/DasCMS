@@ -114,6 +114,38 @@ class Core
 		return constant('CMS_CLASS_CACHE_PATH').strtoupper(sha1($class));
 	}
 
+	protected static function pathPartForClass($class){
+		//spilt namespace parts
+		$namespaceParts = explode('\\', $class);
+
+		//extract class
+		$className = array_pop($namespaceParts);
+
+		//apply special folder naming for namespace parts
+		$pathComponents = array();
+		foreach ($namespaceParts as $nsp){
+			$pathComponents[] = sprintf('_%s_', $nsp);
+		}
+		$namespaceParts = $pathComponents;
+
+		$isAbstract = substr($className,0,1) == '_';
+
+		//folders for class inheritance tree
+		$className = str_replace('_', '/', $className);//Foo_Bar -> Foo/Bar
+
+		//abstract classes with '_'-prefix gets this prefix for the php-file
+		if($isAbstract){
+			$classParts = explode('/', $className);
+			$classParts[] = '_'.array_pop($classParts);
+			$className = implode('/', $classParts);
+		}
+
+		//combine namespace and class
+		$namespaceParts[] = $className;
+		//build path
+		return implode('/', $namespaceParts);
+	}
+
 	/**
 	 * read data objects
 	 * @param unknown_type $file
@@ -127,10 +159,21 @@ class Core
 	 * read data objects
 	 * @param unknown_type $file
 	 */
-	public static function dataFromFile($file){
+	public static function dataFromFile($file, $compressed = false){
+		$compressed = $compressed && extension_loaded('zlib');
 		$data = null;
-		if(file_exists($file)){
-			$data = implode('',file($file));
+		if($compressed){
+			$data = '';
+			$fp = gzopen($file, 'r');
+			while($blob = gzread($file, 4096)){
+				$data .= $blob;
+			}
+			gzclose($fp);
+		}
+		else{
+			if(file_exists($file)){
+				$data = implode('',file($file));
+			}
 		}
 		return $data;
 	}
@@ -144,12 +187,19 @@ class Core
 		self::dataToFile(json_encode($data), $file);
 	}
 
-	public static function dataToFile($data, $file){
+	public static function dataToFile($data, $file, $compress = false){
+		$compress = $compress && extension_loaded('zlib');
 		$t = tempnam(CMS_TEMP, 'Core_tmp_');
-		$fp = fopen($t, 'w+');
-		fwrite($fp, $data);
-		fclose($fp);
-
+		if($compress){
+			$fp = gzopen($t, 'w+');
+			gzwrite($fp, $data);
+			gzclose($fp);
+		}
+		else{
+			$fp = fopen($t, 'w+');
+			fwrite($fp, $data);
+			fclose($fp);
+		}
 		rename($t, $file);
 	}
 

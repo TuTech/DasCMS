@@ -15,6 +15,7 @@ class DatabaseAdapter
 	protected static $register = array();
 	protected static $statements = array();
 	protected static $aliases = array();
+	protected static $loaded = array();
 
 	/**
 	 * register sql statement
@@ -70,6 +71,21 @@ class DatabaseAdapter
 	public function createQueryForClass($classNameOrObject)
 	{
 		$this->class = (is_object($classNameOrObject)) ? get_class($classNameOrObject) : strval($classNameOrObject);
+		if(!self::$loaded[$this->class]){
+			self::$loaded[$this->class] = true;
+			$file = sprintf('Content/SQLCache/%s.gz', sha1($this->class));
+			if(file_exists($file)){
+				$data = Core::dataFromFile($file, true);
+				if(!empty($data) && $cache = unserialize($data)){
+					foreach ($statements as $name => $data){
+						//s:sql, f:number of fields, p:parameter definition, d:deterministic, m:mutable
+						$this->register($class, $name, $data['s'], $data['f'], $data['p'], $data['d']);
+					}
+				}
+			}
+		}
+
+
 		return $this;
 	}
 
@@ -349,20 +365,7 @@ class DatabaseAdapter
 
 	private function __clone(){}
 
-	private function __construct(){
-		if(count(self::$register) == 0){
-			$file = sprintf('Content/SQLCache.json');
-			if(file_exists($file)){
-				$cache = Core::dataFromJSONFile($file);
-				foreach ($cache as $class => $statements){
-					foreach ($statements as $name => $data){
-						//s:sql, f:number of fields, p:parameter definition, d:deterministic, m:mutable
-						$this->register($class, $name, $data['s'], $data['f'], $data['p'], $data['d']);
-					}
-				}
-			}
-		}
-	}
+	private function __construct(){}
 
 	public static function getInstance()
 	{

@@ -40,37 +40,12 @@ class CoreUpdate extends Core
 
 							//build path//
 							$classCachePath = Core::getClassCachePath($class);
-							
-							//spilt namespace parts
-							$namespaceParts = explode('\\', $class);
-							
-							//extract class
-							$className = array_pop($namespaceParts);
-							
-							//apply special folder naming for namespace parts
-							$pathComponents = array();
-							foreach ($namespaceParts as $nsp){
-								$pathComponents[] = sprintf('_%s_', $nsp);
-							}
-							$namespaceParts = $pathComponents;
 
-							$isAbstract = substr($className,0,1) == '_';
-
-							//folders for class inheritance tree
-							$className = str_replace('_', '/', $className);//Foo_Bar -> Foo/Bar
-
-							//abstract classes with '_'-prefix gets this prefix for the php-file
-							if($isAbstract){
-								$classParts = explode('/', $className);
-								$classParts[] = '_'.array_pop($classParts);
-								$className = implode('/', $classParts);
-							}
-
-							//combine namespace and class
-							$namespaceParts[] = $className;
+							//path section from class name
+							$classSubPath = Core::pathPartForClass($class);
 							
 							//build path
-							$classFile = sprintf('%s%s/%s.php', $componentsDir, $currentComponent, implode('/', $namespaceParts));
+							$classFile = sprintf('%s%s/%s.php', $componentsDir, $currentComponent, $classSubPath);
 							if(file_exists($classFile)){
 								$classContent = trim(php_strip_whitespace($classFile));
 

@@ -4,7 +4,7 @@ require_once '../../System/main.php';
 
 class CoreSQLUpdate extends Core
 {
-	const CACHE_FILE = 'Content/SQLCache.json';
+	const CACHE_DIR = 'SQLCache';
 	protected $data = array();
 
 	protected function parseSQLFile($file, $prefix){
@@ -42,47 +42,67 @@ class CoreSQLUpdate extends Core
 		return $result;
 	}
 
-	protected function locateSQLFiles(){
-		if(!is_dir('Content')){
-			die("\n\nPlease install the cms before running this script\n\n");
-		}
-		$componentsDir = CMS_CLASS_PATH;
-		$DB_ENGINE = Core::settings()->getOrDefault('db_engine', 'MySQL');
-		$DB_PREFIX = Core::settings()->getOrDefault('db_table_prefix', '');
+	protected function readComponentData(){
+		$components = array();
+		$componentsDir = CMS_CLASS_PATH ;
+
 		foreach (scandir($componentsDir) as $currentComponent){
-			if(substr($currentComponent,0,1) == '.'){
-				continue;
-			}
-			printf("COMPONENT: %s\n", $currentComponent);
-			$sqlDir = sprintf('%s/%s/SQL/%s/', $componentsDir, $currentComponent, $DB_ENGINE);
-			if(is_dir($sqlDir)){
-				printf("   has SQL\n");
-				foreach (scandir($sqlDir) as $sqlFile){
-					if(substr($sqlFile,0,1) == '.'){
-						continue;
-					}
-					printf("    FILE: %s\n", $sqlFile);
-					if(substr(strtolower($sqlFile), -4) == '.sql'){
-						$CLASS_NAME = substr($sqlFile,0,-4);
-						printf("    CLASS: %s\n", $CLASS_NAME);
-						$data = $this->parseSQLFile($sqlDir.'/'.$sqlFile, $DB_PREFIX);
-						if(is_array($data) && count($data) > 0){
-							$this->saveSQLDefinition($CLASS_NAME, $data);
+			//read components
+			$path = $componentsDir.$currentComponent;
+			$suffix = Core::PACKAGE_SUFFIX;
+			if(is_dir($path)
+					&& strlen($currentComponent) > strlen($suffix)
+					&& substr($currentComponent, strlen($suffix)*-1) == $suffix
+					&& file_exists($path.Core::PACKAGE_INFO))
+			{
+				//component
+				$components[$currentComponent] = array();
+
+				//get contained classes
+				$contens = json_decode(implode('', file($path.Core::PACKAGE_INFO)), true);
+
+				if(is_array($contens)
+						&& array_key_exists('classes', $contens)
+						&& is_array($contens['classes']))
+				{
+					//create class cache
+					foreach($contens['classes'] as $class){
+						//path section from class name
+						$classSubPath = Core::pathPartForClass($class);
+
+						//build path
+						$sqlFile = sprintf('%s%s/%s.sql', $componentsDir, $currentComponent, $classSubPath);
+						if(file_exists($sqlFile)){
+							printf("%48s: %s\n", $class, $sqlFile);
+							$data = $this->parseSQLFile($sqlDir.'/'.$sqlFile, $DB_PREFIX);
+							if(is_array($data) && count($data) > 0){
+								$this->saveSQLDefinition($CLASS_NAME, $data);
+							}
 						}
-					}
-				}
-			}
-		}
-	}
+					}//foreach content type class
+				}//if package info exists
+			}//if is component
+		}//foreach folder in component dir
+	}//function
+
 
 	protected function saveSQLDefinition($class, $data){
 		$this->data[$class] = $data;
 	}
 
 	public static function run(){
+		if(!is_dir('Content')){
+			die("No Content Folder\n\n");
+		}
+		$dir = 'Content/'.self::CACHE_DIR;
+		if(!is_dir($dir)){
+			mkdir($dir) || die("No SQL Cache Folder\n\n");
+		}
 		$runner = new CoreSQLUpdate();
-		$runner->locateSQLFiles();
-		Core::dataToJSONFile($runner->data, self::CACHE_FILE);
+		$runner->readComponentData();
+		foreach ($runner->data as $class => $queryData){
+			Core::dataToFile(serialize($queryData), sprintf('%s/%s.gz', $dir, sha1($class)), true);
+		}
 	}
 }
 try{
