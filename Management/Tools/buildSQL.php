@@ -45,7 +45,8 @@ class CoreSQLUpdate extends Core
 	protected function readComponentData(){
 		$components = array();
 		$componentsDir = CMS_CLASS_PATH ;
-
+		$DB_PREFIX = Core::settings()->getOrDefault('db_table_prefix', '');
+		
 		foreach (scandir($componentsDir) as $currentComponent){
 			//read components
 			$path = $componentsDir.$currentComponent;
@@ -74,9 +75,9 @@ class CoreSQLUpdate extends Core
 						$sqlFile = sprintf('%s%s/%s.sql', $componentsDir, $currentComponent, $classSubPath);
 						if(file_exists($sqlFile)){
 							printf("%48s: %s\n", $class, $sqlFile);
-							$data = $this->parseSQLFile($sqlDir.'/'.$sqlFile, $DB_PREFIX);
+							$data = $this->parseSQLFile($sqlFile, $DB_PREFIX);
 							if(is_array($data) && count($data) > 0){
-								$this->saveSQLDefinition($CLASS_NAME, $data);
+								$this->saveSQLDefinition($class, $data);
 							}
 						}
 					}//foreach content type class

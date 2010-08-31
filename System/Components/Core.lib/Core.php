@@ -191,12 +191,12 @@ class Core
 		$compress = $compress && extension_loaded('zlib');
 		$t = tempnam(CMS_TEMP, 'Core_tmp_');
 		if($compress){
-			$fp = gzopen($t, 'w+');
+			$fp = gzopen($t, 'w');
 			gzwrite($fp, $data);
 			gzclose($fp);
 		}
 		else{
-			$fp = fopen($t, 'w+');
+			$fp = fopen($t, 'w');
 			fwrite($fp, $data);
 			fclose($fp);
 		}

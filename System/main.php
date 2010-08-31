@@ -29,7 +29,7 @@ if(!defined('CMS_ROOT'))
     define('CMS_ROOT',constant('BAMBUS_CMS_ROOTDIR'));
 
 if(!defined('CMS_TEMP')){
-	$tmpD = constant('CMS_ROOT').'/Content/Temp';
+	$tmpD = constant('CMS_ROOT').'/Content/temp';
 	if(!file_exists($tmpD) || !is_dir($tmpD) || !is_writable($tmpD)){
 		$tmpD = constant('CMS_ROOT');
 	}
