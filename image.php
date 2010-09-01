@@ -82,7 +82,7 @@ if(!empty($_SERVER['PATH_INFO']))
         {
             //image cached
             header('Last-modified: '.date('r',filemtime(SPath::TEMP.'scale.render.'.$qual.'.'.$key)));
-            header('Content-type: application/octet-stream');
+            header('Content-type: image/jpeg');
             readfile(SPath::TEMP.'scale.render.'.$qual.'.'.$key);
             exit;
         }
@@ -155,7 +155,7 @@ if(!empty($_SERVER['PATH_INFO']))
             }
             if($img->isModified())
             {
-                header('Content-type: image/jpeg;');
+                header('Content-type: image/jpeg');
                 header('Last-modified: '.date('r',$time));
                 $img->save($imgFile, $qual, 'jpg');
                 $img->generate('jpg', max($qual, $overwriteQuality));
