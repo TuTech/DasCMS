@@ -20,7 +20,7 @@ class Model_Content_Composite_ContentFormatter extends _Model_Content_Composite
 
     public function setChildContentFormatter($formatter)
 	{
-		DSQL::getSharedInstance()->beginTransaction();
+		DSQL::getInstance()->beginTransaction();
 		Core::Database()
 			->createQueryForClass($this)
 			->call('unlink')
@@ -31,7 +31,7 @@ class Model_Content_Composite_ContentFormatter extends _Model_Content_Composite
 			->call('link')
 			->withParameters($this->compositeFor->getId(), $formatter)
 			->execute();
-		DSQL::getSharedInstance()->commit();
+		DSQL::getInstance()->commit();
 	} 
 	
 	public function getChildContentFormatter()

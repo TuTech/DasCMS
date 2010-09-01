@@ -43,7 +43,7 @@ class TCmdContent
         {
             try
             {
-                self::$contents[$this->alias] = Controller_Content::getSharedInstance()->accessContent($this->alias, $this);
+                self::$contents[$this->alias] = Controller_Content::getInstance()->accessContent($this->alias, $this);
             }
             catch (Exception $e)
             {

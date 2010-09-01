@@ -6,10 +6,10 @@ PAuthentication::implied();
 if(!empty($_SERVER['PATH_INFO']))
 {
     $alias = substr($_SERVER['PATH_INFO'],1);
-    if(Controller_Content::getSharedInstance()->contentExists($alias))
+    if(Controller_Content::getInstance()->contentExists($alias))
     {
-        $self = Controller_Content::getSharedInstance()->openContent($alias);
-        $content = Controller_Content::getSharedInstance()->accessContent($alias, $self);
+        $self = Controller_Content::getInstance()->openContent($alias);
+        $content = Controller_Content::getInstance()->accessContent($alias, $self);
         if($content instanceof IGeneratesFeed)
         {
             $allAliases = $content->getFeedItemAliases();
@@ -18,7 +18,7 @@ if(!empty($_SERVER['PATH_INFO']))
             {
                 try
                 {
-                    $entry = Controller_Content::getSharedInstance()->accessContent($entryAlias, $self);
+                    $entry = Controller_Content::getInstance()->accessContent($entryAlias, $self);
                     if(!$entry instanceof CError)
                     {
                         $e = XML_Atom_Entry::fromContent($content, $entry);

@@ -162,7 +162,7 @@ class CScript
 	//IHeaderService
 	public static function getHeaderServideItems($forAlias = null)
 	{
-	    return array('scripts' => Controller_Content::getSharedInstance()->contentGUIDIndex(self::CLASS_NAME));
+	    return array('scripts' => Controller_Content::getInstance()->contentGUIDIndex(self::CLASS_NAME));
 	}
 
 	public static function sendHeaderService($embedAlias, EWillSendHeadersEvent $e)

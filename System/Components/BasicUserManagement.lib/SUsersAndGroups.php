@@ -358,18 +358,18 @@ class SUsersAndGroups
 //wrapper functions: current user and current application
     public function setMyPreference($withKey, $toValue)
     {
-        return $this->setUserApplicationPreference(PAuthentication::getUserID(), SApplication::getSharedInstance()->getName(), $withKey, $toValue);
+        return $this->setUserApplicationPreference(PAuthentication::getUserID(), SApplication::getInstance()->getName(), $withKey, $toValue);
     }
     
     public function resetMyPreference($withKeyOrKeys = false)
     {
         //false = reset all keys / string = reset one specific key / array of strings = reset all keys in array
-        return $this->resetUserApplicationPreference(PAuthentication::getUserID(), SApplication::getSharedInstance()->getName(), $withKeyOrKeys);
+        return $this->resetUserApplicationPreference(PAuthentication::getUserID(), SApplication::getInstance()->getName(), $withKeyOrKeys);
     }
     
     public function getMyPreference($withKey)
     {
-        return $this->getUserApplicationPreference(PAuthentication::getUserID(), SApplication::getSharedInstance()->getName(), $withKey);
+        return $this->getUserApplicationPreference(PAuthentication::getUserID(), SApplication::getInstance()->getName(), $withKey);
     }
     
     
@@ -773,7 +773,7 @@ class SUsersAndGroups
     /**
      * @return SUsersAndGroups
      */
-    public static function getSharedInstance()
+    public static function getInstance()
     {
         $class = self::CLASS_NAME;
         if(self::$sharedInstance == NULL && $class != NULL)

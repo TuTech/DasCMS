@@ -48,7 +48,7 @@ class PAuthorisation
     /**
      * @return PAuthorisation
      */
-    public static function getSharedInstance()
+    public static function getInstance()
     {
         if(self::$instance == null)
         {
@@ -78,7 +78,7 @@ class PAuthorisation
             {    
                 try
                 {
-                    $implementor = self::getSharedInstance()->getImplementor();
+                    $implementor = self::getInstance()->getImplementor();
                 }
                 catch(XUndefinedException $e)
                 {

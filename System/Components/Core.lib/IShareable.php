@@ -12,7 +12,7 @@
 interface IShareable
 {
 	//instanciate class if neccessary and return a link to the object
-	public static function getSharedInstance();
+	public static function getInstance();
 	
 }
 

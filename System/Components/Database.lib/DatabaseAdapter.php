@@ -53,7 +53,7 @@ class DatabaseAdapter
 		$id = self::$aliases[$alias];
 		if(!array_key_exists($id, self::$statements)){
 			//prepared
-			self::$statements[$id] = DSQL::getSharedInstance()->prepare(self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
+			self::$statements[$id] = DSQL::getInstance()->prepare(self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
 			//catch error
 			if(!self::$statements[$id]){
 				throw new XDatabaseException('could not prepare statement', 0, self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);

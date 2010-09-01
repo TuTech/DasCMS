@@ -86,9 +86,9 @@ class DSQL_MySQL extends DSQL
 	/**
 	 * @return DSQL
 	 */
-	public static function getSharedInstance()
+	public static function getInstance()
 	{
-		throw new Exception('call DSQL::getSharedInstance() instead');
+		throw new Exception('call DSQL::getInstance() instead');
 	}
 	
     /**

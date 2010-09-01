@@ -25,7 +25,7 @@ class SFeedKeeper
 	/**
 	 * @return SFeedKeeper
 	 */
-	public static function getSharedInstance()
+	public static function getInstance()
 	{
 		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)
@@ -41,7 +41,7 @@ class SFeedKeeper
 	    try
 	    {
 	        $CID = $e->Content->Id;
-	        $DB = DSQL::getSharedInstance();
+	        $DB = DSQL::getInstance();
 	        $DB->beginTransaction();
     	    if(get_class($e->Content) == 'CFeed')
     	    {
@@ -177,7 +177,7 @@ class SFeedKeeper
         try
 	    {
 	        $CID = $e->Content->Id;
-	        $DB = DSQL::getSharedInstance();
+	        $DB = DSQL::getInstance();
 	        $DB->beginTransaction();
             if(get_class($e->Content) == 'CFeed')
             {

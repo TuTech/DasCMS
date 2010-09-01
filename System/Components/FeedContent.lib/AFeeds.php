@@ -29,7 +29,7 @@ class AFeeds
         {
             if(!empty($target))
             {
-                $this->target = Controller_Content::getSharedInstance()->openContent($target, 'CFeed');
+                $this->target = Controller_Content::getInstance()->openContent($target, 'CFeed');
             }
         }
         catch (Exception $e)
@@ -301,7 +301,7 @@ class AFeeds
         if($this->target != null)
         {
             $alias = $this->target->Alias;
-            if(Controller_Content::getSharedInstance()->deleteContent($alias))
+            if(Controller_Content::getInstance()->deleteContent($alias))
             {
                 $this->target = null;
             }
@@ -362,7 +362,7 @@ class AFeeds
         {
             throw new XPermissionDeniedException('view');
         }
-        $IDindex = Controller_Content::getSharedInstance()->contentIndex('CFeed');
+        $IDindex = Controller_Content::getInstance()->contentIndex('CFeed');
         $items = array();
         foreach ($IDindex as $alias => $data) 
         {

@@ -20,7 +20,7 @@ class UHeaderServices
     public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
     {
 		$classes = Core::getClassesWithInterface('IHeaderService');
-        $active = Controller_Content::getSharedInstance()->getContentsChainedToClass(self::CLASS_NAME);
+        $active = Controller_Content::getInstance()->getContentsChainedToClass(self::CLASS_NAME);
 		$activeIndex = array();
 		foreach ($active as $k => $v){
 			$activeIndex[$v] = 1;
@@ -82,9 +82,9 @@ class UHeaderServices
                 }
             }    
         }
-        $DSQL = DSQL::getSharedInstance();
+        $DSQL = DSQL::getInstance();
         $DSQL->beginTransaction();
-        $coco = Controller_Content::getSharedInstance();
+        $coco = Controller_Content::getInstance();
         $coco->releaseContentChainsToClass($this, $rem);
         $coco->chainContentsToClass($this, $cfg);
         $DSQL->commit();

@@ -52,7 +52,7 @@ class STag
 	/**
 	 * @return STag
 	 */
-	public static function getSharedInstance()
+	public static function getInstance()
 	{
 		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)
@@ -101,7 +101,7 @@ class STag
 	private function setTags($alias, $tagstring)
 	{
 		$tags = self::parseTagStr($tagstring);
-		$DB = DSQL::getSharedInstance();
+		$DB = DSQL::getInstance();
 		$ptok = SProfiler::profile(__FILE__, __LINE__, 'updating tags to '.implode(', ', $tags));
 		try
 		{

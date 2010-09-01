@@ -121,7 +121,7 @@ class CoreUpdate extends Core
 	
 	public static function updateClassIndex(array $classes)
 	{
-		$DB = call_user_func_array(array('DSQL', 'getSharedInstance'), array());
+		$DB = call_user_func_array(array('DSQL', 'getInstance'), array());
 		if(empty($DB) || !is_object($DB)){
 			return;
 		}

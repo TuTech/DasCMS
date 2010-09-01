@@ -304,7 +304,7 @@ abstract class BContent extends BObject implements Interface_Content
 	}
 
 	protected static function createContent($class, $title){
-		$DB = DSQL::getSharedInstance();
+		$DB = DSQL::getInstance();
 		$DB->beginTransaction();
 		try{
 			$cid = Core::Database()

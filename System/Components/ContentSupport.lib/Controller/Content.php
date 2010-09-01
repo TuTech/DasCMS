@@ -11,7 +11,7 @@ class Controller_Content
 	/**
      * @return Controller_Content
      */
-	public static function getSharedInstance()
+	public static function getInstance()
 	{
 		if(self::$sharedInstance == null)
 		{

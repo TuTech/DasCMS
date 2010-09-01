@@ -36,7 +36,7 @@ if(!empty($_SERVER['PATH_INFO']))
             ,$key, $match)
         )
     {
-    	$ContentController = Controller_Content::getSharedInstance();
+    	$ContentController = Controller_Content::getInstance();
     	if($ContentController->contentExists($alias))
     	{
 	        try //public open
@@ -115,7 +115,7 @@ if(!empty($_SERVER['PATH_INFO']))
                 $alias = WImage::resolvePreviewId($id);
                 if(!empty($alias))
                 {
-                    $c = Controller_Content::getSharedInstance()->openContent($alias);
+                    $c = Controller_Content::getInstance()->openContent($alias);
                     $img = Image_GD::load($c->getRawDataPath(), $c->getType());
                 }
             }
@@ -176,13 +176,13 @@ if(!empty($_SERVER['PATH_INFO']))
     else
     {
         $img = false;
-        $id = WImage::getPreviewIdForContent(Controller_Content::getSharedInstance()->tryOpenContent($alias));
+        $id = WImage::getPreviewIdForContent(Controller_Content::getInstance()->tryOpenContent($alias));
         if($id != '_')//load cms default image
         {
             $alias = WImage::resolvePreviewId($id);
             if(!empty($alias))
             {
-                $c = Controller_Content::getSharedInstance()->openContent($alias);
+                $c = Controller_Content::getInstance()->openContent($alias);
                 header('Content-type: '.$c->getType());
                 $img = $c->getRawDataPath();
             }

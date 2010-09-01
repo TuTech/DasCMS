@@ -30,7 +30,7 @@ class ATemplates
         {
             if(!empty($target))
             {
-                $this->target = Controller_Content::getSharedInstance()->openContent($target, 'CTemplate');
+                $this->target = Controller_Content::getInstance()->openContent($target, 'CTemplate');
             }
         }
         catch (Exception $e)
@@ -84,7 +84,7 @@ class ATemplates
         if($this->target != null)
         {
             $alias = $this->target->Alias;
-            if(Controller_Content::getSharedInstance()->deleteContent($alias))
+            if(Controller_Content::getInstance()->deleteContent($alias))
             {
                 $this->target = null;
             }
@@ -154,7 +154,7 @@ class ATemplates
         {
             throw new XPermissionDeniedException('view');
         }
-        $IDindex = Controller_Content::getSharedInstance()->contentIndex('CTemplate');
+        $IDindex = Controller_Content::getInstance()->contentIndex('CTemplate');
         $items = array();
         foreach ($IDindex as $alias => $data) 
         {

@@ -54,7 +54,7 @@ if($edit != null)
 		{
 			global $id,$out;
 			$myid = $id;
-			$content = Controller_Content::getSharedInstance()->tryOpenContent($tno->getAlias());
+			$content = Controller_Content::getInstance()->tryOpenContent($tno->getAlias());
 			if(!$content instanceof CError)
 			{
     			$myid = ++$id;

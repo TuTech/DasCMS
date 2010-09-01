@@ -56,7 +56,7 @@ abstract class BEvent extends BObject
 		{
 		    if(Core::isImplementation($eventListenerClass, 'IShareable'))
 		    {
-		        $eventListener = call_user_func($eventListenerClass.'::getSharedInstance');
+		        $eventListener = call_user_func($eventListenerClass.'::getInstance');
 		    }
 			else
 			{

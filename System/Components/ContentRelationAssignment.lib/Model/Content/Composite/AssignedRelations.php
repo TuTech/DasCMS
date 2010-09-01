@@ -51,7 +51,7 @@ class Model_Content_Composite_AssignedRelations
     	try{
 			//FIXME: bad access: missing formatter controller
 			$f = $this->getAssignedRelationsFormatter();
-			DSQL::getSharedInstance()->beginTransaction();
+			DSQL::getInstance()->beginTransaction();
 			Core::Database()
 				->createQueryForClass($this)
 				->call('unlink')
@@ -64,19 +64,19 @@ class Model_Content_Composite_AssignedRelations
 					->withParameters($this->compositeFor->getId(), get_class($this), $f)
 					->execute();
 			}
-			DSQL::getSharedInstance()->commit();
+			DSQL::getInstance()->commit();
 			
 			$AssignCtrl = Controller_ContentRelationManager::getInstance();
 			$assigned = $this->getAssignedRelationsData();
 			$compositeAlias = $this->compositeFor->getAlias();
 
 			//save assignments
-			DSQL::getSharedInstance()->beginTransaction();
+			DSQL::getInstance()->beginTransaction();
 			$AssignCtrl->releaseAllRetainedByContentAndClass($this->compositeFor->getAlias(), $this);
 			foreach ($assigned as $alias){
 				$AssignCtrl->retain($alias, $compositeAlias, $this);
 			}
-			DSQL::getSharedInstance()->commit();
+			DSQL::getInstance()->commit();
     	}
     	catch(Exception $e){
 			SNotificationCenter::report(SNotificationCenter::TYPE_WARNING, 'could_not_save_assigned_relations');
@@ -99,7 +99,7 @@ class Model_Content_Composite_AssignedRelations
 		$html = '<ul class="Content_AssignedRelations">';
 		foreach ($this->assigned as $alias) {
 			try{
-				$c = Controller_Content::getSharedInstance()->openContent($alias);
+				$c = Controller_Content::getInstance()->openContent($alias);
 				$html .= '<li>'.Formatter_Container::unfreezeForFormatting($formatter, $c).'</li>';
 			}
 			catch(XFileNotFoundException $fnf){
@@ -124,7 +124,7 @@ class Model_Content_Composite_AssignedRelations
 		}
 		$this->assigned = array();
 		foreach ($value as $k => $v){
-			if(is_string($v) && Controller_Content::getSharedInstance()->contentExists($v)){
+			if(is_string($v) && Controller_Content::getInstance()->contentExists($v)){
 				$this->assigned[] = $v;
 			}
 		}

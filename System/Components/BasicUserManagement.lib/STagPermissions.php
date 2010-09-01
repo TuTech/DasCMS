@@ -28,7 +28,7 @@ class STagPermissions
 	/**
 	 * @return STagPermissions
 	 */
-	public static function getSharedInstance()
+	public static function getInstance()
 	{
 		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)
@@ -121,8 +121,8 @@ class STagPermissions
 	 */
 	public static function setProtectedTags(array $tags)
 	{
-		STag::getSharedInstance()->addTags($tags);
-		DSQL::getSharedInstance()->beginTransaction();
+		STag::getInstance()->addTags($tags);
+		DSQL::getInstance()->beginTransaction();
 		try{
 			Core::Database()
 				->createQueryForClass(self::CLASS_NAME)
@@ -136,10 +136,10 @@ class STagPermissions
 					->withParameters($tag)
 					->execute();
 			}
-			DSQL::getSharedInstance()->commit();
+			DSQL::getInstance()->commit();
 		}
 		catch (Exception $e){
-			DSQL::getSharedInstance()->rollback();
+			DSQL::getInstance()->rollback();
 			throw $e;
 		}
 	}
@@ -187,7 +187,7 @@ class STagPermissions
 	}
 	
 	private static function dbSet($type, $name, $tags){
-		DSQL::getSharedInstance()->beginTransaction();
+		DSQL::getInstance()->beginTransaction();
 		try{
 			Core::Database()
 				->createQueryForClass(self::CLASS_NAME)
@@ -201,10 +201,10 @@ class STagPermissions
 					->withParameters($name, $tag)
 					->execute();
 			}
-			DSQL::getSharedInstance()->commit();
+			DSQL::getInstance()->commit();
 		}
 		catch (Exception $e){
-			DSQL::getSharedInstance()->rollback();
+			DSQL::getInstance()->rollback();
 			throw $e;
 		}
 	}

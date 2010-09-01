@@ -161,7 +161,7 @@ class CStylesheet
 	//IHeaderService
 	public static function getHeaderServideItems($forAlias = null)
 	{
-	    return array('stylesheets' => Controller_Content::getSharedInstance()->contentGUIDIndex(self::CLASS_NAME));
+	    return array('stylesheets' => Controller_Content::getInstance()->contentGUIDIndex(self::CLASS_NAME));
 	}
 	
 	public static function sendHeaderService($embedGUID, EWillSendHeadersEvent $e)

@@ -461,7 +461,7 @@ class CFeed
                 {
                     try
                     {
-                        $contentObject = Controller_Content::getSharedInstance()->accessContent($row[3], $this, true);
+                        $contentObject = Controller_Content::getInstance()->accessContent($row[3], $this, true);
                         $content .= $this->formatChildContent($contentObject);
                     }
                     catch (Exception $e){/*skip this*/}
@@ -567,14 +567,14 @@ class CFeed
         	{
                 case 'Tags':
         		    $tag = 'div';
-        		    $content = htmlentities(implode(', ', STag::getSharedInstance()->get($data[$map['Alias']])), ENT_QUOTES, CHARSET);
+        		    $content = htmlentities(implode(', ', STag::getInstance()->get($data[$map['Alias']])), ENT_QUOTES, CHARSET);
         		    break;
                 case 'Description':
         		    $tag = 'div';
         		    $content = $data[$map[$key]];
         		    break;
                 case 'PreviewImage':
-                    $co = $contentObject ? $contentObject : Controller_Content::getSharedInstance()->tryOpenContent($data[$map['Alias']]);
+                    $co = $contentObject ? $contentObject : Controller_Content::getInstance()->tryOpenContent($data[$map['Alias']]);
         		    //do not cache content - it was not accessed here
                     $tag = 'div';
                     $content = $co->getPreviewImage()->scaled(
@@ -593,7 +593,7 @@ class CFeed
                     //100,100, WImage::MODE_FORCE,WImage::FORCE_BY_CROP, '#4e9a06');
                     break;
                 case 'Icon':
-                    $co = $contentObject ? $contentObject : Controller_Content::getSharedInstance()->tryOpenContent($data[$map['Alias']]);
+                    $co = $contentObject ? $contentObject : Controller_Content::getInstance()->tryOpenContent($data[$map['Alias']]);
         		    //do not cache content - it was not accessed here
                     $tag = 'div';
                     $content = $co->getIcon()->asSize($this->option(self::ITEM, 'IconSize'));
@@ -602,7 +602,7 @@ class CFeed
         		        : $content;
                     break;
     		    case 'Content':
-                    $co = $contentObject ? $contentObject : Controller_Content::getSharedInstance()->accessContent($data[$map['Alias']], $this);
+                    $co = $contentObject ? $contentObject : Controller_Content::getInstance()->accessContent($data[$map['Alias']], $this);
                     $contentObject = $co;//cache accessed content
                     $tag = 'div';
                     $content = $co->getContent();
@@ -672,7 +672,7 @@ class CFeed
 		}
 
 		//set tags tags
-		DSQL::getSharedInstance()->beginTransaction();
+		DSQL::getInstance()->beginTransaction();
 		//remove old tags
 		Core::Database()
 			->createQueryForClass($this)
@@ -687,7 +687,7 @@ class CFeed
 				->withParameters($this->getId(), $tag)
 				->execute();
 		}
-		DSQL::getSharedInstance()->commit();
+		DSQL::getInstance()->commit();
 	}
 	
 	/**

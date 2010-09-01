@@ -29,7 +29,7 @@ abstract class DSQL
 	 * @return DSQL
 	 * @throws XDatabaseException
 	 */
-	public static function getSharedInstance()
+	public static function getInstance()
 	{
 		if(self::$Connector == null)
 		{

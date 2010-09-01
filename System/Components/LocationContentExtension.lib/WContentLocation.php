@@ -42,7 +42,7 @@ class WContentLocation extends BWidget implements ISidebarWidget
 	    {
 	        if(RSent::hasValue('WContentLocation_location'))
     	    {
-    	        $loc = ULocations::getSharedInstance();
+    	        $loc = ULocations::getInstance();
     	        $lat = ''; 
     	        $long = '';
     	        if(RSent::hasValue('WContentLocation_lat') 
@@ -95,7 +95,7 @@ class WContentLocation extends BWidget implements ISidebarWidget
 	
 	public function render()
 	{
-	    $loc = ULocations::getSharedInstance();
+	    $loc = ULocations::getInstance();
 	    $location = $loc->getContentLocation($this->targetObject->getAlias());
 	    $Items = new WNamedList();
 		$Items->setTitleTranslation(false);

@@ -181,7 +181,7 @@ class WImage extends BWidget
 
     public static function setPreview($contentAlias, $previewAlias)
     {
-		$DB = DSQL::getSharedInstance();
+		$DB = DSQL::getInstance();
 		$RelCtrl = Controller_ContentRelationManager::getInstance();
 
 		$palias = Core::Database()

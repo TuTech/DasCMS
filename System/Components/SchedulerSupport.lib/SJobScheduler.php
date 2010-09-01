@@ -29,7 +29,7 @@ class SJobScheduler extends BObject
         }  
         else
         {
-            $DB = DSQL::getSharedInstance();
+            $DB = DSQL::getInstance();
             try
             {
 				//re-/schedule

@@ -92,7 +92,7 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 	const Plugin_Name = 'UFeedReader';
 	public static $sharedInstance = NULL;
 	private static $initializedInstance = false;
-	public static function getSharedInstance()
+	public static function getInstance()
 	{
 		$class = self::Plugin_Name;
 		if(self::$sharedInstance == NULL && $class != NULL)

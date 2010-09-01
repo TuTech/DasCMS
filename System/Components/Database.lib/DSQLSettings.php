@@ -22,7 +22,7 @@ class DSQLSettings
         	'change_database_settings' => array('', Settings::TYPE_CHECKBOX, null, 'change_database_settings'),
            	'engine' => array(Core::settings()->get('db_engine'), Settings::TYPE_SELECT, DSQL::getEngines(), 'db_engine')
         ));
-        DSQL::getSharedInstance()->HandleRequestingClassSettingsEvent($e);
+        DSQL::getInstance()->HandleRequestingClassSettingsEvent($e);
     }
     
     public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
@@ -35,7 +35,7 @@ class DSQLSettings
             {
                 Core::settings()->set('db_engine', $data['engine']);
             }
-            DSQL::getSharedInstance()->HandleUpdateClassSettingsEvent($e);
+            DSQL::getInstance()->HandleUpdateClassSettingsEvent($e);
         }
     }
 }

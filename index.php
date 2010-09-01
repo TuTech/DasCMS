@@ -56,7 +56,7 @@ $tok = SProfiler::profile(__FILE__, __LINE__,'template engine');
 $generatorAlias = Core::settings()->get('generator_content');
 try
 {
-    $pageGenerator = Controller_Content::getSharedInstance()->openContent($generatorAlias);
+    $pageGenerator = Controller_Content::getInstance()->openContent($generatorAlias);
 }
 catch (Exception $e)
 {

@@ -32,7 +32,7 @@ class SApplication
     {
         if(self::$appController == null)
         {
-            $a = self::getSharedInstance();
+            $a = self::getInstance();
             self::$appController = BAppController::getControllerForID($a->getGUID());
         }
         return self::$appController;
@@ -143,7 +143,7 @@ class SApplication
         $ofd = '';
         if($this->openDialog)
         {
-            $ofd = WOpenDialog::getSharedInstance();
+            $ofd = WOpenDialog::getInstance();
             $ofd->setTarget(self::appController());
             if(!$this->openDialogAutoShow)
             {
@@ -229,7 +229,7 @@ class SApplication
                 $mode = $mode | $const;
             }
         }
-        $panel = WSidePanel::getSharedInstance();
+        $panel = WSidePanel::getInstance();
         $panel->setMode($mode);
         $processInputs = $xp->query('/bambus/application/sidebar/processInputs/@mode');
         if($processInputs  && $processInputs->length == 1);
@@ -327,7 +327,7 @@ class SApplication
 	/**
 	 * @return SApplication
 	 */
-	public static function getSharedInstance()
+	public static function getInstance()
 	{
 		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)

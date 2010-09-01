@@ -29,7 +29,7 @@ class AFiles
         {
             if(!empty($target))
             {
-                $this->target = Controller_Content::getSharedInstance()->openContent($target, 'CFile');
+                $this->target = Controller_Content::getInstance()->openContent($target, 'CFile');
             }
         }
         catch (Exception $e)
@@ -88,7 +88,7 @@ class AFiles
         {
             $dbid = $this->target->getId();
             $alias = $this->target->Alias;
-            if(Controller_Content::getSharedInstance()->deleteContent($alias))
+            if(Controller_Content::getInstance()->deleteContent($alias))
             {
                 SErrorAndExceptionHandler::muteErrors();
                 unlink('Content/CFile/'.$dbid.'.data');
@@ -111,7 +111,7 @@ class AFiles
                 {
                     try
                     {
-                        if(Controller_Content::getSharedInstance()->deleteContent($alias))
+                        if(Controller_Content::getInstance()->deleteContent($alias))
                         {
                             SNotificationCenter::report('message', 'file_deleted');
                         }
@@ -180,7 +180,7 @@ class AFiles
         {
             throw new XPermissionDeniedException('view');
         }
-        $IDindex = Controller_Content::getSharedInstance()->contentIndex('CFile');
+        $IDindex = Controller_Content::getInstance()->contentIndex('CFile');
         $items = array();
         $types = array();
         $i = 0;

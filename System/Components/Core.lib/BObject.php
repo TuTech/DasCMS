@@ -49,7 +49,7 @@ abstract class BObject
 		{
 			if(Core::isImplementation($class, 'IShareable'))
 			{
-				$object = call_user_func($class.'::getSharedInstance');
+				$object = call_user_func($class.'::getInstance');
 			}
 			else
 			{

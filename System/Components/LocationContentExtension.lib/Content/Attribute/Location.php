@@ -11,7 +11,7 @@ class View_Content_Attribute_Location extends _View
             $alias = ($aliasOrContent instanceof Interface_Content)
                 ? $aliasOrContent->getAlias()
                 : $aliasOrContent;
-            $loc = ULocations::getSharedInstance();
+            $loc = ULocations::getInstance();
             $loc = $loc->getContentLocation($alias);;
     	    list(
     	        $locName,

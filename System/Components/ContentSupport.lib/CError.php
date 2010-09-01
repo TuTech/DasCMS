@@ -60,7 +60,7 @@ class CError extends BContent implements IGlobalUniqueId, ISearchDirectives
 	            try 
 	            {
 	                //returns login form and ends function
-	                return Controller_Content::getSharedInstance()->openContent($tpl);
+	                return Controller_Content::getInstance()->openContent($tpl);
 	            }
 	            catch (Exception $e)
 	            {

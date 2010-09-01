@@ -40,7 +40,7 @@ class PAuthentication
     /**
      * @return PAuthentication
      */
-    public static function getSharedInstance()
+    public static function getInstance()
     {
         if(self::$instance == null)
         {
@@ -107,7 +107,7 @@ class PAuthentication
             //get the class assigned to do the authentication
             try
             {
-                $implementor = self::getSharedInstance()->getImplementor();
+                $implementor = self::getInstance()->getImplementor();
             }
             catch(XUndefinedException $e)
             {

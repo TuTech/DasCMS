@@ -24,7 +24,7 @@ class SLinkRunner
 	/**
 	 * @return SLinkRunner
 	 */
-	public static function getSharedInstance()
+	public static function getInstance()
 	{
 		$class = self::CLASS_NAME;
 		if(self::$sharedInstance == NULL && $class != NULL)

@@ -89,7 +89,7 @@ class VSpore extends BView
 	public static function Save()
 	{
 		self::initialize();
-		$DB = DSQL::getSharedInstance();
+		$DB = DSQL::getInstance();
 		$DB->beginTransaction();
 		try
 		{
@@ -253,14 +253,14 @@ class VSpore extends BView
 		{
 			$alias = self::$spores[$this->name][self::INIT_CONTENT];
 		}
-		$content = Controller_Content::getSharedInstance()->tryOpenContent($alias);
+		$content = Controller_Content::getInstance()->tryOpenContent($alias);
 		
 		if($content instanceof CError)
 		{
 			$alias = self::$spores[$this->name][self::ERROR_CONTENT];
-			$content = Controller_Content::getSharedInstance()->tryOpenContent($alias);
+			$content = Controller_Content::getInstance()->tryOpenContent($alias);
 		}
-		$this->content = Controller_Content::getSharedInstance()->accessContent($content->Alias, $this);
+		$this->content = Controller_Content::getInstance()->accessContent($content->Alias, $this);
 		$this->content->setParentView($this);
 		
 		//do once
@@ -280,7 +280,7 @@ class VSpore extends BView
 	public function getErrorContent()
 	{
 		$alias = self::$spores[$this->name][self::ERROR_CONTENT];
-		return Controller_Content::getSharedInstance()->tryOpenContent($alias);
+		return Controller_Content::getInstance()->tryOpenContent($alias);
 	}
 	
 	public function hasContent()
