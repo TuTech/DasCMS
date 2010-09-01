@@ -40,6 +40,7 @@ class WImage extends BWidget
 
     private $isPreviewImage = false;
     private $cssID = null;
+    private $isPlaceHolderImage = false;
 
     /**
      * @return WImage
@@ -126,6 +127,9 @@ class WImage extends BWidget
 			if($id !== null){
 				$img->imageID = $id;
 			}
+			else{
+				$img->isPlaceHolderImage = true;
+			}
         }
         return $img;
     }
@@ -164,7 +168,7 @@ class WImage extends BWidget
             return null;
         }
     }
-	
+
     public static function resolvePreviewId($id)
     {
 		$alias = Core::Database()
@@ -282,12 +286,15 @@ class WImage extends BWidget
 
     public function __toString()
     {
+    	$class = array();
+    	if($this->isPreviewImage)$class[] = 'PreviewImage';
+    	if($this->isPlaceHolderImage)$class[] = 'DefaultPreviewImage';
         return sprintf(
-            "<img src=\"image.php/%s/%s%s\"%s alt=\"%s\" title=\"%s\" %s/>"
+            "<img src=\"image.php/%s/%s%s\" class=\"%s\" alt=\"%s\" title=\"%s\" %s/>"
             ,empty($this->content) ? $this->alias : $this->content->getAlias()
             ,$this->scaleHash
             ,$this->noCacheAddOn
-            ,($this->isPreviewImage ? ' class="PreviewImage"' : '')
+            ,implode(' ', $class)
             ,htmlentities(empty($this->content) ? $this->title : $this->content->getTitle(), ENT_QUOTES, CHARSET)
             ,htmlentities(empty($this->content) ? $this->title : $this->content->getTitle(), ENT_QUOTES, CHARSET)
             ,($this->cssID != null) ? 'id="'.htmlentities($this->cssID, ENT_QUOTES, CHARSET).'" ' : ''
