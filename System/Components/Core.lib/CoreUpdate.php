@@ -2,7 +2,7 @@
 class CoreUpdate extends Core
 {
 	const NO_DATABASE = false;
-	const WITH_DATABASE = false;
+	const WITH_DATABASE = true;
 
 	private static $verbose = false;
 	
