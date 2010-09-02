@@ -1,1 +1,1 @@
-{"classes":["AScriptEditor","CScript"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}
+{"classes":["AScriptEditor","CScript","Setup_ScriptContent"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}

@@ -1,1 +1,1 @@
-{"classes":["AWebsiteEditor","CPage","Settings_CPageWYSIWYG"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}
+{"classes":["AWebsiteEditor","CPage","Settings_CPageWYSIWYG","Setup_HTMLContent"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}
