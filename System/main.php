@@ -56,9 +56,17 @@ require_once constant('CMS_CLASS_PATH').'Core.lib/Settings.php';
 
 //class loader
 function __autoload($class){
+	//try the fast class loader
 	$file = Core::getClassCachePath($class);
+	
+	//if it didn't work try to find the class in the Core.lib (classes not indexed?)
+	if(!file_exists($class)){
+		$file = sprintf('%s/Core.lib/%s.php', constant('CMS_CLASS_PATH'), $class);
+	}
+
+	//class not found: fail
 	if(!file_exists($file)){
-		throw new Exception(sprintf('requested unknown class "%s"', $class));
+		throw new Exception(sprintf('requested class not found "%s"', $class));
 	}
 	require_once($file);
 }
