@@ -1,10 +1,13 @@
 <?php
 class CoreUpdate extends Core
 {
+	const NO_DATABASE = false;
+	const WITH_DATABASE = false;
+
 	private static $verbose = false;
 	
-	public static function run(){
-		self::buildIndex(self::readComponentData());
+	public static function run($hasDatabase = true){
+		self::buildIndex(self::readComponentData(), $hasDatabase);
 	}
 
 	private static function readComponentData(){
@@ -64,7 +67,7 @@ class CoreUpdate extends Core
 	}//function
 
 	
-	private static function buildIndex($components){
+	private static function buildIndex($components, $hasDatabase = true){
 		try{
 			self::log('<h1>testing...</h1>');
 			$iflo = array();
@@ -107,8 +110,7 @@ class CoreUpdate extends Core
 		}
 		Core::storeInterfaceLookup($iflo);
 		Core::storeGUIDLookup($guidlo);
-		
-		if(Core::classExists('DSQL')){
+		if($hasDatabase && Core::classExists('DSQL')){
 			self::updateClassIndex($dblo);
 		}
 		else{
@@ -118,25 +120,13 @@ class CoreUpdate extends Core
 	
 	public static function updateClassIndex(array $classes)
 	{
-		$DB = call_user_func_array(array('DSQL', 'getInstance'), array());
-		if(empty($DB) || !is_object($DB)){
-			return;
-		}
-		$sql = 
-			"INSERT INTO 
-				Classes 
-					(class, guid)
-				VALUES 
-					('%s',%s)
-				ON DUPLICATE KEY UPDATE 
-					class = '%s',
-					guid = %s";
-		$ci = array();
 		foreach ($classes as $cname => $cguid) 
 		{
-			$cn = $DB->escape($cname);
-			$cg = empty($cguid) ? 'NULL' : '"'.$DB->escape($cguid).'"';
-			$DB->queryExecute(sprintf($sql, $cn, $cg, $cn, $cg));
+			Core::Database()
+				->createQueryForClass('CoreUpdate')
+				->call('updateClassIndex')
+				->withParameters($cname, $cguid, $cname, $cguid)
+				->execute();
 		}
 	}
 	

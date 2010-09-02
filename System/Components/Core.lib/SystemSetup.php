@@ -74,7 +74,7 @@ class SystemSetup
 		
 		//*run buildIndex
 		//create index of all classes
-		CoreUpdate::run();
+		CoreUpdate::run(CoreUpdate::NO_DATABASE);
 
 		//load all setup objects
 		$classes = Core::getClassesWithInterface('Setup_Component');
@@ -125,6 +125,10 @@ class SystemSetup
 				'DatabaseContent',
 				'Content'
 			);
+		//create index of all classes and write them in the database
+		CoreUpdate::run(CoreUpdate::WITH_DATABASE);
+
+
 		header('Created', true, 201);
 		$out = ob_get_clean();
 		ob_end_clean();

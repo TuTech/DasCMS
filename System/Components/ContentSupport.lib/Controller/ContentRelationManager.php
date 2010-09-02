@@ -196,32 +196,6 @@ class Controller_ContentRelationManager
 		return $class;
 	}
 
-	protected function fetchList(DSQLResult $res){
-		$list = array();
-		while ($row = $res->fetch()){
-			$list[] = $row[0];
-		}
-		$res->free();
-		return $list;
-	}
-
-	protected function fetchVerboseList(DSQLResult $res){
-		$list = array();
-		while ($row = $res->fetch()){
-			$list[$row[0]] = array($row[1], $row[2], $row[3]);
-		}
-		$res->free();
-		return $list;
-	}
-
-	protected function fetchSingleValue(DSQLResult $res){
-		$ret = null;
-		if($res->getRowCount() > 0){
-			list($ret) = $res->fetch();
-		}
-		return $ret;
-	}
-
 	//singleton functions
 
 	/**
