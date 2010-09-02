@@ -45,7 +45,7 @@ class CFile
 	    {
 	        throw new XUndefinedException('upload not moveable');
 	    }
-	    $this->saveFileMeta(
+	    self::saveFileMeta(
 	        $dbid,
 	        RFiles::getName('CFile'), 
 	        DFileSystem::suffix(RFiles::getName('CFile')),
@@ -83,7 +83,7 @@ class CFile
 		if($e->isCanceled()){
 			return;//notifications are up to the canceling object
 		}
-	    $this->saveFileMeta(
+		self::saveFileMeta(
 	        $this->getId(),
 	        RFiles::getName('CFile'), 
 	        DFileSystem::suffix(RFiles::getName('CFile')),
@@ -112,7 +112,7 @@ class CFile
         $e = new EContentChangedEvent($this, $this);
 	}
 
-	protected function saveFileMeta($id, $fileName, $suffix, $md5)
+	protected static function saveFileMeta($id, $fileName, $suffix, $md5)
 	{
 		return Core::Database()
 			->createQueryForClass('CFile')
