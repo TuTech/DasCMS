@@ -57,7 +57,7 @@ class Setup_Database
 		if ($db->connect_error){
 			$this->reportError('database', 'couldn\'t connect to database server');
 		}
-		if(!$db->select_db($dbname)){
+		if(!$db->select_db($conData['db_name'])){
 			$this->reportError('database.name', 'couldn\'t use database');
 		}
 		$db->close();

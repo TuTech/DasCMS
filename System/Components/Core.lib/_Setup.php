@@ -36,7 +36,7 @@ abstract class _Setup
 
 
 	protected function dirPath($dir){
-		return $this->contentFolder.'/'.$folder;
+		return $this->contentFolder.'/'.$dir;
 	}
 
 	protected function setupDir($folder){
@@ -52,7 +52,9 @@ abstract class _Setup
 		$this->input = $data;
 	}
 
-	public function validateInputData() {}
+	public function validateInputData() {
+		return array();
+	}
 
 
 }

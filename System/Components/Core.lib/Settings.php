@@ -89,7 +89,9 @@ class Settings extends Core {
 				}
 
 				//make a backup
-				copy(self::FILE_CONFIG, self::FILE_CONFIG_BACKUP);
+				if(file_exists(self::FILE_CONFIG)){
+					copy(self::FILE_CONFIG, self::FILE_CONFIG_BACKUP);
+				}
 
                 //save new config
 				$data = self::HEADER.json_encode($this->data);

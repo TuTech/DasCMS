@@ -128,7 +128,9 @@ class SystemSetup
 		//create index of all classes and write them in the database
 		CoreUpdate::run(CoreUpdate::WITH_DATABASE);
 
-
+		if(file_exists($this->continueSetupFile)){
+			unlink($this->continueSetupFile);
+		}
 		header('Created', true, 201);
 		$out = ob_get_clean();
 		ob_end_clean();
