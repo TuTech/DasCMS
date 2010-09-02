@@ -36,7 +36,7 @@ class Setup_BasicUserManagement
 		$userData = 'a:1:{s:5:"admin";O:5:"SUser":11:{'.
 			's:8:"password";s:32:"--PASSWORD--";'.
 			's:8:"realName";s:5:"Admin";'.
-			's:5:"email";s:12:"--EMAIL--";'.
+			's:5:"email";s:--EMAIL-LENGTH--:"--EMAIL--";'.
 			's:6:"groups";a:1:{i:0;s:13:"Administrator";}'.
 			's:11:"permissions";a:0:{}'.
 			's:10:"attributes";a:1:{s:7:"company";s:0:"";}'.
@@ -45,9 +45,11 @@ class Setup_BasicUserManagement
 			's:30:"applicationPreferenceKeyForces";a:0:{}'.
 			's:27:"applicationPreferenceForces";a:0:{}'.
 			's:16:"preferenceForced";b:0;}}';
-		  $userData = str_replace('--PASSWORD--', md5($this->inputValueForKey('system.administratorPassword')), $userData);
-		  $userData = str_replace('--EMAIL--', $this->inputValueForKey('system.webmasterEMail', ''), $userData);
-		  DFileSystem::Save($this->dirPath('configuration/users.php'), DFileSystem::FHEADER.$userData);
+		$eml = $this->inputValueForKey('system.webmasterEMail', '');
+		$userData = str_replace('--PASSWORD--', md5($this->inputValueForKey('system.administratorPassword')), $userData);
+		$userData = str_replace('--EMAIL--', $eml, $userData);
+		$userData = str_replace('--EMAIL-LENGTH--', strlen($eml), $userData);
+		DFileSystem::Save($this->dirPath('configuration/users.php'), $userData);
 	}
 
 	public function runConfigurationSetup() {
