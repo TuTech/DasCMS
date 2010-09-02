@@ -60,7 +60,7 @@ function __autoload($class){
 	$file = Core::getClassCachePath($class);
 	
 	//if it didn't work try to find the class in the Core.lib (classes not indexed?)
-	if(!file_exists($class)){
+	if(!file_exists($file)){
 		$file = sprintf('%s/Core.lib/%s.php', constant('CMS_CLASS_PATH'), $class);
 	}
 
