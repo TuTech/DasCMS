@@ -4,7 +4,8 @@ class Setup_BasicUserManagement
 	implements 
 		Setup_ForDatabaseTables,
 		Setup_ForDatabaseTableReferences,
-		Setup_ForContentFolder
+		Setup_ForContentFolder,
+		Setup_ForConfiguration
 {
 
 	public function validateInputData() {
@@ -47,6 +48,11 @@ class Setup_BasicUserManagement
 		  $userData = str_replace('--PASSWORD--', md5($this->inputValueForKey('system.administratorPassword')), $userData);
 		  $userData = str_replace('--EMAIL--', $this->inputValueForKey('system.webmasterEMail', ''), $userData);
 		  DFileSystem::Save($this->dirPath('configuration/users.php'), DFileSystem::FHEADER.$userData);
+	}
+
+	public function runConfigurationSetup() {
+		Core::settings()->set("PAuthentication","SBambusSessionAuth");
+		Core::settings()->set("PAuthorisation","SBambusSessionAuth");
 	}
 
 	public function runDatabaseTablesSetup() {

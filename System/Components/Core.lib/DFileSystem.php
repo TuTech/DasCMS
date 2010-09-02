@@ -276,7 +276,7 @@ class DFileSystem
      */
     public static function Append($dataFile, $data)
     {
-        $fp = @fopen($dataFile,'a+');
+        $fp = @fopen($dataFile,'a');
         if(!$fp)
         {
             throw new XFileLockedException('open failed ',$dataFile);

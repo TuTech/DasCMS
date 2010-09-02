@@ -174,6 +174,9 @@ class SErrorAndExceptionHandler
 
     public static function reportException(Exception $e)
     {
+		$tpl = '<div style="font-family:sans-serif;border:1px solid #a40000;">
+				<div style="border:1px solid #cc0000;z-index:1000000;padding:10px;background:#a40000;color:white;">
+					<h1 style="border-bottom:1px solid #cc0000;font-size:16px;">%s</h1></div></div>';
 		$debugInfo = ($e instanceof XDatabaseException)
 			? $e->getSQL()."\n\n"
 			: '';
@@ -196,7 +199,8 @@ class SErrorAndExceptionHandler
 			, $debugInfo
 			,getcwd());
 		$logFile = SPath::LOGS.'Exceptions.log';
-		if(file_exists($logFile) && is_writable($logFile)){
+		if((file_exists($logFile) && is_writable($logFile))
+				|| (!file_exists($logFile) && is_writable(dirname($logFile)))){
 			DFileSystem::Append($logFile, $err);
 		}
 		else{
