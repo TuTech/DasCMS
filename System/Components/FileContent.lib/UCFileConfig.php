@@ -38,7 +38,7 @@ class UCFileConfig
                 'scale_by_stretch' => '1s'
     		), 'rendering_method'),
         	'background_color'			=> array(Core::settings()->get('CFile_image_background_color'), Settings::TYPE_TEXT, null, 'background_color'),
-        	'CFile_image_quality'		=> array(Core::settings()->get('CFile_image_quality'), Settings::TYPE_SELECT,
+        	'CFile_image_quality'		=> array(Core::settings()->getOrDefault('CFile_image_quality', 75), Settings::TYPE_SELECT,
 												array('minimal' => 1, 'low' => 25, 'medium' => 50, 'high' => 75, 'maximum' => 100), 'image_quality')
 		));
         $e->addClassSettings($this, 'file_download', array(

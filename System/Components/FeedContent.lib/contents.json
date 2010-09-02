@@ -1,1 +1,1 @@
-{"classes":["AFeeds","CFeed","SFeedKeeper"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}
+{"classes":["AFeeds","CFeed","SFeedKeeper","Setup_FeedContent"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}

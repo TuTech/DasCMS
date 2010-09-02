@@ -1,1 +1,1 @@
-{"classes":["PAuthentication","PAuthorisation","SAuthByPhpAuthUser","SAuthorizeAll","XPermissionDeniedException"],"interfaces":["IAuthenticate","IAuthorize"],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}
+{"classes":["PAuthentication","PAuthorisation","SAuthByPhpAuthUser","SAuthorizeAll","Setup_AuthenticationSupport","XPermissionDeniedException"],"interfaces":["IAuthenticate","IAuthorize"],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}
