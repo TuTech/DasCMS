@@ -1,6 +1,7 @@
 <?php
 class CoreSQLUpdate extends Core
 {
+	private static $verbose = false;
 	const CACHE_DIR = 'SQLCache';
 	protected $data = array();
 
@@ -71,7 +72,7 @@ class CoreSQLUpdate extends Core
 						//build path
 						$sqlFile = sprintf('%s%s/%s.sql', $componentsDir, $currentComponent, $classSubPath);
 						if(file_exists($sqlFile)){
-							printf("%48s: %s\n", $class, $sqlFile);
+							if(self::$verbose)printf("%48s: %s\n", $class, $sqlFile);
 							$data = $this->parseSQLFile($sqlFile, $DB_PREFIX);
 							if(is_array($data) && count($data) > 0){
 								$this->saveSQLDefinition($class, $data);
