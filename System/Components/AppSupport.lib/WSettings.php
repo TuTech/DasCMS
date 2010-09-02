@@ -71,19 +71,6 @@ class WSettings extends BWidget implements ISidebarWidget
 		    $prevAlias = RSent::get('WSearch-PreviewImage-Alias', CHARSET);
 		    $this->targetObject->PreviewImage = $prevAlias;
 		}
-		if(RSent::has('WSearch-sent'))
-		{
-		    try{
-		    $allowSearchIndexing = RSent::hasValue('WSearch-AllowSearchIndexing');
-		    if($this->targetObject instanceof ISearchDirectives && $this->targetObject->isSearchIndexingEditable())
-		    {
-		        $this->targetObject->changeSearchIndexingStatus($allowSearchIndexing);
-		    }
-		    }catch (Exception $e)
-		    {
-		        echo $e;
-		    }
-		}
 	}
 
 	public function __toString()
@@ -139,16 +126,6 @@ class WSettings extends BWidget implements ISidebarWidget
 		        $si_on = $this->targetObject->allowSearchIndex();
 		        $si_changeable = $this->targetObject->isSearchIndexingEditable();
 		    }
-		    $Items->add(
-			    sprintf("<label for=\"WSearch-AllowSearchIndexing\">%s</label>", SLocalization::get('include_in_search_index')),
-			    sprintf(
-			    	'<input type="checkbox" id="WSearch-AllowSearchIndexing" name="WSearch-AllowSearchIndexing"%s%s />'
-			        , $si_on ? ' checked="checked"' : ''
-			        , $si_changeable ? '' : ' disabled="disabled"'
-			        , SLocalization::get('include_in_search_index')
-		        )
-			);
-
 			$html .= $Items;
 			$html .= '</div>';
 		}
