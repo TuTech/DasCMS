@@ -13,6 +13,7 @@ class Setup_Core
 			'date.timezone'		=> 'UTC',
 			'date.format'		=> 'c',
 			'system.locale'		=> 'en-GB',
+			'system.webmasterEMail'	=> '',
 			'website.errors.show' => false,
 			'website.errors.mailWebmaster' => false
 	);
@@ -21,6 +22,7 @@ class Setup_Core
 			'date.timezone'		=> 'timezone',
 			'date.format'		=> 'dateformat',
 			'system.locale'		=> 'locale',
+			'system.webmasterEMail'	=> 'webmaster',
 			'website.errors.show' => 'show_errors_on_website',
 			'website.errors.mailWebmaster' => 'mail_webmaster_on_error'
 	);

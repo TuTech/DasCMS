@@ -7,8 +7,9 @@ $setup->run(array(
 	'date.format'		=> 'd.m.Y H:i:s',
 
 	'system.locale'		=> 'de-DE',
-	'system.webmaster'	=> '',
-
+	'system.webmasterEMail'	=> '',
+	'system.administratorPassword' => '',
+	
 	'website.errors.show' => true,
 	'website.errors.mailWebmaster' => false,
 
