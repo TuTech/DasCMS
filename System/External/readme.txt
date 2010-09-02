@@ -1,0 +1,1 @@
+this folder is for optional 3rd party additions like a WYSIYG Editor
