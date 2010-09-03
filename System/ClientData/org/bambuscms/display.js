@@ -1,4 +1,11 @@
 org.bambuscms.display = {
+	'callbacks':[],
+	'addCallback':function(func){
+		if(typeof func == 'function')
+		{
+			org.bambuscms.display.callbacks[org.bambuscms.display.callbacks.length] = func;
+		}
+	},
 	'_objects':{},
 	'_init':function()
 	{
@@ -47,6 +54,9 @@ org.bambuscms.display = {
 					}
 				}
 			}
+		}
+		for(var i = 0; i < org.bambuscms.display.callbacks.length; i++){
+			org.bambuscms.display.callbacks[i]();
 		}
 	},
 	'setAutosize':function(elementID, width, height, refreshNow)

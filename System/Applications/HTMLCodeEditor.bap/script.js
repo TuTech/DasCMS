@@ -20,8 +20,18 @@ function Delete()
 	org.bambuscms.app.dialog.create(_('delete_script'), _('do_you_really_want_to_delete_this_script'), input, _('yes_delete'), _('no'));
 	org.bambuscms.app.dialog.setAction('delete');
 }
-
-
+org.bambuscms.editor.wysiwyg.commitAll = function(){
+	var ta = $('org_bambuscms_app_document_editorElementId');
+	if(ta.bespin){
+		ta.value = ta.bespin.editor.value;
+	}
+}
+org.bambuscms.display.addCallback(function(){
+	if(bespin){
+		var ta = $('org_bambuscms_app_document_editorElementId');
+		ta.bespin.dimensionsChanged();
+	}
+});
 org.bambuscms.app.document.insertMedia = function(type, url, title)
 {
 	var insert = '';
