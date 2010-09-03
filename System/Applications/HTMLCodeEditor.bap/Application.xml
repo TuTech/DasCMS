@@ -6,8 +6,8 @@
 	<description>edit_and_manage_html_pages</description>
 	<icon>app-utilities-editor-html</icon>
 	<version>0.1</version>
-	<priority>1.9</priority>
-	<purpose>edit_content</purpose>
+	<priority>2.0</priority>
+	<purpose>edit_contents</purpose>
 	<tabs>
 		<tab icon="action-edit">edit_html</tab>
 	</tabs>
