@@ -27,9 +27,9 @@ org.bambuscms.editor.wysiwyg.commitAll = function(){
 	}
 }
 org.bambuscms.display.addCallback(function(){
-	if(bespin){
-		var ta = $('org_bambuscms_app_document_editorElementId');
-		ta.bespin.dimensionsChanged();
+    var ta = $('org_bambuscms_app_document_editorElementId');
+    if(ta && ta.bespin){
+    	ta.bespin.dimensionsChanged();
 	}
 });
 

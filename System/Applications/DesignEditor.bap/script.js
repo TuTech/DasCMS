@@ -27,9 +27,9 @@ org.bambuscms.editor.wysiwyg.commitAll = function(){
 	}
 }
 org.bambuscms.display.addCallback(function(){
-	if(bespin){
-		var ta = $('org_bambuscms_app_document_editorElementId');
-		ta.bespin.dimensionsChanged();
+    var ta = $('org_bambuscms_app_document_editorElementId');
+    if(ta && ta.bespin){
+    	ta.bespin.dimensionsChanged();
 	}
 });
 
@@ -39,8 +39,17 @@ org.bambuscms.app.document.insertMedia = function(type, url, title)
 	switch(type)
 	{
 		case 'image':
-			org.bambuscms.app.document.insertText(' url("'+url+'")');
+			insert = ' url("'+url+'")';
 			break;
+	}
+	if(insert != '')
+	{
+		var ta = $('org_bambuscms_app_document_editorElementId');
+		if(ta && ta.bespin){
+			ta.bespin.editor.selectedText = insert;
+		}else{
+			org.bambuscms.app.document.insertText(insert);
+		}
 	}
 };
 

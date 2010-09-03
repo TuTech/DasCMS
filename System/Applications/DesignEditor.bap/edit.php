@@ -15,6 +15,7 @@ if($Stylesheet instanceof CStylesheet)
     $editor->disableSpellcheck();
 	if(file_exists('System/External/Bespin')){
 		$editor->addCssClass('bespin');
+		$editor->setCodeAssist(false);
 		$editor->addCustomAttribute("data-bespinoptions", '{ "stealFocus":true, "syntax": "css" }');
 	}
     echo $editor;
