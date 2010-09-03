@@ -12,6 +12,7 @@
 abstract class BContent extends BObject implements Interface_Content
 {
 	protected $_origPubDate;
+	protected static $metaDataCache = array();
 
 	//Properties - to be handled in __get() & __set()
 	protected
@@ -231,10 +232,15 @@ abstract class BContent extends BObject implements Interface_Content
 	 */
 	protected function initBasicMetaFromDB($alias)
 	{
-		$res = Core::Database()
-			->createQueryForClass('BContent')
-			->call('basicMeta')
-			->withParameters($alias);
+		if(!array_key_exists($alias, self::$metaDataCache)){
+			$res = Core::Database()
+				->createQueryForClass('BContent')
+				->call('basicMeta')
+				->withParameters($alias);
+			self::$metaDataCache[$alias] = $res->fetchResult();
+			$res->free();
+		}
+		
 		list(
 				$this->Id,
 				$this->Title,
@@ -245,9 +251,8 @@ abstract class BContent extends BObject implements Interface_Content
 				$this->GUID,
 				$this->Alias,
 				$this->SubTitle
-			) = $res->fetchResult();
-		$res->free();
-
+			) = self::$metaDataCache[$alias];
+		
 		//parse pubdate
 		$this->PubDate = ($pd == '0000-00-00 00:00:00' ? 0 : strtotime($pd));
 		$this->_origPubDate = $this->PubDate;
@@ -265,7 +270,8 @@ abstract class BContent extends BObject implements Interface_Content
 			->call('saveMeta')
 			->withParameters($this->Title, $pubDate, $this->Description, $this->Size, $this->SubTitle, $this->Id)
 			->execute();
-		  BContent::logChange($this->Id, $this->Title, $this->Size);
+		self::$metaDataCache = array();
+		BContent::logChange($this->Id, $this->Title, $this->Size);
 	}
 
 	protected static function logChange($id, $title, $size, $retried = false){

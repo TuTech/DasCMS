@@ -22,7 +22,12 @@ class Controller_Content
 
 	//end IShareable
 
-    public function openContent($alias, $ifIsType = null)
+	protected function className($objectOrClass){
+		return is_object($objectOrClass) ? get_class($objectOrClass) : strval($objectOrClass);
+	}
+
+
+	public function openContent($alias, $ifIsType = null)
     {
 	    if(empty($alias))
 	    {
@@ -122,6 +127,7 @@ class Controller_Content
 
     public function contentIndex($class, $titleOnly = false)
     {
+		$class = $this->className($class);
 		try
 		{
 			$res = Core::Database()
@@ -149,6 +155,7 @@ class Controller_Content
 	 */
 	public function contentGUIDIndex($ofClass)
 	{
+		$ofClass = $this->className($ofClass);
 	    $index = array();
 		$res = Core::Database()
 			->createQueryForClass($this)
@@ -186,6 +193,7 @@ class Controller_Content
 
 	public function chainContentsToClass($class, array $aliases)
 	{
+		$class = $this->className($class);
 		$i = 0;
 		foreach ($aliases as $alias){
 			$i += Core::Database()
@@ -199,6 +207,7 @@ class Controller_Content
 
 	public function getContentsChainedToClass($class)
 	{
+		$class = $this->className($class);
 		$list = Core::Database()
 			->createQueryForClass($this)
 			->call('getChainedToClass')
@@ -209,6 +218,7 @@ class Controller_Content
 
 	public function releaseContentChainsToClass($class, $aliases = null)
 	{
+		$class = $this->className($class);
 	    if(is_array($aliases))
 		{
 			foreach ($aliases as $alias){
