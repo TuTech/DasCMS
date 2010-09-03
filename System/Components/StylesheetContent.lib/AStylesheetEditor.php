@@ -17,9 +17,9 @@ class AStylesheetEditor
         ISupportsOpenDialog
 {
 	public function  __construct() {
-		if(file_exists('System/External/Bespin/prebuilt/BespinEmbedded.js')){
+		if(file_exists('System/External/Bespin/BespinEmbedded.js')){
 			WHeader::relate('System/External/Bespin/', null, null, 'bespin_base');
-			WHeader::useScript('System/External/Bespin/prebuilt/BespinEmbedded.js');
+			WHeader::useScript('System/External/Bespin/BespinEmbedded.js');
 		}
 	}
 	

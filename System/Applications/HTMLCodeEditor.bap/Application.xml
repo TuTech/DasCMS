@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE bambus SYSTEM "../../Resource/DTD/application_v1.dtd">
+<bambus>
+	<appController guid="org.bambuscms.applications.htmlcodeeditor">AHTMLCodeEditor</appController>
+	<name>html-code</name>
+	<description>edit_and_manage_html_pages</description>
+	<icon>app-utilities-editor-html</icon>
+	<version>0.1</version>
+	<priority>1.9</priority>
+	<purpose>edit_content</purpose>
+	<tabs>
+		<tab icon="action-edit">edit_html</tab>
+	</tabs>
+	<application> 
+		<interface name="edit_css" src="edit.php">
+			<panel name="content_actions">
+				<task type="button" hotkey="o" caption="open" icon="action-document-open" action="org.bambuscms.wopenfiledialog.toggle();" />
+				<task type="button" hotkey="s" caption="save" icon="action-document-save" action="org.bambuscms.app.document.save()" />
+			</panel>
+			<panel name="server_actions">
+				<task type="button" hotkey="N" caption="new" icon="action-document-new" action="Create()" />
+				<task type="button" hotkey="X" caption="delete" icon="action-edit-delete" action="Delete()" />
+			</panel>
+			<panel name="text_actions">
+				<task type="button" hotkey="R" caption="search_and_replace" icon="action-edit-find-replace" action="org.bambuscms.app.document.searchAndReplace()" />
+			</panel>
+		</interface>
+		<sidebar>
+			<supported mode="RETAIN"/>
+			<supported mode="MEDIA_LOOKUP"/>
+			<supported mode="CONTENT_LOOKUP"/>
+			<supported mode="PERMISSIONS"/>
+			<supported mode="PROPERTY_EDIT"/>
+			<supported mode="HELPER"/>
+			<processInputs mode="auto"/>
+		</sidebar>
+		<openDialog autoShow="yes"/>
+	</application>
+</bambus>

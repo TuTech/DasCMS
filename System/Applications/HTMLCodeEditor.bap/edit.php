@@ -6,16 +6,16 @@
  * @since 2009-05-15
  * @version 1.0
  */
-$Script = SApplication::getControllerContent();
-if($Script instanceof CScript)
+$page = SApplication::getControllerContent();
+if($page instanceof CPage)
 {
-    echo new WContentTitle($Script);
-    $editor = new WTextEditor($Script->RAWContent);
+    echo new WContentTitle($page);
+    $editor = new WTextEditor($page->getContent());
     $editor->setWordWrap(false);
     $editor->disableSpellcheck();
 	if(file_exists('System/External/Bespin')){
 		$editor->addCssClass('bespin');
-		$editor->addCustomAttribute("data-bespinoptions", '{ "stealFocus":true, "syntax": "js" }');
+		$editor->addCustomAttribute("data-bespinoptions", '{ "stealFocus":true, "syntax": "html" }');
 	}
     echo $editor;
 }

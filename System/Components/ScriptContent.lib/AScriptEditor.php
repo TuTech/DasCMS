@@ -16,6 +16,13 @@ class AScriptEditor
         IGlobalUniqueId,
         ISupportsOpenDialog
 {
+	public function  __construct() {
+		if(file_exists('System/External/Bespin/BespinEmbedded.js')){
+			WHeader::relate('System/External/Bespin/', null, null, 'bespin_base');
+			WHeader::useScript('System/External/Bespin/BespinEmbedded.js');
+		}
+	}
+	
     /**
      * required permission for class
      * @var string
