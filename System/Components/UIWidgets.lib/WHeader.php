@@ -66,9 +66,9 @@ class WHeader extends BWidget
 		self::relate($style, 'stylesheet', 'text/css', 'media="'.$media.'"');
 	} 
 	
-	public static function relate($link, $as, $type)
+	public static function relate($link, $as = null, $type = null, $id = null)
 	{
-		self::$relations[] = array($link, $as, $type);
+		self::$relations[] = array('href' => $link, 'rel' => $as, 'type' => $type, 'id' => $id);
 	} 
 	
 	public static function httpHeader($directive)
@@ -202,12 +202,13 @@ class WHeader extends BWidget
 		foreach (self::$relations as $relArr) 
 		{
 			//load general stylesheets (lowercase) or for active classes (e.g. WHeader)
-			$html .= sprintf("\t\t<link href=\"%s\" rel=\"%s\" type=\"%s\" %s/>\n"
-				, self::enc($relArr[0])
-				, self::enc($relArr[1])
-				, self::enc($relArr[2])
-				, isset($relArr[3]) ? $relArr[3].' ' : ''
-				);
+			$relTxt = '';
+			foreach ($relArr as $name => $value){
+				if($value !== null){
+					$relTxt .= sprintf(' %s="%s"', $name, self::enc($value));
+				}
+			}
+			$html .= sprintf("\t\t<link%s/>\n", $relTxt);
 		}
 		
 		foreach (self::$scripts as $script => $autoloaded) 

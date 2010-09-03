@@ -17,6 +17,8 @@ class WTextEditor extends BWidget
 	private $wordWrap = true;
 	private $wysiwyg = false;
 	private $codeAssist = true;
+	private $cssClass = '';
+	private $attributes = array();
 
 	public function __construct($value = '')
 	{
@@ -68,6 +70,14 @@ class WTextEditor extends BWidget
         $this->codeAssist = $yn == true;
     }
 
+	public function addCssClass($class){
+		$this->cssClass .= ' '.$class;
+	}
+
+	public function addCustomAttribute($name, $value){
+		$this->attributes[$name] = $value;
+	}
+
 	/**
 	 * get render() output as string
 	 * @return string
@@ -75,7 +85,7 @@ class WTextEditor extends BWidget
 	public function __toString()
 	{
 	    $hidinp = '<input type="hidden" name="%s" id="%s" value="%s" />'."\n";
-        $textarea = '<textarea name="content" class="WCodeEditor" id="org_bambuscms_app_document_editorElementId"%s%s>%s</textarea>'."\n";
+        $textarea = '<textarea name="content" class="WCodeEditor%s" id="org_bambuscms_app_document_editorElementId"%s%s%s>%s</textarea>'."\n";
 	    $script = '<script type="text/javascript">%s%s</script>'."\n";
         $sp = 'org_bambuscms_wcodeeditor_scrollpos';
         //scrollpos
@@ -85,11 +95,17 @@ class WTextEditor extends BWidget
         	,$sp
         	,$this->encode(RSent::get($sp, CHARSET))
         );
+		$customAtts = '';
+		foreach ($this->attributes as $k => $v){
+			$customAtts .= sprintf(' %s="%s"',  htmlentities($k, ENT_QUOTES, CHARSET), htmlentities($v, ENT_QUOTES, CHARSET));
+		}
         //textarea
         $out .= sprintf(
             $textarea
+			,$this->cssClass
             ,' wrap="off"'//FIXME safari breaks links with saving generated word wraps //was: $this->wordWrap   ? ' wrap="on"' : ' wrap="off"'
             ,$this->spellCheck ? ' spellcheck="true"' : ' spellcheck="false"'
+			,$customAtts
             ,$this->value
         );
         //javascript resize/wysiwyg

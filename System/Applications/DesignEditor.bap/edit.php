@@ -13,6 +13,10 @@ if($Stylesheet instanceof CStylesheet)
     $editor = new WTextEditor($Stylesheet->RAWContent);
     $editor->setWordWrap(false);
     $editor->disableSpellcheck();
+	if(file_exists('System/External/Bespin')){
+		$editor->addCssClass('bespin');
+		$editor->addCustomAttribute("data-bespinoptions", '{ "stealFocus":true, "syntax": "css" }');
+	}
     echo $editor;
 }
 ?>
