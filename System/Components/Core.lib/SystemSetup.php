@@ -132,7 +132,7 @@ class SystemSetup
 			unlink($this->continueSetupFile);
 		}
 		header('Created', true, 201);
-		$out = ob_get_clean();
+		$out = ob_get_contents();
 		ob_end_clean();
 		print("Setup successful\n");
 		print($out);

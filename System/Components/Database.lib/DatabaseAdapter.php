@@ -170,7 +170,7 @@ class DatabaseAdapter
 		$id = self::$aliases[$this->class.'::'.$this->function];
 		$parameterDefinition = &self::$register[$id][Interface_Database_CallableQuery::PARAMETER_DEFINITION];
 		if(!$this->hasBoundData){
-			$this->prepareResultFields(&self::$register[$id][Interface_Database_CallableQuery::RETURN_FIELDS]);
+			$this->prepareResultFields(self::$register[$id][Interface_Database_CallableQuery::RETURN_FIELDS]);
 		}
 		if(strlen($parameterDefinition) != count($this->parameters)){
 
