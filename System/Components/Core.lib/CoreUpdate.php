@@ -122,11 +122,20 @@ class CoreUpdate extends Core
 	{
 		foreach ($classes as $cname => $cguid) 
 		{
-			Core::Database()
-				->createQueryForClass('CoreUpdate')
-				->call('updateClassIndex')
-				->withParameters($cname, $cguid, $cname, $cguid)
-				->execute();
+			if(empty ($cguid)){
+				Core::Database()
+					->createQueryForClass('CoreUpdate')
+					->call('updateClassIndexNoGUID')
+					->withParameters($cname, $cname)
+					->execute();
+			}
+			else{
+				Core::Database()
+					->createQueryForClass('CoreUpdate')
+					->call('updateClassIndex')
+					->withParameters($cname, $cguid, $cname, $cguid)
+					->execute();
+			}
 		}
 	}
 	

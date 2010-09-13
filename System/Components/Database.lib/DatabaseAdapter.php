@@ -48,7 +48,7 @@ class DatabaseAdapter
 
 		$alias = $class.'::'.$name;
 		if(!array_key_exists($alias, self::$aliases)){
-			throw new XUndefinedIndexException('statement no registered');
+			throw new XUndefinedIndexException('statement not registered');
 		}
 		$id = self::$aliases[$alias];
 		if(!array_key_exists($id, self::$statements)){
