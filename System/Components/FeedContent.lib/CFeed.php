@@ -443,7 +443,11 @@ class CFeed
 		$fetchedResults = array();
 		while($row = $res->fetchResult())
 		{
-			$fetchedResults[] = $row;
+			$i = count($fetchedResults);
+			$fetchedResults[$i] = array();
+			foreach ($row as $field){
+				$fetchedResults[$i][] = $field;
+			}
 		}
 		$res->free();
 
