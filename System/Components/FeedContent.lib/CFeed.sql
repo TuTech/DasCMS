@@ -75,7 +75,7 @@ DELETE
 INSERT
 	INTO __PFX__relFeedsTags (feedREL, tagREL)
 	SELECT
-			? AS feedREL
+			? AS feedREL,
 			tagID
 		FROM __PFX__Tags
 		WHERE tag = ?

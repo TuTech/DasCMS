@@ -59,7 +59,7 @@ class DatabaseAdapter
 				throw new XDatabaseException('could not prepare statement', 0, self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
 			}
 			//remove useless sql
-			self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT] = '';
+			//self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT] = '';
 		}
 		return self::$statements[$id];
 	}
@@ -189,7 +189,7 @@ class DatabaseAdapter
 			call_user_func_array(array($this->statement, "bind_param"), $params);
 		}
 		if(!$this->statement->execute()){
-			throw new XDatabaseException("statement failed: ".$this->statement->error, $this->statement->errno, self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
+			throw new XDatabaseException("statement failed in ".$this->class.'::'.$this->function.": ".$this->statement->error, $this->statement->errno, self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
 		}
 		return $this;
 	}

@@ -440,6 +440,13 @@ class CFeed
 			->createQueryForClass($this)
 			->buildAndCall('items', array($orderBY, $order))
 			->withParameters($this->getId(), $itemsPerPage, ($currentPage-1)*$itemsPerPage);
+		$fetchedResults = array();
+		while($row = $res->fetchResult())
+		{
+			$fetchedResults[] = $row;
+		}
+		$res->free();
+
         //html building
         $content = '<div id="_'.$this->getGUID().'" class="CFeed">';
         if($count > 0)
@@ -449,7 +456,7 @@ class CFeed
             if($childFormatter == false)
     	    {
     	        //use feed to format the item ui 
-                while($row = $res->fetchResult())
+				foreach ($fetchedResults as $row)
                 {
                     $content .= $this->buildItemHtml($row);
                 }
@@ -457,7 +464,7 @@ class CFeed
     	    else
     	    {
     	        //use a formatter for the item ui
-    	        while($row = $res->fetchResult())
+    	        foreach ($fetchedResults as $row)
                 {
                     try
                     {
@@ -474,7 +481,6 @@ class CFeed
         {
             $content .= '<p>'.implode('<br />', $this->caption(self::ITEM, 'NoItemsFound')).'</p>';
         }
-		$res->free();
         $content .= '</div>';
         return $content;
 	}
