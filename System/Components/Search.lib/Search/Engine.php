@@ -27,31 +27,29 @@ class Search_Engine
 	 * @param Search_Order $orderBy
 	 * @param bool $orderDirection Search_Engine::SORT_ORDER_ASC or Search_Engine::SORT_ORDER_DESC
 	 */
-	public function query($queryString, $itemsPerPage, Search_Order $orderBy, $orderDirection){
+	public function query($queryString){
+		//parse search input
 		$parser = Search_Parser::getInstance();
 		$request = $parser->parse($queryString);
 
-		//resolve global controller
-
 		//run search modifiers
+		$rewriters = Core::getClassesWithInterface('Search_Rewriter');
+		foreach ($rewriters as $rewriteClass){
+			$rwObject = new $rewriteClass();
+			if($rwObject instanceof Search_Rewriter){
+				$rwObject->rewriteSearchRequest($request);
+			}
+		}
 
-		$hash = $parser->getQueryHash();
+		//generate search id
+		$hash = $request->getHashCode();
 
 		//check for cached result for hash
 		if(!$this->hasCachedQuery($hash)){
-			//run search
 
-			//register search id
+			//make db entry and get search id
+			$normalizedQuery = strval($request);
 			$searchId = null;
-
-			//load controller objects
-			$controllers = array();
-			$nsPrefix = 'Search_Controller_';
-			foreach($parser->getControllers() as $ns){
-				$class = $nsPrefix.$ns;
-				$controllers[$ns] = new $class();
-				$controllers[$ns]->setSearchId($searchId);
-			}
 
 			//run query
 			foreach(array('gather', 'filter', 'rate') as $action){
@@ -65,7 +63,7 @@ class Search_Engine
 	}
 
 	protected function hasCachedQuery($hash){
-
+		//DB Query
 	}
 }
 ?>

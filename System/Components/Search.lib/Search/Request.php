@@ -2,6 +2,8 @@
 class Search_Request
 {
 	protected $data = array();
+	protected $strval = null;
+
 
 	//////////////////
 	//section handling
@@ -14,11 +16,13 @@ class Search_Request
 	public function addSection($section){
 		$this->assertMissingSection($section);
 		$this->data[$section] = array();
+		$this->stateChanged();
 	}
 
 	public function removeSection($section){
 		$this->assertSection($section);
 		unset($this->data[$section]);
+		$this->stateChanged();
 	}
 
 	public function hasSection($section){
@@ -28,6 +32,7 @@ class Search_Request
 	public function clearSection($section){
 		$this->assertSection($section);
 		$this->data[$section] = array();
+		$this->stateChanged();
 	}
 
 	//////////////////
@@ -37,11 +42,13 @@ class Search_Request
 	public function addRequestElement($section, Search_Request_Element $element){
 		$this->assertSection($section);
 		$this->data[$section][$element->getValue()] = $element;
+		$this->stateChanged();
 	}
 
 	public function removeRequestElement($section, Search_Request_Element $element){
 		$this->assertElement($section, $element->getId());
 		unset($this->data[$section][$element->getValue()]);
+		$this->stateChanged();
 	}
 
 	public function hasElement($section, Search_Request_Element $element){
@@ -74,14 +81,21 @@ class Search_Request
 	//request status
 	////////////////
 
+	protected function stateChanged(){
+		$this->strval = null;
+	}
+
 	public function  __toString() {
-		$str = '';
-		foreach ($this->data as $section => $elements){
-			foreach ($elements as $element){
-				$str = sprintf('%s%s:%s ', $str, $section, $element);
+		if($this->strval == null){
+			$str = '';
+			foreach ($this->data as $section => $elements){
+				foreach ($elements as $element){
+					$str = sprintf('%s%s:%s ', $str, $section, $element);
+				}
 			}
+			$this->strval = trim($str);
 		}
-		return trim($str);
+		return $this->strval;
 	}
 
 	public function getHashCode(){

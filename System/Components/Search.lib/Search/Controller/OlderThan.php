@@ -1,7 +1,8 @@
 <?php
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+class Search_Controller_OlderThan
+	extends _Search_Controller
+	implements Search_Label_Older, Search_Label_Olderthan
+{
 
+}
 ?>

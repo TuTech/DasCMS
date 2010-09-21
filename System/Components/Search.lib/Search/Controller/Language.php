@@ -1,7 +1,7 @@
 <?php
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+class Search_Controller_Language
+	extends _Search_Controller
+{
 
+}
 ?>
