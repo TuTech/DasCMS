@@ -15,8 +15,8 @@ border-spacing: 0px;
 	overflow: hidden;
 	width:1px;
 	margin-top:-1px;
-	border-right: 1px solid #9fbc4a;
-	border-left: 1px solid #9fbc4a;
+	border-right: 1px solid #98c10e;
+	border-left: 1px solid #98c10e;
 }
 #WApplications table, #WApplications tbody, #WApplications tr
 {
@@ -34,7 +34,7 @@ padding:0px;
 }
 #WApplications a:hover
 {
-	background: #9fbc4a;
+	background: #eef7af;
 }
 #WApplications a:hover span.application-info
 {
@@ -44,7 +44,7 @@ padding:0px;
 	left:68px;
 	width:250px;
 	margin-left:0px;
-    border:1px solid #9fbc4a;
+    border:1px solid #98c10e;
     display:block;
     padding:2px;
     padding-left:6px;
@@ -58,7 +58,7 @@ padding:0px;
 }
 .application-info
 {
-	background: #f0f9d7;
+	background: #eef7af;
 }
 #WApplications a img
 {
@@ -73,12 +73,6 @@ padding:0px;
 	height:48px;
 
 }
-#WApplications a:hover img
-{
-	/*border:1px solid #9fbc4a;
-	padding:3px;
-	background: #fff;*/
-}
 #WApplications a.active img
 {
 	border-width: 0px;
@@ -88,7 +82,7 @@ padding:0px;
 #WApplications a.active
 {
 	background: #f9fcee ;
-    border:1px solid #9fbc4a;
+    border:1px solid #98c10e;
     border-bottom-width:0px;
     padding-top:1px;
 	width: 56px;
@@ -101,6 +95,7 @@ padding:0px;
 	width: 56px;
 	height:55px;
 	display: block;
+	background: url(../System/ClientData/Images/app_bg.png) 50% 100% no-repeat;
 }
 
 #WApplications td{
@@ -114,4 +109,8 @@ padding:0px;
 }
 #WApplications table{
 	padding-left:0px;
+	width:100%;
+}
+#WApplications th{
+	width:1px !important;
 }
