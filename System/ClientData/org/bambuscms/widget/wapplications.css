@@ -34,7 +34,7 @@ padding:0px;
 }
 #WApplications a:hover
 {
-	background: #eef7af;
+	background: #eef7af url(../System/ClientData/Images/app_bg.png) 50% 100% no-repeat;
 }
 #WApplications a:hover span.application-info
 {
@@ -81,7 +81,7 @@ padding:0px;
 }
 #WApplications a.active
 {
-	background: #f9fcee ;
+	background: #fafcd5 url(../System/ClientData/Images/app_sel_bg.png) 50% 100% no-repeat;
     border:1px solid #98c10e;
     border-bottom-width:0px;
     padding-top:1px;
