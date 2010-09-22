@@ -64,7 +64,6 @@ class Search_Request
 	}
 
 	/**
-	 *
 	 * @param string $section
 	 * @return array Search_Request_Element[]
 	 */

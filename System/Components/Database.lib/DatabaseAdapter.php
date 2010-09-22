@@ -340,8 +340,9 @@ class DatabaseAdapter
 		if($this->statement){
 			$this->statement->free_result();
 		}
-		$this->class = null;
-		$this->function = null;
+		//for multiple class function calls 
+		//$this->class = null;
+		//$this->function = null;
 		$this->parameters = null;
 		$this->statement = null;
 		$this->resultBindings = null;

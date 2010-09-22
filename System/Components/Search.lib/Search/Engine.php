@@ -48,8 +48,15 @@ class Search_Engine
 		if(!$this->hasCachedQuery($hash)){
 
 			//make db entry and get search id
-			$normalizedQuery = strval($request);
-			$searchId = null;
+			$searchId = $this->createQuery($request);
+
+			//init controllers
+			foreach ($controllers as $ns => $nso){
+				if($nso instanceof Search_Controller){
+					$nso->setRequest($request);
+					$nso->setSearchId($searchId);
+				}
+			}
 
 			//run query
 			foreach(array('gather', 'filter', 'rate') as $action){
@@ -59,11 +66,17 @@ class Search_Engine
 			}
 		}
 
-		return new Search_Query($hash);
+		return new Search_Result($hash);
 	}
 
 	protected function hasCachedQuery($hash){
 		//DB Query
+	}
+
+	protected function createQuery(Search_Request $request){
+		$normalizedQuery = strval($request);
+		$hash = $request->getHashCode();
+		return null;
 	}
 }
 ?>
