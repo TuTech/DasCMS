@@ -40,43 +40,71 @@ class Search_Engine
 				$rwObject->rewriteSearchRequest($request);
 			}
 		}
+		return new Search_Result($this->createQuery($request));
+	}
 
+	protected function getSearchId($hash){
+		return Core::Database()
+			->createQueryForClass($this)
+			->call('getId')
+			->withParameters($hash)
+			->fetchSingleValue();
+	}
+
+	protected function createQuery(Search_Request $request){
 		//generate search id
 		$hash = $request->getHashCode();
 
 		//check for cached result for hash
-		if(!$this->hasCachedQuery($hash)){
+		$searchId = $this->getSearchId($hash);
 
-			//make db entry and get search id
-			$searchId = $this->createQuery($request);
-
-			//init controllers
-			foreach ($controllers as $ns => $nso){
-				if($nso instanceof Search_Controller){
-					$nso->setRequest($request);
-					$nso->setSearchId($searchId);
+		//no cache - try to create
+		if(!$searchId){
+			try{
+				$searchId = Core::Database()
+					->createQueryForClass($this)
+					->call('createQuery')
+					->withParameters(strval($request), $hash)
+					->executeInsert();
+				if($searchId){
+					//our search! Fill it
+					$this->executeSearch($searchId, $request);
 				}
 			}
-
-			//run query
-			foreach(array('gather', 'filter', 'rate') as $action){
-				foreach ($controllers as $ns => $nso){
-					$nso->{$action}();
-				}
+			catch(Exception $e){
+				SErrorAndExceptionHandler::reportException($e);
+				$searchId = null;
 			}
 		}
 
-		return new Search_Result($hash);
+		//perhaps a conflicting create.... retry to get id
+		if(!$searchId){
+			$searchId = $this->getSearchId($hash);
+		}
+
+		if(!$searchId){
+			throw new Exception('failed to initialize query');
+		}
+
+		return $searchId;
 	}
 
-	protected function hasCachedQuery($hash){
-		//DB Query
-	}
+	protected function executeSearch($searchId, Search_Request $request){
+	    //load controller objects
+		$controllers = array();
+		foreach($request->getSections() as $controllerName){
+			$class = Search_Parser::CONTROLLER_PREFIX.$ns;
+			$controllers[$controllerName] = new $class();
+			$controllers[$controllerName]->setSearchId($searchId);
+			$controllers[$controllerName]->setRequest($request);
+		}
 
-	protected function createQuery(Search_Request $request){
-		$normalizedQuery = strval($request);
-		$hash = $request->getHashCode();
-		return null;
+		//run query
+		foreach(array('gather', 'filter', 'rate') as $action){
+			foreach ($controllers as $ns => $nso){
+				$nso->{$action}();
+			}
+		}
 	}
 }
 ?>

@@ -9,10 +9,10 @@ class Search_Result
 	 * -getPagesCount()
 	 */
 
-	protected $hash;
+	protected $searchId;
 
-	public function __construct($hash) {
-		$this->hash = $hash;
+	public function __construct($searchId) {
+		$this->searchId = $searchId;
 	}
 	
 }

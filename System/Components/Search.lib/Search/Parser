@@ -87,7 +87,7 @@ class Search_Parser
 	 */
 	protected function classToController($className){
 		if(substr($className, 0, strlen(self::CONTROLLER_PREFIX)) == self::CONTROLLER_PREFIX){
-			return strtolower(substr($className, strlen(self::CONTROLLER_PREFIX)));
+			return substr($className, strlen(self::CONTROLLER_PREFIX));
 		}
 		return null;
 	}

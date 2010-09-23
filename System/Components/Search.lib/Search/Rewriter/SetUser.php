@@ -4,11 +4,11 @@ class Search_Rewriter_SetUser
 {
 	public function rewriteSearchRequest(Search_Request $request) {
 		if(PAuthentication::isAuthenticated()){
-			if(!$request->hasSection('user')){
-				$request->addSection('user');
+			if(!$request->hasSection('User')){
+				$request->addSection('User');
 			}
-			$request->clearSection('user');
-			$request->addRequestElement('user', $request->createRequestElement(PAuthentication::getUserID()));
+			$request->clearSection('User');
+			$request->addRequestElement('User', $request->createRequestElement(PAuthentication::getUserID()));
 		}
 	}
 }
