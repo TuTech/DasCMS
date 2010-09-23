@@ -5,6 +5,7 @@
  * @author lse
  */
 class Settings extends Core {
+    const TYPE_INFORMATION = 0;
     const TYPE_TEXT = 1;
     const TYPE_CHECKBOX = 2;
     const TYPE_SELECT = 3;

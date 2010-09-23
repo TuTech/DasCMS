@@ -8,6 +8,7 @@
  */
 printf('<h2>%s</h2>', SLocalization::get('configuration'));
 $fullinput = "\n\t\t\t<input class=\"fullinput\" type=\"%s\" size=\"40\" name=\"%s\" id=\"%s\" value=\"%s\" />\n\t\t";
+$infotext = "\n\t\t\t<span class=\"information-text\">%s</span>\n\t\t";
 /**
  * @var AConfiguration
  */
@@ -35,6 +36,9 @@ foreach ($sorted as $section => $loc)
             $str = '';
             switch ($type)
             {
+                case Settings::TYPE_INFORMATION:
+                    $str = sprintf($infotext, htmlentities($value, ENT_QUOTES, CHARSET));
+                    break;
                 case Settings::TYPE_TEXT:
                     $str = sprintf($fullinput, 'text', $key, $key, htmlentities($value, ENT_QUOTES, CHARSET));
                     break;
