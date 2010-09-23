@@ -36,7 +36,23 @@ class DatabaseAdapter
 		}
 	}
 
-	/**
+	protected function checkDataForClass($class){
+		if(!isset(self::$loaded[$class])){
+			self::$loaded[$class] = true;
+			$file = sprintf('Content/SQLCache/%s.gz', sha1($class));
+			if(file_exists($file)){
+				$data = Core::dataFromFile($file, true);
+				if(!empty($data) && $statements = unserialize($data)){
+					foreach ($statements as $name => $data){
+						//s:sql, f:number of fields, p:parameter definition, d:deterministic, m:mutable
+						$this->register($class, $name, $data['s'], $data['f'], $data['p'], $data['d']);
+					}
+				}
+			}
+		}
+	}
+
+		/**
 	 *
 	 * @param mixed $classNameOrObject
 	 * @param string $name
@@ -71,21 +87,17 @@ class DatabaseAdapter
 	public function createQueryForClass($classNameOrObject)
 	{
 		$this->class = (is_object($classNameOrObject)) ? get_class($classNameOrObject) : strval($classNameOrObject);
-		if(!isset(self::$loaded[$this->class])){
-			self::$loaded[$this->class] = true;
-			$file = sprintf('Content/SQLCache/%s.gz', sha1($this->class));
-			if(file_exists($file)){
-				$data = Core::dataFromFile($file, true);
-				if(!empty($data) && $statements = unserialize($data)){
-					foreach ($statements as $name => $data){
-						//s:sql, f:number of fields, p:parameter definition, d:deterministic, m:mutable
-						$this->register($this->class, $name, $data['s'], $data['f'], $data['p'], $data['d']);
-					}
-				}
-			}
-		}
+		$this->checkDataForClass($this->class);
 		return $this;
 	}
+
+	public function hasQueryForClass($queryName, $classNameOrObject){
+		$class = (is_object($classNameOrObject)) ? get_class($classNameOrObject) : strval($classNameOrObject);
+		$this->checkDataForClass($class);
+		$alias = $class.'::'.$queryName;
+		return array_key_exists($alias, self::$aliases);
+	}
+
 
 	////////////////////////
 	//class adapter instance
@@ -201,8 +213,6 @@ class DatabaseAdapter
 	{
 		return $this->withParameterArray(func_get_args());
 	}
-
-
 
 	public function fetchSingleValue()
 	{

@@ -17,6 +17,14 @@ interface Interface_Database_QueryFactory{
 	public function createQueryForClass($classNameOrObject);
 
 	/**
+	 * check if query exists
+	 * @param string
+	 * @param mixed
+	 * @return bool
+	 */
+	public function hasQueryForClass($queryName, $classNameOrObject);
+
+	/**
 	 * @return Interface_Database_QueryFactory
 	 */
 	public static function getInstance();

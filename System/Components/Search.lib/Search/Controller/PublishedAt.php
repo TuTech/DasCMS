@@ -1,6 +1,6 @@
 <?php
 class Search_Controller_PublishedAt
-	extends _Search_Controller_SimpleTable
+	extends _Search_Controller
 	implements Search_Label_Pubdate
 {
 	protected function parseRequest() {

@@ -49,7 +49,25 @@ abstract class _Search_Controller
 		$this->parseRequest();
 	}
 
-	public function gather(){}
+	protected function gatherValue($string){
+		return $string;
+	}
+
+	public function gather() {
+		if(!Core::Database()->hasQueryForClass('gather', $this)){
+			return;
+		}
+		$dba = Core::Database()
+				->createQueryForClass($this)
+				->call('gather');
+		foreach ($this->keywords as $criteria){
+			$criteria = $this->gatherValue($criteria);
+			if($criteria){
+				$dba->withParameters($this->searchId, $criteria)->executeInsert();
+			}
+		}
+	}
+
 	public function filter(){}
 	public function rate(){}
 }
