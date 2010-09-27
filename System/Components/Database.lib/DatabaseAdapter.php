@@ -52,7 +52,7 @@ class DatabaseAdapter
 		}
 	}
 
-		/**
+	/**
 	 *
 	 * @param mixed $classNameOrObject
 	 * @param string $name

@@ -13,7 +13,9 @@ class Search_Engine
 	private function  __clone() {}
 	private function  __construct() {}
 
-
+	/**
+	 * @return Search_Engine
+	 */
 	public static function getInstance(){
 		if(self::$instance == null){
 			self::$instance = new Search_Engine();
@@ -40,7 +42,7 @@ class Search_Engine
 				$rwObject->rewriteSearchRequest($request);
 			}
 		}
-		return new Search_Result($this->createQuery($request));
+		return new Search_Result($this->runQuery($request));
 	}
 
 	protected function getSearchId($hash){
@@ -51,7 +53,7 @@ class Search_Engine
 			->fetchSingleValue();
 	}
 
-	protected function createQuery(Search_Request $request){
+	protected function runQuery(Search_Request $request){
 		//generate search id
 		$hash = $request->getHashCode();
 
@@ -92,19 +94,22 @@ class Search_Engine
 	protected function executeSearch($searchId, Search_Request $request){
 	    //load controller objects
 		$controllers = array();
+		$index = -1;
 		foreach($request->getSections() as $controllerName){
-			$class = Search_Parser::CONTROLLER_PREFIX.$ns;
-			$controllers[$controllerName] = new $class();
-			$controllers[$controllerName]->setSearchId($searchId);
-			$controllers[$controllerName]->setRequest($request);
+			$class = Search_Parser::CONTROLLER_PREFIX.$controllerName;
+			$controllers[++$index] = new $class();
+			$controllers[$index]->setSearchId($searchId);
+			$controllers[$index]->setRequest($request);
 		}
 
 		//run query
 		foreach(array('gather', 'filter', 'rate') as $action){
-			foreach ($controllers as $ns => $nso){
+			foreach ($controllers as $nso){
 				$nso->{$action}();
 			}
 		}
+
+		//assign item numbers to elements baes on score
 	}
 }
 ?>

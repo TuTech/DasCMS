@@ -4,7 +4,6 @@ class Search_Parser
 	const DEFAULT_LABEL = 'global';
 	const CONTROLLER_PREFIX = 'Search_Controller_';
 	const LABEL_PREFIX = 'Search_Label_';
-	//const EXTRACTOR = '/((([a-zA-Z]+):)?("([^"\\\\]*(\\\\.[^"\\\\]*)*)"|([\\S]+)))/u';
 	const EXTRACTOR = '/((([a-zA-Z]+):)?(\\+|-)?("([^"\\\\]*(\\\\.[^"\\\\]*)*)"|([\\S]+)))/u';
 	protected static $instance = null;
 
