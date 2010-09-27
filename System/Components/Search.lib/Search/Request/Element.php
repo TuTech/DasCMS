@@ -18,7 +18,7 @@ class Search_Request_Element
 		{
 			throw new Exception('wrong modifier');
 		}
-		$id = $this->id($value, $modifier);
+		$id = self::id($value, $modifier);
 		if(!array_key_exists($id, self::$elements)){
 			self::$elements[$id] = new Search_Request_Element($value, $modifier);
 		}
@@ -30,7 +30,7 @@ class Search_Request_Element
 		$this->value = $value;
 	}
 
-	protected function id($value, $modifier){
+	protected static function id($value, $modifier){
 		return sprintf('%s%s', self::$modMap[$modifier], $value);
 	}
 
@@ -43,7 +43,7 @@ class Search_Request_Element
 	}
 
 	public function getId(){
-		return $this->id($this->value, $this->modifier);
+		return self::id($this->value, $this->modifier);
 	}
 
 	public function  __toString() {
