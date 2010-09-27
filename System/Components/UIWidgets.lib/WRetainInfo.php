@@ -70,9 +70,9 @@ class WRetainInfo extends BWidget implements ISidebarWidget
     	    printf('<dl><dt><label>%s</label></dt><dd><dl>', SLocalization::get('retained_by'));
     	    $i = 1;
     	    $currentClass = '';
-    	    foreach(self::$retains as $alias => $data)
+    	    foreach(self::$retains as $nr => $data)
     	    {
-    	        list($title, $class) = $data;
+    	        list($alias, $class, $title) = $data;
     	        if($currentClass != $class)
     	        {
     	            printf('<dt>%s</dt>', SLocalization::get($class));
