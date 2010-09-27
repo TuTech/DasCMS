@@ -75,7 +75,7 @@ SELECT __PFX__Classes.class
 -- deterministic: yes
 -- fields: 4
 -- type: select
-SELECT
+SELECT DISTINCT
 		OwnerAliases.alias,
 		OwnerClasses.class,
 		OwnerContents.title,
