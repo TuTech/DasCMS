@@ -94,6 +94,7 @@ class Search_Engine
 	protected function executeSearch($searchId, Search_Request $request){
 	    //load controller objects
 		$controllers = array();
+		$startTime = microtime(true);
 		$index = -1;
 		foreach($request->getSections() as $controllerName){
 			$class = Search_Parser::CONTROLLER_PREFIX.$controllerName;
@@ -109,7 +110,15 @@ class Search_Engine
 			}
 		}
 
-		//assign item numbers to elements baes on score
+		//assign item numbers to elements based on score
+
+		//set runtime
+		$endTime = microtime(true);
+		Core::Database()
+			->createQueryForClass($this)
+			->call('setRuntime')
+			->withParameters(floor(($endTime-$startTime)*1000), $searchId)
+			->execute();
 	}
 }
 ?>

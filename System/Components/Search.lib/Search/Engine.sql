@@ -27,3 +27,10 @@ INSERT
 	INTO __PFX__Searches (normalizedSearch, searchHash)
 	VALUES (?, ?)
 
+-- --
+-- name: setRuntime
+-- type: insert
+-- inputTypes: ii
+UPDATE __PFX__Searches
+	SET runTimeInMilliSec = ?
+	WHERE searchID = ?
