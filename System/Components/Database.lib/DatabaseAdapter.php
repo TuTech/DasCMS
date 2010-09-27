@@ -277,7 +277,11 @@ class DatabaseAdapter
 		}
 		elseif($fields > 1){
 			while ($this->fetch()){
-				$res[] = array_values($this->resultBindings);
+				$line = array();
+				foreach ($this->resultBindings as $field){
+					$line[] = $field;
+				}
+				$res[] = $line;
 			}
 		}
 		$this->free();
