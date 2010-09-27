@@ -22,7 +22,7 @@ SELECT
 -- --
 -- name: createQuery
 -- type: insert
--- inputTypes: is
+-- inputTypes: ss
 INSERT
 	INTO __PFX__Searches (normalizedSearch, searchHash)
 	VALUES (?, ?)

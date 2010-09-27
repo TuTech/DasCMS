@@ -5,7 +5,7 @@ class Search_Rewriter_Ordering
 	public function rewriteSearchRequest(Search_Request $request) {
 		$orders = array(
 			'OrderBy' => 'date',
-			'Direction'   => 'down'
+			'Direction'   => 'descending'
 		);
 		foreach ($orders as $section => $value){
 			if(!$request->hasSection($section)){
