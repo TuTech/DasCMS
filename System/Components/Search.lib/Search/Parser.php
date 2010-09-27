@@ -28,9 +28,9 @@ class Search_Parser
 			foreach ($matches as $match){
 				//get the match
 				$label = empty($match[2]) ? self::DEFAULT_LABEL : $match[2];
-				$modifier = empty($match[3])
+				$modifier = empty($match[4])
 					? Search_Request_Element::MAY_HAVE
-					: ($match[3] == '+'
+					: ($match[4] == '+'
 							? Search_Request_Element::MUST_HAVE//modifier: +
 							: Search_Request_Element::MUST_NOT_HAVE);//modifier: -
 				$value = !empty($match[6]) ? $match[6] : $match[5];
@@ -72,7 +72,7 @@ class Search_Parser
 	 * @return string name
 	 */
 	protected function labelToInterface($label){
-		$interface = self::LABEL_PREFIX.ucfirst(strtolower($label));
+		$interface = self::LABEL_PREFIX.ucfirst(strtolower(rtrim($label,':')));
 		if(!Core::classExists($interface)){
 			$interface = self::LABEL_PREFIX.ucfirst(strtolower(self::DEFAULT_LABEL));
 		}
