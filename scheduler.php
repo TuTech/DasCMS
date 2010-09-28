@@ -14,5 +14,6 @@ if(is_bool($stat) || empty($stat))
 }
 ob_end_clean();
 header('No Content', true, 204);
-header('X-CMS-JobStatus: "'.addslashes($stat).'"');
+header('X-CMS-JobStatus: '.urlencode($stat));
+header('Content-type: image/png')
 ?>
