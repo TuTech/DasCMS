@@ -19,7 +19,7 @@ INSERT IGNORE
 -- inputTypes: is
 DELETE
 	FROM __PFX__SearchResults
-	WHERE seachREL = ?
+	WHERE searchREL = ?
 	AND contentREL NOT IN (
 		SELECT contentREL
 			FROM __PFX__relContentsTags
@@ -33,7 +33,7 @@ DELETE
 -- inputTypes: is
 DELETE
 	FROM __PFX__SearchResults
-	WHERE seachREL = ?
+	WHERE searchREL = ?
 	AND contentREL IN (
 		SELECT contentREL
 			FROM __PFX__relContentsTags
