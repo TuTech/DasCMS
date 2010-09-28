@@ -23,6 +23,14 @@ class Search_Engine
 		return self::$instance;
 	}
 
+	public function flush(){
+		Core::Database()
+			->createQueryForClass($this)
+			->call('flush')
+			->withoutParameters()
+			->execute();
+	}
+
 	/**
 	 * @param string $queryString
 	 * @param int $itemsPerPage

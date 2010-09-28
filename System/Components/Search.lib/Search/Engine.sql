@@ -51,3 +51,9 @@ SELECT
 		LEFT JOIN __PFX__Tags ON (tagREL = tagID)
 	WHERE searchREL = ?
 	GROUP BY contentREL
+
+-- --
+-- name: flush
+-- type: delete
+DELETE FROM __PFX__Searches
+	WHERE ISNULL(runTimeInMilliSec)
