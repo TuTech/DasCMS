@@ -20,13 +20,11 @@ class DSQLResult_MySQL extends DSQLResult
 	 */
 	private $database;
 	private $row = 0;
-	private $ptok;
 	
 	public function __construct(mysqli $database, mysqli_result $result)
 	{
 		$this->database = $database;
 		$this->result = $result;
-		$this->ptok = SProfiler::profile(__FILE__, __LINE__, "MySQL result fetch ".$result->num_rows." rows");
 	}
 	
 	/**
@@ -143,7 +141,6 @@ class DSQLResult_MySQL extends DSQLResult
 		{
 			$this->result->free();
 		}
-		SProfiler::finish($this->ptok);
 	}
 }
 ?>
