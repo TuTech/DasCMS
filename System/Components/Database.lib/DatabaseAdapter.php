@@ -238,8 +238,7 @@ class DatabaseAdapter
 	public function useResultArray(&$array)
 	{
 		if(!is_object($this->statement)){
-			$id = $this->class.'::'.$this->function;
-			throw new XDatabaseException('no statement to bind to in '.$id, 0, self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
+			throw new Exception('no statement to bind to');
 		}
 		$this->hasBoundData = true;
 		$helper = array();
@@ -257,8 +256,7 @@ class DatabaseAdapter
 	protected function prepareResultFields($nrOfFields)
 	{
 		if(!is_object($this->statement)){
-			$id = $this->class.'::'.$this->function;
-			throw new XDatabaseException('no statement to bind to in '.$id, 0, self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
+			throw new Exception('no statement to bind to');
 		}
 		//binding empty arrays will break mysqli
 		if($nrOfFields == 0){
@@ -363,8 +361,8 @@ class DatabaseAdapter
 		//for multiple class function calls 
 		//$this->class = null;
 		//$this->function = null;
+		//$this->statement = null;
 		$this->parameters = null;
-		$this->statement = null;
 		$this->resultBindings = null;
 		$this->hasBoundData = false;
 	}
