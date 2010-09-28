@@ -8,7 +8,7 @@ class Search_Controller_Description
 	}
 
 	protected function filterValue($string) {
-		$this->gatherValue($string);
+		return $this->gatherValue($string);
 	}
 }
 ?>
