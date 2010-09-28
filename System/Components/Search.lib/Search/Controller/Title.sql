@@ -15,7 +15,9 @@ INSERT IGNORE
 -- type: delete
 -- inputTypes: is
 DELETE
+	__PFX__SearchResults
 	FROM __PFX__SearchResults
+		LEFT JOIN __PFX__Contents ON (contentREL = contentID)
 	WHERE
 		searchREL = ?
 		AND title NOT LIKE ?
@@ -25,7 +27,9 @@ DELETE
 -- type: delete
 -- inputTypes: is
 DELETE
+	__PFX__SearchResults
 	FROM __PFX__SearchResults
+		LEFT JOIN __PFX__Contents ON (contentREL = contentID)
 	WHERE
 		searchREL = ?
-		AND title LIKE ?
+		AND title NOT LIKE ?
