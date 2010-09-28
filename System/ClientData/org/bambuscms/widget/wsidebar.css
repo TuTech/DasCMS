@@ -58,10 +58,30 @@
 	display:block;
 	padding:2px;
 	background: #babdb6;
+	background: -webkit-gradient(
+		linear, 0% 0%, 0% 100%,
+		from(#d3d7cf),
+		color-stop(0.5, #babdb6)
+	);
+	background: -moz-linear-gradient(
+		center top,
+		#d3d7cf 0%,
+		#babdb6 50%
+	);
 	border-bottom: 1px solid #888a85;
 }
 #WSidebar-select a.selectedWidget{
 	background: #eeeeec;
+	background: -webkit-gradient(
+		linear, 0% 0%, 0% 100%,
+		from(#fff),
+		color-stop(0.5, #eeeeec)
+	);
+	background: -moz-linear-gradient(
+		center top,
+		#fff 0%,
+		#eeeeec 50%
+	);
 	border-bottom: 1px solid #eeeeec;
 }
 
