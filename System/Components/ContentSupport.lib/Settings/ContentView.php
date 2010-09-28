@@ -15,7 +15,7 @@ class Settings_ContentView extends BObject
 		foreach ($formatters as $f){
 			$options[$f] = $f;
 		}
-		$e->addClassSettings($this, 'content_view', array(
+		$e->addClassSettings($this, 'content_handling', array(
         	'default_view_for_content' => array(Core::settings()->get('Settings_ContentView_defaultContentView'), Settings::TYPE_SELECT, $options, 'default_view_for_content')
 		));
 	}

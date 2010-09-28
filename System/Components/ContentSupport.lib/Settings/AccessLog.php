@@ -10,7 +10,7 @@ class Settings_AccessLog extends BObject
         HUpdateClassSettingsEventHandler
 {
 	public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e) {
-		$e->addClassSettings($this, 'content_view', array(
+		$e->addClassSettings($this, 'content_handling', array(
         	'log_access' => array(Core::settings()->get('log_page_accesses'), Settings::TYPE_CHECKBOX, null, 'log_access')
 		));
 	}

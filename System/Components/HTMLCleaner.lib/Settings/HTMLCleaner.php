@@ -13,7 +13,7 @@ class Settings_HTMLCleaner
     public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
     {
         //db_engine + whatever DSQL gives us
-        $e->addClassSettings($this, 'clean_content', array(
+        $e->addClassSettings($this, 'content_handling', array(
         	'remove_javascript_on_save' => array(Core::settings()->get('HTMLCleaner_Remove_Scripts'), Settings::TYPE_CHECKBOX, null, 'remove_javascript_on_save'),
         	'remove_style_attributes_on_save' => array(Core::settings()->get('HTMLCleaner_Remove_StyleAttribute'), Settings::TYPE_CHECKBOX, null, 'remove_style_attributes_on_save')
         ));

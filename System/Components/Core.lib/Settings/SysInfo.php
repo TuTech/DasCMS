@@ -13,7 +13,7 @@ class Settings_SysInfo extends BObject
 		$e->addClassSettings($this, 'system_information', array(
 			'php_version' => array(phpversion(), Settings::TYPE_INFORMATION, null, 'php_version')
 		));
-		$e->addClassSettings($this, 'system_cache', array(
+		$e->addClassSettings($this, 'system_information', array(
 			'cache_size' => array($this->cacheSize(), Settings::TYPE_INFORMATION, null, 'cache_size'),
 			'clear_cache' => array('', Settings::TYPE_CHECKBOX, false, 'clear_cache')
 		));
