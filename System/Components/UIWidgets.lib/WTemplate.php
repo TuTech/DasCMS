@@ -181,6 +181,7 @@ class WTemplate extends BWidget
     {
         $tpl = new WTemplate($tpl, $type);
         echo $tpl->render();
+		flush();
     }
 }
 ?>

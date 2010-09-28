@@ -1,4 +1,5 @@
 <?php
+ob_start();
 $_GET = array();
 $_POST = array();
 $_REQUEST = array();
@@ -11,17 +12,8 @@ if(is_bool($stat) || empty($stat))
 {
     $stat = ($stat) ? 'ok': 'stopped';
 }
-if(!headers_sent())
-{
-    $icon = WIcon::pathFor($stat, 'status', WIcon::EXTRA_SMALL);
-    if(file_exists($icon))
-    {
-        header('Content-Type: image/png;');
-        readfile($icon);
-    }
-    else
-    {
-        echo $stat;
-    }
-}
+ob_end_clean();
+header('No Content', true, 204);
+header('X-CMS-JobStatus: '.urlencode($stat));
+header('Content-type: image/png')
 ?>

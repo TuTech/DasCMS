@@ -21,6 +21,9 @@ class RServer extends BRequest
         if(self::$data == null)
         {
             self::$data = $_SERVER;
+			if(!isset(self::$data["REMOTE_ADDR"])){
+				self::$data["REMOTE_ADDR"] = '0.0.0.0';
+			}
         }
     }
     

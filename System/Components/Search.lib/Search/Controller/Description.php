@@ -6,5 +6,9 @@ class Search_Controller_Description
 	protected function gatherValue($string){
 		return '%'.$string.'%';
 	}
+
+	protected function filterValue($string) {
+		return $this->gatherValue($string);
+	}
 }
 ?>

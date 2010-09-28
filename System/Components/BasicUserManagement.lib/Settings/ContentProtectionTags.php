@@ -11,7 +11,7 @@ class Settings_ContentProtectionTags extends BObject
 {
 	public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e) {
 		$tags = STagPermissions::getProtectedTags();
-		$e->addClassSettings($this, 'permissions', array(
+		$e->addClassSettings($this, 'content_handling', array(
         	'define_tags_that_prevent_unauthorized_access' => array(implode(', ', $tags), Settings::TYPE_TEXT, null, 'define_tags_that_prevent_unauthorized_access')
 		));
 	}

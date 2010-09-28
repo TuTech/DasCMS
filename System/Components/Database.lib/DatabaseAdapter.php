@@ -52,7 +52,7 @@ class DatabaseAdapter
 		}
 	}
 
-		/**
+	/**
 	 *
 	 * @param mixed $classNameOrObject
 	 * @param string $name
@@ -95,7 +95,11 @@ class DatabaseAdapter
 		$class = (is_object($classNameOrObject)) ? get_class($classNameOrObject) : strval($classNameOrObject);
 		$this->checkDataForClass($class);
 		$alias = $class.'::'.$queryName;
-		return array_key_exists($alias, self::$aliases);
+		if(!empty(self::$aliases[$alias])){
+			$id = self::$aliases[$alias];
+			return !empty (self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
+		}
+		return false;
 	}
 
 
@@ -357,8 +361,8 @@ class DatabaseAdapter
 		//for multiple class function calls 
 		//$this->class = null;
 		//$this->function = null;
+		//$this->statement = null;
 		$this->parameters = null;
-		$this->statement = null;
 		$this->resultBindings = null;
 		$this->hasBoundData = false;
 	}

@@ -123,7 +123,7 @@ class Search_Request
 	//////////////////
 
 	protected function assertSection($section){
-		if($this->hasSection($section)){
+		if(!$this->hasSection($section)){
 			throw new Exception('section not found');
 		}
 	}

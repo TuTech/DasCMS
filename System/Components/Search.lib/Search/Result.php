@@ -13,7 +13,10 @@ class Search_Result
 
 	public function __construct($searchId) {
 		$this->searchId = $searchId;
+		echo $searchId;
 	}
-	
+
+
+	//before fetching check if query is finished, if not wait for 50ms and retry
 }
 ?>

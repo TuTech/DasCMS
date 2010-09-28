@@ -15,7 +15,7 @@ class Settings_ContentRelationsView extends BObject
 		foreach ($formatters as $f){
 			$options[$f] = $f;
 		}
-		$e->addClassSettings($this, 'content_view', array(
+		$e->addClassSettings($this, 'content_handling', array(
 			'default_view_for_relations' => array(Core::settings()->get('Settings_ContentRelationsView_relations'), Settings::TYPE_SELECT, $options, 'default_view_for_relations')
 		));
 	}

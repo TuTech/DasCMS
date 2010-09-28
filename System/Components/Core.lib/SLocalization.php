@@ -45,7 +45,7 @@ class SLocalization
 		$loc = array_flip($loc);
 		
         //locale, timezone, dateformat
-        $e->addClassSettings($this, 'country_settings', array(
+        $e->addClassSettings($this, 'localization', array(
         	'locale' => array(Core::settings()->get('locale'), Settings::TYPE_SELECT, $loc, 'locale'),
         	'timezone' => array(Core::settings()->get('timezone'), Settings::TYPE_SELECT, $tz, 'timezone'),
         	'date_format' => array(Core::settings()->get('dateformat'), Settings::TYPE_TEXT, null, 'date_format')
