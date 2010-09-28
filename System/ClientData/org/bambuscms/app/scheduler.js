@@ -13,7 +13,7 @@ org.bambuscms.app.scheduler.init = function()
 	org.bambuscms.app.scheduler._reqid = d.getTime();
 	$('bambusJAX').appendChild(org.bambuscms.app.scheduler.image);
 	//run scheduler  
-	var runnings = [3,4,5];//seconds after load
+	var runnings = [1,30,31,60];//seconds after load
 	for(var i = 0; i < runnings.length; i++)
 	{
 		window.setTimeout('org.bambuscms.app.scheduler.run()', runnings[i]*1000);
