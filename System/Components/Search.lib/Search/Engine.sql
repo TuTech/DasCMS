@@ -56,4 +56,4 @@ SELECT
 -- name: flush
 -- type: delete
 DELETE FROM __PFX__Searches
-	WHERE ISNULL(runTimeInMilliSec)
+	WHERE NOT ISNULL(runTimeInMilliSec)
