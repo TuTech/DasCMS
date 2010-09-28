@@ -47,8 +47,12 @@ class CoreUpdate extends Core
 							//build path
 							$classFile = sprintf('%s%s/%s.php', $componentsDir, $currentComponent, $classSubPath);
 							if(file_exists($classFile)){
-								$classContent = trim(php_strip_whitespace($classFile));
-
+								if(constant('DEBUG')){
+									$classContent = implode('', file($classFile));
+								}
+								else{
+									$classContent = trim(php_strip_whitespace($classFile));
+								}
 								//write minified class
 								$fp = fopen($classCachePath, 'w+');
 								fwrite($fp, $classContent);
