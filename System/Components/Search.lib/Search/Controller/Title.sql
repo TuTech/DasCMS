@@ -17,7 +17,7 @@ INSERT IGNORE
 DELETE
 	FROM __PFX__SearchResults
 	WHERE
-		searchID = ?
+		searchREL = ?
 		AND title NOT LIKE ?
 
 -- --
@@ -27,5 +27,5 @@ DELETE
 DELETE
 	FROM __PFX__SearchResults
 	WHERE
-		searchID = ?
+		searchREL = ?
 		AND title LIKE ?
