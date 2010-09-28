@@ -46,5 +46,8 @@ SELECT
 		GROUP_CONCAT(tag),
 		description
 	FROM __PFX__SearchResults
+		LEFT JOIN __PFX__Contents ON (contentREL = contentID)
+		LEFT JOIN __PFX__relContentsTags USING(contentREL)
+		LEFT JOIN __PFX__Tags ON (tagREL = tagID)
 	WHERE searchREL = ?
 	GROUP BY contentREL
