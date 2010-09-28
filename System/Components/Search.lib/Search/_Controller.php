@@ -53,6 +53,10 @@ abstract class _Search_Controller
 		return $string;
 	}
 
+	protected function filterValue($string){
+		return $string;
+	}
+
 	public function gather() {
 		if(!Core::Database()->hasQueryForClass('gather', $this)){
 			return;
@@ -68,7 +72,26 @@ abstract class _Search_Controller
 		}
 	}
 
-	public function filter(){}
+	public function filter(){
+		$rules = array(
+			'Require' => &$this->required,
+			'Veto'    => &$this->vetoed
+		);
+		$db = Core::Database();
+		$dba = $db->createQueryForClass($this);
+		foreach ($rules as $filter => $elements){
+			$query = 'filter'.$filter;
+			if($db->hasQueryForClass($query, $this)){
+				$dba = $dba->call($query);
+				foreach ($elements as $criteria){
+					$criteria = $this->filterValue($criteria);
+					if($criteria){
+						$dba->withParameters($this->searchId, $criteria)->execute();
+					}
+				}
+			}
+		}
+	}
 	public function rate(){}
 }
 ?>

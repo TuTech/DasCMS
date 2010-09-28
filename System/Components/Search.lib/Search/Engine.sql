@@ -34,3 +34,17 @@ INSERT
 UPDATE __PFX__Searches
 	SET runTimeInMilliSec = ?
 	WHERE searchID = ?
+
+-- --
+-- name: dump
+-- inputTypes: i
+-- type: select
+-- fields: 4
+SELECT
+		title,
+		subtitle,
+		GROUP_CONCAT(tag),
+		description
+	FROM __PFX__SearchResults
+	WHERE searchREL = ?
+	GROUP BY contentREL

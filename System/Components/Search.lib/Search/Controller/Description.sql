@@ -9,3 +9,23 @@ INSERT IGNORE
 			contentID AS contentREL
 		FROM __PFX__Contents
 			WHERE description LIKE ?
+
+-- --
+-- name: filterRequire
+-- type: delete
+-- inputTypes: is
+DELETE
+	FROM __PFX__SearchResults
+	WHERE
+		searchID = ?
+		AND description NOT LIKE ?
+
+-- --
+-- name: filterVeto
+-- type: delete
+-- inputTypes: is
+DELETE
+	FROM __PFX__SearchResults
+	WHERE
+		searchID = ?
+		AND description LIKE ?

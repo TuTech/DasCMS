@@ -8,7 +8,7 @@ INSERT IGNORE
 			? AS searchREL,
 			contentID AS contentREL
 		FROM __PFX__Contents
-			WHERE title LIKE ?
+			WHERE subtitle LIKE ?
 
 -- --
 -- name: filterRequire
@@ -18,7 +18,7 @@ DELETE
 	FROM __PFX__SearchResults
 	WHERE
 		searchID = ?
-		AND title NOT LIKE ?
+		AND subtitle NOT LIKE ?
 
 -- --
 -- name: filterVeto
@@ -28,4 +28,4 @@ DELETE
 	FROM __PFX__SearchResults
 	WHERE
 		searchID = ?
-		AND title LIKE ?
+		AND subtitle LIKE ?

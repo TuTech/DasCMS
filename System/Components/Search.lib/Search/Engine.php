@@ -119,6 +119,18 @@ class Search_Engine
 			->call('setRuntime')
 			->withParameters(floor(($endTime-$startTime)*1000), $searchId)
 			->execute();
+
+
+		//dump results
+		$res = Core::Database()
+			->createQueryForClass($this)
+			->call('dump')
+			->withParameters($searchId);
+		echo "\n\nResults:\n";
+		while($row = $res->fetchResult()){
+			printf("%s\n%s\n[%s]\n%s\n--\n", $row[0], $row[1], $row[2], $row[3]);
+		}
+		$res->free();
 	}
 }
 ?>
