@@ -28,12 +28,9 @@
 	float:left;
 	display: block;
 }
-.CommandBarPanel a.CommandPanelItemFirst
-{
-}
 .CommandBarPanel a:hover
 {
-	background: #fff ;
+	background: #eeeeec;
 }
 
 .CommandBarPanel img{
