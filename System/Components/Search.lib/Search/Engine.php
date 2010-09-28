@@ -87,7 +87,19 @@ class Search_Engine
 		if(!$searchId){
 			throw new Exception('failed to initialize query');
 		}
+		
+		//dump results
+		$res = Core::Database()
+			->createQueryForClass($this)
+			->call('dump')
+			->withParameters($searchId);
+		$i = 0;
+		while($row = $res->fetchResult()){
+			printf("Nr.: %d\n%s\n%s\n[%s]\n%s\n--\n", ++$i, $row[0], $row[1], $row[2], $row[3]);
+		}
+		$res->free();
 
+		
 		return $searchId;
 	}
 
@@ -119,18 +131,6 @@ class Search_Engine
 			->call('setRuntime')
 			->withParameters(floor(($endTime-$startTime)*1000), $searchId)
 			->execute();
-
-
-		//dump results
-		$res = Core::Database()
-			->createQueryForClass($this)
-			->call('dump')
-			->withParameters($searchId);
-		echo "\n\nResults:\n";
-		while($row = $res->fetchResult()){
-			printf("%s\n%s\n[%s]\n%s\n--\n", $row[0], $row[1], $row[2], $row[3]);
-		}
-		$res->free();
 	}
 }
 ?>
