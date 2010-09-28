@@ -83,22 +83,28 @@ class TCmdController
                 }
             }
             catch(Exception $e)
-            {/*logging might be nice*/
+            {
+				SErrorAndExceptionHandler::reportException($e);
             }
         }
     }
     
     public function run(array $environment)
     {
+		$out = '';
         //do what you have to do
         if($this->controllerObject != null)
         {
-            return $this->controllerObject->TemplateCall($this->call, $this->parameters);
+			try{
+				SErrorAndExceptionHandler::muteErrors();
+				$out = $this->controllerObject->TemplateCall($this->call, $this->parameters);
+				SErrorAndExceptionHandler::reportErrors();
+			}
+			catch (Exception $e){
+				$out = sprintf('<!-- %s -->', $e->getMessage());
+			}
         }
-        else
-        {
-            return '';
-        }
+		return $out;
     }
     
     public function tearDown()
