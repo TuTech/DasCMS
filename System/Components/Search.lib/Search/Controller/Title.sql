@@ -32,4 +32,4 @@ DELETE
 		LEFT JOIN __PFX__Contents ON (contentREL = contentID)
 	WHERE
 		searchREL = ?
-		AND title NOT LIKE ?
+		AND title LIKE ?
