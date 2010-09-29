@@ -30,7 +30,7 @@ INSERT
 -- --
 -- name: setStats
 -- type: insert
--- inputTypes: ii
+-- inputTypes: iii
 UPDATE __PFX__Searches
 	SET
 		runTimeInMilliSec = ?,
