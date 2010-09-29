@@ -136,8 +136,8 @@ class Search_Engine
 		$endTime = microtime(true);
 		Core::Database()
 			->createQueryForClass($this)
-			->call('setRuntime')
-			->withParameters(floor(($endTime-$startTime)*1000), $searchId)
+			->call('setStats')
+			->withParameters(floor(($endTime-$startTime)*1000), $searchId, $searchId)
 			->execute();
 	}
 }

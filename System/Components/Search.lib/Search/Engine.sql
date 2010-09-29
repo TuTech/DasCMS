@@ -28,11 +28,13 @@ INSERT
 	VALUES (?, ?)
 
 -- --
--- name: setRuntime
+-- name: setStats
 -- type: insert
 -- inputTypes: ii
 UPDATE __PFX__Searches
-	SET runTimeInMilliSec = ?
+	SET
+		runTimeInMilliSec = ?,
+		foundItems = (SELECT COUNT(*) FROM __PFX__SearchResults WHERE searchID = ?)
 	WHERE searchID = ?
 
 -- --

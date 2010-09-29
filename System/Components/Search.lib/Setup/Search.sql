@@ -21,7 +21,12 @@ __PFX__Searches(
         NOT NULL,
     runTimeInMilliSec
         INTEGER
-        NULL
+        NULL,
+	foundItems
+		INT
+		UNSIGNED
+		NOT NULL
+		DEFAULT '0',
 )
 ENGINE = InnoDB
 CHARACTER SET utf8
@@ -39,9 +44,10 @@ __PFX__SearchResults(
 		INTEGER
 		NOT NULL,
 	score
-		INTEGER UNSIGNED
-		DEFAULT 0
-		NOT NULL,
+		FLOAT(10,10)
+		UNSIGNED
+		NOT NULL
+		DEFAULT '0.0000000000',
 	itemNr
 		INTEGER UNSIGNED
 		NULL,
