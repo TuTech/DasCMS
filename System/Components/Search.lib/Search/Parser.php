@@ -1,8 +1,10 @@
 <?php
 class Search_Parser
+	implements Search_Interface_Parser
 {
 	const EXTRACTOR = '/((([a-zA-Z]+):)?(\\+|-)?("([^"\\\\]*(\\\\.[^"\\\\]*)*)"|([\\S]+)))/u';
 	protected static $instance = null;
+	protected $resolver;
 
 	/**
 	 * @return Search_Parser
@@ -12,6 +14,10 @@ class Search_Parser
 			self::$instance = new Search_Parser();
 		}
 		return self::$instance;
+	}
+
+	private function  __construct() {
+		$this->resolver = Search_LabelResolver::getInstance();
 	}
 
 	/**
@@ -33,7 +39,7 @@ class Search_Parser
 				$value = !empty($match[6]) ? $match[6] : $match[5];
 
 				//assign to fully qualified controller name
-				foreach (Search_LabelResolver::getInstance()->getControllersForLabel($label) as $controller){
+				foreach ($this->resolver->getControllersForLabel($label) as $controller){
 					if(!$request->hasSection($controller)){
 						$request->addSection($controller);
 					}

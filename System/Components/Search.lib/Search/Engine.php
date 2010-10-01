@@ -12,6 +12,7 @@ class Search_Engine
 
 	private static $instance;
 	private $orderingDelegate;
+	private $parser;
 	private function  __clone() {}
 
 	/**
@@ -19,6 +20,7 @@ class Search_Engine
 	 */
 	private function  __construct() {
 		$this->orderingDelegate = $this;
+		$this->parser = Search_Parser::getInstance();
 	}
 
 	/**
@@ -59,8 +61,7 @@ class Search_Engine
 	 */
 	public function query($queryString){
 		//parse search input
-		$parser = Search_Parser::getInstance();
-		$request = $parser->parse($queryString);
+		$request = $this->parser->parse($queryString);
 
 		//run search modifiers
 		$rewriters = Core::getClassesWithInterface('Search_Interface_Rewriter');
