@@ -184,9 +184,5 @@ class Search_Engine
 		//loop through controllers and let them rate
 		//assign item nrs to elements based on the rated
 	}
-
-	public static function resolveLabelToControllers($label){
-
-	}
 }
 ?>

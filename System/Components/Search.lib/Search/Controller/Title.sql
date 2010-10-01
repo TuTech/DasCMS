@@ -43,7 +43,7 @@ SET @orderingScore = 0;
 -- name: order
 -- type: insert
 -- inputTypes: ii
-INSERT INTO `SearchResults`
+INSERT INTO SearchResults
 	SELECT
 			? AS searchREL,
 			contentREL,
