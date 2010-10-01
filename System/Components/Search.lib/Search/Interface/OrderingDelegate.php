@@ -1,5 +1,5 @@
 <?php
-interface Search_Interface_OrderingDelegate extends Search_Interface_Controller{
+interface Search_Interface_OrderingDelegate{
 	public function order();
 }
 ?>
