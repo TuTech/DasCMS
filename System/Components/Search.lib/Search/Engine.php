@@ -173,7 +173,7 @@ class Search_Engine
 		Core::Database()
 			->createQueryForClass($this)
 			->call('setStats')
-			->withParameters(floor(($endTime-$startTime)*1000), $searchId, $searchId)
+			->withParameters($endTime-$startTime, $searchId, $searchId)
 			->execute();
 	}
 

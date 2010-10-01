@@ -19,9 +19,11 @@ __PFX__Searches(
 		TIMESTAMP
 		DEFAULT CURRENT_TIMESTAMP
         NOT NULL,
-    runTimeInMilliSec
-        INTEGER
-        NULL,
+    runTime
+		FLOAT(10,10)
+		UNSIGNED
+		NOT NULL
+		DEFAULT '0.0000000000',
 	foundItems
 		INT
 		UNSIGNED

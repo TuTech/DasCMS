@@ -5,7 +5,7 @@
 -- type: select
 SELECT
 		searchID,
-		runTimeInMilliSec,
+		runTime,
 		created
 	FROM __PFX__Searches
 		WHERE searchHash = ?
@@ -33,7 +33,7 @@ INSERT
 -- inputTypes: iii
 UPDATE __PFX__Searches
 	SET
-		runTimeInMilliSec = ?,
+		runTime = ?,
 		foundItems = (SELECT COUNT(*) FROM __PFX__SearchResults WHERE searchID = ?)
 	WHERE searchID = ?
 
@@ -58,4 +58,4 @@ SELECT
 -- name: flush
 -- type: delete
 DELETE FROM __PFX__Searches
-	WHERE NOT ISNULL(runTimeInMilliSec)
+	WHERE NOT ISNULL(runTime)
