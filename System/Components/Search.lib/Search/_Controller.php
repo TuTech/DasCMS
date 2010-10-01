@@ -92,6 +92,25 @@ abstract class _Search_Controller
 			}
 		}
 	}
+	
 	public function rate(){}
+
+	public function order(){
+		if(!Core::Database()->hasQueryForClass('order', $this)){
+			return;
+		}
+		if(Core::Database()->hasQueryForClass('initOrdering', $this)){
+			Core::Database()
+				->createQueryForClass($this)
+				->call('initOrdering')
+				->withoutParameters()
+				->execute();
+		}
+		Core::Database()
+			->createQueryForClass($this)
+			->call('order')
+			->withoutParameters()
+			->execute();
+	}
 }
 ?>

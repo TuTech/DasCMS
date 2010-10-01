@@ -72,6 +72,19 @@ class Search_Request
 		return array_values($this->data[$section]);
 	}
 
+	/**
+	 * @return Search_Request_Element
+	 */
+	public function getFirstElement($section){
+		$this->assertSection($section);
+		if(count($this->data[$section]) > 0){
+			$copy = array_values($this->data[$section]);
+			return $copy[0];
+		}
+		return null;
+	}
+
+
 	public function createRequestElement($value, $modifier = 0){
 		return Search_Request_Element::create($value, $modifier);
 	}

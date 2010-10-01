@@ -1,5 +1,6 @@
 <?php
 class Search_Engine
+	implements Search_OrderingDelegate
 {
 	/*==Search_Engine==
 	 * +getInstance() => returns cloned instance
@@ -10,10 +11,26 @@ class Search_Engine
 	const SORT_ORDER_DESC = false;
 
 	private static $instance;
+	private $orderingDelegate;
 	private function  __clone() {}
-	private function  __construct() {}
 
 	/**
+	 * constructor
+	 */
+	private function  __construct() {
+		$this->orderingDelegate = $this;
+	}
+
+	/**
+	 * change delegate for ordering
+	 * @param Search_OrderingDelegate $delegate
+	 */
+	public function setOrderingDelegate(Search_OrderingDelegate $delegate){
+		$this->orderingDelegate = $delegate;
+	}
+
+	/**
+	 * singleton
 	 * @return Search_Engine
 	 */
 	public static function getInstance(){
@@ -23,6 +40,9 @@ class Search_Engine
 		return self::$instance;
 	}
 
+	/**
+	 * remove all cached searches
+	 */
 	public function flush(){
 		Core::Database()
 			->createQueryForClass($this)
@@ -53,6 +73,11 @@ class Search_Engine
 		return new Search_Result($this->runQuery($request));
 	}
 
+	/**
+	 * resolve hash to id
+	 * @param string $hash
+	 * @return int
+	 */
 	protected function getSearchId($hash){
 		return Core::Database()
 			->createQueryForClass($this)
@@ -61,6 +86,11 @@ class Search_Engine
 			->fetchSingleValue();
 	}
 
+	/**
+	 * load cached query or start it
+	 * @param Search_Request $request
+	 * @return int
+	 */
 	protected function runQuery(Search_Request $request){
 		//generate search id
 		$hash = $request->getHashCode();
@@ -111,6 +141,11 @@ class Search_Engine
 		return $searchId;
 	}
 
+	/**
+	 * perform the actual search
+	 * @param int $searchId
+	 * @param Search_Request $request
+	 */
 	protected function executeSearch($searchId, Search_Request $request){
 	    //load controller objects
 		$controllers = array();
@@ -131,6 +166,7 @@ class Search_Engine
 		}
 
 		//assign item numbers to elements based on score
+		$this->orderingDelegate->order();
 
 		//set runtime
 		$endTime = microtime(true);
@@ -139,6 +175,18 @@ class Search_Engine
 			->call('setStats')
 			->withParameters(floor(($endTime-$startTime)*1000), $searchId, $searchId)
 			->execute();
+	}
+
+	/**
+	 * default ordering delegate for search mode
+	 */
+	public function order() {
+		//loop through controllers and let them rate
+		//assign item nrs to elements based on the rated
+	}
+
+	public static function resolveLabelToControllers($label){
+
 	}
 }
 ?>
