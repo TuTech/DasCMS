@@ -1,6 +1,6 @@
 <?php
 class Search_Engine
-	implements Search_OrderingDelegate
+	implements Search_Interface_OrderingDelegate
 {
 	/*==Search_Engine==
 	 * +getInstance() => returns cloned instance
@@ -23,9 +23,9 @@ class Search_Engine
 
 	/**
 	 * change delegate for ordering
-	 * @param Search_OrderingDelegate $delegate
+	 * @param Search_Interface_OrderingDelegate $delegate
 	 */
-	public function setOrderingDelegate(Search_OrderingDelegate $delegate){
+	public function setOrderingDelegate(Search_Interface_OrderingDelegate $delegate){
 		$this->orderingDelegate = $delegate;
 	}
 
@@ -63,10 +63,10 @@ class Search_Engine
 		$request = $parser->parse($queryString);
 
 		//run search modifiers
-		$rewriters = Core::getClassesWithInterface('Search_Rewriter');
+		$rewriters = Core::getClassesWithInterface('Search_Interface_Rewriter');
 		foreach ($rewriters as $rewriteClass){
 			$rwObject = new $rewriteClass();
-			if($rwObject instanceof Search_Rewriter){
+			if($rwObject instanceof Search_Interface_Rewriter){
 				$rwObject->rewriteSearchRequest($request);
 			}
 		}
@@ -152,7 +152,7 @@ class Search_Engine
 		$startTime = microtime(true);
 		$index = -1;
 		foreach($request->getSections() as $controllerName){
-			$class = Search_Parser::CONTROLLER_PREFIX.$controllerName;
+			$class = Search_LabelResolver::getInstance()->controllerToClass($controllerName);
 			$controllers[++$index] = new $class();
 			$controllers[$index]->setSearchId($searchId);
 			$controllers[$index]->setRequest($request);

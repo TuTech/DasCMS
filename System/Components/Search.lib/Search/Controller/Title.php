@@ -4,7 +4,7 @@ class Search_Controller_Title
 	implements
 		Search_Label_Title,
 		Search_Label_Global,
-		Search_OrderingDelegate
+		Search_Interface_OrderingDelegate
 {
 	protected function gatherValue($string){
 		return '%'.$string.'%';

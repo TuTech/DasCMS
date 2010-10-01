@@ -8,6 +8,8 @@ class Search_Controller_OrderBy
 		//FIXME score by all
 		//paginate after score
 		$controller = $this->keywords[0];
+
+
 		//resolve ordering controller
 		//if controller can order
 			Search_Engine::getInstance()->setOrderingDelegate($this);

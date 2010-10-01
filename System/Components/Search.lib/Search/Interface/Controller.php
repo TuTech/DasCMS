@@ -1,5 +1,5 @@
 <?php
-interface Search_Controller{
+interface Search_Interface_Controller{
 	public function setRequest(Search_Request $request);
 	public function setSearchId($id);
 	public function gather();

@@ -4,7 +4,7 @@ class Search_Controller_Title
 	implements
 		Search_Label_Date,
 		Search_Label_Pubdate,
-		Search_OrderingDelegate
+		Search_Interface_OrderingDelegate
 {
 
 	//no influence in gather/filter/score, just to order by date

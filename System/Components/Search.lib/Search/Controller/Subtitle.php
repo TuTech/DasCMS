@@ -4,7 +4,7 @@ class Search_Controller_Subtitle
 	implements
 		Search_Label_Subtitle,
 		Search_Label_Global,
-		Search_OrderingDelegate
+		Search_Interface_OrderingDelegate
 {
 	protected function gatherValue($string){
 		return '%'.$string.'%';
