@@ -41,10 +41,11 @@ UPDATE __PFX__Searches
 -- name: dump
 -- inputTypes: i
 -- type: select
--- fields: 4
+-- fields: 5
 SELECT
 		title,
 		subtitle,
+		pubdate,
 		GROUP_CONCAT(tag),
 		description
 	FROM __PFX__SearchResults
