@@ -23,6 +23,8 @@ class Search_Controller_OrderBy
 		if($delegate){
 			$delegate = new $delegate;
 			if($delegate instanceof Search_Interface_OrderingDelegate){
+				$delegate->setSearchId($this->searchId);
+				$delegate->setRequest($request);
 				Search_Engine::getInstance()->setOrderingDelegate(new $delegate);
 			}
 		}

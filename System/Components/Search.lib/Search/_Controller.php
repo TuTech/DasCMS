@@ -1,6 +1,6 @@
 <?php
 abstract class _Search_Controller
-	implements Search_Interface_Controller
+	implements Search_Interface_ActiveController
 {
 	protected $request = null,
 			  $value = null,
