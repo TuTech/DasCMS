@@ -1,6 +1,6 @@
 <?php
 abstract class _Search_Controller
-	implements Search_Controller
+	implements Search_Interface_ActiveController
 {
 	protected $request = null,
 			  $value = null,
@@ -92,6 +92,25 @@ abstract class _Search_Controller
 			}
 		}
 	}
+	
 	public function rate(){}
+
+	public function order(){
+		if(!Core::Database()->hasQueryForClass('order', $this)){
+			return;
+		}
+		if(Core::Database()->hasQueryForClass('initOrdering', $this)){
+			Core::Database()
+				->createQueryForClass($this)
+				->call('initOrdering')
+				->withoutParameters()
+				->execute();
+		}
+		Core::Database()
+			->createQueryForClass($this)
+			->call('order')
+			->withParameters($this->searchId, $this->searchId)
+			->execute();
+	}
 }
 ?>

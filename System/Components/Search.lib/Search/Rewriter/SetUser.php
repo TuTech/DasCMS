@@ -1,6 +1,6 @@
 <?php
 class Search_Rewriter_SetUser
-	implements Search_Rewriter
+	implements Search_Interface_Rewriter
 {
 	public function rewriteSearchRequest(Search_Request $request) {
 		if(PAuthentication::isAuthenticated()){

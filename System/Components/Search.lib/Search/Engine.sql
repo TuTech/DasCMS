@@ -5,7 +5,7 @@
 -- type: select
 SELECT
 		searchID,
-		runTimeInMilliSec,
+		runTime,
 		created
 	FROM __PFX__Searches
 		WHERE searchHash = ?
@@ -28,11 +28,13 @@ INSERT
 	VALUES (?, ?)
 
 -- --
--- name: setRuntime
+-- name: setStats
 -- type: insert
--- inputTypes: ii
+-- inputTypes: iii
 UPDATE __PFX__Searches
-	SET runTimeInMilliSec = ?
+	SET
+		runTime = ?,
+		foundItems = (SELECT COUNT(*) FROM __PFX__SearchResults WHERE searchID = ?)
 	WHERE searchID = ?
 
 -- --
@@ -51,9 +53,10 @@ SELECT
 		LEFT JOIN __PFX__Tags ON (tagREL = tagID)
 	WHERE searchREL = ?
 	GROUP BY contentREL
+	ORDER BY itemNr
 
 -- --
 -- name: flush
 -- type: delete
 DELETE FROM __PFX__Searches
-	WHERE NOT ISNULL(runTimeInMilliSec)
+	WHERE NOT ISNULL(runTime)

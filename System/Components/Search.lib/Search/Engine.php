@@ -10,10 +10,28 @@ class Search_Engine
 	const SORT_ORDER_DESC = false;
 
 	private static $instance;
+	private $orderingDelegate;
+	private $parser;
 	private function  __clone() {}
-	private function  __construct() {}
 
 	/**
+	 * constructor
+	 */
+	private function  __construct() {
+		$this->orderingDelegate = $this;
+		$this->parser = Search_Parser::getInstance();
+	}
+
+	/**
+	 * change delegate for ordering
+	 * @param Search_Interface_OrderingDelegate $delegate
+	 */
+	public function setOrderingDelegate(Search_Interface_OrderingDelegate $delegate){
+		$this->orderingDelegate = $delegate;
+	}
+
+	/**
+	 * singleton
 	 * @return Search_Engine
 	 */
 	public static function getInstance(){
@@ -23,6 +41,9 @@ class Search_Engine
 		return self::$instance;
 	}
 
+	/**
+	 * remove all cached searches
+	 */
 	public function flush(){
 		Core::Database()
 			->createQueryForClass($this)
@@ -39,20 +60,24 @@ class Search_Engine
 	 */
 	public function query($queryString){
 		//parse search input
-		$parser = Search_Parser::getInstance();
-		$request = $parser->parse($queryString);
+		$request = $this->parser->parse($queryString);
 
 		//run search modifiers
-		$rewriters = Core::getClassesWithInterface('Search_Rewriter');
+		$rewriters = Core::getClassesWithInterface('Search_Interface_Rewriter');
 		foreach ($rewriters as $rewriteClass){
 			$rwObject = new $rewriteClass();
-			if($rwObject instanceof Search_Rewriter){
+			if($rwObject instanceof Search_Interface_Rewriter){
 				$rwObject->rewriteSearchRequest($request);
 			}
 		}
 		return new Search_Result($this->runQuery($request));
 	}
 
+	/**
+	 * resolve hash to id
+	 * @param string $hash
+	 * @return int
+	 */
 	protected function getSearchId($hash){
 		return Core::Database()
 			->createQueryForClass($this)
@@ -61,6 +86,11 @@ class Search_Engine
 			->fetchSingleValue();
 	}
 
+	/**
+	 * load cached query or start it
+	 * @param Search_Request $request
+	 * @return int
+	 */
 	protected function runQuery(Search_Request $request){
 		//generate search id
 		$hash = $request->getHashCode();
@@ -111,13 +141,18 @@ class Search_Engine
 		return $searchId;
 	}
 
+	/**
+	 * perform the actual search
+	 * @param int $searchId
+	 * @param Search_Request $request
+	 */
 	protected function executeSearch($searchId, Search_Request $request){
 	    //load controller objects
 		$controllers = array();
 		$startTime = microtime(true);
 		$index = -1;
 		foreach($request->getSections() as $controllerName){
-			$class = Search_Parser::CONTROLLER_PREFIX.$controllerName;
+			$class = Search_LabelResolver::getInstance()->controllerToClass($controllerName);
 			$controllers[++$index] = new $class();
 			$controllers[$index]->setSearchId($searchId);
 			$controllers[$index]->setRequest($request);
@@ -131,14 +166,23 @@ class Search_Engine
 		}
 
 		//assign item numbers to elements based on score
+		$this->orderingDelegate->order();
 
 		//set runtime
 		$endTime = microtime(true);
 		Core::Database()
 			->createQueryForClass($this)
-			->call('setRuntime')
-			->withParameters(floor(($endTime-$startTime)*1000), $searchId)
+			->call('setStats')
+			->withParameters($endTime-$startTime, $searchId, $searchId)
 			->execute();
+	}
+
+	/**
+	 * default ordering delegate for search mode
+	 */
+	public function order() {
+		//loop through controllers and let them rate
+		//assign item nrs to elements based on the rated
 	}
 }
 ?>

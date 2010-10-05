@@ -33,3 +33,4 @@ DELETE
 	WHERE
 		searchREL = ?
 		AND description LIKE ?
+

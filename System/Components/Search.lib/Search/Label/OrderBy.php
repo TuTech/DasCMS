@@ -1,3 +1,3 @@
 <?php
-interface Search_Label_OrderBy{}
+interface Search_Label_Orderby{}
 ?>

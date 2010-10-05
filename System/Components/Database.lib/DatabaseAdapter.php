@@ -359,9 +359,6 @@ class DatabaseAdapter
 			$this->statement->free_result();
 		}
 		//for multiple class function calls 
-		//$this->class = null;
-		//$this->function = null;
-		//$this->statement = null;
 		$this->parameters = null;
 		$this->resultBindings = null;
 		$this->hasBoundData = false;
