@@ -1,6 +1,5 @@
 <?php
 class Search_Engine
-	implements Search_Interface_OrderingDelegate
 {
 	/*==Search_Engine==
 	 * +getInstance() => returns cloned instance
