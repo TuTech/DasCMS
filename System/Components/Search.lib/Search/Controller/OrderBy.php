@@ -14,7 +14,8 @@ class Search_Controller_OrderBy
 			$resolved = array_merge($resolved, $resolver->getControllersForLabel($ctrl));
 		}
 		$resolved = array_unique($resolved);
-		foreach ($resolved as $class){
+		foreach ($resolved as $controller){
+			$class = $resolver->controllerToClass($controller);
 			if(Core::isImplementation($class, 'Search_Interface_OrderingDelegate')){
 				$delegate = $class;
 			}

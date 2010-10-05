@@ -7,7 +7,7 @@ SET @orderingScore = 0;
 -- name: order
 -- type: insert
 -- inputTypes: ii
-INSERT INTO `SearchResults`
+INSERT INTO __PFX__SearchResults
 	SELECT
 			? AS searchREL,
 			contentREL,
@@ -16,8 +16,8 @@ INSERT INTO `SearchResults`
 		FROM
 			(SELECT
 					contentREL
-				FROM SearchResults
-					LEFT JOIN Contents ON (contentID = contentREL)
+				FROM __PFX__SearchResults
+					LEFT JOIN __PFX__Contents ON (contentID = contentREL)
 				WHERE
 					searchREL = ?
 				ORDER BY pubDate

@@ -109,7 +109,7 @@ abstract class _Search_Controller
 		Core::Database()
 			->createQueryForClass($this)
 			->call('order')
-			->withoutParameters()
+			->withParameters($this->searchId, $this->searchId)
 			->execute();
 	}
 }
