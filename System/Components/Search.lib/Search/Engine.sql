@@ -53,6 +53,7 @@ SELECT
 		LEFT JOIN __PFX__Tags ON (tagREL = tagID)
 	WHERE searchREL = ?
 	GROUP BY contentREL
+	ORDER BY itemNr
 
 -- --
 -- name: flush
