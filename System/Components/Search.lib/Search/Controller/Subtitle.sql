@@ -37,7 +37,7 @@ DELETE
 -- --
 -- name: initOrdering
 -- type: select
-SELECT 1 INTO @orderingScore;
+SELECT 0 INTO @orderingScore;
 
 -- --
 -- name: order
