@@ -36,7 +36,7 @@ class CTemplate
 	    list($dbid, $alias) = BContent::createContent('CTemplate', $title);
 	    DFileSystem::Save(SPath::TEMPLATES.$dbid.'.php', ' ');
 	    $tpl = new CTemplate($alias);
-	    new EContentCreatedEvent($tpl, $tpl);
+	    new Event_ContentCreated($tpl, $tpl);
 	    return $tpl;
 	}
 	

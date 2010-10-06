@@ -667,7 +667,7 @@ abstract class BContent extends BObject implements Interface_Content
 
 	public function Save()
 	{
-		$e = new EWillSaveContentEvent($this, $this);
+		$e = new Event_WillSaveContent($this, $this);
 		if($e->isCanceled()){
 			return;//notifications are up to the canceling object
 		}
@@ -681,12 +681,12 @@ abstract class BContent extends BObject implements Interface_Content
 	    foreach ($this->loadedComposites as $composite) {
 	    	$composite->contentSaves();
 	    }
-		$e = new EContentChangedEvent($this, $this);
+		$e = new Event_ContentChanged($this, $this);
 		if($this->_origPubDate != $this->PubDate)
 		{
 			$e = ($this->getPubDate() == 0)
-				? new EContentRevokedEvent($this, $this)
-				: new EContentPublishedEvent($this, $this);
+				? new Event_ContentRevoked($this, $this)
+				: new Event_ContentPublished($this, $this);
 		}
 	}
 }

@@ -6,10 +6,10 @@
  */
 class Settings_ContentView extends BObject
 	implements
-        HRequestingClassSettingsEventHandler,
-        HUpdateClassSettingsEventHandler
+        Event_Handler_RequestingClassSettings,
+        Event_Handler_UpdateClassSettings
 {
-	public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e) {
+	public function handleEventRequestingClassSettings(Event_RequestingClassSettings $e) {
 		$formatters = Formatter_Container::getFormatterList();
 		$options = array(' - '.SLocalization::get('none').' - '  => '');
 		foreach ($formatters as $f){
@@ -20,7 +20,7 @@ class Settings_ContentView extends BObject
 		));
 	}
 	
-	public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e) {
+	public function handleEventUpdateClassSettings(Event_UpdateClassSettings $e) {
 		$data = $e->getClassSettings($this);
 		if(isset($data['default_view_for_content'])){
 			$f = $data['default_view_for_content'];

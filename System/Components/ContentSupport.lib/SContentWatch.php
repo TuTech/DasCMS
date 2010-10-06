@@ -12,9 +12,9 @@
 class SContentWatch 
     extends BObject
     implements 
-        HContentAccessEventHandler,
-        HWillAccessContentEventHandler,
-        HWillSendHeadersEventHandler,
+        Event_Handler_ContentAccess,
+        Event_Handler_WillAccessContent,
+		Event_Handler_WillSendHeaders,
         IShareable   
 {
 	//IShareable
@@ -46,11 +46,9 @@ class SContentWatch
     private static $accessedContents = array();
     
     /**
-     * @param EWillSendHeadersEvent $e
-     * (non-PHPdoc)
-     * @see System/Component/EventHandler/HWillSendHeadersEventHandler#HandleWillSendHeadersEvent()
+     * @param Event_WillSendHeaders $e
      */
-    public function HandleWillSendHeadersEvent(EWillSendHeadersEvent $e)
+	public function handleEventWillSendHeaders(Event_WillSendHeaders $e) 
     {
         $feeds = array();
         $tags = array();
@@ -155,11 +153,9 @@ class SContentWatch
     }
     
     /**
-     * @param EContentAccessEvent $e
-     * (non-PHPdoc)
-     * @see System/Component/EventHandler/HContentAccessEventHandler#HandleContentAccessEvent()
+     * @param Event_ContentAccess $e
      */
-    public function HandleContentAccessEvent(EContentAccessEvent $e)
+    public function handleEventContentAccess(Event_ContentAccess $e)
     {
         //logging
         $o = $e->Content;
@@ -198,11 +194,9 @@ class SContentWatch
 	 * before accessing content this event happens
 	 * we can substitute content here 
 	 *
-	 * @param EWillAccessContentEvent $e
-     * (non-PHPdoc)
-     * @see System/Component/EventHandler/HWillAccessContentEventHandler#HandleWillAccessContentEvent()
+	 * @param Event_WillAccessContent $e
      */
-	public function HandleWillAccessContentEvent(EWillAccessContentEvent $e)
+	public function handleEventWillAccessContent(Event_WillAccessContent $e)
 	{
 	    $pubDate = $e->Content->getPubDate();
 	    if(empty($pubDate) || $pubDate > time())

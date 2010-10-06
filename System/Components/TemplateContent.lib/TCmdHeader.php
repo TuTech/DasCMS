@@ -71,7 +71,7 @@ class TCmdHeader
                 $baseURI = sprintf("\n            <base href=\"%s\" />", SLink::base());
             }
            
-            $e = new EWillSendHeadersEvent($this);
+            $e = new Event_WillSendHeaders($this);
             
             $title = empty($this->title) ? Core::settings()->get('sitename') : $this->title;
             $glue = "\n            ";

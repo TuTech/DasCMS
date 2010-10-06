@@ -60,7 +60,7 @@ class CFile
 	    $file = new CFile($alias);
 	    $file->Size = RFiles::getSize('CFile');
 	    $file->saveMetaToDB();
-	    new EContentCreatedEvent($file, $file);
+	    new Event_ContentCreated($file, $file);
 	    return $file;
 	}
 	
@@ -79,7 +79,7 @@ class CFile
 	        throw new XUndefinedException('upload not moveable');
 	    }
 		
-		$e = new EWillSaveContentEvent($this, $this);
+		$e = new Event_WillSaveContent($this, $this);
 		if($e->isCanceled()){
 			return;//notifications are up to the canceling object
 		}
@@ -109,7 +109,7 @@ class CFile
             }
         }
         SErrorAndExceptionHandler::reportErrors();
-        $e = new EContentChangedEvent($this, $this);
+        $e = new Event_ContentChanged($this, $this);
 	}
 
 	protected static function saveFileMeta($id, $fileName, $suffix, $md5)

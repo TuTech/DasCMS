@@ -13,8 +13,8 @@ class SFeedKeeper
     extends 
         BObject
     implements 
-        HContentChangedEventHandler,
-        HContentCreatedEventHandler 
+        Event_Handler_ContentChanged,
+        Event_Handler_ContentCreated
 {
 	//IShareable
 	const CLASS_NAME = 'SFeedKeeper';
@@ -36,7 +36,7 @@ class SFeedKeeper
 	}
 	//end IShareable
     
-	public function HandleContentChangedEvent(EContentChangedEvent $e)
+	public function handleEventContentChanged(Event_ContentChanged $e)
 	{
 	    try
 	    {
@@ -172,7 +172,7 @@ class SFeedKeeper
 	    }
 	}
 	
-	public function HandleContentCreatedEvent(EContentCreatedEvent $e)
+	public function handleEventContentCreated(Event_ContentCreated $e)
     {
         try
 	    {

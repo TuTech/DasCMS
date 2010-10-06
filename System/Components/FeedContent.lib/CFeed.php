@@ -273,7 +273,7 @@ class CFeed
 	{
 	    list($dbid, $alias) = BContent::createContent(self::CLASS_NAME, $title);
 	    $tpl = new CFeed($alias);
-	    new EContentCreatedEvent($tpl, $tpl);
+	    new Event_ContentCreated($tpl, $tpl);
 	    return $tpl;
 	}
 	

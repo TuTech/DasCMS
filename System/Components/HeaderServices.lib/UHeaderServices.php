@@ -12,12 +12,12 @@
 class UHeaderServices
     extends BPlugin 
     implements 
-        HRequestingClassSettingsEventHandler,
-        HUpdateClassSettingsEventHandler,
-        HWillSendHeadersEventHandler
+        Event_Handler_RequestingClassSettings,
+        Event_Handler_UpdateClassSettings,
+        Event_Handler_WillSendHeaders
 {
     const CLASS_NAME = 'UHeaderServices';
-    public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
+    public function handleEventRequestingClassSettings(Event_RequestingClassSettings $e)
     {
 		$classes = Core::getClassesWithInterface('IHeaderService');
         $active = Controller_Content::getInstance()->getContentsChainedToClass(self::CLASS_NAME);
@@ -53,7 +53,7 @@ class UHeaderServices
         }
     }
     
-    public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
+    public function handleEventUpdateClassSettings(Event_UpdateClassSettings $e)
     {
         $data = $e->getClassSettings($this);
         $classes = Core::getClassesWithInterface('IHeaderService');
@@ -90,7 +90,7 @@ class UHeaderServices
         $DSQL->commit();
     }
     
-    public function HandleWillSendHeadersEvent(EWillSendHeadersEvent $e)
+    public function handleEventWillSendHeaders(Event_WillSendHeaders $e)
     {
         try{
 			$res = Core::Database()

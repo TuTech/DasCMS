@@ -35,7 +35,7 @@ class CPage
 	    DFileSystem::Save(SPath::CONTENT.'CPage/'.$dbid.'.content.php', ' ');
 	    BContent::setMIMEType($alias, 'text/html');
 	    $page = new CPage($alias);
-	    new EContentCreatedEvent($page, $page);
+	    new Event_ContentCreated($page, $page);
 	    return $page;
 	}
 	

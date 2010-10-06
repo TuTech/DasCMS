@@ -34,7 +34,7 @@ class CLink
 	    list($dbid, $alias) = BContent::createContent(self::CLASS_NAME, $title);
 	    DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$dbid.'.php', '');
 	    $tpl = new CLink($alias);
-	    new EContentCreatedEvent($tpl, $tpl);
+	    new Event_ContentCreated($tpl, $tpl);
 	    return $tpl;
 	}
 	

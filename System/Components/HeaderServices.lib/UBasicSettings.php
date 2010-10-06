@@ -12,9 +12,9 @@
 class UBasicSettings
     extends BPlugin 
     implements 
-        HRequestingClassSettingsEventHandler,
-        HUpdateClassSettingsEventHandler,
-        HWillSendHeadersEventHandler
+        Event_Handler_RequestingClassSettings,
+        Event_Handler_UpdateClassSettings,
+        Event_Handler_WillSendHeaders
 {
     private static $keys = array(
         'website_information' => array(
@@ -34,7 +34,7 @@ class UBasicSettings
         )
     );
     
-    public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
+    public function handleEventRequestingClassSettings(Event_RequestingClassSettings $e)
     {
         foreach (self::$keys as $sect => $ks)
         {
@@ -69,7 +69,7 @@ class UBasicSettings
         }
     }
     
-    public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
+    public function handleEventUpdateClassSettings(Event_UpdateClassSettings $e)
     {
         try
         {
@@ -105,7 +105,7 @@ class UBasicSettings
         }
     }
     
-    public function HandleWillSendHeadersEvent(EWillSendHeadersEvent $e)
+    public function handleEventWillSendHeaders(Event_WillSendHeaders $e)
     {
         $confMeta = array(
             'copyright' => 'copyright',

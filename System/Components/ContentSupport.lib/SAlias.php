@@ -14,10 +14,10 @@ class SAlias
         BObject 
     implements 
         IShareable,
-		HContentChangedEventHandler, 
-		HContentCreatedEventHandler, 
-		HContentDeletedEventHandler,
-		HContentPublishedEventHandler 
+		Event_Handler_ContentChanged,
+		Event_Handler_ContentCreated,
+		Event_Handler_ContentDeleted,
+		Event_Handler_ContentPublished
 {	
 	/**
 	 * Handle alias assignments
@@ -68,33 +68,33 @@ class SAlias
 	}	
 	
 	/**
-	 * @param EContentChangedEvent $e
+	 * @param Event_ContentChanged $e
 	 */
-	public function HandleContentChangedEvent(EContentChangedEvent $e)
+	public function handleEventContentChanged(Event_ContentChanged $e)
 	{
 		$this->updateAlias($e->Content);
 	}
 	
 	/**
-	 * @param EContentCreatedEvent $e
+	 * @param Event_ContentCreated $e
 	 */
-	public function HandleContentCreatedEvent(EContentCreatedEvent $e)
+	public function handleEventContentCreated(Event_ContentCreated $e)
 	{
 		$this->updateAlias($e->Content);
 	}
 	
 	/**
-	 * @param EContentDeletedEvent $e
+	 * @param Event_ContentDeleted $e
 	 */
-	public function HandleContentDeletedEvent(EContentDeletedEvent $e)
+	public function handleEventContentDeleted(Event_ContentDeleted $e)
 	{
 		$this->removeAliases($e->Content);
 	}
 
 	/**
-	 * @param EContentDeletedEvent $e
+	 * @param Event_ContentDeleted $e
 	 */
-	public function HandleContentPublishedEvent(EContentPublishedEvent $e)
+	public function handleEventContentPublished(Event_ContentPublished $e)
 	{
 		$this->updateAlias($e->Content);
 	}

@@ -7,10 +7,10 @@
 class Settings_HTMLCleaner
 	extends BObject
     implements
-        HUpdateClassSettingsEventHandler,
-        HRequestingClassSettingsEventHandler
+        Event_Handler_UpdateClassSettings,
+        Event_Handler_RequestingClassSettings
 {
-    public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
+    public function handleEventRequestingClassSettings(Event_RequestingClassSettings $e)
     {
         //db_engine + whatever DSQL gives us
         $e->addClassSettings($this, 'content_handling', array(
@@ -19,7 +19,7 @@ class Settings_HTMLCleaner
         ));
     }
 
-    public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
+    public function handleEventUpdateClassSettings(Event_UpdateClassSettings $e)
     {
         $data = $e->getClassSettings($this);
 		$active = false;

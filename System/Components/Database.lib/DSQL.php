@@ -74,8 +74,8 @@ abstract class DSQL
 	}
 	
 	//allow config classes to be configured
-	public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e){}
-	public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e){}
+	public function handleEventRequestingClassSettings(Event_RequestingClassSettings $e){}
+	public function handleEventUpdateClassSettings(Event_UpdateClassSettings $e){}
 
 	/**
 	 * database name 

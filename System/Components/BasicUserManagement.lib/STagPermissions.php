@@ -13,8 +13,8 @@ class STagPermissions
     extends 
         BObject
     implements 
-        HContentAccessEventHandler ,
-        HWillAccessContentEventHandler  
+        Event_Handler_ContentAccess ,
+        Event_Handler_WillAccessContent
 {
 	//IShareable
 	const CLASS_NAME = 'STagPermissions';
@@ -79,9 +79,9 @@ class STagPermissions
 	 * before accessing content this event happens
 	 * we can substitute content here 
 	 *
-	 * @param EWillAccessContentEvent $e
+	 * @param Event_WillAccessContent $e
 	 */
-	public function HandleWillAccessContentEvent(EWillAccessContentEvent $e)
+	public function handleEventWillAccessContent(Event_WillAccessContent $e)
 	{
 	    if($this->isProtected($e->Content))
 	    {
@@ -93,9 +93,9 @@ class STagPermissions
 	 * content that will be displayed
 	 * last opportunity to stop protected content 
 	 *
-	 * @param EContentAccessEvent $e
+	 * @param Event_ContentAccess $e
 	 */
-	public function HandleContentAccessEvent(EContentAccessEvent $e)
+	public function handleEventContentAccess(Event_ContentAccess $e)
 	{
 	    if($this->isProtected($e->Content))
 	    {

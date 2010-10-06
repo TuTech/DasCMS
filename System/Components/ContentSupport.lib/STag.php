@@ -14,30 +14,30 @@ class STag
         BObject 
     implements 
         IShareable, 
-    	HContentChangedEventHandler, 
-    	HContentCreatedEventHandler,
-    	HContentDeletedEventHandler 
+    	Event_Handler_ContentChanged,
+    	Event_Handler_ContentCreated,
+    	Event_Handler_ContentDeleted
 {
 	/**
-	 * @param EContentChangedEvent $e
+	 * @param Event_ContentChanged $e
 	 */
-	public function HandleContentChangedEvent(EContentChangedEvent $e)
+	public function handleEventContentChanged(Event_ContentChanged $e)
 	{
 		$this->update($e->Content);
 	}
 	
 	/**
-	 * @param EContentCreatedEvent $e
+	 * @param Event_ContentCreated $e
 	 */
-	public function HandleContentCreatedEvent(EContentCreatedEvent $e)
+	public function handleEventContentCreated(Event_ContentCreated $e)
 	{
 		$this->update($e->Content);
 	}
 	
 	/**
-	 * @param EContentDeletedEvent $e
+	 * @param Event_ContentDeleted $e
 	 */
-	public function HandleContentDeletedEvent(EContentDeletedEvent $e)
+	public function handleEventContentDeleted(Event_ContentDeleted $e)
 	{
 		$this->set($e->Content, '');
 	}

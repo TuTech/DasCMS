@@ -13,7 +13,7 @@ class SLinkRunner
     extends 
         BObject
     implements 
-        HContentAccessEventHandler
+        Event_Handler_ContentAccess
 {
 	//IShareable
 	const CLASS_NAME = 'SLinkRunner';
@@ -35,7 +35,7 @@ class SLinkRunner
 	}
 	//end IShareable
     
-	public function HandleContentAccessEvent(EContentAccessEvent $e)
+	public function handleEventContentAccess(Event_ContentAccess $e)
 	{
 	    if ($e->Content instanceof CLink 
 	        && $e->Sender instanceof VSpore) 

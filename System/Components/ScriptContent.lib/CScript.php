@@ -38,7 +38,7 @@ class CScript
 	    DFileSystem::Save(SPath::CONTENT.self::CLASS_NAME.'/'.$dbid.'.html.php', ' ');
 	    BContent::setMIMEType($alias, 'application/javascript');
 	    $script = new CScript($alias);
-	    $e = new EContentCreatedEvent($script, $script);
+	    $e = new Event_ContentCreated($script, $script);
 	    return $script;
 	}
 
@@ -165,7 +165,7 @@ class CScript
 	    return array('scripts' => Controller_Content::getInstance()->contentGUIDIndex(self::CLASS_NAME));
 	}
 
-	public static function sendHeaderService($embedAlias, EWillSendHeadersEvent $e)
+	public static function sendHeaderService($embedAlias, Event_WillSendHeaders $e)
 	{
 	    $url = 'file.php?get='.$embedAlias;
 	    $e->getHeader()->addScript('application/javascript',$url,'');

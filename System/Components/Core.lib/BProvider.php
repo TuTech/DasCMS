@@ -11,7 +11,7 @@
  */
 abstract class BProvider extends BObject 
 {
-    public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
+    public function handleEventRequestingClassSettings(Event_RequestingClassSettings $e)
     {
         $class = get_class($this);
         $implementors = Core::getClassesWithInterface($this->getInterface());
@@ -25,7 +25,7 @@ abstract class BProvider extends BObject
         $e->addClassSettings($this, $this->getPurpose(), $data);
     }
     
-    public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
+    public function handleEventUpdateClassSettings(Event_UpdateClassSettings $e)
     {
         $class = get_class($this);
         $data = $e->getClassSettings($this);

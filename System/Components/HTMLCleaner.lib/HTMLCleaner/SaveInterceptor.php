@@ -6,14 +6,14 @@
  */
 class HTMLCleaner_SaveInterceptor
 	extends BObject
-	implements HWillSaveContentEventHandler
+	implements Event_Handler_WillSaveContent
 {
 	public function is($key){
 		$v = Core::settings()->get($key);
 		return !empty($v);
 	}
 
-	public function HandleWillSaveContentEvent(EWillSaveContentEvent $e) {
+	public function handleEventWillSaveContent(Event_WillSaveContent $e) {
 		if($e->Content instanceof CPage){
 			if($this->is('HTMLCleaner_Clean_HTML')){
 				$p = new HTMLCleaner_Parser($e->Content->getContent());

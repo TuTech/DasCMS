@@ -46,9 +46,7 @@ abstract class BEvent extends BObject
 	protected static function informHandlers(BEvent $e)
 	{
 		$class = get_class($e);
-		//HContentChangedEventHandler
 		$handler = sprintf("H%sHandler", substr($class,1));
-		//HandleContentChangedEvent
 		$handleEvent = sprintf("Handle%s", substr($class,1));
 		
 		$listenerClasses = Core::getClassesWithInterface($handler);
