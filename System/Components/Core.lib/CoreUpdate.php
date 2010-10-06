@@ -47,7 +47,7 @@ class CoreUpdate extends Core
 							//build path
 							$classFile = sprintf('%s%s/%s.php', $componentsDir, $currentComponent, $classSubPath);
 							if(file_exists($classFile)){
-								if(constant('DEBUG')){
+								if(defined('DEBUG')){
 									$classContent = implode('', file($classFile));
 								}
 								else{
