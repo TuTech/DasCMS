@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage Job
  */
-class JJobJanitor implements ISchedulerJob
+class Task_TaskJanitor implements Interface_SchedulerTask
 {
     private $message = 'OK';
     private $code = 0;
@@ -20,7 +20,7 @@ class JJobJanitor implements ISchedulerJob
      */
     public function getInterval()
     {
-        return ISchedulerJob::DAY;
+        return Interface_SchedulerTask::DAY;
     }
     
     /**
@@ -33,7 +33,7 @@ class JJobJanitor implements ISchedulerJob
         $toRemove = array();
         
         //get all indexed job classes
-		$indexed = Core::getClassesWithInterface('ISchedulerJob');
+		$indexed = Core::getClassesWithInterface('Interface_SchedulerTask');
         //get all registered jobs
         $res = Core::Database()
 			->createQueryForClass($this)
@@ -73,7 +73,7 @@ class JJobJanitor implements ISchedulerJob
         	{
         	    try{
         	        $o = new $class();
-    	            if ($o instanceof ISchedulerJob)
+    	            if ($o instanceof Interface_SchedulerTask)
     	            {
     	            	$int = $o->getInterval();
     	            	$end = $o->getEnd();
@@ -109,7 +109,7 @@ class JJobJanitor implements ISchedulerJob
         }
         if($exc)
         {
-            $this->message = $exc.' jobs not indexed';
+            $this->message = $exc.' tasks not indexed';
             $this->code = 1;
         }
     }

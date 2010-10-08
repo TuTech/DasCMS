@@ -66,7 +66,7 @@ class SNotificationCenter
 		$this->HandleEvent($e);
 	}
 	
-	private function HandleEvent(BEvent $e)
+	private function HandleEvent(_Event $e)
 	{
 		$etype = get_class($e);
 		$etype = substr($etype,strlen('EContent'));

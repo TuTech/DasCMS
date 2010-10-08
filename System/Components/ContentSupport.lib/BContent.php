@@ -688,6 +688,11 @@ abstract class BContent extends BObject implements Interface_Content
 				? new Event_ContentRevoked($this, $this)
 				: new Event_ContentPublished($this, $this);
 		}
+
+
+		/*
+		 * handle published flag
+		 */
 	}
 }
 ?>

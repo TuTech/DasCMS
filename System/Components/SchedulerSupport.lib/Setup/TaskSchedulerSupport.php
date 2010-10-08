@@ -1,5 +1,5 @@
 <?php
-class Setup_JobSchedulerSupport
+class Setup_TaskSchedulerSupport
 	extends _Setup
 	implements
 		Setup_ForDatabaseTables,

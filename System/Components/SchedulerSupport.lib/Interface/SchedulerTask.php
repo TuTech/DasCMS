@@ -3,7 +3,7 @@
  *
  * @author lse
  */
-interface ISchedulerJob {
+interface Interface_SchedulerTask {
     const SECOND = 1;
     const MINUTE = 60;
     const HOUR = 3600;

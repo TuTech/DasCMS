@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage Job
  */
-class JTruncateJobLog implements ISchedulerJob
+class Task_TruncateTaskLog implements Interface_SchedulerTask
 {
     private $message = 'OK';
     private $code = 0;
@@ -20,7 +20,7 @@ class JTruncateJobLog implements ISchedulerJob
      */
     public function getInterval()
     {
-        return ISchedulerJob::DAY;
+        return Interface_SchedulerTask::DAY;
     }
     
     /**

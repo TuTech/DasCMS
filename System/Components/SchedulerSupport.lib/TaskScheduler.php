@@ -9,22 +9,35 @@
  * @package Bambus
  * @subpackage System
  */
-class SJobScheduler extends BObject 
+class TaskScheduler
 {
+	private static $instance = null;
+
+	/**
+	 * @return TaskScheduler
+	 */
+	public static function getInstance(){
+		if(!self::$instance){
+			self::$instance = new TaskScheduler();
+		}
+		return self::$instance;
+	}
+
+	const CLASS_NAME = 'TaskScheduler';
     /**
      * process the next job in line
      */
-    public static function runJob()
+    public function runJob()
     {
         $ok = true;
 		$jobs = Core::Database()
-			->createQueryForClass('SJobScheduler')
+			->createQueryForClass($this)
 			->call('count')
 			->withoutParameters()
 			->fetchSingleValue();
-        if($jobs == 0 && class_exists('JJobJanitor', true))
+        if($jobs == 0 && class_exists('Task_TaskJanitor', true))
         {
-            $job = new JJobJanitor();
+            $job = new Task_TaskJanitor();
             $job->run();
         }  
         else
@@ -35,7 +48,7 @@ class SJobScheduler extends BObject
 				//re-/schedule
 				$DB->beginTransaction();
                 $res = Core::Database()
-					->createQueryForClass('SJobScheduler')
+					->createQueryForClass($this)
 					->call('next')
 					->withoutParameters();
 				$row = $res->fetchResult();
@@ -45,12 +58,12 @@ class SJobScheduler extends BObject
                 {
                     list($job, $jobId, $scheduled) = $row;
 					Core::Database()
-						->createQueryForClass('SJobScheduler')
+						->createQueryForClass($this)
 						->call('start')
 						->withParameters($jobId, $scheduled)
 						->execute();
 					Core::Database()
-						->createQueryForClass('SJobScheduler')
+						->createQueryForClass($this)
 						->call('schedule')
 						->withParameters($jobId, $jobId)
 						->execute();
@@ -61,7 +74,7 @@ class SJobScheduler extends BObject
 				SErrorAndExceptionHandler::reportException($e);
 				if(!empty($jobs)){
 					Core::Database()
-						->createQueryForClass('SJobScheduler')
+						->createQueryForClass($this)
 						->call('report')
 						->withParameters($e->getCode(), 'Scheduler failed: '.$e->getMessage(), $jobId, $scheduled)
 						->execute();
@@ -79,12 +92,12 @@ class SJobScheduler extends BObject
 
 					if(!class_exists($job, true))
 					{
-						throw new Exception('Job not found', 1);
+						throw new Exception('Task not found', 1);
 					}
 					$jobObj = new $job;
-					if (!$jobObj instanceof ISchedulerJob)
+					if (!$jobObj instanceof Interface_SchedulerTask)
 					{
-						throw new Exception('Job not a valid job', 2);
+						throw new Exception('Task not valid', 2);
 					}
 					$ok = $jobObj->run();
 					$ergNo = $jobObj->getStatusCode();
@@ -98,7 +111,7 @@ class SJobScheduler extends BObject
 					$ok = 'stopped';
 				}
 				Core::Database()
-					->createQueryForClass('SJobScheduler')
+					->createQueryForClass($this)
 					->call('report')
 					->withParameters($ergNo, $ergStr, $jobId, $scheduled)
 					->execute();
