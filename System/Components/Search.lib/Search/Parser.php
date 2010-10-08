@@ -1,6 +1,6 @@
 <?php
 class Search_Parser
-	implements Search_Interface_Parser
+	implements Search_Interface_Parser, IShareable
 {
 	const EXTRACTOR = '/((([a-zA-Z]+):)?(\\+|-)?("([^"\\\\]*(\\\\.[^"\\\\]*)*)"|([\\S]+)))/u';
 	protected static $instance = null;

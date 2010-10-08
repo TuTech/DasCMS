@@ -14,7 +14,8 @@ class STagPermissions
         BObject
     implements 
         Event_Handler_ContentAccess ,
-        Event_Handler_WillAccessContent
+        Event_Handler_WillAccessContent,
+		IShareable
 {
 	//IShareable
 	const CLASS_NAME = 'STagPermissions';

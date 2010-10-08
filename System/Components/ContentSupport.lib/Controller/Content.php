@@ -1,5 +1,5 @@
 <?php
-class Controller_Content
+class Controller_Content implements IShareable
 {
     //IShareable
 

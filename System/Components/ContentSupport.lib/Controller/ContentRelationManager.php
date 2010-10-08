@@ -1,5 +1,5 @@
 <?php
-class Controller_ContentRelationManager
+class Controller_ContentRelationManager implements IShareable
 {
 	/**
 	 * singleton instance

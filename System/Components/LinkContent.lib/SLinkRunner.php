@@ -13,7 +13,8 @@ class SLinkRunner
     extends 
         BObject
     implements 
-        Event_Handler_ContentAccess
+        Event_Handler_ContentAccess,
+		IShareable
 {
 	//IShareable
 	const CLASS_NAME = 'SLinkRunner';

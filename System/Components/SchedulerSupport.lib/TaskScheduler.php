@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage System
  */
-class TaskScheduler
+class TaskScheduler implements IShareable
 {
 	private static $instance = null;
 

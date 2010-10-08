@@ -1,5 +1,5 @@
 <?php
-class Search_Engine
+class Search_Engine implements IShareable
 {
 	/*==Search_Engine==
 	 * +getInstance() => returns cloned instance

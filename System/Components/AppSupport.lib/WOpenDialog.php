@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage Widget
  */
-class WOpenDialog extends BWidget 
+class WOpenDialog extends BWidget implements IShareable
 {
 	//IShareable
 	const CLASS_NAME = 'WOpenDialog';

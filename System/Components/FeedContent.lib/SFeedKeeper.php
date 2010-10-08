@@ -14,7 +14,8 @@ class SFeedKeeper
         BObject
     implements 
         Event_Handler_ContentChanged,
-        Event_Handler_ContentCreated
+        Event_Handler_ContentCreated,
+		IShareable
 {
 	//IShareable
 	const CLASS_NAME = 'SFeedKeeper';
