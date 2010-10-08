@@ -14,7 +14,7 @@ class ULocations
     implements 
         IAjaxAPI,
         IGlobalUniqueId,
-        IShareable
+        Interface_Singleton
 {
     const GUID = 'org.bambuscms.plugin.locations';
     const CLASS_NAME = 'ULocations';
@@ -117,7 +117,7 @@ class ULocations
         //params: location
     }
     
-	//begin IShareable
+	//begin Interface_Singleton
 	
 	public static $sharedInstance = NULL;
 	
@@ -135,6 +135,6 @@ class ULocations
 		}
 		return self::$sharedInstance;
 	}
-	//end IShareable
+	//end Interface_Singleton
 }
 ?>

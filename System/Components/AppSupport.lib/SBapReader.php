@@ -12,7 +12,7 @@
 class SBapReader
 	extends BObject 
     implements 
-        IShareable 
+        Interface_Singleton 
 {
 	/**
 	 * return an array of reuested data
@@ -62,7 +62,7 @@ class SBapReader
 		return $result;
 	}
 	
-	//IShareable
+	//Interface_Singleton
 	const CLASS_NAME = 'SBapReader';
 	public static $sharedInstance = NULL;
 	/**
@@ -77,6 +77,6 @@ class SBapReader
 		}
 		return self::$sharedInstance;
 	}
-	//end IShareable
+	//end Interface_Singleton
 }
 ?>

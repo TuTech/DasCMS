@@ -15,9 +15,9 @@ class SFeedKeeper
     implements 
         Event_Handler_ContentChanged,
         Event_Handler_ContentCreated,
-		IShareable
+		Interface_Singleton
 {
-	//IShareable
+	//Interface_Singleton
 	const CLASS_NAME = 'SFeedKeeper';
 	/**
 	 * @var SFeedKeeper
@@ -35,7 +35,7 @@ class SFeedKeeper
 		}
 		return self::$sharedInstance;
 	}
-	//end IShareable
+	//end Interface_Singleton
     
 	public function handleEventContentChanged(Event_ContentChanged $e)
 	{

@@ -13,7 +13,7 @@ class NTreeNavigation
     extends 
         BObject
     implements 
-        IShareable, 
+        Interface_Singleton, 
         ITemplateSupporter, 
         IGlobalUniqueId
 {
@@ -36,7 +36,7 @@ class NTreeNavigation
 	private $NodeData = array();
 	private $ActiveNodes = array();
 	
-	//IShareable
+	//Interface_Singleton
 	const CLASS_NAME = 'NTreeNavigation';
 	public static $sharedInstance = NULL;
 	private static $initializedInstance = false;
@@ -61,7 +61,7 @@ class NTreeNavigation
 		}
 		return self::$sharedInstance;
 	}
-	//end IShareable
+	//end Interface_Singleton
 	
     public static function set($nav,VSpore $spore, NTreeNavigationObject $tno_root)
     {

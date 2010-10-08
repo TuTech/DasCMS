@@ -13,7 +13,7 @@ class SNotificationCenter
     extends 
         BObject 
     implements 
-        IShareable,
+        Interface_Singleton,
     	Event_Handler_ContentChanged,
     	Event_Handler_ContentCreated,
     	Event_Handler_ContentDeleted,
@@ -22,7 +22,7 @@ class SNotificationCenter
 {
 	//utilize old NFC Class
 	
-	//IShareable
+	//Interface_Singleton
 	const CLASS_NAME = 'SNotificationCenter';
 	const TYPE_WARNING = 'warning';
 	const TYPE_MESSAGE = 'message';
@@ -42,7 +42,7 @@ class SNotificationCenter
 		}
 		return self::$sharedInstance;
 	}
-	//end IShareable	
+	//end Interface_Singleton	
 	
 	//bambus 0.20 event handlers
 	public function handleEventContentChanged(Event_ContentChanged $e)

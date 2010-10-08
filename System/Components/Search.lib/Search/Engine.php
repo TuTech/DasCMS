@@ -1,5 +1,5 @@
 <?php
-class Search_Engine implements IShareable
+class Search_Engine implements Interface_Singleton
 {
 	/*==Search_Engine==
 	 * +getInstance() => returns cloned instance

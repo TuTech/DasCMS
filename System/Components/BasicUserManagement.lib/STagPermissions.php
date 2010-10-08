@@ -15,9 +15,9 @@ class STagPermissions
     implements 
         Event_Handler_ContentAccess ,
         Event_Handler_WillAccessContent,
-		IShareable
+		Interface_Singleton
 {
-	//IShareable
+	//Interface_Singleton
 	const CLASS_NAME = 'STagPermissions';
 	/**
 	 * @var STagPermissions
@@ -38,7 +38,7 @@ class STagPermissions
 		}
 		return self::$sharedInstance;
 	}
-	//end IShareable
+	//end Interface_Singleton
     
     private function isProtected(Interface_Content $content)
     {

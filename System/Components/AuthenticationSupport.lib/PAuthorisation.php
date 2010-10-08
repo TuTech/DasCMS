@@ -12,7 +12,7 @@
 class PAuthorisation 
     extends BProvider 
     implements 
-        IShareable, IProvider
+        Interface_Singleton, IProvider
 {
     const ROLE_ADMINISTRATOR = 'administrator';
     const ROLE_DAEMON = self::ROLE_ADMINISTRATOR;

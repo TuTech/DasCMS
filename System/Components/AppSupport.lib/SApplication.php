@@ -12,7 +12,7 @@
 class SApplication 
 	extends BObject
     implements 
-        IShareable
+        Interface_Singleton
 {	
     private $name, $description, $guid, $version, $icon, $interface, $class, $purpose;
     /**
@@ -319,7 +319,7 @@ class SApplication
 		return $available;
 	}
     
-	//begin IShareable
+	//begin Interface_Singleton
 	const CLASS_NAME = 'SApplication';
 	
 	public static $sharedInstance = NULL;
@@ -336,7 +336,7 @@ class SApplication
 		}
 		return self::$sharedInstance;
 	}
-	//end IShareable
+	//end Interface_Singleton
 }
 
 ?>

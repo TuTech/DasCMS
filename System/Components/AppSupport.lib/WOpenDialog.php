@@ -9,9 +9,9 @@
  * @package Bambus
  * @subpackage Widget
  */
-class WOpenDialog extends BWidget implements IShareable
+class WOpenDialog extends BWidget implements Interface_Singleton
 {
-	//IShareable
+	//Interface_Singleton
 	const CLASS_NAME = 'WOpenDialog';
 	/**
 	 * @var WOpenDialog
@@ -29,7 +29,7 @@ class WOpenDialog extends BWidget implements IShareable
 		}
 		return self::$sharedInstance;
 	}
-	//end IShareable
+	//end Interface_Singleton
 	
     protected static $CurrentWidgetID = 0;
     /**

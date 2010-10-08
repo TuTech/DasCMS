@@ -13,7 +13,7 @@ class SUsersAndGroups
     extends 
         BObject 
     implements 
-        IShareable
+        Interface_Singleton
 {
     private $userlist = null;
     private $grouplist = null;
@@ -766,7 +766,7 @@ class SUsersAndGroups
     
     
     
-    //IShareable
+    //Interface_Singleton
     const CLASS_NAME = 'SUsersAndGroups';
     public static $sharedInstance = NULL;
 
@@ -789,6 +789,6 @@ class SUsersAndGroups
         }
         return self::$sharedInstance;
     }
-    //end IShareable
+    //end Interface_Singleton
 }
 ?>

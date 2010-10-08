@@ -13,7 +13,7 @@ class SAlias
     extends 
         BObject 
     implements 
-        IShareable,
+        Interface_Singleton,
 		Event_Handler_ContentChanged,
 		Event_Handler_ContentCreated,
 		Event_Handler_ContentDeleted,
@@ -236,7 +236,7 @@ class SAlias
 		return empty ($contentID) ? null : $contentID;
 	}
 
-	//begin IShareable
+	//begin Interface_Singleton
 	const CLASS_NAME = 'SAlias';
 	
 	public static $sharedInstance = NULL;
@@ -255,6 +255,6 @@ class SAlias
 		}
 		return self::$sharedInstance;
 	}
-	//end IShareable
+	//end Interface_Singleton
 }
 ?>

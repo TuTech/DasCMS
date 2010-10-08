@@ -47,7 +47,7 @@ abstract class BObject
 		$object = null;
 		if(class_exists($class, true))
 		{
-			if(Core::isImplementation($class, 'IShareable'))
+			if(Core::isImplementation($class, 'Interface_Singleton'))
 			{
 				$object = call_user_func($class.'::getInstance');
 			}

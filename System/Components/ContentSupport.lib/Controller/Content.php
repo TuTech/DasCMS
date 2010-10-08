@@ -1,7 +1,7 @@
 <?php
-class Controller_Content implements IShareable
+class Controller_Content implements Interface_Singleton
 {
-    //IShareable
+    //Interface_Singleton
 
     /**
      * @var Controller_Content
@@ -20,7 +20,7 @@ class Controller_Content implements IShareable
 		return self::$sharedInstance;
 	}
 
-	//end IShareable
+	//end Interface_Singleton
 
 	protected function className($objectOrClass){
 		return is_object($objectOrClass) ? get_class($objectOrClass) : strval($objectOrClass);

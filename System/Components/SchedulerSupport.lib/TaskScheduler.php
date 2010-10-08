@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage System
  */
-class TaskScheduler implements IShareable
+class TaskScheduler implements Interface_Singleton
 {
 	private static $instance = null;
 

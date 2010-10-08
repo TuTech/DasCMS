@@ -14,9 +14,9 @@ class SLinkRunner
         BObject
     implements 
         Event_Handler_ContentAccess,
-		IShareable
+		Interface_Singleton
 {
-	//IShareable
+	//Interface_Singleton
 	const CLASS_NAME = 'SLinkRunner';
 	/**
 	 * @var SLinkRunner
@@ -34,7 +34,7 @@ class SLinkRunner
 		}
 		return self::$sharedInstance;
 	}
-	//end IShareable
+	//end Interface_Singleton
     
 	public function handleEventContentAccess(Event_ContentAccess $e)
 	{

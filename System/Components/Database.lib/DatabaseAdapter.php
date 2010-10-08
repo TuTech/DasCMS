@@ -5,7 +5,7 @@ class DatabaseAdapter
 		Interface_Database_CallableQuery,
 		Interface_Database_ConfigurableQuery,
 		Interface_Database_FetchableQuery,
-		IShareable
+		Interface_Singleton
 {
 	//@todo for cache class a config change MUST trigger a cache invalidate -- config changed event
 
@@ -17,6 +17,10 @@ class DatabaseAdapter
 	protected static $statements = array();
 	protected static $aliases = array();
 	protected static $loaded = array();
+	/**
+	 * @var DSQL
+	 */
+	protected $Database;
 
 	/**
 	 * register sql statement
@@ -70,7 +74,7 @@ class DatabaseAdapter
 		$id = self::$aliases[$alias];
 		if(!array_key_exists($id, self::$statements)){
 			//prepared
-			self::$statements[$id] = DSQL::getInstance()->prepare(self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
+			self::$statements[$id] = $this->Database->prepare(self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
 			//catch error
 			if(!self::$statements[$id]){
 				throw new XDatabaseException('could not prepare statement', 0, self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
@@ -365,6 +369,18 @@ class DatabaseAdapter
 		$this->hasBoundData = false;
 	}
 
+	public function beginTransaction() {
+		$this->Database->beginTransaction();
+	}
+
+	public function commitTransaction() {
+		$this->Database->commit();
+	}
+
+	public function rollbackTransaction() {
+		$this->Database->rollback();
+	}
+
 	public function  __destruct()
 	{
 		foreach (self::$statements as $stmnt){
@@ -380,7 +396,9 @@ class DatabaseAdapter
 
 	private function __clone(){}
 
-	private function __construct(){}
+	private function __construct(){
+		$this->Database = DSQL::getInstance();
+	}
 
 	public static function getInstance()
 	{

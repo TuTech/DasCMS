@@ -13,7 +13,7 @@ class STag
     extends 
         BObject 
     implements 
-        IShareable, 
+        Interface_Singleton, 
     	Event_Handler_ContentChanged,
     	Event_Handler_ContentCreated,
     	Event_Handler_ContentDeleted
@@ -42,7 +42,7 @@ class STag
 		$this->set($e->Content, '');
 	}
 	
-	//IShareable
+	//Interface_Singleton
 	const CLASS_NAME = 'STag';
 	/**
 	 * @var STag
@@ -61,7 +61,7 @@ class STag
 		}
 		return self::$sharedInstance;
 	}
-	//end IShareable
+	//end Interface_Singleton
 	
 	
 	/**

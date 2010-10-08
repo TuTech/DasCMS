@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage Interface
  */
-interface IShareable
+interface Interface_Singleton
 {
 	//instanciate class if neccessary and return a link to the object
 	public static function getInstance();

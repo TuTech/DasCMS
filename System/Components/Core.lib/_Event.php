@@ -40,7 +40,7 @@ abstract class _Event
 		$listenerClasses = Core::getClassesWithInterface($handler);
 		foreach ($listenerClasses as $eventListenerClass)
 		{
-		    if(Core::isImplementation($eventListenerClass, 'IShareable'))
+		    if(Core::isImplementation($eventListenerClass, 'Interface_Singleton'))
 		    {
 		        $eventListener = call_user_func($eventListenerClass.'::getInstance');
 		    }

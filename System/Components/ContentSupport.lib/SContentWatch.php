@@ -15,9 +15,9 @@ class SContentWatch
         Event_Handler_ContentAccess,
         Event_Handler_WillAccessContent,
 		Event_Handler_WillSendHeaders,
-        IShareable   
+        Interface_Singleton   
 {
-	//IShareable
+	//Interface_Singleton
 	const CLASS_NAME = 'SContentWatch';
 	/**
 	 * @var SContentWatch
@@ -36,7 +36,7 @@ class SContentWatch
 		}
 		return self::$sharedInstance;
 	}
-	//end IShareable
+	//end Interface_Singleton
     
     public static function accessedContent()
     {

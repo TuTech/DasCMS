@@ -13,7 +13,7 @@ class WSidePanel
     extends
         BWidget
     implements
-        IShareable
+        Interface_Singleton
 {
     const NONE = 0;
     const CONTENT_LOOKUP = 1;
@@ -32,7 +32,7 @@ class WSidePanel
 
 	private $sidebarWidgets = array();
 	private $inputsProcessed = false;
-	//IShareable
+	//Interface_Singleton
 	const CLASS_NAME = 'WSidePanel';
 	/**
 	 * @var WSidePanel
@@ -51,7 +51,7 @@ class WSidePanel
 		}
 		return self::$sharedInstance;
 	}
-	//end IShareable
+	//end Interface_Singleton
 	//loads all components
 	private function __construct()
 	{

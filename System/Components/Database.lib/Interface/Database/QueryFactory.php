@@ -28,5 +28,10 @@ interface Interface_Database_QueryFactory{
 	 * @return Interface_Database_QueryFactory
 	 */
 	public static function getInstance();
+
+
+	public function beginTransaction();
+	public function commitTransaction();
+	public function rollbackTransaction();
 }
 ?>

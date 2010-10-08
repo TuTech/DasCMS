@@ -12,7 +12,7 @@
 abstract class DSQL
 	extends BObject
     implements 
-        IShareable
+        Interface_Singleton
 {
 	private function __construct(){}
 	const CLASS_NAME = 'DSQL';
