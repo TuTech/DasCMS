@@ -6,17 +6,17 @@
  */
 class Settings_ContentProtectionTags extends BObject
 	implements
-        HRequestingClassSettingsEventHandler,
-        HUpdateClassSettingsEventHandler
+        Event_Handler_RequestingClassSettings,
+        Event_Handler_UpdateClassSettings
 {
-	public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e) {
+	public function handleEventRequestingClassSettings(Event_RequestingClassSettings $e) {
 		$tags = STagPermissions::getProtectedTags();
 		$e->addClassSettings($this, 'content_handling', array(
         	'define_tags_that_prevent_unauthorized_access' => array(implode(', ', $tags), Settings::TYPE_TEXT, null, 'define_tags_that_prevent_unauthorized_access')
 		));
 	}
 	
-	public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e) {
+	public function handleEventUpdateClassSettings(Event_UpdateClassSettings $e) {
 		$data = $e->getClassSettings($this);
 		if(isset($data['define_tags_that_prevent_unauthorized_access'])){
 			$f = $data['define_tags_that_prevent_unauthorized_access'];

@@ -56,7 +56,7 @@ class ATreeNavigationEditor
         		{
         			//no spores - create one
         			VSpore::set($newNav,true,null,null);
-        			VSpore::Save();
+        			VSpore::save();
         			$spore = new VSpore($newNav);
         		}
         		else

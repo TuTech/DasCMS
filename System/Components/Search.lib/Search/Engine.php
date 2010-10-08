@@ -1,5 +1,5 @@
 <?php
-class Search_Engine
+class Search_Engine implements Interface_Singleton
 {
 	/*==Search_Engine==
 	 * +getInstance() => returns cloned instance
@@ -133,7 +133,15 @@ class Search_Engine
 			->withParameters($searchId);
 		$i = 0;
 		while($row = $res->fetchResult()){
-			printf("Nr.: %d\n%s\n%s\n[%s]\n%s\n--\n", ++$i, $row[0], $row[1], $row[2], $row[3]);
+			$t = strtotime($row[2]);
+			$t = ($t <= 1) ? '- DRAFT -' : date('c', $t);
+			printf( "======================[Result %2d]======================\n".
+					"|| Title:     %s\n".
+					"|| Subtitle:  %s\n".
+					"|| Published: %s\n".
+					"|| Tags:      %s\n".
+					"========================================================\n".
+					"%s\n\n", ++$i, $row[0], $row[1], $t, $row[3], $row[4]);
 		}
 		$res->free();
 

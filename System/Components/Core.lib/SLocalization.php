@@ -14,8 +14,8 @@ class SLocalization
         BObject
     implements
         IGlobalUniqueId,
-        HRequestingClassSettingsEventHandler,
-        HUpdateClassSettingsEventHandler
+        Event_Handler_RequestingClassSettings,
+        Event_Handler_UpdateClassSettings
 {
     const GUID = 'org.bambuscms.system.localization';
     
@@ -30,7 +30,7 @@ class SLocalization
         return self::GUID;
     }
 
-    public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
+    public function handleEventRequestingClassSettings(Event_RequestingClassSettings $e)
     {
         $tz = array();
         $loc = array();
@@ -52,7 +52,7 @@ class SLocalization
         ));
     }
     
-    public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
+    public function handleEventUpdateClassSettings(Event_UpdateClassSettings $e)
     {
         $data = $e->getClassSettings($this);
         foreach (self::$confKeys as $mk => $cc)

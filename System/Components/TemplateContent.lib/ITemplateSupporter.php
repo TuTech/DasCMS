@@ -16,14 +16,14 @@ interface ITemplateSupporter
      *
      * @return array
      */
-    public function TemplateProvidedFunctions();
+    public function templateProvidedFunctions();
     
     /**
      * return an array with attributeName => description
      *
      * @return array
      */
-    public function TemplateProvidedAttributes();
+    public function templateProvidedAttributes();
     
 	/**
 	 * check function availability and permissions
@@ -31,7 +31,7 @@ interface ITemplateSupporter
 	 * @param string $function
 	 * @return boolean
 	 */
-	public function TemplateCallable($function);
+	public function templateCallable($function);
 	
 	/**
 	 * Call a function from this object
@@ -42,7 +42,7 @@ interface ITemplateSupporter
 	 * @param array $namedParameters
 	 * @return string
 	 */
-	public function TemplateCall($function, array $namedParameters);
+	public function templateCall($function, array $namedParameters);
 	
 	/**
 	 * Get a property from an object
@@ -53,6 +53,6 @@ interface ITemplateSupporter
 	 * @param string $property
 	 * @return string
 	 */
-	public function TemplateGet($property);
+	public function templateGet($property);
 }
 ?>

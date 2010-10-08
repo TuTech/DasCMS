@@ -13,8 +13,8 @@ class SErrorAndExceptionHandler
     extends
         BObject
     implements
-        HRequestingClassSettingsEventHandler,
-        HUpdateClassSettingsEventHandler
+        Event_Handler_RequestingClassSettings,
+        Event_Handler_UpdateClassSettings
 {
     private static $error = null;
     private static $errorMessage = null;
@@ -37,7 +37,7 @@ class SErrorAndExceptionHandler
     private static $err_mail =
     	"\r\n\r\n%s (%d) in \"%s\" at line %d\n\n%s\n\n%s\n\ncwd: %s\nscript: %s\nurl: %s";
 
-    public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
+    public function handleEventRequestingClassSettings(Event_RequestingClassSettings $e)
     {
         $data = array(
         	'mail_webmaster_on_error' => array(Core::settings()->get('mail_webmaster_on_error'), Settings::TYPE_CHECKBOX, null, 'mail_webmaster_on_error'),
@@ -47,7 +47,7 @@ class SErrorAndExceptionHandler
         $e->addClassSettings($this, 'error_handling', $data);
     }
 
-    public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
+    public function handleEventUpdateClassSettings(Event_UpdateClassSettings $e)
     {
         $data = $e->getClassSettings($this);
         if(isset($data['mail_webmaster_on_error']))
@@ -140,7 +140,7 @@ class SErrorAndExceptionHandler
             , $errstr
             , $context
             ,getcwd());
-        DFileSystem::Append(SPath::LOGS.'Error.log', $err);
+        DFileSystem::append(SPath::LOGS.'Error.log', $err);
         self::$error = array($errno, $errstr, $errfile, $errline, $errcontext);
         self::$errorMessage = $err;
         if(self::$report && !self::$reportSkipOnce)
@@ -201,7 +201,7 @@ class SErrorAndExceptionHandler
 		$logFile = SPath::LOGS.'Exceptions.log';
 		if((file_exists($logFile) && is_writable($logFile))
 				|| (!file_exists($logFile) && is_writable(dirname($logFile)))){
-			DFileSystem::Append($logFile, $err);
+			DFileSystem::append($logFile, $err);
 		}
 		else{
 			printf($tpl, 'could not write to log');

@@ -86,7 +86,7 @@ class VSpore extends BView
 	/**
 	 * Save data - if it changed
 	 */
-	public static function Save()
+	public static function save()
 	{
 		self::initialize();
 		$DB = DSQL::getInstance();
@@ -406,10 +406,10 @@ class VSpore extends BView
 	
 	// fx call(spore, prop)
 	
-	//Spore-name:foo -> VSpore:name:TemplateGet(foo)
+	//Spore-name:foo -> VSpore:name:templateGet(foo)
 	//Spore-name     -> VSpore:name:__toString()
 	
-	public function TemplateCallable($function = null)
+	public function templateCallable($function = null)
 	{
 		$tplFunctions = array('LinkTo','GetParameter','GetName');
 		if($function == null)
@@ -422,9 +422,9 @@ class VSpore extends BView
 		}
 	}
 	
-	public function TemplateCall($function, array $namedParameters)
+	public function templateCall($function, array $namedParameters)
 	{
-		if($this->TemplateCallable($function))
+		if($this->templateCallable($function))
 		{
 			return call_user_func_array(array($this, $function), array_values($namedParameters));
 		}
@@ -434,7 +434,7 @@ class VSpore extends BView
 		}
 	}
 	
-	public function TemplateGet($property)
+	public function templateGet($property)
 	{
 		return $this->__get($property);
 	}

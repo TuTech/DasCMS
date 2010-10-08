@@ -49,7 +49,7 @@ class AConfiguration
     
     public function getSettings()
     {
-        $e = new ERequestingClassSettingsEvent($this);
+        $e = new Event_RequestingClassSettings($this);
         $dataset = array();
         foreach($this->data as $sect => $classesData)
         {
@@ -113,7 +113,7 @@ class AConfiguration
             }
         }
         ob_start();
-        $e = new EUpdateClassSettingsEvent($this, $this->sentdata);
+        $e = new Event_UpdateClassSettings($this, $this->sentdata);
         SNotificationCenter::report('message', 'configuration_saved');
     }
 }

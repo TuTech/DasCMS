@@ -12,11 +12,11 @@
 class UCFileConfig 
     extends BPlugin 
     implements 
-        HRequestingClassSettingsEventHandler,
-        HUpdateClassSettingsEventHandler,
-        HContentAccessEventHandler
+        Event_Handler_RequestingClassSettings,
+        Event_Handler_UpdateClassSettings,
+        Event_Handler_ContentAccess
 {
-    public function HandleContentAccessEvent(EContentAccessEvent $e)
+    public function handleEventContentAccess(Event_ContentAccess $e)
     {
         if(Core::settings()->get('CFile_redirect_view_access') == 1
             && $e->Content instanceof CFile 
@@ -26,7 +26,7 @@ class UCFileConfig
         }
     }
     
-    public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
+    public function handleEventRequestingClassSettings(Event_RequestingClassSettings $e)
     {
         $e->addClassSettings($this, 'image_rendering', array(
         	'width'						=> array(Core::settings()->get('CFile_image_width'), Settings::TYPE_TEXT, null, 'image_width'),
@@ -49,7 +49,7 @@ class UCFileConfig
 		));
     }
     
-    public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
+    public function handleEventUpdateClassSettings(Event_UpdateClassSettings $e)
     {
         $data = $e->getClassSettings($this);
         foreach(array('width', 'height') as $k)

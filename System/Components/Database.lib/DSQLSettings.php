@@ -12,20 +12,20 @@
 class DSQLSettings
 	extends BObject
     implements
-        HUpdateClassSettingsEventHandler,
-        HRequestingClassSettingsEventHandler
+        Event_Handler_UpdateClassSettings,
+        Event_Handler_RequestingClassSettings
 {
-    public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
+    public function handleEventRequestingClassSettings(Event_RequestingClassSettings $e)
     {
         //db_engine + whatever DSQL gives us
         $e->addClassSettings($this, 'database', array(
         	'change_database_settings' => array('', Settings::TYPE_CHECKBOX, null, 'change_database_settings'),
            	'engine' => array(Core::settings()->get('db_engine'), Settings::TYPE_SELECT, DSQL::getEngines(), 'db_engine')
         ));
-        DSQL::getInstance()->HandleRequestingClassSettingsEvent($e);
+        DSQL::getInstance()->handleEventRequestingClassSettings($e);
     }
     
-    public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
+    public function handleEventUpdateClassSettings(Event_UpdateClassSettings $e)
     {
         $data = $e->getClassSettings($this);
         if(!empty($data['change_database_settings']))
@@ -35,7 +35,7 @@ class DSQLSettings
             {
                 Core::settings()->set('db_engine', $data['engine']);
             }
-            DSQL::getInstance()->HandleUpdateClassSettingsEvent($e);
+            DSQL::getInstance()->handleEventUpdateClassSettings($e);
         }
     }
 }

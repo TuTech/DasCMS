@@ -273,7 +273,7 @@ class CFeed
 	{
 	    list($dbid, $alias) = BContent::createContent(self::CLASS_NAME, $title);
 	    $tpl = new CFeed($alias);
-	    new EContentCreatedEvent($tpl, $tpl);
+	    new Event_ContentCreated($tpl, $tpl);
 	    return $tpl;
 	}
 	
@@ -296,7 +296,7 @@ class CFeed
 	    $dataFile = $this->StoragePath($this->Id);
 	    if(file_exists($dataFile))
 	    {
-	        $this->_data = DFileSystem::LoadData($dataFile);
+	        $this->_data = DFileSystem::loadData($dataFile);
 	    }
 	}
 
@@ -661,7 +661,7 @@ class CFeed
 	protected function saveContentData()
 	{
 		//save content
-		DFileSystem::SaveData($this->StoragePath($this->Id),$this->_data);
+		DFileSystem::saveData($this->StoragePath($this->Id),$this->_data);
 		
 		//validate and save type
 		$type = array_search($this->option(CFeed::SETTINGS, 'FilterMethod'), array('',CFeed::ALL, CFeed::MATCH_SOME, CFeed::MATCH_ALL, CFeed::MATCH_NONE));

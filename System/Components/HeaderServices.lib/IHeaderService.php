@@ -23,9 +23,9 @@ interface IHeaderService
     
     /**
      * @param string $embedGUID
-     * @param EWillSendHeadersEvent$e
+     * @param Event_WillSendHeaders $e
      * @return void
      */
-    public static function sendHeaderService($embedGUID, EWillSendHeadersEvent $e);
+    public static function sendHeaderService($embedGUID, Event_WillSendHeaders $e);
 }
 ?>

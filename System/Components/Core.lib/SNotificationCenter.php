@@ -13,16 +13,16 @@ class SNotificationCenter
     extends 
         BObject 
     implements 
-        IShareable,
-    	HContentChangedEventHandler,
-    	HContentCreatedEventHandler, 
-    	HContentDeletedEventHandler,
-    	HContentPublishedEventHandler, 
-    	HContentRevokedEventHandler 
+        Interface_Singleton,
+    	Event_Handler_ContentChanged,
+    	Event_Handler_ContentCreated,
+    	Event_Handler_ContentDeleted,
+    	Event_Handler_ContentPublished,
+    	Event_Handler_ContentRevoked
 {
 	//utilize old NFC Class
 	
-	//IShareable
+	//Interface_Singleton
 	const CLASS_NAME = 'SNotificationCenter';
 	const TYPE_WARNING = 'warning';
 	const TYPE_MESSAGE = 'message';
@@ -42,31 +42,31 @@ class SNotificationCenter
 		}
 		return self::$sharedInstance;
 	}
-	//end IShareable	
+	//end Interface_Singleton	
 	
 	//bambus 0.20 event handlers
-	public function HandleContentChangedEvent(EContentChangedEvent $e)
+	public function handleEventContentChanged(Event_ContentChanged $e)
 	{
-		$this->HandleEvent($e);
+		$this->handleEvent($e);
 	}
-	public function HandleContentCreatedEvent(EContentCreatedEvent $e)
+	public function handleEventContentCreated(Event_ContentCreated $e)
 	{
-		$this->HandleEvent($e);
+		$this->handleEvent($e);
 	}
-	public function HandleContentDeletedEvent(EContentDeletedEvent $e)
+	public function handleEventContentDeleted(Event_ContentDeleted $e)
 	{
-		$this->HandleEvent($e);
+		$this->handleEvent($e);
 	}
-	public function HandleContentPublishedEvent(EContentPublishedEvent $e)
+	public function handleEventContentPublished(Event_ContentPublished $e)
 	{
-		$this->HandleEvent($e);
+		$this->handleEvent($e);
 	}
-	public function HandleContentRevokedEvent(EContentRevokedEvent $e)
+	public function handleEventContentRevoked(Event_ContentRevoked $e)
 	{
-		$this->HandleEvent($e);
+		$this->handleEvent($e);
 	}
 	
-	private function HandleEvent(BEvent $e)
+	private function handleEvent(_Event $e)
 	{
 		$etype = get_class($e);
 		$etype = substr($etype,strlen('EContent'));
@@ -91,7 +91,7 @@ class SNotificationCenter
             ,'seperator' => "\t"
             ,'attibutes' => ''
 	    ));
-        DFileSystem::Append(BAMBUS_CMS_ROOTDIR.'/alerts.log', $tpl->render()."\n");    
+        DFileSystem::append(BAMBUS_CMS_ROOTDIR.'/alerts.log', $tpl->render()."\n");
 	}
 	
 	public static function report($type, $message)

@@ -1,6 +1,6 @@
 <?php
 class Search_Parser
-	implements Search_Interface_Parser
+	implements Search_Interface_Parser, Interface_Singleton
 {
 	const EXTRACTOR = '/((([a-zA-Z]+):)?(\\+|-)?("([^"\\\\]*(\\\\.[^"\\\\]*)*)"|([\\S]+)))/u';
 	protected static $instance = null;

@@ -13,7 +13,7 @@ class SUsersAndGroups
     extends 
         BObject 
     implements 
-        IShareable
+        Interface_Singleton
 {
     private $userlist = null;
     private $grouplist = null;
@@ -84,7 +84,7 @@ class SUsersAndGroups
     private function saveGroups()
     {
         uksort($this->grouplist, 'strnatcasecmp');
-        DFileSystem::SaveData($this->grouplistfile, $this->grouplist);
+        DFileSystem::saveData($this->grouplistfile, $this->grouplist);
     }
 
 ////public functions////
@@ -444,7 +444,7 @@ class SUsersAndGroups
     private function saveUsers()
     {
         uksort($this->userlist, 'strnatcasecmp');
-        DFileSystem::SaveData($this->userlistfile, $this->userlist);
+        DFileSystem::saveData($this->userlistfile, $this->userlist);
     }
 
     public function listUsers()
@@ -766,7 +766,7 @@ class SUsersAndGroups
     
     
     
-    //IShareable
+    //Interface_Singleton
     const CLASS_NAME = 'SUsersAndGroups';
     public static $sharedInstance = NULL;
 
@@ -783,12 +783,12 @@ class SUsersAndGroups
             {
                 self::$sharedInstance->userlistfile = SPath::CONTENT.'configuration/users.php';
                 self::$sharedInstance->grouplistfile = SPath::CONTENT.'configuration/groups.php';
-                self::$sharedInstance->userlist = DFileSystem::LoadData(self::$sharedInstance->userlistfile);
-                self::$sharedInstance->grouplist = DFileSystem::LoadData(self::$sharedInstance->grouplistfile);
+                self::$sharedInstance->userlist = DFileSystem::loadData(self::$sharedInstance->userlistfile);
+                self::$sharedInstance->grouplist = DFileSystem::loadData(self::$sharedInstance->grouplistfile);
             }
         }
         return self::$sharedInstance;
     }
-    //end IShareable
+    //end Interface_Singleton
 }
 ?>

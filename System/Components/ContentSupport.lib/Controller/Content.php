@@ -1,7 +1,7 @@
 <?php
-class Controller_Content
+class Controller_Content implements Interface_Singleton
 {
-    //IShareable
+    //Interface_Singleton
 
     /**
      * @var Controller_Content
@@ -20,7 +20,7 @@ class Controller_Content
 		return self::$sharedInstance;
 	}
 
-	//end IShareable
+	//end Interface_Singleton
 
 	protected function className($objectOrClass){
 		return is_object($objectOrClass) ? get_class($objectOrClass) : strval($objectOrClass);
@@ -77,13 +77,13 @@ class Controller_Content
     public function accessContent($alias, BObject $opener, $failIfReplaced = false)
     {
         $content = $this->tryOpenContent($alias);
-        $e = new EWillAccessContentEvent($opener, $content);
+        $e = new Event_WillAccessContent($opener, $content);
         if($e->hasContentBeenSubstituted() && $failIfReplaced)
         {
             throw new XInvalidDataException('content replaced but exact open requested');
         }
         $content = $e->Content;
-        $e = new EContentAccessEvent($opener, $content);
+        $e = new Event_ContentAccess($opener, $content);
         return $content;
     }
 

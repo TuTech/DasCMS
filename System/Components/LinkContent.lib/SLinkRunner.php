@@ -13,9 +13,10 @@ class SLinkRunner
     extends 
         BObject
     implements 
-        HContentAccessEventHandler
+        Event_Handler_ContentAccess,
+		Interface_Singleton
 {
-	//IShareable
+	//Interface_Singleton
 	const CLASS_NAME = 'SLinkRunner';
 	/**
 	 * @var SLinkRunner
@@ -33,9 +34,9 @@ class SLinkRunner
 		}
 		return self::$sharedInstance;
 	}
-	//end IShareable
+	//end Interface_Singleton
     
-	public function HandleContentAccessEvent(EContentAccessEvent $e)
+	public function handleEventContentAccess(Event_ContentAccess $e)
 	{
 	    if ($e->Content instanceof CLink 
 	        && $e->Sender instanceof VSpore) 

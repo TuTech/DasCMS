@@ -37,9 +37,9 @@ class TCmdTreenavigation
     {
         $res = '';
         $n = new NTreeNavigation();
-        if($n->TemplateCallable('embed'))
+        if($n->templateCallable('embed'))
         {
-            $res = $n->TemplateCall('embed', array('name' => $this->show));
+            $res = $n->templateCall('embed', array('name' => $this->show));
         }
         return $res;
     }

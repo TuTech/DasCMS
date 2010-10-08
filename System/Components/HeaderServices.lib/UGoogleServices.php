@@ -12,11 +12,11 @@
 class UGoogleServices 
     extends BPlugin 
     implements 
-        HRequestingClassSettingsEventHandler,
-        HUpdateClassSettingsEventHandler,
-        HWillSendHeadersEventHandler
+        Event_Handler_RequestingClassSettings,
+        Event_Handler_UpdateClassSettings,
+        Event_Handler_WillSendHeaders
 {
-    public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
+    public function handleEventRequestingClassSettings(Event_RequestingClassSettings $e)
     {
         $e->addClassSettings($this, 'google_services', array(
         	'verify_v1' => array(Core::settings()->get('google_verify_header'), Settings::TYPE_TEXT, null, 'google_verify_header'),
@@ -25,7 +25,7 @@ class UGoogleServices
         ));
     }
     
-    public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
+    public function handleEventUpdateClassSettings(Event_UpdateClassSettings $e)
     {
         
         $data = $e->getClassSettings($this);
@@ -43,7 +43,7 @@ class UGoogleServices
         }
     }
     
-    public function HandleWillSendHeadersEvent(EWillSendHeadersEvent $e)
+    public function handleEventWillSendHeaders(Event_WillSendHeaders $e)
     {
         $confMeta = array(
             'google_verify_header' => 'verify-v1',

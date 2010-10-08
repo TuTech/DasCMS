@@ -177,7 +177,7 @@ class VSporeHelper
      *
      * @return array
      */
-    public function TemplateProvidedFunctions()
+    public function templateProvidedFunctions()
     {
         return self::$functions;
     }
@@ -187,7 +187,7 @@ class VSporeHelper
      *
      * @return array
      */
-    public function TemplateProvidedAttributes()
+    public function templateProvidedAttributes()
     {
         return array();
     }
@@ -196,7 +196,7 @@ class VSporeHelper
 	 * @param string $function
 	 * @return boolean
 	 */
-	public function TemplateCallable($function)
+	public function templateCallable($function)
 	{
 	    return in_array($function, array_keys(self::$functions));
 	}
@@ -206,9 +206,9 @@ class VSporeHelper
 	 * @param array $namedParameters
 	 * @return string in utf-8
 	 */
-	public function TemplateCall($function, array $namedParameters)
+	public function templateCall($function, array $namedParameters)
 	{
-	    if(!$this->TemplateCallable($function))
+	    if(!$this->templateCallable($function))
 	    {
 	        throw new XTemplateException('called undefined function');
 	    }
@@ -244,7 +244,7 @@ class VSporeHelper
 	 * @param string $property
 	 * @return string in utf-8
 	 */
-	public function TemplateGet($property)
+	public function templateGet($property)
 	{
 	    return '';
 	}

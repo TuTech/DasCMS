@@ -7,8 +7,8 @@
 class Settings_CPageWYSIWYG
 	extends BObject
     implements
-        HUpdateClassSettingsEventHandler,
-        HRequestingClassSettingsEventHandler
+        Event_Handler_UpdateClassSettings,
+        Event_Handler_RequestingClassSettings
 {
 	private static $defaults = array(
 		1 => "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,formatselect,fontselect,fontsizeselect",
@@ -17,7 +17,7 @@ class Settings_CPageWYSIWYG
 		4 => "styleprops,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking"
 	);
 
-    public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
+    public function handleEventRequestingClassSettings(Event_RequestingClassSettings $e)
     {
 		$this->initSettings();
         //db_engine + whatever DSQL gives us
@@ -37,7 +37,7 @@ class Settings_CPageWYSIWYG
 		$e->addClassSettings($this, 'website_editor', $fields);
     }
 
-    public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
+    public function handleEventUpdateClassSettings(Event_UpdateClassSettings $e)
     {
         $data = $e->getClassSettings($this);
 		if(isset($data['enable_wysiwyg']))

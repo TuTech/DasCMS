@@ -13,7 +13,7 @@ class NTreeNavigation
     extends 
         BObject
     implements 
-        IShareable, 
+        Interface_Singleton, 
         ITemplateSupporter, 
         IGlobalUniqueId
 {
@@ -36,7 +36,7 @@ class NTreeNavigation
 	private $NodeData = array();
 	private $ActiveNodes = array();
 	
-	//IShareable
+	//Interface_Singleton
 	const CLASS_NAME = 'NTreeNavigation';
 	public static $sharedInstance = NULL;
 	private static $initializedInstance = false;
@@ -51,7 +51,7 @@ class NTreeNavigation
 			self::$sharedInstance = new $class();
 			try
 		    {
-				self::$index = DFileSystem::LoadData('./Content/'.self::CLASS_NAME.'/index.php');
+				self::$index = DFileSystem::loadData('./Content/'.self::CLASS_NAME.'/index.php');
 			}
 			catch (Exception $e)
 			{
@@ -61,7 +61,7 @@ class NTreeNavigation
 		}
 		return self::$sharedInstance;
 	}
-	//end IShareable
+	//end Interface_Singleton
 	
     public static function set($nav,VSpore $spore, NTreeNavigationObject $tno_root)
     {
@@ -108,7 +108,7 @@ class NTreeNavigation
 			{
 				//no spores - create one
 				VSpore::set($nav,true,null,null);
-				VSpore::Save();
+				VSpore::save();
 				return new VSpore($nav);
 			}
 			else
@@ -142,10 +142,10 @@ class NTreeNavigation
     
     //FIXME split nav data - one file per nav 
     
-    public static function Save()
+    public static function save()
     {
     	self::getInstance();
-		DFileSystem::SaveData('./Content/'.self::CLASS_NAME.'/index.php', self::$index);
+		DFileSystem::saveData('./Content/'.self::CLASS_NAME.'/index.php', self::$index);
 		return true;
     }
     
@@ -188,7 +188,7 @@ class NTreeNavigation
      *
      * @return array
      */
-    public function TemplateProvidedFunctions()
+    public function templateProvidedFunctions()
     {
         return array('embed' => array('name','description' => 'embeds the Tree-Navigation with the given name'));
     }
@@ -198,7 +198,7 @@ class NTreeNavigation
      *
      * @return array
      */
-    public function TemplateProvidedAttributes()
+    public function templateProvidedAttributes()
     {
         return array();
     }
@@ -207,7 +207,7 @@ class NTreeNavigation
 	 * @param string $function
 	 * @return boolean
 	 */
-	public function TemplateCallable($function)
+	public function templateCallable($function)
 	{
 	    return $function == 'embed';
 	}
@@ -217,9 +217,9 @@ class NTreeNavigation
 	 * @param array $namedParameters
 	 * @return string in utf-8
 	 */
-	public function TemplateCall($function, array $namedParameters)
+	public function templateCall($function, array $namedParameters)
 	{
-	    if(!$this->TemplateCallable($function))
+	    if(!$this->templateCallable($function))
 	    {
 	        throw new XTemplateException('called undefined function');
 	    }
@@ -241,7 +241,7 @@ class NTreeNavigation
 	 * @param string $property
 	 * @return string in utf-8
 	 */
-	public function TemplateGet($property)
+	public function templateGet($property)
 	{
 	    return '';
 	}

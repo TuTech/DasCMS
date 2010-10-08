@@ -7,7 +7,7 @@
 * Description: FeedReader.php
 * PHP Version: 5
 *************************************************/
-class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGlobalUniqueId
+class UFeedReader extends BPlugin implements Interface_Singleton, ITemplateSupporter, IGlobalUniqueId
 {
     //IGUID
     const GUID = 'org.bambuscms.plugins.feedreader';
@@ -21,7 +21,7 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
      *
      * @return array
      */
-    public function TemplateProvidedFunctions()
+    public function templateProvidedFunctions()
     {
         return array(
         	'embed' => array(
@@ -43,7 +43,7 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
      *
      * @return array
      */
-    public function TemplateProvidedAttributes()
+    public function templateProvidedAttributes()
     {return array();}
 
 	/**
@@ -52,7 +52,7 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 	 * @param string $function
 	 * @return boolean
 	 */
-	public function TemplateCallable($function)
+	public function templateCallable($function)
 	{
 	    return $function == 'embed';
 	}
@@ -66,7 +66,7 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 	 * @param array $namedParameters
 	 * @return string
 	 */
-	public function TemplateCall($function, array $namedParameters)
+	public function templateCall($function, array $namedParameters)
 	{
 	    SErrorAndExceptionHandler::muteErrors();
 	    $val = $this->embed($namedParameters);
@@ -83,7 +83,7 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 	 * @param string $property
 	 * @return string
 	 */
-	public function TemplateGet($property)
+	public function templateGet($property)
 	{
 	    return '';
 	}
@@ -91,7 +91,6 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 	//shareable
 	const Plugin_Name = 'UFeedReader';
 	public static $sharedInstance = NULL;
-	private static $initializedInstance = false;
 	public static function getInstance()
 	{
 		$class = self::Plugin_Name;
@@ -110,8 +109,8 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 
 	private function log($msg, $_ = '')
 	{
-	    $args = func_get_args();
-	    $format = array_shift($args);
+	    //$args = func_get_args();
+	    //$format = array_shift($args);
 	    //vprintf($format, $args);
 	}
 
@@ -123,7 +122,7 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 		if(file_exists($temp.$feedId) && filemtime($temp.$feedId) > (time() - $minutesToLive*60))
 		{
 			//cached version exists
-			$data = DFileSystem::Load($temp.$feedId);
+			$data = DFileSystem::load($temp.$feedId);
 			$this->log("\n<!--Feed Reader: using cached file '%s' for '%s' -->\n",$feedId,$url);
 		}
 		else
@@ -156,7 +155,7 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 						$data .= $buf;
 					}
 					if($data !== null){
-						DFileSystem::Save($temp.$feedId, $data);
+						DFileSystem::save($temp.$feedId, $data);
 					}
 				}
 				else
@@ -237,7 +236,7 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 		if(file_exists($temp.$feedId) && filemtime($temp.$feedId) > (time() -  $options['update']*60))
 		{
 			//cached version exists
-			$html = DFileSystem::Load($temp.$feedId);
+			$html = DFileSystem::load($temp.$feedId);
 			$this->log("\n<!--Feed Reader: using cached html '%s' for '%s' -->\n",$feedId,$options['feed']);
 
 		}
@@ -254,7 +253,7 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 					if(file_exists($temp.$feedId))
 					{
 						//cached version exists
-						$html = DFileSystem::Load($temp.$feedId);
+						$html = DFileSystem::load($temp.$feedId);
 						$this->log("\n<!--Feed Reader: could not read feed - using cached html '%s' for '%s' -->\n",$feedId,$options['feed']);
 
 					}
@@ -423,7 +422,7 @@ class UFeedReader extends BPlugin implements IShareable, ITemplateSupporter, IGl
 					$html .= "\n\t\t</div>";
 				}
 				$html .= "\n\t</div>\n</div>\n";
-				DFileSystem::Save($temp.$feedId, $html);
+				DFileSystem::save($temp.$feedId, $html);
 			}
 			catch(Exception $e)
 			{

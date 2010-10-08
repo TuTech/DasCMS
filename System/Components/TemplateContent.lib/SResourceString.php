@@ -18,7 +18,7 @@ class SResourceString
         $resourceFile = SPath::SYSTEM_RESOURCE_STRINGS.$resource.'.phpdata';
         if(file_exists($resourceFile))
         {
-            $data = DFileSystem::LoadData($resourceFile);
+            $data = DFileSystem::loadData($resourceFile);
             if(is_array($data) && array_key_exists($key, $data))
             {
                 return $data[$key];

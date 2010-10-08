@@ -1,5 +1,5 @@
 <?php
-class Search_Controller_Title
+class Search_Controller_Date
 	extends _Search_Controller
 	implements
 		Search_Label_Date,

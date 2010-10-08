@@ -61,7 +61,7 @@ class DSQL_MySQL extends DSQL
 	private static $configKeys = array(
 	    'db_server' => 0,'db_port' => 0,'db_user' => 0,'db_password' => '######','db_name' => 0
 	);
-	public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
+	public function handleEventRequestingClassSettings(Event_RequestingClassSettings $e)
 	{
 	    $data = array();
         foreach (self::$configKeys as $mk => $altVal)
@@ -71,7 +71,7 @@ class DSQL_MySQL extends DSQL
         $e->addClassSettings($this, 'database', $data);
 	}
 	
-	public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
+	public function handleEventUpdateClassSettings(Event_UpdateClassSettings $e)
 	{
 	    $data = $e->getClassSettings($this);
 	    foreach (self::$configKeys as $mk => $altVal)

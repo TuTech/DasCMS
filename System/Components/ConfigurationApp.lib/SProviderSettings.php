@@ -12,10 +12,10 @@
 class SProviderSettings 
     extends BObject 
     implements
-        HUpdateClassSettingsEventHandler,
-        HRequestingClassSettingsEventHandler
+        Event_Handler_UpdateClassSettings,
+        Event_Handler_RequestingClassSettings
 {
-    public function HandleRequestingClassSettingsEvent(ERequestingClassSettingsEvent $e)
+    public function handleEventRequestingClassSettings(Event_RequestingClassSettings $e)
     {
         //db_engine + whatever DSQL gives us
         $e->addClassSettings($this, 'provider', array(
@@ -27,12 +27,12 @@ class SProviderSettings
             $o = BObject::InvokeObjectByDynClass($p);
             if($o instanceof BProvider)
             {
-                $o->HandleRequestingClassSettingsEvent($e);
+                $o->handleEventRequestingClassSettings($e);
             }
         }
     }
     
-    public function HandleUpdateClassSettingsEvent(EUpdateClassSettingsEvent $e)
+    public function handleEventUpdateClassSettings(Event_UpdateClassSettings $e)
     {
         $data = $e->getClassSettings($this);
         if(!empty($data['change_provider_settings']))
@@ -44,7 +44,7 @@ class SProviderSettings
                 $o = BObject::InvokeObjectByDynClass($p);
                 if($o instanceof BProvider)
                 {
-                    $o->HandleUpdateClassSettingsEvent($e);
+                    $o->handleEventUpdateClassSettings($e);
                 }
             }
         }

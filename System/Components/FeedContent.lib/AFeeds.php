@@ -312,7 +312,7 @@ class AFeeds
     {
         if($this->target != null)
         {
-            $this->target->Save();
+            $this->target->save();
         }
     } 
     

@@ -67,7 +67,7 @@ class AViews
     			SNotificationCenter::report('warning', 'could_not_create_view');
     		}
     	}
-    	VSpore::Save();
+    	VSpore::save();
     	SNotificationCenter::report('message', 'views_saved');
     }
 }

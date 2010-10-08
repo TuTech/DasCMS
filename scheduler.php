@@ -7,7 +7,7 @@ require_once 'System/main.php';
 PAuthentication::daemonRun();
 header("Expires: ".date('r', 0));
 header("Cache-Control: max-age=0, public");
-$stat = SJobScheduler::runJob();
+$stat = TaskScheduler::getInstance()->runJob();
 if(is_bool($stat) || empty($stat))
 {
     $stat = ($stat) ? 'ok': 'stopped';

@@ -1,7 +1,7 @@
 -- --
 -- name: initOrdering
--- type: set
-SET @orderingScore = 0;
+-- type: select
+SELECT 0 INTO @orderingScore;
 
 -- --
 -- name: order

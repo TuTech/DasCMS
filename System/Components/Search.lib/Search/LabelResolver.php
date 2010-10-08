@@ -1,5 +1,5 @@
 <?php
-class Search_LabelResolver implements IShareable{
+class Search_LabelResolver implements Interface_Singleton{
 	const DEFAULT_LABEL = 'global';
 	const CONTROLLER_PREFIX = 'Search_Controller_';
 	const LABEL_PREFIX = 'Search_Label_';
