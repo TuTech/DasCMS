@@ -47,26 +47,26 @@ class SNotificationCenter
 	//bambus 0.20 event handlers
 	public function handleEventContentChanged(Event_ContentChanged $e)
 	{
-		$this->HandleEvent($e);
+		$this->handleEvent($e);
 	}
 	public function handleEventContentCreated(Event_ContentCreated $e)
 	{
-		$this->HandleEvent($e);
+		$this->handleEvent($e);
 	}
 	public function handleEventContentDeleted(Event_ContentDeleted $e)
 	{
-		$this->HandleEvent($e);
+		$this->handleEvent($e);
 	}
 	public function handleEventContentPublished(Event_ContentPublished $e)
 	{
-		$this->HandleEvent($e);
+		$this->handleEvent($e);
 	}
 	public function handleEventContentRevoked(Event_ContentRevoked $e)
 	{
-		$this->HandleEvent($e);
+		$this->handleEvent($e);
 	}
 	
-	private function HandleEvent(_Event $e)
+	private function handleEvent(_Event $e)
 	{
 		$etype = get_class($e);
 		$etype = substr($etype,strlen('EContent'));
@@ -91,7 +91,7 @@ class SNotificationCenter
             ,'seperator' => "\t"
             ,'attibutes' => ''
 	    ));
-        DFileSystem::Append(BAMBUS_CMS_ROOTDIR.'/alerts.log', $tpl->render()."\n");    
+        DFileSystem::append(BAMBUS_CMS_ROOTDIR.'/alerts.log', $tpl->render()."\n");
 	}
 	
 	public static function report($type, $message)

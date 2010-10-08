@@ -50,7 +50,7 @@ class ALinks
                 if(isset($param['content']))
                 {
                     $this->target->setContent($param['content']);
-                    $this->target->Save();
+                    $this->target->save();
                 }
                 $success = true;
             }
@@ -99,7 +99,7 @@ class ALinks
     {
         if($this->target != null)
         {
-            $this->target->Save();
+            $this->target->save();
         }
     } 
     

@@ -76,7 +76,7 @@ class TCmdController
                 $controllerObject = BObject::InvokeObjectByID($this->controller);
                 if(
                     ($controllerObject instanceof ITemplateSupporter)
-                    && ($controllerObject->TemplateCallable($this->call))
+                    && ($controllerObject->templateCallable($this->call))
                    )
                 {
                     $this->controllerObject = $controllerObject;
@@ -97,7 +97,7 @@ class TCmdController
         {
 			try{
 				SErrorAndExceptionHandler::muteErrors();
-				$out = $this->controllerObject->TemplateCall($this->call, $this->parameters);
+				$out = $this->controllerObject->templateCall($this->call, $this->parameters);
 				SErrorAndExceptionHandler::reportErrors();
 			}
 			catch (Exception $e){

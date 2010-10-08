@@ -31,7 +31,7 @@ class SBapReader
 		}
 		if(file_exists($appDefinition))
 		{
-			$xml = DFileSystem::Load($appDefinition);
+			$xml = DFileSystem::load($appDefinition);
 			foreach ($requests as $tag) 
 			{
 				if($tag == 'tabs')

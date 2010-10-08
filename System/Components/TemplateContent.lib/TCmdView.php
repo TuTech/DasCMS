@@ -50,14 +50,14 @@ class TCmdView
         $v = new VSporeHelper();
         if($this->fixcontent)
         {
-            $v->TemplateCall('altercontent', array(
+            $v->templateCall('altercontent', array(
             	'view' => $this->for,
                 'alias' => $this->fixcontent
             ));
         }
-        if($v->TemplateCallable($this->show))
+        if($v->templateCallable($this->show))
         {
-            $this->res = $v->TemplateCall($this->show, array(
+            $this->res = $v->templateCall($this->show, array(
             	'view' => $this->for,
                 'width' => $this->width,
                 'height' => $this->height,

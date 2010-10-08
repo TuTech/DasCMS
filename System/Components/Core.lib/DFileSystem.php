@@ -110,13 +110,13 @@ class DFileSystem
 	 * @throws XFileNotFoundException
 	 * @throws XFileLockedException
 	 */  
-	public static function UpdateData($dataFile, $changes)
+	public static function updateData($dataFile, $changes)
 	{
 		if(is_array($changes))
 		{
 			try
 			{
-				$data = self::LoadData($dataFile);
+				$data = self::loadData($dataFile);
 			}
 			catch (Exception $e)
 			{
@@ -155,7 +155,7 @@ class DFileSystem
 	 * @throws XFileNotFoundException
 	 * @throws XFileLockedException
 	 */	
-	public static function SaveData($dataFile, $changes)
+	public static function saveData($dataFile, $changes)
 	{
 		$suc = false;
 		$fp = self::open($dataFile, true);
@@ -177,7 +177,7 @@ class DFileSystem
 	 * @throws XFileLockedException
 	 * @throws XInvalidDataException
 	 */
-	public static function LoadData($dataFile)
+	public static function loadData($dataFile)
 	{
 		$fp = null;
 		if(!file_exists($dataFile))
@@ -214,7 +214,7 @@ class DFileSystem
 	 * @throws XFileNotFoundException
 	 * @throws XFileLockedException
 	 */
-	public static function Save($dataFile, $changes)
+	public static function save($dataFile, $changes)
 	{
 		$fp = self::open($dataFile, true);
 		$suc = false;
@@ -238,7 +238,7 @@ class DFileSystem
      * @throws XFileNotFoundException
      * @throws XFileLockedException
      */
-    public static function Load($dataFile)
+    public static function load($dataFile)
     {
         $bin = '';
         $fp = null;
@@ -274,7 +274,7 @@ class DFileSystem
      * @return string
      * @throws XFileLockedException
      */
-    public static function Append($dataFile, $data)
+    public static function append($dataFile, $data)
     {
         $fp = @fopen($dataFile,'a');
         if(!$fp)
@@ -297,7 +297,7 @@ class DFileSystem
      * @return array
      * @throws XFileNotFoundException
      */
-    public static function FilesOf($dir, $match = false)
+    public static function filesOf($dir, $match = false)
     {
         chdir(constant('BAMBUS_CMS_ROOTDIR'));
         $files = array();
@@ -339,7 +339,7 @@ class DFileSystem
      * @return array
      * @throws XFileNotFoundException
      */
-    public static function DirsOf($dir, $match = false)
+    public static function dirsOf($dir, $match = false)
     {
         chdir(constant('BAMBUS_CMS_ROOTDIR'));
         $files = array();
@@ -373,24 +373,13 @@ class DFileSystem
     }
 	
 	/**
-	 * Checks string being a valid file name
-	 *
-	 * @param string $name
-	 * @return bool
-	 */
-	public static function ValidateName($name)
-	{
-		return preg_match("/^[\.-_a-zA-Z0-9]+$/", $name);
-	}
-	
-	/**
 	 * Deletes a file if allowed
 	 *
 	 * @param string $file
 	 * @return bool
 	 * @throws XFileLockedException
 	 */
-	public static function Delete($file)
+	public static function delete($file)
 	{
 		if(
 			file_exists($file)

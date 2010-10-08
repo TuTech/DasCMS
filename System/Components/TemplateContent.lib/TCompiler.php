@@ -53,7 +53,7 @@ class TCompiler extends BTemplate
             ,$this->source
             ,$this->templateName
         );
-        DFileSystem::SaveData($filename, $this->parsed);
+        DFileSystem::saveData($filename, $this->parsed);
     }
 }
 ?>

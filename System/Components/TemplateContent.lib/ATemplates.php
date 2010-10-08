@@ -98,7 +98,7 @@ class ATemplates
             try
             {
                 SErrorAndExceptionHandler::muteErrors();
-                $this->target->Save();
+                $this->target->save();
                 SErrorAndExceptionHandler::reportErrors();
             }
             catch (Exception $e)

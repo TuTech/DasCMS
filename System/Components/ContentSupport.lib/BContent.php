@@ -11,7 +11,6 @@
  */
 abstract class BContent extends BObject implements Interface_Content
 {
-	protected $_origPubDate;
 	protected static $metaDataCache = array();
 
 	//Properties - to be handled in __get() & __set()
@@ -255,7 +254,6 @@ abstract class BContent extends BObject implements Interface_Content
 		
 		//parse pubdate
 		$this->PubDate = ($pd == '0000-00-00 00:00:00' ? 0 : strtotime($pd));
-		$this->_origPubDate = $this->PubDate;
 	}
 
 	/**
@@ -661,38 +659,31 @@ abstract class BContent extends BObject implements Interface_Content
 		return strip_tags($this->getContent());
 	}
 
-	//public abstract function Save();
+	//public abstract function save();
 
 	protected abstract function saveContentData();
 
-	public function Save()
+	public function save()
 	{
+		//inform about upcoming save
 		$e = new Event_WillSaveContent($this, $this);
 		if($e->isCanceled()){
 			return;//notifications are up to the canceling object
 		}
 
+		//save data from the content class
 		$this->saveContentData();
-
 	    $this->setModifiedBy(PAuthentication::getUserID());
 		$this->setModifyDate(time());
 	    $this->saveMetaToDB();
-	    //foreach loaded composite: ->save
+
+		//save data from attached composites
 	    foreach ($this->loadedComposites as $composite) {
 	    	$composite->contentSaves();
 	    }
+
+		//inform about completed save
 		$e = new Event_ContentChanged($this, $this);
-		if($this->_origPubDate != $this->PubDate)
-		{
-			$e = ($this->getPubDate() == 0)
-				? new Event_ContentRevoked($this, $this)
-				: new Event_ContentPublished($this, $this);
-		}
-
-
-		/*
-		 * handle published flag
-		 */
 	}
 }
 ?>

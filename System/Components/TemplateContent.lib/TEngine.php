@@ -28,7 +28,7 @@ class TEngine extends BTemplate
             ,$source
             ,$template
         );
-        $this->executionStack = DFileSystem::LoadData($filename);
+        $this->executionStack = DFileSystem::loadData($filename);
         //setUp()
         foreach ($this->executionStack as $object)
         {

@@ -34,7 +34,7 @@ class CTemplate
 	public static function Create($title)
 	{
 	    list($dbid, $alias) = BContent::createContent('CTemplate', $title);
-	    DFileSystem::Save(SPath::TEMPLATES.$dbid.'.php', ' ');
+	    DFileSystem::save(SPath::TEMPLATES.$dbid.'.php', ' ');
 	    $tpl = new CTemplate($alias);
 	    new Event_ContentCreated($tpl, $tpl);
 	    return $tpl;
@@ -138,7 +138,7 @@ class CTemplate
 	    //load
 	    if($this->RAWContent == null)
 	    {
-	        $this->RAWContent = DFileSystem::Load(SPath::TEMPLATES.$this->Id.'.php');
+	        $this->RAWContent = DFileSystem::load(SPath::TEMPLATES.$this->Id.'.php');
 	    }
 	    return $this->RAWContent;
 	}
@@ -148,7 +148,7 @@ class CTemplate
 		//save content
 		if($this->_contentLoaded)
 		{
-			DFileSystem::Save(SPath::TEMPLATES.$this->Id.'.php',$this->RAWContent);
+			DFileSystem::save(SPath::TEMPLATES.$this->Id.'.php',$this->RAWContent);
 			if(!empty($this->RAWContent))
 			{
 			    $tc = new TCompiler($this->Id.'.php', BTemplate::CONTENT);

@@ -95,7 +95,7 @@ class CFile
         BContent::setMIMEType($this->getAlias(), RFiles::getType('CFile'));
         $this->saveMetaToDB();
         SNotificationCenter::report('message', 'file_updated');
-        $fs = DFileSystem::FilesOf('Content/temp/','/^scale\.render\.[\d]+\.'.$this->getId().'-/');
+        $fs = DFileSystem::filesOf('Content/temp/','/^scale\.render\.[\d]+\.'.$this->getId().'-/');
         SErrorAndExceptionHandler::muteErrors();
         foreach ($fs as $file)
         {
