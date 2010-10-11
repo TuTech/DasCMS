@@ -35,7 +35,7 @@ abstract class _Event
 	{
 		$className = substr(get_class($this),strlen('Event_'));
 		$handler = sprintf("Event_Handler_%s", $className);
-		$handleEvent = sprintf("handleEvent%s", substr($class,1));
+		$handleEvent = sprintf("handleEvent%s", $className);
 
 		$listenerClasses = Core::getClassesWithInterface($handler);
 		foreach ($listenerClasses as $eventListenerClass)
