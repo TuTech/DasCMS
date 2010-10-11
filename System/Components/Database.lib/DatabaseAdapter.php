@@ -4,8 +4,7 @@ class DatabaseAdapter
 		Interface_Database_QueryFactory,
 		Interface_Database_CallableQuery,
 		Interface_Database_ConfigurableQuery,
-		Interface_Database_FetchableQuery,
-		Interface_Singleton
+		Interface_Database_FetchableQuery
 {
 	//@todo for cache class a config change MUST trigger a cache invalidate -- config changed event
 

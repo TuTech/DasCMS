@@ -38,7 +38,7 @@ class WSidePanel
 	 * @var WSidePanel
 	 */
 	public static $sharedInstance = NULL;
-	private static $initializedInstance = false;
+
 	/**
 	 * @return WSidePanel
 	 */
