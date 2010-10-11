@@ -4,6 +4,9 @@ class Controller_ContentPublication
 		Interface_Singleton,
 		Event_Handler_ContentChanged
 {
+	const IS_PUBLIC = 1;
+	const IS_PRIVATE = 0;
+	
 	private static $instance;
 
 	/**
@@ -28,12 +31,10 @@ class Controller_ContentPublication
 
 		$dba = $db->createQueryForClass($this);
 		$q = $dba->call('getChanged')->withoutParameters();
-		$NOT_PUBLIC = 0;
-		$PUBLIC = 1;
 
 		//fetch changes
-		$toUpdate = array($NOT_PUBLIC => array(), $PUBLIC => array());
-		$updated = array($NOT_PUBLIC => array(), $PUBLIC => array());
+		$toUpdate = array(self::IS_PRIVATE => array(), self::IS_PUBLIC => array());
+		$updated = array(self::IS_PRIVATE => array(), self::IS_PUBLIC => array());
 		while($row = $q->fetchResult()){
 			$toUpdate[$row[0]][] = $row[1];
 		}
@@ -42,10 +43,10 @@ class Controller_ContentPublication
 		//publish & revoke
 		$call = $dba->call('changeStatus');
 		$changed = 0;
-		foreach(array($NOT_PUBLIC, $PUBLIC) as $status){
+		foreach(array(self::IS_PRIVATE, self::IS_PUBLIC) as $status){
 			foreach ($toUpdate[$status] as $contentToChange){
 				if($call->withParameters(!$status, $contentToChange)->execute()){
-					$updated[!$status] = $contentToChange;
+					$updated[!$status][] = $contentToChange;
 					$changed++;
 				}
 			}
@@ -55,10 +56,10 @@ class Controller_ContentPublication
 
 		//send events
 		$CC = Controller_Content::getInstance();
-		foreach ($updated[$PUBLIC] as $changedContentAlias){
+		foreach ($updated[self::IS_PUBLIC] as $changedContentAlias){
 			$e = new Event_ContentPublished($this, $CC->openContent($changedContentAlias));
 		}
-		foreach ($updated[$NOT_PUBLIC] as $changedContentAlias){
+		foreach ($updated[self::IS_PRIVATE] as $changedContentAlias){
 			$e = new Event_ContentRevoked($this, $CC->openContent($changedContentAlias));
 		}
 
