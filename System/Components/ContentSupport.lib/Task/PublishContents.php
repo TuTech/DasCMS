@@ -18,20 +18,11 @@ class Task_PublishContents implements Interface_SchedulerTask
      */
     public function run()
     {
-		$contentsToPublish = Core::Database()
-			->createQueryForClass($this)
-			->call('fetch')
-			->withoutParameters()
-			->fetchList();
-		//foreach ctp
-			//set publish flag
-			//send published event
-
-
+		$updated = Controller_ContentPublication::getInstance()->updatePublications();
         $this->message = sprintf(
-				'%d contents published',
-				0
-			);
+			'%d contents published',
+			$updated
+		);
     }
 
     /**

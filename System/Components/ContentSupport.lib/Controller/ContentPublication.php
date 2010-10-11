@@ -6,6 +6,9 @@ class Controller_ContentPublication
 {
 	private static $instance;
 
+	/**
+	 * @return Controller_ContentPublication
+	 */
 	public static function getInstance() {
 		 if(!self::$instance){
 			self::$instance = new Controller_ContentPublication();
@@ -21,18 +24,18 @@ class Controller_ContentPublication
 		
 		//init
 		$db = Core::Database();
+		$db->beginTransaction();
+
 		$dba = $db->createQueryForClass($this);
 		$q = $dba->call('getChanged')->withoutParameters();
 		$NOT_PUBLIC = 0;
 		$PUBLIC = 1;
 
-		$db->beginTransaction();
-
 		//fetch changes
 		$toUpdate = array($NOT_PUBLIC => array(), $PUBLIC => array());
 		$updated = array($NOT_PUBLIC => array(), $PUBLIC => array());
 		while($row = $q->fetchResult()){
-			$toUpdate[$row[0]] = $row[1];
+			$toUpdate[$row[0]][] = $row[1];
 		}
 		$q->free();
 		
