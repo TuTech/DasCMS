@@ -9,6 +9,8 @@ SELECT published, alias
 			published = 1
 			AND (
 				pubDate > NOW()
+				OR
+				pubDate = '0000-00-00 00:00:00'
 				OR (
 					revokeDate <= NOW()
 					AND

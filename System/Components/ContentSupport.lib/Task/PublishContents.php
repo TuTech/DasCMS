@@ -20,7 +20,7 @@ class Task_PublishContents implements Interface_SchedulerTask
     {
 		$updated = Controller_ContentPublication::getInstance()->updatePublications();
         $this->message = sprintf(
-			'%d contents published',
+			'status of %d contents changed',
 			$updated
 		);
     }
