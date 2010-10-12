@@ -138,6 +138,7 @@ class STagPermissions
 					->execute();
 			}
 			DSQL::getInstance()->commit();
+			$e = new Event_PermissionsChanged(STagPermissions::getInstance());
 		}
 		catch (Exception $e){
 			DSQL::getInstance()->rollback();
@@ -203,13 +204,12 @@ class STagPermissions
 					->execute();
 			}
 			DSQL::getInstance()->commit();
+			$e = new Event_PermissionsChanged(STagPermissions::getInstance());
 		}
 		catch (Exception $e){
 			DSQL::getInstance()->rollback();
 			throw $e;
 		}
 	}
-
-
 }
 ?>
