@@ -10,8 +10,7 @@ SELECT COUNT(*)
 	WHERE
 		__PFX__relFeedsContents.feedREL = ?
 		AND __PFX__relFeedsContents.feedREL != __PFX__relFeedsContents.contentREL
-		AND __PFX__Contents.pubDate > 0
-		AND __PFX__Contents.pubDate <= NOW()
+		AND __PFX__Contents.published = 1
 
 -- --
 -- name: sitemapData
@@ -34,9 +33,7 @@ SELECT
 		AND
 		__PFX__relFeedsContents.feedREL != __PFX__relFeedsContents.contentREL
 		AND
-		__PFX__Contents.pubDate > 0
-		AND
-		__PFX__Contents.pubDate <= NOW()
+		__PFX__Contents.published = 1
 	GROUP BY __PFX__Aliases.alias
 
 -- --
@@ -109,9 +106,7 @@ SELECT
 		AND
 		__PFX__relFeedsContents.feedREL != __PFX__relFeedsContents.contentREL
 		AND
-		__PFX__Contents.pubDate > 0
-		AND
-		__PFX__Contents.pubDate <= NOW()
+		__PFX__Contents.published = 1
 	ORDER BY __PFX__Contents.__@1__ __@2__
 	LIMIT ?
 	OFFSET ?
@@ -134,8 +129,6 @@ SELECT DISTINCT
 		AND 
 		__PFX__relFeedsContents.feedREL != __PFX__relFeedsContents.contentREL
 		AND 
-		__PFX__Contents.pubDate > 0
-		AND 
-		__PFX__Contents.pubDate <= NOW()
+		__PFX__Contents.published = 1
 	ORDER BY __PFX__Contents.pubDate DESC
 	LIMIT 15

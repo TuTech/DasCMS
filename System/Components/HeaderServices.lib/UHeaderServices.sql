@@ -14,6 +14,5 @@ SELECT
 		LEFT JOIN __PFX__Classes AS ClassHelper ON (__PFX__relClassesChainedContents.chainingClassREL = ClassHelper.classID)
 	WHERE
 		ClassHelper.class = ?
-		AND __PFX__Contents.pubDate > '0000-00-00 00:00:00'
-		AND __PFX__Contents.pubDate <= NOW()
+		AND __PFX__Contents.published = 1
 	ORDER BY __PFX__Classes.class, __PFX__Aliases.alias ASC
