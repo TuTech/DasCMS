@@ -74,6 +74,15 @@ class TCmdHeader
             $e = new Event_WillSendHeaders($this);
             
             $title = empty($this->title) ? Core::settings()->get('sitename') : $this->title;
+			$favicon = WIcon::pathFor('dummy','mimetypes',  WIcon::MEDIUM);
+			$fitype = 'png';
+			foreach(array('ico','png') as $itype){
+				if(file_exists('favicon.'.$itype)){
+					$favicon = 'favicon.'.$itype;
+					$fitype = $itype;
+				}
+			}
+			$favicon = sprintf('<link rel="icon" type="image/%s" href="%s">', $fitype, $favicon);
             $glue = "\n            ";
             return sprintf("	<head>
             <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />%s
@@ -85,7 +94,7 @@ class TCmdHeader
     			,$baseURI
                 ,$title
     			//,filemtime('Content/stylesheets/default.css')
-                ,file_exists('favicon.ico') ? "\n            <link rel=\"icon\" href=\"favicon.ico\" />": ''
+                ,$favicon
     			,implode($glue, $this->MetaTags)
                 ,implode($glue, $this->LinkTags)
                 ,implode($glue, $this->ScriptTags)
