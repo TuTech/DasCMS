@@ -52,13 +52,15 @@ class WSettings extends BWidget implements ISidebarWidget
 				$this->targetObject->Tags = $tagstr;
 			}
 		}
-		if(RSent::has('WSearch-PubDate'))
-		{
-			$dat = RSent::get('WSearch-PubDate');
-			$chk = $this->targetObject->PubDate;
-			if($chk != $dat)
+		foreach(array('PubDate', 'RevokeDate') as $date){
+			if(RSent::has('WSearch-'.$date))
 			{
-				$this->targetObject->PubDate = $dat;
+				$dat = RSent::get('WSearch-'.$date);
+				$chk = $this->targetObject->{$date};
+				if($chk != $dat)
+				{
+					$this->targetObject->{$date} = $dat;
+				}
 			}
 		}
 		$desc = RSent::get('WSearch-Desc', CHARSET);
@@ -85,6 +87,7 @@ class WSettings extends BWidget implements ISidebarWidget
 			$prev = $this->targetObject->PreviewImage;
 			$alias = $prev->getAlias();
 			$pubDate = $this->targetObject->PubDate;
+			$revokeDate = $this->targetObject->RevokeDate;
 
 			//preview
 			if($alias !== null)
@@ -105,9 +108,16 @@ class WSettings extends BWidget implements ISidebarWidget
 			);
 			$Items->add(
 			    sprintf("<label for=\"WSearch-PubDate\">%s</label>", SLocalization::get('pubDate')),
-			    sprintf(//onfocus="this.select();"
+			    sprintf(
 			    	'<input type="text" id="WSearch-PubDate" name="WSearch-PubDate" value="%s" />'
-			        , (is_numeric($pubDate) && !empty($pubDate))? date('Y-m-d H:i:s', $this->targetObject->PubDate) : ''
+			        , (is_numeric($pubDate) && !empty($pubDate))? date('Y-m-d H:i:s', $pubDate) : ''
+		        )
+			);
+			$Items->add(
+			    sprintf("<label for=\"WSearch-RevokeDate\">%s</label>", SLocalization::get('revokeDate')),
+			    sprintf(
+			    	'<input type="text" id="WSearch-RevokeDate" name="WSearch-RevokeDate" value="%s" />'
+			        , (is_numeric($revokeDate) && !empty($revokeDate))? date('Y-m-d H:i:s', $revokeDate) : ''
 		        )
 			);
 			$Items->add(

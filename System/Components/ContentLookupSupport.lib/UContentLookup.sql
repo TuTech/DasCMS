@@ -78,9 +78,7 @@ SELECT
 	WHERE
 		__PFX__Contents.title LIKE ?
 		AND
-		__PFX__Contents.pubDate > "0000-00-00 00:00:00"
-		AND
-		__PFX__Contents.pubDate < NOW()
+		__PFX__Contents.published = 1
 	ORDER BY __PFX__Contents.pubDate DESC
 	LIMIT ?
 	OFFSET ?
@@ -197,9 +195,7 @@ SELECT
 	WHERE
 		__PFX__Contents.title LIKE ?
 		AND
-		__PFX__Contents.pubDate > "0000-00-00 00:00:00"
-		AND
-		__PFX__Contents.pubDate < NOW()
+		__PFX__Contents.published = 1
 		AND (
 			__PFX__Mimetypes.mimetype = "image/jpg"
 			OR

@@ -69,10 +69,7 @@ class SNotificationCenter
 	private function handleEvent(_Event $e)
 	{
 		$etype = get_class($e);
-		$etype = substr($etype,strlen('EContent'));
-		$etype = substr($etype,0,strlen('Event')*-1);
-		$etype = str_replace('Changed', 'Saved', $etype);
-		self::report(($etype == 'Revoked') ? 'warning' : 'message', strtolower($etype), array());
+		self::report('message', $etype, array());
 	}
 	
 	private static function alertLog($type, $message)

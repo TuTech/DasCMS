@@ -80,10 +80,13 @@ class CError extends BContent implements IGlobalUniqueId, ISearchDirectives
 			'ModifyDate' => time(),
 			'ModifiedBy' => 'System',
 			'PubDate' => time(),
+			'RevokeDate' => 0,
+			'IsPublished' => true,
 			'Size' => 0,
 			'Tags' => array(),
 			'Title' => 'ERROR '.$this->Id.' - '.$dat[$this->Id],
-			'Content' => sprintf('<div class="%s"><b>ERROR %d - %s</b></div>',get_class($this),$this->Id,$dat[$this->Id])
+			'Content' => sprintf('<div class="%s"><b>ERROR %d - %s</b></div>',get_class($this),$this->Id,$dat[$this->Id]),
+			'Alias' => sprintf('-Error-%d-', $this->Id)
 		);
 		foreach ($defaults as $var => $default) 
 		{
