@@ -39,6 +39,12 @@ interface Interface_Content {
 	public function getIcon();
 
 	/**
+	 * is this content accessible by the public
+	 * @return bool
+	 */
+	public function isPublished();
+
+	/**
 	 * Icon for this object
 	 * @return WImage
 	 */

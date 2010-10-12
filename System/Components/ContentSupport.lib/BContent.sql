@@ -2,13 +2,14 @@
 -- name: basicMeta
 -- inputTypes:	s
 -- deterministic: yes
--- fields: 10
+-- fields: 11
 -- type: select
 SELECT
 		__PFX__Contents.contentID,
 		__PFX__Contents.title,
 		__PFX__Contents.pubDate,
 		__PFX__Contents.revokeDate,
+		__PFX__Contents.published,
 		__PFX__Contents.description,
 		__PFX__Mimetypes.mimetype,
 		__PFX__Contents.size,

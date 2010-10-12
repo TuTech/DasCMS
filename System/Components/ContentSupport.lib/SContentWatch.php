@@ -198,8 +198,7 @@ class SContentWatch
      */
 	public function handleEventWillAccessContent(Event_WillAccessContent $e)
 	{
-	    $pubDate = $e->Content->getPubDate();
-	    if(empty($pubDate) || $pubDate > time())
+	    if(!$e->Content->isPublished())
 	    {
 	        $e->substitute(new CError(403));
 	    }

@@ -24,6 +24,7 @@ abstract class BContent extends BObject implements Interface_Content
 		$Alias, 	//this will be used in navigations (unique in cms)
 		$PubDate,	//timestamp of (scheduled) publication
 		$RevokeDate,	//timestamp of (scheduled) de-publication
+		$IsPublished,	//bool flag
 		$CreateDate,//creation timestamp of object
 		$CreatedBy,
 		$ModifyDate,//timestamp: last modified
@@ -243,6 +244,7 @@ abstract class BContent extends BObject implements Interface_Content
 				$this->Title,
 				$pd,
 				$rd,
+				$this->IsPublished,
 				$this->Description,
 				$this->MimeType,
 				$this->Size,
@@ -391,6 +393,10 @@ abstract class BContent extends BObject implements Interface_Content
 			$date = $dat;
 		}
 		return $date;
+	}
+
+	public function isPublished(){
+		return !!$this->IsPublished;
 	}
 
 	/**

@@ -27,7 +27,7 @@ class SAlias
 	 */
 	public function updateAlias(Interface_Content $content)
 	{
-		if($content->PubDate == 0)
+		if(!$content->isPublished())
 		{
 			return;
 		}
