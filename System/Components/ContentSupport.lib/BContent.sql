@@ -2,12 +2,13 @@
 -- name: basicMeta
 -- inputTypes:	s
 -- deterministic: yes
--- fields: 9
+-- fields: 10
 -- type: select
 SELECT
 		__PFX__Contents.contentID,
 		__PFX__Contents.title,
 		__PFX__Contents.pubDate,
+		__PFX__Contents.revokeDate,
 		__PFX__Contents.description,
 		__PFX__Mimetypes.mimetype,
 		__PFX__Contents.size,
@@ -61,12 +62,13 @@ UPDATE __PFX__Contents
 
 -- --
 -- name: saveMeta
--- inputTypes: sssisi
+-- inputTypes: ssssisi
 -- type: update
 UPDATE __PFX__Contents
 	SET
 		title = ?,
 		pubDate = ?,
+		revokeDate = ?,
 		description = ?,
 		size = ?,
 		subtitle = ?

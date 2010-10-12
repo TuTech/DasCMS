@@ -144,9 +144,9 @@ reset	Zurücksetzen
 revoked	Veröffentlichung zurückgezogen
 saved	Gespeichert
 logged_in_user	Eingeloggter Benutzer
-Event_ContentRemoved	Gelöscht: 
-Event_ContentCreated	Erstellt: 
-Event_ContentChanged	Geändert: 
+Event_ContentRemoved	Inhalt gelöscht
+Event_ContentCreated	Inhalt erstellt
+Event_ContentChanged	Inhalt geändert
 resources	Resourcen
 color_palettes	Farbpaletten
 number_of_items	Anzahl

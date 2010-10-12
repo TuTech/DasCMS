@@ -23,6 +23,7 @@ abstract class BContent extends BObject implements Interface_Content
 		$Text, 		//Text representation of the object for search indexers
 		$Alias, 	//this will be used in navigations (unique in cms)
 		$PubDate,	//timestamp of (scheduled) publication
+		$RevokeDate,	//timestamp of (scheduled) de-publication
 		$CreateDate,//creation timestamp of object
 		$CreatedBy,
 		$ModifyDate,//timestamp: last modified
@@ -161,14 +162,11 @@ abstract class BContent extends BObject implements Interface_Content
                 if($composite->attachedToContent($this))
                 {
                     $this->loadedComposites[$index] = $composite;
-                    #echo 'ATTACHED';
                     foreach ($methods as $method)
                     {
                         //link the methods to the composite
                         $this->_compositeMethodLookup[$method] = $index;
                     }
-                    #print_r($this->_compositeLookup);
-                    #print_r($this->_compositeMethodLookup);
                 }
             }
         }
@@ -244,6 +242,7 @@ abstract class BContent extends BObject implements Interface_Content
 				$this->Id,
 				$this->Title,
 				$pd,
+				$rd,
 				$this->Description,
 				$this->MimeType,
 				$this->Size,
@@ -254,6 +253,7 @@ abstract class BContent extends BObject implements Interface_Content
 		
 		//parse pubdate
 		$this->PubDate = ($pd == '0000-00-00 00:00:00' ? 0 : strtotime($pd));
+		$this->RevokeDate = ($rd == '0000-00-00 00:00:00' ? 0 : strtotime($rd));
 	}
 
 	/**
@@ -263,10 +263,11 @@ abstract class BContent extends BObject implements Interface_Content
 	protected function saveMetaToDB()
 	{
 		$pubDate = ($this->PubDate > 0) ? date('Y-m-d H:i:s', $this->PubDate) : '0000-00-00 00:00:00';
+		$revokeDate = ($this->RevokeDate > 0) ? date('Y-m-d H:i:s', $this->RevokeDate) : '0000-00-00 00:00:00';
 		Core::Database()
 			->createQueryForClass('BContent')
 			->call('saveMeta')
-			->withParameters($this->Title, $pubDate, $this->Description, $this->Size, $this->SubTitle, $this->Id)
+			->withParameters($this->Title, $pubDate, $revokeDate, $this->Description, $this->Size, $this->SubTitle, $this->Id)
 			->execute();
 		self::$metaDataCache = array();
 		BContent::logChange($this->Id, $this->Title, $this->Size);
@@ -376,6 +377,20 @@ abstract class BContent extends BObject implements Interface_Content
 			->call('setSearchable')
 			->withParameters($isAllowed ? 'Y' : 'N', $contentID)
 			->execute();
+	}
+
+	protected function parseDateInput($value)
+	{
+		$date = 0;
+		if(is_numeric($value) && intval($value) > 0)//timestamp
+		{
+			$date = $value;
+		}
+		elseif(($dat = @strtotime($value)) !== -1)//time or date string
+		{
+			$date = $dat;
+		}
+		return $date;
 	}
 
 	/**
@@ -597,18 +612,23 @@ abstract class BContent extends BObject implements Interface_Content
 	 */
 	public function setPubDate($value)
 	{
-		if(is_numeric($value) && intval($value) > 0)//timestamp
-		{
-			$this->PubDate = $value;
-		}
-		elseif(($dat = @strtotime($value)) !== -1)//time or date string
-		{
-			$this->PubDate = $dat;
-		}
-		else
-		{
-			$this->PubDate = 0;
-		}
+		$this->PubDate = $this->parseDateInput($value);
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getRevokeDate()
+	{
+		return ($this->RevokeDate == 0) ? '' : $this->RevokeDate;
+	}
+
+	/**
+	 * @param int|string $value
+	 */
+	public function setRevokeDate($value)
+	{
+		$this->RevokeDate = $this->parseDateInput($value);
 	}
 
 	/**
