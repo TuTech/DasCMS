@@ -104,16 +104,26 @@ class TCmdSite
         	}
         }
 
-		//generate footer
+		//embed javascripts
 		if(count($this->ScriptTags)){
 			$out .= "\t\t".implode("\n\t\t", $this->ScriptTags)."\n";
 		}
+
+		$out .= "\t\t<script type=\"text/javascript\">".
+						"window.setTimeout(function(){".
+							"var sched = new Image(1,1).src='scheduler.php';".
+						"}, 250);".
+				"</script>\n";
+
+		//display cms health status
 		$out .= sprintf(
 				"\t\t<!-- %s/%s/%1.5f -->\n",
 				memory_get_usage(true),
 				memory_get_peak_usage(true),
 				microtime(true) - CMS_START_TIME
 			);
+
+		//finish
         return $out."\t</body>\n</html>";
     }
 
