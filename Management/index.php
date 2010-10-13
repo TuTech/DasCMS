@@ -118,7 +118,12 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
 			SNotificationCenter::report('alert', 'invalid_application');
     	}
 		$end_time = microtime(true);
-		WTemplate::globalSet('gentime','<!-- gen time '.($end_time-$start_time).'s -->');
+		WTemplate::globalSet('gentime', sprintf(
+				"\t\t<!-- %s/%s/%1.5f -->\n",
+				memory_get_usage(true),
+				memory_get_peak_usage(true),
+				$end_time-$start_time
+			));
 		WTemplate::renderOnce('footer', WTemplate::SYSTEM);
     }
 }

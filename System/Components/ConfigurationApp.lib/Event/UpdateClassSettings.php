@@ -1,5 +1,5 @@
 <?php
-class UpdateClassSettings extends _Event
+class Event_UpdateClassSettings extends _Event
 {
     protected $data = array();
 	public function __construct(AConfiguration $sender, array $data)
