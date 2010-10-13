@@ -8,7 +8,10 @@ INSERT IGNORE
 			? AS searchREL,
 			contentID AS contentREL
 		FROM __PFX__Contents
-			WHERE title LIKE ?
+			WHERE 
+				title LIKE ?
+				AND
+				published = 1
 
 -- --
 -- name: filterRequire
@@ -20,7 +23,8 @@ DELETE
 		LEFT JOIN __PFX__Contents ON (contentREL = contentID)
 	WHERE
 		searchREL = ?
-		AND title NOT LIKE ?
+		AND
+		title NOT LIKE ?
 
 -- --
 -- name: filterVeto
@@ -32,7 +36,8 @@ DELETE
 		LEFT JOIN __PFX__Contents ON (contentREL = contentID)
 	WHERE
 		searchREL = ?
-		AND title LIKE ?
+		AND
+		title LIKE ?
 
 -- --
 -- name: initOrdering
@@ -47,8 +52,8 @@ INSERT INTO __PFX__SearchResults
 	SELECT
 			? AS searchREL,
 			contentREL,
-			1/(@orderingScore := @orderingScore+1) as score,
-			@orderingScore as itemNr
+			1/(@orderingScore := @orderingScore+1) AS score,
+			@orderingScore AS itemNr
 		FROM
 			(SELECT
 					contentREL

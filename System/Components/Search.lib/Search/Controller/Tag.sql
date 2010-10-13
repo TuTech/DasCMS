@@ -10,7 +10,12 @@ INSERT IGNORE
 		FROM __PFX__relContentsTags
 			LEFT JOIN __PFX__Tags
 				ON (tagREL = tagID)
-			WHERE tag = ?
+			LEFT JOIN __PFX__Contents
+				ON (contentREL = contentID)
+			WHERE 
+				tag = ?
+				AND
+				published = 1
 
 
 -- --
@@ -23,7 +28,8 @@ DELETE
 	AND contentREL NOT IN (
 		SELECT contentREL
 			FROM __PFX__relContentsTags
-				LEFT JOIN __PFX__Tags ON (tagID = tagREL)
+				LEFT JOIN __PFX__Tags
+					ON (tagID = tagREL)
 			WHERE tag = ?
 		)
 
@@ -37,6 +43,7 @@ DELETE
 	AND contentREL IN (
 		SELECT contentREL
 			FROM __PFX__relContentsTags
-				LEFT JOIN __PFX__Tags ON (tagID = tagREL)
+				LEFT JOIN __PFX__Tags
+					ON (tagID = tagREL)
 			WHERE tag = ?
 		)
