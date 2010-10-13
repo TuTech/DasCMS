@@ -1,6 +1,6 @@
 #content_title, #content_subtitle{
-	border: 1px solid #d3d7cf;
-	margin-bottom:2px;
+	border: 1px solid #888a85;
+	margin-bottom:5px;
 	padding:1px 0px 1px 0px;
 	display:block;	
 	color: #888a85;
@@ -18,7 +18,7 @@
     margin:0px;
     margin-left:10px;
     margin-right:10px;
-    margin-top:100px;
+    margin-top:105px;
     display:block;
 }
 
@@ -77,7 +77,7 @@
 
 #WSearch input, #WSearch textarea, #WSidebar-body table, #org_bambuscms_app_document_editorElementId 
 {
-    border-color: #9fbc4a;
+    border-color: #888a85;
     border-style: solid;
     color: #2e3436;
     background-color: #fff;
@@ -197,7 +197,9 @@ body
     text-align: left;
     font-size: 0.9em;
     font-family:"Helvetica", "Arial", "Sans-Serif";
-    background: #fff;
+    background: #f9fcee;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f9fcee), to(#ffffff));
+    background: -moz-linear-gradient(center top, #f9fcee 0%, #ffffff 100%);
 }
 
 form 

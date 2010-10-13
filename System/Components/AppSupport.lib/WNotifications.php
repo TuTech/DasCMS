@@ -44,7 +44,7 @@ class WNotifications extends BWidget implements ISidebarWidget
 	{
 		$html = '<div id="WNotifications">';
 		$html .= sprintf(
-			'<h3>%s</h3><div id="WNotifications-area"><p>%s</p></div>'
+			'<dl><dt><label>%s</label></dt><dd id="WNotifications-area"><p>%s</p></dd></dl>'
 		    , SLocalization::get('notifications')
 		    , SLocalization::get('no_notifications')
 		    );

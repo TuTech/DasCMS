@@ -141,7 +141,7 @@
 {
 	display:block;
 	width:100%;
-	border:1px solid #555753;
+	border:1px solid #888a85;
 	margin: 5px 0px 5px 0px;
 }
 #WSidebar-body dd .alt{
@@ -162,7 +162,7 @@
 	border-color:#9fbc4a;
 }
 #WSidebar-body dd dt{
-	color: #2e3436;
+	color: #888a85;
 	border-color: #babdb6;
 	border-width:0px;
 	border-bottom-width:1px;
