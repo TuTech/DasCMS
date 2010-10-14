@@ -14,8 +14,6 @@ class WImageContentLookup extends WContentLookup implements ISidebarWidget
 {
     const CLASS_NAME = 'WImageContentLookup';
 	/**
-	 * get an array of string of all supported classes 
-	 * if it supports BObject, it supports all cms classes
 	 * @return array
 	 */
 	public static function isSupported(WSidePanel $sidepanel)

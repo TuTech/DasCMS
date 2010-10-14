@@ -8,7 +8,7 @@ class Event_WillAccessContent
 	protected $Content;
 	private $contentSubstituted = false;
 
-	public function __construct(BObject $sender, Interface_Content $content)
+	public function __construct($sender, Interface_Content $content)
 	{
 		$this->Sender = $sender;
 		$this->Content = $content;

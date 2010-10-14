@@ -10,7 +10,6 @@
  * @subpackage Plugin
  */
 class UCFileConfig 
-    extends BPlugin 
     implements 
         Event_Handler_RequestingClassSettings,
         Event_Handler_UpdateClassSettings,

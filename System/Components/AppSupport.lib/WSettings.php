@@ -13,8 +13,6 @@ class WSettings extends BWidget implements ISidebarWidget
 {
 	private $targetObject = null;
 	/**
-	 * get an array of string of all supported classes
-	 * if it supports BObject, it supports all cms classes
 	 * @return array
 	 */
 	public static function isSupported(WSidePanel $sidepanel)

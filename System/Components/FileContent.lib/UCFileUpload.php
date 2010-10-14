@@ -10,7 +10,6 @@
  * @subpackage Plugin
  */
 class UCFileUpload 
-    extends BPlugin 
     implements ITemplateSupporter, IGlobalUniqueId 
 {
     const GUID = 'org.bambuscms.plugins.fileupload';

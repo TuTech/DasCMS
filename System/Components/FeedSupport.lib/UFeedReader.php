@@ -7,7 +7,7 @@
 * Description: FeedReader.php
 * PHP Version: 5
 *************************************************/
-class UFeedReader extends BPlugin implements Interface_Singleton, ITemplateSupporter, IGlobalUniqueId
+class UFeedReader implements Interface_Singleton, ITemplateSupporter, IGlobalUniqueId
 {
     //IGUID
     const GUID = 'org.bambuscms.plugins.feedreader';

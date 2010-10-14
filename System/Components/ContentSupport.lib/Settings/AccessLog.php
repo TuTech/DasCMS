@@ -4,7 +4,7 @@
  *
  * @author lse
  */
-class Settings_AccessLog extends BObject
+class Settings_AccessLog
 	implements
         Event_Handler_RequestingClassSettings,
         Event_Handler_UpdateClassSettings
