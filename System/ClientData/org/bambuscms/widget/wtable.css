@@ -1,4 +1,4 @@
-.WTable{
+.View_UIElement_Table{
     border-width:0px;
     border-top-width: 1px;
     border-left-width: 1px;
@@ -7,23 +7,23 @@
     text-align:left;
     empty-cells: show;
 }
-.WTable td, .WTable th{
+.View_UIElement_Table td, .View_UIElement_Table th{
     border-width:0px;
     border-bottom-width: 1px;
     border-right-width: 1px;
 }
-.WTable, .WTable td, .WTable th{
+.View_UIElement_Table, .View_UIElement_Table td, .View_UIElement_Table th{
     border-style: solid;
     border-spacing: 0px;
     border-color: #9fbc4a;
 }
-.WTable th
+.View_UIElement_Table th
 {
     background: #9fbc4a url(../System/ClientData/Images/header_background.png) 00% 00%;
     padding:2px;
     color:white;
 }
-.WTable th[scope=row]
+.View_UIElement_Table th[scope=row]
 {
     background: #ecf0de;
     font-weight:normal;
@@ -32,19 +32,19 @@
     color:black;
     width:15%;
 }
-.WTable tr.alt_a th[scope=row]
+.View_UIElement_Table tr.alt_a th[scope=row]
 {
     background: #e4f0b8;
 }
-.WTable tr
+.View_UIElement_Table tr
 {
 	vertical-align: top;
 }
-.WTable td
+.View_UIElement_Table td
 {
     background: #ffffff;
 }
-.WTable tr.alt_a td
+.View_UIElement_Table tr.alt_a td
 {
     background: #eff9cc;
 }

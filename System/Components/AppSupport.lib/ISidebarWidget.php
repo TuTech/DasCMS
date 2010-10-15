@@ -12,15 +12,15 @@
 interface ISidebarWidget
 {
     /**
-     * @param WSidePanel $sidepanel
+     * @param View_UIElement_SidePanel $sidepanel
      */
-    public function __construct(WSidePanel $sidepanel); 
+    public function __construct(View_UIElement_SidePanel $sidepanel); 
     
     /**
-     * @param WSidePanel $sidepanel
+     * @param View_UIElement_SidePanel $sidepanel
      * @return boolean
      */
-    public static function isSupported(WSidePanel $sidepanel);
+    public static function isSupported(View_UIElement_SidePanel $sidepanel);
 	
 	/**
 	 * @return string
@@ -28,7 +28,7 @@ interface ISidebarWidget
 	public function getName();
 	
 	/**
-	 * @return WIcon
+	 * @return View_UIElement_Icon
 	 */
 	public function getIcon();
 

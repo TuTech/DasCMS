@@ -9,8 +9,8 @@
 $page = SApplication::getControllerContent();
 if($page instanceof CPage)
 {
-    echo new WContentTitle($page);
-    $editor = new WTextEditor($page->getContent());
+    echo new View_UIElement_ContentTitle($page);
+    $editor = new View_UIElement_TextEditor($page->getContent());
     $editor->setWordWrap(false);
     $editor->disableSpellcheck();
 	if(file_exists('System/External/Bespin')){

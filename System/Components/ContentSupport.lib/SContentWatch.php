@@ -117,7 +117,7 @@ class SContentWatch
                 }
             }
         }
-        $ctags = STag::parseTagStr(Core::settings()->get('meta_keywords'));
+        $ctags = Controller_Tags::parseString(Core::settings()->get('meta_keywords'));
         $tags = array_merge($ctags, $tags);
         $tags = array_unique($tags);
 		$visibleTags = array();

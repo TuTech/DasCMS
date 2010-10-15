@@ -10,12 +10,12 @@ class Formatter_Attribute_View_Icon
 {
     protected $persistentAttributes = array('linkTarget','selectedOption');
     protected $linkTarget = null;
-    protected $selectedOption = WIcon::SMALL;
+    protected $selectedOption = View_UIElement_Icon::SMALL;
     protected $options = array(
-        WIcon::EXTRA_SMALL => 'extra-small',
-        WIcon::SMALL => 'small',
-        WIcon::MEDIUM => 'medium',
-        WIcon::LARGE => 'large'
+        View_UIElement_Icon::EXTRA_SMALL => 'extra-small',
+        View_UIElement_Icon::SMALL => 'small',
+        View_UIElement_Icon::MEDIUM => 'medium',
+        View_UIElement_Icon::LARGE => 'large'
     );
 
     public function setLinkingTarget($linkTarget)

@@ -1,24 +1,24 @@
-#WNotifications-area div{
+#View_UIElement_Notifications-area div{
 	padding:3px;
 	border:1px solid black;
 	margin-bottom:5px;
 }
 
-#WNotifications-area .alert{
+#View_UIElement_Notifications-area .alert{
     border-color:  #a40000;
     background: #cc0000;
     color: white;
 }
-#WNotifications-area .message{
+#View_UIElement_Notifications-area .message{
     border-color: #4e9a06;
     background: #73d216;
     color:#fff;
 }
-#WNotifications-area .warning{
+#View_UIElement_Notifications-area .warning{
     border-color: #ce5c00;
     background: #f57900;
 }
-#WNotifications-area .information{
+#View_UIElement_Notifications-area .information{
 	border-color: #204a87;
 	background: #3465a4;
     color: #fff;

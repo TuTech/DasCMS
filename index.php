@@ -34,11 +34,11 @@ if(RSent::has('bambus_cms_login') && RSent::has('bambus_cms_username') && RSent:
 PAuthentication::implied();
 
 //set sometemplate keys
-WTemplate::globalSet('meta_keywords',Core::settings()->get('meta_keywords'));
-WTemplate::globalSet('bambus_version', BAMBUS_VERSION);
-WTemplate::globalSet('rssfeeds', '');
-WTemplate::globalSet('bambus_my_uri', SLink::buildURL());
-WTemplate::globalSet('logout_href', SLink::link(array('_destroy_session' => '1')));
+View_UIElement_Template::globalSet('meta_keywords',Core::settings()->get('meta_keywords'));
+View_UIElement_Template::globalSet('bambus_version', BAMBUS_VERSION);
+View_UIElement_Template::globalSet('rssfeeds', '');
+View_UIElement_Template::globalSet('bambus_my_uri', SLink::buildURL());
+View_UIElement_Template::globalSet('logout_href', SLink::link(array('_destroy_session' => '1')));
 
 //any stylesheets assigned to this document?
 $stylesheetLinks = '<link rel="stylesheet" href="./Content/stylesheets/default.css" type="text/css" media="all" />';
@@ -50,7 +50,7 @@ if(!empty($stylesheets)){
         if(!empty($style['ieopts'])) $stylesheetLinks .= "\n<![endif]-->\n";
     }
 }
-WTemplate::globalSet('stylesheets', $stylesheetLinks);
+View_UIElement_Template::globalSet('stylesheets', $stylesheetLinks);
 
 $generatorAlias = Core::settings()->get('generator_content');
 try
@@ -66,7 +66,7 @@ catch (Exception $e)
 }
 if ($pageGenerator instanceof IPageGenerator) 
 {
-	echo $pageGenerator->generatePage(WTemplate::getGlobalEnvironment());
+	echo $pageGenerator->generatePage(View_UIElement_Template::getGlobalEnvironment());
 }
 else
 {

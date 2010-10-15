@@ -9,19 +9,19 @@ org.bambuscms.wpropertyeditor =
 		for(var i = 0; i < org.bambuscms.wpropertyeditor._items.length; i++)
 		{
 			var item = org.bambuscms.wpropertyeditor._items[i];
-			org.bambuscms.gui.setEventHandler($('WPropertyEditor_'+item+'_mv_up'), 'click', function(){org.bambuscms.wpropertyeditor.up(org.bambuscms.wpropertyeditor._getItem(this));});
-			org.bambuscms.gui.setEventHandler($('WPropertyEditor_'+item+'_mv_down'), 'click', function(){org.bambuscms.wpropertyeditor.down(org.bambuscms.wpropertyeditor._getItem(this));});
-			org.bambuscms.gui.setEventHandler($('WPropertyEditor_'+item+'_selector'), 'change', function(){org.bambuscms.wpropertyeditor.selectProperty(org.bambuscms.wpropertyeditor._getItem(this));});
-			for(var x = 0; x < $('WPropertyEditor_'+item+'_selector').length; x++)
+			org.bambuscms.gui.setEventHandler($('View_UIElement_PropertyEditor_'+item+'_mv_up'), 'click', function(){org.bambuscms.wpropertyeditor.up(org.bambuscms.wpropertyeditor._getItem(this));});
+			org.bambuscms.gui.setEventHandler($('View_UIElement_PropertyEditor_'+item+'_mv_down'), 'click', function(){org.bambuscms.wpropertyeditor.down(org.bambuscms.wpropertyeditor._getItem(this));});
+			org.bambuscms.gui.setEventHandler($('View_UIElement_PropertyEditor_'+item+'_selector'), 'change', function(){org.bambuscms.wpropertyeditor.selectProperty(org.bambuscms.wpropertyeditor._getItem(this));});
+			for(var x = 0; x < $('View_UIElement_PropertyEditor_'+item+'_selector').length; x++)
 			{
-				var att = $('WPropertyEditor_'+item+'_selector').options[x].value;
+				var att = $('View_UIElement_PropertyEditor_'+item+'_selector').options[x].value;
 				var fx = function(){org.bambuscms.wpropertyeditor.changeActiveStatus(org.bambuscms.wpropertyeditor._getItem(this), this.checked);};
-				org.bambuscms.gui.setEventHandler($('WPropertyEditor_'+item+'_option_'+att+'_active'), 'click', fx);
-				org.bambuscms.gui.setEventHandler($('WPropertyEditor_'+item+'_option_'+att+'_active'), 'change', fx);
+				org.bambuscms.gui.setEventHandler($('View_UIElement_PropertyEditor_'+item+'_option_'+att+'_active'), 'click', fx);
+				org.bambuscms.gui.setEventHandler($('View_UIElement_PropertyEditor_'+item+'_option_'+att+'_active'), 'change', fx);
 			}
-			if($('WPropertyEditor_'+item+'_selector').options.length)
+			if($('View_UIElement_PropertyEditor_'+item+'_selector').options.length)
 			{
-				$('WPropertyEditor_'+item+'_selector').selectedIndex = 0;
+				$('View_UIElement_PropertyEditor_'+item+'_selector').selectedIndex = 0;
 				org.bambuscms.wpropertyeditor.selectProperty(item);
 			}
 		}
@@ -44,7 +44,7 @@ org.bambuscms.wpropertyeditor =
 	//move property up in list
 	'up':function(id)
 	{
-		var sel = $('WPropertyEditor_'+id+'_selector');
+		var sel = $('View_UIElement_PropertyEditor_'+id+'_selector');
 		var i = sel.selectedIndex;
 		if(i > 0)
 		{
@@ -65,7 +65,7 @@ org.bambuscms.wpropertyeditor =
 	//move property down in list
 	'down':function(id)
 	{
-		var sel = $('WPropertyEditor_'+id+'_selector');
+		var sel = $('View_UIElement_PropertyEditor_'+id+'_selector');
 		var i = sel.selectedIndex;
 		if(i < sel.options.length-1)
 		{
@@ -86,35 +86,35 @@ org.bambuscms.wpropertyeditor =
 	//show options for selected property
 	'selectProperty':function(id)
 	{
-		//hide all div.WPropertyEditor_option
-		var elms = $('WPropertyEditor_'+id+'_options').getElementsByTagName('div');
+		//hide all div.View_UIElement_PropertyEditor_option
+		var elms = $('View_UIElement_PropertyEditor_'+id+'_options').getElementsByTagName('div');
 		for(var i = 0; i < elms.length; i++)
 		{
-			if(elms[i].className == 'WPropertyEditor_option')
+			if(elms[i].className == 'View_UIElement_PropertyEditor_option')
 			{
 				elms[i].style.display = 'none';
 			}
 		}
 		//show div matching select.selectedIndex
-		var select = $('WPropertyEditor_'+id+'_selector').options[$('WPropertyEditor_'+id+'_selector').selectedIndex].value;
-		$('WPropertyEditor_'+id+'_option_'+select+'_data').style.display = 'block';
+		var select = $('View_UIElement_PropertyEditor_'+id+'_selector').options[$('View_UIElement_PropertyEditor_'+id+'_selector').selectedIndex].value;
+		$('View_UIElement_PropertyEditor_'+id+'_option_'+select+'_data').style.display = 'block';
 	},
 	
 	//change status for selected property (active/inactive)
 	'changeActiveStatus':function(id, stat)
 	{
 		//change class of element at selectedIndex
-		$('WPropertyEditor_'+id+'_selector').options[$('WPropertyEditor_'+id+'_selector').selectedIndex].className = stat ? 'WPE_active' : 'WPE_inactive';
+		$('View_UIElement_PropertyEditor_'+id+'_selector').options[$('View_UIElement_PropertyEditor_'+id+'_selector').selectedIndex].className = stat ? 'WPE_active' : 'WPE_inactive';
 	},
 	
 	//save the position of properties in hidden inputs
 	'indexList':function(id)
 	{
 		//loop select: fill hidden inputs with pos
-		for(var x = 0; x < $('WPropertyEditor_'+id+'_selector').length; x++)
+		for(var x = 0; x < $('View_UIElement_PropertyEditor_'+id+'_selector').length; x++)
 		{
-			var att = $('WPropertyEditor_'+id+'_selector').options[x].value;
-			$('WPropertyEditor_'+id+'_'+att+'_position').value = x+1;
+			var att = $('View_UIElement_PropertyEditor_'+id+'_selector').options[x].value;
+			$('View_UIElement_PropertyEditor_'+id+'_'+att+'_position').value = x+1;
 		}
 	}
 };

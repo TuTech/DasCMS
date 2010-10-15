@@ -26,7 +26,7 @@ class UCFileUpload
     {
         if(!empty($param['tags']))
         {
-            self::$optTags = STag::parseTagStr($param['tags']);
+            self::$optTags = Controller_Tags::parseString($param['tags']);
         }
     }
     

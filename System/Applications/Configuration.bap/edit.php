@@ -26,7 +26,7 @@ foreach ($sorted as $section => $loc)
     $data = $settings[$section];
     if(count($data))
     {
-        $tbl = new WTable(WTable::HEADING_LEFT|WTable::HEADING_TOP);
+        $tbl = new View_UIElement_Table(View_UIElement_Table::HEADING_LEFT|View_UIElement_Table::HEADING_TOP);
         $tbl->setHeaderTranslation(true);
         $tbl->setTitle($section, true);
         $tbl->addRow(array('description', 'value'));

@@ -49,7 +49,7 @@ abstract class BAContentAppController
         if(!empty($namedParameters['alias']) 
             && Controller_Content::getInstance()->contentExists($namedParameters['alias']))
         {
-            return array('tags' => STag::getInstance()->get($namedParameters['alias']));
+            return array('tags' => Controller_Tags::getInstance()->get($namedParameters['alias']));
         }
     }
     

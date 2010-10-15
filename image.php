@@ -41,7 +41,7 @@ if(!empty($_SERVER['PATH_INFO']))
     	{
 	        try //public open
 	        {
-	            $content = $ContentController->accessContent($alias, new WImage(), true);
+	            $content = $ContentController->accessContent($alias, new View_UIElement_Image(), true);
 	        }
 	        catch (Exception $e)
 	        {
@@ -72,7 +72,7 @@ if(!empty($_SERVER['PATH_INFO']))
 		}
 
         //get the id of the preview image
-        $id = WImage::getPreviewIdForContent($content);
+        $id = View_UIElement_Image::getPreviewIdForContent($content);
         if(empty($id))
         {
             $id = '_';
@@ -104,15 +104,15 @@ if(!empty($_SERVER['PATH_INFO']))
             if($id == '_')//load cms default image
             {
                 //default img
-                $img = Image_GD::load(WImage::placeholderFile());
-				$force = WImage::FORCE_BY_FILL;
+                $img = Image_GD::load(View_UIElement_Image::placeholderFile());
+				$force = View_UIElement_Image::FORCE_BY_FILL;
 				$r = $g = $b = 255;
-				$mode = WImage::MODE_FORCE;
+				$mode = View_UIElement_Image::MODE_FORCE;
 				$overwriteQuality = 100;
             }
             else //render preview
             {
-                $alias = WImage::resolvePreviewId($id);
+                $alias = View_UIElement_Image::resolvePreviewId($id);
                 if(!empty($alias))
                 {
                     $c = Controller_Content::getInstance()->openContent($alias);
@@ -128,15 +128,15 @@ if(!empty($_SERVER['PATH_INFO']))
             if($mode)//resize to fixed size img
             {
                 //forced
-                if($force == WImage::FORCE_BY_CROP)
+                if($force == View_UIElement_Image::FORCE_BY_CROP)
                 {
                     $img = $img->cropscale($width, $height);
                 }
-                elseif($force == WImage::FORCE_BY_FILL)
+                elseif($force == View_UIElement_Image::FORCE_BY_FILL)
                 {
                     $img = $img->fillscale($width, $height, $img->makeColor($r,$g,$b));
                 }
-                elseif($force == WImage::FORCE_BY_STRETCH)
+                elseif($force == View_UIElement_Image::FORCE_BY_STRETCH)
                 {
                     $img = $img->stretchscale($width, $height);
                 }
@@ -176,10 +176,10 @@ if(!empty($_SERVER['PATH_INFO']))
     else
     {
         $img = false;
-        $id = WImage::getPreviewIdForContent(Controller_Content::getInstance()->tryOpenContent($alias));
+        $id = View_UIElement_Image::getPreviewIdForContent(Controller_Content::getInstance()->tryOpenContent($alias));
         if($id != '_')//load cms default image
         {
-            $alias = WImage::resolvePreviewId($id);
+            $alias = View_UIElement_Image::resolvePreviewId($id);
             if(!empty($alias))
             {
                 $c = Controller_Content::getInstance()->openContent($alias);
@@ -190,7 +190,7 @@ if(!empty($_SERVER['PATH_INFO']))
         if(!$img)
         {
             header('Content-type: image/jpeg;');
-            $img = WImage::placeholderFile();
+            $img = View_UIElement_Image::placeholderFile();
         }
         header('Last-modified: '.date('r',filemtime($img)));
         readfile($img);

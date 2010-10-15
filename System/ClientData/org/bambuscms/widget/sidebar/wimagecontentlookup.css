@@ -7,7 +7,7 @@
 	text-align:center;
 	border-bottom: 1px solid #babdb6;
 }
-#WImageContentLookupFilter  {
+#View_UIElement_ImageContentLookupFilter  {
 	background:#fff url(../System/ClientData/Icons/16x16/actions/search.png) 1px 50% no-repeat;
 	font-size:12px;
 	padding-left:18px;
@@ -19,13 +19,13 @@
 	display: block;
 	width:180px;
 }
-#WImageContentLookup ul{
+#View_UIElement_ImageContentLookup ul{
 	margin:0px;
 	padding: 0px;
 	border-top: 1px solid #9fbc4a;
 	background: #fff;
 }
-#WImageContentLookup li{
+#View_UIElement_ImageContentLookup li{
 	list-style:none;
 	padding: 2px;
 	padding-left:75px;
@@ -36,10 +36,10 @@
 	background-repeat: no-repeat; 
 	overflow: hidden;
 }
-#WImageContentLookup li.alt{
+#View_UIElement_ImageContentLookup li.alt{
 	background-color: #fafafa;
 }
-#WImageContentLookup li span{
+#View_UIElement_ImageContentLookup li span{
 	font-size:9px;
 	display:block;
 	font-style:normal;

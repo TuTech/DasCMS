@@ -1,9 +1,9 @@
 org.bambuscms.wnotifications = {
 	'fetchServerMessages':function()
 	{
-		if($("WNotifications-area") && $('notifications'))
+		if($("View_UIElement_Notifications-area") && $('notifications'))
 		{
-			$("WNotifications-area").innerHTML = $('notifications').innerHTML;
+			$("View_UIElement_Notifications-area").innerHTML = $('notifications').innerHTML;
 		}
 	},
 	'MESSAGE':'message',
@@ -23,19 +23,19 @@ org.bambuscms.wnotifications.report = function(type, message)
 			var html = $c('div');
 			html.className = type;
 			html.appendChild($t(message));
-			if($("WNotifications-area"))
+			if($("View_UIElement_Notifications-area"))
 			{
-				if($("WNotifications-area").firstChild && $("WNotifications-area").firstChild.nodeType == 1 && $("WNotifications-area").firstChild.tagName.toUpperCase() == 'P')
+				if($("View_UIElement_Notifications-area").firstChild && $("View_UIElement_Notifications-area").firstChild.nodeType == 1 && $("View_UIElement_Notifications-area").firstChild.tagName.toUpperCase() == 'P')
 				{
-					$("WNotifications-area").innerHTML = '';
+					$("View_UIElement_Notifications-area").innerHTML = '';
 				}
-				if(!$("WNotifications-area").firstChild)
+				if(!$("View_UIElement_Notifications-area").firstChild)
 				{
-					$("WNotifications-area").appendChild(html);
+					$("View_UIElement_Notifications-area").appendChild(html);
 				}
 				else
 				{
-					$("WNotifications-area").insertBefore(html, $("WNotifications-area").firstChild);
+					$("View_UIElement_Notifications-area").insertBefore(html, $("View_UIElement_Notifications-area").firstChild);
 				}
 			}
 	}

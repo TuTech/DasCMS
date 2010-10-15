@@ -1,23 +1,23 @@
-.WTextBox-wrapper
+.View_UIElement_TextBox-wrapper
 {
 	border-width: 0px;
 	border-spacing: 0px;
 }
-.WTextBox-wrapper td,
-.WTextBox-wrapper th
+.View_UIElement_TextBox-wrapper td,
+.View_UIElement_TextBox-wrapper th
 {
 	border-width: 0px;
 }
-.WTextBox-wrapper th
+.View_UIElement_TextBox-wrapper th
 {
 	background: #e7f8d7;
 	font-weight: normal;
 }
-.WTextBox-wrapper
+.View_UIElement_TextBox-wrapper
 {
 	width:1%;
 }
-.WTextBox-label
+.View_UIElement_TextBox-label
 {
 	font-size: 11px;
 	padding: 0px;
@@ -26,7 +26,7 @@
 	float:left;
 	color: #2e3436;
 }
-.WTextBox
+.View_UIElement_TextBox
 {
 	border: 1px solid #9fbc4a;
 	width: 200px;

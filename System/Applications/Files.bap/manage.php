@@ -9,12 +9,12 @@
 $File = SApplication::getControllerContent();
 if($File != null && $File instanceof Interface_Content)
 {
-    echo new WScript("var is_in_content_mode = true;");
-    echo new WContentTitle($File);
-	if(WImage::supportedMimeType($File->getMimeType()))
+    echo new View_UIElement_Script("var is_in_content_mode = true;");
+    echo new View_UIElement_ContentTitle($File);
+	if(View_UIElement_Image::supportedMimeType($File->getMimeType()))
 	{
 	    $img = $File->PreviewImage;
-	    printf('<div class="previewImage" ondblclick="org.bambuscms.wopenfiledialog.openAlias(\'\');">%s</div>',$img->scaled(640,480,WImage::MODE_SCALE_TO_MAX));
+	    printf('<div class="previewImage" ondblclick="org.bambuscms.wopenfiledialog.openAlias(\'\');">%s</div>',$img->scaled(640,480,View_UIElement_Image::MODE_SCALE_TO_MAX));
 	}
 	else
 	{
@@ -27,13 +27,13 @@ if($File != null && $File instanceof Interface_Content)
 	);
 	$RelCrtl = Controller_ContentRelationManager::getInstance();
 	$retainCount = $RelCrtl->getRetainCount($File->getAlias());
-	$tbl = new WTable(WTable::HEADING_TOP|WTable::HEADING_LEFT, 'attributes');
+	$tbl = new View_UIElement_Table(View_UIElement_Table::HEADING_TOP|View_UIElement_Table::HEADING_LEFT, 'attributes');
 	$tbl->addRow(array('attribute','value'));
 	$tbl->addRow(array('original_file_name',$File->FileName));
 	$tbl->addRow(array('mime_type',$File->MimeType));
 	$tbl->addRow(array('md5_sum',$File->MD5Sum));
 	$tbl->addRow(array('retain_count',$retainCount));
-	if(WImage::supportedMimeType($File->MimeType))
+	if(View_UIElement_Image::supportedMimeType($File->MimeType))
 	{
 	    SErrorAndExceptionHandler::muteErrors();
 	    $info = getimagesize($File->getRawDataPath());
@@ -46,13 +46,13 @@ if($File != null && $File instanceof Interface_Content)
 	}
 	$tbl->render();
 	if(RSent::hasValue('reshow_upload_dialogue')){
-		echo new WScript(sprintf('org.bambuscms.autorun.register(function(){Upload(true, %s);});', RSent::hasValue('autopublish_upload')?'true':'false'));
+		echo new View_UIElement_Script(sprintf('org.bambuscms.autorun.register(function(){Upload(true, %s);});', RSent::hasValue('autopublish_upload')?'true':'false'));
 	}
 
 }
 else
 {
-    echo new WScript("
+    echo new View_UIElement_Script("
     	$('App-Hotkey-CTRL-s').parentNode.removeChild($('App-Hotkey-CTRL-s'));
     	$('App-Hotkey-CTRL-D').parentNode.removeChild($('App-Hotkey-CTRL-D'));
     	$('App-Hotkey-CTRL-X').parentNode.removeChild($('App-Hotkey-CTRL-X'));

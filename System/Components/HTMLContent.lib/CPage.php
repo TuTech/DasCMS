@@ -75,16 +75,16 @@ class CPage
 	
 	/**
 	 * Icon for this filetype
-	 * @return WIcon
+	 * @return View_UIElement_Icon
 	 */
 	public static function defaultIcon()
 	{
-	    return new WIcon('CPage', 'content', WIcon::LARGE, 'mimetype');
+	    return new View_UIElement_Icon('CPage', 'content', View_UIElement_Icon::LARGE, 'mimetype');
 	}
 	
 	/**
 	 * Icon for this object
-	 * @return WIcon
+	 * @return View_UIElement_Icon
 	 */
 	public function getIcon()
 	{

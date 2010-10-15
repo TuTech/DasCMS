@@ -368,18 +368,18 @@ if(RURL::get('_action') == 'delete')
 	}
 	$dbNeedsUpdate = true;
 }
-WTemplate::globalSet('DocumentFormAction', SLink::link(array('edit' => ($edit_mode == 'usr' ? 'u:' : 'g:').$victim)));
+View_UIElement_Template::globalSet('DocumentFormAction', SLink::link(array('edit' => ($edit_mode == 'usr' ? 'u:' : 'g:').$victim)));
 
 
 
 if($SUsersAndGroups->isUser($victim))
 {
-    $panel = WSidePanel::getInstance();
+    $panel = View_UIElement_SidePanel::getInstance();
     $panel->setTarget($victim, 'cms/'.($edit_mode == 'usr' ? 'user' : 'group'));
 }
 	
 $AppController = BAppController::getControllerForID('org.bambuscms.applications.usereditor');
-echo new WOpenDialog($AppController, $hasVictim);
+echo new View_UIElement_OpenDialog($AppController, $hasVictim);
 
 
 ?>

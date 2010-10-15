@@ -176,7 +176,7 @@ class CFile
 	    if(in_array($this->getType(), array('jpg','jpeg','png','gif')))
 	    {
 	        $rendering = Core::settings()->getOrDefault('CFile_image_rendering_method', '0c');
-	        $img = WImage::forContent($this);
+	        $img = View_UIElement_Image::forContent($this);
 	        $img = $img->scaled(
 	            Core::settings()->getOrDefault('CFile_image_width', 640),
 	            Core::settings()->getOrDefault('CFile_image_height', 480),
@@ -189,7 +189,7 @@ class CFile
             '<div class="CFile" id="_'.htmlentities($this->getGUID(), ENT_QUOTES, CHARSET).'">'.
                 (in_array($this->getType(), array('jpg','jpeg','png','gif'))
                     ? '<div class="CFile-preview">'.strval($img).'</div>'
-                    : '<div class="CFile-icon">'.$this->getIcon()->asSize(WIcon::LARGE).'</div>'
+                    : '<div class="CFile-icon">'.$this->getIcon()->asSize(View_UIElement_Icon::LARGE).'</div>'
                 ).
                 '<div class="CFile-description">%s</div>'.
                 '<div class="CFile-meta">'.
@@ -238,20 +238,20 @@ class CFile
     
     	/**
 	 * Icon for this filetype
-	 * @return WIcon
+	 * @return View_UIElement_Icon
 	 */
 	public static function defaultIcon()
 	{
-	    return new WIcon('BContent', 'content', WIcon::LARGE, 'mimetype');
+	    return new View_UIElement_Icon('BContent', 'content', View_UIElement_Icon::LARGE, 'mimetype');
 	}
 	
 	/**
 	 * Icon for this object
-	 * @return WIcon
+	 * @return View_UIElement_Icon
 	 */
 	public function getIcon()
 	{
-	    return new WIcon($this->getType(), 'content', WIcon::LARGE, 'mimetype');
+	    return new View_UIElement_Icon($this->getType(), 'content', View_UIElement_Icon::LARGE, 'mimetype');
 	}
 	
     

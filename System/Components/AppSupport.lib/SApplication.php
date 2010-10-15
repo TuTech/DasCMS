@@ -15,7 +15,7 @@ class SApplication
 {	
     private $name, $description, $guid, $version, $icon, $interface, $class, $purpose;
     /**
-     * @var WApplicationTaskBar
+     * @var View_UIElement_ApplicationTaskBar
      */
     private $controller = null;
     private $taskbar;
@@ -64,13 +64,13 @@ class SApplication
     			switch($type)
     			{
     				case 'script':
-    					WHeader::useScript($this->appPath.$file);
+    					View_UIElement_Header::useScript($this->appPath.$file);
     					break;
     				default: //css
-    					WHeader::useStylesheet($this->appPath.$file, $type);
+    					View_UIElement_Header::useStylesheet($this->appPath.$file, $type);
     			}
     		}
-    		WHeader::setTitle(
+    		View_UIElement_Header::setTitle(
     			'Bambus CMS: '.
     		    SLocalization::get($this->name).' - '.
     		    Core::settings()->get('sitename')
@@ -78,7 +78,7 @@ class SApplication
         }
         else
         {
-            WHeader::setTitle('Bambus CMS');
+            View_UIElement_Header::setTitle('Bambus CMS');
         }
     }
     
@@ -142,7 +142,7 @@ class SApplication
         $ofd = '';
         if($this->openDialog)
         {
-            $ofd = WOpenDialog::getInstance();
+            $ofd = View_UIElement_OpenDialog::getInstance();
             $ofd->setTarget(self::appController());
             if(!$this->openDialogAutoShow)
             {
@@ -154,7 +154,7 @@ class SApplication
     
     protected function __construct()
     {
-        $this->taskbar = new WApplicationTaskBar();
+        $this->taskbar = new View_UIElement_ApplicationTaskBar();
         if(RURL::hasValue('editor'))
         {
             $app = basename(RURL::get('editor'));
@@ -219,16 +219,16 @@ class SApplication
     private function setupSidebar(DOMXPath $xp)
     {
         $supported = $xp->query('/bambus/application/sidebar/supported/@mode');
-        $mode = WSidePanel::NONE;
+        $mode = View_UIElement_SidePanel::NONE;
         foreach ($supported as $modeNode)
         {
-            $const = constant('WSidePanel::'.$modeNode->nodeValue);
+            $const = constant('View_UIElement_SidePanel::'.$modeNode->nodeValue);
             if($const)
             {
                 $mode = $mode | $const;
             }
         }
-        $panel = WSidePanel::getInstance();
+        $panel = View_UIElement_SidePanel::getInstance();
         $panel->setMode($mode);
         $processInputs = $xp->query('/bambus/application/sidebar/processInputs/@mode');
         if($processInputs  && $processInputs->length == 1);

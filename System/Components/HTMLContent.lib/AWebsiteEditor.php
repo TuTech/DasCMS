@@ -155,8 +155,8 @@ class AWebsiteEditor
         $data = array(
             'title' => SLocalization::get('open'),
             'nrOfItems' => count($items),
-            'iconMap' => array(CPage::defaultIcon()->asSize(WIcon::LARGE)->getPath()),
-            'smallIconMap' => array(CPage::defaultIcon()->asSize(WIcon::EXTRA_SMALL)->getPath()),
+            'iconMap' => array(CPage::defaultIcon()->asSize(View_UIElement_Icon::LARGE)->getPath()),
+            'smallIconMap' => array(CPage::defaultIcon()->asSize(View_UIElement_Icon::EXTRA_SMALL)->getPath()),
             'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2, 'pubDate' => 3, 'size' => 4),//, 'tags' => 4
             'sortable' => array('title' => 'title', 'pubDate' => 'pubDate'),
             'items' => $items

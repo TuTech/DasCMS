@@ -9,7 +9,7 @@
 $start_time = microtime(true);
 chdir(dirname(__FILE__));
 require_once '../System/main.php';
-WHeader::httpHeader('Content-Type: text/html; charset='.CHARSET);
+View_UIElement_Header::httpHeader('Content-Type: text/html; charset='.CHARSET);
 
 RSession::start();
 //you want to go? ok!
@@ -21,41 +21,41 @@ if(RURL::has('logout')){
 
 PAuthentication::required();
 $media = Core::dataFromJSONFile('Content/versioninfo.json');
-if(isset($media['js']))WHeader::useScript($media['js']);
-if(isset($media['css']))WHeader::useStylesheet($media['css']);
-WHeader::useScript('Management/localization.js.php');
-WHeader::setBase(SLink::base());
-WHeader::setTitle(BAMBUS_VERSION);
-WHeader::meta('license', 'GNU General Public License/GPL 2 or newer');
+if(isset($media['js']))View_UIElement_Header::useScript($media['js']);
+if(isset($media['css']))View_UIElement_Header::useStylesheet($media['css']);
+View_UIElement_Header::useScript('Management/localization.js.php');
+View_UIElement_Header::setBase(SLink::base());
+View_UIElement_Header::setTitle(BAMBUS_VERSION);
+View_UIElement_Header::meta('license', 'GNU General Public License/GPL 2 or newer');
 
-WTemplate::globalSet('bcms_version', BAMBUS_VERSION);
-WTemplate::globalSet('logout_text', SLocalization::get('logout'));
-WTemplate::globalSet('WApplications', '');
-WTemplate::globalSet('SNotificationCenter', SNotificationCenter::getInstance());
-WTemplate::globalSet('bambus_my_uri', SLink::link());
-WTemplate::globalSet('Header', new WHeader());
-WTemplate::globalSet('TaskBar','');
-WTemplate::globalSet('SideBar','');
-WTemplate::globalSet('OpenDialog','');
-WTemplate::globalSet('ControllerData','');
-WTemplate::globalSet('ContentAlias','');
-WTemplate::globalSet('DocumentFormAction',  SLink::link());
+View_UIElement_Template::globalSet('bcms_version', BAMBUS_VERSION);
+View_UIElement_Template::globalSet('logout_text', SLocalization::get('logout'));
+View_UIElement_Template::globalSet('View_UIElement_Applications', '');
+View_UIElement_Template::globalSet('SNotificationCenter', SNotificationCenter::getInstance());
+View_UIElement_Template::globalSet('bambus_my_uri', SLink::link());
+View_UIElement_Template::globalSet('Header', new View_UIElement_Header());
+View_UIElement_Template::globalSet('TaskBar','');
+View_UIElement_Template::globalSet('SideBar','');
+View_UIElement_Template::globalSet('OpenDialog','');
+View_UIElement_Template::globalSet('ControllerData','');
+View_UIElement_Template::globalSet('ContentAlias','');
+View_UIElement_Template::globalSet('DocumentFormAction',  SLink::link());
 
 if(PAuthorisation::has('org.bambuscms.login')) //login ok?
 {
-    WTemplate::globalSet('WApplications',  new WApplications());
+    View_UIElement_Template::globalSet('View_UIElement_Applications',  new View_UIElement_Applications());
     
     $App = SApplication::getInstance();
     $App->initApplication();
     
     if(!$App->hasApplication())
 	{
-		WTemplate::renderOnce('header', WTemplate::SYSTEM);
-		WTemplate::renderOnce('footer', WTemplate::SYSTEM);
+		View_UIElement_Template::renderOnce('header', View_UIElement_Template::SYSTEM);
+		View_UIElement_Template::renderOnce('footer', View_UIElement_Template::SYSTEM);
 	}    
     else
     {
-	    WTemplate::globalSet('AppGUID',$App->getGUID());
+	    View_UIElement_Template::globalSet('AppGUID',$App->getGUID());
     	
 	    $ctrl = $App->getController();
 	    if($ctrl)
@@ -65,7 +65,7 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
     		require($ctrl);
     		$ob = ob_get_contents();
     		ob_end_clean();
-    		WTemplate::globalSet('ControllerData',$ob);
+    		View_UIElement_Template::globalSet('ControllerData',$ob);
 	    }
 	    else
 	    {
@@ -84,27 +84,27 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
             );
             if ($controller instanceof ISupportsOpenDialog) 
             {
-            	WTemplate::globalSet(
+            	View_UIElement_Template::globalSet(
                 	'DocumentFormAction',  
                     SLink::link(array(
                     	'edit' => $controller->getOpenDialogTarget(), 
                     	'_action' => 'save'))
                 );
-                WTemplate::globalSet('ContentAlias',$controller->getOpenDialogTarget());
+                View_UIElement_Template::globalSet('ContentAlias',$controller->getOpenDialogTarget());
             }
             else
             {
-                WTemplate::globalSet(
+                View_UIElement_Template::globalSet(
                 	'DocumentFormAction' 
                     ,SLink::link(array('_action' => 'save'))
                 );
             }
 	    }
 	    
-		WTemplate::globalSet('TaskBar',$App->getTaskBar());//
-		WTemplate::globalSet('OpenDialog',$App->getOpenDialog());
-		WTemplate::globalSet('SideBar',WSidePanel::getInstance());
-		WTemplate::renderOnce('header', WTemplate::SYSTEM);
+		View_UIElement_Template::globalSet('TaskBar',$App->getTaskBar());//
+		View_UIElement_Template::globalSet('OpenDialog',$App->getOpenDialog());
+		View_UIElement_Template::globalSet('SideBar',View_UIElement_SidePanel::getInstance());
+		View_UIElement_Template::renderOnce('header', View_UIElement_Template::SYSTEM);
 		//do savings here - wsidebar might have done something
     	if(count(RSent::data()) > 0)
     	{
@@ -118,18 +118,18 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
 			SNotificationCenter::report('alert', 'invalid_application');
     	}
 		$end_time = microtime(true);
-		WTemplate::globalSet('gentime', sprintf(
+		View_UIElement_Template::globalSet('gentime', sprintf(
 				"\t\t<!-- %s/%s/%1.5f -->\n",
 				memory_get_usage(true),
 				memory_get_peak_usage(true),
 				$end_time-$start_time
 			));
-		WTemplate::renderOnce('footer', WTemplate::SYSTEM);
+		View_UIElement_Template::renderOnce('footer', View_UIElement_Template::SYSTEM);
     }
 }
 else
 {
-    WHeader::setTitle(
+    View_UIElement_Header::setTitle(
 		'Bambus CMS: '.
 	    SLocalization::get('login').' - '.
 	    Core::settings()->get('sitename')
@@ -138,16 +138,16 @@ else
     {
         SNotificationCenter::report('warning', 'wrong_username_or_password');
     }
-    WTemplate::globalSet('logout_text', '');
-    WTemplate::renderOnce('header', WTemplate::SYSTEM);
-    $loginTpl = new WTemplate('cmslogin', WTemplate::SYSTEM);
+    View_UIElement_Template::globalSet('logout_text', '');
+    View_UIElement_Template::renderOnce('header', View_UIElement_Template::SYSTEM);
+    $loginTpl = new View_UIElement_Template('cmslogin', View_UIElement_Template::SYSTEM);
     $loginTpl->setEnvironment(array(
         'translate:username' => SLocalization::get('username'),
         'translate:password' => SLocalization::get('password'),
         'translate:login' => SLocalization::get('login')
     ));
     $loginTpl->render();
-	WTemplate::globalSet('gentime','');
-    WTemplate::renderOnce('footer', WTemplate::SYSTEM);
+	View_UIElement_Template::globalSet('gentime','');
+    View_UIElement_Template::renderOnce('footer', View_UIElement_Template::SYSTEM);
 }
 ?>

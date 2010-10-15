@@ -480,16 +480,16 @@ abstract class BContent implements Interface_Content
 
 	/**
 	 * Icon for this filetype
-	 * @return WIcon
+	 * @return View_UIElement_Icon
 	 */
 	public static function defaultIcon()
 	{
-	    return new WIcon('BContent', 'content', WIcon::LARGE, 'mimetype');
+	    return new View_UIElement_Icon('BContent', 'content', View_UIElement_Icon::LARGE, 'mimetype');
 	}
 
 	/**
 	 * Icon for this object
-	 * @return WIcon
+	 * @return View_UIElement_Icon
 	 */
 	public function getIcon()
 	{
@@ -498,16 +498,16 @@ abstract class BContent implements Interface_Content
 
 	/**
 	 * Icon for this object
-	 * @return WImage
+	 * @return View_UIElement_Image
 	 */
 	public function getPreviewImage()
 	{
-	    return WImage::forContent($this);
+	    return View_UIElement_Image::forContent($this);
 	}
 
 	public function setPreviewImage($previewAlias)
 	{
-	    WImage::setPreview($this->getAlias(), $previewAlias);
+	    View_UIElement_Image::setPreview($this->getAlias(), $previewAlias);
 	}
 
 	/**
@@ -585,7 +585,7 @@ abstract class BContent implements Interface_Content
 		}
 		else
 		{
-			$this->Tags = STag::parseTagStr($value);
+			$this->Tags = Controller_Tags::parseString($value);
 		}
 	}
 

@@ -9,29 +9,29 @@
 $jsCreate = "alert('permission denied');";
 if(PAuthorisation::has('org.bambuscms.credentials.group.create'))
 {
-    $d = new WDialog('dlg_create_group','create_group', WDialog::SUBMIT|WDialog::CANCEL);
-    $d->setButtonCaption(WDialog::SUBMIT, 'create');
+    $d = new View_UIElement_Dialog('dlg_create_group','create_group', View_UIElement_Dialog::SUBMIT|View_UIElement_Dialog::CANCEL);
+    $d->setButtonCaption(View_UIElement_Dialog::SUBMIT, 'create');
     $d->askText('new_group_name','','name');
     $d->askText('new_group_description','','description');
     $d->remember('action','create_new_group');
     $d->render();
-    $jsCreate = WDialog::openCommand('dlg_create_group');
+    $jsCreate = View_UIElement_Dialog::openCommand('dlg_create_group');
 }
 echo "\n";
-echo new WScript('var action_add_group = function(){'.$jsCreate.'};');
+echo new View_UIElement_Script('var action_add_group = function(){'.$jsCreate.'};');
 $SUsersAndGroups = SUsersAndGroups::getInstance();
 
 
 if($edit_mode == 'usr')
 {    
-    $intro = new WIntroduction();
+    $intro = new View_UIElement_Introduction();
     $intro->setTitle(mb_convert_encoding($victim, CHARSET, 'iso-8859-1'), false);
     $intro->setIcon('mimetype-user');
     echo $intro;
     //group assignment
 	print('<input type="hidden" name="action" value="save_assignment_of_groups" />');
 	
-    $group_tbl = new WTable(WTable::HEADING_TOP|WTable::HEADING_LEFT, 'group_memberships');
+    $group_tbl = new View_UIElement_Table(View_UIElement_Table::HEADING_TOP|View_UIElement_Table::HEADING_LEFT, 'group_memberships');
     $group_tbl->addRow(array(
         'name',
         'description',
@@ -52,7 +52,7 @@ if($edit_mode == 'usr')
     $group_tbl->render();
     echo "<br />";
     
-    $pri_tbl = new WTable(WTable::HEADING_NONE, 'primary_group');
+    $pri_tbl = new View_UIElement_Table(View_UIElement_Table::HEADING_NONE, 'primary_group');
 	$usergroups = $SUsersAndGroups->listGroupsOfUser($victim);
 	$dat = sprintf('<select class="selectinput" name="primary_group">');
 	$grparray = array('' => SLocalization::get('none'));
@@ -82,7 +82,7 @@ if($edit_mode == 'usr')
 	//assigned groups//
 	///////////////////
 	
-	$perm_tbl = new WTable(WTable::HEADING_TOP|WTable::HEADING_LEFT, 'permissions');
+	$perm_tbl = new View_UIElement_Table(View_UIElement_Table::HEADING_TOP|View_UIElement_Table::HEADING_LEFT, 'permissions');
 	$perm_tbl->addRow(array(
         'name',
         'description',
@@ -130,13 +130,13 @@ else
 //group information// 
 /////////////////////
 
-    $intro = new WIntroduction();
+    $intro = new View_UIElement_Introduction();
     $intro->setTitle(mb_convert_encoding($victim, CHARSET, 'iso-8859-1'), false);
     $intro->setIcon('mimetype-group');
     $intro->setDescription(htmlentities($SUsersAndGroups->getGroupDescription($victim)), false);
     echo $intro;
 	
-    $members = new WFlowLayout('members');
+    $members = new View_UIElement_FlowLayout('members');
 	$assignedUsers = $SUsersAndGroups->listUsersOfGroup($victim);
 	if(is_array($assignedUsers) && count($assignedUsers) > 0)
 	{

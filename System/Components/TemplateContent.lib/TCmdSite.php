@@ -65,7 +65,7 @@ class TCmdSite
 		$niceURLS = $settings->get('wellformed_urls');
 
 		//favicon
-		$favicon = WIcon::pathFor('dummy','mimetypes',  WIcon::MEDIUM);
+		$favicon = View_UIElement_Icon::pathFor('dummy','mimetypes',  View_UIElement_Icon::MEDIUM);
 		$fitype = 'png';
 		foreach(array('ico','png') as $itype){
 			if(file_exists('favicon.'.$itype)){

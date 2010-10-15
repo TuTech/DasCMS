@@ -10,7 +10,7 @@ org.bambuscms.wdialog = {
 			var src = org.bambuscms.wdialog.dialogs[id];
 			var c = org.bambuscms.wdialog.container;
 			var dialog = org.bambuscms.gui.element('div', null, {
-				'class':"WDialog"
+				'class':"View_UIElement_Dialog"
 			});
 			var focusInput = null;
 			
@@ -21,7 +21,7 @@ org.bambuscms.wdialog = {
 			//form
 			var form = org.bambuscms.gui.element('form', null, {
 				'action':$('documentform').getAttribute('action'),
-				'id':'WDialog_form',
+				'id':'View_UIElement_Dialog_form',
 				'method':'post',
 			});
 			if(src.isMultipart)
@@ -38,13 +38,13 @@ org.bambuscms.wdialog = {
 				{
 					var sect = src.sections[i];
 					var block = org.bambuscms.gui.element('div', null, {
-						'id':'WDialog_'+id+'_sect_'+i,
-						'class': 'WDialog_section'
+						'id':'View_UIElement_Dialog_'+id+'_sect_'+i,
+						'class': 'View_UIElement_Dialog_section'
 					});
 					if(sect.title)
 					{
 						var btitle = org.bambuscms.gui.element('h3', sect.title, {
-							'id':'WDialog_'+id+'_sect_'+i+'_head'
+							'id':'View_UIElement_Dialog_'+id+'_sect_'+i+'_head'
 						});
 						block.appendChild(btitle);
 					}
@@ -54,10 +54,10 @@ org.bambuscms.wdialog = {
 						if(sect.items[name].title)
 						{
 							var otitle = $c('label');
-							otitle.setAttribute('for', 'WDialog_'+id+'_'+name);
+							otitle.setAttribute('for', 'View_UIElement_Dialog_'+id+'_'+name);
 							otitle.appendChild($t(sect.items[name].title));
 							obj.appendChild(otitle);
-							obj.setAttribute('class', 'WDialog_labeled');
+							obj.setAttribute('class', 'View_UIElement_Dialog_labeled');
 						}
 						
 						//type,title,value
@@ -69,7 +69,7 @@ org.bambuscms.wdialog = {
 							case 'hidden':
 							case 'checkbox':
 								var input = org.bambuscms.gui.element('input', sect.title, {
-									'id':'WDialog_'+id+'_'+name,
+									'id':'View_UIElement_Dialog_'+id+'_'+name,
 									'type': sect.items[name].type,
 									'name': name
 								});
@@ -139,7 +139,7 @@ org.bambuscms.wdialog = {
 		if(!org.bambuscms.wdialog.container)
 		{
 			org.bambuscms.wdialog.container = $c('div');
-			org.bambuscms.wdialog.container.setAttribute('id','WDialog_container');
+			org.bambuscms.wdialog.container.setAttribute('id','View_UIElement_Dialog_container');
 			document.body.appendChild(org.bambuscms.wdialog.container);
 		}
 		else

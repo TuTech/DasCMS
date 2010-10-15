@@ -29,7 +29,7 @@ class View_Content_Map
 				&& $this->shouldDisplay()
 		){
 			$location = $this->content->Location;
-			if($location instanceof WContentGeoAttribute){
+			if($location instanceof View_UIElement_ContentGeoAttribute){
 				$long = $location->getLongitude();
 				$lat  = $location->getLatitude();
 

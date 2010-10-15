@@ -227,7 +227,7 @@ class Image_GD
      * @param int $width
      * @param int $heigth
      * @param color$color
-     * @return WImage
+     * @return View_UIElement_Image
      */
     public function fillscale($width, $heigth, $color)
     {
@@ -274,7 +274,7 @@ class Image_GD
      * @param int $width
      * @param int $heigth
      * @param color$color
-     * @return WImage
+     * @return View_UIElement_Image
      */
     public function scaletofit($width, $heigth)
     {
@@ -319,7 +319,7 @@ class Image_GD
      * fixed size scale method
      * @param int $width
      * @param int $heigth
-     * @return WImage
+     * @return View_UIElement_Image
      */
     public function stretchscale($width, $heigth)
     {

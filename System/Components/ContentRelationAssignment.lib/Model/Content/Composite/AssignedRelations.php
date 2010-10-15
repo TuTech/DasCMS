@@ -120,7 +120,7 @@ class Model_Content_Composite_AssignedRelations
 
 	public function setAssignedRelationsData($value){
 		if(!is_array($value)){
-			$value = STag::parseTagStr($value);
+			$value = Controller_Tags::parseString($value);
 		}
 		$this->assigned = array();
 		foreach ($value as $k => $v){

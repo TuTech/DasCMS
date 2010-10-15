@@ -152,7 +152,7 @@ class AFeeds
     			        $set = is_numeric($value);
     			        break;
                     case 'Filter':
-                        $value = STag::parseTagStr($value);
+                        $value = Controller_Tags::parseString($value);
                         $set = true;
                         break;
                     case 'FilterMethod':
@@ -278,9 +278,9 @@ class AFeeds
         	    foreach ($items[$type] as $item => $name) 
         	    {
         	        //printf("    %s[%s]: '",$item, $name);
-        	    	if(WPropertyEditor::getPropStatus($elements[$type],$item))
+        	    	if(View_UIElement_PropertyEditor::getPropStatus($elements[$type],$item))
         	    	{
-        	    	    $setOrder[$type][$name] = WPropertyEditor::getPropPos($elements[$type],$item);
+        	    	    $setOrder[$type][$name] = View_UIElement_PropertyEditor::getPropPos($elements[$type],$item);
         	    	    //echo $setOrder[$type][$name];
         	    	}
         	    	else
@@ -372,8 +372,8 @@ class AFeeds
         $data = array(
             'title' => SLocalization::get('open'),
             'nrOfItems' => count($items),
-            'iconMap' => array(CFeed::defaultIcon()->asSize(WIcon::LARGE)->getPath()),
-            'smallIconMap' => array(CFeed::defaultIcon()->asSize(WIcon::EXTRA_SMALL)->getPath()),
+            'iconMap' => array(CFeed::defaultIcon()->asSize(View_UIElement_Icon::LARGE)->getPath()),
+            'smallIconMap' => array(CFeed::defaultIcon()->asSize(View_UIElement_Icon::EXTRA_SMALL)->getPath()),
             'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2, 'pubDate' => 3),//, 'tags' => 4
             'sortable' => array('title' => 'title', 'pubDate' => 'pubDate'),
             'items' => $items

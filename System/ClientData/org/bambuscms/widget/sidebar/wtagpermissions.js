@@ -1,6 +1,6 @@
 org.bambuscms.wtagpermissions = {
 	'_select':function(check){
-		var sub = $('WTagPermissions').getElementsByTagName('input');
+		var sub = $('View_UIElement_TagPermissions').getElementsByTagName('input');
 		for(var i = 0; i < sub.length; i++)
 		{
 			if(sub[i].type == 'checkbox')

@@ -52,8 +52,8 @@ if($enableWYSIWYG){
 }
 if(isset($Page) && $Page instanceof CPage)
 {
-    echo new WContentTitle($Page);
-    $editor = new WTextEditor($Page->Content);
+    echo new View_UIElement_ContentTitle($Page);
+    $editor = new View_UIElement_TextEditor($Page->Content);
 	$editor->setCodeAssist(!$enableWYSIWYG);
     echo $editor;
 }
