@@ -38,8 +38,12 @@ class Search_Result
 	 */
 	public function  __toString() {
 		$all = $this->getResultCount();
-		$res = $this->fetch($all)->resultsFromPage(1)->asAliases();
-		print_r($res);
+		$aliases = $this->fetch($all)->resultsFromPage(1)->asAliases();
+		$str = "";
+		foreach($aliases as $alias){
+			$str .= sprintf("    %s\n", $alias);
+		}
+		return $str;
 	}
 
 	////////////////////////////
@@ -101,14 +105,17 @@ class Search_Result
 			throw new OutOfBoundsException("the requested page does not exist");
 		}
 		$this->pageNr = $pageNr;
+		return $this;
 	}
 
 	public function inAscendingOrder() {
 		$this->ordered(Search_Interface_ConfiguredResultset::ASC);
+		return $this;
 	}
 
 	public function inDescendingOrder() {
 		$this->ordered(Search_Interface_ConfiguredResultset::DESC);
+		return $this;
 	}
 
 	public function ordered($ascOrDesc) {
@@ -117,7 +124,8 @@ class Search_Result
 		{
 			throw new XArgumentException('argument not a valid ASC or DESC value');
 		}
-
+		$this->order = $ascOrDesc;
+		return $this;
 	}
 
 	/////////////////////////////
@@ -130,13 +138,38 @@ class Search_Result
 		//compute range of items
 		$firstElement = 1;
 		$lastElement = 1;
-		
+		$listAscending = $this->order == Search_Interface_ConfiguredResultset::ASC;
+
+		if($listAscending){
+			$skipping = $this->itemsPerPage * ($this->pageNr - 1);
+			//page 1: (1-1)*10 = 0
+			//page 2: (2-1)*10 = 10
+		}
+		else{
+			$skipping = $this->resultCount - $this->pageNr * $this->itemsPerPage;
+			//page 1: 123 - 1 * 10 = 113
+			//page 2: 123 - 2 * 10 = 103
+		}
+		$firstElement = 1 + $skipping;
+		//page 1: 1+0  = 1
+		//page 2: 1+10 = 11
+
+		$lastElement = $this->itemsPerPage + $skipping;
+		//page 1: 10+0  = 10
+		//page 2: 10+10 = 20
+
 		//for select between X an Y
-		return Core::Database()
+		$list = Core::Database()
 			->createQueryForClass($this)
 			->call('page')
 			->withParameters($this->searchId, $firstElement, $lastElement)
 			->fetchList();
+
+		if(!$listAscending){
+			//order result page descending
+			$list = array_reverse($list);
+		}
+		return $list;
 	}
 
 	/**

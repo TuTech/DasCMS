@@ -23,6 +23,7 @@ SELECT
 		LEFT JOIN __PFX__Aliases
 			ON (primaryAlias = aliasID)
 	WHERE
-		searchID = ?
+		searchREL = ?
 		AND
 		itemNr BETWEEN ? AND ?
+	ORDER BY itemNr ASC
