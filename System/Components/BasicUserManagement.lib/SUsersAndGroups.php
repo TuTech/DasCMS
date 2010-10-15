@@ -10,8 +10,6 @@
  * @subpackage System
  */
 class SUsersAndGroups 
-    extends 
-        BObject 
     implements 
         Interface_Singleton
 {

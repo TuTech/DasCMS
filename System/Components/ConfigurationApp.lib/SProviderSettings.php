@@ -10,7 +10,6 @@
  * @subpackage Drivers
  */
 class SProviderSettings 
-    extends BObject 
     implements
         Event_Handler_UpdateClassSettings,
         Event_Handler_RequestingClassSettings

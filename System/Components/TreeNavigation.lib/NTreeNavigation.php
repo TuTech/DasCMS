@@ -10,8 +10,6 @@
  * @subpackage Navigator
  */
 class NTreeNavigation 
-    extends 
-        BObject
     implements 
         Interface_Singleton, 
         ITemplateSupporter, 

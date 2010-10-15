@@ -10,8 +10,6 @@
  * @subpackage System
  */
 class SHTTPStatus 
-    extends 
-        BObject 
 {
 	/**
 	 * @var array

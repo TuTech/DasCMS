@@ -10,7 +10,6 @@
  * @subpackage System
  */
 class SContentWatch 
-    extends BObject
     implements 
         Event_Handler_ContentAccess,
         Event_Handler_WillAccessContent,

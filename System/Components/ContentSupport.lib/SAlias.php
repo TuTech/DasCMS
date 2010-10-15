@@ -10,8 +10,6 @@
  * @subpackage System
  */
 class SAlias 
-    extends 
-        BObject 
     implements 
         Interface_Singleton,
 		Event_Handler_ContentChanged,

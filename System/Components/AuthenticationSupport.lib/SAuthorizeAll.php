@@ -10,8 +10,6 @@
  * @subpackage System
  */
 class SAuthorizeAll 
-    extends 
-        BObject 
     implements 
         IAuthorize 
 {

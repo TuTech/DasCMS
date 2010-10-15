@@ -10,8 +10,6 @@
  * @subpackage System
  */
 class SFeedKeeper 
-    extends 
-        BObject
     implements 
         Event_Handler_ContentChanged,
         Event_Handler_ContentCreated,

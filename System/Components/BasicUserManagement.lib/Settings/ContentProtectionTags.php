@@ -4,7 +4,7 @@
  *
  * @author lse
  */
-class Settings_ContentProtectionTags extends BObject
+class Settings_ContentProtectionTags
 	implements
         Event_Handler_RequestingClassSettings,
         Event_Handler_UpdateClassSettings

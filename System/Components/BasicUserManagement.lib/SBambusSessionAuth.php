@@ -10,8 +10,6 @@
  * @subpackage System
  */
 class SBambusSessionAuth 
-    extends 
-        BObject 
     implements 
         IAuthenticate, 
         IAuthorize 

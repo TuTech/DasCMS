@@ -1,5 +1,5 @@
 <?php
-class Settings_SysInfo extends BObject
+class Settings_SysInfo 
 	implements
         Event_Handler_RequestingClassSettings,
         Event_Handler_UpdateClassSettings

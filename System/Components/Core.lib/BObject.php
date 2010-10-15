@@ -17,7 +17,7 @@ abstract class BObject
 	 * load a controller for given app id
 	 *
 	 * @param string $ID
-	 * @return BObject
+	 * @return object
 	 * @throws XPermissionDeniedException
 	 * @throws XUndefinedException
 	 */

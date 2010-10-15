@@ -5,7 +5,6 @@
  * @author lse
  */
 class Settings_CPageWYSIWYG
-	extends BObject
     implements
         Event_Handler_UpdateClassSettings,
         Event_Handler_RequestingClassSettings

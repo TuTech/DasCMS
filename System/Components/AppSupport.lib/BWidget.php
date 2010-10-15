@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage BaseClasses
  */
-abstract class BWidget extends BObject
+abstract class BWidget 
 {
 	protected static $CurrentWidgetID = 0;
 	

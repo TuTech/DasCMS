@@ -10,8 +10,6 @@
  * @subpackage System
  */
 class SSimpleXMLWriter 
-    extends 
-        BObject 
 {
 	const CLASS_NAME = 'SSimpleXMLWriter';
 	const XML_HEADER = '<?xml version="%s" encoding="%s" standalone="%s" ?>';

@@ -10,8 +10,6 @@
  * @subpackage BaseClasses
  */
 abstract class BAppController 
-    extends 
-        BObject
 {
     protected $target = null;
     

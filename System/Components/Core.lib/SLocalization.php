@@ -10,8 +10,6 @@
  * @subpackage System
  */
 class SLocalization 
-    extends 
-        BObject
     implements
         IGlobalUniqueId,
         Event_Handler_RequestingClassSettings,

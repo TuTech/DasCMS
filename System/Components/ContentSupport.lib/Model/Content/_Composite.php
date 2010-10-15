@@ -1,6 +1,5 @@
 <?php
 abstract class _Model_Content_Composite 
-	extends _
 	implements Interface_Composites_Attachable
 {
     /**

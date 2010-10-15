@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage _
  */
-abstract class _Collection extends _
+abstract class _Collection 
 {
     abstract public function toArray();
 }

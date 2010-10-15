@@ -17,7 +17,7 @@ class WAssignedRelations
 	private static $retains = array();
 	/**
 	 * get an array of string of all supported classes
-	 * if it supports BObject, it supports all cms classes
+	 * if it supports object, it supports all cms classes
 	 * @return array
 	 */
 	public static function isSupported(WSidePanel $sidepanel)

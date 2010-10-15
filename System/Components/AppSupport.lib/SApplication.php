@@ -10,7 +10,6 @@
  * @subpackage System
  */
 class SApplication 
-	extends BObject
     implements 
         Interface_Singleton
 {	

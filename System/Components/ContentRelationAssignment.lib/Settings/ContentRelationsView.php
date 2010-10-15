@@ -4,7 +4,7 @@
  *
  * @author lse
  */
-class Settings_ContentRelationsView extends BObject
+class Settings_ContentRelationsView
 	implements
         Event_Handler_RequestingClassSettings,
         Event_Handler_UpdateClassSettings

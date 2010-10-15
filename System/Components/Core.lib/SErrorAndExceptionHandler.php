@@ -10,8 +10,6 @@
  * @subpackage System
  */
 class SErrorAndExceptionHandler
-    extends
-        BObject
     implements
         Event_Handler_RequestingClassSettings,
         Event_Handler_UpdateClassSettings

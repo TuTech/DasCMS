@@ -4,7 +4,7 @@
  *
  * @author lse
  */
-class Settings_ContentView extends BObject
+class Settings_ContentView 
 	implements
         Event_Handler_RequestingClassSettings,
         Event_Handler_UpdateClassSettings

@@ -10,8 +10,6 @@
  * @subpackage System
  */
 class WApplicationTaskBar
-    extends 
-        BObject 
 {
     /**
      * @var DOMDocument

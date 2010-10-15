@@ -10,8 +10,6 @@
  * @subpackage System
  */
 class SResourceString
-    extends 
-        BObject 
 {    
     public static function get($resource, $key)
     {

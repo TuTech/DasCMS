@@ -1,5 +1,5 @@
 <?php
-abstract class _Formatter extends _
+abstract class _Formatter 
 {
 	protected $_FormatterOwnAttributes = array(
 		'tagsPreventingVisibility',

@@ -10,8 +10,6 @@
  * @subpackage System
  */
 class STagPermissions 
-    extends 
-        BObject
     implements 
         Event_Handler_ContentAccess ,
         Event_Handler_WillAccessContent,

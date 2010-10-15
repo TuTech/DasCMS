@@ -5,7 +5,6 @@
  * @author lse
  */
 class HTMLCleaner_SaveInterceptor
-	extends BObject
 	implements Event_Handler_WillSaveContent
 {
 	public function is($key){

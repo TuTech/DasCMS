@@ -74,7 +74,7 @@ class Controller_Content implements Interface_Singleton
 	    }
     }
 
-    public function accessContent($alias, BObject $opener, $failIfReplaced = false)
+    public function accessContent($alias, $opener, $failIfReplaced = false)
     {
         $content = $this->tryOpenContent($alias);
         $e = new Event_WillAccessContent($opener, $content);

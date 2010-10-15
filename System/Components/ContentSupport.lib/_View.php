@@ -1,5 +1,5 @@
 <?php
-abstract class _View extends _
+abstract class _View 
 {
     abstract public function __toString();
 }

@@ -10,7 +10,6 @@
  * @subpackage Drivers
  */
 class DFileSystem 
-	extends BObject
 {
 	const FHEADER = "<?php exit(); ?>\n";
 	

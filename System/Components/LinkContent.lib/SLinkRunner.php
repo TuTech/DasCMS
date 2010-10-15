@@ -10,8 +10,6 @@
  * @subpackage System
  */
 class SLinkRunner 
-    extends 
-        BObject
     implements 
         Event_Handler_ContentAccess,
 		Interface_Singleton
