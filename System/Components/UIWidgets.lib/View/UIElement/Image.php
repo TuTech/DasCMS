@@ -112,16 +112,15 @@ class View_UIElement_Image extends _View_UIElement
     {
         $img = new View_UIElement_Image();
         $img->content = $content;
-        if ($content instanceof IFileContent)
-        {
-            if(self::supportedMimeType($content->getMimeType()))
-            {
+        if ($content instanceof IFileContent
+				&& self::supportedMimeType($content->getMimeType()))
+		{
                 //render this image
                 $img->imageID = $content->getId();
                 $img->allowsPreview = false;
-            }
+				$found = true;
         }
-        else
+		else
         {
 			$id = self::resolvePreview($content->getAlias());
 			if($id !== null){
