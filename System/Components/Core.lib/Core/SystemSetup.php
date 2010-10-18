@@ -2,7 +2,7 @@
 //this is the setup for the main setup
 //setup for the planned subinstances should
 //be handled in something like SubsystemSetup
-class SystemSetup
+class Core_SystemSetup
 {
 	private $setupObjects = array();
 	private $continueSetupFile = 'Content/allow_continue_setup.txt';
