@@ -94,7 +94,7 @@ class Controller_View
      */
     public function display(Interface_Content $content, $withView)
     {
-		$obj = $this->loadView($name);
+		$obj = $this->loadView($withView);
 		if($obj instanceof Interface_AcceptsContent){
 			$obj->acceptContent($content);
 		}
