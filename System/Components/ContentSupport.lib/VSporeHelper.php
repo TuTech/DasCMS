@@ -84,7 +84,7 @@ class VSporeHelper
     private function formatter($spore, $formatter)
     {
         try{
-            return Formatter_Container::unfreezeForFormatting($formatter, $this->sporeContent($spore));
+            return Controller_View::getInstance()->display($this->sporeContent($spore), $formatter);
         }catch (Exception $e)
         {
             return $e->getTraceAsString();
@@ -101,7 +101,7 @@ class VSporeHelper
         $c = $this->sporeContent($spore);
 		$formatter = Core::settings()->get('Settings_ContentView_defaultContentView');
 		if($formatter){
-			$content = Formatter_Container::unfreezeForFormatting($formatter, $c);
+			$content = Controller_View::getInstance()->display($c, $formatter);
 		}
 		else{
 			$content = $c->getContent();

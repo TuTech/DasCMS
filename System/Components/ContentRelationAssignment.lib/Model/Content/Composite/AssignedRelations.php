@@ -100,7 +100,7 @@ class Model_Content_Composite_AssignedRelations
 		foreach ($this->assigned as $alias) {
 			try{
 				$c = Controller_Content::getInstance()->openContent($alias);
-				$html .= '<li>'.Formatter_Container::unfreezeForFormatting($formatter, $c).'</li>';
+				$html .= '<li>'.Controller_View::getInstance()->display($c, $formatter).'</li>';
 			}
 			catch(XFileNotFoundException $fnf){
 				return '';
@@ -141,7 +141,7 @@ class Model_Content_Composite_AssignedRelations
 			if(empty ($value)){
 				$this->formatter = null;
 			}
-			elseif(Formatter_Container::exists($value)){
+			elseif(Controller_View::getInstance()->hasView($value)){
 				$this->formatter = strval($value);
 			}
 

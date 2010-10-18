@@ -67,7 +67,7 @@ class View_UIElement_AssignedRelations
 	public function render()
 	{
 		$currentFormatter = $this->targetObject->getAssignedRelationsFormatter();
-		$formatters = Formatter_Container::getFormatterList();
+		$formatters = Controller_View::getInstance()->getStoredViews();
 		$options = array(' - '.SLocalization::get('none').' - '  => '');
 		foreach ($formatters as $f){
 			$options[$f] = $f;

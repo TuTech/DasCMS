@@ -55,7 +55,7 @@ class Model_Content_Composite_ContentFormatter extends _Model_Content_Composite
         $f = $this->getChildContentFormatter();
         if($f)    
         {
-            return Formatter_Container::unfreezeForFormatting($f, $content);
+            return Controller_View::getInstance()->display($content, $f);
         }
         else
         {

@@ -80,7 +80,7 @@ if(PAuthorisation::has('org.bambuscms.content.cfeed.change') && $Feed != null)
         )
     ));
 
-	$formatters = Formatter_Container::getFormatterList();
+	$formatters = Controller_View::getInstance()->getStoredViews();
 	$formatterOptions = array('' => ' - '.SLocalization::get('none').' - ');
 		foreach ($formatters as $f){
 			$formatterOptions[$f] = $f;

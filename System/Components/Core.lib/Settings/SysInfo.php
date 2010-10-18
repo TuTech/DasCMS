@@ -5,11 +5,6 @@ class Settings_SysInfo
         Event_Handler_UpdateClassSettings
 {
 	public function handleEventRequestingClassSettings(Event_RequestingClassSettings $e) {
-		$formatters = Formatter_Container::getFormatterList();
-		$options = array(' - '.SLocalization::get('none').' - '  => '');
-		foreach ($formatters as $f){
-			$options[$f] = $f;
-		}
 		$e->addClassSettings($this, 'system_information', array(
 			'php_version' => array(phpversion(), Settings::TYPE_INFORMATION, null, 'php_version'),
 			'cache_size' => array($this->cacheSize(), Settings::TYPE_INFORMATION, null, 'cache_size'),
