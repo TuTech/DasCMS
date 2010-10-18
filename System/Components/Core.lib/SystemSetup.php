@@ -74,7 +74,7 @@ class SystemSetup
 		
 		//*run buildIndex
 		//create index of all classes
-		CoreUpdate::run(CoreUpdate::NO_DATABASE);
+		Core_Update::run(Core_Update::NO_DATABASE);
 
 		//load all setup objects
 		$classes = Core::getClassesWithInterface('Setup_Component');
@@ -110,10 +110,10 @@ class SystemSetup
 		
 		//*run buildSQL
 		//compile sql queries e.g. fill in table prefixes
-		CoreSQLUpdate::run();
+		Core_SQLUpdate::run();
 
 		//*run buildCacheManifest
-		CoreManagementUpdate::run();
+		Core_ManagementUpdate::run();
 		
 		//*run <Setup_Component>DatabaseTables
 		//*run <Setup_Component>DatabaseTableReferences
@@ -126,7 +126,7 @@ class SystemSetup
 				'Content'
 			);
 		//create index of all classes and write them in the database
-		CoreUpdate::run(CoreUpdate::WITH_DATABASE);
+		Core_Update::run(Core_Update::WITH_DATABASE);
 
 		if(file_exists($this->continueSetupFile)){
 			unlink($this->continueSetupFile);

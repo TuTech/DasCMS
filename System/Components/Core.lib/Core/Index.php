@@ -1,5 +1,5 @@
 <?php
-class CoreIndex extends Core
+class Core_Index extends Core
 {
 	private static $verbose = false;
 

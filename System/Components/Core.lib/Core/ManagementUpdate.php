@@ -1,5 +1,5 @@
 <?php
-class CoreManagementUpdate extends Core
+class Core_ManagementUpdate extends Core
 {
 	private static $version = array('js' => 0, 'css' => 0);
 	private static $content = array('js' => '', 'css' => '');

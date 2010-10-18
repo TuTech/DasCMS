@@ -1,5 +1,5 @@
 <?php
-class CoreSQLUpdate extends Core
+class Core_SQLUpdate extends Core
 {
 	private static $verbose = false;
 	const CACHE_DIR = 'SQLCache';
@@ -97,7 +97,7 @@ class CoreSQLUpdate extends Core
 		if(!is_dir($dir)){
 			mkdir($dir) || die("No SQL Cache Folder\n\n");
 		}
-		$runner = new CoreSQLUpdate();
+		$runner = new Core_SQLUpdate();
 		$runner->readComponentData();
 		foreach ($runner->data as $class => $queryData){
 			Core::dataToFile(serialize($queryData), sprintf('%s/%s.gz', $dir, sha1($class)), true);

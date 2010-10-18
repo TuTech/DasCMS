@@ -1,5 +1,5 @@
 <?php
-class CoreUpdate extends Core
+class Core_Update extends Core
 {
 	const NO_DATABASE = false;
 	const WITH_DATABASE = true;
@@ -128,14 +128,14 @@ class CoreUpdate extends Core
 		{
 			if(empty ($cguid)){
 				Core::Database()
-					->createQueryForClass('CoreUpdate')
+					->createQueryForClass('Core_Update')
 					->call('updateClassIndexNoGUID')
 					->withParameters($cname, $cname)
 					->execute();
 			}
 			else{
 				Core::Database()
-					->createQueryForClass('CoreUpdate')
+					->createQueryForClass('Core_Update')
 					->call('updateClassIndex')
 					->withParameters($cname, $cguid, $cname, $cguid)
 					->execute();
