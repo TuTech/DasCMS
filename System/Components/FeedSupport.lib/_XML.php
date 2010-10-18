@@ -5,10 +5,6 @@
  * @since 2008-11-28
  * @license GNU General Public License 3
  */
-/**
- * @package Bambus
- * @subpackage _
- */
 abstract class _XML 
 {
     //child modes
@@ -71,9 +67,11 @@ abstract class _XML
      */
     protected function fetchElements(DOMNode $node, array $elements)
     {
+        $this->debug_log('fetching elements');
         $result = array();
         foreach ($elements as $element => $childMode) 
         {
+            $this->debug_log('element '.$element);
         	$result[$element] = $this->getNamedChildElements($node, $element, $childMode);
         }
         return $result;
@@ -90,6 +88,7 @@ abstract class _XML
     protected function getNamedChildElements(DOMNode $node, $elementName, $childMode = _XML::NONE_OR_MORE)
     {
         $children = array();
+        $this->debug_log('getting children');
         if($node->hasChildNodes())
         {
             foreach($node->childNodes as $child)
@@ -114,9 +113,11 @@ abstract class _XML
      */
     protected function fetchAttributes(DOMNode $node, array $attributes)
     {
+        $this->debug_log('fetching attributes');
         $result = array();
         foreach ($attributes as $attribute => $childMode) 
         {
+            $this->debug_log('attribute '.$attribute);
         	$result[$attribute] = $this->getNamedChildAttributes($node, $attribute, $childMode);
         }
         return $result;
@@ -132,15 +133,18 @@ abstract class _XML
      */
     protected function getNamedChildAttributes(DOMNode $node, $attributeName, $childMode = _XML::NONE_OR_MORE)
     {
+        $this->debug_log('looking for '.$attributeName);
         $attList = $node->attributes;
         $att = $attList->getNamedItem($attributeName);
         if(!$att)
         {
             $this->assertChildMode($childMode, 0);
+            $this->debug_log('failed');
             return null;
         }
         else
         {
+            $this->debug_log('found '.$att->nodeValue);
             $this->assertChildMode($childMode, 1);
             return $att->nodeValue;
         }
