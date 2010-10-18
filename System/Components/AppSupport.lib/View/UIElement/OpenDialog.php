@@ -44,22 +44,22 @@ class View_UIElement_OpenDialog extends _View_UIElement implements Interface_Sin
         $this->autoload = ($yn == true);
     }
     
-    public function __construct($editor = null, $BContent = null)
+    public function __construct($editor = null, $_Content = null)
     {
         if ($editor instanceof BAppController) 
         {
-        	$this->setTarget($editor, $BContent);
+        	$this->setTarget($editor, $_Content);
         }
     }
     
-    public function setTarget(BAppController $editor, $BContent = null)
+    public function setTarget(BAppController $editor, $_Content = null)
     {
         $this->editor = $editor;
         if ($editor instanceof ISupportsOpenDialog) 
         {
-        	$BContent = $editor->getOpenDialogTarget();
+        	$_Content = $editor->getOpenDialogTarget();
         }
-        if($BContent == null)
+        if($_Content == null)
         {
             $this->autoload(true);
         }

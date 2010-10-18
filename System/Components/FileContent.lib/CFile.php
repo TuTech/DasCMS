@@ -10,7 +10,7 @@
  * @subpackage Content
  */
 class CFile
-    extends BContent 
+    extends _Content 
     implements 
         ISupportsSidebar, 
         IGlobalUniqueId,
@@ -40,7 +40,7 @@ class CFile
 	    {
 	        throw new XFileNotFoundException('no uploaded file', 'CFile');
 	    }
-	    list($dbid, $alias) = BContent::createContent('CFile', $title);
+	    list($dbid, $alias) = _Content::createContent('CFile', $title);
 	    if(!RFiles::move('CFile', './Content/CFile/'.$dbid.'.data'))
 	    {
 	        throw new XUndefinedException('upload not moveable');
@@ -56,7 +56,7 @@ class CFile
         {
             $type = 'application/pdf';
         }
-		BContent::setMIMEType($alias, $type);
+		_Content::setMIMEType($alias, $type);
 	    $file = new CFile($alias);
 	    $file->Size = RFiles::getSize('CFile');
 	    $file->saveMetaToDB();
@@ -92,7 +92,7 @@ class CFile
 		$this->ModifiedBy = PAuthentication::getUserID();
 		$this->ModifyDate = time();
         $this->Size = RFiles::getSize('CFile');
-        BContent::setMIMEType($this->getAlias(), RFiles::getType('CFile'));
+        _Content::setMIMEType($this->getAlias(), RFiles::getType('CFile'));
         $this->saveMetaToDB();
         SNotificationCenter::report('message', 'file_updated');
         $fs = DFileSystem::filesOf('Content/temp/','/^scale\.render\.[\d]+\.'.$this->getId().'-/');
@@ -242,7 +242,7 @@ class CFile
 	 */
 	public static function defaultIcon()
 	{
-	    return new View_UIElement_Icon('BContent', 'content', View_UIElement_Icon::LARGE, 'mimetype');
+	    return new View_UIElement_Icon('_Content', 'content', View_UIElement_Icon::LARGE, 'mimetype');
 	}
 	
 	/**
@@ -309,7 +309,7 @@ class CFile
 	//ISearchDirectives
 	public function allowSearchIndex()
 	{
-	    return BContent::isIndexingAllowed($this->getId());
+	    return _Content::isIndexingAllowed($this->getId());
 	}
 	public function excludeAttributesFromSearchIndex()
 	{
@@ -321,7 +321,7 @@ class CFile
     }
     public function changeSearchIndexingStatus($allow)
     {
-        BContent::setIndexingAllowed($this->getId(), !empty($allow));
+        _Content::setIndexingAllowed($this->getId(), !empty($allow));
     }
 	
 }

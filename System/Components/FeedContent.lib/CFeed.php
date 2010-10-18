@@ -10,7 +10,7 @@
  * @subpackage Content
  */
 class CFeed 
-    extends BContent 
+    extends _Content 
     implements 
         ISupportsSidebar, 
         IGlobalUniqueId, 
@@ -271,7 +271,7 @@ class CFeed
 	 */
 	public static function Create($title)
 	{
-	    list($dbid, $alias) = BContent::createContent(self::CLASS_NAME, $title);
+	    list($dbid, $alias) = _Content::createContent(self::CLASS_NAME, $title);
 	    $tpl = new CFeed($alias);
 	    new Event_ContentCreated($tpl, $tpl);
 	    return $tpl;
@@ -775,7 +775,7 @@ class CFeed
 	//ISearchDirectives
 	public function allowSearchIndex()
 	{
-	    return BContent::isIndexingAllowed($this->getId());
+	    return _Content::isIndexingAllowed($this->getId());
 	}
 	public function excludeAttributesFromSearchIndex()
 	{
@@ -787,7 +787,7 @@ class CFeed
     }
     public function changeSearchIndexingStatus($allow)
     {
-        BContent::setIndexingAllowed($this->getId(), !empty($allow));
+        _Content::setIndexingAllowed($this->getId(), !empty($allow));
     }
 
 	/**

@@ -10,7 +10,7 @@
  * @subpackage Content
  */
 class CStylesheet
-    extends BContent 
+    extends _Content 
     implements 
         ISupportsSidebar, 
         IGlobalUniqueId,
@@ -33,10 +33,10 @@ class CStylesheet
 	 */
 	public static function Create($title)
 	{
-	    list($dbid, $alias) = BContent::createContent(self::CLASS_NAME, $title);
+	    list($dbid, $alias) = _Content::createContent(self::CLASS_NAME, $title);
 	    DFileSystem::save(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$dbid.'.php', ' ');
 	    DFileSystem::save(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$dbid.'.html.php', ' ');
-	    BContent::setMIMEType($alias, 'text/css');
+	    _Content::setMIMEType($alias, 'text/css');
 	    $script = new CStylesheet($alias);
 	    $e = new Event_ContentCreated($script, $script);
 	    return $script;
@@ -205,7 +205,7 @@ class CStylesheet
 	//ISearchDirectives
 	public function allowSearchIndex()
 	{
-	    return BContent::isIndexingAllowed($this->getId());
+	    return _Content::isIndexingAllowed($this->getId());
 	}
 	public function excludeAttributesFromSearchIndex()
 	{
@@ -217,7 +217,7 @@ class CStylesheet
     }
     public function changeSearchIndexingStatus($allow)
     {
-        BContent::setIndexingAllowed($this->getId(), !empty($allow));
+        _Content::setIndexingAllowed($this->getId(), !empty($allow));
     }
 }
 ?>

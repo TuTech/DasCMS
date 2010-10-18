@@ -10,7 +10,7 @@
  * @subpackage Content
  */
 class CScript
-    extends BContent
+    extends _Content
     implements
         ISupportsSidebar,
         IGlobalUniqueId,
@@ -33,10 +33,10 @@ class CScript
 	 */
 	public static function Create($title)
 	{
-	    list($dbid, $alias) = BContent::createContent(self::CLASS_NAME, $title);
+	    list($dbid, $alias) = _Content::createContent(self::CLASS_NAME, $title);
 	    DFileSystem::save(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$dbid.'.php', ' ');
 	    DFileSystem::save(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$dbid.'.html.php', ' ');
-	    BContent::setMIMEType($alias, 'application/javascript');
+	    _Content::setMIMEType($alias, 'application/javascript');
 	    $script = new CScript($alias);
 	    $e = new Event_ContentCreated($script, $script);
 	    return $script;
@@ -207,7 +207,7 @@ class CScript
 	//ISearchDirectives
 	public function allowSearchIndex()
 	{
-	    return BContent::isIndexingAllowed($this->getId());
+	    return _Content::isIndexingAllowed($this->getId());
 	}
 	public function excludeAttributesFromSearchIndex()
 	{
@@ -219,7 +219,7 @@ class CScript
     }
     public function changeSearchIndexingStatus($allow)
     {
-        BContent::setIndexingAllowed($this->getId(), !empty($allow));
+        _Content::setIndexingAllowed($this->getId(), !empty($allow));
     }
 }
 ?>

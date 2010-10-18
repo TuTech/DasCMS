@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage BaseClasses
  */
-abstract class BContent implements Interface_Content
+abstract class _Content implements Interface_Content
 {
 	protected static $metaDataCache = array();
 
@@ -62,7 +62,7 @@ abstract class BContent implements Interface_Content
 	const COMPOSITE_PREFIX = 'Model_Content_Composite_';
 
 	/**
-	 * this must not be used outside of BContent::composites()
+	 * this must not be used outside of _Content::composites()
 	 * @var array
 	 */
 	protected static $_composites = null;
@@ -120,7 +120,7 @@ abstract class BContent implements Interface_Content
 	        foreach ($this->_compositeLookup as $index => $comp)
 	        {
 	            //build class and lookup names
-	            $class = BContent::COMPOSITE_PREFIX.$comp;
+	            $class = _Content::COMPOSITE_PREFIX.$comp;
 	            if(class_exists($class, true))
 	            {
     	            $lookup = $class.'::getCompositeMethods';
@@ -155,7 +155,7 @@ abstract class BContent implements Interface_Content
         {
             //get the implemented composite methods
             $methods = call_user_func($lookup, $contentType);
-            $compName = substr($class, strlen(BContent::COMPOSITE_PREFIX));
+            $compName = substr($class, strlen(_Content::COMPOSITE_PREFIX));
             if(is_array($methods) && !in_array($compName, $this->_compositeLookup))
             {
                 $index = count($this->_compositeLookup);
@@ -198,7 +198,7 @@ abstract class BContent implements Interface_Content
     	    }
 
     	    //check composite class
-    	    $compositeClass = BContent::COMPOSITE_PREFIX.$this->_compositeLookup[$index];
+    	    $compositeClass = _Content::COMPOSITE_PREFIX.$this->_compositeLookup[$index];
     	    if(!class_exists($compositeClass, true))
     	    {
     	        throw new XUndefinedException('composite not found');
@@ -232,7 +232,7 @@ abstract class BContent implements Interface_Content
 	{
 		if(!array_key_exists($alias, self::$metaDataCache)){
 			$res = Core::Database()
-				->createQueryForClass('BContent')
+				->createQueryForClass('_Content')
 				->call('basicMeta')
 				->withParameters($alias);
 			self::$metaDataCache[$alias] = $res->fetchResult();
@@ -267,17 +267,17 @@ abstract class BContent implements Interface_Content
 		$pubDate = ($this->PubDate > 0) ? date('Y-m-d H:i:s', $this->PubDate) : '0000-00-00 00:00:00';
 		$revokeDate = ($this->RevokeDate > 0) ? date('Y-m-d H:i:s', $this->RevokeDate) : '0000-00-00 00:00:00';
 		Core::Database()
-			->createQueryForClass('BContent')
+			->createQueryForClass('_Content')
 			->call('saveMeta')
 			->withParameters($this->Title, $pubDate, $revokeDate, $this->Description, $this->Size, $this->SubTitle, $this->Id)
 			->execute();
 		self::$metaDataCache = array();
-		BContent::logChange($this->Id, $this->Title, $this->Size);
+		_Content::logChange($this->Id, $this->Title, $this->Size);
 	}
 
 	protected static function logChange($id, $title, $size, $retried = false){
 		$uid = Core::Database()
-			->createQueryForClass('BContent')
+			->createQueryForClass('_Content')
 			->call('logUID')
 			->withParameters(PAuthentication::getUserID())
 			->fetchSingleValue();
@@ -290,7 +290,7 @@ abstract class BContent implements Interface_Content
 		//unknown user: add and retry
 		if($uid == null){
 			Core::Database()
-				->createQueryForClass('BContent')
+				->createQueryForClass('_Content')
 				->call('addLogUser')
 				->withParameters(PAuthentication::getUserID())
 				->execute();
@@ -299,12 +299,12 @@ abstract class BContent implements Interface_Content
 
 		//all well, going on
 		Core::Database()
-			->createQueryForClass('BContent')
+			->createQueryForClass('_Content')
 			->call('setLogOutdated')
 			->withParameters($id)
 			->execute();
 		Core::Database()
-			->createQueryForClass('BContent')
+			->createQueryForClass('_Content')
 			->call('log')
 			->withParameters($id, $title, $size, $uid)
 			->execute();
@@ -315,7 +315,7 @@ abstract class BContent implements Interface_Content
 		$DB->beginTransaction();
 		try{
 			$cid = Core::Database()
-				->createQueryForClass('BContent')
+				->createQueryForClass('_Content')
 				->call('createContent')
 				->withParameters($title, $class)
 				->executeInsert();
@@ -323,12 +323,12 @@ abstract class BContent implements Interface_Content
 				throw new Exception('could not create Content');
 			}
 			$aid = Core::Database()
-				->createQueryForClass('BContent')
+				->createQueryForClass('_Content')
 				->call('createGUID')
 				->withParameters($cid)
 				->executeInsert();
 			Core::Database()
-				->createQueryForClass('BContent')
+				->createQueryForClass('_Content')
 				->call('linkGUID')
 				->withParameters($aid, $aid, $cid)
 				->execute();
@@ -340,10 +340,10 @@ abstract class BContent implements Interface_Content
 	        throw $dbe;
 	    }
 		
-		BContent::logChange($cid, $title, 0);
+		_Content::logChange($cid, $title, 0);
 			
 		$guid = Core::Database()
-			->createQueryForClass('BContent')
+			->createQueryForClass('_Content')
 			->call('getGUID')
 			->withParameters($cid)
 			->fetchSingleValue();
@@ -352,12 +352,12 @@ abstract class BContent implements Interface_Content
 
 	protected static function setMIMEType($alias, $type){
 		Core::Database()
-			->createQueryForClass('BContent')
+			->createQueryForClass('_Content')
 			->call('addMime')
 			->withParameters($type,$type)
 			->execute();
 		Core::Database()
-			->createQueryForClass('BContent')
+			->createQueryForClass('_Content')
 			->call('setMime')
 			->withParameters($type, $alias)
 			->execute();
@@ -366,7 +366,7 @@ abstract class BContent implements Interface_Content
 	protected static function isIndexingAllowed($contentID)
 	{
 		return !!Core::Database()
-			->createQueryForClass('BContent')
+			->createQueryForClass('_Content')
 			->call('searchable')
 			->withParameters($contentID)
 			->fetchSingleValue();
@@ -375,7 +375,7 @@ abstract class BContent implements Interface_Content
 	protected static function setIndexingAllowed($contentID, $isAllowed)
 	{
 		Core::Database()
-			->createQueryForClass('BContent')
+			->createQueryForClass('_Content')
 			->call('setSearchable')
 			->withParameters($isAllowed ? 'Y' : 'N', $contentID)
 			->execute();
@@ -484,7 +484,7 @@ abstract class BContent implements Interface_Content
 	 */
 	public static function defaultIcon()
 	{
-	    return new View_UIElement_Icon('BContent', 'content', View_UIElement_Icon::LARGE, 'mimetype');
+	    return new View_UIElement_Icon('_Content', 'content', View_UIElement_Icon::LARGE, 'mimetype');
 	}
 
 	/**
@@ -493,7 +493,7 @@ abstract class BContent implements Interface_Content
 	 */
 	public function getIcon()
 	{
-	    return BContent::defaultIcon();
+	    return _Content::defaultIcon();
 	}
 
 	/**
@@ -566,7 +566,7 @@ abstract class BContent implements Interface_Content
 		{
 			//load tags
 			$this->Tags = Core::Database()
-				->createQueryForClass('BContent')
+				->createQueryForClass('_Content')
 				->call('tags')
 				->withParameters($this->Id)
 				->fetchList();

@@ -10,7 +10,7 @@
  * @subpackage Content
  */
 class CLink
-    extends BContent 
+    extends _Content 
     implements 
         ISupportsSidebar, 
         IGlobalUniqueId,
@@ -31,7 +31,7 @@ class CLink
 	 */
 	public static function Create($title)
 	{
-	    list($dbid, $alias) = BContent::createContent(self::CLASS_NAME, $title);
+	    list($dbid, $alias) = _Content::createContent(self::CLASS_NAME, $title);
 	    DFileSystem::save(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$dbid.'.php', '');
 	    $tpl = new CLink($alias);
 	    new Event_ContentCreated($tpl, $tpl);

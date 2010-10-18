@@ -25,13 +25,13 @@ abstract class BAContentAppController
      * content class
      * @var string
      */
-    protected $contentClass = 'BContent';
+    protected $contentClass = '_Content';
     
     /**
      * content icon
      * @var string
      */
-    protected $contentIcon = 'BContent';
+    protected $contentIcon = '_Content';
     
     /**
 	 * @var Interface_Content

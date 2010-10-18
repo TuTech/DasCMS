@@ -175,11 +175,11 @@ class Controller_Tags
 	 * @param Interface_Content $content
 	 * @return array
 	 */
-	public function get($BContentOrAlias)
+	public function get($ContentOrAlias)
 	{
-	    $alias = ($BContentOrAlias instanceof Interface_Content)
-	        ? $BContentOrAlias->Alias 
-	        : $BContentOrAlias;
+	    $alias = ($ContentOrAlias instanceof Interface_Content)
+	        ? $ContentOrAlias->Alias 
+	        : $ContentOrAlias;
 		return $this->getTags($alias);
 	}
 }

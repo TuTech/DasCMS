@@ -10,7 +10,7 @@
  * @subpackage Content
  */
 class CTemplate 
-    extends BContent 
+    extends _Content 
     implements 
         ISupportsSidebar, 
         IGlobalUniqueId,
@@ -33,7 +33,7 @@ class CTemplate
 	 */
 	public static function Create($title)
 	{
-	    list($dbid, $alias) = BContent::createContent('CTemplate', $title);
+	    list($dbid, $alias) = _Content::createContent('CTemplate', $title);
 	    DFileSystem::save(Core::PATH_TEMPLATES.$dbid.'.php', ' ');
 	    $tpl = new CTemplate($alias);
 	    new Event_ContentCreated($tpl, $tpl);
@@ -166,7 +166,7 @@ class CTemplate
 	//ISearchDirectives
 	public function allowSearchIndex()
 	{
-	    return BContent::isIndexingAllowed($this->getId());
+	    return _Content::isIndexingAllowed($this->getId());
 	}
 	public function excludeAttributesFromSearchIndex()
 	{
@@ -178,7 +178,7 @@ class CTemplate
     }
     public function changeSearchIndexingStatus($allow)
     {
-		BContent::setIndexingAllowed($this->getId(), !empty($allow));
+		_Content::setIndexingAllowed($this->getId(), !empty($allow));
     }
 }
 ?>
