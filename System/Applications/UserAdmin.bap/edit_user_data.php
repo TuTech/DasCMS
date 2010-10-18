@@ -109,7 +109,7 @@ if($edit_mode == 'usr')
     /////////////////////////////EX PERMS
 	print('<input type="hidden" name="action_2" value="save_editor_permissions" /><br />');
     $myDir = getcwd();//nice place... remember it
-    chdir(SPath::SYSTEM_APPLICATIONS);
+    chdir(Core::PATH_SYSTEM_APPLICATIONS);
     $Dir = opendir ('./'); 
     $items = array();
     $i = 0;

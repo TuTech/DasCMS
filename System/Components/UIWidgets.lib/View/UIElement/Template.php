@@ -103,8 +103,8 @@ class View_UIElement_Template extends _View_UIElement
     
     private function getTemplateString()
     {
-        $cpath = SPath::TEMPLATES.basename($this->template).'.tpl';
-        $spath = SPath::SYSTEM_TEMPLATES.basename($this->template).'.tpl';
+        $cpath = Core::PATH_TEMPLATES.basename($this->template).'.tpl';
+        $spath = Core::PATH_SYSTEM_TEMPLATES.basename($this->template).'.tpl';
         $dat = '';
         switch ($this->scope) 
         {

@@ -117,7 +117,7 @@ class UFeedReader implements Interface_Singleton, ITemplateSupporter, IGlobalUni
 	//get feed from server or use cached version
 	private function loadResource($url, $minutesToLive = 30)
 	{
-		$temp = SPath::TEMP;
+		$temp = Core::PATH_TEMP;
 		$feedId = 'FeedReader_'.md5($url);
 		if(file_exists($temp.$feedId) && filemtime($temp.$feedId) > (time() - $minutesToLive*60))
 		{
@@ -232,7 +232,7 @@ class UFeedReader implements Interface_Singleton, ITemplateSupporter, IGlobalUni
 
 		//gereate a not feed but call independent id for the feed
 		$feedId = 'FeedReader_'.md5(implode('#',$options)).'.html';
-		$temp = SPath::TEMP;
+		$temp = Core::PATH_TEMP;
 		if(file_exists($temp.$feedId) && filemtime($temp.$feedId) > (time() -  $options['update']*60))
 		{
 			//cached version exists

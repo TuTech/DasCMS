@@ -34,8 +34,8 @@ class CScript
 	public static function Create($title)
 	{
 	    list($dbid, $alias) = BContent::createContent(self::CLASS_NAME, $title);
-	    DFileSystem::save(SPath::CONTENT.self::CLASS_NAME.'/'.$dbid.'.php', ' ');
-	    DFileSystem::save(SPath::CONTENT.self::CLASS_NAME.'/'.$dbid.'.html.php', ' ');
+	    DFileSystem::save(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$dbid.'.php', ' ');
+	    DFileSystem::save(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$dbid.'.html.php', ' ');
 	    BContent::setMIMEType($alias, 'application/javascript');
 	    $script = new CScript($alias);
 	    $e = new Event_ContentCreated($script, $script);
@@ -90,7 +90,7 @@ class CScript
 	{
 	    if(!$this->_contentLoaded)
 	    {
-	        $this->Content = DFileSystem::load(SPath::CONTENT.self::CLASS_NAME.'/'.$this->Id.'.html.php');
+	        $this->Content = DFileSystem::load(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$this->Id.'.html.php');
 	        $this->_contentLoaded = true;
 	    }
 	    return $this->Content;
@@ -127,7 +127,7 @@ class CScript
 	    //load
 	    if($this->RAWContent == null)
 	    {
-	        $this->RAWContent = DFileSystem::load(SPath::CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php');
+	        $this->RAWContent = DFileSystem::load(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php');
 	    }
 	    return $this->RAWContent;
 	}
@@ -137,8 +137,8 @@ class CScript
 		//save content
 		if($this->_contentLoaded)
 		{
-			DFileSystem::save(SPath::CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php',$this->RAWContent);
-			DFileSystem::save(SPath::CONTENT.self::CLASS_NAME.'/'.$this->Id.'.html.php',$this->Content);
+			DFileSystem::save(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php',$this->RAWContent);
+			DFileSystem::save(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$this->Id.'.html.php',$this->Content);
 		}
 	}
 

@@ -253,12 +253,12 @@ class View_UIElement_Image extends _View_UIElement
         $this->scaleHash = self::createScaleHash($width, $heigth, $mode, $forceType, $fillColor);
         //permit rendering this image
         $qual = intval(Core::settings()->getOrDefault('CFile_image_quality', 75));
-        if(!file_exists(SPath::TEMP.'scale.render.'.$qual.'.'.$this->imageID.'-'.$this->scaleHash)
+        if(!file_exists(Core::PATH_TEMP.'scale.render.'.$qual.'.'.$this->imageID.'-'.$this->scaleHash)
             && !PAuthorisation::has('org.bambuscms.bcontent.previewimage.create') //does not need explicit permission
             )
         {
             //generate temporary permission file
-            touch(SPath::TEMP.'scale.permit.'.$this->imageID.'-'.$this->scaleHash);
+            touch(Core::PATH_TEMP.'scale.permit.'.$this->imageID.'-'.$this->scaleHash);
         }
         return $this;
     }
@@ -304,11 +304,11 @@ class View_UIElement_Image extends _View_UIElement
 	public static function placeholderFile(){
 		if(self::$placeholderImage === null){
 			$img = 'no_preview.jpg';
-			if(file_exists(SPath::CONTENT.$img)){
-				self::$placeholderImage = SPath::CONTENT.$img;
+			if(file_exists(Core::PATH_CONTENT.$img)){
+				self::$placeholderImage = Core::PATH_CONTENT.$img;
 			}
 			else{
-				self::$placeholderImage = SPath::SYSTEM_IMAGES.$img;
+				self::$placeholderImage = Core::PATH_SYSTEM_IMAGES.$img;
 			}
 		}
 		return self::$placeholderImage;

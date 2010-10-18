@@ -32,7 +32,7 @@ class CPage
 	public static function Create($title)
 	{
 	    list($dbid, $alias) = BContent::createContent('CPage', $title);
-	    DFileSystem::save(SPath::CONTENT.'CPage/'.$dbid.'.content.php', ' ');
+	    DFileSystem::save(Core::PATH_CONTENT.'CPage/'.$dbid.'.content.php', ' ');
 	    BContent::setMIMEType($alias, 'text/html');
 	    $page = new CPage($alias);
 	    new Event_ContentCreated($page, $page);
@@ -99,7 +99,7 @@ class CPage
 		try{
 			if(!$this->_contentLoaded)
 			{
-				$this->Content = DFileSystem::load(SPath::CONTENT.'CPage/'.$this->Id.'.content.php');
+				$this->Content = DFileSystem::load(Core::PATH_CONTENT.'CPage/'.$this->Id.'.content.php');
 				$this->_contentLoaded = true;
 			}
 		}
@@ -122,7 +122,7 @@ class CPage
 		//save content
 		if($this->_contentLoaded)
 		{
-			DFileSystem::save(SPath::CONTENT.'CPage/'.$this->Id.'.content.php',$this->Content);
+			DFileSystem::save(Core::PATH_CONTENT.'CPage/'.$this->Id.'.content.php',$this->Content);
 		}
 	}
 	

@@ -129,7 +129,7 @@ class View_UIElement_Header extends _View_UIElement
 	
 	public static function loadClientData($path = null)
 	{
-	    $path = ($path == null) ? (SPath::SYSTEM_CLIENT_DATA) : $path;
+	    $path = ($path == null) ? (Core::PATH_SYSTEM_CLIENT_DATA) : $path;
 	    $folders = array();
 	    $files = array();
 	    $oldPath = getcwd();

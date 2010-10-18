@@ -13,7 +13,7 @@ class SResourceString
 {    
     public static function get($resource, $key)
     {
-        $resourceFile = SPath::SYSTEM_RESOURCE_STRINGS.$resource.'.phpdata';
+        $resourceFile = Core::PATH_SYSTEM_RESOURCE_STRINGS.$resource.'.phpdata';
         if(file_exists($resourceFile))
         {
             $data = DFileSystem::loadData($resourceFile);

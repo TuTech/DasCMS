@@ -53,8 +53,8 @@ class View_UIElement_Icon extends _View_UIElement
     {
         $type = substr($type, -1) == 's' ? $type : $type.'s';
         $size = in_array($size, array_keys(self::$sizes)) ? $size : 22;
-        $tango  = SPath::SYSTEM_ICONS.self::$sizes[$size].'/'.$type.'/'.$icon.'.png';
-        $legacy = SPath::SYSTEM_ICONS.'../'.$size.'x'.$size.'/'.$type.'/'.$icon.'.png';
+        $tango  = Core::PATH_SYSTEM_ICONS.self::$sizes[$size].'/'.$type.'/'.$icon.'.png';
+        $legacy = Core::PATH_SYSTEM_ICONS.'../'.$size.'x'.$size.'/'.$type.'/'.$icon.'.png';
         if(!file_exists($tango) && file_exists($legacy))
         {
             return $legacy;
@@ -63,7 +63,7 @@ class View_UIElement_Icon extends _View_UIElement
         {
             return $tango;
         }
-        return sprintf('%s%s/mimetypes/file.png', SPath::SYSTEM_ICONS,self::$sizes[$size]);
+        return sprintf('%s%s/mimetypes/file.png', Core::PATH_SYSTEM_ICONS,self::$sizes[$size]);
     }
     
     /**
@@ -80,8 +80,8 @@ class View_UIElement_Icon extends _View_UIElement
         $tmp = explode('-',$name);//x-pdf to pdf
         $check[] = array_pop($tmp);
         $path = array();
-        $path[0] = sprintf('%s/%s/mimetypes/%%s.png', SPath::SYSTEM_ICONS, self::$sizes[$size]);
-        $path[1] = sprintf('%s../%dx%d/mimetypes/%%s.png', SPath::SYSTEM_ICONS,$size,$size);
+        $path[0] = sprintf('%s/%s/mimetypes/%%s.png', Core::PATH_SYSTEM_ICONS, self::$sizes[$size]);
+        $path[1] = sprintf('%s../%dx%d/mimetypes/%%s.png', Core::PATH_SYSTEM_ICONS,$size,$size);
         $found = null;
         foreach ($check as $item) 
         {
@@ -94,7 +94,7 @@ class View_UIElement_Icon extends _View_UIElement
             	}
             }
         }
-        return sprintf('%s%s/mimetypes/file.png', SPath::SYSTEM_ICONS,self::$sizes[$size]);
+        return sprintf('%s%s/mimetypes/file.png', Core::PATH_SYSTEM_ICONS,self::$sizes[$size]);
     }
     
     public function getType()

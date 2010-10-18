@@ -31,7 +31,7 @@ class View_UIElement_Applications extends _View_UIElement
 		$parts = explode('-', $name);
 		//specifyer in name
 		$type = array_shift($parts);
-		$path = SPath::SYSTEM_ICONS.'/'.($active ? 'large' : 'medium').'/'.strtolower($type).'s/';
+		$path = Core::PATH_SYSTEM_ICONS.'/'.($active ? 'large' : 'medium').'/'.strtolower($type).'s/';
 		if(ctype_alpha($type) && is_dir($path))
 		{
 			//valid path

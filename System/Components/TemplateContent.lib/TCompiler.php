@@ -30,7 +30,7 @@ class TCompiler extends BTemplate
         $this->template->strictErrorChecking = true;
         $this->source = ($source == parent::SYSTEM) ? (parent::SYSTEM) : (parent::CONTENT);
         $this->templateName = $template;
-        $path = ($source == parent::SYSTEM) ? (SPath::SYSTEM_TEMPLATES) : (SPath::TEMPLATES);
+        $path = ($source == parent::SYSTEM) ? (Core::PATH_SYSTEM_TEMPLATES) : (Core::PATH_TEMPLATES);
         $path = sprintf('%s%s', $path, $template);
         SErrorAndExceptionHandler::muteErrors();
         if(!@$this->template->load($path))
@@ -49,7 +49,7 @@ class TCompiler extends BTemplate
     {
         $filename = sprintf(
             '%sDATA_%s_%s.php'
-			,($this->source == parent::SYSTEM) ? (SPath::SYSTEM_TEMPLATES) : (SPath::TEMPLATES)
+			,($this->source == parent::SYSTEM) ? (Core::PATH_SYSTEM_TEMPLATES) : (Core::PATH_TEMPLATES)
             ,$this->source
             ,$this->templateName
         );

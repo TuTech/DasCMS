@@ -158,8 +158,8 @@ class SApplication
         if(RURL::hasValue('editor'))
         {
             $app = basename(RURL::get('editor'));
-            $appXML = SPath::SYSTEM_APPLICATIONS.$app.'/Application.xml';
-            $this->appPath = SPath::SYSTEM_APPLICATIONS.$app.'/';
+            $appXML = Core::PATH_SYSTEM_APPLICATIONS.$app.'/Application.xml';
+            $this->appPath = Core::PATH_SYSTEM_APPLICATIONS.$app.'/';
             if(!file_exists($appXML))
             {
                 throw new XFileNotFoundException('Application not found');
@@ -240,7 +240,7 @@ class SApplication
 	public static function listApplications()
 	{
 		$available = array();
-		$appPath = SPath::SYSTEM_APPLICATIONS;
+		$appPath = Core::PATH_SYSTEM_APPLICATIONS;
 		$dirhdl = opendir($appPath);
 		while($item = readdir($dirhdl))
 		{

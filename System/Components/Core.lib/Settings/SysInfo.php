@@ -25,7 +25,7 @@ class Settings_SysInfo
 			if(PAuthorisation::has('org.bambuscms.system.cache.clear'))
 			{
 				$myDir = getcwd();
-				if(chdir(SPath::TEMP))
+				if(chdir(Core::PATH_TEMP))
 				{
 					$Dir = opendir ('./');
 					while ($item = readdir ($Dir)) {
@@ -46,7 +46,7 @@ class Settings_SysInfo
 
 	public function cacheSize(){
 		$myDir = getcwd();
-		chdir(SPath::TEMP);
+		chdir(Core::PATH_TEMP);
 		$Dir = opendir ('./');
 		$size = 0;
 		while ($item = readdir ($Dir)) {

@@ -264,7 +264,7 @@ if(RSent::hasValue('action'))
 	if(RSent::get('action_2') == 'save_editor_permissions' && PAuthorisation::has('org.bambuscms.credentials.user.change') && $victim != PAuthentication::getUserID())
 	{
 		//list the applications
-	    chdir(SPath::SYSTEM_APPLICATIONS);
+	    chdir(Core::PATH_SYSTEM_APPLICATIONS);
 	    $Dir = opendir ('./'); 
 	    $items = array();
 	    while ($item = readdir ($Dir)) {

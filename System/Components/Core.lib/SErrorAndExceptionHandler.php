@@ -138,7 +138,7 @@ class SErrorAndExceptionHandler
             , $errstr
             , $context
             ,getcwd());
-        DFileSystem::append(SPath::LOGS.'Error.log', $err);
+        DFileSystem::append(Core::PATH_LOGS.'Error.log', $err);
         self::$error = array($errno, $errstr, $errfile, $errline, $errcontext);
         self::$errorMessage = $err;
         if(self::$report && !self::$reportSkipOnce)
@@ -196,7 +196,7 @@ class SErrorAndExceptionHandler
 			, $e->getMessage()
 			, $debugInfo
 			,getcwd());
-		$logFile = SPath::LOGS.'Exceptions.log';
+		$logFile = Core::PATH_LOGS.'Exceptions.log';
 		if((file_exists($logFile) && is_writable($logFile))
 				|| (!file_exists($logFile) && is_writable(dirname($logFile)))){
 			DFileSystem::append($logFile, $err);

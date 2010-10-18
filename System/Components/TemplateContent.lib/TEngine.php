@@ -24,7 +24,7 @@ class TEngine extends BTemplate
         //load
         $filename = sprintf(
             '%sDATA_%s_%s.php'
-			,($source == BTemplate::SYSTEM) ? (SPath::SYSTEM_TEMPLATES) : (SPath::TEMPLATES)
+			,($source == BTemplate::SYSTEM) ? (Core::PATH_SYSTEM_TEMPLATES) : (Core::PATH_TEMPLATES)
             ,$source
             ,$template
         );

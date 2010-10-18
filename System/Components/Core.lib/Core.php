@@ -5,6 +5,24 @@ class Core
 	const PACKAGE_INFO = '/contents.json';
 	const PACKAGE_SUFFIX = '.lib';
 
+	const PATH_SYSTEM = './System/';
+	const PATH_SYSTEM_CLIENT_DATA = './System/ClientData/';
+	const PATH_SYSTEM_ICONS = './System/ClientData/Icons/tango/';
+    const PATH_SYSTEM_IMAGES = './System/ClientData/Images/';
+    const PATH_SYSTEM_TEMPLATES = './System/Resource/Templates/';
+    const PATH_SYSTEM_APPLICATIONS = './System/Applications/';
+    const PATH_SYSTEM_RESOURCES = './System/Resource/';
+    const PATH_SYSTEM_EXTERNALS = './System/External/';
+    const PATH_SYSTEM_RESOURCE_STRINGS = './System/Resource/Strings/';
+
+    const PATH_CONTENT = './Content/';
+    const PATH_CONFIGURATION = './Content/configuration/';
+    const PATH_TEMPLATES = './Content/CTemplate/';
+    const PATH_LOGS = './Content/logs/';
+    const PATH_DESIGN = './Content/stylesheets/';
+    const PATH_SCRIPT = './Content/javascripts/';
+    const PATH_TEMP = './Content/temp/';
+
 	/**
 	 * @var array
 	 */

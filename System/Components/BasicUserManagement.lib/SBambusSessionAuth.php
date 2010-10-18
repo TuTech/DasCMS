@@ -41,7 +41,7 @@ class SBambusSessionAuth
     private function getAllApps()
     {
 		$available = array();
-		$appPath = SPath::SYSTEM_APPLICATIONS;
+		$appPath = Core::PATH_SYSTEM_APPLICATIONS;
 		$dirhdl = opendir($appPath);
 		$UAG = SUsersAndGroups::getInstance();
 		while($item = readdir($dirhdl))
