@@ -9,8 +9,8 @@
 $Stylesheet = SApplication::getControllerContent();
 if($Stylesheet instanceof CStylesheet)
 {
-    echo new WContentTitle($Stylesheet);
-    $editor = new WTextEditor($Stylesheet->RAWContent);
+    echo new View_UIElement_ContentTitle($Stylesheet);
+    $editor = new View_UIElement_TextEditor($Stylesheet->RAWContent);
     $editor->setWordWrap(false);
     $editor->disableSpellcheck();
 	if(file_exists('System/External/Bespin')){

@@ -51,7 +51,8 @@ __PFX__SearchResults(
 		NOT NULL
 		DEFAULT '0.0000000000',
 	itemNr
-		INTEGER UNSIGNED
+		INTEGER
+		UNSIGNED
 		NULL,
 	UNIQUE(searchREL, contentREL),
 	INDEX(contentREL),

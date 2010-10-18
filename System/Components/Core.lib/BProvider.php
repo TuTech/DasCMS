@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage BaseClasses
  */
-abstract class BProvider extends BObject 
+abstract class BProvider 
 {
     public function handleEventRequestingClassSettings(Event_RequestingClassSettings $e)
     {

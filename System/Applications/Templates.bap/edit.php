@@ -9,8 +9,8 @@
 $Tpl = SApplication::getControllerContent();
 if(isset($Tpl) && $Tpl instanceof CTemplate)
 {
-    echo new WContentTitle($Tpl);
-    $editor = new WTextEditor($Tpl->RAWContent);
+    echo new View_UIElement_ContentTitle($Tpl);
+    $editor = new View_UIElement_TextEditor($Tpl->RAWContent);
     $editor->disableSpellcheck();
     echo $editor;   
 }

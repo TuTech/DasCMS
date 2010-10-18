@@ -17,7 +17,7 @@ class View_Content_Icon
 		$val = '';
 		$size = $this->iconSize;
 		if($size == null){
-			$size = WIcon::SMALL;
+			$size = View_UIElement_Icon::SMALL;
 		}
 		if($this->shouldDisplay()){
 			$val = $this->wrapXHTML('Icon', $this->content->getIcon()->asSize($size));
@@ -34,7 +34,7 @@ class View_Content_Icon
 	}
 
 	public function setIconSize($value){
-		if(WIcon::isSize($size)){
+		if(View_UIElement_Icon::isSize($size)){
 			$this->iconSize = $value;
 		}
 	}

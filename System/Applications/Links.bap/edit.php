@@ -9,7 +9,7 @@
 $Link = SApplication::getControllerContent();
 if(isset($Link) && $Link instanceof CLink)
 {
-    echo new WContentTitle($Link);
+    echo new View_UIElement_ContentTitle($Link);
     printf('<h3>%s</h3><input type="text" id="content_input" name="content" value="%s"/>'
     	, SLocalization::get('url')
         , htmlentities($Link->Content, ENT_QUOTES, CHARSET)

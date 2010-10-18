@@ -1,15 +1,10 @@
 <?php
-class Settings_SysInfo extends BObject
+class Settings_SysInfo 
 	implements
         Event_Handler_RequestingClassSettings,
         Event_Handler_UpdateClassSettings
 {
 	public function handleEventRequestingClassSettings(Event_RequestingClassSettings $e) {
-		$formatters = Formatter_Container::getFormatterList();
-		$options = array(' - '.SLocalization::get('none').' - '  => '');
-		foreach ($formatters as $f){
-			$options[$f] = $f;
-		}
 		$e->addClassSettings($this, 'system_information', array(
 			'php_version' => array(phpversion(), Settings::TYPE_INFORMATION, null, 'php_version'),
 			'cache_size' => array($this->cacheSize(), Settings::TYPE_INFORMATION, null, 'cache_size'),
@@ -30,7 +25,7 @@ class Settings_SysInfo extends BObject
 			if(PAuthorisation::has('org.bambuscms.system.cache.clear'))
 			{
 				$myDir = getcwd();
-				if(chdir(SPath::TEMP))
+				if(chdir(Core::PATH_TEMP))
 				{
 					$Dir = opendir ('./');
 					while ($item = readdir ($Dir)) {
@@ -51,7 +46,7 @@ class Settings_SysInfo extends BObject
 
 	public function cacheSize(){
 		$myDir = getcwd();
-		chdir(SPath::TEMP);
+		chdir(Core::PATH_TEMP);
 		$Dir = opendir ('./');
 		$size = 0;
 		while ($item = readdir ($Dir)) {

@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage BaseClasses
  */
-abstract class BRequest extends BObject
+abstract class BRequest 
 {
     public static function get($key){}
 

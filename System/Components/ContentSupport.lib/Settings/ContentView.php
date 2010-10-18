@@ -4,13 +4,13 @@
  *
  * @author lse
  */
-class Settings_ContentView extends BObject
+class Settings_ContentView 
 	implements
         Event_Handler_RequestingClassSettings,
         Event_Handler_UpdateClassSettings
 {
 	public function handleEventRequestingClassSettings(Event_RequestingClassSettings $e) {
-		$formatters = Formatter_Container::getFormatterList();
+		$formatters = Controller_View::getInstance()->getStoredViews();
 		$options = array(' - '.SLocalization::get('none').' - '  => '');
 		foreach ($formatters as $f){
 			$options[$f] = $f;
@@ -25,7 +25,7 @@ class Settings_ContentView extends BObject
 		if(isset($data['default_view_for_content'])){
 			$f = $data['default_view_for_content'];
 			$f = empty ($f) ? '' : $f;
-			if(empty($f) || Formatter_Container::exists($f))
+			if(empty($f) || Controller_View::getInstance()->hasView($f))
 			{
 				Core::settings()->set('Settings_ContentView_defaultContentView', $f);
 			}

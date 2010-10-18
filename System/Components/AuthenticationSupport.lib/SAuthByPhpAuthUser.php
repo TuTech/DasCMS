@@ -10,8 +10,6 @@
  * @subpackage System
  */
 class SAuthByPhpAuthUser 
-    extends 
-        BObject 
     implements 
         IAuthenticate
 {

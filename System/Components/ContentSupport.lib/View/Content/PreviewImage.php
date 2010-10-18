@@ -14,7 +14,7 @@ class View_Content_PreviewImage
 	protected $imageWidth = 100,
 			  $imageHeight = 100,
 			  $imageFillColor = '#ffffff',
-			  $scaleMethod = WImage::MODE_SCALE_TO_MAX,
+			  $scaleMethod = View_UIElement_Image::MODE_SCALE_TO_MAX,
 			  $scaleEnforcementMethod = Wimage::FORCE_BY_FILL;
 
 	public function toXHTML() {
@@ -77,7 +77,7 @@ class View_Content_PreviewImage
 	}
 
 	public function setScaleMethod($value){
-		if($value != WImage::MODE_FORCE && $value != WImage::MODE_SCALE_TO_MAX){
+		if($value != View_UIElement_Image::MODE_FORCE && $value != View_UIElement_Image::MODE_SCALE_TO_MAX){
 			return ;
 		}
 		$this->scaleMethod = $value;
@@ -88,9 +88,9 @@ class View_Content_PreviewImage
 	}
 
 	public function setScaleEnforcementMethod($value){
-		if($value != WImage::FORCE_BY_CROP
-				&& $value != WImage::FORCE_BY_FILL
-				&& $value != WImage::FORCE_BY_STRETCH){
+		if($value != View_UIElement_Image::FORCE_BY_CROP
+				&& $value != View_UIElement_Image::FORCE_BY_FILL
+				&& $value != View_UIElement_Image::FORCE_BY_STRETCH){
 			return ;
 		}
 		$this->scaleEnforcementMethod = $value;

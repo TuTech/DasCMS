@@ -1,24 +1,24 @@
-.WFlowLayout{
+.View_UIElement_FlowLayout{
     display:block;
     overflow:auto;
     padding:5px;
 }
-.WFlowLayoutEnd{
+.View_UIElement_FlowLayoutEnd{
     clear:both;
 }
-.WFlowLayoutItem{
+.View_UIElement_FlowLayoutItem{
     display:block;
     margin:5px;
     float:left;
     overflow:hidden;
 }
-.WFlowLayoutFile,
-.WFlowLayoutImage{
+.View_UIElement_FlowLayoutFile,
+.View_UIElement_FlowLayoutImage{
 	width:128px;
     height:128px;
     text-align:center;
 }
-.WFlowLayoutImage img{
+.View_UIElement_FlowLayoutImage img{
     display:block;
     width:96px;
     height:96px;
@@ -26,7 +26,7 @@
     margin-right:16px;
 }
 
-.WFlowLayoutFile img, .WFlowLayoutImage img.mime-icon{
+.View_UIElement_FlowLayoutFile img, .View_UIElement_FlowLayoutImage img.mime-icon{
     display:block;
     width:48px;
     height:48px;
@@ -35,7 +35,7 @@
     margin-top:10px;
     margin-bottom:10px;
 }
-.WFlowLayoutImage img.mime-icon
+.View_UIElement_FlowLayoutImage img.mime-icon
 {
 	margin-top:24px;
 	margin-bottom:24px;

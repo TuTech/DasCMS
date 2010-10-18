@@ -1,1 +1,1 @@
-{"classes":["UContentLookup","WContentLookup","WImageContentLookup"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}
+{"classes":["UContentLookup","View_UIElement_ContentLookup","View_UIElement_ImageContentLookup"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}

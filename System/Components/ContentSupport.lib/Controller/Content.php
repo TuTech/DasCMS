@@ -74,7 +74,7 @@ class Controller_Content implements Interface_Singleton
 	    }
     }
 
-    public function accessContent($alias, BObject $opener, $failIfReplaced = false)
+    public function accessContent($alias, $opener, $failIfReplaced = false)
     {
         $content = $this->tryOpenContent($alias);
         $e = new Event_WillAccessContent($opener, $content);
@@ -179,9 +179,9 @@ class Controller_Content implements Interface_Singleton
 				->withParameters($alias);
 			if($row = $res->fetchResult()){
 				$infos[$alias] = array(
-					'Title' => $row[0],
-					'Alias' => $row[1],//primary alias
-					'PubDate' => strtotime($row[2])
+					$row[0],//title
+					$row[1],//primary alias
+					$row[2]//ispublic
 				);
 			}
 			$res->free();

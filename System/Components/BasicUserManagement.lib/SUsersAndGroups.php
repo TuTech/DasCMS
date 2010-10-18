@@ -10,8 +10,6 @@
  * @subpackage System
  */
 class SUsersAndGroups 
-    extends 
-        BObject 
     implements 
         Interface_Singleton
 {
@@ -781,8 +779,8 @@ class SUsersAndGroups
             self::$sharedInstance = new $class();
             if(self::$sharedInstance->userlistfile == null)
             {
-                self::$sharedInstance->userlistfile = SPath::CONTENT.'configuration/users.php';
-                self::$sharedInstance->grouplistfile = SPath::CONTENT.'configuration/groups.php';
+                self::$sharedInstance->userlistfile = Core::PATH_CONTENT.'configuration/users.php';
+                self::$sharedInstance->grouplistfile = Core::PATH_CONTENT.'configuration/groups.php';
                 self::$sharedInstance->userlist = DFileSystem::loadData(self::$sharedInstance->userlistfile);
                 self::$sharedInstance->grouplist = DFileSystem::loadData(self::$sharedInstance->grouplistfile);
             }

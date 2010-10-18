@@ -57,6 +57,7 @@ class Search_Engine implements Interface_Singleton
 	 * @param int $itemsPerPage
 	 * @param Search_Order $orderBy
 	 * @param bool $orderDirection Search_Engine::SORT_ORDER_ASC or Search_Engine::SORT_ORDER_DESC
+	 * @return Search_Result
 	 */
 	public function query($queryString){
 		//parse search input
@@ -125,26 +126,6 @@ class Search_Engine implements Interface_Singleton
 		if(!$searchId){
 			throw new Exception('failed to initialize query');
 		}
-		
-		//dump results
-		$res = Core::Database()
-			->createQueryForClass($this)
-			->call('dump')
-			->withParameters($searchId);
-		$i = 0;
-		while($row = $res->fetchResult()){
-			$t = strtotime($row[2]);
-			$t = ($t <= 1) ? '- DRAFT -' : date('c', $t);
-			printf( "======================[Result %2d]======================\n".
-					"|| Title:     %s\n".
-					"|| Subtitle:  %s\n".
-					"|| Published: %s\n".
-					"|| Tags:      %s\n".
-					"========================================================\n".
-					"%s\n\n", ++$i, $row[0], $row[1], $t, $row[3], $row[4]);
-		}
-		$res->free();
-
 		
 		return $searchId;
 	}

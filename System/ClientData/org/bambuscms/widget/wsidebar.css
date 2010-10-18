@@ -118,16 +118,18 @@
 #WSidebar-body dt{
 	border-width:0px;
 	border-top-width:1px;
-	border-bottom-width:1px;
 	border-style: solid;
-	border-color: #9fbc4a;
-	background: #9fbc4a url(../System/ClientData/Images/header_background.png) 0% 0%;
-	color: #fff;
-	font-weight:bold;
+	border-color: #babdb6;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ffffff), color-stop(0.95, #eeeeec));
+	background: -moz-linear-gradient(center top, #ffffff 0%, #eeeeec 95%);
+	color: #9fbc4a;
+	font-size: 12px;
+	font-weight:100;
 }
 #WSidebar-body dd{
 	margin-left:10px;
 	margin-right:10px;
+	padding-bottom: 4px;
 }
 #WSidebar-body dt label{
 	padding:1px;
@@ -139,7 +141,7 @@
 {
 	display:block;
 	width:100%;
-	border:1px solid #555753;
+	border:1px solid #888a85;
 	margin: 5px 0px 5px 0px;
 }
 #WSidebar-body dd .alt{
@@ -160,7 +162,7 @@
 	border-color:#9fbc4a;
 }
 #WSidebar-body dd dt{
-	color: #2e3436;
+	color: #888a85;
 	border-color: #babdb6;
 	border-width:0px;
 	border-bottom-width:1px;

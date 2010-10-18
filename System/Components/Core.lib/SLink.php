@@ -10,8 +10,6 @@
  * @subpackage System
  */
 class SLink
-    extends
-        BObject
 {
     private static $base = null;
     private static $getData = null;

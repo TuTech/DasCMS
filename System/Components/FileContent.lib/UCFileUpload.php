@@ -10,7 +10,6 @@
  * @subpackage Plugin
  */
 class UCFileUpload 
-    extends BPlugin 
     implements ITemplateSupporter, IGlobalUniqueId 
 {
     const GUID = 'org.bambuscms.plugins.fileupload';
@@ -27,7 +26,7 @@ class UCFileUpload
     {
         if(!empty($param['tags']))
         {
-            self::$optTags = STag::parseTagStr($param['tags']);
+            self::$optTags = Controller_Tags::parseString($param['tags']);
         }
     }
     

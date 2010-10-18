@@ -1,7 +1,15 @@
 <?php
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+class Setup_Search
+	extends _Setup
+	implements Setup_ForDatabaseTables, Setup_ForDatabaseTableReferences
+{
+	public function runDatabaseTablesSetup() {
+		$this->setupInDatabase('searchesTable');
+		$this->setupInDatabase('searchResultsTable');
+	}
 
+	public function runDatabaseTableReferencesSetup() {
+		$this->setupInDatabase('searchResultsReferences');
+	}
+}
 ?>

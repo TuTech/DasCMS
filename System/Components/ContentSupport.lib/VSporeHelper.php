@@ -84,7 +84,7 @@ class VSporeHelper
     private function formatter($spore, $formatter)
     {
         try{
-            return Formatter_Container::unfreezeForFormatting($formatter, $this->sporeContent($spore));
+            return Controller_View::getInstance()->display($this->sporeContent($spore), $formatter);
         }catch (Exception $e)
         {
             return $e->getTraceAsString();
@@ -101,7 +101,7 @@ class VSporeHelper
         $c = $this->sporeContent($spore);
 		$formatter = Core::settings()->get('Settings_ContentView_defaultContentView');
 		if($formatter){
-			$content = Formatter_Container::unfreezeForFormatting($formatter, $c);
+			$content = Controller_View::getInstance()->display($c, $formatter);
 		}
 		else{
 			$content = $c->getContent();
@@ -134,19 +134,19 @@ class VSporeHelper
         $img = $this->sporeContent($spore)->getPreviewImage()->asPreviewImage();
         if($width > 0 && $height > 0 && is_numeric($width) && is_numeric($height))
         {
-            $mode = WImage::MODE_FORCE;
-            $force = WImage::FORCE_BY_CROP;
+            $mode = View_UIElement_Image::MODE_FORCE;
+            $force = View_UIElement_Image::FORCE_BY_CROP;
 
             switch($scale)
             {
                 case 'aspect_fit':
-                    $mode = WImage::MODE_SCALE_TO_MAX;break;
+                    $mode = View_UIElement_Image::MODE_SCALE_TO_MAX;break;
                 case 'aspect_crop':
-                    $force = WImage::FORCE_BY_CROP;break;
+                    $force = View_UIElement_Image::FORCE_BY_CROP;break;
                 case 'aspect_fill':
-                    $force = WImage::FORCE_BY_FILL;break;
+                    $force = View_UIElement_Image::FORCE_BY_FILL;break;
                 case 'stretch':
-                    $force = WImage::FORCE_BY_STRETCH;break;
+                    $force = View_UIElement_Image::FORCE_BY_STRETCH;break;
             }
             $img = $img->scaled($width, $height,$mode, $force, $color);
         }

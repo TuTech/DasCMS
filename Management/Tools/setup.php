@@ -1,7 +1,7 @@
 <?php
 chdir(dirname(__FILE__));
 require_once '../../System/main.php';
-$setup = new SystemSetup();
+$setup = new Core_SystemSetup();
 $setup->run(array(
 	'date.timezone'		=> 'Europe/Berlin',
 	'date.format'		=> 'd.m.Y H:i:s',

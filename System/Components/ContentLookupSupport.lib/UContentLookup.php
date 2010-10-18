@@ -10,7 +10,6 @@
  * @subpackage Plugin
  */
 class UContentLookup
-    extends BPlugin 
     implements 
         IAjaxAPI,
         IGlobalUniqueId

@@ -10,7 +10,6 @@
  * @subpackage Plugin
  */
 class UOpenDialog 
-    extends BPlugin 
     implements 
         IAjaxAPI,
         IGlobalUniqueId

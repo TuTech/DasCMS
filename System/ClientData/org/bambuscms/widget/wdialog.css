@@ -1,4 +1,4 @@
-#WDialog_container{
+#View_UIElement_Dialog_container{
 	position:absolute;
 	top:0px;
 	left:0px;
@@ -7,13 +7,13 @@
 	background: url(../System/ClientData/Images/dialogue-bg.png);
 	z-index:10000;
 }
-#WDialog_container .WDialog div
+#View_UIElement_Dialog_container .View_UIElement_Dialog div
 {
 	background: #eeeeec;
 	overflow:auto;
 	display:block;
 }
-#WDialog_container .WDialog
+#View_UIElement_Dialog_container .View_UIElement_Dialog
 {
 	position:absolute;
 	top:50%;
@@ -25,17 +25,17 @@
 	margin-top:-80px;
 	border:1px solid #9fbc4a;
 }
-#WDialog_container .WDialog input
+#View_UIElement_Dialog_container .View_UIElement_Dialog input
 {
 	border: 1px solid #4e9a06;
 }
-#WDialog_container .WDialog input[type=text],
-#WDialog_container .WDialog input[type=password]
+#View_UIElement_Dialog_container .View_UIElement_Dialog input[type=text],
+#View_UIElement_Dialog_container .View_UIElement_Dialog input[type=password]
 {
 	width:338px;
 }
 
-#WDialog_container .WDialog h2
+#View_UIElement_Dialog_container .View_UIElement_Dialog h2
 {
 	display:block;
 	border-bottom: 1px solid #9fbc4a;
@@ -47,7 +47,7 @@
 	font-size:14px;
 	text-align: center;
 }
-#WDialog_container .WDialog a
+#View_UIElement_Dialog_container .View_UIElement_Dialog a
 {
 	float:right;
 	display:block;
@@ -61,7 +61,7 @@
 	margin:5px;
 	margin-left:0px;
 }
-#WDialog_container .WDialog_labeled label
+#View_UIElement_Dialog_container .View_UIElement_Dialog_labeled label
 {
 	width:80px;
 	float:left;
@@ -69,22 +69,22 @@
 
 }
 
-#WDialog_container, 
-#WDialog_container .WDialog, 
-#WDialog_container .WDialog_labeled
+#View_UIElement_Dialog_container, 
+#View_UIElement_Dialog_container .View_UIElement_Dialog, 
+#View_UIElement_Dialog_container .View_UIElement_Dialog_labeled
 {
 	overflow:hidden;
 	padding-bottom:4px;
 	border-bottom: 1px solid #d3d7cf;
 }
 
-#WDialog_container .WDialog_labeled input[type=text],
-#WDialog_container .WDialog_labeled input[type=password],
-#WDialog_container .WDialog_labeled select
+#View_UIElement_Dialog_container .View_UIElement_Dialog_labeled input[type=text],
+#View_UIElement_Dialog_container .View_UIElement_Dialog_labeled input[type=password],
+#View_UIElement_Dialog_container .View_UIElement_Dialog_labeled select
 {
 	width:250px;
 }
-.WDialog_section div
+.View_UIElement_Dialog_section div
 {
 	margin:4px;
 }

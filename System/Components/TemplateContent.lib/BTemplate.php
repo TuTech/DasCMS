@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage BaseClasses
  */
-abstract class BTemplate extends BObject
+abstract class BTemplate 
 {
     const CONTENT = 'C';
     const SYSTEM = 'S';

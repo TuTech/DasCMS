@@ -197,10 +197,10 @@ class AFiles
         $li = array();
         foreach ($types as $type => $index) 
         {
-            if(!WImage::supportedMimeType($type))
+            if(!View_UIElement_Image::supportedMimeType($type))
             {
-                $xsi[$index] = WIcon::pathForMimeIcon($type, WIcon::EXTRA_SMALL);
-                $li[$index] = WIcon::pathForMimeIcon($type, WIcon::LARGE);
+                $xsi[$index] = View_UIElement_Icon::pathForMimeIcon($type, View_UIElement_Icon::EXTRA_SMALL);
+                $li[$index] = View_UIElement_Icon::pathForMimeIcon($type, View_UIElement_Icon::LARGE);
             }
         }
         
@@ -249,7 +249,7 @@ class AFiles
         	    $typeMap[$data[3]] = $tnr;
         	    $out['types'][$nr] = $tnr;
         	    $out['typeNames'][$tnr] = $data[3];
-        	    $out['typeIcons'][$tnr] = WIcon::pathForMimeIcon($data[3], WIcon::EXTRA_SMALL);
+        	    $out['typeIcons'][$tnr] = View_UIElement_Icon::pathForMimeIcon($data[3], View_UIElement_Icon::EXTRA_SMALL);
         	}
         }
         return $out;

@@ -24,7 +24,7 @@
 	width:25px;
 }
 .previewImage img{
-	border:1px solid #555753;
+	border:1px solid #888a85;
 	margin:auto;
 	display:block;
 }
@@ -44,13 +44,13 @@
 .editHelper{
 	background: #eeeeec url(../../ClientData/Icons/22x22/actions/edit.png) 50% 50% no-repeat;
 }
-.WFlowLayoutImage a:hover .helper{
+.View_UIElement_FlowLayoutImage a:hover .helper{
 	display: none;
 }
 #dialogues .sending_ani_bg{
 	background: url(../../ClientData/Images/processing.gif) 50% 50% no-repeat;
 	height:50px;
 }
-.WFlowLayoutItem input{
+.View_UIElement_FlowLayoutItem input{
 	display: none;
 }

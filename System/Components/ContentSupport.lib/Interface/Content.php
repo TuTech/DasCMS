@@ -28,13 +28,13 @@ interface Interface_Content {
 
 	/**
 	 * Icon for this filetype
-	 * @return WIcon
+	 * @return View_UIElement_Icon
 	 */
 	public static function defaultIcon();
 
 	/**
 	 * Icon for this object
-	 * @return WIcon
+	 * @return View_UIElement_Icon
 	 */
 	public function getIcon();
 
@@ -46,7 +46,7 @@ interface Interface_Content {
 
 	/**
 	 * Icon for this object
-	 * @return WImage
+	 * @return View_UIElement_Image
 	 */
 	public function getPreviewImage();
 

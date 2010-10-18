@@ -10,8 +10,6 @@
  * @subpackage System
  */
 class SNotificationCenter 
-    extends 
-        BObject 
     implements 
         Interface_Singleton,
     	Event_Handler_ContentChanged,
@@ -74,7 +72,7 @@ class SNotificationCenter
 	
 	private static function alertLog($type, $message)
 	{
-	    $tpl = new WTemplate('log_entry', WTemplate::SYSTEM);
+	    $tpl = new View_UIElement_Template('log_entry', View_UIElement_Template::SYSTEM);
 	    $tpl->setEnvironment(array(
            'message' => $message
             ,'message_type' => $type

@@ -11,6 +11,10 @@
  */
 class NTreeNavigationHelper 
 {
+	const TITLE = 0;
+	const ALIAS = 1;
+	const IS_PUBLIC = 2;
+
 	public $spore = null;
 	public $root = null;
 	public $content = null;
@@ -112,10 +116,8 @@ class NTreeNavigationHelper
     	return (
     		//in active nodes array?
     		isset($this->_nodeData[$alias])
-    		//pub date ok?
-    		&& isset($this->_nodeData[$alias]['PubDate'])
-    		&& ($this->_nodeData[$alias]['PubDate']) > 0
-    		&& ($this->_nodeData[$alias]['PubDate']) <= time()
+    		//public?
+    		&& !empty ($this->_nodeData[$alias][self::IS_PUBLIC])
     	);
     }
     
@@ -153,27 +155,12 @@ class NTreeNavigationHelper
     	return (
     		//in active nodes array?
     		isset($this->_nodeData[$tno->getAlias()])
-    		&& isset($this->_nodeData[$tno->getAlias()]['Title'])
+    		&& isset($this->_nodeData[$tno->getAlias()][self::TITLE])
     	)
-    	? $this->_nodeData[$tno->getAlias()]['Title']
+    	? $this->_nodeData[$tno->getAlias()][self::TITLE]
     	: '';
     }
      
-	/**
-     * @param NTreeNavigationObject $tno
-     * @return string
-     */
-    public function getPubDate(NTreeNavigationObject $tno)
-    {
-    	return (
-    		//in active nodes array?
-    		isset($this->_nodeData[$tno->getAlias()])
-    		&& isset($this->_nodeData[$tno->getAlias()]['PubDate'])
-    	)
-    	? $this->_nodeData[$tno->getAlias()]['PubDate']
-    	: '';
-    }
-    
     /**
      * get currently active alias (prefetched from SAlias)
      *
@@ -185,9 +172,9 @@ class NTreeNavigationHelper
     	return (
     		//in active nodes array?
     		isset($this->_nodeData[$tno->getAlias()])
-    		&& isset($this->_nodeData[$tno->getAlias()]['Alias'])
+    		&& isset($this->_nodeData[$tno->getAlias()][self::ALIAS])
     	)
-    	? $this->_nodeData[$tno->getAlias()]['Alias']
+    	? $this->_nodeData[$tno->getAlias()][self::ALIAS]
     	: '';
     }
 }

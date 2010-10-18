@@ -1,15 +1,15 @@
-.WIntroduction{
+.View_UIElement_Introduction{
 	display:block;
 	padding-top:5px;
 	padding-bottom: 5px;
 	clear:both;
 }
 
-.WIntroduction img{
+.View_UIElement_Introduction img{
 	float:left;
 	padding-right: 5px;
 	padding-bottom: 5px;
 }
-.WIntroduction p{
+.View_UIElement_Introduction p{
 	clear:both;
 }

@@ -9,8 +9,8 @@
 $Script = SApplication::getControllerContent();
 if($Script instanceof CScript)
 {
-    echo new WContentTitle($Script);
-    $editor = new WTextEditor($Script->RAWContent);
+    echo new View_UIElement_ContentTitle($Script);
+    $editor = new View_UIElement_TextEditor($Script->RAWContent);
     $editor->setWordWrap(false);
     $editor->disableSpellcheck();
 	if(file_exists('System/External/Bespin')){

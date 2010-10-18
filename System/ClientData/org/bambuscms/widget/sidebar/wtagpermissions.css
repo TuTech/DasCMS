@@ -1,4 +1,4 @@
-#WTagPermissions table{
+#View_UIElement_TagPermissions table{
     border-width:0px;
     width:250px;
     font-size: 0.9em;
@@ -6,17 +6,17 @@
     empty-cells: show;
     overflow:visible;
 }
-#WTagPermissions table td, #WTagPermissions table th{
+#View_UIElement_TagPermissions table td, #View_UIElement_TagPermissions table th{
     border-width:0px;
     border-bottom-width: 1px;
     border-right-width: 1px;
 }
-#WTagPermissions table, #WTagPermissions table td, #WTagPermissions table th{
+#View_UIElement_TagPermissions table, #View_UIElement_TagPermissions table td, #View_UIElement_TagPermissions table th{
     border-style: solid;
     border-spacing: 0px;
     border-color: #9fbc4a;
 }
-#WTagPermissions table th
+#View_UIElement_TagPermissions table th
 {
     background: #9fbc4a url(../System/ClientData/Images/header_background.png) 0% 0%;
     padding:2px;
@@ -24,19 +24,19 @@
     color:white;
 }
 
-#WTagPermissions td.cell_x1
+#View_UIElement_TagPermissions td.cell_x1
 {
 	width: 22px;
 }
-#WTagPermissions td.cell_x2
+#View_UIElement_TagPermissions td.cell_x2
 {
 	width:228px;
 }
-#WTagPermissions label
+#View_UIElement_TagPermissions label
 {
 	display: block;
 }
-#WTagPermissions .WTagPermissions_controls a{
+#View_UIElement_TagPermissions .View_UIElement_TagPermissions_controls a{
 	border: 1px solid #babdb6;
 	background: url(../System/ClientData/Images/header_background.png);
 	width:100px;

@@ -4,7 +4,7 @@ class Model_Content_Composite_Location
 	implements Interface_Composites_AutoAttach
 {
     /**
-     * @var WContentGeoAttribute
+     * @var View_UIElement_ContentGeoAttribute
      */
     private $Location;
     
@@ -18,7 +18,7 @@ class Model_Content_Composite_Location
         parent::__construct($compositeFor);
         try
         {
-    	    $this->Location = WContentGeoAttribute::forContent($compositeFor);
+    	    $this->Location = View_UIElement_ContentGeoAttribute::forContent($compositeFor);
         }
         catch (Exception $e)
         {
@@ -27,7 +27,7 @@ class Model_Content_Composite_Location
     }
     
 	/**
-	 * @return WContentGeoAttribute
+	 * @return View_UIElement_ContentGeoAttribute
 	 */
 	public function getLocation()
 	{
@@ -41,7 +41,7 @@ class Model_Content_Composite_Location
 	 */
 	public function setLocation($locationName)
 	{
-	    $new = WContentGeoAttribute::assignContentLocation($this->compositeFor, $locationName);
+	    $new = View_UIElement_ContentGeoAttribute::assignContentLocation($this->compositeFor, $locationName);
 	    if($new != null)
 	    {
 	        $this->Location = $new;

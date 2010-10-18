@@ -9,8 +9,8 @@
 $jsCreate = "alert('permission denied');";
 if(PAuthorisation::has('org.bambuscms.credentials.user.create'))
 {
-    $d = new WDialog('dlg_create_user','create_user', WDialog::SUBMIT|WDialog::CANCEL);
-    $d->setButtonCaption(WDialog::SUBMIT, 'create');
+    $d = new View_UIElement_Dialog('dlg_create_user','create_user', View_UIElement_Dialog::SUBMIT|View_UIElement_Dialog::CANCEL);
+    $d->setButtonCaption(View_UIElement_Dialog::SUBMIT, 'create');
     $d->askText('new_user_name','','login_name');
     $d->askText('new_user_real_name','','real_name_optional');
     $d->askText('new_user_email','','email_optional');
@@ -18,17 +18,17 @@ if(PAuthorisation::has('org.bambuscms.credentials.user.create'))
     $d->askPassword('new_user_password_check','confirm_password');
     $d->remember('action','create_new_user');
     $d->render();
-    $jsCreate = WDialog::openCommand('dlg_create_user');
+    $jsCreate = View_UIElement_Dialog::openCommand('dlg_create_user');
 }
 echo "\n";
-echo new WScript('var action_add_user = function(){'.$jsCreate.'};');
+echo new View_UIElement_Script('var action_add_user = function(){'.$jsCreate.'};');
 
 //password changing
 $jsCreate = "alert('permission denied');";
 if(PAuthorisation::has('org.bambuscms.credentials.user.change'))
 {
-    $d = new WDialog('dlg_change_password','change_password', WDialog::SUBMIT|WDialog::CANCEL);
-    $d->setButtonCaption(WDialog::SUBMIT, 'change');
+    $d = new View_UIElement_Dialog('dlg_change_password','change_password', View_UIElement_Dialog::SUBMIT|View_UIElement_Dialog::CANCEL);
+    $d->setButtonCaption(View_UIElement_Dialog::SUBMIT, 'change');
     $d->remember('action', 'edit_user_data');
     $d->remember('realName', htmlentities($SUsersAndGroups->getRealName($victim)));
     $d->remember('email', htmlentities($SUsersAndGroups->getEmail($victim)));
@@ -45,14 +45,14 @@ if(PAuthorisation::has('org.bambuscms.credentials.user.change'))
         $d->askPassword('adm_set_password_confirm','new_password');
     }
     $d->render();
-    $jsCreate = WDialog::openCommand('dlg_change_password');
+    $jsCreate = View_UIElement_Dialog::openCommand('dlg_change_password');
 }
 echo "\n";
-echo new WScript('var action_change_password = function(){'.$jsCreate.'};');
+echo new View_UIElement_Script('var action_change_password = function(){'.$jsCreate.'};');
 
 $SUsersAndGroups = SUsersAndGroups::getInstance();
 
-$intro = new WIntroduction();
+$intro = new View_UIElement_Introduction();
 $intro->setTitle(mb_convert_encoding($victim, CHARSET, 'iso-8859-1'), false);
 $intro->setIcon('mimetype-user');
 echo $intro;
@@ -60,7 +60,7 @@ echo $intro;
 if($edit_mode == 'usr')
 {
     echo '<input type="hidden" name="action" value="edit_user_data" />';
-    $prof_tbl = new WTable(WTable::HEADING_TOP|WTable::HEADING_LEFT, 'profile');
+    $prof_tbl = new View_UIElement_Table(View_UIElement_Table::HEADING_TOP|View_UIElement_Table::HEADING_LEFT, 'profile');
 	$prof_tbl->addRow(array('attribute', 'value'));
 	//what kind of edit do we have? admin|self|others
 	$allowEdit = PAuthorisation::has('org.bambuscms.credentials.user.change');
@@ -109,7 +109,7 @@ if($edit_mode == 'usr')
     /////////////////////////////EX PERMS
 	print('<input type="hidden" name="action_2" value="save_editor_permissions" /><br />');
     $myDir = getcwd();//nice place... remember it
-    chdir(SPath::SYSTEM_APPLICATIONS);
+    chdir(Core::PATH_SYSTEM_APPLICATIONS);
     $Dir = opendir ('./'); 
     $items = array();
     $i = 0;
@@ -180,7 +180,7 @@ EOX;
 	        		$id,
 	        		$id,
 	        		$id,
-	        		new WIcon($editor['icon'], '', WIcon::MEDIUM, 'app'),
+	        		new View_UIElement_Icon($editor['icon'], '', View_UIElement_Icon::MEDIUM, 'app'),
 	        		SLocalization::get($editor['name']),
 	        		SLocalization::get($editor['desc']),
 	        		''

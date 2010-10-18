@@ -10,7 +10,6 @@
  * @subpackage System
  */
 class SBapReader
-	extends BObject 
     implements 
         Interface_Singleton 
 {

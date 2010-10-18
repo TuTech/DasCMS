@@ -10,7 +10,7 @@
  * @subpackage Content
  */
 class CScript
-    extends BContent
+    extends _Content
     implements
         ISupportsSidebar,
         IGlobalUniqueId,
@@ -33,10 +33,10 @@ class CScript
 	 */
 	public static function Create($title)
 	{
-	    list($dbid, $alias) = BContent::createContent(self::CLASS_NAME, $title);
-	    DFileSystem::save(SPath::CONTENT.self::CLASS_NAME.'/'.$dbid.'.php', ' ');
-	    DFileSystem::save(SPath::CONTENT.self::CLASS_NAME.'/'.$dbid.'.html.php', ' ');
-	    BContent::setMIMEType($alias, 'application/javascript');
+	    list($dbid, $alias) = _Content::createContent(self::CLASS_NAME, $title);
+	    DFileSystem::save(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$dbid.'.php', ' ');
+	    DFileSystem::save(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$dbid.'.html.php', ' ');
+	    _Content::setMIMEType($alias, 'application/javascript');
 	    $script = new CScript($alias);
 	    $e = new Event_ContentCreated($script, $script);
 	    return $script;
@@ -67,16 +67,16 @@ class CScript
 
 	/**
 	 * Icon for this filetype
-	 * @return WIcon
+	 * @return View_UIElement_Icon
 	 */
 	public static function defaultIcon()
 	{
-	    return new WIcon(self::CLASS_NAME, 'content', WIcon::LARGE, 'mimetype');
+	    return new View_UIElement_Icon(self::CLASS_NAME, 'content', View_UIElement_Icon::LARGE, 'mimetype');
 	}
 
 	/**
 	 * Icon for this object
-	 * @return WIcon
+	 * @return View_UIElement_Icon
 	 */
 	public function getIcon()
 	{
@@ -90,7 +90,7 @@ class CScript
 	{
 	    if(!$this->_contentLoaded)
 	    {
-	        $this->Content = DFileSystem::load(SPath::CONTENT.self::CLASS_NAME.'/'.$this->Id.'.html.php');
+	        $this->Content = DFileSystem::load(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$this->Id.'.html.php');
 	        $this->_contentLoaded = true;
 	    }
 	    return $this->Content;
@@ -127,7 +127,7 @@ class CScript
 	    //load
 	    if($this->RAWContent == null)
 	    {
-	        $this->RAWContent = DFileSystem::load(SPath::CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php');
+	        $this->RAWContent = DFileSystem::load(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php');
 	    }
 	    return $this->RAWContent;
 	}
@@ -137,8 +137,8 @@ class CScript
 		//save content
 		if($this->_contentLoaded)
 		{
-			DFileSystem::save(SPath::CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php',$this->RAWContent);
-			DFileSystem::save(SPath::CONTENT.self::CLASS_NAME.'/'.$this->Id.'.html.php',$this->Content);
+			DFileSystem::save(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php',$this->RAWContent);
+			DFileSystem::save(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$this->Id.'.html.php',$this->Content);
 		}
 	}
 
@@ -207,7 +207,7 @@ class CScript
 	//ISearchDirectives
 	public function allowSearchIndex()
 	{
-	    return BContent::isIndexingAllowed($this->getId());
+	    return _Content::isIndexingAllowed($this->getId());
 	}
 	public function excludeAttributesFromSearchIndex()
 	{
@@ -219,7 +219,7 @@ class CScript
     }
     public function changeSearchIndexingStatus($allow)
     {
-        BContent::setIndexingAllowed($this->getId(), !empty($allow));
+        _Content::setIndexingAllowed($this->getId(), !empty($allow));
     }
 }
 ?>

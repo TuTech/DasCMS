@@ -1,5 +1,5 @@
 <?php
 chdir(dirname(__FILE__));
 require_once '../../System/main.php';
-CoreSQLUpdate::run();
+Core_SQLUpdate::run();
 ?>

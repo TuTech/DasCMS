@@ -11,13 +11,14 @@ INSERT INTO __PFX__SearchResults
 	SELECT
 			? AS searchREL,
 			contentREL,
-			1/(@orderingScore := @orderingScore+1) as score,
-			@orderingScore as itemNr
+			1/(@orderingScore := @orderingScore+1) AS score,
+			@orderingScore AS itemNr
 		FROM
 			(SELECT
 					contentREL
 				FROM __PFX__SearchResults
-					LEFT JOIN __PFX__Contents ON (contentID = contentREL)
+					LEFT JOIN __PFX__Contents
+						ON (contentID = contentREL)
 				WHERE
 					searchREL = ?
 				ORDER BY pubDate

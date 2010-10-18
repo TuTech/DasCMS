@@ -10,8 +10,6 @@
  * @subpackage System
  */
 class SLocalization 
-    extends 
-        BObject
     implements
         IGlobalUniqueId,
         Event_Handler_RequestingClassSettings,
@@ -34,14 +32,14 @@ class SLocalization
     {
         $tz = array();
         $loc = array();
-        $fp = fopen(SPath::SYSTEM_RESOURCES.'timezones.txt', 'r');
+        $fp = fopen(Core::PATH_SYSTEM_RESOURCES.'timezones.txt', 'r');
         while($row = fgets($fp,255))
         {
             $tz[] = trim($row);
         }
         fclose($fp);
 
-		$loc = Core::dataFromJSONFile(SPath::SYSTEM_RESOURCES.'locale.json');
+		$loc = Core::dataFromJSONFile(Core::PATH_SYSTEM_RESOURCES.'locale.json');
 		$loc = array_flip($loc);
 		
         //locale, timezone, dateformat

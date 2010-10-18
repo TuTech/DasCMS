@@ -160,8 +160,8 @@ class ALinks
         $data = array(
             'title' => SLocalization::get('open'),
             'nrOfItems' => count($items),
-            'iconMap' => array(CLink::defaultIcon()->asSize(WIcon::LARGE)->getPath()),
-            'smallIconMap' => array(CLink::defaultIcon()->asSize(WIcon::EXTRA_SMALL)->getPath()),
+            'iconMap' => array(CLink::defaultIcon()->asSize(View_UIElement_Icon::LARGE)->getPath()),
+            'smallIconMap' => array(CLink::defaultIcon()->asSize(View_UIElement_Icon::EXTRA_SMALL)->getPath()),
             'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2, 'pubDate' => 3),//, 'tags' => 4
             'sortable' => array('title' => 'title', 'pubDate' => 'pubDate'),
             'items' => $items

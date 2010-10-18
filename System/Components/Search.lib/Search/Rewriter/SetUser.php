@@ -10,6 +10,11 @@ class Search_Rewriter_SetUser
 			$request->clearSection('User');
 			$request->addRequestElement('User', $request->createRequestElement(PAuthentication::getUserID()));
 		}
+		else{
+			if($request->hasSection('User')){
+				$request->removeSection('User');
+			}
+		}
 	}
 }
 ?>

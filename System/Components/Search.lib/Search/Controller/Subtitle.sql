@@ -8,7 +8,10 @@ INSERT IGNORE
 			? AS searchREL,
 			contentID AS contentREL
 		FROM __PFX__Contents
-			WHERE subtitle LIKE ?
+			WHERE 
+				subtitle LIKE ?
+				AND
+				published = 1
 
 -- --
 -- name: filterRequire
@@ -17,10 +20,12 @@ INSERT IGNORE
 DELETE
 	__PFX__SearchResults
 	FROM __PFX__SearchResults
-		LEFT JOIN __PFX__Contents ON (contentREL = contentID)
+		LEFT JOIN __PFX__Contents
+			ON (contentREL = contentID)
 	WHERE
 		searchREL = ?
-		AND subtitle NOT LIKE ?
+		AND
+		subtitle NOT LIKE ?
 
 -- --
 -- name: filterVeto
@@ -29,10 +34,12 @@ DELETE
 DELETE
 	__PFX__SearchResults
 	FROM __PFX__SearchResults
-		LEFT JOIN __PFX__Contents ON (contentREL = contentID)
+		LEFT JOIN __PFX__Contents
+			ON (contentREL = contentID)
 	WHERE
 		searchREL = ?
-		AND subtitle LIKE ?
+		AND
+		subtitle LIKE ?
 
 -- --
 -- name: initOrdering
@@ -47,13 +54,14 @@ INSERT INTO __PFX__SearchResults
 	SELECT
 			? AS searchREL,
 			contentREL,
-			1/(@orderingScore := @orderingScore+1) as score,
-			@orderingScore as itemNr
+			1/(@orderingScore := @orderingScore+1) AS score,
+			@orderingScore AS itemNr
 		FROM
 			(SELECT
 					contentREL
 				FROM __PFX__SearchResults
-					LEFT JOIN __PFX__Contents ON (contentID = contentREL)
+					LEFT JOIN __PFX__Contents
+						ON (contentID = contentREL)
 				WHERE
 					searchREL = ?
 				ORDER BY subtitle

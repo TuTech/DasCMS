@@ -10,7 +10,6 @@
  * @subpackage Drivers
  */
 abstract class DSQL
-	extends BObject
     implements 
         Interface_Singleton
 {

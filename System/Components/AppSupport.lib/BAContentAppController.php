@@ -25,13 +25,13 @@ abstract class BAContentAppController
      * content class
      * @var string
      */
-    protected $contentClass = 'BContent';
+    protected $contentClass = '_Content';
     
     /**
      * content icon
      * @var string
      */
-    protected $contentIcon = 'BContent';
+    protected $contentIcon = '_Content';
     
     /**
 	 * @var Interface_Content
@@ -49,7 +49,7 @@ abstract class BAContentAppController
         if(!empty($namedParameters['alias']) 
             && Controller_Content::getInstance()->contentExists($namedParameters['alias']))
         {
-            return array('tags' => STag::getInstance()->get($namedParameters['alias']));
+            return array('tags' => Controller_Tags::getInstance()->get($namedParameters['alias']));
         }
     }
     

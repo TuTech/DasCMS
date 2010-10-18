@@ -18,8 +18,8 @@ class AScriptEditor
 {
 	public function  __construct() {
 		if(file_exists('System/External/Bespin/BespinEmbedded.js')){
-			WHeader::relate('System/External/Bespin/', null, null, 'bespin_base');
-			WHeader::useScript('System/External/Bespin/BespinEmbedded.js');
+			View_UIElement_Header::relate('System/External/Bespin/', null, null, 'bespin_base');
+			View_UIElement_Header::useScript('System/External/Bespin/BespinEmbedded.js');
 		}
 	}
 	

@@ -10,8 +10,6 @@
  * @subpackage System
  */
 class SUser 
-    extends 
-        BObject 
 {
     public $password,$realName,$email;
     public $groups = array();

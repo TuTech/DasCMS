@@ -1,5 +1,5 @@
 <?php
-class UpdateClassSettings extends _Event
+class Event_UpdateClassSettings extends _Event
 {
     protected $data = array();
 	public function __construct(AConfiguration $sender, array $data)
@@ -11,10 +11,10 @@ class UpdateClassSettings extends _Event
 	
 	/**
 	 * get changed setting for the class of the given object
-	 * @param BObject $object
+	 * @param $object
 	 * @return array
 	 */
-	public function getClassSettings(BObject $object)
+	public function getClassSettings($object)
 	{
 	    $key = md5(get_class($object));
 	    if(isset($this->data[$key]))

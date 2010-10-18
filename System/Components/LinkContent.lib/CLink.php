@@ -10,7 +10,7 @@
  * @subpackage Content
  */
 class CLink
-    extends BContent 
+    extends _Content 
     implements 
         ISupportsSidebar, 
         IGlobalUniqueId,
@@ -31,8 +31,8 @@ class CLink
 	 */
 	public static function Create($title)
 	{
-	    list($dbid, $alias) = BContent::createContent(self::CLASS_NAME, $title);
-	    DFileSystem::save(SPath::CONTENT.self::CLASS_NAME.'/'.$dbid.'.php', '');
+	    list($dbid, $alias) = _Content::createContent(self::CLASS_NAME, $title);
+	    DFileSystem::save(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$dbid.'.php', '');
 	    $tpl = new CLink($alias);
 	    new Event_ContentCreated($tpl, $tpl);
 	    return $tpl;
@@ -63,16 +63,16 @@ class CLink
 	
 	/**
 	 * Icon for this filetype
-	 * @return WIcon
+	 * @return View_UIElement_Icon
 	 */
 	public static function defaultIcon()
 	{
-	    return new WIcon(self::CLASS_NAME, 'content', WIcon::LARGE, 'mimetype');
+	    return new View_UIElement_Icon(self::CLASS_NAME, 'content', View_UIElement_Icon::LARGE, 'mimetype');
 	}
 	
 	/**
 	 * Icon for this object
-	 * @return WIcon
+	 * @return View_UIElement_Icon
 	 */
 	public function getIcon()
 	{
@@ -87,7 +87,7 @@ class CLink
 	{
 	    if(!$this->_contentLoaded)
 	    {
-	        $this->Content = DFileSystem::load(SPath::CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php');
+	        $this->Content = DFileSystem::load(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php');
 	        $this->originalContent = $this->Content;
 	        $this->_contentLoaded = true;
 	    }
@@ -105,7 +105,7 @@ class CLink
 		//save content
 		if($this->_contentLoaded)
 		{
-			DFileSystem::save(SPath::CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php',$this->Content);
+			DFileSystem::save(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php',$this->Content);
 		}
 	}
 	

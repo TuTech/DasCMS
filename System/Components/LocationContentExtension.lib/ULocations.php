@@ -10,7 +10,6 @@
  * @subpackage Plugin
  */
 class ULocations
-    extends BPlugin 
     implements 
         IAjaxAPI,
         IGlobalUniqueId,

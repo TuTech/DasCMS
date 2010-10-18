@@ -10,7 +10,7 @@
  * @subpackage Content
  */
 class CFeed 
-    extends BContent 
+    extends _Content 
     implements 
         ISupportsSidebar, 
         IGlobalUniqueId, 
@@ -271,7 +271,7 @@ class CFeed
 	 */
 	public static function Create($title)
 	{
-	    list($dbid, $alias) = BContent::createContent(self::CLASS_NAME, $title);
+	    list($dbid, $alias) = _Content::createContent(self::CLASS_NAME, $title);
 	    $tpl = new CFeed($alias);
 	    new Event_ContentCreated($tpl, $tpl);
 	    return $tpl;
@@ -577,7 +577,7 @@ class CFeed
         	{
                 case 'Tags':
         		    $tag = 'div';
-        		    $content = htmlentities(implode(', ', STag::getInstance()->get($data[$map['Alias']])), ENT_QUOTES, CHARSET);
+        		    $content = htmlentities(implode(', ', Controller_Tags::getInstance()->get($data[$map['Alias']])), ENT_QUOTES, CHARSET);
         		    break;
                 case 'Description':
         		    $tag = 'div';
@@ -600,7 +600,7 @@ class CFeed
         		        ? $this->link($data[$map['Alias']],$content,true)
         		        : $content;
                     }catch (Exception $e){/*legacy FIXME remove try-catch before release*/}
-                    //100,100, WImage::MODE_FORCE,WImage::FORCE_BY_CROP, '#4e9a06');
+                    //100,100, View_UIElement_Image::MODE_FORCE,View_UIElement_Image::FORCE_BY_CROP, '#4e9a06');
                     break;
                 case 'Icon':
                     $co = $contentObject ? $contentObject : Controller_Content::getInstance()->tryOpenContent($data[$map['Alias']]);
@@ -702,16 +702,16 @@ class CFeed
 	
 	/**
 	 * Icon for this filetype
-	 * @return WIcon
+	 * @return View_UIElement_Icon
 	 */
 	public static function defaultIcon()
 	{
-	    return new WIcon(self::CLASS_NAME, 'content', WIcon::LARGE, 'mimetype');
+	    return new View_UIElement_Icon(self::CLASS_NAME, 'content', View_UIElement_Icon::LARGE, 'mimetype');
 	}
 	
 	/**
 	 * Icon for this object
-	 * @return WIcon
+	 * @return View_UIElement_Icon
 	 */
 	public function getIcon()
 	{
@@ -775,7 +775,7 @@ class CFeed
 	//ISearchDirectives
 	public function allowSearchIndex()
 	{
-	    return BContent::isIndexingAllowed($this->getId());
+	    return _Content::isIndexingAllowed($this->getId());
 	}
 	public function excludeAttributesFromSearchIndex()
 	{
@@ -787,7 +787,7 @@ class CFeed
     }
     public function changeSearchIndexingStatus($allow)
     {
-        BContent::setIndexingAllowed($this->getId(), !empty($allow));
+        _Content::setIndexingAllowed($this->getId(), !empty($allow));
     }
 
 	/**

@@ -111,7 +111,7 @@ SELECT __PFX__Classes.class
 SELECT
 		__PFX__Contents.title,
 		Pri.alias,
-		__PFX__Contents.pubDate
+		__PFX__Contents.published
 	FROM __PFX__Contents
 		LEFT JOIN __PFX__Aliases ON (contentID = contentREL)
 		LEFT JOIN __PFX__Aliases AS Pri ON (primaryAlias = Pri.aliasID)

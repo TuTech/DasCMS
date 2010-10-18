@@ -61,7 +61,7 @@ function __autoload($class){
 	
 	//if it didn't work try to find the class in the Core.lib (classes not indexed?)
 	if(!file_exists($file)){
-		$file = sprintf('%s/Core.lib/%s.php', constant('CMS_CLASS_PATH'), $class);
+		$file = sprintf('%s/Core.lib/%s.php', constant('CMS_CLASS_PATH'), str_replace('_', '/', $class));
 	}
 
 	//class not found: fail

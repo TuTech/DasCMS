@@ -1,13 +1,13 @@
-#WApplications{
+#View_UIElement_Applications{
 	z-index:500000;
 	display:block;
 }
-#WApplications table, #WApplications tbody, #WApplications tr, #WApplications td, #WApplications th
+#View_UIElement_Applications table, #View_UIElement_Applications tbody, #View_UIElement_Applications tr, #View_UIElement_Applications td, #View_UIElement_Applications th
 {
 height:50px;
 border-spacing: 0px;
 }
-#WApplications th span
+#View_UIElement_Applications th span
 {
 	background: #f0f9d7;
 	height:58px !important;
@@ -18,20 +18,20 @@ border-spacing: 0px;
 	border-right: 1px solid #98c10e;
 	border-left: 1px solid #98c10e;
 }
-#WApplications table, #WApplications tbody, #WApplications tr
+#View_UIElement_Applications table, #View_UIElement_Applications tbody, #View_UIElement_Applications tr
 {
 	margin:0px;
 	padding:0px;
 }
-#WApplications a:link span.application-info,
-#WApplications a:visited span.application-info
+#View_UIElement_Applications a:link span.application-info,
+#View_UIElement_Applications a:visited span.application-info
 {
 	display:none;
 }
-#WApplications .application-description{
+#View_UIElement_Applications .application-description{
 	display:none;
 }
-#WApplications .application-name{
+#View_UIElement_Applications .application-name{
 	display:block;
 	background: #2e3436;
 	border:1px solid #555753;
@@ -46,11 +46,11 @@ border-spacing: 0px;
 	opacity:0.8;
 	white-space:nowrap;
 }
-#WApplications a:hover
+#View_UIElement_Applications a:hover
 {
 	background: #eef7af url(../System/ClientData/Images/app_bg.png) 50% -2px no-repeat;
 }
-#WApplications a:hover span.application-info
+#View_UIElement_Applications a:hover span.application-info
 {
 	position:relative;
 	text-align:center;
@@ -64,34 +64,34 @@ border-spacing: 0px;
 	font-size: 11px;
 	color: #000;
 }
-#WApplications a.active:hover span.application-info
+#View_UIElement_Applications a.active:hover span.application-info
 {
 	top:-6px;
 }
-#WApplications a.active:hover span.application-info
+#View_UIElement_Applications a.active:hover span.application-info
 {
 	margin-left:-1px;
 }
-#WApplications a img
+#View_UIElement_Applications a img
 {
 	margin-top:8px;
 	width:32px;
 	height:32px;
 }
-#WApplications a.active img
+#View_UIElement_Applications a.active img
 {
 	margin-top:0px;
 	width:48px;
 	height:48px;
 
 }
-#WApplications a.active img
+#View_UIElement_Applications a.active img
 {
 	border-width: 0px;
 	padding:0px;
 	background: none;
 }
-#WApplications a.active
+#View_UIElement_Applications a.active
 {
 	background: #fafcd5 url(../System/ClientData/Images/app_sel_bg.png) 50% 100% no-repeat;
     border:1px solid #98c10e;
@@ -101,7 +101,7 @@ border-spacing: 0px;
 	height:55px;
 	display: block;
 }
-#WApplications a
+#View_UIElement_Applications a
 {
     padding-top:1px;
 	width: 56px;
@@ -112,19 +112,19 @@ border-spacing: 0px;
 	margin-right: auto;
 }
 
-#WApplications td{
+#View_UIElement_Applications td{
 	width:56px;
 	text-align:center;
 	vertical-align: middle;
 }
-#WApplications table, #WApplications tr
+#View_UIElement_Applications table, #View_UIElement_Applications tr
 {
 	vertical-align: top;
 }
-#WApplications table{
+#View_UIElement_Applications table{
 	padding-left:0px;
 	width:100%;
 }
-#WApplications th{
+#View_UIElement_Applications th{
 	width:1px !important;
 }

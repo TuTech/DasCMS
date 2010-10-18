@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage BaseClasses
  */
-abstract class BView extends BObject
+abstract class BView 
 {
 	/**
 	 * is the header allowed to include meta data like 

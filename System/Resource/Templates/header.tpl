@@ -2,7 +2,7 @@
 	<body>
 		<script type="text/javascript">org.bambuscms.app.controller = "{AppGUID}";org.bambuscms.app.document.alias = "{ContentAlias}"</script>
 		<div id="BambusHeader">
-			{WApplications}
+			{View_UIElement_Applications}
 			<div id="BambusRightInfo">
 			    <div id="BambusLogout"><a href="Management/?logout">{logout_text}</a></div>
 			    <div id="BambusVersionInfo">{bcms_version}</div>

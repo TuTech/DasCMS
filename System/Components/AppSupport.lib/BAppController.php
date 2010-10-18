@@ -10,8 +10,6 @@
  * @subpackage BaseClasses
  */
 abstract class BAppController 
-    extends 
-        BObject
 {
     protected $target = null;
     
@@ -29,7 +27,7 @@ abstract class BAppController
         if(!empty($namedParameters['alias']) 
             && Controller_Content::getInstance()->contentExists($namedParameters['alias']))
         {
-            return array('tags' => STag::getInstance()->get($namedParameters['alias']));
+            return array('tags' => Controller_Tags::getInstance()->get($namedParameters['alias']));
         }
     }
     
@@ -109,8 +107,8 @@ abstract class BAppController
 	{
 	    return array(
 	    	'renderer' => 'image.php',
-	        'scaleHash' => WImage::createScaleHash(128, 96, WImage::MODE_SCALE_TO_MAX),
-	        'images' => WImage::getAllPreviewContents()
+	        'scaleHash' => View_UIElement_Image::createScaleHash(128, 96, View_UIElement_Image::MODE_SCALE_TO_MAX),
+	        'images' => View_UIElement_Image::getAllPreviewContents()
 	    );
 	}
 }

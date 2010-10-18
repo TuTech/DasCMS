@@ -23,5 +23,6 @@ if(!$console){
 	header("Cache-Control: max-age=0, public");
 	header('No Content', true, 204);
 	header('X-CMS-JobStatus: '.urlencode($stat));
+	header('Content-type: image/png');
 }
 ?>

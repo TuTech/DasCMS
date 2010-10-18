@@ -10,7 +10,7 @@
  * @subpackage Content
  */
 class CPage 
-    extends BContent 
+    extends _Content 
     implements 
         ISupportsSidebar, 
         IGlobalUniqueId, 
@@ -31,9 +31,9 @@ class CPage
 	 */
 	public static function Create($title)
 	{
-	    list($dbid, $alias) = BContent::createContent('CPage', $title);
-	    DFileSystem::save(SPath::CONTENT.'CPage/'.$dbid.'.content.php', ' ');
-	    BContent::setMIMEType($alias, 'text/html');
+	    list($dbid, $alias) = _Content::createContent('CPage', $title);
+	    DFileSystem::save(Core::PATH_CONTENT.'CPage/'.$dbid.'.content.php', ' ');
+	    _Content::setMIMEType($alias, 'text/html');
 	    $page = new CPage($alias);
 	    new Event_ContentCreated($page, $page);
 	    return $page;
@@ -75,16 +75,16 @@ class CPage
 	
 	/**
 	 * Icon for this filetype
-	 * @return WIcon
+	 * @return View_UIElement_Icon
 	 */
 	public static function defaultIcon()
 	{
-	    return new WIcon('CPage', 'content', WIcon::LARGE, 'mimetype');
+	    return new View_UIElement_Icon('CPage', 'content', View_UIElement_Icon::LARGE, 'mimetype');
 	}
 	
 	/**
 	 * Icon for this object
-	 * @return WIcon
+	 * @return View_UIElement_Icon
 	 */
 	public function getIcon()
 	{
@@ -99,7 +99,7 @@ class CPage
 		try{
 			if(!$this->_contentLoaded)
 			{
-				$this->Content = DFileSystem::load(SPath::CONTENT.'CPage/'.$this->Id.'.content.php');
+				$this->Content = DFileSystem::load(Core::PATH_CONTENT.'CPage/'.$this->Id.'.content.php');
 				$this->_contentLoaded = true;
 			}
 		}
@@ -122,7 +122,7 @@ class CPage
 		//save content
 		if($this->_contentLoaded)
 		{
-			DFileSystem::save(SPath::CONTENT.'CPage/'.$this->Id.'.content.php',$this->Content);
+			DFileSystem::save(Core::PATH_CONTENT.'CPage/'.$this->Id.'.content.php',$this->Content);
 		}
 	}
 	
@@ -135,7 +135,7 @@ class CPage
 	//ISearchDirectives
 	public function allowSearchIndex()
 	{
-	    return BContent::isIndexingAllowed($this->getId());
+	    return _Content::isIndexingAllowed($this->getId());
 	}
 	public function excludeAttributesFromSearchIndex()
 	{
@@ -147,7 +147,7 @@ class CPage
     }
     public function changeSearchIndexingStatus($allow)
     {
-        BContent::setIndexingAllowed($this->getId(), !empty($allow));
+        _Content::setIndexingAllowed($this->getId(), !empty($allow));
     }
 }
 ?>
