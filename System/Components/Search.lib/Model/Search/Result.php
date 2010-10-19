@@ -14,6 +14,9 @@ class Model_Search_Result
 	//api vars
 	protected $itemsPerPage, $pageNr, $order = Interface_Search_ConfiguredResultset::ASC;
 
+	//cache
+	private $fetched;
+
 	/**
 	 * constructor
 	 * @param int $searchId
@@ -135,41 +138,44 @@ class Model_Search_Result
 	 * @return array string[]
 	 */
 	public function asAliases() {
-		//compute range of items
-		$firstElement = 1;
-		$lastElement = 1;
-		$listAscending = $this->order == Interface_Search_ConfiguredResultset::ASC;
+		if(!$this->fetched){
+			//compute range of items
+			$firstElement = 1;
+			$lastElement = 1;
+			$listAscending = $this->order == Interface_Search_ConfiguredResultset::ASC;
 
-		if($listAscending){
-			$skipping = $this->itemsPerPage * ($this->pageNr - 1);
-			//page 1: (1-1)*10 = 0
-			//page 2: (2-1)*10 = 10
+			if($listAscending){
+				$skipping = $this->itemsPerPage * ($this->pageNr - 1);
+				//page 1: (1-1)*10 = 0
+				//page 2: (2-1)*10 = 10
+			}
+			else{
+				$skipping = $this->resultCount - $this->pageNr * $this->itemsPerPage;
+				//page 1: 123 - 1 * 10 = 113
+				//page 2: 123 - 2 * 10 = 103
+			}
+			$firstElement = 1 + $skipping;
+			//page 1: 1+0  = 1
+			//page 2: 1+10 = 11
+
+			$lastElement = $this->itemsPerPage + $skipping;
+			//page 1: 10+0  = 10
+			//page 2: 10+10 = 20
+
+			//for select between X an Y
+			$list = Core::Database()
+				->createQueryForClass($this)
+				->call('page')
+				->withParameters($this->searchId, $firstElement, $lastElement)
+				->fetchList();
+
+			if(!$listAscending){
+				//order result page descending
+				$list = array_reverse($list);
+			}
+			$this->fetched = $list;
 		}
-		else{
-			$skipping = $this->resultCount - $this->pageNr * $this->itemsPerPage;
-			//page 1: 123 - 1 * 10 = 113
-			//page 2: 123 - 2 * 10 = 103
-		}
-		$firstElement = 1 + $skipping;
-		//page 1: 1+0  = 1
-		//page 2: 1+10 = 11
-
-		$lastElement = $this->itemsPerPage + $skipping;
-		//page 1: 10+0  = 10
-		//page 2: 10+10 = 20
-
-		//for select between X an Y
-		$list = Core::Database()
-			->createQueryForClass($this)
-			->call('page')
-			->withParameters($this->searchId, $firstElement, $lastElement)
-			->fetchList();
-
-		if(!$listAscending){
-			//order result page descending
-			$list = array_reverse($list);
-		}
-		return $list;
+		return $this->fetched;
 	}
 
 	/**
@@ -183,6 +189,60 @@ class Model_Search_Result
 			$ret[] = $ctrl->accessContent($alias, $this);
 		}
 		return $ret;
+	}
+
+	/**
+	 * get max page
+	 * @return int
+	 */
+	public function getLastPageNumber(){
+		return $this->getPageCountFor($this->itemsPerPage);
+	}
+
+	/**
+	 * get the defined element count
+	 * @return int
+	 */
+	public function getPageElementCount(){
+		return $this->itemsPerPage;
+	}
+
+	/**
+	 * get the item count for this page
+	 * @return int
+	 */
+	public function getCurrentElementCount(){
+		return count($this->asAliases());
+	}
+
+	/**
+	 * get the item count for this page
+	 * @return int
+	 */
+	public function getTotalElementCount(){
+		return $this->resultCount;
+	}
+
+	/**
+	 * current page nr
+	 * @return int
+	 */
+	public function getPageNumber(){
+		return $this->pageNr;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isFirstPage(){
+		return $this->pageNr == 1;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isLastPage(){
+		return $this->getLastPageNumber() == $this->pageNr;
 	}
 }
 ?>

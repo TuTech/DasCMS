@@ -9,61 +9,69 @@ class Controller_Search_ResultScope implements Interface_Content_FiniteScope
 	/**
 	 * @var Controller_View_Content
 	 */
-	private $view;
+	private $contentView;
 
 	/**
-	 * @param Model_Search_Result $result
+	 * @param Interface_Search_ResultPage $result
 	 * @param Controller_View_Content $spore
 	 */
-	public function __construct(Interface_Search_ResultPage $result, Controller_View_Content $spore) {
-
+	public function __construct(Interface_Search_ResultPage $result, Controller_View_Content $contentView) {
+		$this->result = $result;
+		$this->contentView = $contentView;
 	}
 
 	public function getNextPageLink() {
-	 ;
+		return min(
+				$this->result->getPageNumber() + 1,
+				$this->result->getLastPageNumber()
+			);
 	}
 
 	public function getNextPageTitle() {
-	 ;
-	}
-
-	public function getNumberOfAvailablePages() {
-	 ;
-	}
-
-	public function getNumberOfContents() {
-	 ;
-	}
-
-	public function getNumberOfContentsOnPage() {
-	 ;
-	}
-
-	public function getNumberOfCurrentPage() {
-	 ;
-	}
-
-	public function getPageContents() {
-	 ;
+		return $this->contentView->getContent()->getTitle();
 	}
 
 	public function getPageTitle() {
-	 ;
+		return $this->contentView->getContent()->getTitle();
 	}
 
 	public function getPreviousPageLink() {
-	 ;
+		return max(
+				1,
+				$this->result->getPageNumber() - 1
+			);
 	}
 
 	public function getPreviousPageTitle() {
-	 ;
+		return $this->contentView->getContent()->getTitle();
+	}
+
+	public function getNumberOfAvailablePages() {
+		return $this->result->getLastPageNumber();
+	}
+
+	public function getNumberOfContents() {
+		return $this->result->getTotalElementCount();
+	}
+
+	public function getNumberOfContentsOnPage() {
+		return $this->result->getPageElementCount();
+	}
+
+	public function getNumberOfCurrentPage() {
+		return $this->result->getCurrentElementCount();
+	}
+
+	public function getPageContents() {
+		$this->contentView->getContent();
 	}
 
 	public function isFirstPage() {
-	 ;
+		return $this->result->isFirstPage();
 	}
 
 	public function isLastPage() {
+		return $this->result->isLastPage();
 	}
 }
 ?>
