@@ -27,9 +27,9 @@ class NTreeNavigationHelper
 	 * Constructor
 	 *
 	 * @param NTreeNavigationObject $tno
-	 * @param VSpore $spore
+	 * @param Controller_View_Content $spore
 	 */
-	public function __construct(NTreeNavigationObject $tno, VSpore $spore)
+	public function __construct(NTreeNavigationObject $tno, Controller_View_Content $spore)
 	{
 	    //gather all aliases, 
 	    //NTreeNavigationHelper->getContentCMSID() = SAlias::getMatching(id, aliases[])

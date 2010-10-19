@@ -47,7 +47,7 @@ class TCmdView
     
     public function setUp(array $environment)
     {
-        $v = new VSporeHelper();
+        $v = new Controller_ContentViewHelper();
         if($this->fixcontent)
         {
             $v->templateCall('altercontent', array(

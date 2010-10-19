@@ -61,7 +61,7 @@ class NTreeNavigation
 	}
 	//end Interface_Singleton
 	
-    public static function set($nav,VSpore $spore, NTreeNavigationObject $tno_root)
+    public static function set($nav,Controller_View_Content $spore, NTreeNavigationObject $tno_root)
     {
     	//nav names are fs-names
     	self::getInstance();
@@ -83,10 +83,10 @@ class NTreeNavigation
     }
     
     /**
-     * get the VSpore object of a nav
+     * get the Controller_View_Content object of a nav
      *
      * @param string $nav
-     * @return VSpore
+     * @return Controller_View_Content
      * @throws OutOfRangeException
      */
     public static function sporeOf($nav)
@@ -95,24 +95,24 @@ class NTreeNavigation
     	{
     		throw new OutOfRangeException();
     	}
-    	if(VSpore::exists(self::$index[$nav][self::Spore]))
+    	if(Controller_View_Content::exists(self::$index[$nav][self::Spore]))
     	{
-    		return new VSpore(self::$index[$nav][self::Spore]);
+    		return new Controller_View_Content(self::$index[$nav][self::Spore]);
     	}
 		else
 		{
-			$allSpores = VSpore::sporeNames();
+			$allSpores = Controller_View_Content::sporeNames();
 			if(count($allSpores) == 0)
 			{
 				//no spores - create one
-				VSpore::set($nav,true,null,null);
-				VSpore::save();
-				return new VSpore($nav);
+				Controller_View_Content::set($nav,true,null,null);
+				Controller_View_Content::save();
+				return new Controller_View_Content($nav);
 			}
 			else
 			{
 				//the are some spore use whatever comes first
-				return new VSpore($allSpores[0]);
+				return new Controller_View_Content($allSpores[0]);
 			}
 		}
     }
@@ -156,13 +156,13 @@ class NTreeNavigation
     		$sporeName = self::$index[$NavigationName][self::Spore];
     		$root = self::$index[$NavigationName][self::Tree];
     		
-    		if(VSpore::exists($sporeName) 
+    		if(Controller_View_Content::exists($sporeName) 
     			&& $root != null
     			&& $root instanceof NTreeNavigationObject)
     		{
-    			if(VSpore::exists($sporeName) && VSpore::isActive($sporeName))
+    			if(Controller_View_Content::exists($sporeName) && Controller_View_Content::isActive($sporeName))
     			{
-    				$spore = VSpore::byName($sporeName);
+    				$spore = Controller_View_Content::byName($sporeName);
     				$navigation = new NTreeNavigationHelper($root,$spore);
     			}
     			else

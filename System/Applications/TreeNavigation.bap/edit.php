@@ -25,7 +25,7 @@ if($edit != null)
 		<select name="set_spore">
 			<option value=""><?php echo $sporeName; ?></option>
 		<?php
-		$spores = VSpore::activeSpores();
+		$spores = Controller_View_Content::activeSpores();
 		foreach ($spores as $spore) 
 		{
 			if($spore != $sporeName)

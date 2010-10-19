@@ -2,7 +2,7 @@
 require_once 'System/main.php';
 PAuthentication::implied();
 
-$se = Search_Engine::getInstance();
+$se = Controller_Search_Engine::getInstance();
 $se->flush();
 
 $q = "title:+test ".time();

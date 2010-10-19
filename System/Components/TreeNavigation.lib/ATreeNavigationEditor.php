@@ -44,25 +44,25 @@ class ATreeNavigationEditor
                 SNotificationCenter::report('warning', 'navigation_name_not_valid');
                 return;
             }
-        	if(VSpore::exists($newNav))
+        	if(Controller_View_Content::exists($newNav))
         	{
         		//matching spore exists - use it
-        		$spore = new VSpore($newNav);
+        		$spore = new Controller_View_Content($newNav);
         	}
         	else
         	{
-        		$allSpores = VSpore::sporeNames();
+        		$allSpores = Controller_View_Content::sporeNames();
         		if(count($allSpores) == 0)
         		{
         			//no spores - create one
-        			VSpore::set($newNav,true,null,null);
-        			VSpore::save();
-        			$spore = new VSpore($newNav);
+        			Controller_View_Content::set($newNav,true,null,null);
+        			Controller_View_Content::save();
+        			$spore = new Controller_View_Content($newNav);
         		}
         		else
         		{
         			//the are some spore use whatever comes first
-        			$spore = new VSpore($allSpores[0]);
+        			$spore = new Controller_View_Content($allSpores[0]);
         		}
         	}
         	NTreeNavigation::set($newNav,$spore,new NTreeNavigationObject('', null,null,null));
@@ -164,9 +164,9 @@ class ATreeNavigationEditor
         		}
         	}
         	try{
-        		if(isset($param['set_spore']) && VSpore::exists($param['set_spore']))
+        		if(isset($param['set_spore']) && Controller_View_Content::exists($param['set_spore']))
             	{
-            		$sp = new VSpore($param['set_spore']);
+            		$sp = new Controller_View_Content($param['set_spore']);
             		SNotificationCenter::report('message', 'changing target view');
             	}
         		else

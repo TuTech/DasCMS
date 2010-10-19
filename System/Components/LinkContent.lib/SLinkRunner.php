@@ -37,7 +37,7 @@ class SLinkRunner
 	public function handleEventContentAccess(Event_ContentAccess $e)
 	{
 	    if ($e->Content instanceof CLink 
-	        && $e->Sender instanceof VSpore) 
+	        && $e->Sender instanceof Controller_View_Content) 
 	    {
 	        //if it is accessed directly - redirect to url
 	    	header('Location: '.trim($e->Content->Content));

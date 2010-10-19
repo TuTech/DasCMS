@@ -39,11 +39,11 @@ class AViews
     			
     			if($delete)
     			{
-    				VSpore::remove($spore);
+    				Controller_View_Content::remove($spore);
     			}
     			else
     			{
-    				VSpore::set(
+    				Controller_View_Content::set(
     					$spore, 
     					!empty($data['actv_'.$spore]),
     					$data['init_'.$spore], 
@@ -53,10 +53,10 @@ class AViews
     		}
     	}
     	if(!empty($data['new_spore'])
-    	    && !VSpore::exists($data['new_spore']))
+    	    && !Controller_View_Content::exists($data['new_spore']))
     	{
     		try{
-    			VSpore::set(
+    			Controller_View_Content::set(
     			    $data['new_spore'],
     			    !empty($data['new_actv']),
     			    $data['new_init'],
@@ -67,7 +67,7 @@ class AViews
     			SNotificationCenter::report('warning', 'could_not_create_view');
     		}
     	}
-    	VSpore::save();
+    	Controller_View_Content::save();
     	SNotificationCenter::report('message', 'views_saved');
     }
 }

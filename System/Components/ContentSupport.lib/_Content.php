@@ -40,13 +40,13 @@ abstract class _Content implements Interface_Content
 	//Linking
     private $parentView = null;
 
-	public function setParentView(VSpore $pv)
+	public function setParentView(Controller_View_Content $pv)
 	{
 		$this->parentView = $pv;
 	}
 
 	/**
-	 * @return VSpore
+	 * @return Controller_View_Content
 	 */
 	public function getParentView()
 	{

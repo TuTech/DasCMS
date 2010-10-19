@@ -15,7 +15,7 @@ class Controller_View_ContentActivityDetectorDelegate {
 		$show = false;
 		foreach ($views as $vcc){
 			if(array_key_exists($vcc, $activeViews)){
-				$v = VSpore::byName($vcc);
+				$v = Controller_View_Content::byName($vcc);
 				$show = $show || ($id == $v->getContent()->getId());
 			}
 		}
@@ -24,7 +24,7 @@ class Controller_View_ContentActivityDetectorDelegate {
 
 	public function contentViewShouldDisplay(_View_Content_Base $view, Interface_Content $content){
 		$show = true;
-		$activeViews = VSpore::activeSpores();
+		$activeViews = Controller_View_Content::activeSpores();
 		$id = $content->getId();
 
 		if(count($this->showIfViewsContainContent) > 0){
@@ -50,7 +50,7 @@ class Controller_View_ContentActivityDetectorDelegate {
 
 			//find views our content is active in
 			foreach ($views as $viewName){
-				$v = VSpore::byName($viewName);
+				$v = Controller_View_Content::byName($viewName);
 				if($id == $v->getContent()->getId()){
 					$contentActiveIn[] = 'active_in_view_'.$viewName;
 				}

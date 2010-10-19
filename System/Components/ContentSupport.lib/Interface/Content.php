@@ -5,10 +5,10 @@
  */
 interface Interface_Content {
 
-	public function setParentView(VSpore $pv);
+	public function setParentView(Controller_View_Content $pv);
 
 	/**
-	 * @return VSpore
+	 * @return Controller_View_Content
 	 */
 	public function getParentView();
 

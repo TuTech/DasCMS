@@ -100,9 +100,9 @@ class XML_Atom_Feed extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
         }
         $q = $content->getFeedTargetView();
         $linker = $content->getAlias();
-        if(VSpore::exists($q))
+        if(Controller_View_Content::exists($q))
         {
-            $linker = new VSpore($q);
+            $linker = new Controller_View_Content($q);
             $linker->LinkTo($content->getAlias());
         }
         $o->c__link = array(

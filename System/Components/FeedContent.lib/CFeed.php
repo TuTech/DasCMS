@@ -306,17 +306,17 @@ class CFeed
 	    try
 	    {
 	        $target = $this->option(self::SETTINGS, 'TargetView');
-    	    if($inTargetView && !empty($target) && VSpore::isActive($target))
+    	    if($inTargetView && !empty($target) && Controller_View_Content::isActive($target))
             {
                 //link page to target view
-                $linker = new VSpore($this->option(self::SETTINGS, 'TargetView'));
+                $linker = new Controller_View_Content($this->option(self::SETTINGS, 'TargetView'));
                 $linker->LinkTo($arg);
                 $link = strval($linker);
             }
             elseif(!$inTargetView)
     	    {
     	        $iqo = $this->getParentView();
-    	        if($iqo != null && $iqo instanceof VSpore)
+    	        if($iqo != null && $iqo instanceof Controller_View_Content)
     	        {
         	        //link to self
         	        //only param page=
@@ -397,7 +397,7 @@ class CFeed
         //current page        
         $currentPage = 1;
         $iqo = $this->getParentView();
-        if($iqo != null && $iqo instanceof VSpore)
+        if($iqo != null && $iqo instanceof Controller_View_Content)
         {
             $currentPage = intval($iqo->GetParameter('page'));
         }

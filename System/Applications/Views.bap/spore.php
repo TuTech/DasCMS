@@ -50,7 +50,7 @@ $tbl->addRow(array(
 ));
 echo $tbl;
 
-$sporeData = VSpore::getSpores();
+$sporeData = Controller_View_Content::getSpores();
 $spores = array_keys($sporeData);
 
 if(count($spores) > 0)
@@ -75,25 +75,25 @@ if(count($spores) > 0)
 	{
 		$initCTitle = '';
 		$initCID = '';
-		if(!empty($data[VSpore::INIT_CONTENT]))
+		if(!empty($data[Controller_View_Content::INIT_CONTENT]))
 		{
-			$alias = $data[VSpore::INIT_CONTENT];
+			$alias = $data[Controller_View_Content::INIT_CONTENT];
 			$content = Controller_Content::getInstance()->tryOpenContent($alias);
 			$initCTitle = $content->Title;
-			$initCID = $data[VSpore::INIT_CONTENT];
+			$initCID = $data[Controller_View_Content::INIT_CONTENT];
 		}
 		
 		$errCTitle = '';
 		$errCID = '';
-		if(!empty($data[VSpore::ERROR_CONTENT]))
+		if(!empty($data[Controller_View_Content::ERROR_CONTENT]))
 		{
-			$alias = $data[VSpore::ERROR_CONTENT];
+			$alias = $data[Controller_View_Content::ERROR_CONTENT];
 			$content = Controller_Content::getInstance()->tryOpenContent($alias);
 			$errCTitle = $content->Title;
-			$errCID = $data[VSpore::ERROR_CONTENT];
+			$errCID = $data[Controller_View_Content::ERROR_CONTENT];
 		}
 		
-		$check = ($data[VSpore::ACTIVE]) ? ' checked="checked"' : '';
+		$check = ($data[Controller_View_Content::ACTIVE]) ? ' checked="checked"' : '';
 		$outSpore = htmlentities($spore, ENT_QUOTES, CHARSET);
 		
 		$tbl->addRow(array(

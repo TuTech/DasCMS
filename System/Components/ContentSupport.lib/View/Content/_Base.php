@@ -114,8 +114,8 @@ class _View_Content_Base
 		//build a link wrapper if target view is set
 		if($autoLink && $this->linkTargetView){
 			if($this->linkTargetViewObject == null){
-				if(VSpore::exists($this->linkTargetView)){
-					$this->linkTargetViewObject = VSpore::byName($this->linkTargetView);
+				if(Controller_View_Content::exists($this->linkTargetView)){
+					$this->linkTargetViewObject = Controller_View_Content::byName($this->linkTargetView);
 				}
 				else{
 					$this->linkTargetViewObject = false;

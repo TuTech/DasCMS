@@ -170,7 +170,7 @@ class AFeeds
                         {
                             $set = true;
                         }
-                        elseif(class_exists('VSpore', true) && VSpore::exists($value))
+                        elseif(class_exists('Controller_View_Content', true) && Controller_View_Content::exists($value))
                         {
                             $set = true;
                         }

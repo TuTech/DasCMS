@@ -55,7 +55,7 @@ if(PAuthorisation::has('org.bambuscms.content.cfeed.change') && $Feed != null)
             View_UIElement_TextBox::MULTILINE
         )
     ));
-    $views = VSpore::activeSpores();
+    $views = Controller_View_Content::activeSpores();
     $targetViews = array('' => SLocalization::get('do_not_link'));
     foreach ($views as $view) 
     {
