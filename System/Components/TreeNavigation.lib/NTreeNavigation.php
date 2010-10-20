@@ -49,7 +49,7 @@ class NTreeNavigation
 			self::$sharedInstance = new $class();
 			try
 		    {
-				self::$index = DFileSystem::loadData('./Content/'.self::CLASS_NAME.'/index.php');
+				self::$index = Core::FileSystem()->loadEncodedData('./Content/'.self::CLASS_NAME.'/index.php');
 			}
 			catch (Exception $e)
 			{
@@ -143,7 +143,7 @@ class NTreeNavigation
     public static function save()
     {
     	self::getInstance();
-		DFileSystem::saveData('./Content/'.self::CLASS_NAME.'/index.php', self::$index);
+		Core::FileSystem()->storeDataEncoded('./Content/'.self::CLASS_NAME.'/index.php', self::$index);
 		return true;
     }
     

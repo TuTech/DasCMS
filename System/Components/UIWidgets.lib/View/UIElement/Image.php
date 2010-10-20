@@ -251,7 +251,7 @@ class View_UIElement_Image extends _View_UIElement
     {
         $this->scaleHash = self::createScaleHash($width, $heigth, $mode, $forceType, $fillColor);
         //permit rendering this image
-        $qual = intval(Core::settings()->getOrDefault('CFile_image_quality', 75));
+        $qual = intval(Core::Settings()->getOrDefault('CFile_image_quality', 75));
         if(!file_exists(Core::PATH_TEMP.'scale.render.'.$qual.'.'.$this->imageID.'-'.$this->scaleHash)
             && !PAuthorisation::has('org.bambuscms.bcontent.previewimage.create') //does not need explicit permission
             )

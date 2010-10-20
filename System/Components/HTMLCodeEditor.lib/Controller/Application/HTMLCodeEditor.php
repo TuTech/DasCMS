@@ -9,9 +9,9 @@
  * @package Bambus
  * @subpackage AppController
  */
-class AHTMLCodeEditor
+class Controller_Application_HTMLCodeEditor
     extends 
-        AWebsiteEditor
+        Controller_Application_WebsiteEditor
     implements 
         IGlobalUniqueId,
         ISupportsOpenDialog  

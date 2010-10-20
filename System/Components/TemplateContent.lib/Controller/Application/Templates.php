@@ -9,9 +9,9 @@
  * @package Bambus
  * @subpackage AppController
  */
-class ATemplates
+class Controller_Application_Templates
     extends 
-        BAppController 
+        _Controller_Application 
     implements 
         IGlobalUniqueId,
         ISupportsOpenDialog

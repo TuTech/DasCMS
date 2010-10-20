@@ -16,7 +16,7 @@ class UAdvancedMetaData
         Event_Handler_WillSendHeaders
 {
     private static $keys = array(
-        'localization' => array(
+        'site_location' => array(
             'latitude'  => 'UAdvancedMetaData_latitude',
         	'longitude' => 'UAdvancedMetaData_longitude',
     		'placename' => 'UAdvancedMetaData_placename',
@@ -39,7 +39,7 @@ class UAdvancedMetaData
             $data = array();
             foreach ($ks as $mk => $cc)
             {
-                $data[$mk] = array(Core::settings()->get($cc), Settings::TYPE_TEXT, null,$mk);
+                $data[$mk] = array(Core::Settings()->get($cc), Settings::TYPE_TEXT, null,$mk);
             }
             $e->addClassSettings($this, $sect, $data);
         }
@@ -55,7 +55,7 @@ class UAdvancedMetaData
             {
                 if(isset($data[$mk]))
                 {
-                    Core::settings()->set($cc, $data[$mk]);
+                    Core::Settings()->set($cc, $data[$mk]);
                 }
             }
         }
@@ -68,7 +68,7 @@ class UAdvancedMetaData
         {
             foreach ($ks as $mk => $cc)
             {
-                $data[$sect.'_'.$mk] = Core::settings()->get($cc);
+                $data[$sect.'_'.$mk] = Core::Settings()->get($cc);
             }
         }
         $data['site_location_location'] = '';

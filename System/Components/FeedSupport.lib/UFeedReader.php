@@ -122,7 +122,7 @@ class UFeedReader implements Interface_Singleton, ITemplateSupporter, IGlobalUni
 		if(file_exists($temp.$feedId) && filemtime($temp.$feedId) > (time() - $minutesToLive*60))
 		{
 			//cached version exists
-			$data = DFileSystem::load($temp.$feedId);
+			$data = Core::FileSystem()->load($temp.$feedId);
 			$this->log("\n<!--Feed Reader: using cached file '%s' for '%s' -->\n",$feedId,$url);
 		}
 		else
@@ -155,7 +155,7 @@ class UFeedReader implements Interface_Singleton, ITemplateSupporter, IGlobalUni
 						$data .= $buf;
 					}
 					if($data !== null){
-						DFileSystem::save($temp.$feedId, $data);
+						Core::FileSystem()->store($temp.$feedId, $data);
 					}
 				}
 				else
@@ -236,7 +236,7 @@ class UFeedReader implements Interface_Singleton, ITemplateSupporter, IGlobalUni
 		if(file_exists($temp.$feedId) && filemtime($temp.$feedId) > (time() -  $options['update']*60))
 		{
 			//cached version exists
-			$html = DFileSystem::load($temp.$feedId);
+			$html = Core::FileSystem()->load($temp.$feedId);
 			$this->log("\n<!--Feed Reader: using cached html '%s' for '%s' -->\n",$feedId,$options['feed']);
 
 		}
@@ -253,7 +253,7 @@ class UFeedReader implements Interface_Singleton, ITemplateSupporter, IGlobalUni
 					if(file_exists($temp.$feedId))
 					{
 						//cached version exists
-						$html = DFileSystem::load($temp.$feedId);
+						$html = Core::FileSystem()->load($temp.$feedId);
 						$this->log("\n<!--Feed Reader: could not read feed - using cached html '%s' for '%s' -->\n",$feedId,$options['feed']);
 
 					}
@@ -422,7 +422,7 @@ class UFeedReader implements Interface_Singleton, ITemplateSupporter, IGlobalUni
 					$html .= "\n\t\t</div>";
 				}
 				$html .= "\n\t</div>\n</div>\n";
-				DFileSystem::save($temp.$feedId, $html);
+				Core::FileSystem()->store($temp.$feedId, $html);
 			}
 			catch(Exception $e)
 			{

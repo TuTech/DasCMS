@@ -2,34 +2,34 @@
 /**
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 2009-04-03
+ * @since 2010-10-20
  * @license GNU General Public License 3
  */
 /**
  * @package Bambus
  * @subpackage AppController
  */
-class ALinks
-    extends 
-        BAppController 
-    implements 
+class Controller_Application_Search
+    extends
+        _Controller_Application
+    implements
         IGlobalUniqueId,
-        ISupportsOpenDialog  
+        ISupportsOpenDialog
 {
-    const GUID = 'org.bambuscms.applications.links';
-        
+    const GUID = 'org.bambuscms.applications.search';
+
     /**
-	 * @var CLink	
+	 * @var CSearch
      */
     protected $target = null;
-    
+
     public function setTarget($target)
     {
         try
         {
             if(!empty($target))
             {
-                $this->target = Controller_Content::getInstance()->openContent($target, 'CLink');
+                $this->target = Controller_Content::getInstance()->openContent($target, 'CSearch');
             }
         }
         catch (Exception $e)
@@ -37,35 +37,31 @@ class ALinks
             $this->target = null;
         }
     }
-    
+
     public function create(array $param)
     {
-        parent::requirePermission('org.bambuscms.content.clink.create');
+        parent::requirePermission('org.bambuscms.content.csearch.create');
         $success = false;
         if(!empty($param['create']))
         {
             try
             {
-                $this->target = CLink::Create($param['create']);
-                if(isset($param['content']))
-                {
-                    $this->target->setContent($param['content']);
-                    $this->target->save();
-                }
+                $this->target = CSearch::Create($param['create']);
+                $this->target->changeSearchIndexingStatus(false);
                 $success = true;
             }
             catch (Exception $e)
             {
-                SNotificationCenter::report('warning', 'could_not_create_feed');
+                SNotificationCenter::report('warning', 'could_not_create_search');
             }
         }
         return $success;
     }
-    
+
     public function save(array $param)
     {
-        parent::requirePermission('org.bambuscms.content.clink.change');
-        if($this->target != null) 
+        parent::requirePermission('org.bambuscms.content.csearch.change');
+        if($this->target != null)
         {
             if(!empty($param['title']))
             {
@@ -75,16 +71,16 @@ class ALinks
             {
                 $this->target->SubTitle = $param['subtitle'];
             }
-            if(isset($param['content']))
+			if(isset($param['content_formatter']))
             {
-                $this->target->Content = $param['content'];
+                $this->target->setChildContentFormatter($param['content_formatter']);
             }
         }
     }
-    
+
     public function delete(array $param)
     {
-        parent::requirePermission('org.bambuscms.content.clink.delete');
+        parent::requirePermission('org.bambuscms.content.csearch.delete');
         if($this->target != null)
         {
             $alias = $this->target->Alias;
@@ -94,18 +90,18 @@ class ALinks
             }
         }
     }
-    
+
     public function commit()
     {
         if($this->target != null)
         {
             $this->target->save();
         }
-    } 
-    
+    }
+
     /**
      * array(Interface_Content|string file, [string mimetype])
-     * 
+     *
      * @return array
      */
     public function getSideBarTarget()
@@ -127,20 +123,18 @@ class ALinks
     {
         return self::GUID;
     }
-    
+
     /**
-     * opened object 
-     * @return string|null 
+     * opened object
+     * @return string|null
      */
     public function getOpenDialogTarget()
     {
         return empty($this->target) ? null : $this->target->Alias;
     }
-    
-    
+
     /**
      * returns all data necessary for the open dialog
-     * @param array $namedParameters
      * @return array
      * @throws XPermissionDeniedException
      */
@@ -150,18 +144,18 @@ class ALinks
         {
             throw new XPermissionDeniedException('view');
         }
-        $IDindex = Controller_Content::getInstance()->contentIndex('Clink');
+        $IDindex = Controller_Content::getInstance()->contentIndex('CSearch');
         $items = array();
-        foreach ($IDindex as $alias => $data) 
+        foreach ($IDindex as $alias => $data)
         {
-        	list($title, $pubdate, $type, $id) = $data;
+        	list($title, $pubdate) = $data;
         	$items[] = array($title, $alias, 0, strtotime($pubdate));
         }
         $data = array(
             'title' => SLocalization::get('open'),
             'nrOfItems' => count($items),
-            'iconMap' => array(CLink::defaultIcon()->asSize(View_UIElement_Icon::LARGE)->getPath()),
-            'smallIconMap' => array(CLink::defaultIcon()->asSize(View_UIElement_Icon::EXTRA_SMALL)->getPath()),
+            'iconMap' => array(CSearch::defaultIcon()->asSize(View_UIElement_Icon::LARGE)->getPath()),
+            'smallIconMap' => array(CSearch::defaultIcon()->asSize(View_UIElement_Icon::EXTRA_SMALL)->getPath()),
             'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2, 'pubDate' => 3),//, 'tags' => 4
             'sortable' => array('title' => 'title', 'pubDate' => 'pubDate'),
             'items' => $items

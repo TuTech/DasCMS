@@ -38,9 +38,9 @@ class SErrorAndExceptionHandler
     public function handleEventRequestingClassSettings(Event_RequestingClassSettings $e)
     {
         $data = array(
-        	'mail_webmaster_on_error' => array(Core::settings()->get('mail_webmaster_on_error'), Settings::TYPE_CHECKBOX, null, 'mail_webmaster_on_error'),
-        	'show_errors_on_website' => array(Core::settings()->get('show_errors_on_website'), Settings::TYPE_CHECKBOX, null, 'show_errors_on_website'),
-        	'error_info_text_file' => array(Core::settings()->get('error_info_text_file'), Settings::TYPE_TEXT, null, 'error_info_text_file')
+        	'mail_webmaster_on_error' => array(Core::Settings()->get('mail_webmaster_on_error'), Settings::TYPE_CHECKBOX, null, 'mail_webmaster_on_error'),
+        	'show_errors_on_website' => array(Core::Settings()->get('show_errors_on_website'), Settings::TYPE_CHECKBOX, null, 'show_errors_on_website'),
+        	'error_info_text_file' => array(Core::Settings()->get('error_info_text_file'), Settings::TYPE_TEXT, null, 'error_info_text_file')
         );
         $e->addClassSettings($this, 'error_handling', $data);
     }
@@ -50,23 +50,23 @@ class SErrorAndExceptionHandler
         $data = $e->getClassSettings($this);
         if(isset($data['mail_webmaster_on_error']))
         {
-            Core::settings()->set('mail_webmaster_on_error', $data['mail_webmaster_on_error']);
+            Core::Settings()->set('mail_webmaster_on_error', $data['mail_webmaster_on_error']);
         }
         if(isset($data['error_info_text_file']))
         {
-            Core::settings()->set('error_info_text_file', $data['error_info_text_file']);
+            Core::Settings()->set('error_info_text_file', $data['error_info_text_file']);
         }
         if(isset($data['show_errors_on_website']))
         {
-            Core::settings()->set('show_errors_on_website', $data['show_errors_on_website']);
+            Core::Settings()->set('show_errors_on_website', $data['show_errors_on_website']);
         }
     }
 
     private static function mail($kind, $code, $file, $line, $message, $stack, $workingDir)
     {
-        if(Core::settings()->get('mail_webmaster_on_error') == '1')
+        if(Core::Settings()->get('mail_webmaster_on_error') == '1')
         {
-            $mail = Core::settings()->get('webmaster');
+            $mail = Core::Settings()->get('webmaster');
             if(!empty($mail))
             {
                 mail(
@@ -138,7 +138,7 @@ class SErrorAndExceptionHandler
             , $errstr
             , $context
             ,getcwd());
-        DFileSystem::append(Core::PATH_LOGS.'Error.log', $err);
+        Core::FileSystem()->append(Core::PATH_LOGS.'Error.log', $err);
         self::$error = array($errno, $errstr, $errfile, $errline, $errcontext);
         self::$errorMessage = $err;
         if(self::$report && !self::$reportSkipOnce)
@@ -199,7 +199,7 @@ class SErrorAndExceptionHandler
 		$logFile = Core::PATH_LOGS.'Exceptions.log';
 		if((file_exists($logFile) && is_writable($logFile))
 				|| (!file_exists($logFile) && is_writable(dirname($logFile)))){
-			DFileSystem::append($logFile, $err);
+			Core::FileSystem()->append($logFile, $err);
 		}
 		else{
 			printf($tpl, 'could not write to log');
@@ -220,7 +220,7 @@ class SErrorAndExceptionHandler
 			}
 			if(self::$showInfoMessage)
 			{
-				$f = Core::settings()->get('error_info_text_file');
+				$f = Core::Settings()->get('error_info_text_file');
 				if(!empty($f) && file_exists($f) && is_readable($f) && substr(basename($f),0,1) != '.')
 				{
 					readfile($f);

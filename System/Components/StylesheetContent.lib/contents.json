@@ -1,1 +1,1 @@
-{"classes":["AStylesheetEditor","CStylesheet","Setup_StylesheetContent"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}
+{"classes":["CStylesheet","Controller_Application_StylesheetEditor","Setup_StylesheetContent"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}

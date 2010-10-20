@@ -16,7 +16,7 @@ class Settings_ContentView
 			$options[$f] = $f;
 		}
 		$e->addClassSettings($this, 'content_handling', array(
-        	'default_view_for_content' => array(Core::settings()->get('Settings_ContentView_defaultContentView'), Settings::TYPE_SELECT, $options, 'default_view_for_content')
+        	'default_view_for_content' => array(Core::Settings()->get('Settings_ContentView_defaultContentView'), Settings::TYPE_SELECT, $options, 'default_view_for_content')
 		));
 	}
 	
@@ -27,7 +27,7 @@ class Settings_ContentView
 			$f = empty ($f) ? '' : $f;
 			if(empty($f) || Controller_View::getInstance()->hasView($f))
 			{
-				Core::settings()->set('Settings_ContentView_defaultContentView', $f);
+				Core::Settings()->set('Settings_ContentView_defaultContentView', $f);
 			}
 		}
 	}

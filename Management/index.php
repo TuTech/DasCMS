@@ -77,7 +77,7 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
                 $controller->setTarget(RURL::get('edit', CHARSET));
             }
             //execute function call
-            BAppController::callController(
+            _Controller_Application::callController(
                 $controller, 
                 RURL::get('_action'), 
                 RSent::data(CHARSET)
@@ -132,7 +132,7 @@ else
     View_UIElement_Header::setTitle(
 		'Bambus CMS: '.
 	    SLocalization::get('login').' - '.
-	    Core::settings()->get('sitename')
+	    Core::Settings()->get('sitename')
     );
     if(RSent::has('bambus_cms_login'))
     {

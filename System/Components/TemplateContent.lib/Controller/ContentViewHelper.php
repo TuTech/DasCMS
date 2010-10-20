@@ -99,7 +99,7 @@ class Controller_ContentViewHelper
     private function content($spore)
     {
         $c = $this->sporeContent($spore);
-		$formatter = Core::settings()->get('Settings_ContentView_defaultContentView');
+		$formatter = Core::Settings()->get('Settings_ContentView_defaultContentView');
 		if($formatter){
 			$content = Controller_View::getInstance()->display($c, $formatter);
 		}

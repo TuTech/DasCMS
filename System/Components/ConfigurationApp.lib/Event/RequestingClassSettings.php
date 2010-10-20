@@ -3,10 +3,10 @@ class Event_RequestingClassSettings
 	extends _Event
 {
 	/**
-	 * @var AConfiguration
+	 * @var Controller_Application_Configuration
 	 */
 	protected $Sender = null;
-	public function __construct(AConfiguration $sender)
+	public function __construct(Controller_Application_Configuration $sender)
 	{
 		$this->Sender = $sender;
 		$this->informHandlers();

@@ -22,7 +22,7 @@ class Setup_BasicUserManagement
 	}
 
 	public function runContentFolderSetup() {
-		DFileSystem::saveData(
+		Core::FileSystem()->storeDataEncoded(
 				$this->dirPath('configuration/groups.php'),
 				array(
 					"Administrator",
@@ -49,12 +49,12 @@ class Setup_BasicUserManagement
 		$userData = str_replace('--PASSWORD--', md5($this->inputValueForKey('system.administratorPassword')), $userData);
 		$userData = str_replace('--EMAIL--', $eml, $userData);
 		$userData = str_replace('--EMAIL-LENGTH--', strlen($eml), $userData);
-		DFileSystem::save($this->dirPath('configuration/users.php'), $userData);
+		Core::FileSystem()->store($this->dirPath('configuration/users.php'), $userData);
 	}
 
 	public function runConfigurationSetup() {
-		Core::settings()->set("PAuthentication","SBambusSessionAuth");
-		Core::settings()->set("PAuthorisation","SBambusSessionAuth");
+		Core::Settings()->set("PAuthentication","SBambusSessionAuth");
+		Core::Settings()->set("PAuthorisation","SBambusSessionAuth");
 	}
 
 	public function runDatabaseTablesSetup() {

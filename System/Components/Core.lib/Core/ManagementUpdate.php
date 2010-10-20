@@ -90,7 +90,7 @@ class Core_ManagementUpdate extends Core
 		//build cache files
 		$versioninfo = array();
 		$expires = 60 * 60 * 24 * 365 * 10;//10 years
-		$tz = Core::settings()->getOrDefault('timezone', 'UTC');
+		$tz = Core::Settings()->getOrDefault('timezone', 'UTC');
 		$expireHeaders = "date_default_timezone_set('".$tz."');".
 						"header('Cache-Control:max-age=".$expires.", public');".
 						"header('Expires:Fri, '.date('r', time()+".$expires.")); ";

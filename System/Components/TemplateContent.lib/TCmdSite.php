@@ -45,7 +45,7 @@ class TCmdSite
 
     public function run(array $environment)
     {
-		$settings = Core::settings();
+		$settings = Core::Settings();
 		//doctype & xml namespace
 		$doctype = $settings->getOrDefault('doctype', SResourceString::get('doctypes', 'html5'));
 		$ns = '';

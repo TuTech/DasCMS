@@ -21,13 +21,13 @@ class Settings_CPageWYSIWYG
 		$this->initSettings();
         //db_engine + whatever DSQL gives us
          $fields = array(
-        	'enable_wysiwyg' => array(Core::settings()->get('AWebsiteEditor_WYSIWYG'), Settings::TYPE_CHECKBOX, null, 'enable_wysiwyg'),
+        	'enable_wysiwyg' => array(Core::Settings()->get('AWebsiteEditor_WYSIWYG'), Settings::TYPE_CHECKBOX, null, 'enable_wysiwyg'),
         	'reset_controls' => array('', Settings::TYPE_CHECKBOX, null, 'reset_controls')
         );
 
 		for($i = 1; $i < 5; $i++){
 			$fields['tinyMCE_controls_in_row'.$i] = array(
-				Core::settings()->get('AWebsiteEditor_WYSIWYG_row'.$i),
+				Core::Settings()->get('AWebsiteEditor_WYSIWYG_row'.$i),
 				Settings::TYPE_TEXT,
 				null,
 				'tinyMCE_controls_in_row'.$i
@@ -41,7 +41,7 @@ class Settings_CPageWYSIWYG
         $data = $e->getClassSettings($this);
 		if(isset($data['enable_wysiwyg']))
 		{
-			Core::settings()->set('AWebsiteEditor_WYSIWYG', !empty ($data['enable_wysiwyg']) ? '1' : '');
+			Core::Settings()->set('AWebsiteEditor_WYSIWYG', !empty ($data['enable_wysiwyg']) ? '1' : '');
 		}
 		if(!empty ($data['reset_controls'])){
 			$this->initSettings(true);
@@ -51,7 +51,7 @@ class Settings_CPageWYSIWYG
 				if(isset($data['tinyMCE_controls_in_row'.$i])){
 					$value = $data['tinyMCE_controls_in_row'.$i];
 					if(preg_match('/^[a-zA-Z0-9,|]*$/mu', $value)){
-						Core::settings()->set('AWebsiteEditor_WYSIWYG_row'.$i, $value);
+						Core::Settings()->set('AWebsiteEditor_WYSIWYG_row'.$i, $value);
 					}
 				}
 			}
@@ -60,9 +60,9 @@ class Settings_CPageWYSIWYG
 
 	private function initSettings($reset = false){
 		for($i = 1; $i < 5; $i++){
-			$v = Core::settings()->getOrDefault('AWebsiteEditor_WYSIWYG_row'.$i, null);
+			$v = Core::Settings()->getOrDefault('AWebsiteEditor_WYSIWYG_row'.$i, null);
 			if($v === null || $reset){
-				Core::settings()->set('AWebsiteEditor_WYSIWYG_row'.$i, self::$defaults[$i]);
+				Core::Settings()->set('AWebsiteEditor_WYSIWYG_row'.$i, self::$defaults[$i]);
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-Serialized array of available doctypes
+<?php /*Serialized array of available doctypes*/ exit(); ?>
 a:20:{s:13:"html-4-strict";s:93:"<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
    "http://www.w3.org/TR/html4/strict.dtd">";s:19:"html-4-transitional";s:105:"<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">";s:15:"html-4-frameset";s:104:"<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"

@@ -31,7 +31,7 @@ class Setup_Database
 	);
 
 	public function runConfigurationSetup() {
-		$config = Core::settings();
+		$config = Core::Settings();
 		foreach ($this->defaults as $key => $default){
 			$config->set(
 					$this->map[$key],

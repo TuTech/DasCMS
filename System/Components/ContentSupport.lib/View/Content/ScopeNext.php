@@ -20,6 +20,9 @@ class View_Content_ScopeNext
 					|| (!$isFinite && $scope->getNextPageLink() != null))
 			{
 				$text = $this->getLinkCaption();
+				if(empty ($text)){
+					$text = $scope->getNextPageTitle();
+				}
 				$link = $scope->getNextPageLink();
 				$frame = $this->getLinkTargetFrame();
 

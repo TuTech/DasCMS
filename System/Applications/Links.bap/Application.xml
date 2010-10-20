@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE bambus SYSTEM "../../Resource/DTD/application_v1.dtd">
 <bambus>
-	<appController guid="org.bambuscms.applications.links">ALinks</appController>
+	<appController guid="org.bambuscms.applications.links">Controller_Application_Links</appController>
 	<name>links</name>
 	<description>edit_and_manage_links</description>
 	<icon>app-utilities-linker</icon>

@@ -9,9 +9,9 @@
  * @package Bambus
  * @subpackage AppController
  */
-abstract class BAContentAppController 
+abstract class _Controller_Application_Content
     extends 
-        BAppController 
+        _Controller_Application 
     implements 
         ISupportsOpenDialog
 {

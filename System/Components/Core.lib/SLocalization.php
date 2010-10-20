@@ -44,9 +44,9 @@ class SLocalization
 		
         //locale, timezone, dateformat
         $e->addClassSettings($this, 'localization', array(
-        	'locale' => array(Core::settings()->get('locale'), Settings::TYPE_SELECT, $loc, 'locale'),
-        	'timezone' => array(Core::settings()->get('timezone'), Settings::TYPE_SELECT, $tz, 'timezone'),
-        	'date_format' => array(Core::settings()->get('dateformat'), Settings::TYPE_TEXT, null, 'date_format')
+        	'locale' => array(Core::Settings()->get('locale'), Settings::TYPE_SELECT, $loc, 'locale'),
+        	'timezone' => array(Core::Settings()->get('timezone'), Settings::TYPE_SELECT, $tz, 'timezone'),
+        	'date_format' => array(Core::Settings()->get('dateformat'), Settings::TYPE_TEXT, null, 'date_format')
         ));
     }
     
@@ -57,7 +57,7 @@ class SLocalization
         {
             if(isset($data[$mk]))
             {
-                Core::settings()->set($cc, $data[$mk]);
+                Core::Settings()->set($cc, $data[$mk]);
             }
         }
     }
@@ -85,7 +85,7 @@ class SLocalization
         // add de_DE
         // use earliest given available in trans dir
 		$langs = array(
-			Core::settings()->get('locale'),
+			Core::Settings()->get('locale'),
 			'de-DE'
 		);
 		foreach ($langs as $lang){

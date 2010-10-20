@@ -8,7 +8,7 @@ try
 {
     $file = RURL::get('get');
     SErrorAndExceptionHandler::muteErrors();
-    $force_download = RURL::has('download') || Core::settings()->get('CFile_force_download') == 1;
+    $force_download = RURL::has('download') || Core::Settings()->get('CFile_force_download') == 1;
     $extended_cache = RURL::has('extendedCache');
     $send_filename_header = true;
     if(empty($file))

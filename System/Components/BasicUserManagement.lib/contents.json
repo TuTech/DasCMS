@@ -1,1 +1,1 @@
-{"classes":["AGroupManager","AUserEditor","Controller_Permissions_Tag","SBambusSessionAuth","SUser","SUsersAndGroups","Settings_ContentProtectionTags","Setup_BasicUserManagement"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}
+{"classes":["Controller_Application_GroupManager","Controller_Application_UserEditor","Controller_Permissions_Tag","SBambusSessionAuth","SUser","SUsersAndGroups","Settings_ContentProtectionTags","Setup_BasicUserManagement"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}

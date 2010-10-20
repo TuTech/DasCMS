@@ -1,1 +1,1 @@
-{"classes":["AConfiguration","Event_Handler_RequestingClassSettings","Event_Handler_UpdateClassSettings","Event_RequestingClassSettings","Event_UpdateClassSettings","SProviderSettings"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}
+{"classes":["Controller_Application_Configuration","Event_Handler_RequestingClassSettings","Event_Handler_UpdateClassSettings","Event_RequestingClassSettings","Event_UpdateClassSettings","SProviderSettings"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}

@@ -21,7 +21,7 @@ abstract class BProvider
             $ipls[SLocalization::get(constant($impl.'::NAME'))] = $impl;
         }
         $data = array();
-        $data['implementation'] = array(Core::settings()->get($class), Settings::TYPE_SELECT, $ipls, $class);
+        $data['implementation'] = array(Core::Settings()->get($class), Settings::TYPE_SELECT, $ipls, $class);
         $e->addClassSettings($this, $this->getPurpose(), $data);
     }
     
@@ -32,7 +32,7 @@ abstract class BProvider
         
         if(!empty($data['implementation']))
         {
-            Core::settings()->set($class, $data['implementation']);
+            Core::Settings()->set($class, $data['implementation']);
         }
     }
     
@@ -93,7 +93,7 @@ abstract class BProvider
     {
         if($this->HasImplementor === null)
         {
-            $impl = Core::settings()->get(get_class($this));
+            $impl = Core::Settings()->get(get_class($this));
             $this->HasImplementor = !empty($impl) && class_exists($impl, true);
             if($this->HasImplementor)
             {

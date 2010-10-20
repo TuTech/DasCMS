@@ -86,7 +86,7 @@ class SNotificationCenter
             ,'seperator' => "\t"
             ,'attibutes' => ''
 	    ));
-        DFileSystem::append(BAMBUS_CMS_ROOTDIR.'/alerts.log', $tpl->render()."\n");
+        Core::FileSystem()->append('alerts.log', $tpl->render()."\n");
 	}
 	
 	public static function report($type, $message)

@@ -9,9 +9,9 @@
  * @package Bambus
  * @subpackage AppController
  */
-class ATreeNavigationEditor 
+class Controller_Application_TreeNavigationEditor 
     extends 
-        BAppController 
+        _Controller_Application 
     implements 
         IGlobalUniqueId,
         ISupportsOpenDialog  

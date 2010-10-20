@@ -32,7 +32,7 @@ class UOpenDialog
     
     public function getDataForApp(array $params)
     {
-        $ctrl = BAppController::getControllerForID($params['app']);
+        $ctrl = _Controller_Application::getControllerForID($params['app']);
         if($ctrl instanceof ISupportsOpenDialog)
         {
             //TODO: provide unified content info data from db here

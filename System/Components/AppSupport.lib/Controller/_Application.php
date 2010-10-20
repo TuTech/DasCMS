@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage BaseClasses
  */
-abstract class BAppController 
+abstract class _Controller_Application
 {
     protected $target = null;
     
@@ -20,7 +20,7 @@ abstract class BAppController
      * @param array $namedParameters
      * @return array
      * @throws XPermissionDeniedException
-     * @todo move to BAContentAppController
+     * @todo move to _Controller_Application_Content
      */
     public function provideContentTags(array $namedParameters)
     {
@@ -44,7 +44,7 @@ abstract class BAppController
         $this->target = $target;
     }
     
-    public static function callController(BAppController $controller, $function, array $param)
+    public static function callController(_Controller_Application $controller, $function, array $param)
     {
         if(!empty($function) && method_exists($controller, $function))
         {
@@ -69,7 +69,7 @@ abstract class BAppController
 	 * load a controller for given app id
 	 *
 	 * @param string $appID
-	 * @return BAppController
+	 * @return _Controller_Application
 	 * @throws XPermissionDeniedException
 	 * @throws XUndefinedException
 	 */
@@ -80,7 +80,7 @@ abstract class BAppController
 	        throw new XPermissionDeniedException($appID);
 	    }
 	    $appObject = BObject::InvokeObjectByID($appID);
-	    if (!$appObject instanceof BAppController) 
+	    if (!$appObject instanceof _Controller_Application) 
 	    {
 	    	throw new XUndefinedException(get_class($appObject).' is not an app controller');
 	    }

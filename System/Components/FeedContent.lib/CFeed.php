@@ -296,7 +296,7 @@ class CFeed
 	    $dataFile = $this->StoragePath($this->Id);
 	    if(file_exists($dataFile))
 	    {
-	        $this->_data = DFileSystem::loadData($dataFile);
+	        $this->_data = Core::FileSystem()->loadEncodedData($dataFile);
 	    }
 	}
 
@@ -661,7 +661,7 @@ class CFeed
 	protected function saveContentData()
 	{
 		//save content
-		DFileSystem::saveData($this->StoragePath($this->Id),$this->_data);
+		Core::FileSystem()->storeDataEncoded($this->StoragePath($this->Id),$this->_data);
 		
 		//validate and save type
 		$type = array_search($this->option(CFeed::SETTINGS, 'FilterMethod'), array('',CFeed::ALL, CFeed::MATCH_SOME, CFeed::MATCH_ALL, CFeed::MATCH_NONE));

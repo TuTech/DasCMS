@@ -52,15 +52,15 @@ class UBasicSettings
                         {
                             $options[$cdata[0].' ('.$alias.')'] = $alias; 
                         }
-                        $data[$mk] = array(Core::settings()->get($cc), Settings::TYPE_SELECT, $options, $cc);
+                        $data[$mk] = array(Core::Settings()->get($cc), Settings::TYPE_SELECT, $options, $cc);
                         break;
                        
                     case 'wellformed_urls':
                     case 'enable_management_cache_manifest':
-                        $data[$mk] = array(Core::settings()->get($cc), Settings::TYPE_CHECKBOX, null, $cc);
+                        $data[$mk] = array(Core::Settings()->get($cc), Settings::TYPE_CHECKBOX, null, $cc);
                         break;
                     default:
-                        $data[$mk] = array(Core::settings()->get($cc), Settings::TYPE_TEXT, null, $cc);
+                        $data[$mk] = array(Core::Settings()->get($cc), Settings::TYPE_TEXT, null, $cc);
                         break;
                 }
             }
@@ -82,12 +82,12 @@ class UBasicSettings
                 {
                     if(isset($data[$mk]))
                     {
-                        Core::settings()->set($cc, $data[$mk]);
+                        Core::Settings()->set($cc, $data[$mk]);
                     }
                 }
             }
-            $aliases = array(Core::settings()->get('generator_content'));
-            $lt = Core::settings()->get('login_template');
+            $aliases = array(Core::Settings()->get('generator_content'));
+            $lt = Core::Settings()->get('login_template');
             if(!empty($lt))
             {
                 $aliases[] = $lt;
@@ -113,7 +113,7 @@ class UBasicSettings
         );
         foreach($confMeta as $key => $metaKey)
         {
-            $v = $key == 'generator' ? BAMBUS_VERSION : Core::settings()->get($key);
+            $v = $key == 'generator' ? BAMBUS_VERSION : Core::Settings()->get($key);
             if(!empty($v))
             {
                 $e->getHeader()->addMeta($v,$metaKey);

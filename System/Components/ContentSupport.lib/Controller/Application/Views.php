@@ -9,9 +9,9 @@
  * @package Bambus
  * @subpackage AppController
  */
-class AViews
+class Controller_Application_Views
     extends 
-        BAppController 
+        _Controller_Application 
     implements 
         IGlobalUniqueId  
 {

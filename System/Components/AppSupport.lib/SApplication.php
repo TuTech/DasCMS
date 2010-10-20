@@ -25,14 +25,14 @@ class SApplication
     private $appPath, $hasApp = false;
     private static $appController = null;
     /**
-     * @return BAppController
+     * @return _Controller_Application
      */
     public static function appController()
     {
         if(self::$appController == null)
         {
             $a = self::getInstance();
-            self::$appController = BAppController::getControllerForID($a->getGUID());
+            self::$appController = _Controller_Application::getControllerForID($a->getGUID());
         }
         return self::$appController;
     }
@@ -73,7 +73,7 @@ class SApplication
     		View_UIElement_Header::setTitle(
     			'Bambus CMS: '.
     		    SLocalization::get($this->name).' - '.
-    		    Core::settings()->get('sitename')
+    		    Core::Settings()->get('sitename')
 		    );
         }
         else
@@ -288,7 +288,7 @@ class SApplication
 			    unset($xp);
 		        unset($d);
 		        $available[$item] = $atts;
-				$app = substr($item,0,((strlen(DFileSystem::suffix($item))+1) * -1));
+				$app = substr($item,0,((strlen(Core::FileSystem()->suffix($item))+1) * -1));
 			}
 		}
 		closedir($dirhdl);

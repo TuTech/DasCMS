@@ -16,7 +16,7 @@ class Settings_ContentRelationsView
 			$options[$f] = $f;
 		}
 		$e->addClassSettings($this, 'content_handling', array(
-			'default_view_for_relations' => array(Core::settings()->get('Settings_ContentRelationsView_relations'), Settings::TYPE_SELECT, $options, 'default_view_for_relations')
+			'default_view_for_relations' => array(Core::Settings()->get('Settings_ContentRelationsView_relations'), Settings::TYPE_SELECT, $options, 'default_view_for_relations')
 		));
 	}
 	
@@ -27,7 +27,7 @@ class Settings_ContentRelationsView
 			$f = empty ($f) ? '' : $f;
 			if(empty($f) || Controller_View::getInstance()->hasView($f))
 			{
-				Core::settings()->set('Settings_ContentRelationsView_relations', $f);
+				Core::Settings()->set('Settings_ContentRelationsView_relations', $f);
 			}
 		}
 	}

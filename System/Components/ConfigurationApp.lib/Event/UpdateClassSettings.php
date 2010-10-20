@@ -2,7 +2,7 @@
 class Event_UpdateClassSettings extends _Event
 {
     protected $data = array();
-	public function __construct(AConfiguration $sender, array $data)
+	public function __construct(Controller_Application_Configuration $sender, array $data)
 	{
 		$this->Sender = $sender;
 		$this->data = $data;

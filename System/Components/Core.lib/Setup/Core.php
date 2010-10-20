@@ -28,7 +28,7 @@ class Setup_Core
 	);
 
 	public function runConfigurationSetup() {
-		$config = Core::settings();
+		$config = Core::Settings();
 		foreach ($this->defaults as $key => $default){
 			$config->set(
 					$this->map[$key],
