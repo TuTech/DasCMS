@@ -56,7 +56,7 @@ class Settings_SysInfo
 		}
 		closedir($Dir);
 		chdir(constant('BAMBUS_CMS_ROOTDIR'));
-		return DFileSystem::formatSize($size);
+		return Core::FileSystem()->formatFileSize($size);
 	}
 }
 ?>

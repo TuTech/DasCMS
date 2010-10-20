@@ -288,7 +288,7 @@ class SApplication
 			    unset($xp);
 		        unset($d);
 		        $available[$item] = $atts;
-				$app = substr($item,0,((strlen(DFileSystem::suffix($item))+1) * -1));
+				$app = substr($item,0,((strlen(Core::FileSystem()->suffix($item))+1) * -1));
 			}
 		}
 		closedir($dirhdl);

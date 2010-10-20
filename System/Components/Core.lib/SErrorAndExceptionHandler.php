@@ -138,7 +138,7 @@ class SErrorAndExceptionHandler
             , $errstr
             , $context
             ,getcwd());
-        DFileSystem::append(Core::PATH_LOGS.'Error.log', $err);
+        Core::FileSystem()->append(Core::PATH_LOGS.'Error.log', $err);
         self::$error = array($errno, $errstr, $errfile, $errline, $errcontext);
         self::$errorMessage = $err;
         if(self::$report && !self::$reportSkipOnce)
@@ -199,7 +199,7 @@ class SErrorAndExceptionHandler
 		$logFile = Core::PATH_LOGS.'Exceptions.log';
 		if((file_exists($logFile) && is_writable($logFile))
 				|| (!file_exists($logFile) && is_writable(dirname($logFile)))){
-			DFileSystem::append($logFile, $err);
+			Core::FileSystem()->append($logFile, $err);
 		}
 		else{
 			printf($tpl, 'could not write to log');

@@ -6,7 +6,7 @@ class Setup_TreeNavigation
 {
 	public function runContentFolderSetup() {
 		$this->setupDir('NTreeNavigation');
-		DFileSystem::saveData($this->dirPath('NTreeNavigation/index.php'), array());
+		Core::FileSystem()->storeDataEncoded($this->dirPath('NTreeNavigation/index.php'), array());
 	}
 }
 ?>

@@ -34,8 +34,8 @@ class CStylesheet
 	public static function Create($title)
 	{
 	    list($dbid, $alias) = _Content::createContent(self::CLASS_NAME, $title);
-	    DFileSystem::save(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$dbid.'.php', ' ');
-	    DFileSystem::save(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$dbid.'.html.php', ' ');
+	    Core::FileSystem()->store(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$dbid.'.php', ' ');
+	    Core::FileSystem()->store(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$dbid.'.html.php', ' ');
 	    _Content::setMIMEType($alias, 'text/css');
 	    $script = new CStylesheet($alias);
 	    $e = new Event_ContentCreated($script, $script);
@@ -90,7 +90,7 @@ class CStylesheet
 	{
 	    if(!$this->_contentLoaded)
 	    {
-	        $this->Content = DFileSystem::load(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$this->Id.'.html.php');
+	        $this->Content = Core::FileSystem()->load(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$this->Id.'.html.php');
 	        $this->_contentLoaded = true;
 	    }
 	    return $this->Content;
@@ -127,7 +127,7 @@ class CStylesheet
 	    //load
 	    if($this->RAWContent == null)
 	    {
-	        $this->RAWContent = DFileSystem::load(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php');
+	        $this->RAWContent = Core::FileSystem()->load(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php');
 	    }
 	    return $this->RAWContent;
 	}
@@ -137,8 +137,8 @@ class CStylesheet
 		//save content
 		if($this->_contentLoaded)
 		{
-			DFileSystem::save(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php',$this->RAWContent);
-			DFileSystem::save(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$this->Id.'.html.php',$this->Content);
+			Core::FileSystem()->store(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php',$this->RAWContent);
+			Core::FileSystem()->store(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$this->Id.'.html.php',$this->Content);
 		}
 	}
 	

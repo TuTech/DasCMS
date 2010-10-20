@@ -52,7 +52,7 @@ class SBambusSessionAuth
 				&& file_exists($appPath.$item.'/Application.xml')
 			)
 			{
-				$available[] = substr($item,0,((strlen(DFileSystem::suffix($item))+1) * -1));
+				$available[] = substr($item,0,((strlen(Core::FileSystem()->suffix($item))+1) * -1));
 			}
 		}
 		closedir($dirhdl);

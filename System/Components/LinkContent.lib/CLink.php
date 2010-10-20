@@ -32,7 +32,7 @@ class CLink
 	public static function Create($title)
 	{
 	    list($dbid, $alias) = _Content::createContent(self::CLASS_NAME, $title);
-	    DFileSystem::save(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$dbid.'.php', '');
+	    Core::FileSystem()->store(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$dbid.'.php', '');
 	    $tpl = new CLink($alias);
 	    new Event_ContentCreated($tpl, $tpl);
 	    return $tpl;
@@ -87,7 +87,7 @@ class CLink
 	{
 	    if(!$this->_contentLoaded)
 	    {
-	        $this->Content = DFileSystem::load(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php');
+	        $this->Content = Core::FileSystem()->load(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php');
 	        $this->originalContent = $this->Content;
 	        $this->_contentLoaded = true;
 	    }
@@ -105,7 +105,7 @@ class CLink
 		//save content
 		if($this->_contentLoaded)
 		{
-			DFileSystem::save(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php',$this->Content);
+			Core::FileSystem()->store(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$this->Id.'.php',$this->Content);
 		}
 	}
 	

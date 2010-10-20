@@ -150,7 +150,7 @@ class View_UIElement_Header extends _View_UIElement
 	    ksort($files);
 	    foreach ($files as $k => $f)
 	    {
-            $s = DFileSystem::suffix($f);
+            $s = Core::FileSystem()->suffix($f);
             switch ($s) 
             {
             	case 'css':

@@ -42,7 +42,7 @@ class Image_GD
     {
         $img = new Image_GD();
         $img->file = $file;
-        $suf = ($type == null) ? (DFileSystem::suffix($file)) : strtolower($type);
+        $suf = ($type == null) ? (Core::FileSystem()->suffix($file)) : strtolower($type);
         switch ($suf)
         {
         	case 'jpg':
@@ -89,7 +89,7 @@ class Image_GD
     	if(!$this->imgRes){
     		throw new Exception('no image');
     	}
-        $suf = ($type == null) ? (DFileSystem::suffix($file)) : strtolower($type);
+        $suf = ($type == null) ? (Core::FileSystem()->suffix($file)) : strtolower($type);
         switch ($suf)
         {
         	case 'jpg':

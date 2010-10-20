@@ -48,11 +48,11 @@ class CFile
 	    self::saveFileMeta(
 	        $dbid,
 	        RFiles::getName('CFile'), 
-	        DFileSystem::suffix(RFiles::getName('CFile')),
+	        Core::FileSystem()->suffix(RFiles::getName('CFile')),
 	        md5_file('./Content/CFile/'.$dbid.'.data',false)
         );
         $type = RFiles::getType('CFile');
-        if(DFileSystem::suffix(RFiles::getName('CFile')) == 'pdf')
+        if(Core::FileSystem()->suffix(RFiles::getName('CFile')) == 'pdf')
         {
             $type = 'application/pdf';
         }
@@ -86,7 +86,7 @@ class CFile
 		self::saveFileMeta(
 	        $this->getId(),
 	        RFiles::getName('CFile'), 
-	        DFileSystem::suffix(RFiles::getName('CFile')),
+	        Core::FileSystem()->suffix(RFiles::getName('CFile')),
 	        md5_file('./Content/CFile/'.$this->getId().'.data',false)
         );
 		$this->ModifiedBy = PAuthentication::getUserID();
@@ -95,7 +95,7 @@ class CFile
         _Content::setMIMEType($this->getAlias(), RFiles::getType('CFile'));
         $this->saveMetaToDB();
         SNotificationCenter::report('message', 'file_updated');
-        $fs = DFileSystem::filesOf('Content/temp/','/^scale\.render\.[\d]+\.'.$this->getId().'-/');
+        $fs = Core::FileSystem()->filesOf('Content/temp/','/^scale\.render\.[\d]+\.'.$this->getId().'-/');
         SErrorAndExceptionHandler::muteErrors();
         foreach ($fs as $file)
         {
@@ -202,7 +202,7 @@ class CFile
             
             ,$this->getDescription()
             ,SLocalization::get('file_size')
-            ,DFileSystem::formatSize($this->getSize())
+            ,Core::FileSystem()->formatFileSize($this->getSize())
             ,Core::Settings()->get('CFile_download_target_blank') == '1' ? 'target="_blank" ' : ''
             ,Core::Settings()->get('wellformed_urls') == '' ? '?get=' : '/'
             ,$this->getAlias()

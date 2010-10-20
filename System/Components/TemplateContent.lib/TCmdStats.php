@@ -68,9 +68,9 @@ class TCmdStats
 	%12s%s
  -->
 "
-			,'Mem: ',DFileSystem::formatSize(memory_get_usage())
-			,'Mem (real): ',DFileSystem::formatSize(memory_get_usage(true))
-			,'Mem (peak): ',DFileSystem::formatSize(memory_get_peak_usage(true))
+			,'Mem: ',Core::FileSystem()->formatFileSize(memory_get_usage())
+			,'Mem (real): ',Core::FileSystem()->formatFileSize(memory_get_usage(true))
+			,'Mem (peak): ',Core::FileSystem()->formatFileSize(memory_get_peak_usage(true))
 			,'ipadr: ', $num,
 			'gentime: ', round(microtime(true) - CMS_START_TIME, 5).'s'
 			);

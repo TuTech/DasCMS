@@ -76,7 +76,7 @@ class View_UIElement_Information extends _View_UIElement implements ISidebarWidg
     		        }
     		        elseif(substr($key,-4) == 'Size')
     		        {
-    		            $val = DFileSystem::formatSize($this->targetObject->{$key});
+    		            $val = Core::FileSystem()->formatFileSize($this->targetObject->{$key});
     		        }
     		        elseif($key == 'AccessIntervalAverage')
     		        {

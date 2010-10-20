@@ -29,6 +29,7 @@ class Core
 	private static $interfaceLookup = array();
 	private static $GUIDLookup = null;
 	private static $settings = null;
+	private static $fs = null;
 	
 	public static function getClassCachePath($class){
 		return self::getCachePath($class).'.php';
@@ -231,8 +232,17 @@ class Core
 		return null;
 	}
 
+	/**
+	 * @return Core_FileSystem
+	 */
+	public static function FileSystem(){
+		if(!self::$fs){
+			self::$fs = new Core_FileSystem(constant('CMS_ROOT'));
+		}
+		return self::$fs;
+	}
 
-	//lock instances
+			//lock instances
 	protected function __construct(){}
 	private function __clone(){}
 }

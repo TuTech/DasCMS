@@ -82,7 +82,7 @@ class SUsersAndGroups
     private function saveGroups()
     {
         uksort($this->grouplist, 'strnatcasecmp');
-        DFileSystem::saveData($this->grouplistfile, $this->grouplist);
+        Core::FileSystem()->storeDataEncoded($this->grouplistfile, $this->grouplist);
     }
 
 ////public functions////
@@ -442,7 +442,7 @@ class SUsersAndGroups
     private function saveUsers()
     {
         uksort($this->userlist, 'strnatcasecmp');
-        DFileSystem::saveData($this->userlistfile, $this->userlist);
+        Core::FileSystem()->storeDataEncoded($this->userlistfile, $this->userlist);
     }
 
     public function listUsers()
@@ -781,8 +781,8 @@ class SUsersAndGroups
             {
                 self::$sharedInstance->userlistfile = Core::PATH_CONTENT.'configuration/users.php';
                 self::$sharedInstance->grouplistfile = Core::PATH_CONTENT.'configuration/groups.php';
-                self::$sharedInstance->userlist = DFileSystem::loadData(self::$sharedInstance->userlistfile);
-                self::$sharedInstance->grouplist = DFileSystem::loadData(self::$sharedInstance->grouplistfile);
+                self::$sharedInstance->userlist = Core::FileSystem()->loadEncodedData(self::$sharedInstance->userlistfile);
+                self::$sharedInstance->grouplist = Core::FileSystem()->loadEncodedData(self::$sharedInstance->grouplistfile);
             }
         }
         return self::$sharedInstance;
