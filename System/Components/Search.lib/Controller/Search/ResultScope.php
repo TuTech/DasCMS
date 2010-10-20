@@ -11,6 +11,10 @@ class Controller_Search_ResultScope implements Interface_Content_FiniteScope
 	 */
 	private $contentView;
 
+	private $nextTitle = '&gt;&gt;',
+			$prevTitle = '&lt;&lt;';
+
+
 	/**
 	 * @param Interface_Search_ResultPage $result
 	 * @param Controller_View_Content $spore
@@ -20,15 +24,23 @@ class Controller_Search_ResultScope implements Interface_Content_FiniteScope
 		$this->contentView = $contentView;
 	}
 
+	public function setNextTitle($nextTitle){
+		$this->nextTitle = $nextTitle;
+	}
+
+	public function setPrevTitle($prevTitle){
+		$this->prevTitle = $prevTitle;
+	}
+
 	public function getNextPageLink() {
-		return min(
+		return $this->contentView->SetLinkParameter('page', min(
 				$this->result->getPageNumber() + 1,
 				$this->result->getLastPageNumber()
-			);
+			), true);
 	}
 
 	public function getNextPageTitle() {
-		return $this->contentView->getContent()->getTitle();
+		return $this->nextTitle;
 	}
 
 	public function getPageTitle() {
@@ -36,14 +48,11 @@ class Controller_Search_ResultScope implements Interface_Content_FiniteScope
 	}
 
 	public function getPreviousPageLink() {
-		return max(
-				1,
-				$this->result->getPageNumber() - 1
-			);
+		return $this->contentView->SetLinkParameter('page', max(1, $this->result->getPageNumber() - 1), true);
 	}
 
 	public function getPreviousPageTitle() {
-		return $this->contentView->getContent()->getTitle();
+		return $this->prevTitle;
 	}
 
 	public function getNumberOfAvailablePages() {

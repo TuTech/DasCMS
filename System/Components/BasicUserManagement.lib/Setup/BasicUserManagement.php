@@ -53,8 +53,8 @@ class Setup_BasicUserManagement
 	}
 
 	public function runConfigurationSetup() {
-		Core::settings()->set("PAuthentication","SBambusSessionAuth");
-		Core::settings()->set("PAuthorisation","SBambusSessionAuth");
+		Core::Settings()->set("PAuthentication","SBambusSessionAuth");
+		Core::Settings()->set("PAuthorisation","SBambusSessionAuth");
 	}
 
 	public function runDatabaseTablesSetup() {

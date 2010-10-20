@@ -132,7 +132,7 @@ else
     View_UIElement_Header::setTitle(
 		'Bambus CMS: '.
 	    SLocalization::get('login').' - '.
-	    Core::settings()->get('sitename')
+	    Core::Settings()->get('sitename')
     );
     if(RSent::has('bambus_cms_login'))
     {

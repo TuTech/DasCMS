@@ -8,7 +8,7 @@ class HTMLCleaner_SaveInterceptor
 	implements Event_Handler_WillSaveContent
 {
 	public function is($key){
-		$v = Core::settings()->get($key);
+		$v = Core::Settings()->get($key);
 		return !empty($v);
 	}
 

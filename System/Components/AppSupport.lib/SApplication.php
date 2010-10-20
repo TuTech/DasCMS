@@ -73,7 +73,7 @@ class SApplication
     		View_UIElement_Header::setTitle(
     			'Bambus CMS: '.
     		    SLocalization::get($this->name).' - '.
-    		    Core::settings()->get('sitename')
+    		    Core::Settings()->get('sitename')
 		    );
         }
         else

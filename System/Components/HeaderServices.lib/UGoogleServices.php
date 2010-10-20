@@ -18,9 +18,9 @@ class UGoogleServices
     public function handleEventRequestingClassSettings(Event_RequestingClassSettings $e)
     {
         $e->addClassSettings($this, 'google_services', array(
-        	'verify_v1' => array(Core::settings()->get('google_verify_header'), Settings::TYPE_TEXT, null, 'google_verify_header'),
-        	'google_maps_key' => array(Core::settings()->get('google_maps_key'), Settings::TYPE_TEXT, null, 'google_maps_key'),
-        	'load_maps_support' => array(Core::settings()->get('google_load_maps_support'), Settings::TYPE_CHECKBOX, null, 'google_load_maps_support')
+        	'verify_v1' => array(Core::Settings()->get('google_verify_header'), Settings::TYPE_TEXT, null, 'google_verify_header'),
+        	'google_maps_key' => array(Core::Settings()->get('google_maps_key'), Settings::TYPE_TEXT, null, 'google_maps_key'),
+        	'load_maps_support' => array(Core::Settings()->get('google_load_maps_support'), Settings::TYPE_CHECKBOX, null, 'google_load_maps_support')
         ));
     }
     
@@ -30,15 +30,15 @@ class UGoogleServices
         $data = $e->getClassSettings($this);
             if(isset($data['verify_v1']))
         {
-            Core::settings()->set('google_verify_header', $data['verify_v1']);
+            Core::Settings()->set('google_verify_header', $data['verify_v1']);
         }
         if(isset($data['load_maps_support']))
         {
-            Core::settings()->set('google_load_maps_support', $data['load_maps_support']);
+            Core::Settings()->set('google_load_maps_support', $data['load_maps_support']);
         }
         if(isset($data['google_maps_key']))
         {
-            Core::settings()->set('google_maps_key', $data['google_maps_key']);
+            Core::Settings()->set('google_maps_key', $data['google_maps_key']);
         }
     }
     
@@ -49,17 +49,17 @@ class UGoogleServices
         );
         foreach($confMeta as $key => $metaKey)
         {
-            $val = Core::settings()->get($key);
+            $val = Core::Settings()->get($key);
             if(!empty($val))
             {
                 $e->getHeader()->addMeta($val, $metaKey);
             }
         }
-        if(Core::settings()->get('google_maps_key') != '')
+        if(Core::Settings()->get('google_maps_key') != '')
         {
-            $e->getHeader()->addScript('text/javascript', 'http://maps.google.com/maps?file=api&amp;v=2&amp;key='.Core::settings()->get('google_maps_key'));
+            $e->getHeader()->addScript('text/javascript', 'http://maps.google.com/maps?file=api&amp;v=2&amp;key='.Core::Settings()->get('google_maps_key'));
         }
-        if(Core::settings()->get('google_load_maps_support') != '')
+        if(Core::Settings()->get('google_load_maps_support') != '')
         {
             $e->getHeader()->addScript('text/javascript', 'System/WebsiteSupport/JavaScript/GoogleMapsSupport.js');
         }

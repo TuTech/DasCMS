@@ -34,7 +34,7 @@ class View_Content_Map
 				$lat  = $location->getLatitude();
 
 				if(strlen($lat) > 0 && strlen($long) > 0){
-					if(Core::settings()->get('google_maps_key') != ''){
+					if(Core::Settings()->get('google_maps_key') != ''){
 						$poi = sprintf('%f,%f', $lat, $long);
 	
 						//map image
@@ -44,7 +44,7 @@ class View_Content_Map
 							'zoom'   => $this->zoom,
 							'size'   => sprintf('%dx%d', $this->mapWidth, $this->mapHeight),
 							'maptype'=> $this->mapType,
-							'key' => Core::settings()->get('google_maps_key'),
+							'key' => Core::Settings()->get('google_maps_key'),
 							'sensor' => $this->sensor
 						);
 						if($this->marker){

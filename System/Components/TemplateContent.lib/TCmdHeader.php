@@ -64,7 +64,7 @@ class TCmdHeader
         try{
             $events = SContentWatch::accessedContent();
             
-            $wellformed_urls = Core::settings()->get('wellformed_urls');
+            $wellformed_urls = Core::Settings()->get('wellformed_urls');
             $baseURI = '';
             if(!empty($wellformed_urls))
             {
@@ -73,7 +73,7 @@ class TCmdHeader
            
             $e = new Event_WillSendHeaders($this);
             
-            $title = empty($this->title) ? Core::settings()->get('sitename') : $this->title;
+            $title = empty($this->title) ? Core::Settings()->get('sitename') : $this->title;
 			$favicon = View_UIElement_Icon::pathFor('dummy','mimetypes',  View_UIElement_Icon::MEDIUM);
 			$fitype = 'png';
 			foreach(array('ico','png') as $itype){

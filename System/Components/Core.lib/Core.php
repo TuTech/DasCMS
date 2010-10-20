@@ -30,16 +30,6 @@ class Core
 	private static $GUIDLookup = null;
 	private static $settings = null;
 	
-	/**
-	 * @return Settings
-	 */
-	public static function settings(){
-		if(self::$settings == null){
-			self::$settings = new Settings();
-		}
-		return self::$settings;
-	}
-
 	public static function getClassCachePath($class){
 		return self::getCachePath($class).'.php';
 	}
@@ -219,6 +209,16 @@ class Core
 			fclose($fp);
 		}
 		rename($t, $file);
+	}
+
+	/**
+	 * @return Settings
+	 */
+	public static function Settings(){
+		if(self::$settings == null){
+			self::$settings = new Settings();
+		}
+		return self::$settings;
 	}
 
 	/**

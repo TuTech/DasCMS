@@ -173,11 +173,11 @@ class View_UIElement_Header extends _View_UIElement
 		$html = "<!DOCTYPE html>\n".
 				"<html ".
 				(
-					file_exists('Content/cache-manifest.php') && Core::settings()->getOrDefault('enable_management_cache_manifest', false)
+					file_exists('Content/cache-manifest.php') && Core::Settings()->getOrDefault('enable_management_cache_manifest', false)
 						? "manifest=\"".(self::$base ? self::enc(self::$base) : '')."Content/cache-manifest.php\" "
 						: ''
 				).
-				"lang=\"".Core::settings()->get('locale')."\">\n\t<head>\n";
+				"lang=\"".Core::Settings()->get('locale')."\">\n\t<head>\n";
 				//"\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n";
 		foreach (self::$httpHeader as $cmd => $content) 
 		{

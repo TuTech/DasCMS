@@ -7,7 +7,7 @@
  * @version 1.0
  */
 
-$enableWYSIWYG = Core::settings()->get('AWebsiteEditor_WYSIWYG');
+$enableWYSIWYG = Core::Settings()->get('AWebsiteEditor_WYSIWYG');
 $enableWYSIWYG = !empty ($enableWYSIWYG);
 
 $Page = SApplication::getControllerContent();
@@ -37,10 +37,10 @@ if($enableWYSIWYG){
 				document_base_url:"<?php echo addslashes(SLink::base()); ?>",
 
 				// Theme options
-				theme_advanced_buttons1 : "<?php echo addslashes(Core::settings()->get('AWebsiteEditor_WYSIWYG_row1')); ?>",
-				theme_advanced_buttons2 : "<?php echo addslashes(Core::settings()->get('AWebsiteEditor_WYSIWYG_row2')); ?>",
-				theme_advanced_buttons3 : "<?php echo addslashes(Core::settings()->get('AWebsiteEditor_WYSIWYG_row3')); ?>",
-				theme_advanced_buttons4 : "<?php echo addslashes(Core::settings()->get('AWebsiteEditor_WYSIWYG_row4')); ?>",
+				theme_advanced_buttons1 : "<?php echo addslashes(Core::Settings()->get('AWebsiteEditor_WYSIWYG_row1')); ?>",
+				theme_advanced_buttons2 : "<?php echo addslashes(Core::Settings()->get('AWebsiteEditor_WYSIWYG_row2')); ?>",
+				theme_advanced_buttons3 : "<?php echo addslashes(Core::Settings()->get('AWebsiteEditor_WYSIWYG_row3')); ?>",
+				theme_advanced_buttons4 : "<?php echo addslashes(Core::Settings()->get('AWebsiteEditor_WYSIWYG_row4')); ?>",
 				theme_advanced_toolbar_location : "top",
 				theme_advanced_toolbar_align : "left",
 				theme_advanced_statusbar_location : "bottom",

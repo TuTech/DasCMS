@@ -18,7 +18,7 @@ if(!empty($_SERVER['PATH_INFO']))
     {
         exit;
     }
-    $qual = intval(Core::settings()->get('CFile_image_quality'));
+    $qual = intval(Core::Settings()->get('CFile_image_quality'));
 	$overwriteQuality = 0;
     $parts = explode('/', $path);
     $alias = array_shift($parts);

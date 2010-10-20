@@ -109,7 +109,7 @@ class XML_Atom_Feed extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
             XML_Atom_Link::create(SLink::base().strval($linker), 'alternate', 'application/xml+xhtml'),
             XML_Atom_Link::createSelfLink()
         );
-        $copyright = Core::settings()->get('copyright');
+        $copyright = Core::Settings()->get('copyright');
         if(!empty($copyright))
         {
             $o->c__rights = array(XML_Atom_Text::create($copyright));

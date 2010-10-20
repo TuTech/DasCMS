@@ -20,6 +20,9 @@ class View_Content_ScopePrevious
 					|| (!$isFinite && $scope->getPreviousPageLink() != null))
 			{
 				$text = $this->getLinkCaption();
+				if(empty ($text)){
+					$text = $scope->getPreviousPageTitle();
+				}
 				$link = $scope->getPreviousPageLink();
 				$frame = $this->getLinkTargetFrame();
 

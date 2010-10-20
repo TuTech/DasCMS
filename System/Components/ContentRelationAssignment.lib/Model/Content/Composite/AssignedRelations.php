@@ -87,7 +87,7 @@ class Model_Content_Composite_AssignedRelations
 	public function getAssignedRelations(){
 		$formatter = $this->formatter;
 		if(empty ($formatter)){
-			$formatter = Core::settings()->get('Settings_ContentRelationsView_relations');
+			$formatter = Core::Settings()->get('Settings_ContentRelationsView_relations');
 		}
 
 		if(empty ($formatter) || count($this->assigned) == 0){

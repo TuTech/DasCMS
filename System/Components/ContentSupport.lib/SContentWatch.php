@@ -52,7 +52,7 @@ class SContentWatch
         $feeds = array();
         $tags = array();
         $descriptions = array();
-        $cdesc = Core::settings()->get('meta_description');
+        $cdesc = Core::Settings()->get('meta_description');
         if(!empty($cdesc))
         {
             $descriptions[] = $cdesc;
@@ -117,7 +117,7 @@ class SContentWatch
                 }
             }
         }
-        $ctags = Controller_Tags::parseString(Core::settings()->get('meta_keywords'));
+        $ctags = Controller_Tags::parseString(Core::Settings()->get('meta_keywords'));
         $tags = array_merge($ctags, $tags);
         $tags = array_unique($tags);
 		$visibleTags = array();
@@ -130,7 +130,7 @@ class SContentWatch
         {
             $e->getHeader()->addMeta(implode(', ', $visibleTags), 'keywords');
         }
-        $title = Core::settings()->get('sitename');
+        $title = Core::Settings()->get('sitename');
         if(count($titles) > 0)
         {
             $titles = array_unique($titles);
@@ -176,7 +176,7 @@ class SContentWatch
             $num = (sprintf('0x%02x%02x%02x%02x',$a, $b, $c, $d));
             $num = hexdec($num);//FIXME anon here
             //send to db
-            if(!$o instanceof CError && Core::settings()->get('log_page_accesses') != '')
+            if(!$o instanceof CError && Core::Settings()->get('log_page_accesses') != '')
             {
 				Core::Database()
 					->createQueryForClass($this)
