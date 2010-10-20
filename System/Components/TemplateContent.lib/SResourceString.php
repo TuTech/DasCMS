@@ -13,7 +13,7 @@ class SResourceString
 {    
     public static function get($resource, $key)
     {
-        $resourceFile = Core::PATH_SYSTEM_RESOURCE_STRINGS.$resource.'.phpdata';
+        $resourceFile = Core::PATH_SYSTEM_RESOURCE_STRINGS.$resource.'.php';
         if(file_exists($resourceFile))
         {
             $data = Core::FileSystem()->loadEncodedData($resourceFile);

@@ -16,7 +16,7 @@ class UAdvancedMetaData
         Event_Handler_WillSendHeaders
 {
     private static $keys = array(
-        'localization' => array(
+        'site_location' => array(
             'latitude'  => 'UAdvancedMetaData_latitude',
         	'longitude' => 'UAdvancedMetaData_longitude',
     		'placename' => 'UAdvancedMetaData_placename',
