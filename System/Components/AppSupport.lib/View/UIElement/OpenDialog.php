@@ -33,7 +33,7 @@ class View_UIElement_OpenDialog extends _View_UIElement implements Interface_Sin
 	
     protected static $CurrentWidgetID = 0;
     /**
-     * @var BAppController
+     * @var _Controller_Application
      */
     private $editor;
     private $autoload = false;
@@ -46,13 +46,13 @@ class View_UIElement_OpenDialog extends _View_UIElement implements Interface_Sin
     
     public function __construct($editor = null, $_Content = null)
     {
-        if ($editor instanceof BAppController) 
+        if ($editor instanceof _Controller_Application) 
         {
         	$this->setTarget($editor, $_Content);
         }
     }
     
-    public function setTarget(BAppController $editor, $_Content = null)
+    public function setTarget(_Controller_Application $editor, $_Content = null)
     {
         $this->editor = $editor;
         if ($editor instanceof ISupportsOpenDialog) 

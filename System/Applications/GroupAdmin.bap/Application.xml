@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE bambus SYSTEM "../../Resource/DTD/application_v1.dtd">
 <bambus>
-	<appController guid="org.bambuscms.applications.groupmanager">AGroupManager</appController>
+	<appController guid="org.bambuscms.applications.groupmanager">Controller_Application_GroupManager</appController>
 	<name>groups</name>
 	<description>group_administration</description>
 	<icon>app-preferences-account-group</icon>

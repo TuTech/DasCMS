@@ -378,7 +378,7 @@ if($SUsersAndGroups->isUser($victim))
     $panel->setTarget($victim, 'cms/'.($edit_mode == 'usr' ? 'user' : 'group'));
 }
 	
-$AppController = BAppController::getControllerForID('org.bambuscms.applications.usereditor');
+$AppController = _Controller_Application::getControllerForID('org.bambuscms.applications.usereditor');
 echo new View_UIElement_OpenDialog($AppController, $hasVictim);
 
 

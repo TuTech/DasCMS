@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE bambus SYSTEM "../../Resource/DTD/application_v1.dtd">
 <bambus>
-	<appController guid="org.bambuscms.applications.scripteditor">AScriptEditor</appController>
+	<appController guid="org.bambuscms.applications.scripteditor">Controller_Application_ScriptEditor</appController>
 	<name>scripts</name>
 	<description>edit_and_manage_scripts</description>
 	<icon>app-utilities-editor-javascript</icon>

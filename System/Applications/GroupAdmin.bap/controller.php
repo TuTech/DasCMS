@@ -190,7 +190,7 @@ if($SUsersAndGroups->isGroup($victim))
     $panel->setTarget($victim, 'cms/'.($edit_mode == 'usr' ? 'user' : 'group'));
 }
 
-$AppController = BAppController::getControllerForID('org.bambuscms.applications.groupmanager');
+$AppController = _Controller_Application::getControllerForID('org.bambuscms.applications.groupmanager');
 echo new View_UIElement_OpenDialog($AppController, $hasVictim);
 
 ?>

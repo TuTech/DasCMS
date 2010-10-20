@@ -9,13 +9,13 @@
  * @package Bambus
  * @subpackage AppController
  */
-class AUserEditor 
+class Controller_Application_GroupManager
     extends 
-        BAppController 
+        _Controller_Application 
     implements 
         IGlobalUniqueId  
 {
-    const GUID = 'org.bambuscms.applications.usereditor';
+    const GUID = 'org.bambuscms.applications.groupmanager';
         
     /**
      * @return string
@@ -25,17 +25,6 @@ class AUserEditor
     public function getClassGUID()
     {
         return self::GUID;
-    }
-    
-    /**
-     * returns all data necessary for the open dialog
-     * @param array $namedParameters
-     * @return array
-     * @throws XPermissionDeniedException
-     */
-    public function provideContentTags(array $namedParameters)
-    {
-        return array();
     }
     
     /**
@@ -66,7 +55,7 @@ class AUserEditor
             }
             $items[] = array(utf8_encode($item), 'g:'.utf8_encode($item), 1, utf8_encode($desc));
         }
-        $data = array(
+                $data = array(
             'title' => SLocalization::get('open'),
             'nrOfItems' => count($items),
             'iconMap' => array('System/ClientData/Icons/tango/large/mimetypes/SUser.png','System/ClientData/Icons/tango/large/mimetypes/SGroup.png'),
@@ -76,6 +65,17 @@ class AUserEditor
             'items' => $items
         );
         return $data;
+    }
+    
+    /**
+     * returns all data necessary for the open dialog
+     * @param array $namedParameters
+     * @return array
+     * @throws XPermissionDeniedException
+     */
+    public function provideContentTags(array $namedParameters)
+    {
+        return array();
     }
 }
 ?>

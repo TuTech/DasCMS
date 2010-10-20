@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE bambus SYSTEM "../../Resource/DTD/application_v1.dtd">
 <bambus>
-	<appController guid="org.bambuscms.applications.views">AViews</appController>
+	<appController guid="org.bambuscms.applications.views">Controller_Application_Views</appController>
 	<name>views</name>
 	<description>define_content_routes</description>
 	<icon>app-preferences-view</icon>

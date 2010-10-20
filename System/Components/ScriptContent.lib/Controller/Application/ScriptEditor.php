@@ -9,9 +9,9 @@
  * @package Bambus
  * @subpackage AppController
  */
-class AStylesheetEditor
+class Controller_Application_ScriptEditor
     extends 
-        BAContentAppController
+        _Controller_Application_Content
     implements 
         IGlobalUniqueId,
         ISupportsOpenDialog
@@ -23,30 +23,30 @@ class AStylesheetEditor
 		}
 	}
 	
-	/**
+    /**
      * required permission for class
      * @var string
      */
-    protected $contentPermission = 'org.bambuscms.content.cstylesheet';
+    protected $contentPermission = 'org.bambuscms.content.cscript';
     
     /**
      * content class
      * @var string
      */
-    protected $contentClass = 'CStylesheet';
-    
+    protected $contentClass = 'CScript';
+        
     /**
      * content icon
      * @var string
      */
-    protected $contentIcon = 'css';
+    protected $contentIcon = 'js';
     
     /**
-	 * @var CStylesheet
+	 * @var CScript
      */
     protected $target = null;
     
-    const GUID = 'org.bambuscms.applications.stylesheeteditor';
+    const GUID = 'org.bambuscms.applications.scripteditor';
     
     /**
      * @return string

@@ -2,24 +2,25 @@
 /**
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 2009-04-03
+ * @since 2008-10-17
  * @license GNU General Public License 3
  */
 /**
  * @package Bambus
  * @subpackage AppController
  */
-class ALinks
+class Controller_Application_Templates
     extends 
-        BAppController 
+        _Controller_Application 
     implements 
         IGlobalUniqueId,
-        ISupportsOpenDialog  
+        ISupportsOpenDialog
 {
-    const GUID = 'org.bambuscms.applications.links';
+    const GUID = 'org.bambuscms.applications.templates';
         
+
     /**
-	 * @var CLink	
+	 * @var CTemplate
      */
     protected $target = null;
     
@@ -29,7 +30,7 @@ class ALinks
         {
             if(!empty($target))
             {
-                $this->target = Controller_Content::getInstance()->openContent($target, 'CLink');
+                $this->target = Controller_Content::getInstance()->openContent($target, 'CTemplate');
             }
         }
         catch (Exception $e)
@@ -40,23 +41,18 @@ class ALinks
     
     public function create(array $param)
     {
-        parent::requirePermission('org.bambuscms.content.clink.create');
+        parent::requirePermission('org.bambuscms.content.ctemplate.create');
         $success = false;
         if(!empty($param['create']))
         {
             try
             {
-                $this->target = CLink::Create($param['create']);
-                if(isset($param['content']))
-                {
-                    $this->target->setContent($param['content']);
-                    $this->target->save();
-                }
+                $this->target = CTemplate::Create($param['create']);
                 $success = true;
             }
             catch (Exception $e)
             {
-                SNotificationCenter::report('warning', 'could_not_create_feed');
+                SNotificationCenter::report('warning', 'could_not_create_template');
             }
         }
         return $success;
@@ -64,7 +60,7 @@ class ALinks
     
     public function save(array $param)
     {
-        parent::requirePermission('org.bambuscms.content.clink.change');
+        parent::requirePermission('org.bambuscms.content.ctemplate.change');
         if($this->target != null) 
         {
             if(!empty($param['title']))
@@ -77,14 +73,14 @@ class ALinks
             }
             if(isset($param['content']))
             {
-                $this->target->Content = $param['content'];
+                $this->target->RAWContent = $param['content'];
             }
         }
     }
     
     public function delete(array $param)
     {
-        parent::requirePermission('org.bambuscms.content.clink.delete');
+        parent::requirePermission('org.bambuscms.content.ctemplate.delete');
         if($this->target != null)
         {
             $alias = $this->target->Alias;
@@ -99,7 +95,16 @@ class ALinks
     {
         if($this->target != null)
         {
-            $this->target->save();
+            try
+            {
+                SErrorAndExceptionHandler::muteErrors();
+                $this->target->save();
+                SErrorAndExceptionHandler::reportErrors();
+            }
+            catch (Exception $e)
+            {
+            	SNotificationCenter::report('warning', 'invalid_template_not_executeable');
+            }
         }
     } 
     
@@ -137,7 +142,6 @@ class ALinks
         return empty($this->target) ? null : $this->target->Alias;
     }
     
-    
     /**
      * returns all data necessary for the open dialog
      * @param array $namedParameters
@@ -150,18 +154,18 @@ class ALinks
         {
             throw new XPermissionDeniedException('view');
         }
-        $IDindex = Controller_Content::getInstance()->contentIndex('Clink');
+        $IDindex = Controller_Content::getInstance()->contentIndex('CTemplate');
         $items = array();
         foreach ($IDindex as $alias => $data) 
         {
-        	list($title, $pubdate, $type, $id) = $data;
+        	list($title, $pubdate) = $data;
         	$items[] = array($title, $alias, 0, strtotime($pubdate));
         }
         $data = array(
             'title' => SLocalization::get('open'),
             'nrOfItems' => count($items),
-            'iconMap' => array(CLink::defaultIcon()->asSize(View_UIElement_Icon::LARGE)->getPath()),
-            'smallIconMap' => array(CLink::defaultIcon()->asSize(View_UIElement_Icon::EXTRA_SMALL)->getPath()),
+            'iconMap' => array('System/ClientData/Icons/tango/large/mimetypes/CTemplate.png'),
+            'smallIconMap' => array('System/ClientData/Icons/tango/extra-small/mimetypes/CTemplate.png'),
             'itemMap' => array('title' => 0, 'alias' => 1, 'icon' => 2, 'pubDate' => 3),//, 'tags' => 4
             'sortable' => array('title' => 'title', 'pubDate' => 'pubDate'),
             'items' => $items

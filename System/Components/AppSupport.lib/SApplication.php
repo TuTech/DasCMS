@@ -25,14 +25,14 @@ class SApplication
     private $appPath, $hasApp = false;
     private static $appController = null;
     /**
-     * @return BAppController
+     * @return _Controller_Application
      */
     public static function appController()
     {
         if(self::$appController == null)
         {
             $a = self::getInstance();
-            self::$appController = BAppController::getControllerForID($a->getGUID());
+            self::$appController = _Controller_Application::getControllerForID($a->getGUID());
         }
         return self::$appController;
     }

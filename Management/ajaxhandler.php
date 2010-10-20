@@ -36,11 +36,11 @@ try
         $ctrlID = RURL::get('controller');
         $function = RURL::get('call');
         $controller = BObject::InvokeObjectByID($ctrlID);
-        if(!$controller instanceof BAppController && !$controller instanceof IAjaxAPI)
+        if(!$controller instanceof _Controller_Application && !$controller instanceof IAjaxAPI)
         {
             throw new XPermissionDeniedException('controller is not an ajax handler');
         }
-        if($controller instanceof BAppController && RURL::has('edit'))
+        if($controller instanceof _Controller_Application && RURL::has('edit'))
         {
             $controller->setTarget(RURL::get('edit', CHARSET));
         }

@@ -10,10 +10,10 @@ printf('<h2>%s</h2>', SLocalization::get('configuration'));
 $fullinput = "\n\t\t\t<input class=\"fullinput\" type=\"%s\" size=\"40\" name=\"%s\" id=\"%s\" value=\"%s\" />\n\t\t";
 $infotext = "\n\t\t\t<span class=\"information-text\">%s</span>\n\t\t";
 /**
- * @var AConfiguration
+ * @var Controller_Application_Configuration
  */
 $ctrl = SApplication::appController();
-//$ctrl = new AConfiguration();
+//$ctrl = new Controller_Application_Configuration();
 $settings = $ctrl->getSettings();
 $sorted = array();
 foreach ($settings as $section => $data)

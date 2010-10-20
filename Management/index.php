@@ -77,7 +77,7 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
                 $controller->setTarget(RURL::get('edit', CHARSET));
             }
             //execute function call
-            BAppController::callController(
+            _Controller_Application::callController(
                 $controller, 
                 RURL::get('_action'), 
                 RSent::data(CHARSET)
