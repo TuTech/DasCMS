@@ -32,7 +32,7 @@ INSERT
 			formatterData = ?
 
 -- --
--- name: set
+-- name: del
 -- type: delete
 -- inputTypes:	s
 DELETE
