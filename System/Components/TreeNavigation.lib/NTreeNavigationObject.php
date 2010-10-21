@@ -152,21 +152,8 @@ class NTreeNavigationObject
 	private function rootString()
 	{
 		return $this->hasChildren()  
-		        ? sprintf("\t<div class=\"NavigationRoot\">\n%s\t</div>\n" ,strval($this->firstChild) )
+		        ? sprintf("<div class=\"NavigationRoot\">%s</div>" ,strval($this->firstChild) )
 		        : '';
-	}
-	
-	private static function indent($in = true)
-	{
-	    if($in)
-	    {
-	        self::$indent++;
-	    }
-	    else
-	    {
-	        self::$indent--;
-	    }
-	    return str_repeat("\t", self::$indent);
 	}
 	
 	/**
@@ -181,12 +168,12 @@ class NTreeNavigationObject
 			throw new XInvalidDataException('no NTreeNavigation assigned');
 		}
 		$html = '';
-		$pfx = self::indent();
+		$pfx = '';
 		if($this->Navigation->isAccessable($this))//$this->accessable)
 		{
 		    $selected = $this->Navigation->isSelectedElement($this);
 			$html = sprintf(
-				"%s<div class=\"NavigationObject%s%s%s\">\n\t%s<a%s href=\"%s\">%s</a>\n"
+				"%s<div class=\"NavigationObject%s%s%s\">%s<a%s href=\"%s\">%s</a>"
 				,$pfx
 				,($this->hasChildren())
 					? ($this->Navigation->isAccessable($this->getFirstChild()) 
@@ -204,14 +191,11 @@ class NTreeNavigationObject
 				,strval($this->Navigation->LinkTo($this))
 				,htmlentities(strval($this->Navigation->getTitle($this)), ENT_QUOTES, CHARSET)
 			);		
-			$pfx = self::indent();
 			$html .= ($this->hasChildren())
-				? sprintf("%s<div class=\"Children\">\n%s%s</div>\n",$pfx,strval($this->firstChild),$pfx)
+				? sprintf("%s<div class=\"Children\">%s%s</div>",$pfx,strval($this->firstChild),$pfx)
 				: '';
-			$pfx = self::indent(false);
-			$html .= $pfx."</div>\n";
+			$html .= $pfx."</div>";
 		}
-		$pfx = self::indent(false);
 		$html .= ($this->hasNext())
 			? strval($this->next)
 			: '';

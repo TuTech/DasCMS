@@ -133,7 +133,7 @@ class _View_Content_Base
 
 		//make div box with css styles
 		$tag = $this->getWrapperTag();
-		return sprintf("\n<%s class=\"%s\">%s</%s>",$tag, $class, $value, $tag);
+		return sprintf("<%s class=\"%s\">%s</%s>",$tag, $class, $value, $tag);
 	}
 
 	protected function getWrapperTag(){

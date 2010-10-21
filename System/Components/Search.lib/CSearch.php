@@ -241,7 +241,7 @@ class CSearch
 			foreach ($c as $content)
             {
 				printf(
-					"\t<url><loc>%s%s</loc><lastmod>%s</lastmod></url>\n"
+					"<url><loc>%s%s</loc><lastmod>%s</lastmod></url>\n"
 					,$base
 					,SLink::link(array($spore => $content->getAlias()), '', true)
 					,date('c', $content->getModifyDate())
