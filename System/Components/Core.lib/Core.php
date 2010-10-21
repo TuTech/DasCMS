@@ -232,16 +232,6 @@ class Core
 	}
 
 	/**
-	 * @return Settings
-	 */
-	public static function Settings(){
-		if(self::$settings == null){
-			self::$settings = new Settings();
-		}
-		return self::$settings;
-	}
-
-	/**
 	 * @return Interface_Database_QueryFactory
 	 */
 	public static function Database(){
