@@ -276,9 +276,8 @@ abstract class _Content implements Interface_Content
 	}
 
 	protected static function logChange($id, $title, $size, $retried = false){
-		$uid = Core::Database()
-			->createQueryForClass('_Content')
-			->call('logUID')
+		$Db = Core::Database()->createQueryForClass('_Content');
+		$uid = $Db->call('logUID')
 			->withParameters(PAuthentication::getUserID())
 			->fetchSingleValue();
 
@@ -289,62 +288,48 @@ abstract class _Content implements Interface_Content
 		
 		//unknown user: add and retry
 		if($uid == null){
-			Core::Database()
-				->createQueryForClass('_Content')
-				->call('addLogUser')
+			$Db->call('addLogUser')
 				->withParameters(PAuthentication::getUserID())
 				->execute();
 			  return self::logChange($id, $title, $size, true);
 		}
 
 		//all well, going on
-		Core::Database()
-			->createQueryForClass('_Content')
-			->call('setLogOutdated')
+		$Db->call('setLogOutdated')
 			->withParameters($id)
 			->execute();
-		Core::Database()
-			->createQueryForClass('_Content')
-			->call('log')
+		$Db->call('log')
 			->withParameters($id, $title, $size, $uid)
 			->execute();
 	}
 
 	protected static function createContent($class, $title){
-		$DB = DSQL::getInstance();
+		$DB = Core::Database()->createQueryForClass('_Content');
 		$DB->beginTransaction();
 		try{
-			$cid = Core::Database()
-				->createQueryForClass('_Content')
-				->call('createContent')
+			$cid = $DB->call('createContent')
 				->withParameters($title, $class)
 				->executeInsert();
 			if($cid == null){
 				throw new Exception('could not create Content');
 			}
-			$aid = Core::Database()
-				->createQueryForClass('_Content')
-				->call('createGUID')
+			$aid = $DB->call('createGUID')
 				->withParameters($cid)
 				->executeInsert();
-			Core::Database()
-				->createQueryForClass('_Content')
-				->call('linkGUID')
+			$DB->call('linkGUID')
 				->withParameters($aid, $aid, $cid)
 				->execute();
-			$DB->commit();
+			$DB->commitTransaction();
 		}
 		catch (XDatabaseException $dbe)
 	    {
-	        $dbe->rollback();
+	        $dbe->rollbackTransaction();
 	        throw $dbe;
 	    }
 		
 		_Content::logChange($cid, $title, 0);
 			
-		$guid = Core::Database()
-			->createQueryForClass('_Content')
-			->call('getGUID')
+		$guid = $DB->call('getGUID')
 			->withParameters($cid)
 			->fetchSingleValue();
 		return array($cid, $guid);

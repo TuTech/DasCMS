@@ -25,9 +25,9 @@ class XDatabaseException extends BDataException
         return __CLASS__ . ": [{$this->code}]: {$this->message}\n".$sql;
     }
 
-    public function rollback()
+    public function rollbackTransaction()
     {
-        return DSQL::getInstance()->rollback();
+        return Core::Database()->createQueryForClass($this)->rollbackTransaction();
     }
 
     public function getSQL()

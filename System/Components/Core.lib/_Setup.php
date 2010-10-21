@@ -8,10 +8,9 @@ abstract class _Setup
 
 	protected function setupInDatabase($firstStatement){
 		$statementNames = func_get_args();
+		$Db = Core::Database()->createQueryForClass($this);
 		foreach ($statementNames as $statement){
-			Core::Database()
-				->createQueryForClass($this)
-				->call($statement)
+			$Db->call($statement)
 				->withoutParameters()
 				->execute();
 		}

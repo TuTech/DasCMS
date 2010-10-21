@@ -89,22 +89,18 @@ class Controller_View_Content extends BView
 	public static function save()
 	{
 		self::initialize();
-		$DB = DSQL::getInstance();
+		$DB = Core::Database()->createQueryForClass('Controller_View_Content');
 		$DB->beginTransaction();
 		try
 		{
 			foreach (self::$toDelete as $name)
 			{
-				Core::Database()
-					->createQueryForClass('Controller_View_Content')
-					->call('deleteSpore')
+				$DB->call('deleteSpore')
 					->withParameters($name)
 					->execute();
 			}
 			foreach (self::$spores as $name => $data){
 				//init 
-				$q = Core::Database()
-					->createQueryForClass('Controller_View_Content');
 				$def = $data[Controller_View_Content::INIT_CONTENT];
 				$err = $data[Controller_View_Content::ERROR_CONTENT];
 				$noDef = empty($def);
@@ -112,32 +108,32 @@ class Controller_View_Content extends BView
 				$active = $data[Controller_View_Content::ACTIVE] ? 'Y' : 'N';
 
 				if($noDef && $noErr){
-					$q->call('setSpore')
+					$DB->call('setSpore')
 						->withParameters($name, $active, $active)
 						->execute();
 				}
 				elseif($noErr){
-					$q->call('setSporeWDef')
+					$DB->call('setSporeWDef')
 						->withParameters($name, $active, $def, $active, $def)
 						->execute();
 				}
 				elseif($noDef){
-					$q->call('setSporeWErr')
+					$DB->call('setSporeWErr')
 						->withParameters($name, $active, $err, $active, $err)
 						->execute();
 				}
 				else{
-					$q->call('setSporeWDefWErr')
+					$DB->call('setSporeWDefWErr')
 						->withParameters($name, $active, $def, $err, $active, $def, $err)
 						->execute();
 				}
 			}
-			$DB->commit();
+			$DB->commitTransaction();
 			return true;
 		}
 		catch (Exception $e)
 		{
-			$DB->rollback();
+			$DB->rollbackTransaction();
 			SNotificationCenter::report('warning', 'spores_not_saved');
 			echo $e->getTraceAsString();
 			return false;

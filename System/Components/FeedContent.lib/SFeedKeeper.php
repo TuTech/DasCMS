@@ -40,53 +40,41 @@ class SFeedKeeper
 	    try
 	    {
 	        $CID = $e->Content->Id;
-	        $DB = DSQL::getInstance();
+	        $DB = Core::Database()->createQueryForClass($this);
 	        $DB->beginTransaction();
     	    if(get_class($e->Content) == 'CFeed')
     	    {
     	        //remove all items from feed
-				Core::Database()
-					->createQueryForClass($this)
-					->call('clear')
+				$DB->call('clear')
 					->withParameters($CID)
 					->execute();
 	            //add all matching items for the current filter type
-				$type = Core::Database()
-					->createQueryForClass($this)
-					->call('getType')
+				$type = $DB->call('getType')
 					->withParameters($CID)
 					->fetchSingleValue();
 	            switch($type)
 	            {
 	                case CFeed::ALL:
 	                    SNotificationCenter::report('message','assignItemsUsingAll');
-						Core::Database()
-							->createQueryForClass($this)
-							->call('assignToAll')
+						$DB->call('assignToAll')
 							->withParameters($CID, $CID)
 							->execute();
 	                    break;
 	                case CFeed::MATCH_ALL:
 	                    SNotificationCenter::report('message','assignItemsUsingMatchAll');
-						Core::Database()
-							->createQueryForClass($this)
-							->call('assignMatchAll')
+						$DB->call('assignMatchAll')
 							->withParameters($CID, $CID, $CID)
 							->execute();
 	                    break;
 	                case CFeed::MATCH_SOME:
 	                    SNotificationCenter::report('message','assignItemsUsingMatchSome');
-						Core::Database()
-							->createQueryForClass($this)
-							->call('assignMatchSome')
+						$DB->call('assignMatchSome')
 							->withParameters($CID, $CID)
 							->execute();
 	                    break;
 	                case CFeed::MATCH_NONE:
 	                    SNotificationCenter::report('message','assignItemsUsingMatchNone');
-	                    Core::Database()
-							->createQueryForClass($this)
-							->call('assignMatchNone')
+	                    $DB->call('assignMatchNone')
 							->withParameters($CID, $CID)
 							->execute();
 	                    break;
@@ -96,14 +84,10 @@ class SFeedKeeper
     	    }
     	    //feeds may be in other feeds.. so this is for all
 	        //remove item from all feeds
-			Core::Database()
-				->createQueryForClass($this)
-				->call('unlink')
+			$DB->call('unlink')
 				->withParameters($CID)
 				->execute();
-            $res = Core::Database()
-				->createQueryForClass($this)
-				->call('feedsWithTypeAndTags')
+            $res = $DB->call('feedsWithTypeAndTags')
 				->withoutParameters();
             $feedTags = array();
             $feedTypes = array();
@@ -155,18 +139,16 @@ class SFeedKeeper
             //set feed update time and item count
             foreach ($itemsToAdd as $fid) 
             {
-				Core::Database()
-					->createQueryForClass($this)
-					->call('link')
+				$DB->call('link')
 					->withParameters($fid, $CID)
 					->execute();
             	$this->updateStats($CID);
             }
-    	    $DB->commit();
+    	    $DB->commitTransaction();
 	    }
 	    catch(Exception $e)
 	    {
-	        $DB->rollback();
+	        $DB->rollbackTransaction();
 	        throw $e;
 	    }
 	}
@@ -176,20 +158,16 @@ class SFeedKeeper
         try
 	    {
 	        $CID = $e->Content->Id;
-	        $DB = DSQL::getInstance();
+	        $DB = Core::Database()->createQueryForClass($this);
 	        $DB->beginTransaction();
             if(get_class($e->Content) == 'CFeed')
             {
     	        //set up data in "Feeds"
-				Core::Database()
-					->createQueryForClass($this)
-					->call('setType')
+				$DB->call('setType')
 					->withParameters($feedId, CFeed::ALL, CFeed::ALL)
 					->execute();
     	        //add all items
-				Core::Database()
-					->createQueryForClass($this)
-					->call('assignToAll')
+				$DB->call('assignToAll')
 					->withParameters($CID, $CID)
 					->execute();
     	       $this->updateStats($CID);
@@ -197,9 +175,7 @@ class SFeedKeeper
             else
             {
     	        //check filter for all feeds and add if matching
-				$res = Core::Database()
-					->createQueryForClass($this)
-					->call('feedsWithType')
+				$res = $DB->call('feedsWithType')
 					->withoutParameters();
 	            $feeds = array();
 	            while($row = $res->fetchResult())
@@ -212,26 +188,23 @@ class SFeedKeeper
 	            $res->free();
 	            foreach ($feeds as $fid) 
 	            {
-					Core::Database()
-						->createQueryForClass($this)
-						->call('link')
+					$DB->call('link')
 						->withParameters($fid, $CID)
 						->execute();
 	            	$this->updateStats($CID);
 	            }
             }
-    	    $DB->commit();
+    	    $DB->commitTransaction();
 	    }
 	    catch(Exception $e)
 	    {
-	        $DB->rollback();
+	        $DB->rollbackTransaction();
 	        throw $e;
 	    }
 	}
 
 	protected function updateStats($id){
-		Core::Database()
-			->createQueryForClass($this)
+		$DB->createQueryForClass($this)
 			->call('updateStats')
 			->withParameters($id, $id)
 			->execute();

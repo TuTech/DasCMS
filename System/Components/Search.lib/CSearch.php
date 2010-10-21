@@ -16,6 +16,7 @@ class CSearch
         IGlobalUniqueId,
         IGeneratesFeed,
         ISearchDirectives,
+		Interface_Content_HasScope,
         IFileContent
 {
     const CLASS_NAME = 'CSearch';
@@ -41,6 +42,7 @@ class CSearch
 	{
 	    $composites = parent::composites();
 	    $composites[] = 'ContentFormatter';
+	    $composites[] = 'TargetView';
 	    return $composites;
 	}
 
@@ -66,27 +68,49 @@ class CSearch
 	    try
 	    {
 	        $this->initBasicMetaFromDB($alias, self::CLASS_NAME);
+			list(
+				$this->queryString,
+				$this->allowExtendQueryString,
+
+				$this->order,
+				$this->allowOverwriteOrder,
+
+				$this->itemsPerPage
+			) = Core::FileSystem()->loadEncodedData(sprintf('Content/CSearch/%d.php', $this->Id));
 	    }
 	    catch (XUndefinedIndexException $e)
 	    {
 	        throw new XArgumentException('content not found');
 	    }
-	    $dataFile = $this->StoragePath($this->Id);
-	    if(file_exists($dataFile))
-	    {
-	        $this->_data = Core::FileSystem()->loadEncodedData($dataFile);
-	    }
 	}
 
 	/**
-	 * @return Interface_Search_Resultset
+     * @return Interface_Content_FiniteScope
+     */
+    public function getScope(){
+		return new Controller_Search_ResultScope($this->getResult(), $this->getParentView());
+	}
+
+	/**
+	 * @return Interface_Search_ResultPage
 	 */
 	private function getResult(){
 		if(!$this->result){
-			$SE = Controller_Search_Engine::getInstance();
-			//se query
-			//configure result
-			//assign result
+			//predefined data
+			$res = Controller_Search_Engine::getInstance()
+					->query($this->queryString)//allow qs input?
+					->fetch($this->itemsPerPage)
+					->ordered($this->order);//allow order input?
+					
+			//input data
+			$pageNo = 1;
+			$pv = $this->getParentView();
+			if($pv instanceof Controller_View_Content){
+				$pageNo = intval($pv->GetParameter('page'));
+				$pageNo = max(1, $pageNo);//pageNo >= 1
+				$pageNo = min($res->getLastPageNumber(), $pageNo); // pageNo <= last page
+			}
+			$this->result = $res->resultsFromPage($pageNo);
 		}
 		return $this->result;
 	}
@@ -97,7 +121,8 @@ class CSearch
 	 */
 	public function getFeedItemAliases()
 	{
-		return $this->getResult()
+		return Controller_Search_Engine::getInstance()
+				->query($this->queryString)
 				->fetch(15)
 				->ordered($this->order)
 				->resultsFromPage(1)
@@ -114,37 +139,51 @@ class CSearch
         );
 	}
 
-	public function getFeedTargetView()
-	{
-	    return $this->option(CSearch::SETTINGS, 'TargetView');;
-	}
-
 	/**
 	 * @return string
 	 */
 	public function getContent()
 	{
-		//not has formatter -> ul>li>a>[Title]
-
-		/////////////
-		// REWRITE //
-		/////////////
-		//se query
-		//get result
-		//
-
+		$contents = $this->getResult()->asContents();
+		$out = '';
+		try{
+			foreach ($contents as $content){
+				//display with formatter
+				$out .= $this->formatChildContent($content);
+			}
+		}
+		catch(Exception $e){
+			$out = sprintf('<b>%s</b>', $e->getMessage());
+			//TODO no formatter default to  "ul>li>a>[Title]"
+		}
+		return $out;
 	}
 
 	public function setContent($value){}
 
 	protected function saveContentData()
 	{
-		/////////////
-		// REWRITE //
-		/////////////
+		$data = array(
+			$this->queryString,
+			$this->allowExtendQueryString,
 
-		//save content
-		Core::FileSystem()->storeDataEncoded($this->StoragePath($this->Id),$this->_data);
+			$this->order,
+			$this->allowOverwriteOrder,
+
+			$this->itemsPerPage
+		);
+		Core::FileSystem()->storeDataEncoded(
+				sprintf('Content/CSearch/%d.php', $this->Id),
+				array(
+					$this->queryString,
+					$this->allowExtendQueryString,
+
+					$this->order,
+					$this->allowOverwriteOrder,
+
+					$this->itemsPerPage
+				)
+		);
 	}
 
 	/**
@@ -165,6 +204,10 @@ class CSearch
 	    return CSearch::defaultIcon();
 	}
 
+	public function getFeedTargetView() {
+		return $this->getTargetView();
+	}
+
 	//IFileContent
 	public function getFileName()
 	{
@@ -183,32 +226,27 @@ class CSearch
 
     public function sendFileContent()
     {
-		/////////////
-		// REWRITE //
-		/////////////
-
         echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         echo "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
-        $spore = $this->option(self::SETTINGS, 'TargetView');
+        $spore = $this->getTargetView();
         if(!empty($spore))
         {
             $base = SLink::base();
-			$res = Core::Database()
-				->createQueryForClass($this)
-				->call('sitemapData')
-				->withParameters($this->getId());
-            while ($row = $res->fetchResult())
+			$res = Controller_Search_Engine::getInstance()
+				->query($this->queryString);
+			$c = $res->fetch($res->getResultCount())
+				->ordered($this->order)
+				->resultsFromPage(1)
+				->asContents();
+			foreach ($c as $content)
             {
-                echo "\t<url>\n";
-                echo "\t\t<loc>";
-                echo $base, SLink::link(array($spore => $row[0]), '', true);
-                echo "</loc>\n";
-                echo "\t\t<lastmod>";
-                echo date('c', strtotime($row[1]));
-                echo "</lastmod>\n";
-                echo "\t</url>\n";
+				printf(
+					"\t<url><loc>%s%s</loc><lastmod>%s</lastmod></url>\n"
+					,$base
+					,SLink::link(array($spore => $content->getAlias()), '', true)
+					,date('c', $content->getModifyDate())
+				);
             }
-			$res->free();
         }
         echo "</urlset>";
     }
@@ -226,39 +264,18 @@ class CSearch
 	//ISearchDirectives
 	public function allowSearchIndex()
 	{
-	    return _Content::isIndexingAllowed($this->getId());
+	    return false;
 	}
 	public function excludeAttributesFromSearchIndex()
 	{
-	    return array('Content');
+	    return array();
 	}
 	public function isSearchIndexingEditable()
     {
-        return true;
+        return false;
     }
     public function changeSearchIndexingStatus($allow)
     {
-        _Content::setIndexingAllowed($this->getId(), !empty($allow));
     }
-
-	/**
-	 * Return path to a given file or just the path for files
-	 * if $file is not set or null
-	 *
-	 * @param string $file
-	 * @return string file system path
-	 */
-	public function StoragePath($file = null, $addSuffix = true)
-	{
-		$path = sprintf(
-			"./Content/%s/"
-			,get_class($this)
-		);
-		if($file != null)
-		{
-			$path .= ($addSuffix) ? $file.'.php' : $file;
-		}
-		return $path;
-	}
 }
 ?>

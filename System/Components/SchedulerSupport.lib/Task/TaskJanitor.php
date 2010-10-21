@@ -28,6 +28,7 @@ class Task_TaskJanitor implements Interface_SchedulerTask
      */
     public function run()
     {
+		$Db =  Core::Database()->createQueryForClass($this);
         $jobs = array();
         $toAdd = array();
         $toRemove = array();
@@ -35,9 +36,7 @@ class Task_TaskJanitor implements Interface_SchedulerTask
         //get all indexed job classes
 		$indexed = Core::getClassesWithInterface('Interface_SchedulerTask');
         //get all registered jobs
-        $res = Core::Database()
-			->createQueryForClass($this)
-			->call('list')
+        $res = $Db->call('list')
 			->withoutParameters();
         while($row = $res->fetchResult())
         {
@@ -50,9 +49,7 @@ class Task_TaskJanitor implements Interface_SchedulerTask
         }
 		$res->free();
 		foreach ($toRemove as $rm){
-			Core::Database()
-				->createQueryForClass($this)
-				->call('delete')
+			$Db->call('delete')
 				->withParameters($rm)
 				->execute();
 		}
@@ -78,22 +75,16 @@ class Task_TaskJanitor implements Interface_SchedulerTask
     	            	$int = $o->getInterval();
     	            	$end = $o->getEnd();
 						if($end === null){
-							Core::Database()
-								->createQueryForClass($this)
-								->call('add')
+							$Db->call('add')
 								->withParameters($class, $int)
 								->execute();
 						}
 						else{
-							Core::Database()
-								->createQueryForClass($this)
-								->call('addEnding')
+							$Db->call('addEnding')
 								->withParameters($class, date('"Y-m-d H:i:s"', $end),  $int)
 								->execute();
 						}
-						Core::Database()
-							->createQueryForClass($this)
-							->call('schedule')
+						$Db->call('schedule')
 							->withParameters($class)
 							->execute();
     	            }

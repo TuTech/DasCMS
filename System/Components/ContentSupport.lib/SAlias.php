@@ -25,6 +25,7 @@ class SAlias
 	 */
 	public function updateAlias(Interface_Content $content)
 	{
+		$Db =  Core::Database()->createQueryForClass($this);
 		if(!$content->isPublished())
 		{
 			return;
@@ -36,15 +37,11 @@ class SAlias
 		    $dbid = $this->resolveAliasToId($content->Alias);
 		    for($i = 1; $i <= 999; $i++)
 		    {
-				$isOk = Core::Database()
-					->createQueryForClass('SAlias')
-					->call('isAliasAssigned')
+				$isOk = $Db->call('isAliasAssigned')
 					->withParameters($insertAlias, $dbid)
 					->fetchSingleValue();
 				if(!$isOk){
-					$isOk = Core::Database()
-						->createQueryForClass('SAlias')
-						->call('addAlias')
+					$isOk = $Db->call('addAlias')
 						->withParameters($insertAlias, $dbid)
 						->execute();
 				}
@@ -54,9 +51,7 @@ class SAlias
 		        }
 		        $insertAlias = substr($nice,0,58).'~'.$i;
 		    }
-		    Core::Database()
-				->createQueryForClass('SAlias')
-				->call('setActive')
+		    $Db->call('setActive')
 				->withParameters($insertAlias, $insertAlias)
 				->execute();
 		}

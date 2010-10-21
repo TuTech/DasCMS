@@ -660,44 +660,38 @@ class CFeed
 	
 	protected function saveContentData()
 	{
+		$Db = Core::Database()->createQueryForClass($this);
+
 		//save content
 		Core::FileSystem()->storeDataEncoded($this->StoragePath($this->Id),$this->_data);
-		
+
 		//validate and save type
 		$type = array_search($this->option(CFeed::SETTINGS, 'FilterMethod'), array('',CFeed::ALL, CFeed::MATCH_SOME, CFeed::MATCH_ALL, CFeed::MATCH_NONE));
-		Core::Database()
-			->createQueryForClass($this)
-			->call('setType')
+		$Db->call('setType')
 			->withParameters($this->getId(), $type, $type)
 			->execute();
 
 		//dump tags for filter
 		$tags = $this->option(CFeed::SETTINGS, 'Filter');
 		foreach ($tags as $tag){
-			Core::Database()
-				->createQueryForClass($this)
-				->call('addTag')
+			$Db->call('addTag')
 				->withParameters($tag, $tag)
 				->execute();
 		}
 
 		//set tags tags
-		DSQL::getInstance()->beginTransaction();
+		$Db->beginTransaction();
 		//remove old tags
-		Core::Database()
-			->createQueryForClass($this)
-			->call('unlink')
+		$Db->call('unlink')
 			->withParameters($this->getId())
 			->execute();
 		//link new tags
 		foreach ($tags as $tag){
-			Core::Database()
-				->createQueryForClass($this)
-				->call('link')
+			$Db->call('link')
 				->withParameters($this->getId(), $tag)
 				->execute();
 		}
-		DSQL::getInstance()->commit();
+		$Db->commitTransaction();
 	}
 	
 	/**
