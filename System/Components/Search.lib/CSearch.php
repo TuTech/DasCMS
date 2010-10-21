@@ -68,15 +68,18 @@ class CSearch
 	    try
 	    {
 	        $this->initBasicMetaFromDB($alias, self::CLASS_NAME);
-			list(
-				$this->queryString,
-				$this->allowExtendQueryString,
+			$file = sprintf('Content/CSearch/%d.php', $this->Id);
+			if(file_exists($file)){
+				list(
+					$this->queryString,
+					$this->allowExtendQueryString,
 
-				$this->order,
-				$this->allowOverwriteOrder,
+					$this->order,
+					$this->allowOverwriteOrder,
 
-				$this->itemsPerPage
-			) = Core::FileSystem()->loadEncodedData(sprintf('Content/CSearch/%d.php', $this->Id));
+					$this->itemsPerPage
+				) = Core::FileSystem()->loadEncodedData($file);
+			}
 	    }
 	    catch (XUndefinedIndexException $e)
 	    {
@@ -174,15 +177,7 @@ class CSearch
 		);
 		Core::FileSystem()->storeDataEncoded(
 				sprintf('Content/CSearch/%d.php', $this->Id),
-				array(
-					$this->queryString,
-					$this->allowExtendQueryString,
-
-					$this->order,
-					$this->allowOverwriteOrder,
-
-					$this->itemsPerPage
-				)
+				$data
 		);
 	}
 
