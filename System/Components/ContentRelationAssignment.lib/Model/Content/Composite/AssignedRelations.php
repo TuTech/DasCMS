@@ -51,32 +51,29 @@ class Model_Content_Composite_AssignedRelations
     	try{
 			//FIXME: bad access: missing formatter controller
 			$f = $this->getAssignedRelationsFormatter();
-			DSQL::getInstance()->beginTransaction();
-			Core::Database()
-				->createQueryForClass($this)
-				->call('unlink')
+			$Db = Core::Database()->createQueryForClass($this);
+			$Db->beginTransaction();
+			$Db->call('unlink')
 				->withParameters($this->compositeFor->getId(), get_class($this))
 				->execute();
 			if($f != null){
-				Core::Database()
-					->createQueryForClass($this)
-					->call('link')
+				$Db->call('link')
 					->withParameters($this->compositeFor->getId(), get_class($this), $f)
 					->execute();
 			}
-			DSQL::getInstance()->commit();
+			$Db->commitTransaction();
 			
 			$AssignCtrl = Controller_ContentRelationManager::getInstance();
 			$assigned = $this->getAssignedRelationsData();
 			$compositeAlias = $this->compositeFor->getAlias();
 
 			//save assignments
-			DSQL::getInstance()->beginTransaction();
+			$Db->beginTransaction();
 			$AssignCtrl->releaseAllRetainedByContentAndClass($this->compositeFor->getAlias(), $this);
 			foreach ($assigned as $alias){
 				$AssignCtrl->retain($alias, $compositeAlias, $this);
 			}
-			DSQL::getInstance()->commit();
+			$Db->commitTransaction();
     	}
     	catch(Exception $e){
 			SNotificationCenter::report(SNotificationCenter::TYPE_WARNING, 'could_not_save_assigned_relations');

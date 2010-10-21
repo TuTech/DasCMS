@@ -121,25 +121,22 @@ class Controller_Permissions_Tag
 	public static function setProtectedTags(array $tags)
 	{
 		Controller_Tags::getInstance()->addTags($tags);
-		DSQL::getInstance()->beginTransaction();
+		$Db = Core::Database()->createQueryForClass(self::CLASS_NAME);
+		$Db->beginTransaction();
 		try{
-			Core::Database()
-				->createQueryForClass(self::CLASS_NAME)
-				->call('clear')
+			$Db->call('clear')
 				->withoutParameters()
 				->execute();
 			foreach ($tags as $tag){
-				Core::Database()
-					->createQueryForClass(self::CLASS_NAME)
-					->call('set')
+				$Db->call('set')
 					->withParameters($tag)
 					->execute();
 			}
-			DSQL::getInstance()->commit();
+			$Db->commitTransaction();
 			$e = new Event_PermissionsChanged(Controller_Permissions_Tag::getInstance());
 		}
 		catch (Exception $e){
-			DSQL::getInstance()->rollback();
+			$Db->rollbackTransaction();
 			throw $e;
 		}
 	}
@@ -187,25 +184,22 @@ class Controller_Permissions_Tag
 	}
 	
 	private static function dbSet($type, $name, $tags){
-		DSQL::getInstance()->beginTransaction();
+		$Db = Core::Database()->createQueryForClass(self::CLASS_NAME);
+		$Db->beginTransaction();
 		try{
-			Core::Database()
-				->createQueryForClass(self::CLASS_NAME)
-				->call('clear'.$type)
+			$Db->call('clear'.$type)
 				->withParameters($name)
 				->execute();
 			foreach ($tags as $tag){
-				Core::Database()
-					->createQueryForClass(self::CLASS_NAME)
-					->call('set'.$type)
+				$Db->call('set'.$type)
 					->withParameters($name, $tag)
 					->execute();
 			}
-			DSQL::getInstance()->commit();
+			$Db->commitTransaction();
 			$e = new Event_PermissionsChanged(Controller_Permissions_Tag::getInstance());
 		}
 		catch (Exception $e){
-			DSQL::getInstance()->rollback();
+			$Db->rollbackTransaction();
 			throw $e;
 		}
 	}

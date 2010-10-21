@@ -18,6 +18,10 @@ interface Interface_Database_CallableQuery{
 	 * @return Interface_Database_ConfigurableQuery
 	 */
 	public function buildAndCall($function, array $sqlInjections, array $newOptions = array());
+
+	public function beginTransaction();
+	public function commitTransaction();
+	public function rollbackTransaction();
 }
 
 ?>

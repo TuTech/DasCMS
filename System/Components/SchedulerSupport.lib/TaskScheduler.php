@@ -29,10 +29,9 @@ class TaskScheduler implements Interface_Singleton
      */
     public function runJob()
     {
+		$DB = Core::Database()->createQueryForClass($this);
         $ok = true;
-		$jobs = Core::Database()
-			->createQueryForClass($this)
-			->call('count')
+		$jobs = $DB->call('count')
 			->withoutParameters()
 			->fetchSingleValue();
         if($jobs == 0 && class_exists('Task_TaskJanitor', true))
@@ -42,14 +41,11 @@ class TaskScheduler implements Interface_Singleton
         }  
         else
         {
-            $DB = DSQL::getInstance();
             try
             {
 				//re-/schedule
 				$DB->beginTransaction();
-                $res = Core::Database()
-					->createQueryForClass($this)
-					->call('next')
+                $res = $DB->call('next')
 					->withoutParameters();
 				$row = $res->fetchResult();
 				$res->free();
@@ -57,29 +53,23 @@ class TaskScheduler implements Interface_Singleton
                 if($row)
                 {
                     list($job, $jobId, $scheduled) = $row;
-					Core::Database()
-						->createQueryForClass($this)
-						->call('start')
+					$DB->call('start')
 						->withParameters($jobId, $scheduled)
 						->execute();
-					Core::Database()
-						->createQueryForClass($this)
-						->call('schedule')
+					$DB->call('schedule')
 						->withParameters($jobId, $jobId)
 						->execute();
 				}
-				$DB->commit();
+				$DB->commitTransaction();
 			}
 			catch (Exception $e){
 				SErrorAndExceptionHandler::reportException($e);
 				if(!empty($jobs)){
-					Core::Database()
-						->createQueryForClass($this)
-						->call('report')
+					$DB->call('report')
 						->withParameters($e->getCode(), 'Scheduler failed: '.$e->getMessage(), $jobId, $scheduled)
 						->execute();
 				}
-				$DB->rollback();
+				$DB->rollbackTransaction();
 				$job = null;
 			}
 			//run the job
@@ -105,17 +95,15 @@ class TaskScheduler implements Interface_Singleton
 				}
 				catch (Exception $e)
 				{
-					$DB->rollback();
+					$DB->rollbackTransaction();
 					$ergNo = $e->getCode();
 					$ergStr = $e->getMessage();
 					$ok = 'stopped';
 				}
-				Core::Database()
-					->createQueryForClass($this)
-					->call('report')
+				$DB->call('report')
 					->withParameters($ergNo, $ergStr, $jobId, $scheduled)
 					->execute();
-				$DB->commit();
+				$DB->commitTransaction();
 			}
         }
         return $ok;

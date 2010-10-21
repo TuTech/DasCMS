@@ -85,11 +85,10 @@ class Controller_Tags
 	}
 
 	public function addTags(array $tags){
+		$DB = Core::Database()->createQueryForClass('Controller_Tags');
 		foreach ($tags as $tag)
 		{
-			Core::Database()
-				->createQueryForClass('Controller_Tags')
-				->call('setTag')
+			$DB->call('setTag')
 				->withParameters($tag, $tag)
 				->execute();
 		}
@@ -98,42 +97,34 @@ class Controller_Tags
 	private function setTags($alias, $tagstring)
 	{
 		$tags = self::parseString($tagstring);
-		$DB = DSQL::getInstance();
+		$DB = Core::Database()->createQueryForClass('Controller_Tags');
 		try
 		{
 		    $DB->beginTransaction();
-			$CID = Core::Database()
-				->createQueryForClass('Controller_Tags')
-				->call('aliasToId')
+			$CID = $DB->call('aliasToId')
 				->withParameters($alias)
 				->fetchSingleValue();
 
-			Core::Database()
-				->createQueryForClass('Controller_Tags')
-				->call('unlink')
+			$DB->call('unlink')
 				->withParameters($CID)
 				->execute();
 			//remove links
 			foreach ($tags as $tag) 
 			{
-				Core::Database()
-					->createQueryForClass('Controller_Tags')
-					->call('setTag')
+				$DB->call('setTag')
 					->withParameters($tag, $tag)
 					->execute();
-				Core::Database()
-					->createQueryForClass('Controller_Tags')
-					->call('linkTag')
+				$DB->call('linkTag')
 					->withParameters($CID, $tag)
 					->execute();
 			}
-			$DB->commit();
+			$DB->commitTransaction();
 		}
 		catch(Exception $e)
 		{
 			echo $e->getMessage();
 			echo $e->getTraceAsString();
-			$DB->rollback();
+			$DB->rollbackTransaction();
 			return false;
 		}
 		return true;

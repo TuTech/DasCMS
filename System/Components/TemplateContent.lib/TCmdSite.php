@@ -77,19 +77,19 @@ class TCmdSite
 
 		//generate header
 		$out = $doctype;
-        $out .=	"\n<html".$lang.$ns.">\n\t<head>\n".
-				"\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n".
-				"\t\t<title>".$this->title."</title>\n";
+        $out .=	"\n<html".$lang.$ns."><head>".
+				"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n".
+				"<title>".$this->title."</title>\n";
 		if($niceURLS){
-			$out .= sprintf("\t\t<base href=\"%s\" />\n", SLink::base());
+			$out .= sprintf("<base href=\"%s\" />\n", SLink::base());
 		}
-		$out .=	"\t\t".$favicon."\n";
+		$out .=	$favicon."\n";
 		foreach(array('MetaTags', 'LinkTags') as $tag){
 			if(count($this->{$tag})){
-				$out .= "\t\t".implode("\n\t\t", $this->{$tag})."\n";
+				$out .= implode("\n", $this->{$tag})."\n";
 			}
 		}
-		$out .= "\t</head>\n\t<body>\n";
+		$out .= "</head>\n<body>\n";
 
 		//generate body
         foreach ($this->parsed as $object)
@@ -106,10 +106,10 @@ class TCmdSite
 
 		//embed javascripts
 		if(count($this->ScriptTags)){
-			$out .= "\t\t".implode("\n\t\t", $this->ScriptTags)."\n";
+			$out .= implode("\n", $this->ScriptTags)."\n";
 		}
 
-		$out .= "\t\t<script type=\"text/javascript\">".
+		$out .= "<script type=\"text/javascript\">".
 						"window.setTimeout(function(){".
 							"var sched = new Image(1,1).src='scheduler.php';".
 						"}, 250);".
@@ -117,14 +117,14 @@ class TCmdSite
 
 		//display cms health status
 		$out .= sprintf(
-				"\t\t<!-- %s/%s/%1.5f -->\n",
+				"<!-- %s/%s/%1.5f -->\n",
 				memory_get_usage(true),
 				memory_get_peak_usage(true),
 				microtime(true) - CMS_START_TIME
 			);
 
 		//finish
-        return $out."\t</body>\n</html>";
+        return $out."</body>\n</html>";
     }
 
     public function tearDown()

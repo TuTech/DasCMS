@@ -57,7 +57,7 @@ class Controller_Search_Engine implements Interface_Singleton
 	 * @param int $itemsPerPage
 	 * @param Search_Order $orderBy
 	 * @param bool $orderDirection Controller_Search_Engine::SORT_ORDER_ASC or Controller_Search_Engine::SORT_ORDER_DESC
-	 * @return Model_Search_Result
+	 * @return Interface_Search_Resultset
 	 */
 	public function query($queryString){
 		//parse search input

@@ -456,7 +456,7 @@ class CFeed
         if($count > 0)
         {
             $content .= $this->buildControlHtml(self::HEADER, $hasMorePages, $currentPage, $startItem, $endItem, $maxItems);
-            $content .= "\n\t<div class=\"CFeed_items\">";
+            $content .= "<div class=\"CFeed_items\">";
             if($childFormatter == false)
     	    {
     	        //use feed to format the item ui 
@@ -478,7 +478,7 @@ class CFeed
                     catch (Exception $e){/*skip this*/}
                 }
     	    }
-            $content .= "\n\t</div>";
+            $content .= "</div>";
             $content .= $this->buildControlHtml(self::FOOTER, $hasMorePages, $currentPage, $startItem, $endItem, $maxItems);
         }
         else
@@ -491,8 +491,8 @@ class CFeed
 	
 	private function buildControlHtml($type, $hasMorePages, $Pagina, $NumberOfStart, $NumberOfEnd, $FoundItems)
 	{
-        $html = sprintf("\n\t<div class=\"CFeed_control CFeed_control_%s\">", ($type == self::HEADER) ? 'header' : 'footer');
-        $tpl = "\n\t\t<%s class=\"CFeed_control_%s\">%s</%s>";
+        $html = sprintf("<div class=\"CFeed_control CFeed_control_%s\">", ($type == self::HEADER) ? 'header' : 'footer');
+        $tpl = "<%s class=\"CFeed_control_%s\">%s</%s>";
         
         foreach ($this->order($type) as $key => $pos) 
         {
@@ -542,7 +542,7 @@ class CFeed
         	    $html .= sprintf($tpl, $tag, $class, $content, $tag);
         	}
         }
-        $html .= "\n\t</div>";
+        $html .= "</div>";
         return $html;
 	}
 		
@@ -562,9 +562,9 @@ class CFeed
         );
         $contentObject = null;
         
-        $html = sprintf("\n\t\t<div class=\"CFeed_item CFeed_item_no_%d\">\n\t\t\t<span class=\"CFeed_begin_item\"></span>", ++$this->lineNo);
+        $html = sprintf("<div class=\"CFeed_item CFeed_item_no_%d\"><span class=\"CFeed_begin_item\"></span>", ++$this->lineNo);
         //add all active attributes in order
-        $tpl = "\n\t\t\t<%s class=\"CFeed_item_%s\">%s</%s>";
+        $tpl = "<%s class=\"CFeed_item_%s\">%s</%s>";
         foreach ($this->order(self::ITEM) as $key => $pos) 
         {
         	if(!$pos)
@@ -649,7 +649,7 @@ class CFeed
         	}
         	$html .= sprintf($tpl, $tag, $class, $content, $tag);
         }
-        $html .= "\n\t\t<span class=\"CFeed_end_item\"></span>\n</div>\n";
+        $html .= "<span class=\"CFeed_end_item\"></span></div>";
         return $html;
 	}
 	
@@ -660,44 +660,38 @@ class CFeed
 	
 	protected function saveContentData()
 	{
+		$Db = Core::Database()->createQueryForClass($this);
+
 		//save content
 		Core::FileSystem()->storeDataEncoded($this->StoragePath($this->Id),$this->_data);
-		
+
 		//validate and save type
 		$type = array_search($this->option(CFeed::SETTINGS, 'FilterMethod'), array('',CFeed::ALL, CFeed::MATCH_SOME, CFeed::MATCH_ALL, CFeed::MATCH_NONE));
-		Core::Database()
-			->createQueryForClass($this)
-			->call('setType')
+		$Db->call('setType')
 			->withParameters($this->getId(), $type, $type)
 			->execute();
 
 		//dump tags for filter
 		$tags = $this->option(CFeed::SETTINGS, 'Filter');
 		foreach ($tags as $tag){
-			Core::Database()
-				->createQueryForClass($this)
-				->call('addTag')
+			$Db->call('addTag')
 				->withParameters($tag, $tag)
 				->execute();
 		}
 
 		//set tags tags
-		DSQL::getInstance()->beginTransaction();
+		$Db->beginTransaction();
 		//remove old tags
-		Core::Database()
-			->createQueryForClass($this)
-			->call('unlink')
+		$Db->call('unlink')
 			->withParameters($this->getId())
 			->execute();
 		//link new tags
 		foreach ($tags as $tag){
-			Core::Database()
-				->createQueryForClass($this)
-				->call('link')
+			$Db->call('link')
 				->withParameters($this->getId(), $tag)
 				->execute();
 		}
-		DSQL::getInstance()->commit();
+		$Db->commitTransaction();
 	}
 	
 	/**

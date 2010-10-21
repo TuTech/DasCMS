@@ -26,11 +26,10 @@ class Controller_ContentPublication
 	public function updatePublications(){
 		
 		//init
-		$db = Core::Database();
+		$db = Core::Database()->createQueryForClass($this);
 		$db->beginTransaction();
 
-		$dba = $db->createQueryForClass($this);
-		$q = $dba->call('getChanged')->withoutParameters();
+		$q = $db->call('getChanged')->withoutParameters();
 
 		//fetch changes
 		$toUpdate = array(self::IS_PRIVATE => array(), self::IS_PUBLIC => array());
@@ -41,7 +40,7 @@ class Controller_ContentPublication
 		$q->free();
 		
 		//publish & revoke
-		$call = $dba->call('changeStatus');
+		$call = $db->call('changeStatus');
 		$changed = 0;
 		foreach(array(self::IS_PRIVATE, self::IS_PUBLIC) as $status){
 			foreach ($toUpdate[$status] as $contentToChange){

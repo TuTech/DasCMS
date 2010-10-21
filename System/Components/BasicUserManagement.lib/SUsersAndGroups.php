@@ -571,6 +571,7 @@ class SUsersAndGroups
     
     public function removeUser($name)
     {
+		$Db = Core::Database()->createQueryForClass($this);
         //check for admistatus etc and remove only if there is a redundant use of admins
         $userlist = &$this->userlist;
         if(isset($userlist[$name]))
@@ -580,9 +581,7 @@ class SUsersAndGroups
             {
                 unset($userlist[$name]);
                 $this->saveUsers();
-				Core::Database()
-					->createQueryForClass($this)
-					->call('delUser')
+				$Db->call('delUser')
 					->withParameters($name)
 					->execute();
                 return true;
@@ -596,9 +595,7 @@ class SUsersAndGroups
                     {
                         unset($userlist[$name]);
                         $this->saveUsers();
-						Core::Database()
-							->createQueryForClass($this)
-							->call('delUser')
+						$Db->call('delUser')
 							->withParameters($name)
 							->execute();
                         return true;

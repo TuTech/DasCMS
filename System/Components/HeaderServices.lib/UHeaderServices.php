@@ -81,12 +81,12 @@ class UHeaderServices
                 }
             }    
         }
-        $DSQL = DSQL::getInstance();
-        $DSQL->beginTransaction();
+        $DB = Core::Database()->createQueryForClass($this);
+        $DB->beginTransaction();
         $coco = Controller_Content::getInstance();
         $coco->releaseContentChainsToClass($this, $rem);
         $coco->chainContentsToClass($this, $cfg);
-        $DSQL->commit();
+        $DB->commitTransaction();
     }
     
     public function handleEventWillSendHeaders(Event_WillSendHeaders $e)

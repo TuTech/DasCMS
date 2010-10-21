@@ -15,7 +15,7 @@ class View_Content_PreviewImage
 			  $imageHeight = 100,
 			  $imageFillColor = '#ffffff',
 			  $scaleMethod = View_UIElement_Image::MODE_SCALE_TO_MAX,
-			  $scaleEnforcementMethod = Wimage::FORCE_BY_FILL;
+			  $scaleEnforcementMethod = View_UIElement_Image::FORCE_BY_FILL;
 
 	public function toXHTML() {
 		$val = '';

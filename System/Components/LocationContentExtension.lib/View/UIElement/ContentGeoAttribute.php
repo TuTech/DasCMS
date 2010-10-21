@@ -201,9 +201,9 @@ class View_UIElement_ContentGeoAttribute extends _View_UIElement
         $out = "<div class=\"View_UIElement_ContentGeoAttribute\">";
         if($this->name != null)
         {
-            $out .= sprintf("\n\t<span class=\"WCGA-Name\">%s</span>\n\t".
-            				"<span class=\"WCGA-Latitude\">%s</span>\n\t".
-            				"<span class=\"WCGA-Longitude\">%s</span>\n"
+            $out .= sprintf("<span class=\"WCGA-Name\">%s</span>".
+            				"<span class=\"WCGA-Latitude\">%s</span>".
+            				"<span class=\"WCGA-Longitude\">%s</span>"
             	,htmlentities($this->name, ENT_QUOTES, CHARSET)
             	,htmlentities($this->latitude, ENT_QUOTES, CHARSET)
             	,htmlentities($this->longitude, ENT_QUOTES, CHARSET)

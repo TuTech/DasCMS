@@ -124,19 +124,16 @@ class Core_Update extends Core
 	
 	public static function updateClassIndex(array $classes)
 	{
+		$Db =  Core::Database()->createQueryForClass('Core_Update');
 		foreach ($classes as $cname => $cguid) 
 		{
 			if(empty ($cguid)){
-				Core::Database()
-					->createQueryForClass('Core_Update')
-					->call('updateClassIndexNoGUID')
+				$Db->call('updateClassIndexNoGUID')
 					->withParameters($cname, $cname)
 					->execute();
 			}
 			else{
-				Core::Database()
-					->createQueryForClass('Core_Update')
-					->call('updateClassIndex')
+				$Db->call('updateClassIndex')
 					->withParameters($cname, $cguid, $cname, $cguid)
 					->execute();
 			}

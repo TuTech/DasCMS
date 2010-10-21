@@ -198,6 +198,12 @@ class Core
 
 	public static function dataToFile($data, $file, $compress = false){
 		$compress = $compress && extension_loaded('zlib');
+		if(!is_dir(dirname($file))){
+			throw new XFileNotFoundException('missing parent dir', $file, 0);
+		}
+		if(file_exists($file) && !is_writeable($file)){
+			throw new XFileLockedException('file not writeable', $file, 1);
+		}
 		$t = tempnam(CMS_TEMP, 'Core_tmp_');
 		if($compress){
 			$fp = gzopen($t, 'w');
@@ -209,7 +215,20 @@ class Core
 			fwrite($fp, $data);
 			fclose($fp);
 		}
-		rename($t, $file);
+		if(!@rename($t, $file)){
+			@unlink($t);
+			throw new Exception('could not write file');
+		}
+	}
+
+	/**
+	 * @return Settings
+	 */
+	public static function Settings(){
+		if(self::$settings == null){
+			self::$settings = new Settings();
+		}
+		return self::$settings;
 	}
 
 	/**

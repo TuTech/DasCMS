@@ -180,12 +180,10 @@ class View_UIElement_Image extends _View_UIElement
 
     public static function setPreview($contentAlias, $previewAlias)
     {
-		$DB = DSQL::getInstance();
+		$DB = Core::Database()->createQueryForClass(self::CLASS_NAME);
 		$RelCtrl = Controller_ContentRelationManager::getInstance();
 
-		$palias = Core::Database()
-			->createQueryForClass(self::CLASS_NAME)
-			->call('getPreviewId')
+		$palias = $DB->call('getPreviewId')
 			->withParameters($previewAlias)
 			->fetchSingleValue();
 
@@ -195,7 +193,7 @@ class View_UIElement_Image extends _View_UIElement
 			$DB->beginTransaction();
 			$RelCtrl->releaseAllRetainedByContentAndClass($contentAlias, self::CLASS_NAME);
 			$RelCtrl->retain($previewAlias, $contentAlias, self::CLASS_NAME);
-			$DB->commit();
+			$DB->commitTransaction();
         }
     }
 

@@ -172,10 +172,9 @@ class Controller_Content implements Interface_Singleton
 	public function getContentInformationBulk(array $aliases)
 	{
 		$infos = array();
+		$Db =  Core::Database()->createQueryForClass($this);
 		foreach ($aliases as $alias){
-			$res = Core::Database()
-				->createQueryForClass($this)
-				->call('getPri')
+			$res = $Db->call('getPri')
 				->withParameters($alias);
 			if($row = $res->fetchResult()){
 				$infos[$alias] = array(
@@ -195,10 +194,9 @@ class Controller_Content implements Interface_Singleton
 	{
 		$class = $this->className($class);
 		$i = 0;
+		$Db =  Core::Database()->createQueryForClass($this);
 		foreach ($aliases as $alias){
-			$i += Core::Database()
-				->createQueryForClass($this)
-				->call('chainToClass')
+			$i += $Db->call('chainToClass')
 				->withParameters($class, $alias)
 				->execute();
 		}
@@ -219,12 +217,11 @@ class Controller_Content implements Interface_Singleton
 	public function releaseContentChainsToClass($class, $aliases = null)
 	{
 		$class = $this->className($class);
+		$Db =  Core::Database()->createQueryForClass($this);
 	    if(is_array($aliases))
 		{
 			foreach ($aliases as $alias){
-				Core::Database()
-					->createQueryForClass($this)
-					->call('unlinkContent')
+				$Db->call('unlinkContent')
 					->withParameters($class, $alias)
 					->execute();
 			}
@@ -232,9 +229,7 @@ class Controller_Content implements Interface_Singleton
 		}
 		if($aliases == null)
 	    {
-			Core::Database()
-				->createQueryForClass($this)
-				->call('unlinkClass')
+			$Db->call('unlinkClass')
 				->withParameters($class)
 				->execute();
 	        return true;

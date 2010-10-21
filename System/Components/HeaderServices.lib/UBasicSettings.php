@@ -72,7 +72,7 @@ class UBasicSettings
     {
         try
         {
-            $db = DSQL::getInstance();
+            $db = Core::Database()->createQueryForClass($this);
             $db->beginTransaction();
             
             $data = $e->getClassSettings($this);
@@ -95,11 +95,11 @@ class UBasicSettings
             $coco = Controller_Content::getInstance();
             $coco->releaseContentChainsToClass($this);
             $coco->chainContentsToClass($this, $aliases);
-            $db->commit();
+            $db->commitTransaction();
         }
         catch (XDatabaseException $e)
         {
-            $e->rollback();
+            $e->rollbackTransaction();
             throw $e;
         }
     }
