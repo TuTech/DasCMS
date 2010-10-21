@@ -201,7 +201,7 @@ class Core
 		if(!is_dir(dirname($file))){
 			throw new XFileNotFoundException('missing parent dir', $file, 0);
 		}
-		if(!is_writeable($file)){
+		if(file_exists($file) && !is_writeable($file)){
 			throw new XFileLockedException('file not writeable', $file, 1);
 		}
 		$t = tempnam(CMS_TEMP, 'Core_tmp_');
@@ -215,13 +215,10 @@ class Core
 			fwrite($fp, $data);
 			fclose($fp);
 		}
-		SErrorAndExceptionHandler::muteErrors();
 		if(!@rename($t, $file)){
 			@unlink($t);
-			SErrorAndExceptionHandler::reportErrors();
 			throw new Exception('could not write file');
 		}
-		SErrorAndExceptionHandler::reportErrors();
 	}
 
 	/**
