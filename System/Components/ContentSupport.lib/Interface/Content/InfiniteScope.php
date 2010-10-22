@@ -7,6 +7,7 @@ interface Interface_Content_InfiniteScope
     public function getPreviousPageTitle();
     public function getNextPageLink();
     public function getPreviousPageLink();
+    public function getLinkToPage($pageNo);
     public function getPageContents();
 }
 ?>

@@ -51,6 +51,11 @@ class Controller_Search_ResultScope implements Interface_Content_FiniteScope
 		return $this->contentView->SetLinkParameter('page', max(1, $this->result->getPageNumber() - 1), true);
 	}
 
+	public function getLinkToPage($pageNo){
+		$pageNo = max(1, min($this->result->getLastPageNumber(), intval($pageNo)));
+		return $this->contentView->SetLinkParameter('page', $pageNo, true);
+	}
+
 	public function getPreviousPageTitle() {
 		return $this->prevTitle;
 	}
@@ -68,7 +73,7 @@ class Controller_Search_ResultScope implements Interface_Content_FiniteScope
 	}
 
 	public function getNumberOfCurrentPage() {
-		return $this->result->getCurrentElementCount();
+		return $this->result->getPageNumber();
 	}
 
 	public function getPageContents() {

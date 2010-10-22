@@ -151,7 +151,8 @@ class CSearch
 			$pageNo = 1;
 			$pv = $this->getParentView();
 			if($pv instanceof Controller_View_Content){
-				$pageNo = intval($pv->GetParameter('page'));
+				$page = $pv->GetParameter('page');
+				$pageNo = $page == '' ? 1 : intval($page);
 				$pageNo = max(1, $pageNo);//pageNo >= 1
 				$pageNo = min($res->getLastPageNumber(), $pageNo); // pageNo <= last page
 			}
