@@ -29,7 +29,7 @@ class CSearch
 
 	private $queryString = '',
 			$itemsPerPage = 10,
-			$order = 1,
+			$order = Interface_Search_ConfiguredResultset::ASC,
 			$allowOverwriteOrder = false,
 			$allowExtendQueryString = false;
 
@@ -92,6 +92,48 @@ class CSearch
      */
     public function getScope(){
 		return new Controller_Search_ResultScope($this->getResult(), $this->getParentView());
+	}
+
+	public function setQueryString($value){
+		$this->queryString = strval($value);
+	}
+
+	public function getQueryString(){
+		return $this->queryString;
+	}
+
+	public function setAllowExtendQueryString($value){
+		$this->allowExtendQueryString = !!$value;
+	}
+
+	public function getAllowExtendQueryString(){
+		return $this->allowExtendQueryString;
+	}
+
+	public function setOrder($value){
+		$this->order = ($value == Interface_Search_ConfiguredResultset::ASC)
+				? Interface_Search_ConfiguredResultset::ASC
+				: Interface_Search_ConfiguredResultset::DESC;
+	}
+
+	public function getOrder(){
+		return $this->order;
+	}
+
+	public function setAllowOverwriteOrder($value){
+		$this->allowOverwriteOrder = !!$value;
+	}
+
+	public function getAllowOverwriteOrder(){
+		return $this->allowOverwriteOrder;
+	}
+
+	public function setItemsPerPage($value){
+		$this->itemsPerPage = max(1, intval($value));
+	}
+
+	public function getItemsPerPage(){
+		return $this->itemsPerPage;
 	}
 
 	/**

@@ -65,15 +65,36 @@ class Controller_Application_Search
         {
             if(!empty($param['title']))
             {
-                $this->target->Title = $param['title'];
+                $this->target->setTitle($param['title']);
             }
             if(isset($param['subtitle']))
             {
-                $this->target->SubTitle = $param['subtitle'];
+                $this->target->setSubTitle($param['subtitle']);
             }
+			if(!empty ($param['items_per_page'])){
+				$this->target->setItemsPerPage($param['items_per_page']);
+			}
+			if(!empty ($param['query_string'])){
+				$this->target->setQueryString($param['query_string']);
+			}
+			if(!empty ($param['allow_extend_query_string'])){
+				$this->target->setAllowExtendQueryString($param['allow_extend_query_string']);
+			}
+			if(!empty ($param['order'])){
+				$this->target->setOrder($param['order']);
+			}
+			if(!empty ($param['allow_overwrite_order'])){
+				$this->target->setAllowOverwriteOrder($param['allow_overwrite_order']);
+			}
+
+			//composites
 			if(isset($param['content_formatter']))
             {
                 $this->target->setChildContentFormatter($param['content_formatter']);
+            }
+			if(isset($param['target_view']))
+            {
+                $this->target->setTargetView($param['target_view']);
             }
         }
     }
