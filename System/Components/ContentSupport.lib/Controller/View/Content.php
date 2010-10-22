@@ -256,6 +256,7 @@ class Controller_View_Content extends BView
 			$alias = self::$spores[$this->name][self::ERROR_CONTENT];
 			$content = Controller_Content::getInstance()->tryOpenContent($alias);
 		}
+		$this->target = $content->getAlias();
 		$this->content = Controller_Content::getInstance()->accessContent($content->Alias, $this);
 		$this->content->setParentView($this);
 		

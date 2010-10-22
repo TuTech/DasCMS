@@ -11,8 +11,8 @@ class Controller_Search_ResultScope implements Interface_Content_FiniteScope
 	 */
 	private $contentView;
 
-	private $nextTitle = '&gt;&gt;',
-			$prevTitle = '&lt;&lt;';
+	private $nextTitle = '>>',
+			$prevTitle = '<<';
 
 
 	/**
