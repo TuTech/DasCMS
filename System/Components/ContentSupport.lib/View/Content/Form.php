@@ -56,11 +56,43 @@ class View_Content_Form
 	 */
 	public function setMethod($value){
 		$value = strtolower($value);
-		if($value == self::METHOD_GET 
+		if($value == self::METHOD_GET
 				|| $value == self::METHOD_POST)
 		{
 			$this->method = $value;
 		}
+	}
+
+	/**
+	 * get action
+	 * @return mixed
+	 */
+	public function getAction(){
+		return $this->action;
+	}
+
+	/**
+	 * set action
+	 * @param mixed $value
+	 */
+	public function setAction($value){
+		$this->action = $value;
+	}
+
+	/**
+	 * get form name
+	 * @return string
+	 */
+	public function getName(){
+		return $this->name;
+	}
+
+	/**
+	 * set form name
+	 * @param string $value
+	 */
+	public function setName($value){
+		$this->name = strval($value);
 	}
 
 	/**
@@ -100,7 +132,7 @@ class View_Content_Form
 					$val .=  $this->subViews[$i]->toXHTML();
 				}
 			}
-			$val = $this->wrapXHTML('', $val);
+			$val = $this->wrapXHTML('Group', $val);
 		}
 		return $val;
 	}
@@ -121,7 +153,7 @@ class View_Content_Form
 	 * @return array
 	 */
 	protected function getPersistentAttributes() {
-		return array('subViews', 'encoding', 'method');
+		return array('subViews', 'encoding', 'method','action','name');
 	}
 
 	/**
@@ -132,11 +164,7 @@ class View_Content_Form
 		return 'form';
 	}
 
-	/**
-	 * return form attributes
-	 * @return array
-	 */
-	protected function getWrapperAttributes() {
+	protected function buildAction(){
 		if($this->action == null){
 			//the complete current url with all temp fields
 			$action = SLink::buildURL(RURL::data(CHARSET));
@@ -157,13 +185,24 @@ class View_Content_Form
 		else{
 			$action = $this->action;
 		}
+		return $action;
+	}
+
+	/**
+	 * return form attributes
+	 * @return array
+	 */
+	protected function getWrapperAttributes() {
+		
 
 		//data will be html encoded by calling function
 		$data = array(
 			'method' => $this->method,
-		  	'action' => $action,
-		 	'encoding' => $this->encoding == self::PLAIN ? self::PLAIN_VALUE : self::ENCODED_VALUE,
+		  	'action' => $this->method == self::METHOD_GET ? '?' : $this->buildAction(),
 		);
+		if($this->encoding != self::PLAIN){
+			$data['encoding'] = self::ENCODED_VALUE;
+		}
 		if($this->name){
 			$data['name'] = $this->name;
 		}
