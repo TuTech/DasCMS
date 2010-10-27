@@ -17,7 +17,8 @@ class CSearch
         IGeneratesFeed,
         ISearchDirectives,
 		Interface_Content_HasScope,
-        IFileContent
+        IFileContent,
+		Interface_Search_AcceptsSubQueries
 {
     const CLASS_NAME = 'CSearch';
     const GUID = 'org.bambuscms.content.csearch';
@@ -293,6 +294,26 @@ class CSearch
     {
         return null;
     }
+
+	//Interface_Search_AcceptsSubQueries
+	/**
+	 * narrow down results
+	 * @param string $queryString
+	 */
+	public function addSubQuery($queryString){
+		if(!$this->isSubQueryingAllowed()){
+			return;
+		}
+		$this->queryString .= ' '.$queryString;
+	}
+
+	/**
+	 * is this feature allowed for this content
+	 * @bool
+	 */
+	public function isSubQueryingAllowed(){
+		return $this->allowExtendQueryString;
+	}
 
 	//ISupportsSidebar
 	public function wantsWidgetsOfCategory($category)
