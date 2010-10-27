@@ -138,8 +138,8 @@ class _View_Content_Base
 		$atts = $this->getWrapperAttributes();
 		$atts['class'] =  $class;
 		$attData = array();
-		foreach ($atts as $name => $value){
-			$attData[] = sprintf('%s="%s"', String::htmlEncode($name), String::htmlEncode($value));
+		foreach ($atts as $aName => $aValue){
+			$attData[] = sprintf('%s="%s"', String::htmlEncode($aName), String::htmlEncode($aValue));
 		}
 		return sprintf("<%s %s>%s</%s>",$tag, implode(' ',$attData), $value, $tag);
 	}
