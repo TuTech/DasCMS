@@ -125,19 +125,31 @@ class _View_Content_Base
 				$value = sprintf(
 						"<a href=\"%s\"%s>%s</a>",
 						$this->linkTargetViewObject->linkTo($this->content->getAlias()),
-						($this->linkTragetFrame ? ' '.htmlentities($this->linkTragetFrame, ENT_QUOTES, CHARSET) : ''),
+						($this->linkTragetFrame ? ' '.String::htmlEncode($this->linkTragetFrame) : ''),
 						$value
 					);
 			}
 		}
 
-		//make div box with css styles
+		//get tag for this element
 		$tag = $this->getWrapperTag();
-		return sprintf("<%s class=\"%s\">%s</%s>",$tag, $class, $value, $tag);
+
+		//get additional attributes
+		$atts = $this->getWrapperAttributes();
+		$atts['class'] =  $class;
+		$attData = array();
+		foreach ($atts as $name => $value){
+			$attData[] = sprintf('%s="%s"', String::htmlEncode($name), String::htmlEncode($value));
+		}
+		return sprintf("<%s %s>%s</%s>",$tag, implode(' ',$attData), $value, $tag);
 	}
 
 	protected function getWrapperTag(){
 		return 'div';
+	}
+
+	protected function getWrapperAttributes(){
+		return array();
 	}
 
 	/**
@@ -198,6 +210,14 @@ class _View_Content_Base
 	 */
 	public function setCustomCSSClass($value){
 		$this->customCSSClass = strval($value);
+	}
+
+	/**
+	 * setter for additional custom css class
+	 * @param string $value
+	 */
+	public function addCustomCSSClass($value){
+		$this->customCSSClass .= (empty($this->customCSSClass) ? '' : ' ').strval($value);
 	}
 
 	//optional linking stuff

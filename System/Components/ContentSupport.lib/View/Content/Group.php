@@ -25,9 +25,10 @@ class View_Content_Group
 	public function toXHTML() {
 		$val = '';
 		if($this->shouldDisplay() && is_array($this->subViews)){
-			$tpl = "<div class=\"Group_item Group_item_%d\">%s</div>";
+			$cssTpl = "Group_item Group_item_%d";
 			for($i = 0; $i < count($this->subViews); $i++){
-				$val .= sprintf($tpl, $i+1, $this->subViews[$i]->toXHTML());
+				$this->subViews[$i]->addCustomCSSClass(sprintf($cssTpl, $i+1));
+				$val .=  $this->subViews[$i]->toXHTML();
 			}
 			$val = $this->wrapXHTML('Group', $val);
 		}
