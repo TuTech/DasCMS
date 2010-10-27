@@ -90,7 +90,7 @@ class View_UIElement_Settings extends _View_UIElement implements ISidebarWidget
 			//preview
 			if($alias !== null)
 			{
-			    $html .= sprintf('<input type="hidden" name="WSearch-PreviewImage-Alias" id="WSearch-PreviewImage-Alias" value="%s" />', htmlentities($alias, ENT_QUOTES, CHARSET));
+			    $html .= sprintf('<input type="hidden" name="WSearch-PreviewImage-Alias" id="WSearch-PreviewImage-Alias" value="%s" />', String::htmlEncode($alias));
 			}
 			//tags changed?
 			$html .= sprintf('<input type="hidden" class="hidden" name="WSearch-Tags-chk" value="%s" />', md5($tagstr));
@@ -120,12 +120,12 @@ class View_UIElement_Settings extends _View_UIElement implements ISidebarWidget
 			);
 			$Items->add(
 			    sprintf("<label for=\"WSearch-Tags\">%s</label>", SLocalization::get('tags')),
-			    sprintf('<textarea id="WSearch-Tags" name="WSearch-Tags">%s</textarea>', htmlentities($tagstr, ENT_QUOTES, CHARSET))
+			    sprintf('<textarea id="WSearch-Tags" name="WSearch-Tags">%s</textarea>', String::htmlEncode($tagstr))
 		    );
 
 			$Items->add(
 			    sprintf("<label for=\"WSearch-Desc\">%s</label>", SLocalization::get('description')),
-			    sprintf('<textarea id="WSearch-Desc" name="WSearch-Desc">%s</textarea>', htmlentities($this->targetObject->Description, ENT_QUOTES, CHARSET))
+			    sprintf('<textarea id="WSearch-Desc" name="WSearch-Desc">%s</textarea>', String::htmlEncode($this->targetObject->Description))
 		    );
 		    $si_on = true;
 		    $si_changeable = false;

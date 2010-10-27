@@ -189,7 +189,7 @@ class NTreeNavigationObject
 					? ' class="SelectedNavigationLink"' 
 					: ''
 				,strval($this->Navigation->LinkTo($this))
-				,htmlentities(strval($this->Navigation->getTitle($this)), ENT_QUOTES, CHARSET)
+				,String::htmlEncode(strval($this->Navigation->getTitle($this)))
 			);		
 			$html .= ($this->hasChildren())
 				? sprintf("%s<div class=\"Children\">%s%s</div>",$pfx,strval($this->firstChild),$pfx)

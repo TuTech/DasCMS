@@ -20,7 +20,7 @@ class View_Content_Tags
 				$list = '<ul>';
 				foreach ($tags as $tag){
 					if(substr($tag,0,1) != '@' /* control tags */){
-						$list .= sprintf("<li>%s</li>\n", htmlentities($tag, ENT_QUOTES, CHARSET));
+						$list .= sprintf("<li>%s</li>\n", String::htmlEncode($tag));
 					}
 				}
 				$list .= '</ul>';

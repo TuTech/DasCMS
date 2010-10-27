@@ -94,7 +94,7 @@ if(count($spores) > 0)
 		}
 		
 		$check = ($data[Controller_View_Content::ACTIVE]) ? ' checked="checked"' : '';
-		$outSpore = htmlentities($spore, ENT_QUOTES, CHARSET);
+		$outSpore = String::htmlEncode($spore);
 		
 		$tbl->addRow(array(
             $cell1TPL->renderString(array('spore' => $outSpore)),

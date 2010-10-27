@@ -101,7 +101,7 @@ class View_UIElement_ContentLocation extends _View_UIElement implements ISidebar
 		$Items->setTitleTranslation(false);
 		$Items->add(   
 		    sprintf("<label for=\"View_UIElement_ContentLocation_address\">%s</label>", SLocalization::get('address')),
-		    sprintf('<textarea id="View_UIElement_ContentLocation_address" name="View_UIElement_ContentLocation_address">%s</textarea>', htmlentities($location['address'], ENT_QUOTES, CHARSET))
+		    sprintf('<textarea id="View_UIElement_ContentLocation_address" name="View_UIElement_ContentLocation_address">%s</textarea>', String::htmlEncode($location['address']))
 	    );
 	    $lat ='';
 	    $long ='';
@@ -117,9 +117,9 @@ class View_UIElement_ContentLocation extends _View_UIElement implements ISidebar
 		        '<dt>%s</dt>'.
 		    		'<dd><input type="text" id="View_UIElement_ContentLocation_long" name="View_UIElement_ContentLocation_long" value="%s" /></dd></dl>'
 		    		, SLocalization::get('latitude')
-		    		, htmlentities($lat, ENT_QUOTES, CHARSET)
+		    		, String::htmlEncode($lat)
 		    		, SLocalization::get('longitude')
-		    		, htmlentities($long, ENT_QUOTES, CHARSET)
+		    		, String::htmlEncode($long)
 	        )
 		);
 	    echo '<div id="View_UIElement_ContentLocation">'.

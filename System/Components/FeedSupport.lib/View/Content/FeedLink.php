@@ -21,11 +21,11 @@ class View_Content_FeedLink
 					,IGeneratesFeed::FEED_ACCESSOR
 					,$this->content->getAlias()
 					,($this->getLinkTargetFrame() != null) 
-						? sprintf(' target="%s"', htmlentities($this->getLinkTargetFrame(), ENT_QUOTES, CHARSET))
+						? sprintf(' target="%s"', String::htmlEncode($this->getLinkTargetFrame()))
 						: ''
-					,htmlentities((($this->getLinkCaption() != null)
+					,String::htmlEncode((($this->getLinkCaption() != null)
 						? $this->getLinkCaption()
-						: $this->content->getTitle()), ENT_QUOTES, CHARSET)
+						: $this->content->getTitle()))
 				),
 				false
 			);

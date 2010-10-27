@@ -76,7 +76,7 @@ class View_UIElement_Applications extends _View_UIElement
 		$html .= '<table><tr>';
 		foreach ($groupHelp as $group => $locale)
 		{
-		    $html .= '<th class="appGroup appGroup-'.htmlentities($group, ENT_QUOTES, CHARSET)."\" title=\"".$locale."\"><span>&nbsp;</span></th>";
+		    $html .= '<th class="appGroup appGroup-'.String::htmlEncode($group)."\" title=\"".$locale."\"><span>&nbsp;</span></th>";
 		    
 		
 		    
@@ -86,7 +86,7 @@ class View_UIElement_Applications extends _View_UIElement
     		    if($this->apps[$app]['purpose'] == $group)
     		    {
         		    $meta = $this->apps[$app];
-        			$name = htmlentities(SLocalization::get($meta['name']), ENT_QUOTES, CHARSET);
+        			$name = SLocalization::get($meta['name']);
         			$html .= sprintf(
         				"\t<td><a href=\"Management/?editor=%s\" onmousedown=\"return false;\" class=\"application%s\">\n".
         					"\t\t<img src=\"%s\" alt=\"%s\" />\n".
@@ -95,7 +95,7 @@ class View_UIElement_Applications extends _View_UIElement
         					"\t\t\t<span class=\"application-description\">%s</span>\n".
         					"\t\t</span>\n".
         					"\t</a></td>\n"
-        				,htmlentities($app, ENT_QUOTES, CHARSET)
+        				,String::htmlEncode($app)
         				,($meta['active']) ? ' active' : ''
         				,$this->selectIcon($meta['icon'], $meta['active'])
         				,$name

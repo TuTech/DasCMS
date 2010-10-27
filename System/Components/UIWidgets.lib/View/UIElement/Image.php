@@ -292,9 +292,9 @@ class View_UIElement_Image extends _View_UIElement
             ,$this->scaleHash
             ,$this->noCacheAddOn
             ,implode(' ', $class)
-            ,htmlentities(empty($this->content) ? $this->title : $this->content->getTitle(), ENT_QUOTES, CHARSET)
-            ,htmlentities(empty($this->content) ? $this->title : $this->content->getTitle(), ENT_QUOTES, CHARSET)
-            ,($this->cssID != null) ? 'id="'.htmlentities($this->cssID, ENT_QUOTES, CHARSET).'" ' : ''
+            ,String::htmlEncode(empty($this->content) ? $this->title : $this->content->getTitle())
+            ,String::htmlEncode(empty($this->content) ? $this->title : $this->content->getTitle())
+            ,($this->cssID != null) ? 'id="'.String::htmlEncode($this->cssID).'" ' : ''
         );
     }
 

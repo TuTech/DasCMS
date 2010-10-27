@@ -144,7 +144,7 @@ class CScript
 
 	protected function generateHTML($text)
 	{
-        $text = htmlentities($text, ENT_QUOTES, CHARSET);
+        $text = String::htmlEncode($text);
         $text = str_replace("\t", '    ', $text);
         $text = preg_replace("(\r\n|\r|\n)", "\t", $text);
         $r =

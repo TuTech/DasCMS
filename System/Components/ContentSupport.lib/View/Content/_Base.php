@@ -108,7 +108,7 @@ class _View_Content_Base
 	protected function wrapXHTML($class, $value, $autoLink = true){
 		//add custom css class
 		if($this->customCSSClass){
-			$class .= ' '.htmlentities($this->customCSSClass, ENT_QUOTES, CHARSET);
+			$class .= ' '.String::htmlEncode($this->customCSSClass);
 		}
 
 		//build a link wrapper if target view is set

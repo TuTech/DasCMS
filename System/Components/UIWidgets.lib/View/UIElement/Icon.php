@@ -130,8 +130,8 @@ class View_UIElement_Icon extends _View_UIElement
         return sprintf(
             "<img src=\"%s\" alt=\"%s\" title=\"%s\" />"
             ,$this->getPath()
-            ,htmlentities($this->text, ENT_QUOTES, CHARSET)
-            ,htmlentities($this->text, ENT_QUOTES, CHARSET)
+            ,String::htmlEncode($this->text)
+            ,String::htmlEncode($this->text)
         );
     }
 }

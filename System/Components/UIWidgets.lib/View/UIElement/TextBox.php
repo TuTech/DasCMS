@@ -57,7 +57,7 @@ class View_UIElement_TextBox extends _View_UIElement
 	
 	private function encode($string)
 	{
-	    return htmlentities(mb_convert_encoding($string, CHARSET, 'UTF-8,ISO-8859-1'), ENT_QUOTES, CHARSET);
+	    return String::htmlEncode(mb_convert_encoding($string, CHARSET, 'UTF-8,ISO-8859-1'));
 	}
 
 	public function render()

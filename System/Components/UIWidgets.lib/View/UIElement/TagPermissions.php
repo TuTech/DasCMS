@@ -93,7 +93,7 @@ class View_UIElement_TagPermissions extends _View_UIElement implements ISidebarW
 		    $wt->addRow(
 		        array(
 		            sprintf("<input type=\"checkbox\" %sname=\"View_UIElement_TagPermissions_%s\" id=\"View_UIElement_TagPermissions_%s\" />", $check, $chksum, $chksum),
-		            sprintf("<label for=\"View_UIElement_TagPermissions_%s\">%s</label>", $chksum, htmlentities($tag, ENT_QUOTES, CHARSET))
+		            sprintf("<label for=\"View_UIElement_TagPermissions_%s\">%s</label>", $chksum, String::htmlEncode($tag))
 		        )
 		    );
 		}

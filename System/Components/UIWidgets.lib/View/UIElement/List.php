@@ -55,7 +55,7 @@ class View_UIElement_List extends _View_UIElement
 	
 	private function encode($string)
 	{
-	    return htmlentities(mb_convert_encoding($string, CHARSET, 'ISO-8859-1,UTF-8'), ENT_QUOTES, CHARSET);
+	    return String::htmlEncode(mb_convert_encoding($string, CHARSET, 'ISO-8859-1,UTF-8'));
 	}
 
 	public function render()

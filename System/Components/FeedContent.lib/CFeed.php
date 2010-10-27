@@ -333,7 +333,7 @@ class CFeed
 	    if($link != null)
 	    {
 	        $targetFrame = $this->option(self::SETTINGS, 'TargetFrame');
-	        $targetFrame = (empty($targetFrame) || !$inTargetFrame) ? '' : ' target="'.htmlentities($targetFrame, ENT_QUOTES, CHARSET).'"';
+	        $targetFrame = (empty($targetFrame) || !$inTargetFrame) ? '' : ' target="'.String::htmlEncode($targetFrame).'"';
 	        $content = sprintf('<a href="%s"%s>%s</a>', $link, $targetFrame, $content);
 	    }
 	    return $content;
@@ -364,7 +364,7 @@ class CFeed
 	    	'%s%s/%s', 
 	        SLink::base(), 
 	        IGeneratesFeed::FEED_ACCESSOR, 
-	        htmlentities($this->getAlias(), ENT_QUOTES, CHARSET)
+	        String::htmlEncode($this->getAlias())
         );
 	}
 	
@@ -577,7 +577,7 @@ class CFeed
         	{
                 case 'Tags':
         		    $tag = 'div';
-        		    $content = htmlentities(implode(', ', Controller_Tags::getInstance()->get($data[$map['Alias']])), ENT_QUOTES, CHARSET);
+        		    $content = String::htmlEncode(implode(', ', Controller_Tags::getInstance()->get($data[$map['Alias']])));
         		    break;
                 case 'Description':
         		    $tag = 'div';
@@ -621,7 +621,7 @@ class CFeed
         		    $content = $this->link($data[$map['Alias']], implode($this->caption(self::ITEM,'Link')), true);
         		    break;
                 case 'Author':
-                    $content = htmlentities($data[$map[$key]], ENT_QUOTES, CHARSET);
+                    $content = String::htmlEncode($data[$map[$key]]);
         		    break;
                 case 'PubDate':
                 case 'ModDate':
@@ -633,13 +633,13 @@ class CFeed
                         $datetime = date($this->option(self::ITEM, $key.'Format'), $time);
                         SErrorAndExceptionHandler::reportErrors();
                     }
-        		    $content = htmlentities($datetime, ENT_QUOTES, CHARSET);
+        		    $content = String::htmlEncode($datetime);
         		    break;
                 case 'Title':
         		    $tag = 'h2';
         		    $content = ($this->option(self::ITEM, 'LinkTitle')) 
-        		        ? $this->link($data[$map['Alias']],htmlentities($data[$map[$key]], ENT_QUOTES, CHARSET),true)
-        		        : htmlentities($data[$map[$key]], ENT_QUOTES, CHARSET);
+        		        ? $this->link($data[$map['Alias']],String::htmlEncode($data[$map[$key]]),true)
+        		        : String::htmlEncode($data[$map[$key]]);
         		    break;
                 case 'SubTitle':
         		    $tag = 'h3';

@@ -76,9 +76,9 @@ class View_UIElement_AssignedRelations
 		foreach ($options as $title => $value){
 			$selectHTML .= sprintf(
 					'<option value="%s"%s>%s</option>',
-					htmlentities($value, ENT_QUOTES, CHARSET),
+					String::htmlEncode($value),
 					$value == $currentFormatter ? ' selected="selected"' : '',
-					htmlentities($title, ENT_QUOTES, CHARSET)
+					String::htmlEncode($title)
 					);
 		}
 		$class = get_class($this);

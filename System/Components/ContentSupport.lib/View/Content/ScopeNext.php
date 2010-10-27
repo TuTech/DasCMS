@@ -29,8 +29,8 @@ class View_Content_ScopeNext
 				$val = sprintf(
 						'<a href="%s"%s>%s</a>',
 						$link,
-						(empty ($frame)) ? '' : sprintf(' target="%s"', htmlentities($frame, ENT_QUOTES, CHARSET)),
-						htmlentities($text, ENT_QUOTES, CHARSET)
+						(empty ($frame)) ? '' : sprintf(' target="%s"', String::htmlEncode($frame)),
+						String::htmlEncode($text)
 				);
 
 				$val = $this->wrapXHTML('ScopeNext', $val);

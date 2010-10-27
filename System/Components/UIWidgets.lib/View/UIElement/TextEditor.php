@@ -97,7 +97,7 @@ class View_UIElement_TextEditor extends _View_UIElement
         );
 		$customAtts = '';
 		foreach ($this->attributes as $k => $v){
-			$customAtts .= sprintf(' %s="%s"',  htmlentities($k, ENT_QUOTES, CHARSET), htmlentities($v, ENT_QUOTES, CHARSET));
+			$customAtts .= sprintf(' %s="%s"',  String::htmlEncode($k), String::htmlEncode($v));
 		}
         //textarea
         $out .= sprintf(
@@ -136,7 +136,7 @@ class View_UIElement_TextEditor extends _View_UIElement
 
 	private function encode($string)
 	{
-	    return htmlentities($string, ENT_QUOTES, CHARSET);
+	    return String::htmlEncode($string);
 	}
 
 	public function render()

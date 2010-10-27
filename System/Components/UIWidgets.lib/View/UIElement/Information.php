@@ -99,7 +99,7 @@ class View_UIElement_Information extends _View_UIElement implements ISidebarWidg
     		        }
     		        else
     		        {
-    		            $val = htmlentities(wordwrap($this->targetObject->{$key},15,'<wbr />',true), ENT_QUOTES, CHARSET);
+    		            $val = String::htmlEncode(wordwrap($this->targetObject->{$key},15,'<wbr />',true));
     		            $val = str_replace('&lt;wbr /&gt;', '<wbr />', $val);
     		        }
     		    }

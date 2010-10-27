@@ -153,7 +153,7 @@ class View_UIElement_Template extends _View_UIElement
         foreach($data as $key => $value)
         {
             $value = mb_convert_encoding(strval($value), CHARSET, "auto");
-            $string = str_replace('{{'.$key.'}}', htmlentities($value, ENT_QUOTES, CHARSET), $string);
+            $string = str_replace('{{'.$key.'}}', String::htmlEncode($value), $string);
             $string = str_replace('{'.$key.'}', $value, $string);
         }
         return $string;

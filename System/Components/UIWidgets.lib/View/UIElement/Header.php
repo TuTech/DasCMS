@@ -124,7 +124,7 @@ class View_UIElement_Header extends _View_UIElement
 	
 	private static function enc($str)
 	{
-		return htmlspecialchars($str,ENT_QUOTES, CHARSET);
+		return String::htmlEncode($str);
 	}
 	
 	public static function loadClientData($path = null)

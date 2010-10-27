@@ -181,7 +181,7 @@ class CSearch
 	    	'%s%s/%s',
 	        SLink::base(),
 	        IGeneratesFeed::FEED_ACCESSOR,
-	        htmlentities($this->getAlias(), ENT_QUOTES, CHARSET)
+	        String::htmlEncode($this->getAlias())
         );
 	}
 

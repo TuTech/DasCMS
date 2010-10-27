@@ -117,8 +117,8 @@ class CLink
     public function getInlineText()
     {
         //originalContent is in use because the content is altered on access
-        return '<a href="'.htmlentities($this->originalContent, ENT_QUOTES, CHARSET).'">'.
-                htmlentities($this->originalContent, ENT_QUOTES, CHARSET).'</a>';
+        return '<a href="'.String::htmlEncode($this->originalContent).'">'.
+                String::htmlEncode($this->originalContent).'</a>';
     }
 	
 	//ISupportsSidebar

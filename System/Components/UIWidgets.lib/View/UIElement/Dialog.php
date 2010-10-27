@@ -168,7 +168,7 @@ class View_UIElement_Dialog extends _View_UIElement
             ($this->buttons & self::SUBMIT) ? ('"'.SLocalization::get($this->captions[self::SUBMIT]).'"') : 'null',
             ($this->buttons & self::CANCEL) ? ('"'.SLocalization::get($this->captions[self::CANCEL]).'"') : 'null',
             ($this->buttons & self::RESET) ? ('"'.SLocalization::get($this->captions[self::RESET]).'"') : 'null',
-            $this->translateTitles ? (SLocalization::get($this->title)) : htmlentities($this->title, ENT_QUOTES, CHARSET),
+            $this->translateTitles ? (SLocalization::get($this->title)) : String::htmlEncode($this->title),
             $this->isMultipart ? '1' : '0'
         );
         $csect = '';

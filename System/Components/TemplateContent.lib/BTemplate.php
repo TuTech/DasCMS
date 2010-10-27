@@ -87,7 +87,7 @@ abstract class BTemplate
         $attStr = '';
         foreach ($node->attributes as $name => $value)
         {
-        	$attStr .= sprintf(' %s="%s"', strval($name), htmlentities($value->value, ENT_QUOTES, CHARSET));
+        	$attStr .= sprintf(' %s="%s"', strval($name), String::htmlEncode($value->value));
         }
         $tag = in_array($node->nodeName, array('br', 'img', 'input', 'wbr', 'hr')) ? '<%s%s' : '<%s%s>';
         $this->appendData(sprintf($tag, $node->nodeName, $attStr));

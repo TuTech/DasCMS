@@ -102,7 +102,7 @@ class View_UIElement_ApplicationTaskBar
         {
             $action = sprintf(
             	"if(confirm(_('%s'))){%s}"
-            	,htmlentities($atts['confirm'], ENT_QUOTES, CHARSET)
+            	,String::htmlEncode($atts['confirm'])
             	,$action
             );
         }

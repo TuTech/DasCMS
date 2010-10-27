@@ -37,13 +37,13 @@ foreach ($sorted as $section => $loc)
             switch ($type)
             {
                 case Settings::TYPE_INFORMATION:
-                    $str = sprintf($infotext, htmlentities($value, ENT_QUOTES, CHARSET));
+                    $str = sprintf($infotext, String::htmlEncode($value));
                     break;
                 case Settings::TYPE_TEXT:
-                    $str = sprintf($fullinput, 'text', $key, $key, htmlentities($value, ENT_QUOTES, CHARSET));
+                    $str = sprintf($fullinput, 'text', $key, $key, String::htmlEncode($value));
                     break;
                 case Settings::TYPE_PASSWORD:
-                    $str = sprintf($fullinput, 'password', $key, $key, htmlentities($value, ENT_QUOTES, CHARSET));
+                    $str = sprintf($fullinput, 'password', $key, $key, String::htmlEncode($value));
                     break;
                 case Settings::TYPE_CHECKBOX:
                     $str = sprintf(
@@ -61,9 +61,9 @@ foreach ($sorted as $section => $loc)
                         foreach ($options as $title => $opt)
                         {
                             $str .= sprintf("\t<option value=\"%s\"%s>%s</option>\n" 
-                                ,htmlentities($opt, ENT_QUOTES, CHARSET)
+                                ,String::htmlEncode($opt)
                                 ,$opt == $value ? ' selected="selected"' : ''
-                                ,htmlentities((is_int($title) ? $opt : $title), ENT_QUOTES, CHARSET)
+                                ,String::htmlEncode((is_int($title) ? $opt : $title))
                             );
                         }
                     }

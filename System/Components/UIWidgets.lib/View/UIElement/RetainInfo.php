@@ -80,8 +80,8 @@ class View_UIElement_RetainInfo extends _View_UIElement implements ISidebarWidge
     	        printf(
     	        	"<dd class=\"small-padding%s\" title=\"%s\">%s</dd>"
     	        	,($i++%2 ? '':  ' alt')
-    	            ,htmlentities($alias, ENT_QUOTES, CHARSET)
-    	        	,htmlentities($title, ENT_QUOTES, CHARSET)
+    	            ,String::htmlEncode($alias)
+    	        	,String::htmlEncode($title)
     	        	);
     	    }
     	    echo '</dl></dd></dl>';

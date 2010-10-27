@@ -42,7 +42,7 @@ class TCmdHeader
     
     private function encode($val)
     {
-        return htmlspecialchars(mb_convert_encoding($val,CHARSET,'utf-8,iso-8859-1,auto'), ENT_QUOTES, CHARSET);
+        return String::htmlEncode(mb_convert_encoding($val,CHARSET,'utf-8,iso-8859-1,auto'));
     }
     
     public function tearDown()

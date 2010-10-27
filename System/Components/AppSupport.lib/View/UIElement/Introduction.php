@@ -50,11 +50,11 @@ class View_UIElement_Introduction extends _View_UIElement
         }
         if($this->title != null)
         {
-            $html .= sprintf("<h2>%s</h2>\n", htmlentities($this->title, ENT_QUOTES, CHARSET));
+            $html .= sprintf("<h2>%s</h2>\n", String::htmlEncode($this->title));
         }
         if($this->description != null)
         {
-            $html .= sprintf("<p>%s</p>\n", htmlentities($this->description, ENT_QUOTES, CHARSET));
+            $html .= sprintf("<p>%s</p>\n", String::htmlEncode($this->description));
         }
         $html .= '</div>';
         return $html;

@@ -69,7 +69,7 @@ class View_UIElement_MultipleChoice extends _View_UIElement
         	case self::SELECT:
         		printf(
     		        "\n<select name=\"%s\" id=\"%s_%s\">"
-					,htmlentities(mb_convert_encoding($this->name, CHARSET, 'ISO-8859-1,UTF-8'), ENT_QUOTES, CHARSET)
+					,String::htmlEncode(mb_convert_encoding($this->name, CHARSET, 'ISO-8859-1,UTF-8'))
 					,self::CLASS_NAME
 					,$this->ID
 				);
@@ -79,7 +79,7 @@ class View_UIElement_MultipleChoice extends _View_UIElement
         			    "\n\t<option value=\"%s\"%s>%s</option>"
 						,$this->convent($name)
         			    ,($name == $this->selected && $this->selected !== null) ? ' selected="selected"' : ''
-						,htmlentities(($this->translateTitles ? SLocalization::get($title) : mb_convert_encoding($title, CHARSET, 'ISO-8859-1,UTF-8')), ENT_QUOTES, CHARSET)
+						,String::htmlEncode(($this->translateTitles ? SLocalization::get($title) : mb_convert_encoding($title, CHARSET, 'ISO-8859-1,UTF-8')))
 					);
         		}
         		printf("\n</select>");
@@ -125,7 +125,7 @@ class View_UIElement_MultipleChoice extends _View_UIElement
     
     private function convent($str)
     {
-        return htmlentities(mb_convert_encoding($str, CHARSET, 'ISO-8859-1,UTF-8'), ENT_QUOTES, CHARSET);
+        return String::htmlEncode(mb_convert_encoding($str, CHARSET, 'ISO-8859-1,UTF-8'));
     }
     
     public function run()

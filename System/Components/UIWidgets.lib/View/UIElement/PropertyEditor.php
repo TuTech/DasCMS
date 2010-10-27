@@ -93,7 +93,7 @@ class View_UIElement_PropertyEditor extends _View_UIElement
 			    ,($name)
 			    ,($data[self::ACTIVE] === false) ? 'inactive' : 'active'
 			    ,($name)
-			    ,htmlentities($this->autotranslate ? (SLocalization::get($data[self::TITLE])) : mb_convert_encoding($data[self::TITLE], CHARSET, 'ISO-8859-1,UTF-8'), ENT_QUOTES, CHARSET)
+			    ,String::htmlEncode($this->autotranslate ? (SLocalization::get($data[self::TITLE])) : mb_convert_encoding($data[self::TITLE], CHARSET, 'ISO-8859-1,UTF-8'))
 			);
 		}
 		print("
@@ -117,7 +117,7 @@ class View_UIElement_PropertyEditor extends _View_UIElement
 			    ,$i++
 				,$this->ID
 			    ,($name)
-			    ,htmlentities($this->autotranslate ? (SLocalization::get($data[self::TITLE])) : mb_convert_encoding($data[self::TITLE], CHARSET, 'ISO-8859-1,UTF-8'), ENT_QUOTES, CHARSET)
+			    ,String::htmlEncode($this->autotranslate ? (SLocalization::get($data[self::TITLE])) : mb_convert_encoding($data[self::TITLE], CHARSET, 'ISO-8859-1,UTF-8'))
 			);
 			if($data[self::ACTIVE] !== null)
 			{

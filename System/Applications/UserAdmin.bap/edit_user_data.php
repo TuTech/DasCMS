@@ -30,9 +30,9 @@ if(PAuthorisation::has('org.bambuscms.credentials.user.change'))
     $d = new View_UIElement_Dialog('dlg_change_password','change_password', View_UIElement_Dialog::SUBMIT|View_UIElement_Dialog::CANCEL);
     $d->setButtonCaption(View_UIElement_Dialog::SUBMIT, 'change');
     $d->remember('action', 'edit_user_data');
-    $d->remember('realName', htmlentities($SUsersAndGroups->getRealName($victim)));
-    $d->remember('email', htmlentities($SUsersAndGroups->getEmail($victim)));
-    $d->remember('company', htmlentities($SUsersAndGroups->getUserAttribute($victim, 'company')));
+    $d->remember('realName', String::htmlEncode($SUsersAndGroups->getRealName($victim)));
+    $d->remember('email', String::htmlEncode($SUsersAndGroups->getEmail($victim)));
+    $d->remember('company', String::htmlEncode($SUsersAndGroups->getUserAttribute($victim, 'company')));
     if(!PAuthorisation::isInGroup('Administrator'))
     {
         $d->askPassword('change_password_from_old','old_password');
@@ -68,18 +68,18 @@ if($edit_mode == 'usr')
 		? "<input value=\"%s\" name=\"%s\" class=\"%s\" type=\"%s\" />\n"
 		: "%s\n";
 
-	$prof_tbl->addRow(array('login_name', htmlentities($victim)));
+	$prof_tbl->addRow(array('login_name', String::htmlEncode($victim)));
 	$dat = intval($SUsersAndGroups->getUserAttribute($victim, 'last_management_login')); 
 	if(!empty($dat))
 	{
 	    $prof_tbl->addRow(array('last_management_login', date('r',($dat))));
 	}
-	$prof_tbl->addRow(array('management_login_count', htmlentities($SUsersAndGroups->getUserAttribute($victim, 'management_login_count'))));
+	$prof_tbl->addRow(array('management_login_count', String::htmlEncode($SUsersAndGroups->getUserAttribute($victim, 'management_login_count'))));
 	$prof_tbl->addRow(array(
 	    'real_name', 
 	    sprintf(
 	        $row
-	        ,htmlentities($SUsersAndGroups->getRealName($victim))
+	        ,String::htmlEncode($SUsersAndGroups->getRealName($victim))
 	        ,'realName'
 			,'fullinput'
 			,'text'
@@ -88,7 +88,7 @@ if($edit_mode == 'usr')
 	    'email', 
 	    sprintf(
 	        $row
-	        ,htmlentities($SUsersAndGroups->getEmail($victim))
+	        ,String::htmlEncode($SUsersAndGroups->getEmail($victim))
 	        ,'email'
 			,'fullinput'
 			,'text'
@@ -97,7 +97,7 @@ if($edit_mode == 'usr')
 	    'company', 
 	    sprintf(
 	        $row
-	        ,htmlentities($SUsersAndGroups->getUserAttribute($victim, 'company'))
+	        ,String::htmlEncode($SUsersAndGroups->getUserAttribute($victim, 'company'))
 	        ,'att_company'
 			,'fullinput'
 			,'text'
@@ -204,7 +204,7 @@ else
 </div>
 
 ROW;
-	echo '<h3>',SLocalization::get('description'),'</h3><p>',htmlentities($SUsersAndGroups->getGroupDescription($victim)),'</p>';
+	echo '<h3>',SLocalization::get('description'),'</h3><p>',String::htmlEncode($SUsersAndGroups->getGroupDescription($victim)),'</p>';
 	echo '<h3>',SLocalization::get('assigned_users'),'</h3>';
 	$assignedUsers = $SUsersAndGroups->listUsersOfGroup($victim);
 	sort($assignedUsers, SORT_STRING);
@@ -215,7 +215,7 @@ ROW;
 			printf(
 					$urow
 					,($SUsersAndGroups->isMemberOf($user, 'Administrator')) ? 'Gold' : ''
-					,htmlentities($user)
+					,String::htmlEncode($user)
 				);
 		}
 	}

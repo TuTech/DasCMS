@@ -20,7 +20,7 @@ if($edit != null)
 	}
 	?>
 	
-		<h2><?php echo htmlspecialchars($edit,ENT_QUOTES, CHARSET); ?></h2>
+		<h2><?php echo String::htmlEncode($edit); ?></h2>
 		<h3><?php SLocalization::out('set_target_view'); ?></h3>
 		<select name="set_spore">
 			<option value=""><?php echo $sporeName; ?></option>
@@ -30,7 +30,7 @@ if($edit != null)
 		{
 			if($spore != $sporeName)
 			{
-		        echo '<option>',htmlentities($spore, ENT_QUOTES,CHARSET),'</option>';
+		        echo '<option>',String::htmlEncode($spore),'</option>';
 			}
 		}
 		

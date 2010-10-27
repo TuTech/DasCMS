@@ -227,7 +227,7 @@ class View_UIElement_SidePanel
     			ksort($this->sidebarWidgets, SORT_LOCALE_STRING);
     			$html = "<div id=\"WSidebar-head\">\n";
     			//select
-    			$html .= sprintf('<input type="hidden" name="WSidebar-selected" id="WSidebar-selected" value="" />',htmlentities($selectedWidget));
+    			$html .= sprintf('<input type="hidden" name="WSidebar-selected" id="WSidebar-selected" value="" />',String::htmlEncode($selectedWidget));
     			$html .= '<table id="WSidebar-select"><tr>'."\n";
     			foreach ($this->sidebarWidgets as $class => $object)
     			{
