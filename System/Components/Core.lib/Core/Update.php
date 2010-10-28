@@ -51,8 +51,9 @@ class Core_Update extends Core
 									$classContent = implode('', file($classFile));
 								}
 								else{
-									$classContent = trim(php_strip_whitespace($classFile));
+									$classContent = php_strip_whitespace($classFile);
 								}
+								$classContent = trim($classContent);
 								//write minified class
 								$fp = fopen($classCachePath, 'w+');
 								fwrite($fp, $classContent);
