@@ -34,7 +34,7 @@ INSERT
 UPDATE __PFX__Searches
 	SET
 		runTime = ?,
-		foundItems = (SELECT COUNT(*) FROM __PFX__SearchResults WHERE searchID = ?)
+		foundItems = (SELECT COUNT(*) FROM __PFX__SearchResults WHERE searchREL = ?)
 	WHERE searchID = ?
 
 -- --
