@@ -33,10 +33,13 @@ class Controller_Search_ResultScope implements Interface_Content_FiniteScope
 	}
 
 	public function getNextPageLink() {
-		return $this->contentView->SetLinkParameter('page', min(
-				$this->result->getPageNumber() + 1,
-				$this->result->getLastPageNumber()
-			), true);
+		return $this
+				->contentView
+				->preserveTemporaryParameters()
+				->SetLinkParameter('page', min(
+					$this->result->getPageNumber() + 1,
+					$this->result->getLastPageNumber()
+				), true);
 	}
 
 	public function getNextPageTitle() {
@@ -48,12 +51,21 @@ class Controller_Search_ResultScope implements Interface_Content_FiniteScope
 	}
 
 	public function getPreviousPageLink() {
-		return $this->contentView->SetLinkParameter('page', max(1, $this->result->getPageNumber() - 1), true);
+		return $this
+				->contentView
+				->preserveTemporaryParameters()
+				->SetLinkParameter('page', max(
+					1,
+					$this->result->getPageNumber() - 1
+				), true);
 	}
 
 	public function getLinkToPage($pageNo){
 		$pageNo = max(1, min($this->result->getLastPageNumber(), intval($pageNo)));
-		return $this->contentView->SetLinkParameter('page', $pageNo, true);
+		return $this
+				->contentView
+				->preserveTemporaryParameters()
+				->SetLinkParameter('page', $pageNo, true);
 	}
 
 	public function getPreviousPageTitle() {

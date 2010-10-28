@@ -350,6 +350,24 @@ class Controller_View_Content extends BView
 		}
 		return $this;
 	}
+
+	/**
+	 * reassign all temp values from url
+	 * @return Controller_View_Content
+	 */
+	public function preserveTemporaryParameters(){
+		$data = RURL::data(CHARSET);
+		$tempName = '_'.$this->name;
+		$len = strlen($tempName);
+		foreach ($data as $param => $value){
+			//_foo-bar
+			if(substr($param, 0, $len) == $tempName){
+				$this->SetLinkParameter(substr($param, $len+1), $value, true);
+			}
+		}
+		return $this;
+	}
+
 	/**
 	 * Get the parameters set previously - read from querystring
 	 *
