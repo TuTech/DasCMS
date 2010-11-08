@@ -26,7 +26,11 @@ class Controller_Content implements Interface_Singleton
 		return is_object($objectOrClass) ? get_class($objectOrClass) : strval($objectOrClass);
 	}
 
-
+	/**
+	 * @param string $alias
+	 * @param string $ifIsType
+	 * @return Interface_Content
+	 */
 	public function openContent($alias, $ifIsType = null)
     {
 	    if(empty($alias))

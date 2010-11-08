@@ -109,6 +109,16 @@ interface Interface_Content {
 	public function setPubDate($value);
 
 	/**
+	 * @return int
+	 */
+	public function getRevokeDate();
+
+	/**
+	 * @param int|string $value
+	 */
+	public function setRevokeDate($value);
+
+	/**
 	 * @return string
 	 */
 	public function getSource();
