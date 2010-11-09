@@ -25,6 +25,14 @@ class Import_Version1_JSONDocument implements Import_Version1_Document
 		else return $defaultValue;
 	}
 
+	protected function convertToDate($dateData){
+		if(is_int($dateData)){
+			return $dateData;
+		}
+		return strtotime($dateData);
+	}
+
+
 	public function getImportId() {
 		return $this->data['importId'];
 	}
@@ -46,15 +54,15 @@ class Import_Version1_JSONDocument implements Import_Version1_Document
 	}
 
 	public function getPubDate() {
-		return $this->getDataForKey('pubDate');
+		return $this->convertToDate($this->getDataForKey('pubDate'));
 	}
 
 	public function getRevokeDate() {
-		return $this->getDataForKey('revokeDate');
+		return $this->convertToDate($this->getDataForKey('revokeDate'));
 	}
 
 	public function getCreateDate() {
-		return $this->getDataForKey('created', 0, 'date');
+		return $this->convertToDate($this->getDataForKey('created', 0, 'date'));
 	}
 	
 	public function getCreator() {
@@ -62,7 +70,7 @@ class Import_Version1_JSONDocument implements Import_Version1_Document
 	}
 	
 	public function getModifyDate() {
-		return $this->getDataForKey('modified', 0, 'date');
+		return $this->convertToDate($this->getDataForKey('modified', 0, 'date'));
 	}
 	
 	public function getModifier() {

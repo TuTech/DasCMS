@@ -5,6 +5,10 @@ class Import_Content_CLink extends _Import_Content implements Import_Handler_Con
 		$content->registerForMimetypes(array('url', 'href', 'text/url', 'text/href'), $this);
 	}
 
+	/**
+	 * @param Import_Version1_Document $data
+	 * @return Interface_Content
+	 */
 	public function createContentWithData(Import_Version1_Document $data) {
 		//create content and set data
 		$c = CLink::Create($data->getTitle());
@@ -14,6 +18,7 @@ class Import_Content_CLink extends _Import_Content implements Import_Handler_Con
 
 		//change history of this content
 		$this->alterHistory($c, $data);
+		return $c;
 	}
 }
 ?>

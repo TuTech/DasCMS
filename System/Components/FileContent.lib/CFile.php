@@ -64,8 +64,8 @@ class CFile
 	    return $file;
 	}
 
-	public static function CreateWithFile($title, $path, $mimetype){
-		$fileName = basename($path);
+	public static function CreateWithFile($title, $path, $mimetype, $fileName = null){
+		$fileName = $fileName ? $fileName : basename($path);
 		$suffix = Core::FileSystem()->suffix($fileName);
 		$title = empty($title) ? $fileName : $title;
 		if(!file_exists($path))
@@ -88,7 +88,7 @@ class CFile
         {
             $mimetype = 'application/pdf';
         }
-		_Content::setMIMEType($alias, $type);
+		_Content::setMIMEType($alias, $mimetype);
 		$file = new CFile($alias);
 	    $file->Size = filesize($newFile);
 	    $file->saveMetaToDB();

@@ -9,7 +9,7 @@ DELETE
 -- --
 -- name: add
 -- type: insert
--- inputTypes:	isiss
+-- inputTypes:	issiis
 INSERT
 	INTO __PFX__Changes (contentREL, changeDate, title, size, userREL, latest)
 	VALUES (?, ?, ?, ?, ?, ?)

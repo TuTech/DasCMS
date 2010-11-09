@@ -118,6 +118,7 @@ class Import_Content
 				$content = $c->openContent($alias);
 				if($content instanceof Interface_Content){
 					$content->setPreviewImage($aliasRef);
+					$content->save();
 				}
 			}
 		}
@@ -131,6 +132,7 @@ class Import_Content
 					$attach[] = $this->resolveReference($ref);
 				}
 				$content->setAssignedRelationsData($attach);
+				$content->save();
 			}
 		}
 	}

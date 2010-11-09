@@ -10,7 +10,7 @@ class Import_Version1_JSONReferences implements Import_Version1_References
 	 * @return array
 	 */
 	public function getReferenceSections() {
-		return array_values($this->data);
+		return array_keys($this->data);
 	}
 
 	/**
