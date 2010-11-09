@@ -16,7 +16,7 @@ class Import_Version1_JSONDocument implements Import_Version1_Document
 	}
 
 	protected function getDataForKey($key, $defaultValue = '', $subKey = null){
-		if($subkey == null && isset ($this->data[$key])){
+		if($subKey == null && isset ($this->data[$key])){
 			return $this->data[$key];
 		}
 		elseif(isset ($this->data[$key]) && isset($this->data[$key][$subKey])){

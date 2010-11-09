@@ -1,7 +1,8 @@
 <?php
+if(count($_GET) || count($_POST)){die('no web access');}
 chdir(dirname(__FILE__));
 require_once '../../System/main.php';
-
+PAuthentication::daemonRun();
 $importer = new Import_Content();
 
 for($i = 1; $i < $argc; $i++){
