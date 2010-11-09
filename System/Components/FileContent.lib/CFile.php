@@ -63,7 +63,40 @@ class CFile
 	    new Event_ContentCreated($file, $file);
 	    return $file;
 	}
-	
+
+	public static function CreateWithFile($title, $path, $mimetype){
+		$fileName = basename($path);
+		$suffix = Core::FileSystem()->suffix($fileName);
+		$title = empty($title) ? $fileName : $title;
+		if(!file_exists($path))
+		{
+	        throw new XFileNotFoundException('no file', 'CFile');
+	    }
+		list($dbid, $alias) = _Content::createContent('CFile', $title);
+		$newFile = './Content/CFile/'.$dbid.'.data';
+		if(!rename($path, $newFile))
+	    {
+	        throw new XUndefinedException('file not moveable');
+	    }
+		self::saveFileMeta(
+	        $dbid,
+	        $fileName, 
+	        $suffix,
+	        md5_file($newFile,false)
+        );
+		if($suffix == 'pdf')
+        {
+            $mimetype = 'application/pdf';
+        }
+		_Content::setMIMEType($alias, $type);
+		$file = new CFile($alias);
+	    $file->Size = filesize($newFile);
+	    $file->saveMetaToDB();
+	    new Event_ContentCreated($file, $file);
+	    return $file;
+	}
+
+
 	/**
 	 * update file content
 	 * @return void
