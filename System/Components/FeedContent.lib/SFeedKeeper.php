@@ -204,8 +204,8 @@ class SFeedKeeper
 	}
 
 	protected function updateStats($id){
-		$DB->createQueryForClass($this)
-			->call('updateStats')
+		$DB = Core::Database()->createQueryForClass($this);
+		$DB->call('updateStats')
 			->withParameters($id, $id)
 			->execute();
 	}

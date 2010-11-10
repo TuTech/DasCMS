@@ -45,6 +45,14 @@ class Import_Version1_JSONDocument implements Import_Version1_Document
 		return $this->data['title'];
 	}
 
+	public function getTags() {
+		 $tags = $this->getDataForKey('tags', array());
+		 if(!is_array($tags)){
+			 $tags = Controller_Tags::parseString($tags);
+		 }
+		 return $tags;
+	}
+
 	public function getSubTitle() {
 		return $this->getDataForKey('subTitle');
 	}

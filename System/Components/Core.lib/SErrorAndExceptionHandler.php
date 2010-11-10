@@ -125,24 +125,24 @@ class SErrorAndExceptionHandler
 
     public static function errorHandler($errno, $errstr, $errfile, $errline, $errcontext)
     {
-        ob_start();
-        print_r($errcontext);
-        $context = ob_get_contents();
-        ob_end_clean();
-        $err = sprintf(
-            self::$err_html
-            , 'Error'
-            , $errno
-            , $errfile
-            , $errline
-            , $errstr
-            , $context
-            ,getcwd());
-        Core::FileSystem()->append(Core::PATH_LOGS.'Error.log', $err);
-        self::$error = array($errno, $errstr, $errfile, $errline, $errcontext);
-        self::$errorMessage = $err;
         if(self::$report && !self::$reportSkipOnce)
         {
+			ob_start();
+			print_r($errcontext);
+			$context = ob_get_contents();
+			ob_end_clean();
+			$err = sprintf(
+				self::$err_html
+				, 'Error'
+				, $errno
+				, $errfile
+				, $errline
+				, $errstr
+				, $context
+				,getcwd());
+			Core::FileSystem()->append(Core::PATH_LOGS.'Error.log', $err);
+			self::$error = array($errno, $errstr, $errfile, $errline, $errcontext);
+			self::$errorMessage = $err;
             self::mail(
             	'Error'
                 , $errno

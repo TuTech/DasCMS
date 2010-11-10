@@ -7,6 +7,8 @@ interface Import_Version1_Document
 
 	public function getTitle();
 
+	public function getTags();
+
 	public function getSubTitle();
 
 	public function getDescription();

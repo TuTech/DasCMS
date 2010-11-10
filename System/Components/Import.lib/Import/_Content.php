@@ -78,6 +78,7 @@ abstract class _Import_Content
 		$content->setDescription($data->getDescription());
 		$content->setPubDate($data->getPubDate());
 		$content->setRevokeDate($data->getRevokeDate());
+		$content->setTags($data->getTags());
 	}
 }
 ?>
