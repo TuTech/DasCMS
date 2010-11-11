@@ -79,6 +79,13 @@ abstract class _Import_Content
 		$content->setPubDate($data->getPubDate());
 		$content->setRevokeDate($data->getRevokeDate());
 		$content->setTags($data->getTags());
+		$loc = $data->getLocation();
+		if($loc->hasData()){
+			$LocCtrl = ULocations::getInstance();
+			$conv = new Converter_GeoCoordinates($loc->getLatitude(), $loc->getLongitude());
+        	list($lat,$long) = $conv->getDecimal();
+			$LocCtrl->setLocationData($content->getGUID(), $loc->getAddress(), $lat, $long);
+		}
 	}
 }
 ?>

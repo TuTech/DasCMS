@@ -94,6 +94,17 @@ class Import_Version1_JSONDocument implements Import_Version1_Document
 	}
 
 	/**
+	 * @return Import_Version1_Location
+	 */
+	public function getLocation() {
+		$data = $this->getDataForKey('location', array());
+		if(!is_array($data)){
+			$data = array();
+		}
+		return new Import_Version1_JSONLocation($data);
+	}
+
+	/**
 	 * @return Import_Version1_References
 	 */
 	public function getReferences() {

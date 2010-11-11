@@ -30,6 +30,11 @@ interface Import_Version1_Document
 	public function getModifier();
 
 	/**
+	 * @return Import_Version1_Location
+	 */
+	public function getLocation();
+
+	/**
 	 * @return Import_Version1_References
 	 */
 	public function getReferences();
