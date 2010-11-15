@@ -82,8 +82,17 @@ abstract class _Import_Content
 		$loc = $data->getLocation();
 		if($loc->hasData()){
 			$LocCtrl = ULocations::getInstance();
-			$conv = new Converter_GeoCoordinates($loc->getLatitude(), $loc->getLongitude());
-        	list($lat,$long) = $conv->getDecimal();
+			$lat = $loc->getLatitude();
+			$long = $loc->getLongitude();
+			if($lat !== null && $long !== null)
+            {
+				$conv = new Converter_GeoCoordinates($lat, $long);
+				list($lat,$long) = $conv->getDecimal();
+			}
+			else{
+				$long = null;
+				$lat = null;
+			}
 			$LocCtrl->setLocationData($content->getGUID(), $loc->getAddress(), $lat, $long);
 		}
 	}
