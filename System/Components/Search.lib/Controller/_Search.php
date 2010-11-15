@@ -57,24 +57,24 @@ abstract class _Controller_Search
 	}
 
 	public function gather() {
+
 		if(!Core::Database()->hasQueryForClass('gather', $this)){
 			return;
 		}
+		$converted = $this->convertToGatherValues($this->keywords);
+		//gather
 		$dba = Core::Database()
 				->createQueryForClass($this)
 				->call('gather');
-		foreach ($this->keywords as $criteria){
-			$criteria = $this->gatherValue($criteria);
-			if($criteria){
-				$dba->withParameters($this->searchId, $criteria)->executeInsert();
-			}
+		foreach ($converted as $criteria){
+			$dba->withParameters($this->searchId, $criteria)->executeInsert();
 		}
 	}
 
 	public function filter(){
 		$rules = array(
-			'Require' => &$this->required,
-			'Veto'    => &$this->vetoed
+			'Require' => $this->convertToFilterValues($this->required),
+			'Veto'    => $this->convertToFilterValues($this->vetoed)
 		);
 		$db = Core::Database();
 		$dba = $db->createQueryForClass($this);
@@ -83,15 +83,34 @@ abstract class _Controller_Search
 			if($db->hasQueryForClass($query, $this)){
 				$dba = $dba->call($query);
 				foreach ($elements as $criteria){
-					$criteria = $this->filterValue($criteria);
-					if($criteria){
-						$dba->withParameters($this->searchId, $criteria)->execute();
-					}
+					$dba->withParameters($this->searchId, $criteria)->execute();
 				}
 			}
 		}
 	}
 	
+	protected function convertToGatherValues(&$values){
+		$converted = array();
+		foreach ($values as $criteria){
+			$criteria = $this->gatherValue($criteria);
+			if($criteria){
+				$converted[] = $criteria;
+			}
+		}
+		return $converted;
+	}
+
+	protected function convertToFilterValues(&$values){
+		$converted = array();
+		foreach ($values as $criteria){
+			$criteria = $this->filterValue($criteria);
+			if($criteria){
+				$converted[] = $criteria;
+			}
+		}
+		return $converted;
+	}
+
 	public function rate(){}
 
 	public function order(){

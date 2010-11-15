@@ -12,7 +12,7 @@ class Model_Search_Result
 	protected $resultCount, $runTime, $created;
 
 	//api vars
-	protected $itemsPerPage, $pageNr, $order = Interface_Search_ConfiguredResultset::ASC;
+	protected $itemsPerPage = null, $pageNr, $order = Interface_Search_ConfiguredResultset::ASC;
 
 	//cache
 	private $fetched;
@@ -66,7 +66,7 @@ class Model_Search_Result
 	 */
 	public function getPageCountFor($nrOfItems) {
 		// 1 <= $nrOfItems <= $this->resultCount
-		$itemsPerPage = min($this->resultCount, max(1, $nrOfItems));
+		$itemsPerPage = max(1, min($this->resultCount, $nrOfItems));
 
 		//return page 1 even if there are no results
 		return max(1, ceil($this->resultCount/$itemsPerPage)); 
@@ -101,7 +101,7 @@ class Model_Search_Result
 	 * @return Interface_Search_ResultPage
 	 */
 	public function resultsFromPage($pageNr) {
-		if(!$this->itemsPerPage){
+		if($this->itemsPerPage === null){
 			throw new Exception('you must call fetch() before resultsFromPage()');
 		}
 		if($pageNr > $this->getPageCountFor($this->itemsPerPage)){
