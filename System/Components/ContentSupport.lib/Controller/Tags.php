@@ -69,16 +69,17 @@ class Controller_Tags
 	 */
 	public static function parseString($tagstr)
 	{
-		$tagstr = preg_replace("/[\\r\\n\\t,;\\s]+/u", ";", trim($tagstr));
+		$tagstr = preg_replace("/[\\r\\n,;]+/u", ";", $tagstr);
+		$tagstr = preg_replace("/[\\t\\s]+/u", " ", trim($tagstr));
 		$tags = explode(';', $tagstr);
 		$tagarr = array();
 		foreach ($tags as $tag) 
 		{
-			if(ctype_space($tag) || $tag == "") 
+			$tag = trim($tag);
+			if($tag != "")
 			{
-				continue;
+				$tagarr[] =  $tag;
 			}
-			$tagarr[] =  $tag;
 		}
 		$tagarr = array_unique($tagarr);
 		return $tagarr;
