@@ -75,7 +75,14 @@ class View_UIElement_Icon extends _View_UIElement
     {
         $type = 'mimetypes';
         $icon = str_replace('+', '_', strtolower($icon));
-        list($spec, $name) = explode('/', $icon);
+		$parts = explode('/', $icon);
+		if(count($parts) == 2){
+        	list($spec, $name) = $parts;
+        }
+        else{
+        	$spec = 'application';
+        	$name = 'octet-stream';
+        }
         $check = array($spec.'-'.$name, $name);
         $tmp = explode('-',$name);//x-pdf to pdf
         $check[] = array_pop($tmp);
