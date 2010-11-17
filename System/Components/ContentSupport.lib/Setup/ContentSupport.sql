@@ -210,13 +210,13 @@ __PFX__Tags(
         AUTO_INCREMENT
         NOT NULL,
     tag
-        varchar(64)
+        varchar(128)
         UNIQUE
         NOT NULL,
-    blocked
-        INTEGER
-        NOT NULL
-        DEFAULT 0
+    usage
+		FLOAT(3,3)
+		NOT NULL
+		DEFAULT 0
 )
 ENGINE = InnoDB
 CHARACTER SET utf8
