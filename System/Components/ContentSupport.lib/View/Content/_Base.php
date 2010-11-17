@@ -33,7 +33,8 @@ class _View_Content_Base
 	 */
 	protected $linkTragetFrame = null,
 			  $linkTargetView = null,
-			  $linkCaption = null;
+			  $linkCaption = null,
+			  $elementId = null;
 	protected $linkTargetViewObject = null;
 	
 	/**
@@ -137,6 +138,9 @@ class _View_Content_Base
 		//get additional attributes
 		$atts = $this->getWrapperAttributes();
 		$atts['class'] =  $class;
+		if($this->elementId !== null){
+			$atts['id'] = $this->elementId;
+		}
 		$attData = array();
 		foreach ($atts as $aName => $aValue){
 			$attData[] = sprintf('%s="%s"', String::htmlEncode($aName), String::htmlEncode($aValue));
@@ -171,7 +175,8 @@ class _View_Content_Base
 			'linkTragetFrame',
 			'linkTargetView',
 			'linkCaption',
-			'delegate'
+			'delegate',
+			'elementId'
 		);
 		foreach ($baseAttributes as $baseAttribute){
 			if($this->{$baseAttribute} !== null){
@@ -194,6 +199,22 @@ class _View_Content_Base
 			$this->{$key} = $value;
 		}
 		$this->_sleepStorage = null;
+	}
+
+	/**
+	 * getter for elementId
+	 * @return string
+	 */
+	public function getElementID(){
+		return $this->elementId;
+	}
+
+	/**
+	 * setter for additional elementId
+	 * @param string $value
+	 */
+	public function setElementID($value){
+		$this->elementId = strval($value);
 	}
 
 	/**
