@@ -13,7 +13,7 @@ INSERT IGNORE
 			LEFT JOIN __PFX__Contents
 				ON (contentREL = contentID)
 			WHERE 
-				tag = ?
+				tag LIKE ?
 				AND
 				published = 1
 
@@ -30,7 +30,7 @@ DELETE
 			FROM __PFX__relContentsTags
 				LEFT JOIN __PFX__Tags
 					ON (tagID = tagREL)
-			WHERE tag = ?
+			WHERE tag LIKE ?
 		)
 
 -- --
@@ -45,5 +45,5 @@ DELETE
 			FROM __PFX__relContentsTags
 				LEFT JOIN __PFX__Tags
 					ON (tagID = tagREL)
-			WHERE tag = ?
+			WHERE tag LIKE ?
 		)
