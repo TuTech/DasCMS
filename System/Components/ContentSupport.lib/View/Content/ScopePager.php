@@ -30,19 +30,21 @@ class View_Content_ScopePager
 				sort($range);
 				$last = 0;
 				$out = '';
-				foreach($range as $i => $pageNo){
-					if($last < $pageNo - 1){
-						$out .= '<span>&nbsp;</span>';
+				if(count($range) > 1){
+					foreach($range as $i => $pageNo){
+						if($last < $pageNo - 1){
+							$out .= '<span>&nbsp;</span>';
+						}
+						$out .= sprintf(
+							'<a href="%s"%s>%s</a>',
+							$scope->getLinkToPage($pageNo),
+							($pageNo == $current ? ' class="currentPage"': ''),
+							$pageNo
+						);
+						$last = $pageNo;
 					}
-					$out .= sprintf(
-						'<a href="%s"%s>%s</a>',
-						$scope->getLinkToPage($pageNo),
-						($pageNo == $current ? ' class="currentPage"': ''),
-						$pageNo
-					);
-					$last = $pageNo;
+					$val = $this->wrapXHTML('ScopePager', $out);
 				}
-				$val = $this->wrapXHTML('ScopePager', $out);
 			}
 		}
 		return $val;
