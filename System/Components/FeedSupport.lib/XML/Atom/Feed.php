@@ -114,7 +114,7 @@ class XML_Atom_Feed extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
         {
             $o->c__rights = array(XML_Atom_Text::create($copyright));
         }
-        $o->c__title = array(XML_Atom_Text::create($content->getTitle()));
+        $o->c__title = array(XML_Atom_Text::create(Core::Settings()->get('sitename').$content->getTitle()));
         if(strlen($content->getSubTitle()) > 0)
         {
             $o->c__subtitle = array(XML_Atom_Text::create($content->getSubTitle(),'html'));
