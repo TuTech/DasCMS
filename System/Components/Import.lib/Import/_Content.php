@@ -94,6 +94,10 @@ abstract class _Import_Content
 				$lat = null;
 			}
 			$LocCtrl->setLocationData($content->getGUID(), $loc->getAddress(), $lat, $long);
+			$LocCtrl->setContentLocation(
+				$content->getGUID(),
+				$content->getGUID()
+			);
 		}
 	}
 }
