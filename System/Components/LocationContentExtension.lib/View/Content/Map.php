@@ -153,14 +153,14 @@ class View_Content_Map
 	}
 
 	public function getMapZoom(){
-		return $this->mapHeight;
+		return $this->zoom;
 	}
 
 	public function setMapZoom($value){
 		if(!is_numeric($value) || ($value < 1) || ($value > 20)){
 			return;
 		}
-		$this->mapHeight = intval($value);
+		$this->zoom = intval($value);
 	}
 
 	public function getMapType(){
