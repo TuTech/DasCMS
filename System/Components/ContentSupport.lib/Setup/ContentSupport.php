@@ -16,6 +16,7 @@ class Setup_ContentSupport
 				'formattersTable',
 				'mimetypesTable',
 				'tagsTable',
+				'tagScoresTable',
 				'sporeviewsTable',
 				'relContentsClassesChainedContentsTable',
 				'relClassesChainedContentsTable',
@@ -36,7 +37,8 @@ class Setup_ContentSupport
 				'relContentsFormattersReferences',
 				'relContentsTagsReferences',
 				'sporeViewsReferences',
-				'relContentsTargetViewsReferences'
+				'relContentsTargetViewsReferences',
+				'relTagsScoresReferences'
 			);
 	}
 

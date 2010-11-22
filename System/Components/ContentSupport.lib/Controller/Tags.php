@@ -90,7 +90,7 @@ class Controller_Tags
 		foreach ($tags as $tag)
 		{
 			$DB->call('setTag')
-				->withParameters($tag, $tag)
+				->withParameters($tag)
 				->execute();
 		}
 	}
@@ -113,12 +113,14 @@ class Controller_Tags
 			foreach ($tags as $tag) 
 			{
 				$DB->call('setTag')
-					->withParameters($tag, $tag)
+					->withParameters($tag)
 					->execute();
 				$DB->call('linkTag')
 					->withParameters($CID, $tag)
 					->execute();
 			}
+			$DB->call('resetStats')->withoutParameters()->execute();
+			$DB->call('buildStats')->withoutParameters()->execute();
 			$DB->commitTransaction();
 		}
 		catch(Exception $e)

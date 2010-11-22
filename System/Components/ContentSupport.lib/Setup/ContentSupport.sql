@@ -212,16 +212,34 @@ __PFX__Tags(
     tag
         varchar(128)
         UNIQUE
-        NOT NULL,
-    usage
-		FLOAT(3,3)
-		NOT NULL
-		DEFAULT 0
+        NOT NULL
 )
 ENGINE = InnoDB
 CHARACTER SET utf8
 COLLATE utf8_swedish_ci
 COMMENT "utf8_swedish_ci because utf8_unicode_ci treats some chars as equal that aren't ('ü' equals 'u')"
+
+-- --
+-- name: tagScoresTable
+-- type: create
+CREATE TABLE  IF NOT EXISTS
+__PFX__TagScores(
+	tagREL
+		int(11)
+		NOT NULL
+		UNIQUE,
+	score
+		float(4,4)
+		NOT NULL
+		DEFAULT 0,
+	percent
+		TINYINT
+		NOT NULL
+		DEFAULT 0
+)
+ENGINE=InnoDB
+CHARSET=utf8
+COLLATE=utf8_unicode_ci;
 
 -- --
 -- name: sporeviewsTable
@@ -471,6 +489,16 @@ __PFX__relContentsTags
         REFERENCES __PFX__Tags(tagID)
         ON DELETE CASCADE
         ON UPDATE NO ACTION
+
+-- --
+-- name: relTagsScoresReferences
+-- type: alter
+ALTER TABLE
+__PFX__TagScores
+	ADD FOREIGN KEY (tagREL)
+	REFERENCES __PFX__Tags (tagID)
+	ON DELETE CASCADE
+	ON UPDATE NO ACTION
 
 -- --
 -- name: sporeViewsReferences

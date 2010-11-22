@@ -1,4 +1,36 @@
 -- --
+-- name: resetStats
+-- type: delete
+DELETE
+	FROM __PFX__TagScores;
+
+-- --
+-- name: buildStats
+-- type: insert
+INSERT
+	INTO __PFX__TagScores
+	SELECT
+			tagID AS tagREL,
+			COUNT(*)/ x,
+			CEIL(COUNT(*)/ x * 100)
+		FROM __PFX__Tags
+			LEFT JOIN __PFX__relContentsTags
+				ON (tagID = tagREL)
+			JOIN (
+				SELECT
+						MAX(c) AS x
+					FROM (
+						SELECT COUNT(tagREL) AS c
+							FROM __PFX__relContentsTags
+								LEFT JOIN __PFX__Tags ON (tagREL = tagID)
+							WHERE tag NOT LIKE '@%'
+							GROUP BY tagREL
+					) AS TagsWithCount
+				) AS MaxTagCount
+		WHERE tag NOT LIKE '@%'
+		GROUP BY tagID
+
+-- --
 -- name: listTagsOf
 -- inputTypes:	s
 -- deterministic: yes
@@ -42,12 +74,10 @@ DELETE
 -- --
 -- name: setTag
 -- type: insert
--- inputTypes: ss
-INSERT
+-- inputTypes: s
+INSERT IGNORE
 	INTO __PFX__Tags (tag)
 		VALUES(?)
-	ON DUPLICATE KEY UPDATE
-		tag = ?
 
 -- --
 -- name: linkTag

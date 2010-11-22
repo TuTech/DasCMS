@@ -1,0 +1,24 @@
+ALTER TABLE __PFX__Tags DROP COLUMN `usage`;
+
+CREATE TABLE  IF NOT EXISTS
+__PFX__TagScores(
+	tagREL
+		int(11)
+		NOT NULL
+		UNIQUE,
+	score
+		float(4,4)
+		NOT NULL
+		DEFAULT 0,
+	percent
+		TINYINT
+		NOT NULL
+		DEFAULT 0,
+	FOREIGN KEY (tagREL)
+		REFERENCES __Tags__Tags (tagID)
+		ON DELETE CASCADE
+		ON UPDATE NO ACTION
+)
+ENGINE=InnoDB
+CHARSET=utf8
+COLLATE=utf8_unicode_ci;
