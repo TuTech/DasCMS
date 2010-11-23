@@ -30,7 +30,7 @@ __PFX__Searches(
 		NOT NULL
 		DEFAULT '0',
 )
-ENGINE = InnoDB
+ENGINE = MEMORY
 CHARACTER SET utf8
 COLLATE utf8_unicode_ci
 
@@ -58,7 +58,7 @@ __PFX__SearchResults(
 	INDEX(contentREL),
 	INDEX(itemNr)
 )
-ENGINE = InnoDB
+ENGINE = MEMORY
 CHARACTER SET utf8
 COLLATE utf8_unicode_ci
 

@@ -50,6 +50,11 @@ class Controller_Search_Engine implements Interface_Singleton
 			->call('flush')
 			->withoutParameters()
 			->execute();
+		Core::Database()
+			->createQueryForClass($this)
+			->call('flushResults')
+			->withoutParameters()
+			->execute();
 	}
 
 	/**

@@ -61,3 +61,14 @@ SELECT
 -- type: delete
 DELETE FROM __PFX__Searches
 	WHERE NOT ISNULL(runTime)
+
+
+-- --
+-- name: flushResults
+-- type: delete
+DELETE
+	FROM __PFX__SearchResults
+	WHERE searchREL NOT IN (
+		SELECT searchID
+			FROM __PFX__Searches
+	)
