@@ -48,7 +48,7 @@ class View_UIElement_ContentLocation extends _View_UIElement implements ISidebar
     	        if(RSent::hasValue('View_UIElement_ContentLocation_lat') 
     	            && RSent::hasValue('View_UIElement_ContentLocation_long'))
     	        {
-    	            $conv = new Converter_GeoCoordinates(
+    	            $conv = new Model_GeoCoordinates(
         	            RSent::get('View_UIElement_ContentLocation_lat', CHARSET),
         	            RSent::get('View_UIElement_ContentLocation_long', CHARSET));
         	        list($lat,$long) = $conv->getDecimal();
@@ -106,7 +106,7 @@ class View_UIElement_ContentLocation extends _View_UIElement implements ISidebar
 	    $lat ='';
 	    $long ='';
 	    try{
-	        $conv = new Converter_GeoCoordinates($location['latitude'],$location['longitude']);
+	        $conv = new Model_GeoCoordinates($location['latitude'],$location['longitude']);
 	        list($lat,$long) = $conv->getDMS();
 	    }catch (Exception $e){}
 		$Items->add(

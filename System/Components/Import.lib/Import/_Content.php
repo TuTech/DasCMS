@@ -86,7 +86,7 @@ abstract class _Import_Content
 			$long = $loc->getLongitude();
 			if($lat !== null && $long !== null)
             {
-				$conv = new Converter_GeoCoordinates($lat, $long);
+				$conv = new Model_GeoCoordinates($lat, $long);
 				list($lat,$long) = $conv->getDecimal();
 			}
 			else{

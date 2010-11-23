@@ -1,35 +1,35 @@
 <?php
-class Converter_GeoCoordinates 
+class Model_GeoCoordinates
 {
     const LAT = 0;
     const LONG = 1;
-    
+
     protected static $suffix = array(
         self::LAT  => array(false => 'S', true => 'N'),
         self::LONG => array(false => 'W', true => 'E')
     );
-    
+
     protected $latitude, $longitude;
-    
+
     public function __construct($latitude, $longitude)
     {
         $this->setCoordinate($latitude, $longitude);
     }
-    
+
     public function setCoordinate($latitude, $longitude)
     {
         $this->latitude = $this->parseCoordinate($latitude);
         $this->longitude = $this->parseCoordinate($longitude);
     }
-    
+
     public function getDMS()
     {
         return array(
-            self::LAT  => $this->toDMS($this->latitude,  self::LAT), 
+            self::LAT  => $this->toDMS($this->latitude,  self::LAT),
             self::LONG => $this->toDMS($this->longitude, self::LONG)
         );
     }
-    
+
     protected function toDMS($dec, $type)
     {
         if($type != self::LAT && $type != self::LONG)
@@ -44,30 +44,30 @@ class Converter_GeoCoordinates
         //calculate degree part and the rest
         $deg = floor($dec);
         $dec -= $deg;
-        
+
         //get the minutes
         $dec *= 60;
         $min = floor($dec);
         $dec -= $min;
-        
+
         //get the seconds
         $sec = round($dec * 60,3);
         $fsec = floor($sec);
         $tpl = '%02d°%02d\'%'.($sec-$fsec < 0.001 ? '02d' : '02.3f').'"%s';
         return sprintf($tpl, $deg, $min, $sec, self::$suffix[$type][$pos]);
     }
-    
+
     /**
      * @return array [lat, long]
      */
     public function getDecimal()
     {
         return array(
-            self::LAT  => $this->latitude, 
+            self::LAT  => $this->latitude,
             self::LONG => $this->longitude
         );
     }
-    
+
     protected function parseCoordinate($coordinate)
     {
         $decimal = null;
@@ -83,14 +83,14 @@ class Converter_GeoCoordinates
             	40:26:46.302N 79:56:55.903W
             	40°26'47"N 79°58'36"W
             	40d 26' 47" N 79d 58' 36" W
-        
+
         CASE 2:
             (-?[\d]+)[\s]*[:°d][\s]*([\d]+\.[\d]+|[\d]+)[\s"]*([NSEWnsew]?)
             $1: hour
             $2: minutes
             matches:
             	40° 26.7717, -79° 56.93172
-            	        
+
         CASE 3:
             (-?[\d]+\.[\d]+)[\s"]*([NSEWnsew]?)
             $1: decimal
@@ -101,7 +101,7 @@ class Converter_GeoCoordinates
 
         */
         //already decimal
-        if(preg_match('/^-?[\d]+$/', $coordinate) 
+        if(preg_match('/^-?[\d]+$/', $coordinate)
             || preg_match('/^-?[\d]+\.[\d]+$/', $coordinate))
         {
             //decimal - nothing to do
@@ -149,7 +149,7 @@ class Converter_GeoCoordinates
         }
         return $decimal;
     }
-    
+
     protected function calcDec($deg, $min, $sec, $dir)
     {
         $deg *= 1.0;//convert to float

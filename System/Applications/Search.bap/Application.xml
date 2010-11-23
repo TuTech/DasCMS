@@ -4,7 +4,7 @@
 	<appController guid="org.bambuscms.applications.search">Controller_Application_Search</appController>
 	<name>websites</name>
 	<description>configure_dynamic_pages</description>
-	<icon>app-preferences-search</icon>
+	<icon>app-preferences-dynamic-feed</icon>
 	<version>0.1.20101021</version>
 	<priority>2.0</priority>
 	<purpose>edit_contents</purpose>

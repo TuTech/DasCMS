@@ -29,7 +29,7 @@ class View_Content_Attribute_Location extends _View
         {
             if($this->latitude !== null && $this->longitude !== null)
             {
-                $conv = new Converter_GeoCoordinates($this->latitude, $this->longitude);
+                $conv = new Model_GeoCoordinates($this->latitude, $this->longitude);
                 list($lat,$long) = $conv->getDMS();
                 $str .= sprintf(
                 	"\t<abbr class=\"latitude\" title=\"%f\">%s</abbr>\n". 
