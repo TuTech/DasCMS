@@ -21,6 +21,10 @@ __PFX__Locations(
 	address
 		VARCHAR(2048)
 		NULL,
+	accuracy
+		INT
+		NOT NULL
+		DEFAULT 0,
 	INDEX(latitude, longitude)
 )
 ENGINE = InnoDB

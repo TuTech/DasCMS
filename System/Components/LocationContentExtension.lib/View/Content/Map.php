@@ -24,72 +24,74 @@ class View_Content_Map
 
 	public function toXHTML() {
 		$val = '';
+		$poi = null;
 		if(Core::classExists('UGoogleServices')
 				&& $this->content->hasComposite('Location')
 				&& $this->shouldDisplay()
 		){
+			//load data
 			$location = $this->content->Location;
 			if($location instanceof View_UIElement_ContentGeoAttribute){
-				$long = $location->getLongitude();
-				$lat  = $location->getLatitude();
-
-				if(strlen($lat) > 0 && strlen($long) > 0){
-					if(Core::Settings()->get('google_maps_key') != ''){
-						$poi = sprintf('%f,%f', $lat, $long);
-	
-						//map image
-						$map = '<img src="http://maps.google.com/staticmap?%s" alt="Map" style="width:%dpx;height:%dpx" />';
-						$urldata = array(
-							'center' => $poi,
-							'zoom'   => $this->zoom,
-							'size'   => sprintf('%dx%d', $this->mapWidth, $this->mapHeight),
-							'maptype'=> $this->mapType,
-							'key' => Core::Settings()->get('google_maps_key'),
-							'sensor' => $this->sensor
-						);
-						if($this->marker){
-							$urldata['markers'] = $poi;
-						}
-						
-						$parts = array();
-						foreach ($urldata as $key => $value){
-							$parts[] = sprintf('%s=%s', $key, $value);
-						}
-	
-						$map = sprintf($map, implode('&', $parts), $this->mapWidth, $this->mapHeight);
-	
-						//map link
-						if(!empty ($this->linkTragetFrame)){
-							//http://maps.google.com/?ll=53.200000,9.600000&z=13&q=hier@53.200000,9.600000&t=m
-							$mapCode = array("roadmap" => 'm', "mobile" => 'm', "satellite" => 'k', "terrain" => 'p', "hybrid" => 'h');
-							$link = '<a href="http://maps.google.com/?ll=%s&z=%d%s%s&t=%s"%s>%s</a>';
-							$map = sprintf(
-									$link,
-									$poi,
-									$this->zoom,
-									($this->marker ? '&q='.urlencode($this->content->getTitle()) : ''),
-									($this->marker ? '@'.$poi : ''),
-									$mapCode[$this->mapType],
-									sprintf(' target="%s"', $this->linkTragetFrame),
-									$map
-							);
-						}
-					}
-					else{
-						$map = sprintf(
-							'<div style="width:%dpx;height:%dpx;overflow:hidden;">Google Maps key not defined</div>', 
-							$this->mapWidth, 
-							$this->mapHeight
-						);
-					}
-					$val = $this->wrapXHTML('Map', $map);
+				$Locations = Controller_Locations::getInstance();
+				$Place = $Locations->getLocation($location->getName());
+				if($Place != null){
+					$poi = ($Place->hasCoordinates())
+						? $Place->getCoordinates()
+						: $Place->getAddress();
+					$zoom = max($this->zoom, $Place->getZoom());
 				}
 			}
-		}
-		elseif(Core::classExists('UGoogleServices')
-				&& $this->content->hasComposite('Location')
-				&& $this->shouldDisplay()
-		){
+
+			//display data 
+			if(!empty ($poi)){
+					/*
+					 * http://maps.google.com/maps/api/staticmap
+					 * ?center=Brooklyn+Bridge,New+York,NY
+					 * &zoom=14
+					 * &size=512x512
+					 * &maptype=roadmap
+					 * &markers=color:blue|label:S|40.702147,-74.015794
+					 * &markers=color:red|color:red|label:C|40.718217,-73.998284
+					 * &sensor=false
+					 */
+				//map image
+				$map = '<img src="http://maps.google.com/maps/api/staticmap?%s" alt="Map of %s" style="width:%dpx;height:%dpx" />';
+				$urldata = array(
+					'center' => $poi,
+					'zoom'   => $zoom,
+					'size'   => sprintf('%dx%d', $this->mapWidth, $this->mapHeight),
+					'maptype'=> $this->mapType,
+					'sensor' => $this->sensor
+				);
+				if($this->marker){
+					$urldata['markers'] = $poi;
+				}
+
+				$parts = array();
+				foreach ($urldata as $key => $value){
+					$parts[] = sprintf('%s=%s', $key, String::htmlEncode($value));
+				}
+
+				$map = sprintf($map, implode('&', $parts), String::htmlEncode($poi), $this->mapWidth, $this->mapHeight);
+
+				//map link
+				if(!empty ($this->linkTragetFrame)){
+					//http://maps.google.com/?ll=53.200000,9.600000&z=13&q=hier@53.200000,9.600000&t=m
+					$mapCode = array("roadmap" => 'm', "mobile" => 'm', "satellite" => 'k', "terrain" => 'p', "hybrid" => 'h');
+					$link = '<a href="http://maps.google.com/?ll=%s&z=%d%s%s&t=%s"%s>%s</a>';
+					$map = sprintf(
+							$link,
+							$poi,
+							$this->zoom,
+							($this->marker ? '&q='.urlencode($this->content->getTitle()) : ''),
+							($this->marker ? '@'.$poi : ''),
+							$mapCode[$this->mapType],
+							sprintf(' target="%s"', $this->linkTragetFrame),
+							$map
+					);
+				}
+				$val = $this->wrapXHTML('Map', $map);
+			}
 		}
 		return $val;
 	}

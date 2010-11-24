@@ -52,7 +52,7 @@ class View_UIElement_ContentGeoAttribute extends _View_UIElement
 			$stat = Core::Database()
 				->createQueryForClass(self::CLASS_NAME)
 				->call('add')
-				->withParameters($name, floatval($latitude), floatval($longitude))
+				->withParameters($name, $latitude, $longitude)
 				->execute();
             if($stat)
             {
@@ -175,12 +175,12 @@ class View_UIElement_ContentGeoAttribute extends _View_UIElement
     
     public function getLatitude()//N/S
     {
-        return floatval($this->latitude);
+        return $this->latitude;
     }
     
     public function getLongitude()//E/W
     {
-        return floatval($this->longitude);
+        return $this->longitude;
     }
     
     

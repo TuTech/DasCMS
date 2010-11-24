@@ -22,6 +22,9 @@ class Model_GeoCoordinates
         $this->longitude = $this->parseCoordinate($longitude);
     }
 
+	/**
+     * @return array [lat, long]
+     */
     public function getDMS()
     {
         return array(
