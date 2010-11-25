@@ -18,7 +18,7 @@ class View_Content_Map
 	protected $mapWidth = 100,
 			  $mapHeight = 100,
 			  $mapType = 'roadmap',
-			  $zoom = 13,
+			  $zoom = 0,
 			  $marker = true,
 			  $sensor = 'false';
 
@@ -55,7 +55,7 @@ class View_Content_Map
 					 * &sensor=false
 					 */
 				//map image
-				$map = '<img src="http://maps.google.com/maps/api/staticmap?%s" alt="Map of %s" style="width:%dpx;height:%dpx" />';
+				$map = '<img src="http://maps.google.com/maps/api/staticmap?%s" alt="Map of %s" title="%s" style="width:%dpx;height:%dpx" />';
 				$urldata = array(
 					'center' => $poi,
 					'zoom'   => $zoom,
@@ -71,8 +71,8 @@ class View_Content_Map
 				foreach ($urldata as $key => $value){
 					$parts[] = sprintf('%s=%s', $key, String::htmlEncode($value));
 				}
-
-				$map = sprintf($map, implode('&', $parts), String::htmlEncode($poi), $this->mapWidth, $this->mapHeight);
+				$epoi = String::htmlEncode($poi);
+				$map = sprintf($map, implode('&', $parts), $epoi, $epoi, $this->mapWidth, $this->mapHeight);
 
 				//map link
 				if(!empty ($this->linkTragetFrame)){
