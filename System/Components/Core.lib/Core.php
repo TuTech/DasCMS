@@ -171,17 +171,17 @@ class Core
 	public static function dataFromFile($file, $compressed = false){
 		$compressed = $compressed && extension_loaded('zlib');
 		$data = null;
-		if($compressed){
-			$data = '';
-			$fp = gzopen($file, 'r');
-			while($blob = gzread($fp, 4096)){
-				$data .= $blob;
+		if(file_exists($file) && is_readable($file)){
+			if($compressed){
+				$data = '';
+				$fp = gzopen($file, 'r');
+				while($blob = gzread($fp, 4096)){
+					$data .= $blob;
+				}
+				gzclose($fp);
 			}
-			gzclose($fp);
-		}
-		else{
-			if(file_exists($file)){
-				$data = implode('',file($file));
+			else{
+				$data = file_get_contents($file);
 			}
 		}
 		return $data;
