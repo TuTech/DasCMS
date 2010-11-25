@@ -22,7 +22,7 @@ UPDATE __PFX__Locations
 -- --
 -- name: create
 -- type: insert
--- insertTypes: s
+-- inputTypes: s
 INSERT
 	INTO __PFX__Locations(location)
 		VALUES (?)

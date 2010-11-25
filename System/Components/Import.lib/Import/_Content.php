@@ -81,22 +81,28 @@ abstract class _Import_Content
 		$content->setTags($data->getTags());
 		$loc = $data->getLocation();
 		if($loc->hasData()){
+			$Locations = Controller_Locations::getInstance();
+			$name = $loc->getLocationName();
+			if(empty($name)){
+				$name = $content->getGUID();
+			}
+
+			$Location = $Locations->getLocation($name);
+			if($Location == null){
+				//create location
+				$Location = $Locations->createLocation($name);
+				$Location->setAddress($loc->getAddress());
+				try{
+					$Location->setLatitude($loc->getLatitude());
+					$Location->setLongitude($loc->getLongitude());
+				}
+				catch (Exception $e){}
+			}
+
 			$LocCtrl = ULocations::getInstance();
-			$lat = $loc->getLatitude();
-			$long = $loc->getLongitude();
-			if($lat !== null && $long !== null)
-            {
-				$conv = new Model_GeoCoordinates($lat, $long);
-				list($lat,$long) = $conv->getDecimal();
-			}
-			else{
-				$long = null;
-				$lat = null;
-			}
-			$LocCtrl->setLocationData($content->getGUID(), $loc->getAddress(), $lat, $long);
 			$LocCtrl->setContentLocation(
 				$content->getGUID(),
-				$content->getGUID()
+				$name
 			);
 		}
 	}

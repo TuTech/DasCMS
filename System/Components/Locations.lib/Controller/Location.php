@@ -205,11 +205,11 @@ class Controller_Location
 				$newCoord = null;
 			}
 		}
-		if($newCoords === null){
+		if($newCoord === null){
 			$this->model->removeCoordinates();
 		}
 		else{
-			$this->model->setCoordinates($newCoords);
+			$this->model->setCoordinates($newCoord);
 		}
 	}
 }

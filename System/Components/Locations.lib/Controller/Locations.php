@@ -15,9 +15,13 @@ class Controller_Locations
 		return self::$instance;
 	}
 
+	/**
+	 * @param string $name
+	 * @return Controller_Location
+	 */
 	public function createLocation($name){
 		$loc = new Model_Location();
-		return $loc->initializeAs($name);
+		return new Controller_Location($loc->initializeAs($name));
 	}
 	
 	public function deleteLocation($name){
