@@ -160,6 +160,10 @@ class Controller_Location
 		$this->model->setAccuracy($newZoom);
 	}
 
+	public function store(){
+		$this->model->store();
+	}
+
 	/**
 	 * get a part of a coordinate
 	 * @param int $direction

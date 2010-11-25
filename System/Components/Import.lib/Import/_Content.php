@@ -1,6 +1,8 @@
 <?php
 abstract class _Import_Content
 {
+	protected static $locationLookup = array();
+
 	/**
 	 * @param Interface_Content $content
 	 * @param Import_Version1_Document $data
@@ -86,19 +88,21 @@ abstract class _Import_Content
 			if(empty($name)){
 				$name = $content->getGUID();
 			}
-
-			$Location = $Locations->getLocation($name);
-			if($Location == null){
-				//create location
-				$Location = $Locations->createLocation($name);
-				$Location->setAddress($loc->getAddress());
-				try{
-					$Location->setLatitude($loc->getLatitude());
-					$Location->setLongitude($loc->getLongitude());
+			if(!isset(self::$locationLookup[$name])){
+				$Location = $Locations->getLocation($name);
+				if($Location == null){
+					//create location
+					$Location = $Locations->createLocation($name);
+					$Location->setAddress($loc->getAddress());
+					try{
+						$Location->setLatitude($loc->getLatitude());
+						$Location->setLongitude($loc->getLongitude());
+					}
+					catch (Exception $e){}
+					$Location->store();
 				}
-				catch (Exception $e){}
+				self::$locationLookup[$name] = true;
 			}
-
 			$LocCtrl = ULocations::getInstance();
 			$LocCtrl->setContentLocation(
 				$content->getGUID(),
