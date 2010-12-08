@@ -22,7 +22,7 @@ class Core_FileSystem
 				&& $this->dir != $this->rootDir
 				&& is_dir($this->dir)
 		){
-			chdir($dir);
+			chdir($this->dir);
 		}
 	}
 

@@ -115,7 +115,7 @@ if($edit_mode == 'usr')
     $i = 0;
     while ($item = readdir ($Dir)) 
     {
-    	if(is_dir($item) && substr($item,0,1) != '.' && strtolower(Core::FileSystem()->suffix($item)) == 'bap')
+    	if(substr($item,0,1) != '.' && is_dir($item) && strtolower(Core::FileSystem()->suffix($item)) == 'bap')
         {
         	//BambusApplicartion-Package
             $i++;
