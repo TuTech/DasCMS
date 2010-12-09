@@ -12,6 +12,7 @@ class View_Content_SearchBox
 	protected static $qsSent = array();
 	protected $targetView = null;
 	protected $parameterName = 'q';
+	protected $placeholder = '';
 
 	public function toXHTML() {
 		$val = '';
@@ -24,9 +25,11 @@ class View_Content_SearchBox
 		{
 			$CVC = Controller_View_Content::byName($targetView);
 			$val = $this->wrapXHTML('SearchBox',sprintf(
-					'<input type="search" name="%s" value="%s" />',
+					'<input type="search" name="%s" value="%s" %s%s/>',
 					$CVC->buildParameterName($par),
-					String::htmlEncode($CVC->GetParameter($this->parameterName, CHARSET))
+					String::htmlEncode($CVC->GetParameter($this->parameterName, CHARSET)),
+					(empty ($this->elementId)) ? '' : ' id="'.String::htmlEncode($this->elementId.'-input').'"',
+					(empty ($this->placeholder)) ? '' : ' placeholder="'.String::htmlEncode($this->placeholder).'"'
 			));
 		}
 		return $val;
@@ -50,7 +53,8 @@ class View_Content_SearchBox
 	protected function getPersistentAttributes() {
 		return array(
 			'parameterName',
-			'targetView'
+			'targetView',
+			'placeholder'
 		);
 	}
 
@@ -71,6 +75,14 @@ class View_Content_SearchBox
 
 	public function setTargetView($value) {
 		$this->targetView = strval($value);
+	}
+
+	public function getPlaceholder() {
+		return $this->placeholder;
+	}
+
+	public function setPlaceholder($value) {
+		$this->placeholder = strval($value);
 	}
 }
 ?>

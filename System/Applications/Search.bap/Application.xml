@@ -2,7 +2,7 @@
 <!DOCTYPE bambus SYSTEM "../../Resource/DTD/application_v1.dtd">
 <bambus>
 	<appController guid="org.bambuscms.applications.search">Controller_Application_Search</appController>
-	<name>websites</name>
+	<name>dynamic-feed</name>
 	<description>configure_dynamic_pages</description>
 	<icon>app-preferences-dynamic-feed</icon>
 	<version>0.1.20101021</version>
