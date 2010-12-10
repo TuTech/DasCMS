@@ -16,6 +16,7 @@ class HTMLCleaner_SaveInterceptor
 		if($e->Content instanceof CPage){
 			if($this->is('HTMLCleaner_Clean_HTML')){
 				$p = new HTMLCleaner_Parser($e->Content->getContent());
+				$p->addCleaner(new HTMLCleaner_Cleaner_MSOfficeComments());
 				if($this->is('HTMLCleaner_Remove_Scripts')){
 					$p->addCleaner(new HTMLCleaner_Cleaner_RemoveScripts());
 				}
