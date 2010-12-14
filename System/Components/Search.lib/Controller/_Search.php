@@ -56,6 +56,11 @@ abstract class _Controller_Search
 		return $string;
 	}
 
+	protected function classForQuery(){
+		return $this;
+	}
+
+
 	public function gather() {
 
 		if(!Core::Database()->hasQueryForClass('gather', $this)){
@@ -64,7 +69,7 @@ abstract class _Controller_Search
 		$converted = $this->convertToGatherValues($this->keywords);
 		//gather
 		$dba = Core::Database()
-				->createQueryForClass($this)
+				->createQueryForClass($this->classForQuery())
 				->call('gather');
 		foreach ($converted as $criteria){
 			$dba->withParameters($this->searchId, $criteria)->executeInsert();
@@ -77,7 +82,7 @@ abstract class _Controller_Search
 			'Veto'    => $this->convertToFilterValues($this->vetoed)
 		);
 		$db = Core::Database();
-		$dba = $db->createQueryForClass($this);
+		$dba = $db->createQueryForClass($this->classForQuery());
 		foreach ($rules as $filter => $elements){
 			$query = 'filter'.$filter;
 			if($db->hasQueryForClass($query, $this)){
@@ -119,13 +124,13 @@ abstract class _Controller_Search
 		}
 		if(Core::Database()->hasQueryForClass('initOrdering', $this)){
 			Core::Database()
-				->createQueryForClass($this)
+				->createQueryForClass($this->classForQuery())
 				->call('initOrdering')
 				->withoutParameters()
 				->execute();
 		}
 		Core::Database()
-			->createQueryForClass($this)
+			->createQueryForClass($this->classForQuery())
 			->call('order')
 			->withParameters($this->searchId, $this->searchId)
 			->execute();
