@@ -149,7 +149,7 @@ __PFX__Contents(
 	published
 		INT(1)
 		NOT NULL
-		DEFAULT 0
+		DEFAULT 0,
     description
         TEXT
         NOT NULL,
