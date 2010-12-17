@@ -142,6 +142,14 @@ __PFX__Contents(
         DATETIME
         NOT NULL
         DEFAULT '0000-00-00 00:00:00',
+	revokeDate
+		DATETIME
+		NOT NULL
+		DEFAULT '0000-00-00 00:00:00',
+	published
+		INT(1)
+		NOT NULL
+		DEFAULT 0
     description
         TEXT
         NOT NULL,
@@ -152,7 +160,8 @@ __PFX__Contents(
     INDEX contents_title_desc (title, description(32)),
     INDEX (type),
     INDEX (mimetypeREL),
-    INDEX (pubDate)
+    INDEX (pubDate),
+	INDEX(published)
 )
 ENGINE = InnoDB
 CHARACTER SET utf8
