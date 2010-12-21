@@ -29,9 +29,10 @@ class TaskScheduler implements Interface_Singleton
      */
     public function runJob()
     {
-		$DB = Core::Database()->createQueryForClass($this);
+		$DB = Core::Database();
         $ok = true;
-		$jobs = $DB->call('count')
+		$jobs = $DB->createQueryForClass($this)
+			->call('count')
 			->withoutParameters()
 			->fetchSingleValue();
         if($jobs == 0 && class_exists('Task_TaskJanitor', true))
@@ -45,7 +46,8 @@ class TaskScheduler implements Interface_Singleton
             {
 				//re-/schedule
 				$DB->beginTransaction();
-                $res = $DB->call('next')
+                $res = $DB->createQueryForClass($this)
+					->call('next')
 					->withoutParameters();
 				$row = $res->fetchResult();
 				$res->free();
@@ -53,10 +55,12 @@ class TaskScheduler implements Interface_Singleton
                 if($row)
                 {
                     list($job, $jobId, $scheduled) = $row;
-					$DB->call('start')
+					$DB->createQueryForClass($this)
+						->call('start')
 						->withParameters($jobId, $scheduled)
 						->execute();
-					$DB->call('schedule')
+					$DB->createQueryForClass($this)
+						->call('schedule')
 						->withParameters($jobId, $jobId)
 						->execute();
 				}
@@ -65,7 +69,8 @@ class TaskScheduler implements Interface_Singleton
 			catch (Exception $e){
 				SErrorAndExceptionHandler::reportException($e);
 				if(!empty($jobs)){
-					$DB->call('report')
+					$DB->createQueryForClass($this)
+						->call('report')
 						->withParameters($e->getCode(), 'Scheduler failed: '.$e->getMessage(), $jobId, $scheduled)
 						->execute();
 				}
@@ -100,7 +105,8 @@ class TaskScheduler implements Interface_Singleton
 					$ergStr = $e->getMessage();
 					$ok = 'stopped';
 				}
-				$DB->call('report')
+				$DB->createQueryForClass($this)
+					->call('report')
 					->withParameters($ergNo, $ergStr, $jobId, $scheduled)
 					->execute();
 				$DB->commitTransaction();
