@@ -11,11 +11,12 @@ if(isset($Tpl) && $Tpl instanceof CTemplate)
 {
     echo new View_UIElement_ContentTitle($Tpl);
     $editor = new View_UIElement_TextEditor($Tpl->RAWContent);
+    $editor->setWordWrap(false);
     $editor->disableSpellcheck();
 	if(file_exists('System/External/Bespin')){
 		$editor->addCssClass('bespin');
 		$editor->setCodeAssist(false);
-		$editor->addCustomAttribute("data-bespinoptions", '{ "stealFocus":true, "syntax": "xml", "tabWidth":4 }');
+		$editor->addCustomAttribute("data-bespinoptions", '{ "stealFocus":true, "syntax": "xml" }');
 	}
     echo $editor;   
 }

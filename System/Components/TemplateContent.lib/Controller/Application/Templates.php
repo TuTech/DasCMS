@@ -18,7 +18,13 @@ class Controller_Application_Templates
 {
     const GUID = 'org.bambuscms.applications.templates';
         
-
+	public function  __construct() {
+		if(file_exists('System/External/Bespin/BespinEmbedded.js')){
+			View_UIElement_Header::relate('System/External/Bespin/', null, null, 'bespin_base');
+			View_UIElement_Header::useScript('System/External/Bespin/BespinEmbedded.js');
+		}
+	}
+	
     /**
 	 * @var CTemplate
      */
