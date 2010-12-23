@@ -63,7 +63,7 @@ abstract class _Controller_Search
 
 	public function gather() {
 
-		if(!Core::Database()->hasQueryForClass('gather', $this)){
+		if(!Core::Database()->hasQueryForClass('gather', $this->classForQuery())){
 			return;
 		}
 		$converted = $this->convertToGatherValues($this->keywords);
@@ -85,7 +85,7 @@ abstract class _Controller_Search
 		$dba = $db->createQueryForClass($this->classForQuery());
 		foreach ($rules as $filter => $elements){
 			$query = 'filter'.$filter;
-			if($db->hasQueryForClass($query, $this)){
+			if($db->hasQueryForClass($query, $this->classForQuery())){
 				$dba = $dba->call($query);
 				foreach ($elements as $criteria){
 					$dba->withParameters($this->searchId, $criteria)->execute();
@@ -119,10 +119,10 @@ abstract class _Controller_Search
 	public function rate(){}
 
 	public function order(){
-		if(!Core::Database()->hasQueryForClass('order', $this)){
+		if(!Core::Database()->hasQueryForClass('order', $this->classForQuery())){
 			return;
 		}
-		if(Core::Database()->hasQueryForClass('initOrdering', $this)){
+		if(Core::Database()->hasQueryForClass('initOrdering', $this->classForQuery())){
 			Core::Database()
 				->createQueryForClass($this->classForQuery())
 				->call('initOrdering')
