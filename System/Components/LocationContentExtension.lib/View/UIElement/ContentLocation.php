@@ -57,7 +57,8 @@ class View_UIElement_ContentLocation extends _View_UIElement implements ISidebar
     	            RSent::get('View_UIElement_ContentLocation_location', CHARSET), 
     	            RSent::get('View_UIElement_ContentLocation_address', CHARSET),
     	            $lat,
-    	            $long
+    	            $long,
+					RSent::get('View_UIElement_ContentLocation_zoom', CHARSET)
     	        );
     	        $loc->setContentLocation(
     	            $this->targetObject->getAlias(), 
@@ -120,6 +121,34 @@ class View_UIElement_ContentLocation extends _View_UIElement implements ISidebar
 		    		, String::htmlEncode($lat)
 		    		, SLocalization::get('longitude')
 		    		, String::htmlEncode($long)
+	        )
+		);
+		$options = '';
+		$zoomInfo = array(
+			0 => SLocalization::get('world'),
+			2 => SLocalization::get('continent'),
+			4 => SLocalization::get('average_country'),
+			10 => SLocalization::get('city'),
+			13 => SLocalization::get('village'),
+			20 => SLocalization::get('building')
+
+		);
+		for($z = 0; $z <= 21; $z++){
+			$options .= sprintf(
+					"<option value=\"%d\"%s>%d%s</option>",
+					$z,
+					$z == $location['accuracy'] ? ' selected="selected"' : '',
+					$z,
+					isset($zoomInfo[$z]) ? ' ('.$zoomInfo[$z].')' : ''
+				);
+		}
+		$Items->add(
+		    sprintf("<label>%s</label>", SLocalization::get('map_options')),
+		    sprintf(
+		    	'<dl><dt>%s</dt>'.
+		    		'<dd><select name="View_UIElement_ContentLocation_zoom">%s</select></dd>'
+		    		,SLocalization::get('zoom')
+		    		,$options
 	        )
 		);
 	    echo '<div id="View_UIElement_ContentLocation">'.

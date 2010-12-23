@@ -2,13 +2,14 @@
 -- name: get
 -- deterministic: yes
 -- inputTypes:	s
--- fields: 4
+-- fields: 5
 -- type: select
 SELECT
 		location,
 		latitude,
 		longitude,
-		address
+		address,
+		accuracy
 	FROM __PFX__Locations
 		LEFT JOIN __PFX__relContentsLocations
 			ON (__PFX__relContentsLocations.locationREL = __PFX__Locations.locationID)
@@ -45,15 +46,16 @@ DELETE
 
 -- --
 -- name: set
--- inputTypes: sddsdds
+-- inputTypes: sddsiddsi
 -- type: insert
 INSERT
-	INTO __PFX__Locations (location, latitude, longitude, address)
-		VALUES(?, ?, ?, ?)
+	INTO __PFX__Locations (location, latitude, longitude, address, accuracy)
+		VALUES(?, ?, ?, ?, ?)
 	ON DUPLICATE KEY UPDATE
 		latitude = ?,
 		longitude = ?,
-		address = ?
+		address = ?,
+		accuracy = ?
 
 -- --
 -- name: list

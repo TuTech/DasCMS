@@ -350,7 +350,7 @@ __PFX__relContentsTags(
 	tagREL
 		INTEGER
 		NOT NULL,
-	INDEX (contentREL),
+	UNIQUE (contentREL, tagREL),
 	INDEX (tagREL)
 )
 ENGINE = InnoDB

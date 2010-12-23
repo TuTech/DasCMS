@@ -1,0 +1,1 @@
+ALTER TABLE `relContentsTags` ADD UNIQUE(contentREL, tagREL)

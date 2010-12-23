@@ -50,13 +50,14 @@ class ULocations
 			->withParameters($alias);
 	    if($row = $res->fetchResult())
 	    {
-	        list($location, $lat, $long, $addr) = $row;
+	        list($location, $lat, $long, $addr, $acc) = $row;
 	    }
 	    $res->free();
 	    return array('location' => $location,
                     'latitude' => $lat,
 	                'longitude' => $long,
-	                'address' => $addr);
+	                'address' => $addr,
+					'accuracy' => $acc);
     }
     
     public function setContentLocation($alias, $location)
@@ -85,16 +86,20 @@ class ULocations
 		}
     }
         
-    public function setLocationData($location, $address, $latitude, $longitude)
+    public function setLocationData($location, $address, $latitude, $longitude, $accuracy)
     {
         self::failWithout('org.bambuscms.location.edit');
 		$address = empty($address) ? null : $address;
 		$latitude = empty($latitude) ? null : $latitude;
 		$longitude = empty($longitude) ? null : $longitude;
+		$accuracy = min(25, max(0, intval($accuracy)));
 		return Core::Database()
 			->createQueryForClass($this)
 			->call('set')
-			->withParameters($location, $latitude, $longitude, $address, $latitude, $longitude, $address)
+			->withParameters(
+					$location,
+					$latitude, $longitude, $address, $accuracy,
+					$latitude, $longitude, $address, $accuracy)
 			->execute();
     }
     
