@@ -43,7 +43,7 @@ class ULocations
     public function getContentLocation($alias)
     {
         $location = '';
-        $location = null; $lat = null; $long = null; $addr = null;
+        $location = null; $lat = null; $long = null; $addr = null; $acc = null;
 		$res = Core::Database()
 			->createQueryForClass($this)
 			->call('get')
