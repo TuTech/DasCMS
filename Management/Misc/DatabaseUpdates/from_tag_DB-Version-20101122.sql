@@ -15,7 +15,7 @@ __PFX__TagScores(
 		NOT NULL
 		DEFAULT 0,
 	FOREIGN KEY (tagREL)
-		REFERENCES __Tags__Tags (tagID)
+		REFERENCES __PFX__Tags (tagID)
 		ON DELETE CASCADE
 		ON UPDATE NO ACTION
 )
