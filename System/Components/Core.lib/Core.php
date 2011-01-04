@@ -241,6 +241,10 @@ class Core
 		return null;
 	}
 
+	public static function Logger(){
+		return SysLog::getLogger();
+	}
+
 	/**
 	 * @return Core_FileSystem
 	 */
@@ -251,7 +255,7 @@ class Core
 		return self::$fs;
 	}
 
-			//lock instances
+	//lock instances
 	protected function __construct(){}
 	private function __clone(){}
 }

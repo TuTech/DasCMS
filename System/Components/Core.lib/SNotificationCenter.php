@@ -70,32 +70,12 @@ class SNotificationCenter
 		self::report('message', $etype, array());
 	}
 	
-	private static function alertLog($type, $message)
-	{
-	    $tpl = new View_UIElement_Template('log_entry', View_UIElement_Template::SYSTEM);
-	    $tpl->setEnvironment(array(
-           'message' => $message
-            ,'message_type' => $type
-            ,'edit' => ''
-            ,'user' => PAuthentication::getUserID()
-            ,'application' =>  SApplication::getInstance()->getGUID()
-            ,'timestamp' => time()
-            ,'ip_address' => getenv ("REMOTE_ADDR")
-            ,'cms_root' =>  defined('BAMBUS_CMS_ROOTDIR') ? constant('BAMBUS_CMS_ROOTDIR') : ''
-            ,'working_dir' => getcwd()
-            ,'seperator' => "\t"
-            ,'attibutes' => ''
-	    ));
-        Core::FileSystem()->append('alerts.log', $tpl->render()."\n");
-	}
-	
 	public static function report($type, $message)
 	{
-	    if($type == 'alert')
-	    {
-	        self::alertLog($type, $message);
-	    }
-	    
+		if($type == 'alert' || $type == 'warning'){
+			Core::Logger()->log($message, $type == 'warning' ? LOG_WARNING : LOG_ERR);
+		}
+		
 	    //notifications to be sent on __toString()
         $msgid = crc32($type.$message);
 	    if(array_key_exists($msgid, self::$notifications))

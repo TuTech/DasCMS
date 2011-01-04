@@ -132,36 +132,19 @@ class SErrorAndExceptionHandler
 			$context = ob_get_contents();
 			ob_end_clean();
 			$err = sprintf(
-				self::$err_html
+				'%s %d in %s at %s: %s'
 				, 'Error'
 				, $errno
 				, $errfile
 				, $errline
 				, $errstr
 				, $context
-				,getcwd());
-			Core::FileSystem()->append(Core::PATH_LOGS.'Error.log', $err);
+				,getcwd()
+			);
 			self::$error = array($errno, $errstr, $errfile, $errline, $errcontext);
 			self::$errorMessage = $err;
-            self::mail(
-            	'Error'
-                , $errno
-                , $errfile
-                , $errline
-                , $errstr
-                , $context
-                ,getcwd());
-            SNotificationCenter::report(
-            	'warning',
-                sprintf(
-                	'%s %d in %s at %s: %s'
-                    , 'Error'
-                    , $errno
-                    , $errfile
-                    , $errline
-                    , $errstr
-                    , $context
-                    ,getcwd()));
+            self::mail('Error', $errno, $errfile, $errline, $errstr, $context,getcwd());
+            SNotificationCenter::report('warning', $err);
             if(!self::$hideErrors)
             {
                 echo $err;
@@ -196,14 +179,14 @@ class SErrorAndExceptionHandler
 			, $e->getMessage()
 			, $debugInfo
 			,getcwd());
-		$logFile = Core::PATH_LOGS.'Exceptions.log';
-		if((file_exists($logFile) && is_writable($logFile))
-				|| (!file_exists($logFile) && is_writable(dirname($logFile)))){
-			Core::FileSystem()->append($logFile, $err);
-		}
-		else{
-			printf($tpl, 'could not write to log');
-		}
+		Core::Logger()->log(sprintf(
+			'%s %d in %s at %d: %s (%s)'
+			, get_class($e)
+			, $e->getCode()
+			, $e->getFile()
+			, $e->getLine()
+			, $e->getMessage()
+			, $debugInfo), LOG_WARNING);
 		return $err;
     }
 

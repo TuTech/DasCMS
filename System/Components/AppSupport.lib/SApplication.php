@@ -162,7 +162,7 @@ class SApplication
             $this->appPath = Core::PATH_SYSTEM_APPLICATIONS.$app.'/';
             if(!file_exists($appXML))
             {
-                throw new XFileNotFoundException('Application not found');
+                throw new XFileNotFoundException('Application not found', $appXML);
             }
             $this->loadApplicationData($appXML);
             if(!PAuthorisation::has($this->guid))
