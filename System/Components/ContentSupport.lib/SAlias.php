@@ -143,27 +143,35 @@ class SAlias
 		//validate input
 		$aliasesToMatch = array_unique(array_values($aliasesToMatch));
 
-		//build parameter info
-		$placeHolder = array();
+		//remove empty
 		$toMatch = count($aliasesToMatch);
 		for($i = 0; $i < $toMatch; $i++){
 			if(empty($aliasesToMatch[$i])){
 				unset($aliasesToMatch[$i]);
 			}
-			else{
-				$placeHolder[] = '?';
-			}
 		}
 
+		//reset array index
+		$aliasesToMatch = array_values($aliasesToMatch);
 		$toMatch = count($aliasesToMatch);
+
+		//nothing to match
 		if($toMatch == 0){
 			return false;
 		}
+
+		//set placeholders
+		$placeHolder = array();
+		foreach ($aliasesToMatch as $nil){
+			$placeHolder[] = '?';
+		}
+
+		//add compare id
 		$aliasesToMatch[] = $id;
 
 		//define parameters
 		$def = array();
-		$def[Interface_Database_CallableQuery::PARAMETER_DEFINITION] = str_repeat('s', $toMatch).'i';
+		$def[Interface_Database_CallableQuery::PARAMETER_DEFINITION] = str_repeat('s', count($placeHolder)).'i';
 
 		//build sql and query database
 		$match = Core::Database()
@@ -177,6 +185,7 @@ class SAlias
 			->fetchSingleValue();
 		return empty($match) ? null : $match;
 	}
+
 	
 	/**
 	 * Get all assigned aliases in an array

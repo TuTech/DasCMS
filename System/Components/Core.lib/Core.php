@@ -18,7 +18,6 @@ class Core
     const PATH_CONTENT = './Content/';
     const PATH_CONFIGURATION = './Content/configuration/';
     const PATH_TEMPLATES = './Content/CTemplate/';
-    const PATH_LOGS = './Content/logs/';
     const PATH_DESIGN = './Content/stylesheets/';
     const PATH_SCRIPT = './Content/javascripts/';
     const PATH_TEMP = './Content/temp/';

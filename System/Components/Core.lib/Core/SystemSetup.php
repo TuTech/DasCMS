@@ -67,7 +67,7 @@ class Core_SystemSetup
 		if(!file_exists($this->continueSetupFile)){
 			//*create content folder
 			$this->createAndCheck('Content') || die('Creation of the main folder "Content" failed');
-			foreach (array('ClassCache', 'SQLCache', 'temp', 'logs','configuration') as $folder){
+			foreach (array('ClassCache', 'SQLCache', 'temp', 'configuration') as $folder){
 				$this->createAndCheck('Content/'.$folder) || die('Could not create subfolder '.$folder);
 			}
 		}
