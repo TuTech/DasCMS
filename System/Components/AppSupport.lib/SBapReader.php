@@ -30,7 +30,7 @@ class SBapReader
 		}
 		if(file_exists($appDefinition))
 		{
-			$xml = Core::FileSystem()->load($appDefinition);
+			$xml = Core::FileSystem()->load(realpath($appDefinition));
 			foreach ($requests as $tag) 
 			{
 				if($tag == 'tabs')
