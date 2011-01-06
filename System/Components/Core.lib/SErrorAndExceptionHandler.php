@@ -127,28 +127,7 @@ class SErrorAndExceptionHandler
     {
         if(self::$report && !self::$reportSkipOnce)
         {
-			ob_start();
-			print_r($errcontext);
-			$context = ob_get_contents();
-			ob_end_clean();
-			$err = sprintf(
-				'%s %d in %s at %s: %s'
-				, 'Error'
-				, $errno
-				, $errfile
-				, $errline
-				, $errstr
-				, $context
-				,getcwd()
-			);
-			self::$error = array($errno, $errstr, $errfile, $errline, $errcontext);
-			self::$errorMessage = $err;
-            self::mail('Error', $errno, $errfile, $errline, $errstr, $context,getcwd());
-            SNotificationCenter::report('warning', $err);
-            if(!self::$hideErrors)
-            {
-                echo $err;
-            }
+			throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
         }
         self::$reportSkipOnce = false;
     }
