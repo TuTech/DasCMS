@@ -178,7 +178,7 @@ class DatabaseAdapter
 	 * @return Interface_Database_FetchableQuery
 	 */
 	public function withoutParameters(){
-		return $this->withParameters();
+		return $this->withParameterArray(array());
 	}
 
 	public function withParameterArray(array $parameters){
