@@ -40,6 +40,9 @@ class Controller_Permissions_Tag
     
     private function isProtected(Interface_Content $content)
     {
+		//CError is not in the database and would break this
+		if($content instanceof CError)return false;
+
 		$id = $content->getId();
 		//check if content is protected
 		if(!isset(self::$_permCache[$id]))
