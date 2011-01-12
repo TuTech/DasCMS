@@ -81,14 +81,14 @@ class SContentWatch
 				continue;
 			}
             //Atom feeds
-            if($allowFeed && $content instanceof IGeneratesFeed && $content->getLinkToFeed($content->Alias) != null)
+            if($allowFeed && $content instanceof IGeneratesFeed && $content->getLinkToFeed($content->getAlias()) != null)
             {
                 $e->getHeader()->addLink(
                     null,    
-                    $content->getLinkToFeed($content->Alias),
+                    $content->getLinkToFeed($content->getAlias()),
                     null,
                     'application/atom+xml', 
-                    $content->Title, 
+                    $content->getTitle(),
                     'alternate'
                 );
             }
@@ -102,17 +102,17 @@ class SContentWatch
                 if($event->Sender->publishMetaData())
                 {
                     //if !view->silent
-                    if(is_array($content->Tags))
+                    if(is_array($content->getTags()))
                     {
-                        $tags = array_merge($tags, $content->Tags);
+                        $tags = array_merge($tags, $content->getTags());
                     }
-                    if($allowDescription && trim($content->Description) != '')
+                    if($allowDescription && trim($content->getDescription()) != '')
                     {
-                        $descriptions[] = $content->Description;
+                        $descriptions[] = $content->getDescription();
                     }
-                    if($allowTitle && trim($content->Title) != '')
+                    if($allowTitle && trim($content->getTitle()) != '')
                     {
-                        $titles[] = $content->Title;
+                        $titles[] = $content->getTitle();
                     }
                 }
             }
@@ -188,7 +188,7 @@ class SContentWatch
 					->execute();
             }
 	    }
-        self::$accessedContents[$e->Content->Id] = $e;
+        self::$accessedContents[$e->Content->getId()] = $e;
     }
     
     

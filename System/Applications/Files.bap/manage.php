@@ -7,33 +7,33 @@
  * @version 1.0
  */
 $File = SApplication::getControllerContent();
-if($File != null && $File instanceof Interface_Content)
+if($File != null && $File instanceof CFile)
 {
     echo new View_UIElement_Script("var is_in_content_mode = true;");
     echo new View_UIElement_ContentTitle($File);
 	if(View_UIElement_Image::supportedMimeType($File->getMimeType()))
 	{
-	    $img = $File->PreviewImage;
+	    $img = $File->getPreviewImage();
 	    printf('<div class="previewImage" ondblclick="org.bambuscms.wopenfiledialog.openAlias(\'\');">%s</div>',$img->scaled(640,480,View_UIElement_Image::MODE_SCALE_TO_MAX));
 	}
 	else
 	{
-	    echo '<span ondblclick="org.bambuscms.wopenfiledialog.openAlias(\'\');">'.$File->Icon.'</span>';
+	    echo '<span ondblclick="org.bambuscms.wopenfiledialog.openAlias(\'\');">'.$File->getIcon().'</span>';
 	}
 	printf(
 	    '<input type="checkbox" style="display:none;" name="select_%s" id="select_%s" checked="checked" />'
-		,$File->Alias
-	    ,$File->Alias
+		,$File->getAlias()
+	    ,$File->getAlias()
 	);
 	$RelCrtl = Controller_ContentRelationManager::getInstance();
 	$retainCount = $RelCrtl->getRetainCount($File->getAlias());
 	$tbl = new View_UIElement_Table(View_UIElement_Table::HEADING_TOP|View_UIElement_Table::HEADING_LEFT, 'attributes');
 	$tbl->addRow(array('attribute','value'));
-	$tbl->addRow(array('original_file_name',$File->FileName));
-	$tbl->addRow(array('mime_type',$File->MimeType));
-	$tbl->addRow(array('md5_sum',$File->MD5Sum));
+	$tbl->addRow(array('original_file_name',$File->getFileName()));
+	$tbl->addRow(array('mime_type',$File->getMimeType()));
+	$tbl->addRow(array('md5_sum',$File->getMD5Sum()));
 	$tbl->addRow(array('retain_count',$retainCount));
-	if(View_UIElement_Image::supportedMimeType($File->MimeType))
+	if(View_UIElement_Image::supportedMimeType($File->getMimeType()))
 	{
 	    SErrorAndExceptionHandler::muteErrors();
 	    $info = getimagesize($File->getRawDataPath());

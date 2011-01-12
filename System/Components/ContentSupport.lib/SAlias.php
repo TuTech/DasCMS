@@ -30,11 +30,11 @@ class SAlias
 		{
 			return;
 		}
-		$nice = $this->getUnifiedAlias($content->Title, $content->PubDate);
+		$nice = $this->getUnifiedAlias($content->getTitle(), $content->getPubDate());
 		try
 		{
 		    $insertAlias = $nice;
-		    $dbid = $this->resolveAliasToId($content->Alias);
+		    $dbid = $this->resolveAliasToId($content->getAlias());
 		    for($i = 1; $i <= 999; $i++)
 		    {
 				$isOk = $Db->call('isAliasAssigned')
@@ -207,7 +207,7 @@ class SAlias
 	public static function getCurrent($content)
 	{
 	    $alias = (is_object($content) && $content instanceof Interface_Content)
-	        ? $content->Alias 
+	        ? $content->getAlias()
 	        : $content;
 		$alias = Core::Database()
 			->createQueryForClass('SAlias')

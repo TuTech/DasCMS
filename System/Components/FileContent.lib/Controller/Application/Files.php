@@ -67,11 +67,11 @@ class Controller_Application_Files
         {
             if(!empty($param['title']))
             {
-                $this->target->Title = $param['title'];
+                $this->target->setTitle($param['title']);
             }
             if(isset($param['subtitle']))
             {
-                $this->target->SubTitle = $param['subtitle'];
+                $this->target->setSubTitle($param['subtitle']);
             }
             //set new file content
             if(RFiles::has('CFile'))
@@ -87,7 +87,7 @@ class Controller_Application_Files
         if($this->target != null)
         {
             $dbid = $this->target->getId();
-            $alias = $this->target->Alias;
+            $alias = $this->target->getAlias();
             if(Controller_Content::getInstance()->deleteContent($alias))
             {
                 SErrorAndExceptionHandler::muteErrors();
@@ -166,7 +166,7 @@ class Controller_Application_Files
      */
     public function getOpenDialogTarget()
     {
-        return empty($this->target) ? null : $this->target->Alias;
+        return empty($this->target) ? null : $this->target->getAlias();
     }
     
     /**
@@ -180,11 +180,11 @@ class Controller_Application_Files
         {
             throw new XPermissionDeniedException('view');
         }
-        $IDindex = Controller_Content::getInstance()->contentIndex('CFile');
+        $idIndex = Controller_Content::getInstance()->contentIndex('CFile');
         $items = array();
         $types = array();
         $i = 0;
-        foreach ($IDindex as $alias => $data) 
+        foreach ($idIndex as $alias => $data)
         {
         	list($title, $pubdate, $type) = $data;
         	if(!array_key_exists($type, $types))

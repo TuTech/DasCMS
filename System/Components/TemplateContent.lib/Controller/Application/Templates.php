@@ -160,9 +160,9 @@ class Controller_Application_Templates
         {
             throw new XPermissionDeniedException('view');
         }
-        $IDindex = Controller_Content::getInstance()->contentIndex('CTemplate');
+        $idIndex = Controller_Content::getInstance()->contentIndex('CTemplate');
         $items = array();
-        foreach ($IDindex as $alias => $data) 
+        foreach ($idIndex as $alias => $data)
         {
         	list($title, $pubdate) = $data;
         	$items[] = array($title, $alias, 0, strtotime($pubdate));

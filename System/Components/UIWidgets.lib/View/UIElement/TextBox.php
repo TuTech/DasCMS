@@ -21,7 +21,7 @@ class View_UIElement_TextBox extends _View_UIElement
 	const TIME = 'Time';
 	const DATETIME = 'DateTime';
 	
-	private $ID;
+	private $id;
 	private $name;
 	private $type;
 	private $value;
@@ -30,7 +30,7 @@ class View_UIElement_TextBox extends _View_UIElement
 	
 	public function __construct($name, $value, $type, $label = null, $autotranslate = true)
 	{		
-		$this->ID = ++parent::$CurrentWidgetID;
+		$this->id = ++parent::$CurrentWidgetID;
 		$this->name = $name;
 		$this->value = $value;
 		$this->type = $type;
@@ -120,7 +120,7 @@ class View_UIElement_TextBox extends _View_UIElement
 	 */
 	public function getPrimaryInputID()
 	{
-		return "_".$this->ID;
+		return "_".$this->id;
 	}
 }
 ?>

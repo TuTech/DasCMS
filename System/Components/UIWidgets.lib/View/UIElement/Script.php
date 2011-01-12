@@ -12,12 +12,12 @@
 class View_UIElement_Script extends _View_UIElement 
 {
     const CLASS_NAME = "View_UIElement_Script";
-    private $ID;
+    private $id;
     private $language = 'javascript';
     private $script;
     public function __construct($target)
     {       
-        $this->ID = ++parent::$CurrentWidgetID;
+        $this->id = ++parent::$CurrentWidgetID;
         $this->script = $target;
     }
 
@@ -45,7 +45,7 @@ class View_UIElement_Script extends _View_UIElement
         	printf(
                 '<script type="text/%s" id="_%s">%s</script>'
                 ,$this->language
-                ,$this->ID
+                ,$this->id
                 ,$this->script
             );
         }
@@ -61,7 +61,7 @@ class View_UIElement_Script extends _View_UIElement
      */
     public function getPrimaryInputID()
     {
-        return "_".$this->ID;
+        return "_".$this->id;
     }
 }
 ?>

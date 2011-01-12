@@ -145,9 +145,9 @@ class Controller_Application_WebsiteEditor
         {
             throw new XPermissionDeniedException('view');
         }
-        $IDindex = Controller_Content::getInstance()->contentIndex('CPage');
+        $idIndex = Controller_Content::getInstance()->contentIndex('CPage');
         $items = array();
-        foreach ($IDindex as $alias => $data) 
+        foreach ($idIndex as $alias => $data)
         {
         	list($title, $pubdate, $type, $id) = $data;
         	$items[] = array($title, $alias, 0, strtotime($pubdate), filesize('Content/CPage/'.$id.'.content.php'));

@@ -12,7 +12,7 @@ if($edit != null)
 	try
 	{
 	    $cSpore = NTreeNavigation::sporeOf($edit);
-	    $sporeName = $cSpore->GetName();
+	    $sporeName = $cSpore->getName();
 	}
 	catch (Exception $e)
 	{
@@ -60,7 +60,7 @@ if($edit != null)
     			$myid = ++$id;
     			$title = ($content == null) 
     				? '' 
-    				: addslashes($content->Title);
+    				: addslashes($content->getTitle());
     		    if($isChild)
     			{
     				echo 'addChild(\'TNAV_'.$parentid.'\', \''.$tno->getAlias().'\', \''.$title.' ('.$tno->getAlias().')\');';

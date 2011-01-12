@@ -53,7 +53,7 @@ if($enableWYSIWYG){
 if(isset($Page) && $Page instanceof CPage)
 {
     echo new View_UIElement_ContentTitle($Page);
-    $editor = new View_UIElement_TextEditor($Page->Content);
+    $editor = new View_UIElement_TextEditor($Page->getContent());
 	$editor->setCodeAssist(!$enableWYSIWYG);
     echo $editor;
 }

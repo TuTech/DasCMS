@@ -293,7 +293,7 @@ class CFeed
 	    {
 	        throw new XArgumentException('content not found');
 	    }
-	    $dataFile = $this->StoragePath($this->Id);
+	    $dataFile = $this->getStoragePath($this->Id);
 	    if(file_exists($dataFile))
 	    {
 	        $this->_data = Core::FileSystem()->loadEncodedData($dataFile);
@@ -310,7 +310,7 @@ class CFeed
             {
                 //link page to target view
                 $linker = new Controller_View_Content($this->option(self::SETTINGS, 'TargetView'));
-                $linker->LinkTo($arg);
+                $linker->linkTo($arg);
                 $link = strval($linker);
             }
             elseif(!$inTargetView)
@@ -320,8 +320,8 @@ class CFeed
     	        {
         	        //link to self
         	        //only param page=
-                    $iqo->SetLinkParameter('page', $arg, true);
-                    $iqo->LinkTo($this->getAlias());
+                    $iqo->setLinkParameter('page', $arg, true);
+                    $iqo->linkTo($this->getAlias());
                     $link = strval($iqo);
     	        }
             }
@@ -399,7 +399,7 @@ class CFeed
         $iqo = $this->getParentView();
         if($iqo != null && $iqo instanceof Controller_View_Content)
         {
-            $currentPage = intval($iqo->GetParameter('page'));
+            $currentPage = intval($iqo->getParameter('page'));
         }
         $currentPage = max(1, $currentPage);
         //last page
@@ -663,7 +663,7 @@ class CFeed
 		$Db = Core::Database()->createQueryForClass($this);
 
 		//save content
-		Core::FileSystem()->storeDataEncoded($this->StoragePath($this->Id),$this->_data);
+		Core::FileSystem()->storeDataEncoded($this->getStoragePath($this->Id),$this->_data);
 
 		//validate and save type
 		$type = array_search($this->option(CFeed::SETTINGS, 'FilterMethod'), array('',CFeed::ALL, CFeed::MATCH_SOME, CFeed::MATCH_ALL, CFeed::MATCH_NONE));
@@ -791,7 +791,7 @@ class CFeed
 	 * @param string $file
 	 * @return string file system path
 	 */
-	public function StoragePath($file = null, $addSuffix = true)
+	public function getStoragePath($file = null, $addSuffix = true)
 	{
 		$path = sprintf(
 			"./Content/%s/"

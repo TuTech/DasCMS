@@ -156,7 +156,7 @@ class Controller_ContentViewHelper
 
     private function author($spore)
     {
-        return $this->sporeContent($spore)->Author;
+        return $this->sporeContent($spore)->CreatedBy;
     }
 
     private function tags($spore)

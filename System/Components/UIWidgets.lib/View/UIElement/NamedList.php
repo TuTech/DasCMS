@@ -15,14 +15,14 @@ class View_UIElement_NamedList extends _View_UIElement
 	const CONFIRM = true;
 	const DENY = false;
 	
-	private $ID;
+	private $id;
 	private $items;
 	private $title;
 	private $autotranslate = true;
 	
 	public function __construct($title = null, array $items = array())
 	{		
-		$this->ID = ++parent::$CurrentWidgetID;
+		$this->id = ++parent::$CurrentWidgetID;
 		$this->items = $items;
 		$this->title = $title;
 	}
@@ -78,7 +78,7 @@ class View_UIElement_NamedList extends _View_UIElement
 	 */
 	public function getPrimaryInputID()
 	{
-		return "_".$this->ID;
+		return "_".$this->id;
 	}
 }
 ?>

@@ -14,7 +14,7 @@ class View_Content_AssignedRelations
 	public function toXHTML() {
 		$val = '';
 		if($this->shouldDisplay() && $this->content->hasComposite('AssignedRelations')){
-			$val = $this->wrapXHTML('AssignedRelations', $this->content->AssignedRelations);
+			$val = $this->wrapXHTML('AssignedRelations', $this->content->getAssignedRelations());
 		}
 		return $val;
 	}

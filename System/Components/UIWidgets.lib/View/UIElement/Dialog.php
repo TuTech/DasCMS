@@ -15,7 +15,7 @@ class View_UIElement_Dialog extends _View_UIElement
     const SUBMIT = 1;
     const RESET  = 4;
     
-    private $ID;
+    private $id;
     private $sections = array(0=>null);
     private $title = '(null)';
     private $items = array();
@@ -33,7 +33,7 @@ class View_UIElement_Dialog extends _View_UIElement
     
     public function __construct($id, $title, $buttons)
     {       
-        $this->ID = $id;
+        $this->id = $id;
         $this->setTitle($title);
         $this->setButtons($buttons);
     }
@@ -163,7 +163,7 @@ class View_UIElement_Dialog extends _View_UIElement
     public function render()
     {
         echo '<script type="text/javascript">';
-        printf('org.bambuscms.wdialog.dialogs.%s = ', $this->ID);
+        printf('org.bambuscms.wdialog.dialogs.%s = ', $this->id);
         printf('{"OK":%s, "Cancel":%s, "Reset":%s, "title":"%s", "isMultipart":%d, "sections":[',
             ($this->buttons & self::SUBMIT) ? ('"'.SLocalization::get($this->captions[self::SUBMIT]).'"') : 'null',
             ($this->buttons & self::CANCEL) ? ('"'.SLocalization::get($this->captions[self::CANCEL]).'"') : 'null',
@@ -203,7 +203,6 @@ class View_UIElement_Dialog extends _View_UIElement
             echo '}}';
         }
         echo ']};';
-        //printf('org.bambuscms.wdialog.run("%s");', $this->ID);
         echo '</script>';
     }
     

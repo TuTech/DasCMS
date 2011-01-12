@@ -111,19 +111,19 @@ abstract class _Controller_Application_Content
     public function save(array $param)
     {
         $this->checkPermission('change');
-        if($this->target != null)
+        if($this->target != null && $this->target instanceof Interface_Content)
         {
             if(isset($param['content']))
             {
-                $this->target->Content = $param['content'];
+				$this->target->setContent($param['content']);
             }
             if(!empty($param['title']))
             {
-                $this->target->Title = $param['title'];
+				$this->target->setTitle($param['title']);
             }
             if(isset($param['subtitle']))
             {
-                $this->target->SubTitle = $param['subtitle'];
+				$this->target->setSubTitle($param['subtitle']);
             }
         }
     }
@@ -131,9 +131,9 @@ abstract class _Controller_Application_Content
     public function delete(array $param)
     {
         $this->checkPermission('delete');
-        if($this->target != null)
+        if($this->target != null && $this->target instanceof Interface_Content)
         {
-            $alias = $this->target->Alias;
+            $alias = $this->target->getAlias();
             if(Controller_Content::getInstance()->deleteContent($alias))
             {
                 $this->target = null;
@@ -170,7 +170,7 @@ abstract class _Controller_Application_Content
      */
     public function getOpenDialogTarget()
     {
-        return empty($this->target) ? null : $this->target->Alias;
+        return empty($this->target) ? null : $this->target->getAlias();
     }
     
     /**
@@ -182,9 +182,9 @@ abstract class _Controller_Application_Content
     public function provideOpenDialogData(array $namedParameters)
     {
         $this->checkPermission('view');
-        $IDindex = Controller_Content::getInstance()->contentIndex($this->contentClass);
+        $idIndex = Controller_Content::getInstance()->contentIndex($this->contentClass);
         $items = array();
-        foreach ($IDindex as $alias => $data) 
+        foreach ($idIndex as $alias => $data)
         {
         	list($title, $pubdate) = $data;
         	$items[] = array($title, $alias, 0, strtotime($pubdate));

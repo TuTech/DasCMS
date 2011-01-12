@@ -15,7 +15,7 @@ class View_UIElement_Confirm extends _View_UIElement
 	const CONFIRM = true;
 	const DENY = false;
 	
-	private $ID;
+	private $id;
 	private $name;
 	private $title;
 	private $confirm;
@@ -23,7 +23,7 @@ class View_UIElement_Confirm extends _View_UIElement
 	
 	public function __construct($name, $title, $confirmed)
 	{		
-		$this->ID = ++parent::$CurrentWidgetID;
+		$this->id = ++parent::$CurrentWidgetID;
 		$this->name = $name;
 		$this->confirm = $confirmed;
 		$this->title = $title;
@@ -75,7 +75,7 @@ class View_UIElement_Confirm extends _View_UIElement
 	 */
 	public function getPrimaryInputID()
 	{
-		return "_".$this->ID;
+		return "_".$this->id;
 	}
 }
 ?>

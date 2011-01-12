@@ -50,7 +50,7 @@ class NTreeNavigationHelper
     	$this->content = $content;
     	$allAliases = $this->root->getAllAliases($this);
     	$this->currentAlias = SAlias::getMatching($this->content->getId(), $allAliases);
-    	$this->root->InitTree($this);
+    	$this->root->initTree($this);
     	if(count($this->_activeNodes) == 0 && $this->root->hasChildren())
     	{
     	    //activate first element
@@ -60,7 +60,7 @@ class NTreeNavigationHelper
     	foreach ($initialNodes as $node) 
     	{
 //    		echo 'active node ', $node->getAlias().'<br />';
-    		$node->Activate();
+    		$node->activate();
     	}
     	//all active nodes have reported their presence
     	$cmsids = array();
@@ -99,9 +99,9 @@ class NTreeNavigationHelper
      * @param NTreeNavigationObject $tno
      * @return string
      */
-    public function LinkTo(NTreeNavigationObject $tno)
+    public function linkTo(NTreeNavigationObject $tno)
     {
-    	return $this->spore->LinkTo($this->getAlias($tno));
+    	return $this->spore->linkTo($this->getAlias($tno));
     }
     
     /**

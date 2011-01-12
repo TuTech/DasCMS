@@ -103,7 +103,7 @@ class XML_Atom_Feed extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
         if(Controller_View_Content::exists($q))
         {
             $linker = new Controller_View_Content($q);
-            $linker->LinkTo($content->getAlias());
+            $linker->linkTo($content->getAlias());
         }
         $o->c__link = array(
             XML_Atom_Link::create(SLink::base().strval($linker), 'alternate', 'application/xml+xhtml'),
