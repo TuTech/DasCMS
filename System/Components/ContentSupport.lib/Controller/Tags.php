@@ -21,7 +21,7 @@ class Controller_Tags
 	 */
 	public function handleEventContentChanged(Event_ContentChanged $e)
 	{
-		$this->update($e->Content);
+		$this->update($e->getContent());
 	}
 	
 	/**
@@ -29,7 +29,7 @@ class Controller_Tags
 	 */
 	public function handleEventContentCreated(Event_ContentCreated $e)
 	{
-		$this->update($e->Content);
+		$this->update($e->getContent());
 	}
 	
 	/**
@@ -37,7 +37,7 @@ class Controller_Tags
 	 */
 	public function handleEventContentDeleted(Event_ContentDeleted $e)
 	{
-		$this->set($e->Content, '');
+		$this->set($e->getContent(), '');
 	}
 	
 	//Interface_Singleton

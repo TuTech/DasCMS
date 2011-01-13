@@ -60,19 +60,19 @@ class Controller_Application_WebsiteEditor
     public function save(array $param)
     {
         parent::requirePermission('org.bambuscms.content.cpage.change');
-        if($this->target != null) 
+        if($this->target != null && $this->target instanceof Interface_Content)
         {
             if(!empty($param['title']))
             {
-                $this->target->Title = $param['title'];
+                $this->target->setTitle($param['title']);
             }
             if(isset($param['subtitle']))
             {
-                $this->target->SubTitle = $param['subtitle'];
+                $this->target->setSubTitle($param['subtitle']);
             }
             if(isset($param['content']))
             {
-                $this->target->Content = $param['content'];
+                $this->target->setContent($param['content']);
             }
         }
     }

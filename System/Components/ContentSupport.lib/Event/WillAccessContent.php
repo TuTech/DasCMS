@@ -1,11 +1,7 @@
 <?php
 class Event_WillAccessContent
-	extends _Event
+	extends _EventContent
 {
-	/**
-	 * @var Interface_Content
-	 */
-	protected $Content;
 	private $contentSubstituted = false;
 
 	public function __construct($sender, Interface_Content $content)

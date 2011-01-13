@@ -60,7 +60,7 @@ class SContentWatch
         $titles = array();
         foreach (self::$accessedContents as $id => $event)
         {
-            $content = $event->Content;
+            $content = $event->getContent();
 			$allowFeed = true;
 			$allowTitle = true;
 			$allowDescription = true;
@@ -97,9 +97,9 @@ class SContentWatch
                 $content->sendContentHeaders($e->getHeader());
             }
             
-            if($event->Sender instanceof BView)
+            if($event->getSender() instanceof BView)
             {
-                if($event->Sender->publishMetaData())
+                if($event->getSender()->publishMetaData())
                 {
                     //if !view->silent
                     if(is_array($content->getTags()))
@@ -157,8 +157,8 @@ class SContentWatch
     public function handleEventContentAccess(Event_ContentAccess $e)
     {
         //logging
-        $o = $e->Content;
-	    if($e->Sender instanceof BView 
+        $o = $e->getContent();
+	    if($e->getSender() instanceof BView
 	        && !array_key_exists($o->getId(), self::$accessedContents))
 	    {
     	    //country
@@ -188,7 +188,7 @@ class SContentWatch
 					->execute();
             }
 	    }
-        self::$accessedContents[$e->Content->getId()] = $e;
+        self::$accessedContents[$e->getContent()->getId()] = $e;
     }
     
     
@@ -200,7 +200,7 @@ class SContentWatch
      */
 	public function handleEventWillAccessContent(Event_WillAccessContent $e)
 	{
-	    if(!$e->Content->isPublished())
+	    if(!$e->getContent()->isPublished())
 	    {
 	        $e->substitute(new CError(403));
 	    }

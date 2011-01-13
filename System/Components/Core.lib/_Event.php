@@ -20,16 +20,10 @@ abstract class _Event
 		return $this->Canceled;
 	}
 
-	public function __get($var)
+	public function getSender()
 	{
-		if(isset($this->{$var}))
-		{
-			return $this->{$var};
-		}
-		return null;
+		return $this->Sender;
 	}
-
-	public function __set($var, $value){}
 
 	protected function informHandlers()
 	{

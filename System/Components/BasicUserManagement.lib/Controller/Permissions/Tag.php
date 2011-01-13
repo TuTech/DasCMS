@@ -85,7 +85,7 @@ class Controller_Permissions_Tag
 	 */
 	public function handleEventWillAccessContent(Event_WillAccessContent $e)
 	{
-	    if($this->isProtected($e->Content))
+	    if($this->isProtected($e->getContent()))
 	    {
 	        $e->substitute(new CError(401));
 	    }
@@ -99,7 +99,7 @@ class Controller_Permissions_Tag
 	 */
 	public function handleEventContentAccess(Event_ContentAccess $e)
 	{
-	    if($this->isProtected($e->Content))
+	    if($this->isProtected($e->getContent()))
 	    {
 	        $e->Cancel();
 	        throw new XPermissionDeniedException('access to content not allowed');

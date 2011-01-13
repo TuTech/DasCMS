@@ -13,9 +13,9 @@ class HTMLCleaner_SaveInterceptor
 	}
 
 	public function handleEventWillSaveContent(Event_WillSaveContent $e) {
-		if($e->Content instanceof CPage){
+		if($e->getContent() instanceof CPage){
 			if($this->is('HTMLCleaner_Clean_HTML')){
-				$p = new HTMLCleaner_Parser($e->Content->getContent());
+				$p = new HTMLCleaner_Parser($e->getContent()->getContent());
 				$p->addCleaner(new HTMLCleaner_Cleaner_MSOfficeComments());
 				if($this->is('HTMLCleaner_Remove_Scripts')){
 					$p->addCleaner(new HTMLCleaner_Cleaner_RemoveScripts());
@@ -24,7 +24,7 @@ class HTMLCleaner_SaveInterceptor
 					//remove all style atts
 					$p->addCleaner(new HTMLCleaner_Cleaner_CSSStyle(array(), HTMLCleaner_Cleaner_CSSStyle::MODE_ALLOW_ONLY));
 				}
-				$e->Content->setContent($p->run());
+				$e->getContent()->setContent($p->run());
 			}
 		}
 	}

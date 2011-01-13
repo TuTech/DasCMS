@@ -36,16 +36,17 @@ class SLinkRunner
     
 	public function handleEventContentAccess(Event_ContentAccess $e)
 	{
-	    if ($e->Content instanceof CLink 
-	        && $e->Sender instanceof Controller_View_Content) 
+		$content = $e->getContent();
+	    if ($content instanceof CLink
+	        && $e->getSender() instanceof Controller_View_Content)
 	    {
 	        //if it is accessed directly - redirect to url
-	    	header('Location: '.trim($e->Content->Content));
+	    	header('Location: '.trim($content->getContent()));
 	    }
-	    if($e->Content instanceof CLink )
+	    if($content instanceof CLink )
 	    {
 	        //whoever opened it alter the links content
-	        $e->Content->setContent($e->Content->Description);
+	        $content->setContent($content->getDescription());
 	    }
 	}
 }

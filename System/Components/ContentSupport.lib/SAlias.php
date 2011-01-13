@@ -65,7 +65,7 @@ class SAlias
 	 */
 	public function handleEventContentChanged(Event_ContentChanged $e)
 	{
-		$this->updateAlias($e->Content);
+		$this->updateAlias($e->getContent());
 	}
 	
 	/**
@@ -73,7 +73,7 @@ class SAlias
 	 */
 	public function handleEventContentCreated(Event_ContentCreated $e)
 	{
-		$this->updateAlias($e->Content);
+		$this->updateAlias($e->getContent());
 	}
 	
 	/**
@@ -81,7 +81,7 @@ class SAlias
 	 */
 	public function handleEventContentDeleted(Event_ContentDeleted $e)
 	{
-		$this->removeAliases($e->Content);
+		$this->removeAliases($e->getContent());
 	}
 
 	/**
@@ -89,7 +89,7 @@ class SAlias
 	 */
 	public function handleEventContentPublished(Event_ContentPublished $e)
 	{
-		$this->updateAlias($e->Content);
+		$this->updateAlias($e->getContent());
 	}
 	
 
