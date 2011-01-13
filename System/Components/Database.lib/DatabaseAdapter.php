@@ -227,11 +227,8 @@ class DatabaseAdapter
 		if(!is_object($this->statement)){
 			throw new Exception('no statement to fetch from');
 		}
-		$res = '';
-		$this->statement->bind_result($res);
-		if(!$this->statement->fetch()){
-			$res = null;
-		}
+		$res = $this->fetchResult();
+		$res = is_array($res) ? $res[0] : $res;
 		$this->free();
 		return $res;
 	}
