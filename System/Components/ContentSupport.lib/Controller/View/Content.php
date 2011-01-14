@@ -291,20 +291,21 @@ class Controller_View_Content extends BView
 		return isset(self::$spores[$sporename]) && self::$spores[$sporename][self::ACTIVE];
 	}
 	
-	public function __get($var)
+	/**
+	 * proxy calls to content
+	 * @param string $method
+	 * @param array $args
+	 * @return mixed
+	 */
+	public function __call($method, $args)
 	{
-		//forward to content object
-		if($this->hasContent() && isset($this->content->{$var}))
-		{
-			return $this->content->{$var};
-		}
+	    if($this->hasContent() && is_callable(array($this->content, $method)))
+	    {
+	        return call_user_func_array(array($this->content, $method), $args);
+	    }
+		return null;
 	}
-	
-	public function __isset($var)
-	{
-		return ($this->hasContent() && isset($this->content->{$var}));
-	}
-	
+
 	public function getName()
 	{
 		return $this->name;
@@ -451,7 +452,7 @@ class Controller_View_Content extends BView
 	
 	public function templateGet($property)
 	{
-		return $this->__get($property);
+		return $this->{'get'.ucfirst($property)}();
 	}
 	/* end * * ITemplateSupporter**/
 	

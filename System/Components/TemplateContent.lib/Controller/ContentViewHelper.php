@@ -168,7 +168,7 @@ class Controller_ContentViewHelper
     {
         try{
             $s = $this->sporeContent($spore);
-            return $s->__get($propname);
+            return $s->{'get'.ucfirst($propname)}();
         }catch (Exception $e){return '';}
     }
 

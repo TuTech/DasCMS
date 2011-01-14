@@ -94,18 +94,6 @@ class CError extends _Content implements IGlobalUniqueId, ISearchDirectives
 		}
 	}
 
-	public function __get($var)
-	{
-		return !empty($this->{$var}) ? $this->{$var} : '';
-	}
-	
-	public function __set($var, $value){}
-	
-	public function __isset($var)
-	{
-		return isset($this->{$var});
-	}
-	
 	protected function saveContentData() {}
 	
 	//ISearchDirectives
