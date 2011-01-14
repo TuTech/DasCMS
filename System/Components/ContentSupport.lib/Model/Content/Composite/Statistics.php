@@ -3,9 +3,9 @@ class Model_Content_Composite_Statistics
 	extends _Model_Content_Composite
 	implements Interface_Composites_AutoAttach
 {
-    private $LastAccess = 0;
-    private $AccessCount = 0;
-    private $AccessIntervalAverage = 0;
+    private $lastAccess = 0;
+    private $accessCount = 0;
+    private $accessIntervalAverage = 0;
     
     public static function getCompositeMethods()
     {
@@ -26,13 +26,13 @@ class Model_Content_Composite_Statistics
             {
                 list(
                     $firstAccess,//ignore this
-                    $this->LastAccess,
-                    $this->AccessCount,
-                    $this->AccessIntervalAverage
+                    $this->lastAccess,
+                    $this->accessCount,
+                    $this->accessIntervalAverage
                 ) = $row;
             }
             $res->free();
-            $this->LastAccess = strtotime($this->LastAccess);
+            $this->lastAccess = strtotime($this->lastAccess);
         }
         catch (Exception $e)
         {
@@ -46,7 +46,7 @@ class Model_Content_Composite_Statistics
 	 */
     public function getLastAccess()
     {
-        return $this->LastAccess;
+        return $this->lastAccess;
     }
     
 	/**
@@ -54,7 +54,7 @@ class Model_Content_Composite_Statistics
 	 */
     public function getAccessCount()
     {
-        return $this->AccessCount;
+        return $this->accessCount;
     }
     
 	/**
@@ -62,7 +62,7 @@ class Model_Content_Composite_Statistics
 	 */
     public function getAccessIntervalAverage()
     {
-        return $this->AccessIntervalAverage;
+        return $this->accessIntervalAverage;
     }
 } 
 ?>

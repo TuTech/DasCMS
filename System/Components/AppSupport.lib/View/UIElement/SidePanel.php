@@ -64,7 +64,7 @@ class View_UIElement_SidePanel
 	        throw new XInvalidDataException('target object already set');
 	    }
 	    $this->object = $content;
-	    $this->mimetype = $content->MimeType;
+	    $this->mimetype = $content->getMimeType();
 	    if($this->enableAutoProcess)
 	    {
 	        $this->processInputs();

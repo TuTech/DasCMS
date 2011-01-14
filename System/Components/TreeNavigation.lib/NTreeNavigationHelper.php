@@ -90,7 +90,7 @@ class NTreeNavigationHelper
     	{
     		throw new XUndefinedIndexException('not initialized');
     	}
-    	return $this->currentAlias;//$this->content->Alias;
+    	return $this->currentAlias;
     }
     
     /**

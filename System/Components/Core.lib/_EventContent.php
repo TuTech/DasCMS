@@ -7,13 +7,13 @@
  */
 abstract class _EventContent extends _Event
 {
-	protected $Content = null;
+	protected $content = null;
 
 	/**
 	 * @return Interface_Content
 	 */
 	public function getContent(){
-		return $this->Content;
+		return $this->content;
 	}
 }
 ?>

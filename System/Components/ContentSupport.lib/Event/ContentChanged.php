@@ -4,8 +4,8 @@ class Event_ContentChanged
 {
 	public function __construct($sender, Interface_Content $content)
 	{
-		$this->Sender = $sender;
-		$this->Content = $content;
+		$this->sender = $sender;
+		$this->content = $content;
 		$this->informHandlers();
 	}
 }

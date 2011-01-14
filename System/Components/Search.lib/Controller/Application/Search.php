@@ -104,7 +104,7 @@ class Controller_Application_Search
         parent::requirePermission('org.bambuscms.content.csearch.delete');
         if($this->target != null)
         {
-            $alias = $this->target->Alias;
+            $alias = $this->target->getAlias();
             if(Controller_Content::getInstance()->deleteContent($alias))
             {
                 $this->target = null;
@@ -151,7 +151,7 @@ class Controller_Application_Search
      */
     public function getOpenDialogTarget()
     {
-        return empty($this->target) ? null : $this->target->Alias;
+        return empty($this->target) ? null : $this->target->getAlias();
     }
 
     /**

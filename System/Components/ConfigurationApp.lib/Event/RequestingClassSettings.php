@@ -2,13 +2,9 @@
 class Event_RequestingClassSettings
 	extends _Event
 {
-	/**
-	 * @var Controller_Application_Configuration
-	 */
-	protected $Sender = null;
 	public function __construct(Controller_Application_Configuration $sender)
 	{
-		$this->Sender = $sender;
+		$this->sender = $sender;
 		$this->informHandlers();
 	}
 
@@ -20,7 +16,7 @@ class Event_RequestingClassSettings
 	 */
 	public function addClassSettings($object, $section, array $settings)
 	{
-	    $this->Sender->addSettings($section, get_class($object), $settings);
+	    $this->sender->addSettings($section, get_class($object), $settings);
 	}
 }
 ?>

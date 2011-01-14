@@ -16,9 +16,9 @@ class TCmdHeader
         ITemplateCommand,
         IHeaderAPI
 {
-    private $MetaTags = array();
-    private $ScriptTags = array();
-    private $LinkTags = array();
+    private $metaTags = array();
+    private $scriptTags = array();
+    private $linkTags = array();
     private $title;
     
     private $scriptEmbedded = false;
@@ -95,9 +95,9 @@ class TCmdHeader
                 ,$title
     			//,filemtime('Content/stylesheets/default.css')
                 ,$favicon
-    			,implode($glue, $this->MetaTags)
-                ,implode($glue, $this->LinkTags)
-                ,implode($glue, $this->ScriptTags)
+    			,implode($glue, $this->metaTags)
+                ,implode($glue, $this->linkTags)
+                ,implode($glue, $this->scriptTags)
             );
         }
         catch (Exception $e)
@@ -135,7 +135,7 @@ class TCmdHeader
         $atts = $this->buildAttributes($data);
         if($atts != '')
         {
-            $this->LinkTags[] = sprintf('<link%s />', $atts);
+            $this->linkTags[] = sprintf('<link%s />', $atts);
         }
     }
     
@@ -150,20 +150,20 @@ class TCmdHeader
         $atts = $this->buildAttributes($data);
         if($atts != '')
         {
-            $this->MetaTags[] = sprintf('<meta%s />', $atts);
+            $this->metaTags[] = sprintf('<meta%s />', $atts);
         }
     }
     
     public function addScript($type, $src = null, $script = null)
     {
-        if(count($this->ScriptTags) == 0)
+        if(count($this->scriptTags) == 0)
         {
-            $this->ScriptTags[] = '<script type="text/javascript" src="System/WebsiteSupport/JavaScript/bambus.js"></script>';
+            $this->scriptTags[] = '<script type="text/javascript" src="System/WebsiteSupport/JavaScript/bambus.js"></script>';
         }
         $type = $this->encode($type);
         $src = ($src == null) ? '' : ' src="'.$this->encode($src).'"';
 	    $script = ($script == null) ? '' : $this->encode($script);
-	    $this->ScriptTags[] = sprintf('<script type="%s"%s>%s</script>', $type, $src, $script);
+	    $this->scriptTags[] = sprintf('<script type="%s"%s>%s</script>', $type, $src, $script);
     }
 }
 ?>

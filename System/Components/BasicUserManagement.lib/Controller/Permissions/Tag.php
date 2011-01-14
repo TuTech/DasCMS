@@ -101,7 +101,7 @@ class Controller_Permissions_Tag
 	{
 	    if($this->isProtected($e->getContent()))
 	    {
-	        $e->Cancel();
+	        $e->cancel();
 	        throw new XPermissionDeniedException('access to content not allowed');
 	    }
 	}

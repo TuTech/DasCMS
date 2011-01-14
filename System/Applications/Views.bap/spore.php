@@ -79,7 +79,7 @@ if(count($spores) > 0)
 		{
 			$alias = $data[Controller_View_Content::INIT_CONTENT];
 			$content = Controller_Content::getInstance()->tryOpenContent($alias);
-			$initCTitle = $content->Title;
+			$initCTitle = $content->getTitle();
 			$initCID = $data[Controller_View_Content::INIT_CONTENT];
 		}
 		
@@ -89,7 +89,7 @@ if(count($spores) > 0)
 		{
 			$alias = $data[Controller_View_Content::ERROR_CONTENT];
 			$content = Controller_Content::getInstance()->tryOpenContent($alias);
-			$errCTitle = $content->Title;
+			$errCTitle = $content->getTitle();
 			$errCID = $data[Controller_View_Content::ERROR_CONTENT];
 		}
 		

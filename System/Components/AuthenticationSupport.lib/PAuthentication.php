@@ -20,7 +20,7 @@ class PAuthentication
     const NO_LOGIN = 0;
     const VALID_USER = 1;
     const CONTINUED_SESSION = 2;
-    protected $Interface = 'IAuthenticate';
+	
     private static $instance = null;
     
     private static $userID = '';
@@ -35,6 +35,7 @@ class PAuthentication
     
     private function __construct()
     {
+		$this->interface = 'IAuthenticate';
     }
     
     /**

@@ -47,7 +47,7 @@ class View_UIElement_Settings extends _View_UIElement implements ISidebarWidget
 			$chk = RSent::get('WSearch-Tags-chk', CHARSET);
 			if($chk != md5($tagstr))
 			{
-				$this->targetObject->Tags = $tagstr;
+				$this->targetObject->setTags($tagstr);
 			}
 		}
 		foreach(array('PubDate', 'RevokeDate') as $date){
@@ -62,14 +62,14 @@ class View_UIElement_Settings extends _View_UIElement implements ISidebarWidget
 			}
 		}
 		$desc = RSent::get('WSearch-Desc', CHARSET);
-		if(RSent::has('WSearch-Desc') && $desc != $this->targetObject->Description)
+		if(RSent::has('WSearch-Desc') && $desc != $this->targetObject->getDescription())
 		{
-			$this->targetObject->Description = $desc;
+			$this->targetObject->setDescription($desc);
 		}
 		if(RSent::hasValue('WSearch-PreviewImage-Alias'))
 		{
 		    $prevAlias = RSent::get('WSearch-PreviewImage-Alias', CHARSET);
-		    $this->targetObject->PreviewImage = $prevAlias;
+		    $this->targetObject->setPreviewImage($prevAlias);
 		}
 	}
 
@@ -80,12 +80,12 @@ class View_UIElement_Settings extends _View_UIElement implements ISidebarWidget
 			//init values
 			$Items = new View_UIElement_NamedList();
 			$Items->setTitleTranslation(false);
-		    $tags = $this->targetObject->Tags;
+		    $tags = $this->targetObject->getTags();
 			$tagstr = (is_array($tags)) ? implode(', ', $tags) : '';
-			$prev = $this->targetObject->PreviewImage;
+			$prev = $this->targetObject->getPreviewImage();
 			$alias = $prev->getAlias();
-			$pubDate = $this->targetObject->PubDate;
-			$revokeDate = $this->targetObject->RevokeDate;
+			$pubDate = $this->targetObject->getPubDate();
+			$revokeDate = $this->targetObject->getRevokeDate();
 
 			//preview
 			if($alias !== null)
@@ -125,7 +125,7 @@ class View_UIElement_Settings extends _View_UIElement implements ISidebarWidget
 
 			$Items->add(
 			    sprintf("<label for=\"WSearch-Desc\">%s</label>", SLocalization::get('description')),
-			    sprintf('<textarea id="WSearch-Desc" name="WSearch-Desc">%s</textarea>', String::htmlEncode($this->targetObject->Description))
+			    sprintf('<textarea id="WSearch-Desc" name="WSearch-Desc">%s</textarea>', String::htmlEncode($this->targetObject->getDescription()))
 		    );
 		    $si_on = true;
 		    $si_changeable = false;

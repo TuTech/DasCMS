@@ -7,7 +7,7 @@ class Event_WillSendHeaders
 	 */
 	public function __construct(IHeaderAPI $sender)
 	{
-		$this->Sender = $sender;
+		$this->sender = $sender;
 		$this->informHandlers();
 	}
 
@@ -16,7 +16,7 @@ class Event_WillSendHeaders
 	 */
 	public function getHeader()
 	{
-	    return $this->Sender;
+	    return $this->sender;
 	}
 }
 ?>

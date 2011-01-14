@@ -30,7 +30,7 @@ class View_Content_Map
 				&& $this->shouldDisplay()
 		){
 			//load data
-			$location = $this->content->Location;
+			$location = $this->content->getLocation();
 			if($location instanceof View_UIElement_ContentGeoAttribute){
 				$Locations = Controller_Locations::getInstance();
 				$Place = $Locations->getLocation($location->getName());

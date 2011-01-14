@@ -46,25 +46,25 @@ abstract class BProvider
      * providing access to this interface 
      * @var string
      */
-    protected $Interface;
+    protected $interface;
     
     /**
      * interface implementation to handle the requests
      * @var string
      */
-    protected $Implementor = null;
+    protected $implementor = null;
     
     /**
      * purpose in config section
      * @var string
      */
-    protected $Purpose = 'provider';
+    protected $purpose = 'provider';
     
     /**
      * interface implementation to handle the requests
      * @var string
      */
-    protected $HasImplementor = null;
+    protected $hasImplementor = null;
     
     /**
      * getter for $Interface
@@ -72,7 +72,7 @@ abstract class BProvider
      */
     public function getInterface()
     {
-        return $this->Interface;
+        return $this->interface;
     }    
     /**
      * getter for $Interface
@@ -80,7 +80,7 @@ abstract class BProvider
      */
     public function getPurpose()
     {
-        return $this->Purpose;
+        return $this->purpose;
     }
     
     /**
@@ -91,20 +91,20 @@ abstract class BProvider
      */
     public function getImplementor()
     {
-        if($this->HasImplementor === null)
+        if($this->hasImplementor === null)
         {
             $impl = Core::Settings()->get(get_class($this));
-            $this->HasImplementor = !empty($impl) && class_exists($impl, true);
-            if($this->HasImplementor)
+            $this->hasImplementor = !empty($impl) && class_exists($impl, true);
+            if($this->hasImplementor)
             {
-                 $this->Implementor = $impl;
+                 $this->implementor = $impl;
             }
         }
-        if(!$this->HasImplementor)
+        if(!$this->hasImplementor)
         {
             throw new XUndefinedException('provider has not been set up');
         }
-        return $this->Implementor;
+        return $this->implementor;
     }
 }
 ?>
