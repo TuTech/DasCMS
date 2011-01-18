@@ -164,7 +164,7 @@ class SFeedKeeper
             {
     	        //set up data in "Feeds"
 				$DB->call('setType')
-					->withParameters($feedId, CFeed::ALL, CFeed::ALL)
+					->withParameters($CID, CFeed::ALL, CFeed::ALL)
 					->execute();
     	        //add all items
 				$DB->call('assignToAll')

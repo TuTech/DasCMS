@@ -122,7 +122,7 @@ class View_UIElement_PropertyEditor extends _View_UIElement
 			if($data[self::ACTIVE] !== null)
 			{
 			    printf("
-							<p><input type=\"checkbox\" name=\"View_UIElement_PropertyEditor_%s_option_%s_active\" id=\"View_UIElement_PropertyEditor_%s_option_%s_active\" %s/><label for=\"View_UIElement_PropertyEditor_%s_option_%s_active\">%s</label></p>"
+							<div class=\"View_UIElement_PropertyEditor_seg\"><input type=\"checkbox\" name=\"View_UIElement_PropertyEditor_%s_option_%s_active\" id=\"View_UIElement_PropertyEditor_%s_option_%s_active\" %s/><label for=\"View_UIElement_PropertyEditor_%s_option_%s_active\">%s</label></div>"
 					,$this->id
 			        ,($name)
 					,$this->id

@@ -30,7 +30,7 @@ org.bambuscms.wpropertyeditor =
 	'_getItem': function(self)
 	{
 		var name = self.id.split("_");
-		return name[1];
+		return name[3];
 	},
 	
 	//register item
