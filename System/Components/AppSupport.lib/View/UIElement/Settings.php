@@ -54,10 +54,10 @@ class View_UIElement_Settings extends _View_UIElement implements ISidebarWidget
 			if(RSent::has('WSearch-'.$date))
 			{
 				$dat = RSent::get('WSearch-'.$date);
-				$chk = $this->targetObject->{$date};
+				$chk = $this->targetObject->{'get'.$date}();
 				if($chk != $dat)
 				{
-					$this->targetObject->{$date} = $dat;
+					$this->targetObject->{'set'.$date}($dat);
 				}
 			}
 		}

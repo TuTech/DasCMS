@@ -84,9 +84,9 @@ class TCmdSite
 			$out .= sprintf("<base href=\"%s\" />\n", SLink::base());
 		}
 		$out .=	$favicon."\n";
-		foreach(array('MetaTags', 'LinkTags') as $tag){
-			if(count($this->{$tag})){
-				$out .= implode("\n", $this->{$tag})."\n";
+		foreach(array($this->metaTags, $this->linkTags) as $tag){
+			if(count($tag)){
+				$out .= implode("\n", $tag)."\n";
 			}
 		}
 		$out .= "</head>\n<body>\n";

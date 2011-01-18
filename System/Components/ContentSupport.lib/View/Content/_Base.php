@@ -91,7 +91,7 @@ class _View_Content_Base
 		try{
 			$val = '';
 			if($this instanceof Interface_View_DisplayXHTML){
-				$val = $this->{"toXHTML"}();
+				$val = $this->toXHTML();
 			}
 		}
 		catch (Exception $e){
@@ -171,16 +171,16 @@ class _View_Content_Base
 	public function  __sleep() {
 		$this->_sleepStorage = array();
 		$baseAttributes = array(
-			'customCSSClass',
-			'linkTragetFrame',
-			'linkTargetView',
-			'linkCaption',
-			'delegate',
-			'elementId'
+			'customCSSClass' => $this->customCSSClass,
+			'linkTragetFrame' => $this->linkTragetFrame,
+			'linkTargetView' => $this->linkTargetView,
+			'linkCaption' => $this->linkCaption,
+			'delegate' => $this->delegate,
+			'elementId' => $this->elementId
 		);
-		foreach ($baseAttributes as $baseAttribute){
-			if($this->{$baseAttribute} !== null){
-				$this->_sleepStorage[$baseAttribute] = $this->{$baseAttribute};
+		foreach ($baseAttributes as $baseAttribute => $value){
+			if($value !== null){
+				$this->_sleepStorage[$baseAttribute] = $value;
 			}
 		}
 		foreach ($this->getPersistentAttributes() as $key) {

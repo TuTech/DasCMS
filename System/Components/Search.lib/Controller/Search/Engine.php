@@ -153,10 +153,14 @@ class Controller_Search_Engine implements Interface_Singleton
 		}
 
 		//run query
-		foreach(array('gather', 'filter', 'rate') as $action){
-			foreach ($controllers as $nso){
-				$nso->{$action}();
-			}
+		foreach ($controllers as $nso){
+			$nso->gather();
+		}
+		foreach ($controllers as $nso){
+			$nso->filter();
+		}
+		foreach ($controllers as $nso){
+			$nso->rate();
 		}
 
 		//assign item numbers to elements based on score
