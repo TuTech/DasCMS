@@ -41,6 +41,7 @@ class View_UIElement_Settings extends _View_UIElement implements ISidebarWidget
 	public function __construct(View_UIElement_SidePanel $sidepanel)
 	{
 		$this->targetObject = $sidepanel->getTarget();
+		//tags
 		if(RSent::has('WSearch-Tags'))
 		{
 			$tagstr = RSent::get('WSearch-Tags', CHARSET);
@@ -50,22 +51,25 @@ class View_UIElement_Settings extends _View_UIElement implements ISidebarWidget
 				$this->targetObject->setTags($tagstr);
 			}
 		}
-		foreach(array('PubDate', 'RevokeDate') as $date){
-			if(RSent::has('WSearch-'.$date))
-			{
-				$dat = RSent::get('WSearch-'.$date);
-				$chk = $this->targetObject->{'get'.$date}();
-				if($chk != $dat)
-				{
-					$this->targetObject->{'set'.$date}($dat);
-				}
-			}
+		//pub date
+		$pd = $this->targetObject->getPubDate();
+		$newPd = RSent::get('WSearch-PubDate');
+		if(RSent::has('WSearch-PubDate') && $newPd != $pd){
+			$this->targetObject->setPubDate($newPd);
 		}
+		//revoke date
+		$rd = $this->targetObject->getRevokeDate();
+		$newRd = RSent::get('WSearch-RevokeDate');
+		if(RSent::has('WSearch-RevokeDate') && $newRd != $rd){
+			$this->targetObject->setRevokeDate($newRd);
+		}
+		//description
 		$desc = RSent::get('WSearch-Desc', CHARSET);
 		if(RSent::has('WSearch-Desc') && $desc != $this->targetObject->getDescription())
 		{
 			$this->targetObject->setDescription($desc);
 		}
+		//preview image
 		if(RSent::hasValue('WSearch-PreviewImage-Alias'))
 		{
 		    $prevAlias = RSent::get('WSearch-PreviewImage-Alias', CHARSET);
