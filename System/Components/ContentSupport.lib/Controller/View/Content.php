@@ -257,7 +257,7 @@ class Controller_View_Content extends BView
 			$content = Controller_Content::getInstance()->tryOpenContent($alias);
 		}
 		$this->target = $content->getAlias();
-		$this->content = Controller_Content::getInstance()->accessContent($content->Alias, $this);
+		$this->content = Controller_Content::getInstance()->accessContent($this->target, $this);
 		$this->content->setParentView($this);
 		
 		//do once
@@ -291,21 +291,22 @@ class Controller_View_Content extends BView
 		return isset(self::$spores[$sporename]) && self::$spores[$sporename][self::ACTIVE];
 	}
 	
-	public function __get($var)
+	/**
+	 * proxy calls to content
+	 * @param string $method
+	 * @param array $args
+	 * @return mixed
+	 */
+	public function __call($method, $args)
 	{
-		//forward to content object
-		if($this->hasContent() && isset($this->content->{$var}))
-		{
-			return $this->content->{$var};
-		}
+	    if($this->hasContent() && is_callable(array($this->content, $method)))
+	    {
+	        return call_user_func_array(array($this->content, $method), $args);
+	    }
+		return null;
 	}
-	
-	public function __isset($var)
-	{
-		return ($this->hasContent() && isset($this->content->{$var}));
-	}
-	
-	public function GetName()
+
+	public function getName()
 	{
 		return $this->name;
 	}
@@ -334,7 +335,7 @@ class Controller_View_Content extends BView
 	 * @param boolean $temporary
 	 * @return Controller_View_Content
 	 */
-	public function SetLinkParameter($optionName, $value, $temporary = false)
+	public function setLinkParameter($optionName, $value, $temporary = false)
 	{
 		if($value !== null)
 		{
@@ -362,7 +363,7 @@ class Controller_View_Content extends BView
 		foreach ($data as $param => $value){
 			//_foo-bar
 			if(substr($param, 0, $len) == $tempName){
-				$this->SetLinkParameter(substr($param, $len+1), $value, true);
+				$this->setLinkParameter(substr($param, $len+1), $value, true);
 			}
 		}
 		return $this;
@@ -373,7 +374,7 @@ class Controller_View_Content extends BView
 	 *
 	 * @param string $optionName
 	 */
-	public function GetParameter($optionName, $encoding = null)
+	public function getParameter($optionName, $encoding = null)
 	{
 		$val = '';
 		if(RURL::has($this->name.'-'.$optionName))
@@ -387,7 +388,7 @@ class Controller_View_Content extends BView
 		return  $val;
 	}
 	
-	public function LinkTo($target)
+	public function linkTo($target)
 	{
 		$this->target = $target;
 		return $this;
@@ -426,7 +427,7 @@ class Controller_View_Content extends BView
 	
 	public function templateCallable($function = null)
 	{
-		$tplFunctions = array('LinkTo','GetParameter','GetName');
+		$tplFunctions = array('linkTo','getParameter','getName');
 		if($function == null)
 		{
 			return $tplFunctions;
@@ -451,7 +452,7 @@ class Controller_View_Content extends BView
 	
 	public function templateGet($property)
 	{
-		return $this->__get($property);
+		return $this->{'get'.ucfirst($property)}();
 	}
 	/* end * * ITemplateSupporter**/
 	

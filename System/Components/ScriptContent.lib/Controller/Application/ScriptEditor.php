@@ -65,15 +65,15 @@ class Controller_Application_ScriptEditor
         {
             if(isset($param['content']))
             {
-                $this->target->RAWContent = $param['content'];
+                $this->target->setRAWContent($param['content']);
             }
             if(!empty($param['title']))
             {
-                $this->target->Title = $param['title'];
+                $this->target->setTitle($param['title']);
             }
             if(isset($param['subtitle']))
             {
-                $this->target->SubTitle = $param['subtitle'];
+                $this->target->setSubTitle($param['subtitle']);
             }
         }
     }

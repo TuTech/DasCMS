@@ -104,7 +104,7 @@ class Controller_Application_Search
         parent::requirePermission('org.bambuscms.content.csearch.delete');
         if($this->target != null)
         {
-            $alias = $this->target->Alias;
+            $alias = $this->target->getAlias();
             if(Controller_Content::getInstance()->deleteContent($alias))
             {
                 $this->target = null;
@@ -151,7 +151,7 @@ class Controller_Application_Search
      */
     public function getOpenDialogTarget()
     {
-        return empty($this->target) ? null : $this->target->Alias;
+        return empty($this->target) ? null : $this->target->getAlias();
     }
 
     /**
@@ -165,9 +165,9 @@ class Controller_Application_Search
         {
             throw new XPermissionDeniedException('view');
         }
-        $IDindex = Controller_Content::getInstance()->contentIndex('CSearch');
+        $idIndex = Controller_Content::getInstance()->contentIndex('CSearch');
         $items = array();
-        foreach ($IDindex as $alias => $data)
+        foreach ($idIndex as $alias => $data)
         {
         	list($title, $pubdate) = $data;
         	$items[] = array($title, $alias, 0, strtotime($pubdate));

@@ -3,10 +3,10 @@ class Model_Content_Composite_History
 	extends _Model_Content_Composite
 	implements Interface_Composites_AutoAttach
 {
-    private $CreatedBy = '';
-    private $CreateDate = 0;
-    private $ModifiedBy = '';
-    private $ModifyDate = 0;
+    private $createdBy = '';
+    private $createDate = 0;
+    private $modifiedBy = '';
+    private $modifyDate = 0;
 	private $init = false;
 
 
@@ -31,16 +31,16 @@ class Model_Content_Composite_History
 				->createQueryForClass($this)
 				->call('latest')
 				->withParameters($this->compositeFor->getId());
-			list($changeDate, $this->ModifiedBy) = $res->fetchResult();
-	  	    $this->ModifyDate = strtotime($changeDate);
+			list($changeDate, $this->modifiedBy) = $res->fetchResult();
+	  	    $this->modifyDate = strtotime($changeDate);
  			$res->free();
 			
 			$res = Core::Database()
 				->createQueryForClass($this)
 				->call('created')
 				->withParameters($this->compositeFor->getId());
-			list($createDate, $this->CreatedBy) = $res->fetchResult();
-    	    $this->CreateDate = strtotime($createDate);
+			list($createDate, $this->createdBy) = $res->fetchResult();
+    	    $this->createDate = strtotime($createDate);
 			$res->free();
         }
         catch (Exception $e)
@@ -55,7 +55,7 @@ class Model_Content_Composite_History
 	public function getCreatedBy()
 	{
 		$this->init();
-		return $this->CreatedBy;
+		return $this->createdBy;
 	}
 	
 	/**
@@ -64,7 +64,7 @@ class Model_Content_Composite_History
 	public function getModifiedBy()
 	{
 		$this->init();
-		return $this->ModifiedBy;
+		return $this->modifiedBy;
 	}
 	
 	/**
@@ -73,7 +73,7 @@ class Model_Content_Composite_History
 	public function getCreateDate()
 	{
 		$this->init();
-		return $this->CreateDate;
+		return $this->createDate;
 	}
 	
 	/**
@@ -82,7 +82,7 @@ class Model_Content_Composite_History
 	public function getModifyDate()
 	{
 		$this->init();
-		return $this->ModifyDate;
+		return $this->modifyDate;
 	}
 } 
 ?>

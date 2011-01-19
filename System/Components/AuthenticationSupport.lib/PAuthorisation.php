@@ -25,7 +25,6 @@ class PAuthorisation
     const DENY = false;
     const PERMIT = true;
     
-    protected $Interface = 'IAuthorize';
     private static $instance = null;
 
     private static $roleStatus = array(
@@ -59,6 +58,7 @@ class PAuthorisation
     
     private function __construct()
     {
+		$this->interface = 'IAuthorize';
     }
     
     private static function load()

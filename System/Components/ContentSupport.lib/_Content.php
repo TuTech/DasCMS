@@ -13,7 +13,6 @@ abstract class _Content implements Interface_Content
 {
 	protected static $metaDataCache = array();
 
-	//Properties - to be handled in __get() & __set()
 	protected
 		$Id, 		//class unique id
 		$GUID,      //Global Unique ID
@@ -384,57 +383,19 @@ abstract class _Content implements Interface_Content
 		return !!$this->IsPublished;
 	}
 
-	/**
-	 * Forwarder for getter functions
-	 *
-	 * @param string $var
-	 * @return mixed
-	 * @throws XUndefinedIndexException
-	 */
 	public function __get($var)
 	{
-		$var = ucfirst($var);
-		if($this->hasMethod('get'.$var))
-		{
-			return $this->{'get'.$var}();
-		}
-		else
-		{
-			throw new XUndefinedIndexException($var.' not in object');
-		}
+		throw new Exception('content properties removed');
 	}
 
-	/**
-	 * Forwarder for setter functions
-	 *
-	 * @param string $var
-	 * @param mixed $value
-	 * @return void
-	 * @throws XPermissionDeniedException
-	 */
 	public function __set($var, $value)
 	{
-		$var = ucfirst($var);
-		if($this->hasMethod('set'.$var))
-		{
-		    $this->__get($var); //trigger autoloads
-			return $this->{'set'.$var}($value);
-		}
-		else
-		{
-			throw new XPermissionDeniedException($var.' is read only');
-		}
+		throw new Exception('content properties removed');
 	}
 
-	/**
-	 * Chech existance of getter function for $var
-	 *
-	 * @param string $var
-	 * @return boolean
-	 */
 	public function __isset($var)
 	{
-		return $this->hasMethod('get'.ucfirst($var));
+		throw new Exception('content properties removed');
 	}
 
 	/**

@@ -16,12 +16,12 @@ abstract class BObject
 	/**
 	 * load a controller for given app id
 	 *
-	 * @param string $ID
+	 * @param string $id
 	 * @return object
 	 * @throws XPermissionDeniedException
 	 * @throws XUndefinedException
 	 */
-	public static function InvokeObjectByID($ID)
+	public static function InvokeObjectByID($id)
 	{
 	    if(self::$_classIndex == null)
 	    {
@@ -35,11 +35,11 @@ abstract class BObject
 			}
 			$d->free();
 	    }
-	    if(!array_key_exists($ID, self::$_classIndex))
+	    if(!array_key_exists($id, self::$_classIndex))
 	    {
 	        throw new XUndefinedIndexException('class id not indexed');
 	    }
-	    return self::InvokeObjectByDynClass(self::$_classIndex[$ID]);
+	    return self::InvokeObjectByDynClass(self::$_classIndex[$id]);
 	}
 
 	public final static function InvokeObjectByDynClass($class)

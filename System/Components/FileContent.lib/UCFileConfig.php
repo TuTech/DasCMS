@@ -18,10 +18,10 @@ class UCFileConfig
     public function handleEventContentAccess(Event_ContentAccess $e)
     {
         if(Core::Settings()->get('CFile_redirect_view_access') == 1
-            && $e->Content instanceof CFile 
-            && $e->Sender instanceof BView)
+            && $e->getContent() instanceof CFile
+            && $e->getSender() instanceof BView)
         {
-            header('Location: '.SLink::base().'file.php/'.$e->Content->Alias.'/'.$e->Content->getFileName());
+            header('Location: '.SLink::base().'file.php/'.$e->getContent()->getAlias().'/'.$e->getContent()->getFileName());
         }
     }
     

@@ -60,7 +60,7 @@ class SContentWatch
         $titles = array();
         foreach (self::$accessedContents as $id => $event)
         {
-            $content = $event->Content;
+            $content = $event->getContent();
 			$allowFeed = true;
 			$allowTitle = true;
 			$allowDescription = true;
@@ -81,14 +81,14 @@ class SContentWatch
 				continue;
 			}
             //Atom feeds
-            if($allowFeed && $content instanceof IGeneratesFeed && $content->getLinkToFeed($content->Alias) != null)
+            if($allowFeed && $content instanceof IGeneratesFeed && $content->getLinkToFeed($content->getAlias()) != null)
             {
                 $e->getHeader()->addLink(
                     null,    
-                    $content->getLinkToFeed($content->Alias),
+                    $content->getLinkToFeed($content->getAlias()),
                     null,
                     'application/atom+xml', 
-                    $content->Title, 
+                    $content->getTitle(),
                     'alternate'
                 );
             }
@@ -97,22 +97,22 @@ class SContentWatch
                 $content->sendContentHeaders($e->getHeader());
             }
             
-            if($event->Sender instanceof BView)
+            if($event->getSender() instanceof BView)
             {
-                if($event->Sender->publishMetaData())
+                if($event->getSender()->publishMetaData())
                 {
                     //if !view->silent
-                    if(is_array($content->Tags))
+                    if(is_array($content->getTags()))
                     {
-                        $tags = array_merge($tags, $content->Tags);
+                        $tags = array_merge($tags, $content->getTags());
                     }
-                    if($allowDescription && trim($content->Description) != '')
+                    if($allowDescription && trim($content->getDescription()) != '')
                     {
-                        $descriptions[] = $content->Description;
+                        $descriptions[] = $content->getDescription();
                     }
-                    if($allowTitle && trim($content->Title) != '')
+                    if($allowTitle && trim($content->getTitle()) != '')
                     {
-                        $titles[] = $content->Title;
+                        $titles[] = $content->getTitle();
                     }
                 }
             }
@@ -157,8 +157,8 @@ class SContentWatch
     public function handleEventContentAccess(Event_ContentAccess $e)
     {
         //logging
-        $o = $e->Content;
-	    if($e->Sender instanceof BView 
+        $o = $e->getContent();
+	    if($e->getSender() instanceof BView
 	        && !array_key_exists($o->getId(), self::$accessedContents))
 	    {
     	    //country
@@ -188,7 +188,7 @@ class SContentWatch
 					->execute();
             }
 	    }
-        self::$accessedContents[$e->Content->Id] = $e;
+        self::$accessedContents[$e->getContent()->getId()] = $e;
     }
     
     
@@ -200,7 +200,7 @@ class SContentWatch
      */
 	public function handleEventWillAccessContent(Event_WillAccessContent $e)
 	{
-	    if(!$e->Content->isPublished())
+	    if(!$e->getContent()->isPublished())
 	    {
 	        $e->substitute(new CError(403));
 	    }

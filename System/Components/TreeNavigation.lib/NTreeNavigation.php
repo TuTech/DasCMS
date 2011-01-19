@@ -65,7 +65,7 @@ class NTreeNavigation
     {
     	//nav names are fs-names
     	self::getInstance();
-    	self::$index[$nav] = array($spore->GetName(), $tno_root);
+    	self::$index[$nav] = array($spore->getName(), $tno_root);
     }
     /**
      * get the root element

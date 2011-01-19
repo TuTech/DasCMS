@@ -36,7 +36,7 @@ class Controller_Search_ResultScope implements Interface_Content_FiniteScope
 		return $this
 				->contentView
 				->preserveTemporaryParameters()
-				->SetLinkParameter('page', min(
+				->setLinkParameter('page', min(
 					$this->result->getPageNumber() + 1,
 					$this->result->getLastPageNumber()
 				), true);
@@ -54,7 +54,7 @@ class Controller_Search_ResultScope implements Interface_Content_FiniteScope
 		return $this
 				->contentView
 				->preserveTemporaryParameters()
-				->SetLinkParameter('page', max(
+				->setLinkParameter('page', max(
 					1,
 					$this->result->getPageNumber() - 1
 				), true);
@@ -65,7 +65,7 @@ class Controller_Search_ResultScope implements Interface_Content_FiniteScope
 		return $this
 				->contentView
 				->preserveTemporaryParameters()
-				->SetLinkParameter('page', $pageNo, true);
+				->setLinkParameter('page', $pageNo, true);
 	}
 
 	public function getPreviousPageTitle() {

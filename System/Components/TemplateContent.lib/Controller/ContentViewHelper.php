@@ -156,7 +156,7 @@ class Controller_ContentViewHelper
 
     private function author($spore)
     {
-        return $this->sporeContent($spore)->Author;
+        return $this->sporeContent($spore)->getCreatedBy();
     }
 
     private function tags($spore)
@@ -168,7 +168,7 @@ class Controller_ContentViewHelper
     {
         try{
             $s = $this->sporeContent($spore);
-            return $s->__get($propname);
+            return $s->{'get'.ucfirst($propname)}();
         }catch (Exception $e){return '';}
     }
 

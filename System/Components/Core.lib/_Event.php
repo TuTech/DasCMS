@@ -7,29 +7,23 @@
  */
 abstract class _Event
 {
-	protected $Sender = null;
-	protected $Canceled = false;
+	protected $sender = null;
+	protected $canceled = false;
 
 	public function cancel()
 	{
-		$this->Canceled = true;
+		$this->canceled = true;
 	}
 
 	public function isCanceled()
 	{
-		return $this->Canceled;
+		return $this->canceled;
 	}
 
-	public function __get($var)
+	public function getSender()
 	{
-		if(isset($this->{$var}))
-		{
-			return $this->{$var};
-		}
-		return null;
+		return $this->sender;
 	}
-
-	public function __set($var, $value){}
 
 	protected function informHandlers()
 	{

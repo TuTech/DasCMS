@@ -17,7 +17,7 @@ class View_Content_ModifyDate
 		$val = '';
 		if($this->shouldDisplay() && $this->content->hasComposite('History')){
 			$df = ($this->dateFormat == null) ? Core::Settings()->get('dateformat') : $this->dateFormat;
-			$val = $this->wrapXHTML('ModifyDate', date($df, $this->content->ModifyDate));
+			$val = $this->wrapXHTML('ModifyDate', date($df, $this->content->getModifyDate()));
 		}
 		return $val;
 	}

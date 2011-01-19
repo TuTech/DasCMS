@@ -17,7 +17,7 @@ class View_UIElement_Template extends _View_UIElement
     const CONTENT = 2;
     const STRING = 3;
      
-    private $ID;
+    private $id;
     
     private $template;
     private $scope = self::CONTENT;
@@ -26,7 +26,7 @@ class View_UIElement_Template extends _View_UIElement
     
     public function __construct($target, $scope = null)
     {       
-        $this->ID = ++parent::$CurrentWidgetID;
+        $this->id = ++parent::$CurrentWidgetID;
         $this->template = $target;
         if($scope != null)
         {
@@ -174,7 +174,7 @@ class View_UIElement_Template extends _View_UIElement
      */
     public function getPrimaryInputID()
     {
-        return "_".$this->ID;
+        return "_".$this->id;
     }
     
     public static function renderOnce($tpl, $type)

@@ -15,7 +15,7 @@ class View_UIElement_MultipleChoice extends _View_UIElement
     const SELECT = 0;
     const RADIO = 1;
     
-    private $ID;
+    private $id;
     
     private $name;
     private $choices;
@@ -32,7 +32,7 @@ class View_UIElement_MultipleChoice extends _View_UIElement
      */
     public function __construct($name, array $choices, $selected, $type = self::SELECT, $autoTranslate = true)
     {       
-        $this->ID = ++parent::$CurrentWidgetID;
+        $this->id = ++parent::$CurrentWidgetID;
         $this->name = $name;
         $this->choices = $choices;
         $this->setSelected($selected);
@@ -71,7 +71,7 @@ class View_UIElement_MultipleChoice extends _View_UIElement
     		        "\n<select name=\"%s\" id=\"%s_%s\">"
 					,String::htmlEncode(mb_convert_encoding($this->name, CHARSET, 'ISO-8859-1,UTF-8'))
 					,self::CLASS_NAME
-					,$this->ID
+					,$this->id
 				);
         		foreach ($this->choices as $name => $title) 
         		{
@@ -89,7 +89,7 @@ class View_UIElement_MultipleChoice extends _View_UIElement
     		        "\n<div id=\"%s_%s\">"
 					,$this->convent($this->name)
 					,self::CLASS_NAME
-					,$this->ID
+					,$this->id
 				);
         		foreach ($this->choices as $name => $title) 
         		{

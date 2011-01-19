@@ -14,7 +14,7 @@ class View_Content_Creator
 	public function toXHTML() {
 		$val = '';
 		if($this->shouldDisplay() && $this->content->hasComposite('History')){
-			$val = $this->wrapXHTML('Creator', $this->content->CreatedBy);
+			$val = $this->wrapXHTML('Creator', $this->content->getCreatedBy());
 		}
 		return $val;
 	}

@@ -86,7 +86,7 @@ class Controller_Content implements Interface_Singleton
         {
             throw new XInvalidDataException('content replaced but exact open requested');
         }
-        $content = $e->Content;
+        $content = $e->getContent();
         $e = new Event_ContentAccess($opener, $content);
         return $content;
     }

@@ -6,7 +6,7 @@ class Model_Content_Composite_Location
     /**
      * @var View_UIElement_ContentGeoAttribute
      */
-    private $Location;
+    private $location;
     
     public static function getCompositeMethods()
     {
@@ -18,7 +18,7 @@ class Model_Content_Composite_Location
         parent::__construct($compositeFor);
         try
         {
-    	    $this->Location = View_UIElement_ContentGeoAttribute::forContent($compositeFor);
+    	    $this->location = View_UIElement_ContentGeoAttribute::forContent($compositeFor);
         }
         catch (Exception $e)
         {
@@ -31,7 +31,7 @@ class Model_Content_Composite_Location
 	 */
 	public function getLocation()
 	{
-		return $this->Location;
+		return $this->location;
 	}
 	
 	/**
@@ -44,7 +44,7 @@ class Model_Content_Composite_Location
 	    $new = View_UIElement_ContentGeoAttribute::assignContentLocation($this->compositeFor, $locationName);
 	    if($new != null)
 	    {
-	        $this->Location = $new;
+	        $this->location = $new;
 	    }
 	}
 } 

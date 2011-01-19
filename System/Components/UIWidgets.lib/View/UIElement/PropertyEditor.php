@@ -15,13 +15,13 @@ class View_UIElement_PropertyEditor extends _View_UIElement
     const DATA = 1;
     const ACTIVE = 2;
     
-	private $ID;
+	private $id;
 	private $autotranslate = true; 
 	private $data = array();
 	
 	public function __construct($name, $title = null)
 	{
-    	$this->ID = ($name);
+    	$this->id = ($name);
     	$this->setTitle($title);
 	}
 	
@@ -75,21 +75,21 @@ class View_UIElement_PropertyEditor extends _View_UIElement
             		</td>
             		<td rowspan=\"2\" class=\"WPE_property\">
 						<select size=\"%d\" id=\"View_UIElement_PropertyEditor_%s_selector\">"
-			,$this->ID
+			,$this->id
     		,SLocalization::get('property')
             ,SLocalization::get('settings')
             ,View_UIElement_Icon::pathFor('move-up', 'action', View_UIElement_Icon::SMALL)
             ,''
-            ,$this->ID
+            ,$this->id
             ,count($this->data)
-            ,$this->ID
+            ,$this->id
 		);
 		//select
 		foreach ($this->data as $name => $data) 
 		{
 			printf("
 							<option id=\"View_UIElement_PropertyEditor_%s_option_%s\" class=\"WPE_%s\" value=\"%s\">%s</option>"
-				,$this->ID
+				,$this->id
 			    ,($name)
 			    ,($data[self::ACTIVE] === false) ? 'inactive' : 'active'
 			    ,($name)
@@ -102,7 +102,7 @@ class View_UIElement_PropertyEditor extends _View_UIElement
 					<td rowspan=\"2\">"
 		);	    
 		//props
-		printf('<div id="View_UIElement_PropertyEditor_%s_options">', $this->ID);
+		printf('<div id="View_UIElement_PropertyEditor_%s_options">', $this->id);
 		$i = 1;
         foreach ($this->data as $name => $data) 
         {
@@ -110,25 +110,25 @@ class View_UIElement_PropertyEditor extends _View_UIElement
 						<div id=\"View_UIElement_PropertyEditor_%s_option_%s_data\" class=\"View_UIElement_PropertyEditor_option\" style=\"display:none;\">
 							<input type=\"hidden\" name=\"View_UIElement_PropertyEditor_%s_%s_position\" value=\"%d\" id=\"View_UIElement_PropertyEditor_%s_%s_position\" />
 							<h4>%s</h4>"
-				,$this->ID
+				,$this->id
 			    ,($name)
-			    ,$this->ID
+			    ,$this->id
 			    ,($name)
 			    ,$i++
-				,$this->ID
+				,$this->id
 			    ,($name)
 			    ,String::htmlEncode($this->autotranslate ? (SLocalization::get($data[self::TITLE])) : mb_convert_encoding($data[self::TITLE], CHARSET, 'ISO-8859-1,UTF-8'))
 			);
 			if($data[self::ACTIVE] !== null)
 			{
 			    printf("
-							<p><input type=\"checkbox\" name=\"View_UIElement_PropertyEditor_%s_option_%s_active\" id=\"View_UIElement_PropertyEditor_%s_option_%s_active\" %s/><label for=\"View_UIElement_PropertyEditor_%s_option_%s_active\">%s</label></p>"
-					,$this->ID
+							<div class=\"View_UIElement_PropertyEditor_seg\"><input type=\"checkbox\" name=\"View_UIElement_PropertyEditor_%s_option_%s_active\" id=\"View_UIElement_PropertyEditor_%s_option_%s_active\" %s/><label for=\"View_UIElement_PropertyEditor_%s_option_%s_active\">%s</label></div>"
+					,$this->id
 			        ,($name)
-					,$this->ID
+					,$this->id
 			        ,($name)
 			        ,$data[self::ACTIVE] ? 'checked="checked" ' : ''
-					,$this->ID
+					,$this->id
 			        ,($name)
 					, SLocalization::get('activate_item')
 		        );
@@ -148,9 +148,9 @@ class View_UIElement_PropertyEditor extends _View_UIElement
 			</table>"
             ,View_UIElement_Icon::pathFor('move-down', 'action', View_UIElement_Icon::SMALL)
             ,''
-            ,$this->ID
+            ,$this->id
 		);
-		echo strval(new View_UIElement_Script('org.bambuscms.wpropertyeditor.init("'.$this->ID.'");'));
+		echo strval(new View_UIElement_Script('org.bambuscms.wpropertyeditor.init("'.$this->id.'");'));
 	}
 	
 	/**

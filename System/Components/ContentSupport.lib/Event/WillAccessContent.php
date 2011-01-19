@@ -1,23 +1,19 @@
 <?php
 class Event_WillAccessContent
-	extends _Event
+	extends _EventContent
 {
-	/**
-	 * @var Interface_Content
-	 */
-	protected $Content;
 	private $contentSubstituted = false;
 
 	public function __construct($sender, Interface_Content $content)
 	{
-		$this->Sender = $sender;
-		$this->Content = $content;
+		$this->sender = $sender;
+		$this->content = $content;
 		$this->informHandlers();
 	}
 
 	public function substitute(Interface_Content $content)
 	{
-	    $this->Content = $content;
+	    $this->content = $content;
 	    $this->contentSubstituted = true;
 	}
 

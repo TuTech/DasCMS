@@ -36,9 +36,9 @@ class View_UIElement_ContentTitle extends _View_UIElement
             $out = sprintf('<input type="text" title="%s" id="content_title" name="title" value="%s"/>'.
             		'<input type="text" title="%s" id="content_subtitle" name="subtitle" value="%s"/>'
         		, SLocalization::get('title')
-            	, $this->encode($this->content->Title)
+            	, $this->encode($this->content->getTitle())
             	, SLocalization::get('subtitle')
-            	, $this->encode($this->content->SubTitle)
+            	, $this->encode($this->content->getSubTitle())
             	);
         }
         return $out;
@@ -64,7 +64,7 @@ class View_UIElement_ContentTitle extends _View_UIElement
 	 */
 	public function getPrimaryInputID()
 	{
-		return "title".$this->ID;
+		return "content_title";
 	}
 }
 ?>

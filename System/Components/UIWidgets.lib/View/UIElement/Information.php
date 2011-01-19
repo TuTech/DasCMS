@@ -67,22 +67,22 @@ class View_UIElement_Information extends _View_UIElement implements ISidebarWidg
     		foreach ($meta as $key => $name) 
     		{
     		    $val = '-';
-    		    if(isset($this->targetObject->{$key}) && strlen($this->targetObject->{$key}) > 0) 
+				$subjectValue = $this->targetObject->{'get'.$key}();
+    		    if(strlen($subjectValue) > 0)
     		    {
     		        if(substr($key,-4) == 'Date' || $key == 'LastAccess') 
     		        {
-    		            $date = $this->targetObject->{$key};
-    		            $val = $date > 0 ? date('Y-m-d H:i:s',$this->targetObject->{$key}) : '';
+    		            $val = $subjectValue > 0 ? date('Y-m-d H:i:s',$subjectValue) : '';
     		        }
     		        elseif(substr($key,-4) == 'Size')
     		        {
-    		            $val = Core::FileSystem()->formatFileSize($this->targetObject->{$key});
+    		            $val = Core::FileSystem()->formatFileSize($subjectValue);
     		        }
     		        elseif($key == 'AccessIntervalAverage')
     		        {
     		            $currentUnit = 0;
     		            $units = array('seconds' => 60, 'minutes' => 60, 'hours' => 24, 'days' => 365, 'years' => 100);
-    		            $val = floatval($this->targetObject->{$key});
+    		            $val = floatval($subjectValue);
     		            if($val > 0)
     		            {
         		            foreach ($units as $unit => $mustBeUnder)
@@ -99,7 +99,7 @@ class View_UIElement_Information extends _View_UIElement implements ISidebarWidg
     		        }
     		        else
     		        {
-    		            $val = String::htmlEncode(wordwrap($this->targetObject->{$key},15,'<wbr />',true));
+    		            $val = String::htmlEncode(wordwrap($subjectValue,15,'<wbr />',true));
     		            $val = str_replace('&lt;wbr /&gt;', '<wbr />', $val);
     		        }
     		    }

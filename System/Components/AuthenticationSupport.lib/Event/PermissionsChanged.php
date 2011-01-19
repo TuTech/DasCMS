@@ -7,7 +7,7 @@ class Event_PermissionsChanged
 	 */
 	public function __construct($sender)
 	{
-		$this->Sender = $sender;
+		$this->sender = $sender;
 		$this->informHandlers();
 	}
 }

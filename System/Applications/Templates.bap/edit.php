@@ -10,7 +10,7 @@ $Tpl = SApplication::getControllerContent();
 if(isset($Tpl) && $Tpl instanceof CTemplate)
 {
     echo new View_UIElement_ContentTitle($Tpl);
-    $editor = new View_UIElement_TextEditor($Tpl->RAWContent);
+    $editor = new View_UIElement_TextEditor($Tpl->getRAWContent());
     $editor->setWordWrap(false);
     $editor->disableSpellcheck();
 	if(file_exists('System/External/Bespin')){

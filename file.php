@@ -85,9 +85,9 @@ try
 }
 catch(Exception $e)
 {
-    header('HTTP/1.1 404 Not Found');
-	header('Status: 404 Not Found');
-	echo 'Status: 404 Not Found';
+    header('HTTP/1.1 500 Server Error');
+	SErrorAndExceptionHandler::reportException($e);
+	echo 'Status: 500 Server Error';
 	echo $e->getMessage();
 }
 ?>

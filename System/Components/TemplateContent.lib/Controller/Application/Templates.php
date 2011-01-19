@@ -71,15 +71,15 @@ class Controller_Application_Templates
         {
             if(!empty($param['title']))
             {
-                $this->target->Title = $param['title'];
+                $this->target->setTitle($param['title']);
             }
             if(isset($param['subtitle']))
             {
-                $this->target->SubTitle = $param['subtitle'];
+                $this->target->setSubTitle($param['subtitle']);
             }
             if(isset($param['content']))
             {
-                $this->target->RAWContent = $param['content'];
+                $this->target->setRAWContent($param['content']);
             }
         }
     }
@@ -89,7 +89,7 @@ class Controller_Application_Templates
         parent::requirePermission('org.bambuscms.content.ctemplate.delete');
         if($this->target != null)
         {
-            $alias = $this->target->Alias;
+            $alias = $this->target->getAlias();
             if(Controller_Content::getInstance()->deleteContent($alias))
             {
                 $this->target = null;
@@ -145,7 +145,7 @@ class Controller_Application_Templates
      */
     public function getOpenDialogTarget()
     {
-        return empty($this->target) ? null : $this->target->Alias;
+        return empty($this->target) ? null : $this->target->getAlias();
     }
     
     /**
@@ -160,9 +160,9 @@ class Controller_Application_Templates
         {
             throw new XPermissionDeniedException('view');
         }
-        $IDindex = Controller_Content::getInstance()->contentIndex('CTemplate');
+        $idIndex = Controller_Content::getInstance()->contentIndex('CTemplate');
         $items = array();
-        foreach ($IDindex as $alias => $data) 
+        foreach ($idIndex as $alias => $data)
         {
         	list($title, $pubdate) = $data;
         	$items[] = array($title, $alias, 0, strtotime($pubdate));

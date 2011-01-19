@@ -21,7 +21,7 @@ class Controller_Tags
 	 */
 	public function handleEventContentChanged(Event_ContentChanged $e)
 	{
-		$this->update($e->Content);
+		$this->update($e->getContent());
 	}
 	
 	/**
@@ -29,7 +29,7 @@ class Controller_Tags
 	 */
 	public function handleEventContentCreated(Event_ContentCreated $e)
 	{
-		$this->update($e->Content);
+		$this->update($e->getContent());
 	}
 	
 	/**
@@ -37,7 +37,7 @@ class Controller_Tags
 	 */
 	public function handleEventContentDeleted(Event_ContentDeleted $e)
 	{
-		$this->set($e->Content, '');
+		$this->set($e->getContent(), '');
 	}
 	
 	//Interface_Singleton
@@ -149,7 +149,7 @@ class Controller_Tags
 	 */
 	public function update(Interface_Content $content)
 	{
-		$this->setTags($content->Alias, implode(',', $content->Tags));
+		$this->setTags($content->getAlias(), implode(',', $content->getTags()));
 	}
 	
 	/**
@@ -160,7 +160,7 @@ class Controller_Tags
 	 */
 	public function set(Interface_Content $content, $tagstr)
 	{
-		$this->setTags($content->Alias, $tagstr);
+		$this->setTags($content->getAlias(), $tagstr);
 	}
 	
 	/**
@@ -172,7 +172,7 @@ class Controller_Tags
 	public function get($ContentOrAlias)
 	{
 	    $alias = ($ContentOrAlias instanceof Interface_Content)
-	        ? $ContentOrAlias->Alias 
+	        ? $ContentOrAlias->getAlias()
 	        : $ContentOrAlias;
 		return $this->getTags($alias);
 	}

@@ -15,7 +15,7 @@ class View_UIElement_List extends _View_UIElement
 	const CONFIRM = true;
 	const DENY = false;
 	
-	private $ID;
+	private $id;
 	private $items;
 	private $title;
 	private $itemTag;
@@ -24,7 +24,7 @@ class View_UIElement_List extends _View_UIElement
 	
 	public function __construct(array $items = array(), $itemTag = 'p', $wrapTag = null, $title = null)
 	{		
-		$this->ID = ++parent::$CurrentWidgetID;
+		$this->id = ++parent::$CurrentWidgetID;
 		$this->items = $items;
 		$this->title = $title;
 	    $this->itemTag = $itemTag;
@@ -89,7 +89,7 @@ class View_UIElement_List extends _View_UIElement
 	 */
 	public function getPrimaryInputID()
 	{
-		return "_".$this->ID;
+		return "_".$this->id;
 	}
 }
 ?>

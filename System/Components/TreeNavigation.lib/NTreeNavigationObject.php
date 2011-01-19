@@ -188,7 +188,7 @@ class NTreeNavigationObject
 				,($selected) 
 					? ' class="SelectedNavigationLink"' 
 					: ''
-				,strval($this->Navigation->LinkTo($this))
+				,strval($this->Navigation->linkTo($this))
 				,String::htmlEncode(strval($this->Navigation->getTitle($this)))
 			);		
 			$html .= ($this->hasChildren())
@@ -215,7 +215,7 @@ class NTreeNavigationObject
 	 *
 	 * @param NTreeNavigationHelper $nav
 	 */
-	public function InitTree(NTreeNavigationHelper $nav)
+	public function initTree(NTreeNavigationHelper $nav)
 	{
 		$this->Navigation = $nav;
 		if($this->alias == $nav->getContentCMSID())
@@ -223,11 +223,11 @@ class NTreeNavigationObject
 		$this->reportVisibility();
 		if($this->hasChildren())
 		{
-			$this->firstChild->InitTree($nav);
+			$this->firstChild->initTree($nav);
 		}
 		if($this->hasNext())
 		{
-			$this->next->InitTree($nav);
+			$this->next->initTree($nav);
 		}
 	}
 	
@@ -299,7 +299,7 @@ class NTreeNavigationObject
 	/**
 	 * for the TreeNavigation to tell us we are an accessed element
 	 */
-	public function Activate()
+	public function activate()
 	{
 		$this->showChildren();
 		$this->showParents();

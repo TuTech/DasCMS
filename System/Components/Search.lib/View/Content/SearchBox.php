@@ -27,7 +27,7 @@ class View_Content_SearchBox
 			$val = $this->wrapXHTML('SearchBox',sprintf(
 					'<input type="search" name="%s" value="%s" %s%s/>',
 					$CVC->buildParameterName($par),
-					String::htmlEncode($CVC->GetParameter($this->parameterName, CHARSET)),
+					String::htmlEncode($CVC->getParameter($this->parameterName, CHARSET)),
 					(empty ($this->elementId)) ? '' : ' id="'.String::htmlEncode($this->elementId.'-input').'"',
 					(empty ($this->placeholder)) ? '' : ' placeholder="'.String::htmlEncode($this->placeholder).'"'
 			));
@@ -45,7 +45,7 @@ class View_Content_SearchBox
 				&& $content->isSubQueryingAllowed()
 				&& Controller_View_Content::exists($targetView))
 		{
-			$content->addSubQuery(Controller_View_Content::byName($targetView)->GetParameter($this->parameterName, CHARSET));
+			$content->addSubQuery(Controller_View_Content::byName($targetView)->getParameter($this->parameterName, CHARSET));
 			self::$qsSent[$this->parameterName] = 1;
 		}
 	}

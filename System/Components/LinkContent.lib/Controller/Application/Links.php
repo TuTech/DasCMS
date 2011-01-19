@@ -69,15 +69,15 @@ class Controller_Application_Links
         {
             if(!empty($param['title']))
             {
-                $this->target->Title = $param['title'];
+                $this->target->setTitle($param['title']);
             }
             if(isset($param['subtitle']))
             {
-                $this->target->SubTitle = $param['subtitle'];
+                $this->target->setSubTitle($param['subtitle']);
             }
             if(isset($param['content']))
             {
-                $this->target->Content = $param['content'];
+                $this->target->setContent($param['content']);
             }
         }
     }
@@ -87,7 +87,7 @@ class Controller_Application_Links
         parent::requirePermission('org.bambuscms.content.clink.delete');
         if($this->target != null)
         {
-            $alias = $this->target->Alias;
+            $alias = $this->target->getAlias();
             if(Controller_Content::getInstance()->deleteContent($alias))
             {
                 $this->target = null;
@@ -134,7 +134,7 @@ class Controller_Application_Links
      */
     public function getOpenDialogTarget()
     {
-        return empty($this->target) ? null : $this->target->Alias;
+        return empty($this->target) ? null : $this->target->getAlias();
     }
     
     
@@ -150,9 +150,9 @@ class Controller_Application_Links
         {
             throw new XPermissionDeniedException('view');
         }
-        $IDindex = Controller_Content::getInstance()->contentIndex('Clink');
+        $idIndex = Controller_Content::getInstance()->contentIndex('Clink');
         $items = array();
-        foreach ($IDindex as $alias => $data) 
+        foreach ($idIndex as $alias => $data)
         {
         	list($title, $pubdate, $type, $id) = $data;
         	$items[] = array($title, $alias, 0, strtotime($pubdate));

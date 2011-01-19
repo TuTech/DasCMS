@@ -39,10 +39,10 @@ class SFeedKeeper
 	{
 	    try
 	    {
-	        $CID = $e->Content->Id;
+	        $CID = $e->getContent()->getId();
 	        $DB = Core::Database()->createQueryForClass($this);
 	        $DB->beginTransaction();
-    	    if(get_class($e->Content) == 'CFeed')
+    	    if(get_class($e->getContent()) == 'CFeed')
     	    {
     	        //remove all items from feed
 				$DB->call('clear')
@@ -113,7 +113,7 @@ class SFeedKeeper
                 }
                 else
                 {
-                    $matching = array_intersect($e->Content->Tags, $feedTags[$fid]);
+                    $matching = array_intersect($e->getContent()->getTags(), $feedTags[$fid]);
     	            switch($type)
     	            {
     	                case CFeed::ALL:
@@ -157,14 +157,14 @@ class SFeedKeeper
     {
         try
 	    {
-	        $CID = $e->Content->Id;
+	        $CID = $e->getContent()->getId();
 	        $DB = Core::Database()->createQueryForClass($this);
 	        $DB->beginTransaction();
-            if(get_class($e->Content) == 'CFeed')
+            if(get_class($e->getContent()) == 'CFeed')
             {
     	        //set up data in "Feeds"
 				$DB->call('setType')
-					->withParameters($feedId, CFeed::ALL, CFeed::ALL)
+					->withParameters($CID, CFeed::ALL, CFeed::ALL)
 					->execute();
     	        //add all items
 				$DB->call('assignToAll')
