@@ -17,6 +17,10 @@ class DSQL_MySQL extends DSQL
 	 * @var mysqli
 	 */
 	private static $DB = null;
+	private static $configKeys = array(
+	    'db_server' => 0,'db_port' => 0,'db_user' => 0,'db_password' => '######','db_name' => 0,
+		'db_use_ssl' => 0, 'db_ssl_keyfile' => 0, 'db_ssl_certfile' => 0, 'db_ssl_cafile' => 0,
+	);
 	
 	private function translateMode($mode)
 	{
@@ -36,14 +40,27 @@ class DSQL_MySQL extends DSQL
 	{
 		if(self::$DB == null)
     	{
-    		//$host $cfg->get()
-    		self::$DB = new mysqli(
-				$this->getCfgOrNull('db_server'),
+			self::$DB = new mysqli();
+            self::$DB->init();
+
+			//ssl init
+			if($this->getCfgOrNull('db_use_ssl')){
+				self::$DB->ssl_set(
+						$this->getCfgOrNull('db_ssl_keyfile'),
+						$this->getCfgOrNull('db_ssl_certfile'),
+						$this->getCfgOrNull('db_ssl_cafile'),
+						$this->getCfgOrNull('db_ssl_capath'),
+						$this->getCfgOrNull('db_ssl_cipher'));
+			}
+
+			//connect
+			self::$DB->real_connect ($this->getCfgOrNull('db_server'),
 				$this->getCfgOrNull('db_user'),
 				$this->getCfgOrNull('db_password'),
 				$this->getCfgOrNull('db_name'),
 				$this->getCfgOrNull('db_port'),
 				$this->getCfgOrNull('db_socket'));
+
 			if(mysqli_connect_errno() != 0)
 			{
 				throw new XDatabaseException(mysqli_connect_error(), mysqli_connect_errno());
@@ -58,15 +75,23 @@ class DSQL_MySQL extends DSQL
 		$dat = Core::Settings()->get($key);
 		return empty($dat) ? null : $dat; 
 	}
-	private static $configKeys = array(
-	    'db_server' => 0,'db_port' => 0,'db_user' => 0,'db_password' => '######','db_name' => 0
-	);
+
 	public function handleEventRequestingClassSettings(Event_RequestingClassSettings $e)
 	{
 	    $data = array();
         foreach (self::$configKeys as $mk => $altVal)
         {
-            $data[$mk] = array($altVal === 0 ? Core::Settings()->get($mk) : $altVal,($altVal === 0 ? Settings::TYPE_TEXT : Settings::TYPE_PASSWORD), null, $mk);
+			switch ($mk){
+				case 'db_password':
+					$type = Settings::TYPE_PASSWORD;
+					break;
+				case 'db_use_ssl':
+					$type = Settings::TYPE_CHECKBOX;
+					break;
+				default :
+					$type = Settings::TYPE_TEXT;
+			}
+            $data[$mk] = array($altVal === 0 ? Core::Settings()->get($mk) : $altVal,$type, null, $mk);
         }
         $e->addClassSettings($this, 'database', $data);
 	}
