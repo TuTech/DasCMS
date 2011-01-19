@@ -56,9 +56,9 @@ class TCmdContent
     {
         if(array_key_exists($this->alias, self::$contents)
             && self::$contents[$this->alias] instanceof Interface_Content
-            && isset(self::$contents[$this->alias]->{$this->property}))
+            && method_exists(self::$contents[$this->alias], 'get'.$this->property))
         {
-            return self::$contents[$this->alias]->{$this->property};
+            return self::$contents[$this->alias]->{'get'.$this->property}();
         }
         return '';
     }
