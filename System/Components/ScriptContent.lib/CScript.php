@@ -36,7 +36,7 @@ class CScript
 	    list($dbid, $alias) = _Content::createContent(self::CLASS_NAME, $title);
 	    Core::FileSystem()->store(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$dbid.'.php', ' ');
 	    Core::FileSystem()->store(Core::PATH_CONTENT.self::CLASS_NAME.'/'.$dbid.'.html.php', ' ');
-	    _Content::setMIMEType($alias, 'application/javascript');
+	    _Content::setMIMEType($alias, 'text/javascript');
 	    $script = new CScript($alias);
 	    $e = new Event_ContentCreated($script, $script);
 	    return $script;
@@ -168,7 +168,7 @@ class CScript
 	public static function sendHeaderService($embedAlias, Event_WillSendHeaders $e)
 	{
 	    $url = 'file.php?get='.$embedAlias;
-	    $e->getHeader()->addScript('application/javascript',$url,'');
+	    $e->getHeader()->addScript('text/javascript',$url,'');
 	}
 
 	//IFileContent
