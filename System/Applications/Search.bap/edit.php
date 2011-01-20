@@ -55,6 +55,16 @@ if($Search instanceof CSearch)
         )
     ));
 
+	//message for empty result set
+	$tbl->addRow(array(
+        'message_for_empty_results',
+        new View_UIElement_TextBox(
+            'empty_result_message',
+            $Search->getEmptyResultMessage(),
+            View_UIElement_TextBox::MULTILINE
+        )
+    ));
+
 	//items per page
 	$tbl->addRow(array(
         'items_per_page',
