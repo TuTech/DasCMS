@@ -32,7 +32,8 @@ class CSearch
 			$itemsPerPage = 10,
 			$order = Interface_Search_ConfiguredResultset::ASC,
 			$allowOverwriteOrder = false,
-			$allowExtendQueryString = false;
+			$allowExtendQueryString = false,
+			$emptyResultMessage = '';
 
 	public function getClassGUID()
     {
@@ -71,15 +72,26 @@ class CSearch
 	        $this->initBasicMetaFromDB($alias, self::CLASS_NAME);
 			$file = sprintf('Content/CSearch/%d.php', $this->Id);
 			if(file_exists($file)){
-				list(
-					$this->queryString,
-					$this->allowExtendQueryString,
-
-					$this->order,
-					$this->allowOverwriteOrder,
-
-					$this->itemsPerPage
-				) = Core::FileSystem()->loadEncodedData($file);
+				$data = Core::FileSystem()->loadEncodedData($file);
+				if(count($data) == 5){
+					list(
+						$this->queryString,
+						$this->allowExtendQueryString,
+						$this->order,
+						$this->allowOverwriteOrder,
+						$this->itemsPerPage
+					) = $data;
+				}
+				else {
+					list(
+						$this->queryString,
+						$this->allowExtendQueryString,
+						$this->order,
+						$this->allowOverwriteOrder,
+						$this->itemsPerPage,
+						$this->emptyResultMessage
+					) = $data;
+				}
 			}
 	    }
 	    catch (XUndefinedIndexException $e)
@@ -93,6 +105,14 @@ class CSearch
      */
     public function getScope(){
 		return new Controller_Search_ResultScope($this->getResult(), $this->getParentView());
+	}
+
+	public function setEmptyResultMessage($value){
+		$this->emptyResultMessage = strval($value);
+	}
+
+	public function getEmptyResultMessage(){
+		return $this->emptyResultMessage;
 	}
 
 	public function setQueryString($value){
@@ -203,6 +223,9 @@ class CSearch
 			$out = sprintf('<b>%s</b>', $e->getMessage());
 			//TODO no formatter default to  "ul>li>a>[Title]"
 		}
+		if(empty ($out)){
+			$out = '<div class="CSearch-empty-result-message">'.$this->emptyResultMessage.'</div>';
+		}
 		return $out;
 	}
 
@@ -217,7 +240,8 @@ class CSearch
 			$this->order,
 			$this->allowOverwriteOrder,
 
-			$this->itemsPerPage
+			$this->itemsPerPage,
+			$this->emptyResultMessage
 		);
 		Core::FileSystem()->storeDataEncoded(
 				sprintf('Content/CSearch/%d.php', $this->Id),

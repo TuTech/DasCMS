@@ -83,6 +83,9 @@ class Controller_Application_Search
 			if(!empty ($param['order'])){
 				$this->target->setOrder($param['order']);
 			}
+			if(!empty ($param['empty_result_message'])){
+				$this->target->setEmptyResultMessage($param['empty_result_message']);
+			}
 			if(!empty ($param['allow_overwrite_order'])){
 				$this->target->setAllowOverwriteOrder($param['allow_overwrite_order']);
 			}
