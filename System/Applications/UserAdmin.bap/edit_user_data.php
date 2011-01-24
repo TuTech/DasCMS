@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Lutz Selke/TuTech Innovation GmbH 
+ * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author selke@tutech.de
  * @package org.bambuscms.applications.useradmin
  * @since 2006-11-03
@@ -30,9 +30,9 @@ if(PAuthorisation::has('org.bambuscms.credentials.user.change'))
     $d = new View_UIElement_Dialog('dlg_change_password','change_password', View_UIElement_Dialog::SUBMIT|View_UIElement_Dialog::CANCEL);
     $d->setButtonCaption(View_UIElement_Dialog::SUBMIT, 'change');
     $d->remember('action', 'edit_user_data');
-    $d->remember('realName', String::htmlEncode($SUsersAndGroups->getRealName($victim)));
-    $d->remember('email', String::htmlEncode($SUsersAndGroups->getEmail($victim)));
-    $d->remember('company', String::htmlEncode($SUsersAndGroups->getUserAttribute($victim, 'company')));
+    $d->remember('realName', htmlentities($SUsersAndGroups->getRealName($victim)));
+    $d->remember('email', htmlentities($SUsersAndGroups->getEmail($victim)));
+    $d->remember('company', htmlentities($SUsersAndGroups->getUserAttribute($victim, 'company')));
     if(!PAuthorisation::isInGroup('Administrator'))
     {
         $d->askPassword('change_password_from_old','old_password');
@@ -40,7 +40,7 @@ if(PAuthorisation::has('org.bambuscms.credentials.user.change'))
         $d->askPassword('confirm_new_password', 'confirm_password');
     }
     else
-    {//admin 
+    {//admin
         $d->askPassword('adm_set_password','new_password');
         $d->askPassword('adm_set_password_confirm','new_password');
     }
@@ -68,52 +68,52 @@ if($edit_mode == 'usr')
 		? "<input value=\"%s\" name=\"%s\" class=\"%s\" type=\"%s\" />\n"
 		: "%s\n";
 
-	$prof_tbl->addRow(array('login_name', String::htmlEncode($victim)));
-	$dat = intval($SUsersAndGroups->getUserAttribute($victim, 'last_management_login')); 
+	$prof_tbl->addRow(array('login_name', htmlentities($victim)));
+	$dat = intval($SUsersAndGroups->getUserAttribute($victim, 'last_management_login'));
 	if(!empty($dat))
 	{
 	    $prof_tbl->addRow(array('last_management_login', date('r',($dat))));
 	}
-	$prof_tbl->addRow(array('management_login_count', String::htmlEncode($SUsersAndGroups->getUserAttribute($victim, 'management_login_count'))));
+	$prof_tbl->addRow(array('management_login_count', htmlentities($SUsersAndGroups->getUserAttribute($victim, 'management_login_count'))));
 	$prof_tbl->addRow(array(
-	    'real_name', 
+	    'real_name',
 	    sprintf(
 	        $row
-	        ,String::htmlEncode($SUsersAndGroups->getRealName($victim))
+	        ,htmlentities($SUsersAndGroups->getRealName($victim))
 	        ,'realName'
 			,'fullinput'
 			,'text'
 	    )));
 	$prof_tbl->addRow(array(
-	    'email', 
+	    'email',
 	    sprintf(
 	        $row
-	        ,String::htmlEncode($SUsersAndGroups->getEmail($victim))
+	        ,htmlentities($SUsersAndGroups->getEmail($victim))
 	        ,'email'
 			,'fullinput'
 			,'text'
 	    )));
 	$prof_tbl->addRow(array(
-	    'company', 
+	    'company',
 	    sprintf(
 	        $row
-	        ,String::htmlEncode($SUsersAndGroups->getUserAttribute($victim, 'company'))
+	        ,htmlentities($SUsersAndGroups->getUserAttribute($victim, 'company'))
 	        ,'att_company'
 			,'fullinput'
 			,'text'
 	    )));
     $prof_tbl->render();
-	
 
-    
+
+
     /////////////////////////////EX PERMS
 	print('<input type="hidden" name="action_2" value="save_editor_permissions" /><br />');
     $myDir = getcwd();//nice place... remember it
     chdir(Core::PATH_SYSTEM_APPLICATIONS);
-    $Dir = opendir ('./'); 
+    $Dir = opendir ('./');
     $items = array();
     $i = 0;
-    while ($item = readdir ($Dir)) 
+    while ($item = readdir ($Dir))
     {
     	if(substr($item,0,1) != '.' && is_dir($item) && strtolower(Core::FileSystem()->suffix($item)) == 'bap')
         {
@@ -121,7 +121,7 @@ if($edit_mode == 'usr')
             $i++;
             list($name, $description, $icon, $guid) = array_values(SBapReader::getAttributesOf($item, array('name', 'description', 'icon', 'guid')));
             $available[$i] = array('item' => $item,'name' => $name,'desc' => $description,'icon' => $icon, 'type' => 'application', 'guid' => $guid);
-        }  
+        }
     }
     closedir($Dir);
     chdir(constant('BAMBUS_CMS_ROOTDIR'));
@@ -151,7 +151,7 @@ if($edit_mode == 'usr')
 								<p>
 									%s
 								</p>
-								<p>	
+								<p>
 									%s
 								</p>
 							</i>
@@ -159,9 +159,9 @@ if($edit_mode == 'usr')
 					</label>
 				</td>
 			</tr>
-    	
+
 EOX;
-	
+
 	foreach($available as $editor)
 	{
 	    $flip = ($flip == '1') ? '2' : '1';
@@ -190,12 +190,12 @@ EOX;
 	echo '</table>';
 	echo "<br />";
     /////////////////////////////EOF EX PERMS
-    
+
 }
 else
 {
 /////////////////////
-//group information// 
+//group information//
 /////////////////////
 
 	$urow = <<<ROW
@@ -204,7 +204,7 @@ else
 </div>
 
 ROW;
-	echo '<h3>',SLocalization::get('description'),'</h3><p>',String::htmlEncode($SUsersAndGroups->getGroupDescription($victim)),'</p>';
+	echo '<h3>',SLocalization::get('description'),'</h3><p>',htmlentities($SUsersAndGroups->getGroupDescription($victim)),'</p>';
 	echo '<h3>',SLocalization::get('assigned_users'),'</h3>';
 	$assignedUsers = $SUsersAndGroups->listUsersOfGroup($victim);
 	sort($assignedUsers, SORT_STRING);
@@ -215,12 +215,12 @@ ROW;
 			printf(
 					$urow
 					,($SUsersAndGroups->isMemberOf($user, 'Administrator')) ? 'Gold' : ''
-					,String::htmlEncode($user)
+					,htmlentities($user)
 				);
 		}
 	}
-	
+
 	echo '<br class="clear" />';
-	
+
 }
 ?>

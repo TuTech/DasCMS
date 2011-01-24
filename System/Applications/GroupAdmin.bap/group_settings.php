@@ -43,8 +43,8 @@ if($edit_mode == 'usr')
         if(!$SUsersAndGroups->isSystemGroup($name))
         {
         	$group_tbl->addRow(array(
-        	    sprintf('<label for="group_%d">%s</label>',  md5($name), String::htmlEncode($name)),
-        	    String::htmlEncode($desc),
+        	    sprintf('<label for="group_%d">%s</label>',  md5($name), htmlentities($name)),
+        	    htmlentities($desc),
         	    sprintf('<input id="group_%d" type="checkbox" name="join_group_%s" %s/>',  md5($name), md5($name), (($SUsersAndGroups->isMemberOf($victim, $name)) ? 'checked="checked" ' : '')),
         	));
         }
@@ -61,7 +61,7 @@ if($edit_mode == 'usr')
 	{
 		if($SUsersAndGroups->isGroup($usergroup) && !$SUsersAndGroups->isSystemGroup($usergroup))
 		{
-			$grparray[$usergroup] = String::htmlEncode($usergroup);
+			$grparray[$usergroup] = htmlentities($usergroup);
 			if($SUsersAndGroups->getPrimaryGroup($victim) == $usergroup)
 			{
 				$selected = $usergroup;
@@ -133,7 +133,7 @@ else
     $intro = new View_UIElement_Introduction();
     $intro->setTitle(mb_convert_encoding($victim, CHARSET, 'iso-8859-1'), false);
     $intro->setIcon('mimetype-group');
-    $intro->setDescription(String::htmlEncode($SUsersAndGroups->getGroupDescription($victim)), false);
+    $intro->setDescription(htmlentities($SUsersAndGroups->getGroupDescription($victim)), false);
     echo $intro;
 	
     $members = new View_UIElement_FlowLayout('members');
@@ -145,7 +145,7 @@ else
 		{
 			$members->addItem(sprintf(
 					'<div><b>%s</b><br />%s</div>'
-					,String::htmlEncode($user)
+					,htmlentities($user)
 					,($SUsersAndGroups->isMemberOf($user, 'Administrator')) ? 'Administrator' : 'User'
 				));
 		}
