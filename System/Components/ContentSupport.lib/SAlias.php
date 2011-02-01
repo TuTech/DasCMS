@@ -26,7 +26,8 @@ class SAlias
 	public function updateAlias(Interface_Content $content)
 	{
 		$Db =  Core::Database()->createQueryForClass($this);
-		if(!$content->isPublished())
+		//debulication is invoked later -> check for correct pubdate
+		if(!$content->isPublished() || !is_int($content->getPubDate()))
 		{
 			return;
 		}
