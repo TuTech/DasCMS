@@ -34,8 +34,8 @@ class RURL extends BRequest
                 $requests = explode('/', $path);
                 while(count($requests) >= 2)
                 {
-                    $key = urldecode(array_shift($requests));
-                    $value = urldecode(array_shift($requests));
+                    $key = array_shift($requests);
+                    $value = array_shift($requests);
                     self::$data[$key] = $value;
                 }
             }
