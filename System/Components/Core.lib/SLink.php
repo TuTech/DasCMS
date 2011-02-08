@@ -179,7 +179,7 @@ class SLink
         foreach ($data as $k => $v)
         {
         	if(!is_array($v)){
-            	$url .= sprintf('/%s/%s', urlencode($k), urlencode($v));
+            	$url .= sprintf('/%s/%s', rawurlencode($k), rawurlencode($v));
         	}
         }
         return $url;
