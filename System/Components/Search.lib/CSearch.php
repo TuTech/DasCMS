@@ -33,7 +33,8 @@ class CSearch
 			$order = Interface_Search_ConfiguredResultset::ASC,
 			$allowOverwriteOrder = false,
 			$allowExtendQueryString = false,
-			$emptyResultMessage = '';
+			$emptyResultMessage = '',
+			$resultCount = null;
 
 	public function getClassGUID()
     {
@@ -157,6 +158,11 @@ class CSearch
 		return $this->itemsPerPage;
 	}
 
+	public function getResultCount(){
+		$this->getResult();
+		return $this->resultCount;
+	}
+
 	/**
 	 * @return Interface_Search_ResultPage
 	 */
@@ -177,6 +183,8 @@ class CSearch
 				$pageNo = max(1, $pageNo);//pageNo >= 1
 				$pageNo = min($res->getLastPageNumber(), $pageNo); // pageNo <= last page
 			}
+			$this->resultCount = $res->getResultCount();
+			
 			$this->result = $res->resultsFromPage($pageNo);
 		}
 		return $this->result;
