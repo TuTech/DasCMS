@@ -13,8 +13,7 @@ class Controller_Tags
     implements 
         Interface_Singleton, 
     	Event_Handler_ContentChanged,
-    	Event_Handler_ContentCreated,
-    	Event_Handler_ContentDeleted
+    	Event_Handler_ContentCreated
 {
 	/**
 	 * @param Event_ContentChanged $e
