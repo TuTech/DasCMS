@@ -76,14 +76,6 @@ class SAlias
 	{
 		$this->updateAlias($e->getContent());
 	}
-	
-	/**
-	 * @param Event_ContentDeleted $e
-	 */
-	public function handleEventContentDeleted(Event_ContentDeleted $e)
-	{
-		$this->removeAliases($e->getContent());
-	}
 
 	/**
 	 * @param Event_ContentPublished $e

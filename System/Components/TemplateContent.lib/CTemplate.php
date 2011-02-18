@@ -16,8 +16,7 @@ class CTemplate
         IGlobalUniqueId,
         IPageGenerator, 
         ISearchDirectives,
-        Interface_XML_Atom_ProvidesInlineText,
-		Event_Handler_ContentDeleted
+        Interface_XML_Atom_ProvidesInlineText
 {
     const GUID = 'org.bambuscms.content.ctemplate';
     const CLASS_NAME = 'CTemplate';
