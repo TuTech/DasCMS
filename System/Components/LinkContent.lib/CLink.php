@@ -15,7 +15,8 @@ class CLink
         ISupportsSidebar, 
         IGlobalUniqueId,
         ISearchDirectives,
-        Interface_XML_Atom_ProvidesInlineText
+        Interface_XML_Atom_ProvidesInlineText,
+		Event_ContentDeleted
 {
     const GUID = 'org.bambuscms.content.clink';
     const CLASS_NAME = 'CLink';

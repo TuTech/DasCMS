@@ -10,7 +10,7 @@ DELETE
 -- name: add
 -- type: insert
 -- inputTypes:	issiis
-INSERT
+INSERT IGNORE
 	INTO __PFX__Changes (contentREL, changeDate, title, size, userREL, latest)
 	VALUES (?, ?, ?, ?, ?, ?)
 

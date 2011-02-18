@@ -112,6 +112,7 @@ class Controller_Content implements Interface_Singleton
 					->call('delete')
 					->withParameters($alias)
 					->execute();
+				SNotificationCenter::report('message', 'content_deleted');
 				$eDid = new Event_ContentDeleted($this, $guid);
 			}
 	    }

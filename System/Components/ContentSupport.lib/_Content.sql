@@ -107,7 +107,7 @@ UPDATE __PFX__Changes
 -- name: log
 -- type: insert
 -- inputTypes:	isis
-INSERT
+INSERT IGNORE
 	INTO __PFX__Changes (contentREL, title, size, userREL, latest)
 	VALUES (?, ?, ?, ?, 'Y')
 
