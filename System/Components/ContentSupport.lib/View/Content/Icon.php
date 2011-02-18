@@ -34,7 +34,7 @@ class View_Content_Icon
 	}
 
 	public function setIconSize($value){
-		if(View_UIElement_Icon::isSize($size)){
+		if(View_UIElement_Icon::isSize($value)){
 			$this->iconSize = $value;
 		}
 	}
