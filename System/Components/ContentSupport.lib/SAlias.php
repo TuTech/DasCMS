@@ -86,7 +86,7 @@ class SAlias
 	}
 
 	/**
-	 * @param Event_ContentDeleted $e
+	 * @param Event_ContentPublished $e
 	 */
 	public function handleEventContentPublished(Event_ContentPublished $e)
 	{

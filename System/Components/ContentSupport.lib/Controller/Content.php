@@ -100,11 +100,20 @@ class Controller_Content implements Interface_Singleton
     {
         try
 	    {
-			$succ = Core::Database()
-				->createQueryForClass($this)
-				->call('delete')
-				->withParameters($alias)
-				->execute();
+			$content = $this->openContent($alias);
+			$guid = $content->getGUID();
+			$eWill = new Event_WillDeleteContent($this, $content);
+			if($eWill->isCanceled()){
+				$succ = false;
+				SNotificationCenter::report('warning', 'delete_prevented_by_system');
+			}else{
+				$succ = Core::Database()
+					->createQueryForClass($this)
+					->call('delete')
+					->withParameters($alias)
+					->execute();
+				$eDid = new Event_ContentDeleted($this, $guid);
+			}
 	    }
 	    catch (XDatabaseException $d)
 	    {
