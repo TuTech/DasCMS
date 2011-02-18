@@ -32,14 +32,6 @@ class Controller_Tags
 		$this->update($e->getContent());
 	}
 	
-	/**
-	 * @param Event_ContentDeleted $e
-	 */
-	public function handleEventContentDeleted(Event_ContentDeleted $e)
-	{
-		$this->set($e->getContent(), '');
-	}
-	
 	//Interface_Singleton
 	const CLASS_NAME = 'Controller_Tags';
 	/**
