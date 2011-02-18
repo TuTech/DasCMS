@@ -18,7 +18,7 @@ class CScript
         Interface_XML_Atom_ProvidesInlineText,
         IHeaderService,
         IFileContent,
-		Event_ContentDeleted
+		Event_Handler_ContentDeleted
 {
     const GUID = 'org.bambuscms.content.cscript';
     const CLASS_NAME = 'CScript';
