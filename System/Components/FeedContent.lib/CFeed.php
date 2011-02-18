@@ -16,7 +16,8 @@ class CFeed
         IGlobalUniqueId, 
         IGeneratesFeed, 
         ISearchDirectives,
-        IFileContent
+        IFileContent,
+		Event_ContentDeleted
 {
     const GUID = 'org.bambuscms.content.cfeed';
     

@@ -15,7 +15,8 @@ class CPage
         ISupportsSidebar, 
         IGlobalUniqueId, 
         ISearchDirectives,
-        Interface_XML_Atom_ProvidesInlineText 
+        Interface_XML_Atom_ProvidesInlineText,
+		Event_ContentDeleted
 {
     const GUID = 'org.bambuscms.content.cpage';
     const CLASS_NAME = 'CPage';

@@ -14,5 +14,9 @@ class Event_ContentDeleted
 	public function getContent() {
 		return null;
 	}
+
+	public function getGUID(){
+		return $this->guid;
+	}
 }
 ?>

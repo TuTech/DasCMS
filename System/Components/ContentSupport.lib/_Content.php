@@ -35,6 +35,8 @@ abstract class _Content implements Interface_Content
 		$MimeType
 		;
 
+	private $__deleted = false;
+
 	/////////
 	//Linking
     private $parentView = null;
@@ -263,6 +265,7 @@ abstract class _Content implements Interface_Content
 	 */
 	protected function saveMetaToDB()
 	{
+		if($this->__deleted)return;
 		$pubDate = ($this->PubDate > 0) ? date('Y-m-d H:i:s', $this->PubDate) : '0000-00-00 00:00:00';
 		$revokeDate = ($this->RevokeDate > 0) ? date('Y-m-d H:i:s', $this->RevokeDate) : '0000-00-00 00:00:00';
 		Core::Database()
@@ -637,6 +640,8 @@ abstract class _Content implements Interface_Content
 
 	public function save()
 	{
+		if($this->__deleted)return;
+		
 		//inform about upcoming save
 		$e = new Event_WillSaveContent($this, $this);
 		if($e->isCanceled()){
@@ -656,6 +661,12 @@ abstract class _Content implements Interface_Content
 
 		//inform about completed save
 		$e = new Event_ContentChanged($this, $this);
+	}
+
+	public function handleEventContentDeleted(Event_ContentDeleted $e) {
+		if($e->getGUID() == $this->GUID){
+			$this->__deleted = true;
+		}
 	}
 }
 ?>
