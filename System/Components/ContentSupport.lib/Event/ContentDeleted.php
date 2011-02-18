@@ -2,11 +2,17 @@
 class Event_ContentDeleted
 	extends _EventContent
 {
-	public function __construct($sender, Interface_Content $content)
+	protected $guid;
+
+	public function __construct($sender, $guid)
 	{
 		$this->sender = $sender;
-		$this->content = $content;
+		$this->guid = $guid;
 		$this->informHandlers();
+	}
+
+	public function getContent() {
+		return null;
 	}
 }
 ?>
