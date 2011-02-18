@@ -14,7 +14,6 @@ class SAlias
         Interface_Singleton,
 		Event_Handler_ContentChanged,
 		Event_Handler_ContentCreated,
-		Event_Handler_ContentDeleted,
 		Event_Handler_ContentPublished
 {	
 	/**
