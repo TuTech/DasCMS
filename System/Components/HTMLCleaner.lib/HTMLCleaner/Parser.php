@@ -11,7 +11,7 @@ class HTMLCleaner_Parser {
 	protected $domDocument;
 	protected $cleaners = array();
 	protected static $selfClosingTags = array(
-		"br", "hr", "input", "frame", "img", "area", "link", "col", "base", "basefont", "param"
+		"br", "hr", "input", "iframe", "img", "area", "link", "col", "base", "basefont", "param"
 	);
 
 	public function  __construct($html = null, $wrapHTML = true) {
@@ -24,12 +24,9 @@ class HTMLCleaner_Parser {
 		$head = '';
 		$foot = '';
 		if($wrapHTML){
-			$head = '<?xml version="1.0" encoding="utf-8"?>'.
-					'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" '.
-					'"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'.
-					'<html xmlns="http://www.w3.org/1999/xhtml">'.
+			$head = '<!DOCTYPE html>'.
 					'<head>'.
-					'<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />'.
+					'<meta http-equiv="Content-Type" content="text/html; charset='.CHARSET.'" />'.
 					'</head><body>';
 			$foot = '</body></html>';
 		}
@@ -83,7 +80,7 @@ class HTMLCleaner_Parser {
 
 	protected static function convCallback($match){
 		$tag = in_array($match[1], self::$selfClosingTags)
-				? '<%s%s />'
+				? '<%s%s>'
 				: '<%s%s></%s>';
 		return sprintf($tag, $match[1], $match[2], $match[1]);
 	}
@@ -94,7 +91,7 @@ class HTMLCleaner_Parser {
 		}
 		$root = $this->domDocument->documentElement;
 		$this->nodeWalker($root);
-		$body = $this->domDocument->saveXML();
+		$body = $this->domDocument->saveHTML();
 
 		$body = substr($body, strpos($body, '<body>')+6);
 		$body = substr($body, 0, strripos($body, '</body>'));
