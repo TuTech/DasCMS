@@ -36,10 +36,12 @@ class HTMLCleaner_Parser {
 
 		SErrorAndExceptionHandler::muteErrors();
 		$this->domDocument = new DOMDocument('1.0', CHARSET);
+		$this->domDocument->encoding = CHARSET;
+		$this->domDocument->recover = true;
+		$this->domDocument->formatOutput = true;
+		$this->domDocument->preserveWhiteSpace = true;
 		$this->domDocument->loadHTML($head.$html.$foot);
 		SErrorAndExceptionHandler::reportErrors();
-		$this->domDocument->encoding = CHARSET;
-		$this->domDocument->preserveWhiteSpace = true;
 	}
 
 	public function addCleaner(HTMLCleaner_Cleaner $cleaner){
