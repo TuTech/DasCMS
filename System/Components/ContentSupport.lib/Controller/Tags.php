@@ -13,8 +13,7 @@ class Controller_Tags
     implements 
         Interface_Singleton, 
     	Event_Handler_ContentChanged,
-    	Event_Handler_ContentCreated,
-    	Event_Handler_ContentDeleted
+    	Event_Handler_ContentCreated
 {
 	/**
 	 * @param Event_ContentChanged $e
@@ -30,14 +29,6 @@ class Controller_Tags
 	public function handleEventContentCreated(Event_ContentCreated $e)
 	{
 		$this->update($e->getContent());
-	}
-	
-	/**
-	 * @param Event_ContentDeleted $e
-	 */
-	public function handleEventContentDeleted(Event_ContentDeleted $e)
-	{
-		$this->set($e->getContent(), '');
 	}
 	
 	//Interface_Singleton

@@ -18,8 +18,7 @@ class CSearch
         ISearchDirectives,
 		Interface_Content_HasScope,
         IFileContent,
-		Interface_Search_AcceptsSubQueries,
-		Event_ContentDeleted
+		Interface_Search_AcceptsSubQueries
 {
     const CLASS_NAME = 'CSearch';
     const GUID = 'org.bambuscms.content.csearch';

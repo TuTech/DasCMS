@@ -17,8 +17,7 @@ class CStylesheet
         ISearchDirectives,
         IFileContent,
         Interface_XML_Atom_ProvidesInlineText,
-        IHeaderService,
-		Event_ContentDeleted
+        IHeaderService
 {
     const GUID = 'org.bambuscms.content.cstylesheet';
     const CLASS_NAME = 'CStylesheet';

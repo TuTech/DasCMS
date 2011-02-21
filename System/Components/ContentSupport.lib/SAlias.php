@@ -14,7 +14,6 @@ class SAlias
         Interface_Singleton,
 		Event_Handler_ContentChanged,
 		Event_Handler_ContentCreated,
-		Event_Handler_ContentDeleted,
 		Event_Handler_ContentPublished
 {	
 	/**
@@ -75,14 +74,6 @@ class SAlias
 	public function handleEventContentCreated(Event_ContentCreated $e)
 	{
 		$this->updateAlias($e->getContent());
-	}
-	
-	/**
-	 * @param Event_ContentDeleted $e
-	 */
-	public function handleEventContentDeleted(Event_ContentDeleted $e)
-	{
-		$this->removeAliases($e->getContent());
 	}
 
 	/**

@@ -113,7 +113,14 @@ class Controller_Content implements Interface_Singleton
 					->withParameters($alias)
 					->execute();
 				SNotificationCenter::report('message', 'content_deleted');
-				$eDid = new Event_ContentDeleted($this, $guid);
+				try{
+					$eDid = new Event_ContentDeleted($this, $guid);
+				}
+				catch (Exception $e){
+					$msg = 'Error in delete handler: '.$e->getMessage();
+			        SNotificationCenter::report('warning', $msg);
+					Core::Logger()->log($msg, LOG_WARNING);
+				}
 			}
 	    }
 	    catch (XDatabaseException $d)

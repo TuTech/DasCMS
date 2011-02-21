@@ -16,8 +16,7 @@ class CFile
         IGlobalUniqueId,
         IFileContent,
         ISearchDirectives,
-        Interface_XML_Atom_ProvidesOutOfLineContent,
-		Event_ContentDeleted
+        Interface_XML_Atom_ProvidesOutOfLineContent
 {
     const GUID = 'org.bambuscms.content.cfile';
     const CLASS_NAME = 'CFile';
