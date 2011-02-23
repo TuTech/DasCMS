@@ -22,7 +22,7 @@ class Settings_SysInfo
 	public function clearCache()
     {
 		try{
-			if(PAuthorisation::has('org.bambuscms.system.cache.clear'))
+			if(PAuthorisation::has('org.bambuscms.system.cache.delete'))
 			{
 				$myDir = getcwd();
 				if(chdir(Core::PATH_TEMP))

@@ -29,7 +29,7 @@ class Controller_Application_Views
     
     public function save(array $data)
     {
-        parent::requirePermission('org.bambuscms.view.spore.set');
+        parent::requirePermission('org.bambuscms.view.spore.change');
     	foreach ($data as $key => $value) 
     	{
     		if(substr($key,0,5) == 'spore')
