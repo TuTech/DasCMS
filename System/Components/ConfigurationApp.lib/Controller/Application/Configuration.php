@@ -79,7 +79,7 @@ class Controller_Application_Configuration
     
     public function save(array $config)
     {
-        parent::requirePermission('org.bambuscms.configuration.set');
+        parent::requirePermission('org.bambuscms.configuration.change');
         
         //fetch class settings
         foreach ($config as $key => $value)

@@ -62,7 +62,7 @@ class ULocations
     
     public function setContentLocation($alias, $location)
     {
-        self::failWithout('org.bambuscms.location.edit');
+        self::failWithout('org.bambuscms.location.change');
 		$dbid = Core::Database()
 			->createQueryForClass($this)
 			->call('getId')
@@ -88,7 +88,7 @@ class ULocations
         
     public function setLocationData($location, $address, $latitude, $longitude, $accuracy)
     {
-        self::failWithout('org.bambuscms.location.edit');
+        self::failWithout('org.bambuscms.location.change');
 		$address = empty($address) ? null : $address;
 		$latitude = empty($latitude) ? null : $latitude;
 		$longitude = empty($longitude) ? null : $longitude;
@@ -105,7 +105,7 @@ class ULocations
     
     public function getLocationList(array $params)
     {
-        self::failWithout('org.bambuscms.location.list');
+        self::failWithout('org.bambuscms.location.view');
         //params: query
         $q = isset($params['query']) ? '%'.$params['query'].'%' : '%';
 		return Core::Database()
