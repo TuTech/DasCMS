@@ -10,6 +10,7 @@ All commands have to be assigned to the template namespace to be executed
         <foo />
     </bar>
 * Via prefix
+
     <cms:bar xmlns:cms="http://www.bambuscms.org/2008/TemplateXML">
         <cms:foo />
     </cms:bar>
@@ -53,7 +54,7 @@ Html
 Render the html-wrapping tags with proper doctype declaration
     <html lang="en" doctype="html4"></html>
 * _lang_ the language code for this page
-* _doctype the name of the doctype to use
+* _doctype_ the name of the doctype to use
 
 
 Runtime
@@ -67,7 +68,7 @@ Scheduler
 ---------
 Let the cms run tasks async the e.g. (de-)publicise contents
     <scheduler interval="10000" />
-* _interval the time between calls in milli seconds
+* _interval_ the time between calls in milli seconds
 
 
 Site
