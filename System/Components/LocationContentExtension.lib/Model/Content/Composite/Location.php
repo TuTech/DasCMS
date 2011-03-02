@@ -22,7 +22,7 @@ class Model_Content_Composite_Location
         }
         catch (Exception $e)
         {
-            SErrorAndExceptionHandler::reportException($e);
+			$this->location = null;
         }
     }
     
