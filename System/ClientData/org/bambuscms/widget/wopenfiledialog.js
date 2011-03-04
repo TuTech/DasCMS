@@ -24,12 +24,17 @@ org.bambuscms.wopenfiledialog = {
 	},
 	'show':function()
 	{
-		window.setTimeout('org.bambuscms.wopenfiledialog._show()', 1);
+		if($("WOpenFileDialog")){
+			$("WOpenFileDialog").style.display = 'block';
+		}
+		else{
+			window.setTimeout('org.bambuscms.wopenfiledialog._show()', 1);
+		}
 	},
 	'hide':function(){
 		if($("WOpenFileDialog") && org.bambuscms.wopenfiledialog.closable)
 		{
-			document.body.removeChild($("WOpenFileDialog"));
+			$("WOpenFileDialog").style.display = 'none';
 			return true;//closed
 		}
 		return false;
@@ -111,20 +116,22 @@ org.bambuscms.wopenfiledialog = {
 		{
 			org.bambuscms.wopenfiledialog.sortOrder = order == 'ASC';
 		}
-		var sorted;
-		var bt = new org.bambuscms.bintree(org.bambuscms.wopenfiledialog.sortCompare);
+		var fragment;
+		var elements = [], e_i = 0;
 		var wrapper = $("WOpenFileDialog-ItemWrapper");
 		var items = wrapper.childNodes;
 		for(var i = items.length-1; i >= 0; i--)
 		{
-			bt.add(items[i]);
+			elements[e_i++] = items[i];
 			wrapper.removeChild(items[i]);
 		}
-		sorted = bt.toArray();
-		for(var i = 0; i < sorted.length; i++)
+		elements.sort(org.bambuscms.wopenfiledialog.sortCompare);
+		fragment = document.createDocumentFragment();
+		for(var i = 0; i < elements.length; i++)
 		{
-			wrapper.appendChild(sorted[i]);
+			fragment.appendChild(elements[i]);
 		}
+		wrapper.appendChild(fragment);
 	},
 	'titleFilter':function(){
 		var lookFor = $('WOpenFileDialog-TitleSearch').value;
@@ -157,6 +164,7 @@ org.bambuscms.wopenfiledialog._contentFrame = null;
 org.bambuscms.wopenfiledialog._headerFrame = null;
 org.bambuscms.wopenfiledialog._loadContent= function(data)
 {
+	var fragment = document.createDocumentFragment();
 	//set title
 	if(data.title)
 	{
@@ -275,9 +283,9 @@ org.bambuscms.wopenfiledialog._loadContent= function(data)
 					org.bambuscms.gui.element('div', _('size')+': '+s+u[i], {})
 				);
 			}
-			org.bambuscms.wopenfiledialog._contentFrame.appendChild(item);
+			fragment.appendChild(item);
 		}
-		
+		org.bambuscms.wopenfiledialog._contentFrame.appendChild(fragment);
 		//header controls
 		var sort_keys = [];
 		for(sort_k in data.sortable)
