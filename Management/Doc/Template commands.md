@@ -151,10 +151,7 @@ The main element to display cms content
     - formatter (view, use)
       use a formatter to display content here
 2. Scale options
-the scale option consists of two chars:
-first the number 0 or 1 to "scale to fit in" or "force size"
-followed by one of the chars s,f,c for "Strech", "Fill" or "Crop"
-Examples:
-    - "0s" the largest image fitting in the defined width*height box
-    - "1s" stretch the image to fill the boy exactly
-    - "1c" stretch the image proportionally to fill the box completely an cut the rest 
+    - 'aspect_fit'
+    - 'aspect_crop'
+    - 'aspect_fill'
+    - 'stretch'
