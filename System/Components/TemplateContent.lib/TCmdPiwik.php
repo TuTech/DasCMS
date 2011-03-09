@@ -42,7 +42,7 @@ class TCmdPiwik
 		}
 		return '<script type="text/javascript">'.
 			sprintf('var piwikBase = "%s",'.
-				'piwikId = %d,', $this->base, $this->id).
+				'piwikId = %d;', $this->base, $this->id).
 		
 			'window.setTimeout(function(){'.
 				'var script = document.createElement("script"),'.
