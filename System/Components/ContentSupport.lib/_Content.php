@@ -276,8 +276,9 @@ abstract class _Content implements Interface_Content
 
 	protected static function logChange($id, $title, $size, $retried = false){
 		$Db = Core::Database()->createQueryForClass('_Content');
+		$userId = PAuthentication::getUserID().'@'.RServer::getRemoteAddress();
 		$uid = $Db->call('logUID')
-			->withParameters(PAuthentication::getUserID())
+			->withParameters($userId)
 			->fetchSingleValue();
 
 		//failed and exit
@@ -288,7 +289,7 @@ abstract class _Content implements Interface_Content
 		//unknown user: add and retry
 		if($uid == null){
 			$Db->call('addLogUser')
-				->withParameters(PAuthentication::getUserID())
+				->withParameters($userId)
 				->execute();
 			  return self::logChange($id, $title, $size, true);
 		}
