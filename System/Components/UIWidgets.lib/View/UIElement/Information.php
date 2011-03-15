@@ -78,6 +78,18 @@ class View_UIElement_Information extends _View_UIElement implements ISidebarWidg
     		        {
     		            $val = Core::FileSystem()->formatFileSize($subjectValue);
     		        }
+					elseif(substr($key,-2) == 'By'){
+						$val = $subjectValue;
+						if(strpos($val, '@')){
+							$parts = explode('@', $val);
+							$ipAdr = array_pop($parts);
+							$user = implode('@', $parts);
+							$val = sprintf('<span title="%s">%s</span>', $ipAdr, $user);
+						}
+						else{
+							$val = sprintf('<span>%s</span>', $val);
+						}
+					}
     		        elseif($key == 'AccessIntervalAverage')
     		        {
     		            $currentUnit = 0;
