@@ -2,6 +2,7 @@
 -- name: locationExists
 -- type: select
 -- inputTypes: s
+-- fields: 1
 SELECT COUNT(*)
 	FROM __PFX__Locations
 	WHERE location = ?

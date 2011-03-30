@@ -46,7 +46,7 @@ class Model_Location
 	}
 
 	public static function exists($name){
-		return 1 == Core::Database()
+		return !!Core::Database()
 			->createQueryForClass('Model_Location')
 			->call('locationExists')
 			->withParameters($name)

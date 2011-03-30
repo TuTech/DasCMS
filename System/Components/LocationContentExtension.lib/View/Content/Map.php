@@ -25,8 +25,7 @@ class View_Content_Map
 	public function toXHTML() {
 		$val = '';
 		$poi = null;
-		if(Core::classExists('UGoogleServices')
-				&& $this->content->hasComposite('Location')
+		if($this->content->hasComposite('Location')
 				&& $this->shouldDisplay()
 		){
 			//load data
