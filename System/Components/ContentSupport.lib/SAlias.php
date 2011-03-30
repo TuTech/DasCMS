@@ -15,7 +15,9 @@ class SAlias
 		Event_Handler_ContentChanged,
 		Event_Handler_ContentCreated,
 		Event_Handler_ContentPublished
-{	
+{
+	const ALIAS_MAX_LENGTH = 64;
+
 	/**
 	 * Handle alias assignments
 	 * to be called by event handlers for content surveillance
@@ -95,21 +97,27 @@ class SAlias
 	 */
 	private function getUnifiedAlias($title, $pubdate)
 	{
-		$suffix = '';
-		if(true)// $cfg->get('AliasPubDatePrefix'))
-		{
-			$suffix .= date('-Y-m-d',$pubdate);
+		//get format string
+		$dateFormat = Core::Settings()->getOrDefault('content.alias.format', '@-Y-m-d');
+		if(strpos($dateFormat, '@') === false){
+			$dateFormat = '@'.$dateFormat;
 		}
-		//@todo consult ascii conversion tools IConvertToASCII
-		$dechars = array('ä' => 'ae', 'Ä' => 'Ae', 'ö' => 'oe', 
+
+		//apply date to format string
+		$dated = date($dateFormat, $pubdate);
+		$dated = preg_replace('/[^a-zA-Z@0-9\._]+/i', '-',$dated);
+
+		//expand title chars
+		$dechars = array('ä' => 'ae', 'Ä' => 'Ae', 'ö' => 'oe',
 						'Ö' => 'Oe','ü' => 'ue', 'Ü' => 'Ue', 'ß' => 'ss');
-		foreach ($dechars as $chr => $rep) 
-		{
-			$title = str_replace($chr, $rep, $title);
-		}
-		
+		$title = str_replace(array_keys($dechars), array_values($dechars), $title);
 		$title = preg_replace('/[^a-zA-Z0-9\._]+/i', '-',$title);
-		return substr($title,0,64-strlen($suffix)).$suffix;
+
+		//build alias
+		$titleLength = self::ALIAS_MAX_LENGTH - strlen($dated) + 1 /* 1 for the @ char */;
+		$alias = str_replace('@', substr($title, 0, $titleLength), $dated);
+
+		return $alias;
 	}
 	
 	/**
