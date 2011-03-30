@@ -7,7 +7,7 @@ class DatabaseAdapter
 		Interface_Database_FetchableQuery
 {
 	//@todo for cache class a config change MUST trigger a cache invalidate -- config changed event
-
+	const MAX_RETRY_PREPARE = 5;
 	///////////////
 	//main instance
 	///////////////
@@ -82,6 +82,16 @@ class DatabaseAdapter
 			//self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT] = '';
 		}
 		return self::$statements[$id];
+	}
+	
+	protected function reprepareStatement(){
+		$alias = $this->class.'::'.$this->function;
+		$id = self::$aliases[$alias];
+		self::$statements[$id] = $this->Database->prepare(self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
+		//catch error
+		if(!self::$statements[$id]){
+			throw new XDatabaseException('could not prepare statement', 0, self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
+		}
 	}
 
 	/**
@@ -181,7 +191,7 @@ class DatabaseAdapter
 		return $this->withParameterArray(array());
 	}
 
-	public function withParameterArray(array $parameters){
+	public function withParameterArray(array $parameters, $retry = 0){
 		if(!$this->class || !$this->function){
 			return;
 		}
@@ -209,7 +219,17 @@ class DatabaseAdapter
 			call_user_func_array(array($this->statement, "bind_param"), $params);
 		}
 		if(!$this->statement->execute()){
-			throw new XDatabaseException("statement failed in ".$this->class.'::'.$this->function.": ".$this->statement->error, $this->statement->errno, self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
+			 if($this->statement->errno == 1615 && $retry < self::MAX_RETRY_PREPARE){ //mysql is under "heavy load" and forgot our prepared statement 
+				//wait a bit
+				usleep(1000);//1 milli sec
+                //reprepare
+                $this->reprepareStatement();
+                //call this recursive (add retry = 0 to params of this function)
+				$this->withParameterArray($parameters, ++$retry);
+            }
+			else{
+				throw new XDatabaseException("statement failed in ".$this->class.'::'.$this->function.": ".$this->statement->error, $this->statement->errno, self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
+			}
 		}
 		return $this;
 	}
