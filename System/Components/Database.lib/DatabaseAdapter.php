@@ -221,7 +221,7 @@ class DatabaseAdapter
 		if(!$this->statement->execute()){
 			 if($this->statement->errno == 1615 && $retry < self::MAX_RETRY_PREPARE){ //mysql is under "heavy load" and forgot our prepared statement 
 				//wait a bit
-				usleep(1000);//1 milli sec
+				usleep(1000 * pow(10, $retry));//1 milli sec -> 10 sec
                 //reprepare
                 $this->reprepareStatement();
                 //call this recursive (add retry = 0 to params of this function)
