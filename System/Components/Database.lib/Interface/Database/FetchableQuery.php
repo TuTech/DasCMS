@@ -7,18 +7,18 @@ interface Interface_Database_FetchableQuery{
 	 public function fetchSingleValue();
 
 	 /**
-	  * fetches the next line in the result array
-	  * use this if you have provided a custom array via useResultArray()
+	  * fetches complete result als multi-dimensional array
 	  * @return array
 	  */
 	 public function fetchList();
 
-	 /**
+	 /*
 	  * fetches the next line in the result array
 	  * use this if you have provided a custom array via useResultArray()
 	  * @return void
-	  */
+	  *
 	 public function fetch();
+	  */
 
 	 /**
 	  * fetches the next line in the result array and returns it

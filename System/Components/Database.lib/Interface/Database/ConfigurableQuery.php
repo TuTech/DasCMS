@@ -20,11 +20,12 @@ interface Interface_Database_ConfigurableQuery{
 	 */
 	public function withoutParameters();
 
-	 /**
+	 /*
 	  * provide an array for the results
 	  * @return Interface_Database_ConfigurableQuery
-	  */
+	  *
 	 public function useResultArray(&$array);
+	  */
 }
 
 ?>
