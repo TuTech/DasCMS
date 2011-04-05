@@ -8,6 +8,9 @@ class DatabaseAdapter
 {
 	//@todo for cache class a config change MUST trigger a cache invalidate -- config changed event
 	const MAX_RETRY_PREPARE = 5;
+	protected static $use_query_fallback = false;
+
+
 	///////////////
 	//main instance
 	///////////////
@@ -56,6 +59,16 @@ class DatabaseAdapter
 		}
 	}
 
+	protected function getStatementSQL($class, $function){
+		$id = self::$aliases[sprintf('%s::%s', $class, $function)];
+		return self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT];
+	}
+
+	protected function getParameterDefinition($class, $function){
+		$id = self::$aliases[sprintf('%s::%s', $class, $function)];
+		return self::$register[$id][Interface_Database_CallableQuery::PARAMETER_DEFINITION];
+	}
+
 	/**
 	 *
 	 * @param mixed $classNameOrObject
@@ -71,15 +84,14 @@ class DatabaseAdapter
 			throw new XUndefinedIndexException('statement not registered');
 		}
 		$id = self::$aliases[$alias];
+		$sql = $this->getStatementSQL($class, $name);
 		if(!array_key_exists($id, self::$statements)){
 			//prepared
-			self::$statements[$id] = $this->Database->prepare(self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
+			self::$statements[$id] = $this->Database->prepare($sql);
 			//catch error
 			if(!self::$statements[$id]){
-				throw new XDatabaseException('could not prepare statement', 0, self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
+				throw new XDatabaseException('could not prepare statement', 0, $sql);
 			}
-			//remove useless sql
-			//self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT] = '';
 		}
 		return self::$statements[$id];
 	}
@@ -87,12 +99,42 @@ class DatabaseAdapter
 	protected function reprepareStatement(){
 		$alias = $this->class.'::'.$this->function;
 		$id = self::$aliases[$alias];
-		self::$statements[$id] = $this->Database->prepare(self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
+		$sql = $this->getStatementSQL($this->class, $this->function);
+		self::$statements[$id] = $this->Database->prepare($sql);
 		//catch error
 		if(!self::$statements[$id]){
-			throw new XDatabaseException('could not prepare statement', 0, self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
+			throw new XDatabaseException('could not prepare statement', 0, $sql);
 		}
 	}
+	
+	protected function getStatementAsQuery(array $params){
+		//get param def
+		$paramdef = $this->getParameterDefinition($this->class, $this->function);
+		
+		//get statement sql
+		$sql = $this->getStatementSQL($this->class, $this->function);
+		$sql =  str_replace('%', '%%', $sql);//escape printf
+		$sql =  str_replace('?', '%s', $sql);//convert to printf
+
+		$escaped = array();    
+
+		for($i = 0; $i < strlen($paramdef); $i++){
+			$type = substr($paramdef,$i,1);
+			$value = $params[$i];
+
+			switch($type){
+				case 's': $value = '"'.addslashes($value).'"'; break;
+				case 'd': $value = floatval($value); break;
+				case 'i': $value = intval($value, 10); break;
+				default:  $value = 'NULL'; break;
+			}
+			$escaped[$i] = $value;
+		}
+		$sql = vsprintf($sql, $escaped);
+
+		return $sql;
+	}
+
 
 	/**
 	 * @param mixed $classNameOrObject
@@ -191,6 +233,9 @@ class DatabaseAdapter
 		return $this->withParameterArray(array());
 	}
 
+	/**
+	 * @return Interface_Database_FetchableQuery
+	 */
 	public function withParameterArray(array $parameters, $retry = 0){
 		if(!$this->class || !$this->function){
 			return;
@@ -199,8 +244,9 @@ class DatabaseAdapter
 		$this->parameters = array_values($parameters);
 		$id = self::$aliases[$this->class.'::'.$this->function];
 		$parameterDefinition = &self::$register[$id][Interface_Database_CallableQuery::PARAMETER_DEFINITION];
+		$returnFields = self::$register[$id][Interface_Database_CallableQuery::RETURN_FIELDS];
 		if(!$this->hasBoundData){
-			$this->prepareResultFields(self::$register[$id][Interface_Database_CallableQuery::RETURN_FIELDS]);
+			$this->prepareResultFields($returnFields);
 		}
 		if(strlen($parameterDefinition) != count($this->parameters)){
 
@@ -219,16 +265,18 @@ class DatabaseAdapter
 			call_user_func_array(array($this->statement, "bind_param"), $params);
 		}
 		if(!$this->statement->execute()){
-			 if($this->statement->errno == 1615 && $retry < self::MAX_RETRY_PREPARE){ //mysql is under "heavy load" and forgot our prepared statement 
+			 if(!self::$use_query_fallback && $retry < self::MAX_RETRY_PREPARE){ //mysql is under "heavy load" and forgot our prepared statement 
 				//wait a bit
-				usleep(1000 * pow(10, $retry));//1 milli sec -> 10 sec
+				usleep(1000);//1 milli sec
                 //reprepare
                 $this->reprepareStatement();
-                //call this recursive (add retry = 0 to params of this function)
+                //call this recursive (add retry = 0 to params of this function
 				$this->withParameterArray($parameters, ++$retry);
+				//do not attempt to use prepared statements again in this run
+				self::$use_query_fallback = $retry == self::MAX_RETRY_PREPARE;
             }
 			else{
-				throw new XDatabaseException("statement failed in ".$this->class.'::'.$this->function.": ".$this->statement->error, $this->statement->errno, self::$register[$id][Interface_Database_CallableQuery::SQL_STATEMENT]);
+				return new DatabaseQueryFallback($this->getStatementAsQuery($parameters), $returnFields);
 			}
 		}
 		return $this;
@@ -256,7 +304,7 @@ class DatabaseAdapter
 	/**
 	 * @return Interface_Database_ConfigurableQuery
 	 */
-	public function useResultArray(&$array)
+	protected function useResultArray(&$array)
 	{
 		if(!is_object($this->statement)){
 			throw new Exception('no statement to bind to');
@@ -316,7 +364,7 @@ class DatabaseAdapter
 	/**
 	 * @return bool
 	 */
-	public function fetch()
+	protected function fetch()
 	{
 		if(!is_object($this->statement)){
 			throw new Exception('no statement to fetch from');

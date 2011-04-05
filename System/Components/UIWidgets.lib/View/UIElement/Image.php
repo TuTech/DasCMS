@@ -210,15 +210,13 @@ class View_UIElement_Image extends _View_UIElement
     public static function getAllPreviewContents()
     {
 		$alias = '';$title = '';
-		$data = array(&$alias, &$title);
 		$db = Core::Database()
 			->createQueryForClass(self::CLASS_NAME)
 			->call('getPreviewContents')
-			->useResultArray($data)
 			->withoutParameters();
 
 		$ret = array();
-		while($db->fetch()){
+		while(list($alias, $title) = $db->fetchResult()){
 			$ret[$alias] = $title;
 		}
 		return $ret;
