@@ -115,14 +115,6 @@ class TCmdSite
 						"}, 250);".
 				"</script>\n";
 
-		//display cms health status
-		$out .= sprintf(
-				"<!-- %s/%s/%1.5f -->\n",
-				memory_get_usage(true),
-				memory_get_peak_usage(true),
-				microtime(true) - CMS_START_TIME
-			);
-
 		//finish
         return $out."</body>\n</html>";
     }
