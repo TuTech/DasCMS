@@ -57,7 +57,7 @@ org.bambuscms.wcodeeditor = {
 				var cursor = org.bambuscms.wcodeeditor.cursor();
 				if(cursor.set)
 				{
-					lnr.innerHTML = cursor.line+':'+cursor.char + (cursor.selected ? ' ['+cursor.selected+']' : '') ;
+					lnr.innerHTML = cursor.line+':'+cursor.charPos + (cursor.selected ? ' ['+cursor.selected+']' : '') ;
 				}
 			}
 		}
@@ -89,7 +89,7 @@ org.bambuscms.wcodeeditor = {
 			'end':0,
 			'selected':0,
 			'line':0,
-			'char':0,
+			'charPos':0,
 			'set':false
 		};
 		textarea = org.bambuscms.wcodeeditor.target;
@@ -101,7 +101,7 @@ org.bambuscms.wcodeeditor = {
 	        var open_tags = passed.match(/\n/g);       
 	        result.line = (open_tags) ? open_tags.length + 1 : 1;  
 	        passed = (result.line == 1) ? passed : passed.substring(passed.lastIndexOf('\n'));
-	        result.char = passed.length - (result.line > 1);
+	        result.charPos = passed.length - (result.line > 1);
 	        result.set = true;
 	    }
 	    return result;

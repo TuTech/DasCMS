@@ -90,6 +90,7 @@ function sortCSS(msg){
 	{
 		return
 	}
+	var i;
 	isSorting = true;
     var editor = $(org.bambuscms.app.document.editorElementId);
     var topScroll = editor.scrollTop;
@@ -116,7 +117,7 @@ function sortCSS(msg){
     parts[0] = new Array()
     var parti = 0;
     var lastWasComment = false;
-    for(var i = 0;i < defs;i++)
+    for(i = 0;i < defs;i++)
     {
         definitions[i] = definitions[i].replace(/^[\s]+/g, "");
         definitions[i] = definitions[i].replace(/[\s]+$/g, "");
@@ -150,7 +151,7 @@ function sortCSS(msg){
     var sorted = new Array();
     var y = 0;
     var finalCSS = '';
-    for(var i = 0; i < parts.length;i++)
+    for(i = 0; i < parts.length;i++)
     {
     	if(parts[i].length > 1)
     	{
@@ -170,7 +171,7 @@ function sortCSS(msg){
     		y++;
     	}
     }
-    for(var i = 0;i < sorted.length;i++){
+    for(i = 0;i < sorted.length;i++){
     
     	sorted[i] = sorted[i].replace(/{/g, "\n{\n    ");
      	sorted[i] = sorted[i].replace(/;/g, ";\n    ");

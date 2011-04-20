@@ -56,12 +56,12 @@ org.bambuscms.app.document.insertText = function(text){
         textarea.selectionEnd = (position_start + text.length);
         textarea.scrollLeft = leftScroll;
         textarea.scrollTop = topScroll;
-        return true;
     }else{
         textarea.value = textarea.value + text; 
         org.bambuscms.wnotifications.report(org.bambuscms.wnotifications.WARNING, _('your browser does not support this feature'));
     }
     textarea.focus();
+	return true;
 };
 
 org.bambuscms.app.document.cleanHTML = function(){

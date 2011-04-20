@@ -2,8 +2,9 @@ org.bambuscms.wsidebar = {
 	'currentObject':null,
 	'show':function(widget, widgetObj)
 	{
+		var i;
 		var selectors = $('WSidebar-select').getElementsByTagName('a');
-		for(var i = 0; i < selectors.length; i++)
+		for(i = 0; i < selectors.length; i++)
 		{
 			selectors[i].className = '';
 		}
@@ -11,7 +12,7 @@ org.bambuscms.wsidebar = {
 		$('WSidebar-selector-'+widget).className = 'selectedWidget';
 		var body = $('WSidebar-body');
 		elements = body.getElementsByTagName('div');
-		for(var i = 0; i < elements.length; i++)
+		for(i = 0; i < elements.length; i++)
 		{
 			if(elements[i].className == 'WSidebar-child')
 				elements[i].style.display = 'none';

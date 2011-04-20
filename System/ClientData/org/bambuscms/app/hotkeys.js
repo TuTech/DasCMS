@@ -63,6 +63,7 @@ org.bambuscms.app.hotkeys.listener = function(e)
 			return res;
 		}
 	}
+	return false;
 }
 
 

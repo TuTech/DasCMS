@@ -78,6 +78,7 @@ org.bambuscms.display = {
 					'height':org.bambuscms.display._objects[elementID].height
 				};
 		}
+		return {'width':0,'height':0};
 	},
 	'getDocumentWidth':function(){return 0;},
 	'getDocumentHeight':function(){return 0;}

@@ -30,6 +30,7 @@ org.bambuscms.http.requestFactory = function()
 		throw new Error("XMLHttpRequst not supported");
 	}
 	org.bambuscms.http.requestFactory();
+	return false;
 };
 
 //read data from url
@@ -65,6 +66,7 @@ org.bambuscms.http.fetch = function(url, asyncHandler, data)
 		request.send(data);
 		return request;
 	}
+	return false;
 };
 org.bambuscms.http.fetchJSONObject = function(url, asyncHandler, data)
 {

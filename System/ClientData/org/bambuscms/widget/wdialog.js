@@ -3,6 +3,7 @@
 org.bambuscms.wdialog = {
 	"run":function(id)
 	{
+		var i;
 		if(org.bambuscms.wdialog.dialogs[id])
 		{
 			//init dialog
@@ -22,7 +23,7 @@ org.bambuscms.wdialog = {
 			var form = org.bambuscms.gui.element('form', null, {
 				'action':$('documentform').getAttribute('action'),
 				'id':'View_UIElement_Dialog_form',
-				'method':'post',
+				'method':'post'
 			});
 			if(src.isMultipart)
 			{
@@ -34,7 +35,7 @@ org.bambuscms.wdialog = {
 			//sections
 			if(src.sections && src.sections.length)
 			{
-				for(var i = 0; i < src.sections.length; i++)
+				for(i = 0; i < src.sections.length; i++)
 				{
 					var sect = src.sections[i];
 					var block = org.bambuscms.gui.element('div', null, {
@@ -59,7 +60,7 @@ org.bambuscms.wdialog = {
 							obj.appendChild(otitle);
 							obj.setAttribute('class', 'View_UIElement_Dialog_labeled');
 						}
-						
+						var input;
 						//type,title,value
 						switch(sect.items[name].type)
 						{
@@ -68,7 +69,7 @@ org.bambuscms.wdialog = {
 							case 'file':
 							case 'hidden':
 							case 'checkbox':
-								var input = org.bambuscms.gui.element('input', sect.title, {
+								input = org.bambuscms.gui.element('input', sect.title, {
 									'id':'View_UIElement_Dialog_'+id+'_'+name,
 									'type': sect.items[name].type,
 									'name': name
@@ -87,7 +88,7 @@ org.bambuscms.wdialog = {
 								break;
 							case 'choice':
 							default:
-								var input = $c('span');
+								input = $c('span');
 						}
 						if(focusInput == null)
 						{
@@ -106,7 +107,7 @@ org.bambuscms.wdialog = {
 				{"title":src.Cancel,"link":'org.bambuscms.wdialog.cancel();'},
 				{"title":src.Reset, "link":'org.bambuscms.wdialog.form.reset();'}
 			];
-			for(var i = 0; i < buttons.length; i++)
+			for(i = 0; i < buttons.length; i++)
 			{
 				if(buttons[i].title)
 				{
@@ -150,7 +151,7 @@ org.bambuscms.wdialog = {
 				org.bambuscms.wdialog.container.removeChild(node);
 			}
 		}
-		org.bambuscms.wdialog.container.style.display = 'none';;
+		org.bambuscms.wdialog.container.style.display = 'none';
 	},
 	"cancel":function()
 	{

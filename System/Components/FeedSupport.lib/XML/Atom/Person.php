@@ -86,8 +86,5 @@ class XML_Atom_Person extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
     {
         return $this->getFirstChild('uri');
     }     
-    
-    //FIXME to _XML
-
 }
 ?>

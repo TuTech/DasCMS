@@ -11,6 +11,10 @@ class View_Content_Location
 		Interface_View_DisplayXHTML,
 		Interface_View_Content
 {
+	public function __construct() {
+		throw new Exception('not implemented');
+	}
+
 	//TODO address formatting
 	public function toXHTML() {
 		$val = '';

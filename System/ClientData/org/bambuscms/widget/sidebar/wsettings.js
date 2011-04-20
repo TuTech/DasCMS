@@ -96,18 +96,18 @@ org.bambuscms.wsettings.showPubDateHelper = function()
 	};
 	if(org.bambuscms.wsettings.pubDateHelper)
 		return;
-	var helps;
+	var helps,t;
 	if($('WSearch-PubDate').value == '')
 	{
 		var d = new Date();
-		var t = _('publish_now');
+		t = _('publish_now');
 		helps = {};
 		//y-m-d h:m:s
 		helps[t] = 'now';
 	}
 	else
 	{
-		var t = _('revoke_publication');
+		t = _('revoke_publication');
 		helps = {};
 		helps[t] = '';
 	}

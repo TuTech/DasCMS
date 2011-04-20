@@ -74,15 +74,16 @@ org.bambuscms.editor.wysiwyg._editor = function(frame){
 	
 	this.switchWYSIWYG = function()
 	{
+		var source;
 		if(this.wysiwygOn)
 		{
-			var source = this._formatHTML(this._doc.body.innerHTML);
+			source = this._formatHTML(this._doc.body.innerHTML);
 			this._doc.body.innerHTML = source;
 			this._doc.body.style.whiteSpace = 'pre';
 		}
 		else
 		{
-			var source = this._extractText(this._doc.body);
+			source = this._extractText(this._doc.body);
 			this._doc.body.innerHTML = source;
 			this._doc.body.style.whiteSpace = '';
 		}

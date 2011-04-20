@@ -116,18 +116,18 @@ org.bambuscms.wopenfiledialog = {
 		{
 			org.bambuscms.wopenfiledialog.sortOrder = order == 'ASC';
 		}
-		var fragment;
+		var fragment,i;
 		var elements = [], e_i = 0;
 		var wrapper = $("WOpenFileDialog-ItemWrapper");
 		var items = wrapper.childNodes;
-		for(var i = items.length-1; i >= 0; i--)
+		for(i = items.length-1; i >= 0; i--)
 		{
 			elements[e_i++] = items[i];
 			wrapper.removeChild(items[i]);
 		}
 		elements.sort(org.bambuscms.wopenfiledialog.sortCompare);
 		fragment = document.createDocumentFragment();
-		for(var i = 0; i < elements.length; i++)
+		for(i = 0; i < elements.length; i++)
 		{
 			fragment.appendChild(elements[i]);
 		}
@@ -177,6 +177,7 @@ org.bambuscms.wopenfiledialog._loadContent= function(data)
 		//add items
 		for(var y = 0; y < data.nrOfItems; y++)
 		{
+			var d;
 			//item
 			var item = org.bambuscms.gui.element('a', null, {
 				'class':"WOFD_item", 
@@ -255,7 +256,7 @@ org.bambuscms.wopenfiledialog._loadContent= function(data)
 				}
 				else
 				{
-					var d = new Date(data.items[y][data.itemMap['pubDate']] * 1000);
+					d = new Date(data.items[y][data.itemMap['pubDate']] * 1000);
 					item.appendChild(
 						org.bambuscms.gui.element('div', _('pubDate')+': '+d.toLocaleString(), {})
 					);
@@ -263,7 +264,7 @@ org.bambuscms.wopenfiledialog._loadContent= function(data)
 			}
 			if(data.items[y][data.itemMap['modified']])
 			{
-				var d = new Date(data.items[y][data.itemMap['modified']] * 1000);
+				d = new Date(data.items[y][data.itemMap['modified']] * 1000);
 				item.appendChild(
 					org.bambuscms.gui.element('div', _('modified')+': '+d.toLocaleString(), {})
 				);

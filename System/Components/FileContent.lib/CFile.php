@@ -34,7 +34,6 @@ class CFile
 	 */
 	public static function Create($title)
 	{
-	    //FIXME RFiles::tempName(CFile)
 	    $title = empty($title) ? RFiles::getName('CFile') : $title;
 	    if(!RFiles::hasFile('CFile'))
 	    {
