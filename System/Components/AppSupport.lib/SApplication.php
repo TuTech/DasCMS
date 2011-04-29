@@ -157,7 +157,15 @@ class SApplication
         $this->taskbar = new View_UIElement_ApplicationTaskBar();
         if(RURL::hasValue('editor'))
         {
-            $app = basename(RURL::get('editor'));
+			$app = basename(RURL::get('editor'));
+			if(substr($app, -4) != '.bap'){
+				//load app resolve.json
+				$resolveMap = json_decode(file_get_contents(Core::PATH_SYSTEM_APPLICATIONS.'resolve.json'), true);
+				if(array_key_exists($app, $resolveMap)){
+					$app = $resolveMap[$app];
+				}
+			}
+
             $appXML = Core::PATH_SYSTEM_APPLICATIONS.$app.'/Application.xml';
             $this->appPath = Core::PATH_SYSTEM_APPLICATIONS.$app.'/';
             if(!file_exists($appXML))

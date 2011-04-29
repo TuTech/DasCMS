@@ -13,17 +13,8 @@ abstract class BObject
 {
     private static $_classIndex = null;
 
-	/**
-	 * load a controller for given app id
-	 *
-	 * @param string $id
-	 * @return object
-	 * @throws XPermissionDeniedException
-	 * @throws XUndefinedException
-	 */
-	public static function InvokeObjectByID($id)
-	{
-	    if(self::$_classIndex == null)
+	private static function initIndex(){
+		if(self::$_classIndex == null)
 	    {
 			self::$_classIndex = array();
 			$d = Core::Database()
@@ -35,12 +26,30 @@ abstract class BObject
 			}
 			$d->free();
 	    }
-	    if(!array_key_exists($id, self::$_classIndex))
+	}
+
+	/**
+	 * load a controller for given app id
+	 *
+	 * @param string $id
+	 * @return object
+	 * @throws XPermissionDeniedException
+	 * @throws XUndefinedException
+	 */
+	public static function InvokeObjectByID($id)
+	{
+	    return self::InvokeObjectByDynClass(self::resolveGUID($id));
+	}
+
+	public static function resolveGUID($id){
+		self::initIndex();
+		if(!array_key_exists($id, self::$_classIndex))
 	    {
 	        throw new XUndefinedIndexException('class id not indexed');
 	    }
-	    return self::InvokeObjectByDynClass(self::$_classIndex[$id]);
+		return self::$_classIndex[$id];
 	}
+
 
 	public final static function InvokeObjectByDynClass($class)
 	{

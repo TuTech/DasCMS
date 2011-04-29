@@ -14,7 +14,8 @@ class Controller_Application_HTMLCodeEditor
         Controller_Application_WebsiteEditor
     implements 
         IGlobalUniqueId,
-        ISupportsOpenDialog  
+        ISupportsOpenDialog,
+		Application_Interface_AppController
 {
     const GUID = 'org.bambuscms.applications.htmlcodeeditor';
 
@@ -24,5 +25,31 @@ class Controller_Application_HTMLCodeEditor
 			View_UIElement_Header::useScript('System/External/Bespin/BespinEmbedded.js');
 		}
 	}
+
+    /**
+     * @return string
+     * (non-PHPdoc)
+     * @see System/Component/Interface/IGlobalUniqueId#getClassGUID()
+     */
+    public function getClassGUID()
+    {
+        return self::GUID;
+    }
+
+	//begin Application_Interface_AppController
+	public function getTitle(){
+		return 'html_code_editor';
+	}
+	public function getIcon(){
+		return 'app-editor-html-code';
+	}
+	public function getDescription(){
+		return 'html_code_editor';
+	}
+	public function getEditor(){
+		return 'legacy:HTMLCodeEditor.bap';
+	}
+	//end Application_Interface_AppController
+
 }
 ?>

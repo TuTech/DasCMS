@@ -14,7 +14,8 @@ class Controller_Application_WebsiteEditor
         _Controller_Application 
     implements 
         IGlobalUniqueId,
-        ISupportsOpenDialog  
+        ISupportsOpenDialog,
+		Application_Interface_AppController
 {
     const GUID = 'org.bambuscms.applications.websiteeditor';
         
@@ -122,6 +123,25 @@ class Controller_Application_WebsiteEditor
     {
         return self::GUID;
     }
+
+	//begin Application_Interface_AppController
+	public function getTitle(){
+		return 'html_wysiwyg_editor';
+	}
+	public function getIcon(){
+		return 'app-editor-html-wysiwyg';
+	}
+	public function getDescription(){
+		return 'html_wysiwyg_editor';
+	}
+	public function getEditor(){
+		return 'legacy:Websites_tinyMCE.bap';
+	}
+	public function getContentObjects() {
+		$this->isPermitted('view');
+        return array_keys(Controller_Content::getInstance()->contentIndex(CPage::CLASS_NAME, true));
+	}
+	//end Application_Interface_AppController
     
     /**
      * opened object 

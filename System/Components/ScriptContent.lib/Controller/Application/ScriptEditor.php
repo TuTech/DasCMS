@@ -14,7 +14,8 @@ class Controller_Application_ScriptEditor
         _Controller_Application_Content
     implements 
         IGlobalUniqueId,
-        ISupportsOpenDialog
+        ISupportsOpenDialog,
+		Application_Interface_AppController
 {
 	public function  __construct() {
 		if(file_exists('System/External/Bespin/BespinEmbedded.js')){
@@ -47,8 +48,27 @@ class Controller_Application_ScriptEditor
     protected $target = null;
     
     const GUID = 'org.bambuscms.applications.scripteditor';
-    
-    /**
+
+	//begin Application_Interface_AppController
+	public function getTitle(){
+		return 'script_editor';
+	}
+	public function getIcon(){
+		return 'app-utilities-editor-javascript';
+	}
+	public function getDescription(){
+		return 'script_editor';
+	}
+	public function getEditor(){
+		return 'legacy:ScriptEditor.bap';
+	}
+	public function getContentObjects() {
+		$this->checkPermission('view');
+        return array_keys(Controller_Content::getInstance()->contentIndex($this->contentClass, true));
+	}
+	//end Application_Interface_AppController
+
+	/**
      * @return string
      * (non-PHPdoc)
      * @see System/Component/Interface/IGlobalUniqueId#getClassGUID()
