@@ -2,7 +2,7 @@ function checkothers(mode)
 {
 	var elem;
 	var i = 1;
-	while(elem = document.getElementById('sysgroup_'+i))
+	while((elem = document.getElementById('sysgroup_'+i)))
 	{
 		i++;
 		elem.disabled = mode;

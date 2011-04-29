@@ -106,7 +106,7 @@ org.bambuscms.app.document.cleanHTML = function(){
 	}
 	html = html.replace(/<([a-zA-Z0-9-_:]+)>[\n\s]*<\/\1>/g, "");
 
-    
+    var h;
     var lines = html.split("\n");
    	var intendcount = 0;
    	var intendspace = "    ";
@@ -119,14 +119,14 @@ org.bambuscms.app.document.cleanHTML = function(){
    		if(lines[i].substr(0,1) == '<' && lines[i].substr(1,1) != '!' && lines[i].substr(1,1) == '/')
    		{
 			intendcount--;
-	   		for(var h = 0;h < intendcount;h++)
+	   		for(h = 0;h < intendcount;h++)
    			{
    				intend += intendspace;
    			}
    		}
    		else if(lines[i].substr(0,1) == '<' && lines[i].substr(1,1) != '!' && lines[i].substr(1,1) != '/')
    		{
-	   		for(var h = 0;h < intendcount;h++)
+	   		for(h = 0;h < intendcount;h++)
    			{
    				intend += intendspace;
    			}
@@ -138,7 +138,7 @@ org.bambuscms.app.document.cleanHTML = function(){
    		}
    		else
    		{
-	   		for(var h = 0;h < intendcount;h++)
+	   		for(h = 0;h < intendcount;h++)
    			{
    				intend += intendspace;
    			}   			
