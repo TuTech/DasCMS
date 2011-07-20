@@ -29,14 +29,19 @@ class View_Content_Map
 				&& $this->shouldDisplay()
 		){
 			//load data
+			$gpsData = false;
 			$location = $this->content->getLocation();
 			if($location instanceof View_UIElement_ContentGeoAttribute){
 				$Locations = Controller_Locations::getInstance();
 				$Place = $Locations->getLocation($location->getName());
 				if($Place != null){
-					$poi = ($Place->hasCoordinates())
-						? $Place->getCoordinates()
-						: $Place->getAddress();
+					if($Place->hasCoordinates()){
+						$poi = $Place->getCoordinates();
+						$gpsData = true;
+					}
+					else{
+						$poi = $Place->getAddress();
+					}
 					$zoom = max($this->zoom, $Place->getZoom());
 				}
 			}
@@ -77,14 +82,26 @@ class View_Content_Map
 				if(!empty ($this->linkTragetFrame)){
 					//http://maps.google.com/?ll=53.200000,9.600000&z=13&q=hier@53.200000,9.600000&t=m
 					$mapCode = array("roadmap" => 'm', "mobile" => 'm', "satellite" => 'k', "terrain" => 'p', "hybrid" => 'h');
-					$link = '<a href="http://maps.google.com/?ll=%s&z=%d%s%s&t=%s"%s>%s</a>';
+					
+					$urlData = array(
+						'z' => $zoom,
+						't' => $mapCode[$this->mapType],
+						'q' => $poi
+					);
+					if($gpsData){
+						$urlData['ll'] = $poi;
+					}
+					
+					$tok = '?';
+					$url = 'http://maps.google.com/';
+					foreach ($urlData as $k => $v){
+			            $url .= sprintf('%s%s=%s', $tok, urlencode($k), urlencode($v));
+			        	$tok = '&';
+			        }
+					
 					$map = sprintf(
-							$link,
-							$poi,
-							$this->zoom,
-							($this->marker ? '&q='.urlencode($this->content->getTitle()) : ''),
-							($this->marker ? '@'.$poi : ''),
-							$mapCode[$this->mapType],
+							'<a href="%s"%s>%s</a>',
+							$url,
 							sprintf(' target="%s"', $this->linkTragetFrame),
 							$map
 					);
