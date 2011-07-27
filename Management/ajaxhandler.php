@@ -82,8 +82,7 @@ catch(Exception $e)
         'trace' 	=> $e->getTraceAsString(),
         'file' 		=> $e->getFile(),
         'line' 		=> $e->getLine(),
-        'user'		=> $user,
-        '_GET' 		=> $_GET
+        'user'		=> $user
     );
     echo json_encode($err);
 }
