@@ -126,7 +126,7 @@ class _View_Content_Base
 				$value = sprintf(
 						"<a href=\"%s\"%s>%s</a>",
 						$this->linkTargetViewObject->linkTo($this->content->getAlias()),
-						($this->linkTragetFrame ? ' '.String::htmlEncode($this->linkTragetFrame) : ''),
+						($this->linkTragetFrame ? ' target=""'.String::htmlEncode($this->linkTragetFrame).'"' : ''),
 						$value
 					);
 			}
