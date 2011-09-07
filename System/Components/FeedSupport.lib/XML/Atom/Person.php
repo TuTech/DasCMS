@@ -34,6 +34,18 @@ class XML_Atom_Person extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
     public static function create($name, $email = null, $uri = null)
     {
         $o = new XML_Atom_Person();
+		
+		//remove host the content was created from
+		$parts = explode('@', $name);
+		$ipAdr = array_pop($parts);
+		if(preg_match("/\d+\.\d+\.\d+\.\d+/mui", $ipAdr)){
+			$name = implode('@', $parts);
+			if($name == '0'){
+				$name = Core::Settings()->getOrDefault('system.username', 'System');
+				$email = Core::Settings()->getOrDefault('system.email', '');
+			}
+		}
+		
         $o->c__name = array($name);
         if($email)$o->c__email = array($email);
         if($uri)$o->c__uri = array($uri);

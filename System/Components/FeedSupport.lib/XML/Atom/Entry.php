@@ -91,7 +91,7 @@ class XML_Atom_Entry extends _XML_Atom implements Interface_XML_Atom_ToDOMXML
         $o->c__category = array();
         foreach ($content->getTags() as $tag) 
         {
-        	if(!empty($tag))$o->c__category[] = XML_Atom_Category::create($tag);
+        	if(!empty($tag) && substr($tag,0,1) != '@')$o->c__category[] = XML_Atom_Category::create($tag);
         }
         //content?
         if($content instanceof Interface_XML_Atom_ProvidesInlineXHTML)
