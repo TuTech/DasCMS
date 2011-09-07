@@ -74,7 +74,15 @@ class TCmdSite
 			}
 		}
 		$favicon = sprintf('<link rel="icon" type="image/%s" href="%s">', $fitype, $favicon);
-
+		$apple_default_icon = "";
+		foreach(array(57, 72, 114) as $size){
+			$apple_icon = sprintf("apple-touch-icon-%dx%d.png", $size, $size);
+			if(file_exists($apple_icon)){
+				$favicon .= sprintf("\n<link rel=\"apple-touch-icon\" sizes=\"%dx%d\" href=\"%s\" />", $size, $size, $apple_icon);
+				$apple_default_icon = sprintf("\n<link rel=\"apple-touch-icon\" href=\"%s\" />", $apple_icon);
+			}
+		}
+		$favicon .= $apple_default_icon;
 		//generate header
 		$out = $doctype;
         $out .=	"\n<html".$lang.$ns."><head>".
