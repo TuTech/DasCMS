@@ -1,4 +1,28 @@
 <?php
+
+/*
+internal helper class for setup only
+*/
+class Setup_BasicUserManagement_SUser{
+	public 
+		$password = "",
+		$realName = "Admin",
+		$email = "",
+		$groups = array("Administrator"),
+		$permissions = array(),
+		$attributes = array("company" => ""),
+		$primaryGroup = "",
+		$applicationPreferences = array(),
+		$applicationPreferenceKeyForces = array(),
+		$applicationPreferenceForces = array(),
+		$preferenceForced = false;
+	
+	public function __construct($email, $password){
+		$this->email = $email;
+		$this->password = md5($password);
+	}
+}
+
 class Setup_BasicUserManagement
 	extends _Setup
 	implements 
@@ -25,30 +49,18 @@ class Setup_BasicUserManagement
 		Core::FileSystem()->storeDataEncoded(
 				$this->dirPath('configuration/groups.php'),
 				array(
-					"Administrator",
-					"CMS",
-					"Create",
-					"Delete",
-					"Edit",
-					"Rename"
+					"Administrator" => "",
+					"CMS" => "",
+					"Create" => "",
+					"Delete" => "",
+					"Edit" => "",
+					"Rename" => ""
 				)
 		);
-		$userData = 'a:1:{s:5:"admin";O:5:"SUser":11:{'.
-			's:8:"password";s:32:"--PASSWORD--";'.
-			's:8:"realName";s:5:"Admin";'.
-			's:5:"email";s:--EMAIL-LENGTH--:"--EMAIL--";'.
-			's:6:"groups";a:1:{i:0;s:13:"Administrator";}'.
-			's:11:"permissions";a:0:{}'.
-			's:10:"attributes";a:1:{s:7:"company";s:0:"";}'.
-			's:12:"primaryGroup";s:0:"";'.
-			's:22:"applicationPreferences";a:0:{}'.
-			's:30:"applicationPreferenceKeyForces";a:0:{}'.
-			's:27:"applicationPreferenceForces";a:0:{}'.
-			's:16:"preferenceForced";b:0;}}';
 		$eml = $this->inputValueForKey('system.webmasterEMail', '');
-		$userData = str_replace('--PASSWORD--', md5($this->inputValueForKey('system.administratorPassword')), $userData);
-		$userData = str_replace('--EMAIL--', $eml, $userData);
-		$userData = str_replace('--EMAIL-LENGTH--', strlen($eml), $userData);
+		$userData = str_replace(':31:"Setup_BasicUserManagement_SUser"', ':5:"SUser"', serialize(array(
+			"admin" => new Setup_BasicUserManagement_SUser($eml, $this->inputValueForKey('system.administratorPassword'))
+		)));
 		Core::FileSystem()->store($this->dirPath('configuration/users.php'), $userData);
 	}
 
