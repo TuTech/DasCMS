@@ -83,6 +83,12 @@ class TCmdHeader
 				}
 			}
 			$favicon = sprintf('<link rel="icon" type="image/%s" href="%s">', $fitype, $favicon);
+			foreach(array(114, 72, 57) as $size){
+				$apple_icon = sprintf("apple-touch-icon-%dx%d.png", $size, $size);
+				if(file_exists($apple_icon)){
+					$favicon .= sprintf("\n<link rel=\"apple-touch-icon\" sizes=\"%dx%d\" href=\"%s\" />", $size, $size, $apple_icon);
+				}
+			}
             $glue = "\n            ";
             return sprintf("	<head>
             <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />%s
