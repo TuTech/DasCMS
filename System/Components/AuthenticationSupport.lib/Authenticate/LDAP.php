@@ -62,8 +62,8 @@ class Authenticate_LDAP
 		$con = ldap_connect($cfg->get('system.ldap.server'));
 		$bind = ldap_bind($con, $cfg->get('system.ldap.user'), $cfg->get('system.ldap.password'));
 		$ldap_user = false;
-		$isAuthenticated = false;
 		list($user, $password, $needsValidation) = $this->getLoginData();
+		$isAuthenticated = !$needsValidation;
 		
 		if($needsValidation){
 			$result = ldap_search($con, 
