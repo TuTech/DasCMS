@@ -11,7 +11,7 @@ class Authenticate_LDAP
 	protected function ldapEscape($string){
 		$escaped = "";
 		for($i = 0; $i < strlen($string); $i++){
-			$escaped .= '\\\\'.bin2hex($string{$i});
+			$escaped .= '\\'.bin2hex($string{$i});
 		}
 		return $escaped;
 	}
@@ -49,7 +49,7 @@ class Authenticate_LDAP
                 $password = RSession::get('bambus_cms_password');
             }
         }
-		return array($user, $password, $needsValidation);
+		return array($user, $password, $newLogin);
 	}
 	
 	/**
@@ -68,7 +68,7 @@ class Authenticate_LDAP
 		if($needsValidation){
 			$result = ldap_search($con, 
 				$cfg->get('system.ldap.domain'), 
-				"(&(objectClass=person)(sAMAccountName=". $this->ldapEscape($username) ."))", 
+				"(&(objectClass=person)(sAMAccountName=". $this->ldapEscape($user) ."))", 
 				array("sAMAccountName", "displayName", "dn", "memberOf")
 			);
 	    	$arr = ldap_get_entries($con, $result);
