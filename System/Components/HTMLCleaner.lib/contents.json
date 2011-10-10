@@ -1,1 +1,0 @@
-{"classes":["HTMLCleaner_Cleaner_CSSStyle","HTMLCleaner_Cleaner_MSOfficeComments","HTMLCleaner_Cleaner_RemoveScripts","HTMLCleaner_Parser","HTMLCleaner_SaveInterceptor","Settings_HTMLCleaner"],"interfaces":["HTMLCleaner_Cleaner"],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}
