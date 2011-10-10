@@ -49,9 +49,9 @@ class CStylesheet
 		
 	/**
 	 * @param string $id
-	 * @throws XFileNotFoundException
-	 * @throws XFileLockedException
-	 * @throws XInvalidDataException
+	 * @throws FileNotFoundException
+	 * @throws Exception
+	 * @throws InvalidDataException
 	 */
 	public function __construct($alias)
 	{
@@ -59,9 +59,9 @@ class CStylesheet
 	    {
 	        $this->initBasicMetaFromDB($alias, self::CLASS_NAME);
 	    }
-	    catch (XUndefinedIndexException $e)
+	    catch (UndefinedIndexException $e)
 	    {
-	        throw new XArgumentException('content not found');
+	        throw new ArgumentException('content not found');
 	    }
 	}
 	
@@ -110,7 +110,7 @@ class CStylesheet
 	
 	public function setContent($value)
 	{
-	    throw new XPermissionDeniedException('can\'t set html content');
+	    throw new AccessDeniedException('can\'t set html content');
 	}
 	
 	public function setRAWContent($value)

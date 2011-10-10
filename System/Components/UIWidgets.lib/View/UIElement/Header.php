@@ -103,7 +103,7 @@ class View_UIElement_Header extends _View_UIElement
 			if($key == strtolower($purl))
 				return 'DC.'.$purl;
 		}
-		throw new XUndefinedIndexException('not purl');
+		throw new UndefinedIndexException('not purl');
 	}
 	
 	public static function setBase($to)

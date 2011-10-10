@@ -37,12 +37,12 @@ class CFile
 	    $title = empty($title) ? RFiles::getName('CFile') : $title;
 	    if(!RFiles::hasFile('CFile'))
 	    {
-	        throw new XFileNotFoundException('no uploaded file', 'CFile');
+	        throw new FileNotFoundException('no uploaded file', 'CFile');
 	    }
 	    list($dbid, $alias) = _Content::createContent('CFile', $title);
 	    if(!RFiles::move('CFile', './Content/CFile/'.$dbid.'.data'))
 	    {
-	        throw new XUndefinedException('upload not moveable');
+	        throw new Exception('upload not moveable');
 	    }
 	    self::saveFileMeta(
 	        $dbid,
@@ -69,13 +69,13 @@ class CFile
 		$title = empty($title) ? $fileName : $title;
 		if(!file_exists($path))
 		{
-	        throw new XFileNotFoundException('no file', 'CFile');
+	        throw new FileNotFoundException('no file', 'CFile');
 	    }
 		list($dbid, $alias) = _Content::createContent('CFile', $title);
 		$newFile = './Content/CFile/'.$dbid.'.data';
 		if(!rename($path, $newFile))
 	    {
-	        throw new XUndefinedException('file not moveable');
+	        throw new Exception('file not moveable');
 	    }
 		self::saveFileMeta(
 	        $dbid,
@@ -104,11 +104,11 @@ class CFile
 	{
     	if(!RFiles::hasFile('CFile'))
 	    {    
-	        throw new XFileNotFoundException('no uploaded file', 'CFile');
+	        throw new FileNotFoundException('no uploaded file', 'CFile');
 	    }
 	    if(!RFiles::move('CFile', './Content/CFile/'.$this->getId().'.data'))
 	    {
-	        throw new XUndefinedException('upload not moveable');
+	        throw new Exception('upload not moveable');
 	    }
 		
 		$e = new Event_WillSaveContent($this, $this);
@@ -184,9 +184,9 @@ class CFile
 	
 	/**
 	 * @param string $alias
-	 * @throws XFileNotFoundException
-	 * @throws XFileLockedException
-	 * @throws XInvalidDataException
+	 * @throws FileNotFoundException
+	 * @throws Exception
+	 * @throws InvalidDataException
 	 */
 	public function __construct($alias)
 	{
@@ -194,9 +194,9 @@ class CFile
 	    {
 	        $this->initBasicMetaFromDB($alias, self::CLASS_NAME);
 	    }
-	    catch (XUndefinedIndexException $e)
+	    catch (UndefinedIndexException $e)
 	    {
-	        throw new XArgumentException('content not found');
+	        throw new ArgumentException('content not found');
 	    }
 	}
 	
@@ -244,7 +244,7 @@ class CFile
 	
 	public function setContent($value)
 	{
-	    throw new XPermissionDeniedException('files are read only');
+	    throw new AccessDeniedException('files are read only');
 	}
 	
 	protected function saveContentData()

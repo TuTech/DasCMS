@@ -34,7 +34,7 @@ class RSession extends BRequest
     {
         if(self::$session === null)
         {
-            throw new XUndefinedException('no session');
+            throw new Exception('no session');
         }
     }
 

@@ -48,7 +48,7 @@ class TEngine extends BTemplate
     {
         if($this->closed)
         {
-            throw new XTemplateException('template closed');
+            throw new TemplateException('template closed');
         }
         //run()
         $parsed = array();

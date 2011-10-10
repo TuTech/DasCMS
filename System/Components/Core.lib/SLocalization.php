@@ -151,7 +151,7 @@ class SLocalization
 		}
         if(count($subjects) > 10)
         {
-            throw new XArgumentException('too many subjects for a translation',10);
+            throw new ArgumentException('too many subjects for a translation',10);
         }
 		if(array_key_exists($key, self::$translations))
 		{

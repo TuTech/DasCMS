@@ -26,7 +26,7 @@ abstract class DSQL
 	
 	/**
 	 * @return DSQL
-	 * @throws XDatabaseException
+	 * @throws DatabaseException
 	 */
 	public static function getInstance()
 	{
@@ -36,7 +36,7 @@ abstract class DSQL
 			$connector = 'DSQL_'.self::$engine;
 			if(!class_exists($connector, true))
 			{
-				throw new XDatabaseException('unsupported database '.self::$engine, 0);
+				throw new DatabaseException('unsupported database '.self::$engine, 0);
 			}
 			self::$Connector = new $connector;
 		}
@@ -181,7 +181,7 @@ abstract class DSQL
 	 * 
 	 * @param string $string 
 	 * @return int affected rows
-	 * @throws XDatabaseException
+	 * @throws DatabaseException
 	 */
 	abstract public function queryExecute($string);
 		
@@ -191,7 +191,7 @@ abstract class DSQL
 	 * @param string $string 
 	 * @param int $mode
 	 * @return DSQLResult
-	 * @throws XDatabaseException
+	 * @throws DatabaseException
 	 */
 	abstract public function query($string, $mode = null);
 

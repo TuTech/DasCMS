@@ -46,7 +46,7 @@ class View_UIElement_Table extends _View_UIElement
     {
         if(!isset($data[0]) || !is_array($data[0]))    
         {
-            throw new XInvalidDataException('argument must be an array of arrays with numeric indexes');    
+            throw new InvalidDataException('argument must be an array of arrays with numeric indexes');    
         }
         $this->data = $data;
     }

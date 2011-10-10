@@ -35,7 +35,7 @@ class Controller_Content implements Interface_Singleton
     {
 	    if(empty($alias))
 	    {
-	        throw new XUndefinedException('no alias');
+	        throw new Exception('no alias');
 	    }
         $class = Core::Database()
 			->createQueryForClass($this)
@@ -48,7 +48,7 @@ class Controller_Content implements Interface_Singleton
         }
         else
         {
-            throw new XInvalidDataException($class.' not found');
+            throw new InvalidDataException($class.' not found');
         }
     }
 
@@ -64,11 +64,7 @@ class Controller_Content implements Interface_Singleton
 	    {
 	        return $this->openContent($alias, $ifIsType);
 	    }
-	    catch(XUndefinedException $e)
-	    {
-            return new CError(404);
-	    }
-	    catch(XInvalidDataException $e)
+	    catch(InvalidDataException $e)
 	    {
             return new CError(500);
 	    }
@@ -84,7 +80,7 @@ class Controller_Content implements Interface_Singleton
         $e = new Event_WillAccessContent($opener, $content);
         if($e->hasContentBeenSubstituted() && $failIfReplaced)
         {
-            throw new XInvalidDataException('content replaced but exact open requested');
+            throw new InvalidDataException('content replaced but exact open requested');
         }
         $content = $e->getContent();
         $e = new Event_ContentAccess($opener, $content);
@@ -123,7 +119,7 @@ class Controller_Content implements Interface_Singleton
 				}
 			}
 	    }
-	    catch (XDatabaseException $d)
+	    catch (DatabaseException $d)
 	    {
 	        SNotificationCenter::report('warning', 'element_is_used_by_the_system_and_cannot_be_deleted');
 	        $succ = false;

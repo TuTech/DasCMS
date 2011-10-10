@@ -78,7 +78,7 @@ class Controller_View
 			->withParameters($name)
 			->fetchSingleValue();
 		if(empty ($data)){
-			throw new XFileNotFoundException('formatter not found',$name);
+			throw new FileNotFoundException('formatter not found',$name);
 		}
 		if(substr($data,0,7) == 'base64:'){
 			$data = base64_decode(substr($data,7));

@@ -191,7 +191,7 @@ class Controller_ContentRelationManager implements Interface_Singleton
 			$class = get_class($class);
 		}
 		if(!class_exists($class, true)){
-			throw new XUndefinedException("class not found");
+			throw new Exception("class not found");
 		}
 		return $class;
 	}

@@ -56,7 +56,7 @@ class Model_Content_Composite_ContentFormatter extends _Model_Content_Composite
         }
         else
         {
-            throw new XUndefinedException('no formatter');
+            throw new Exception('no formatter');
         }
 	}
 } 

@@ -122,7 +122,7 @@ class DSQLResult_MySQL extends DSQLResult
 	{
 		if($this->result === null)
 		{
-			throw new XDatabaseException('you can not use a result after calling free()');
+			throw new DatabaseException('you can not use a result after calling free()');
 		}
 	}
 	

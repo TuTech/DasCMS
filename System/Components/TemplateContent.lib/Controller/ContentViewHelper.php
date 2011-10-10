@@ -54,7 +54,7 @@ class Controller_ContentViewHelper
     {
         if(!Controller_View_Content::exists($name) || !Controller_View_Content::isActive($name))
         {
-            throw new XUndefinedIndexException('spore not found: '.$name);
+            throw new UndefinedIndexException('spore not found: '.$name);
         }
         if(!array_key_exists($name, self::$spores))
         {
@@ -68,7 +68,7 @@ class Controller_ContentViewHelper
     {
         if(!Controller_View_Content::exists($spore) || !Controller_View_Content::isActive($spore))
         {
-            throw new XUndefinedIndexException('spore not found: '.$spore);
+            throw new UndefinedIndexException('spore not found: '.$spore);
         }
         try{
             self::$spores[$spore] = Controller_Content::getInstance()->accessContent($alias, $this);
@@ -210,15 +210,15 @@ class Controller_ContentViewHelper
 	{
 	    if(!$this->templateCallable($function))
 	    {
-	        throw new XTemplateException('called undefined function');
+	        throw new TemplateException('called undefined function');
 	    }
 	    if(!array_key_exists('view', $namedParameters))
 	    {
-	        throw new XArgumentException('view must be defined');
+	        throw new ArgumentException('view must be defined');
 	    }
 	    if($function == 'property' && !array_key_exists('use', $namedParameters))
 	    {
-	        throw new XArgumentException('property name not defined');
+	        throw new ArgumentException('property name not defined');
 	    }
 	    switch ($function)
 	    {

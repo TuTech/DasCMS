@@ -89,7 +89,7 @@ class DatabaseQueryFallback implements Interface_Database_FetchableQuery
 		//runs after init
 		if($this->isState(self::QUERIED)){		
 			if(!$this->result instanceof DSQLResult){
-				throw new XDatabaseException('database result not valid');
+				throw new DatabaseException('database result not valid');
 			}
 		}
 		else{

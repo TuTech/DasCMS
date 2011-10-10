@@ -219,11 +219,11 @@ class NTreeNavigation
 	{
 	    if(!$this->templateCallable($function))
 	    {
-	        throw new XTemplateException('called undefined function');
+	        throw new TemplateException('called undefined function');
 	    }
 	    if(!array_key_exists('name', $namedParameters))
 	    {
-	        throw new XArgumentException('name must be defined');
+	        throw new ArgumentException('name must be defined');
 	    }
 	    if(self::exists($namedParameters['name']))
 	    {

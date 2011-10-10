@@ -75,7 +75,7 @@ class Controller_Application_TreeNavigationEditor
      * returns all data necessary for the open dialog
      * @param array $namedParameters
      * @return array
-     * @throws XPermissionDeniedException
+     * @throws AccessDeniedException
      */
     public function provideContentTags(array $namedParameters)
     {
@@ -242,13 +242,13 @@ class Controller_Application_TreeNavigationEditor
      * returns all data necessary for the open dialog
      * @param array $namedParameters
      * @return array
-     * @throws XPermissionDeniedException
+     * @throws AccessDeniedException
      */
     public function provideOpenDialogData(array $namedParameters)
     {
         if(!$this->isPermitted('view'))
         {
-            throw new XPermissionDeniedException('view');
+            throw new AccessDeniedException('view');
         }
         $navigations = NTreeNavigation::navigations();
         $items = array();

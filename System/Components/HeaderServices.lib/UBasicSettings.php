@@ -97,7 +97,7 @@ class UBasicSettings
             $coco->chainContentsToClass($this, $aliases);
             $db->commitTransaction();
         }
-        catch (XDatabaseException $e)
+        catch (DatabaseException $e)
         {
             $e->rollbackTransaction();
             throw $e;

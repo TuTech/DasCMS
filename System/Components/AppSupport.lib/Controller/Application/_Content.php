@@ -42,7 +42,7 @@ abstract class _Controller_Application_Content
      * returns all data necessary for the open dialog
      * @param array $namedParameters
      * @return array
-     * @throws XPermissionDeniedException
+     * @throws AccessDeniedException
      */
     public function provideContentTags(array $namedParameters)
     {
@@ -54,7 +54,7 @@ abstract class _Controller_Application_Content
     }
     
     /**
-     * @throws XPermissionDeniedException
+     * @throws AccessDeniedException
      * @param string $action
      * @return void
      */
@@ -177,7 +177,7 @@ abstract class _Controller_Application_Content
      * returns all data necessary for the open dialog
      * @param array $namedParameters
      * @return array
-     * @throws XPermissionDeniedException
+     * @throws AccessDeniedException
      */
     public function provideOpenDialogData(array $namedParameters)
     {

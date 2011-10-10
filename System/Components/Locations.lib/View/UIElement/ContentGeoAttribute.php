@@ -59,7 +59,7 @@ class View_UIElement_ContentGeoAttribute extends _View_UIElement
                 $ret = self::byName($name);
             }
         }
-        catch (XDatabaseException $e)
+        catch (DatabaseException $e)
         {
         }
         return $ret;
@@ -76,7 +76,7 @@ class View_UIElement_ContentGeoAttribute extends _View_UIElement
 				->withParameters($name)
 				->execute();
         }
-        catch (XDatabaseException $e)
+        catch (DatabaseException $e)
         {
         }
         return $stat == 1;
@@ -125,7 +125,7 @@ class View_UIElement_ContentGeoAttribute extends _View_UIElement
                 $ret = self::byName($location); 
             }
         }
-        catch (XDatabaseException $e)
+        catch (DatabaseException $e)
         {
         }
         return $ret;
@@ -143,7 +143,7 @@ class View_UIElement_ContentGeoAttribute extends _View_UIElement
 				->execute();
             $this->name = $name;
         }
-        catch (XDatabaseException $e)
+        catch (DatabaseException $e)
         {
         }
         return $stat == 1;
@@ -162,7 +162,7 @@ class View_UIElement_ContentGeoAttribute extends _View_UIElement
 				->withParameters(floatval($latitude), floatval($longitude), $this->name)
 				->execute();
         }
-        catch (XDatabaseException $e)
+        catch (DatabaseException $e)
         {
         }
         return $stat == 1;

@@ -30,12 +30,12 @@ abstract class BTemplate
                         $command = 'TCmd'.ucfirst(strtolower($node->localName));
                         if(!class_exists($command, true))
                         {
-                            throw new XTemplateException('unknown element '.$node->localName);
+                            throw new TemplateException('unknown element '.$node->localName);
                         }
                         $executor = new $command($node);
                         if(!$executor instanceof BTemplate)
                         {
-                            throw new XTemplateException('unsupported element '.$node->localName);
+                            throw new TemplateException('unsupported element '.$node->localName);
                         }
                     }
                     catch(Exception $e)

@@ -37,7 +37,7 @@ class TCompiler extends BTemplate
         {
             
             $err = error_get_last();
-            throw new XArgumentException($err['message'], $err['type']);
+            throw new ArgumentException($err['message'], $err['type']);
         }
         SErrorAndExceptionHandler::reportErrors();
         //analyse template 

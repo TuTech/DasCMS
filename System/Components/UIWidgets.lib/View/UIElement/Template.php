@@ -42,7 +42,7 @@ class View_UIElement_Template extends _View_UIElement
         }
         else
         {
-            throw new XUndefinedIndexException($scope);
+            throw new UndefinedIndexException($scope);
         }
     }
 
@@ -50,7 +50,7 @@ class View_UIElement_Template extends _View_UIElement
     {
         if(!array_key_exists($key, self::$globalEnviornment))
         {
-            throw new XUndefinedIndexException($key, 404);
+            throw new UndefinedIndexException($key, 404);
         }
         return self::$globalEnviornment[$key];
     }
@@ -64,7 +64,7 @@ class View_UIElement_Template extends _View_UIElement
     {
         if(!array_key_exists($key, $this->environment))
         {
-            throw new XUndefinedIndexException($key, 404);
+            throw new UndefinedIndexException($key, 404);
         }
         return $this->environment[$key];
     }

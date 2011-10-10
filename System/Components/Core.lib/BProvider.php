@@ -87,7 +87,7 @@ abstract class BProvider
      * getter for $Implementation
      *
      * @return string
-     * @throws XUndefinedException
+     * @throws Exception
      */
     public function getImplementor()
     {
@@ -102,7 +102,7 @@ abstract class BProvider
         }
         if(!$this->hasImplementor)
         {
-            throw new XUndefinedException('provider has not been set up');
+            throw new Exception('provider has not been set up');
         }
         return $this->implementor;
     }

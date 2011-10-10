@@ -26,7 +26,7 @@ try
     {
         $content = Controller_Content::getInstance()->accessContent($file, new UCFileConfig(), true);
     }
-    catch (XPermissionDeniedException $e)
+    catch (AccessDeniedException $e)
     {
         if(PAuthorisation::has('org.bambuscms.content.cfile.view'))
         {

@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage Exceptions
  */
-class XFileNotFoundException extends BIOException 
+class FileNotFoundException extends Exception 
 {
 	protected  $target;
     public function __construct($message, $file, $code = 0) 

@@ -50,7 +50,7 @@ class Controller_Application_Files
 				$this->target->setPubDate(time());
 			}
         }
-        catch (XFileNotFoundException $e)
+        catch (FileNotFoundException $e)
         {
             return;/*nothing sent*/
         }
@@ -172,13 +172,13 @@ class Controller_Application_Files
     /**
      * returns all data necessary for the open dialog
      * @return array
-     * @throws XPermissionDeniedException
+     * @throws AccessDeniedException
      */
     public function provideOpenDialogData(array $namedParameters)
     {
         if(!$this->isPermitted('view'))
         {
-            throw new XPermissionDeniedException('view');
+            throw new AccessDeniedException('view');
         }
         $idIndex = Controller_Content::getInstance()->contentIndex('CFile');
         $items = array();

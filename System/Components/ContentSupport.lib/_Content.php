@@ -193,14 +193,14 @@ abstract class _Content implements Interface_Content
 	        //check composite
     	    if(!isset($this->_compositeLookup[$index]))
     	    {
-    	        throw new XUndefinedIndexException('composite not found');
+    	        throw new UndefinedIndexException('composite not found');
     	    }
 
     	    //check composite class
     	    $compositeClass = _Content::COMPOSITE_PREFIX.$this->_compositeLookup[$index];
     	    if(!class_exists($compositeClass, true))
     	    {
-    	        throw new XUndefinedException('composite not found');
+    	        throw new Exception('composite not found');
     	    }
 
     	    //init composite class
@@ -321,7 +321,7 @@ abstract class _Content implements Interface_Content
 				->execute();
 			$DB->commitTransaction();
 		}
-		catch (XDatabaseException $dbe)
+		catch (DatabaseException $dbe)
 	    {
 	        $dbe->rollbackTransaction();
 	        throw $dbe;

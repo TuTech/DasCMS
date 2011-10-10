@@ -46,13 +46,13 @@ class NTreeNavigationObject
 	}
 	/**
 	 * @return NTreeNavigationObject
-	 * @throws XUndefinedIndexException
+	 * @throws UndefinedIndexException
 	 */
 	public function getFirstChild()
 	{
 		if($this->firstChild == null || !$this->firstChild instanceof NTreeNavigationObject)
 		{
-			throw new XUndefinedIndexException('no first child');
+			throw new UndefinedIndexException('no first child');
 		}
 		return $this->firstChild;
 	}
@@ -67,13 +67,13 @@ class NTreeNavigationObject
 	
 	/**
 	 * @return NTreeNavigationObject
-	 * @throws XUndefinedIndexException
+	 * @throws UndefinedIndexException
 	 */
 	public function getNext()
 	{
 		if($this->next == null || !$this->next instanceof NTreeNavigationObject)
 		{
-			throw new XUndefinedIndexException('no sibling');
+			throw new UndefinedIndexException('no sibling');
 		}
 		return $this->next;
 	}
@@ -88,13 +88,13 @@ class NTreeNavigationObject
 	
 	/**
 	 * @return NTreeNavigationObject
-	 * @throws XUndefinedIndexException
+	 * @throws UndefinedIndexException
 	 */
 	public function getParent()
 	{
 		if($this->parent == null || !$this->parent instanceof NTreeNavigationObject)
 		{
-			throw new XUndefinedIndexException('no parent');
+			throw new UndefinedIndexException('no parent');
 		}
 		return $this->parent;
 	}
@@ -165,7 +165,7 @@ class NTreeNavigationObject
 	{
 		if($this->Navigation == null || !$this->Navigation instanceof NTreeNavigationHelper )
 		{
-			throw new XInvalidDataException('no NTreeNavigation assigned');
+			throw new InvalidDataException('no NTreeNavigation assigned');
 		}
 		$html = '';
 		$pfx = '';
@@ -260,7 +260,7 @@ class NTreeNavigationObject
 	{
 		if($this->Navigation == null || !$this->Navigation instanceof NTreeNavigationHelper)
 		{
-			throw new XInvalidDataException('no NTreeNavigation assigned');
+			throw new InvalidDataException('no NTreeNavigation assigned');
 		}
 		//report all indirectly accessed nodes
 		$this->Navigation->setActiveNode($this);
@@ -279,7 +279,7 @@ class NTreeNavigationObject
 				$child = $child->getNext();
 			}
 		}
-		catch (XUndefinedIndexException $e)
+		catch (UndefinedIndexException $e)
 		{}
 	}
 	

@@ -2,20 +2,18 @@
 /**
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 2007-11-28
+ * @since 2008-04-03
  * @license GNU General Public License 3
  */
 /**
  * @package Bambus
  * @subpackage Exceptions
  */
-class XFileLockedException extends BIOException 
+class AccessDeniedException extends Exception 
 {
-	protected  $target;
-    public function __construct($message, $file, $code = 0) 
+    public function __construct($message, $code = 0) 
     {
-    	$this->target = $file;
-        parent::__construct('['.$file.'] '.$message, $code);
+        parent::__construct($message, $code);
     }
 
     public function __toString() 

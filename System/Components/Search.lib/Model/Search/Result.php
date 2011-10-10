@@ -105,7 +105,7 @@ class Model_Search_Result
 			throw new Exception('you must call fetch() before resultsFromPage()');
 		}
 		if($pageNr > $this->getPageCountFor($this->itemsPerPage)){
-			throw new OutOfBoundsException("the requested page does not exist");
+			throw new UndefinedIndexException("the requested page does not exist");
 		}
 		$this->pageNr = $pageNr;
 		return $this;
@@ -125,7 +125,7 @@ class Model_Search_Result
 		if($ascOrDesc != Interface_Search_ConfiguredResultset::ASC
 				&& $ascOrDesc != Interface_Search_ConfiguredResultset::DESC)
 		{
-			throw new XArgumentException('argument not a valid ASC or DESC value');
+			throw new ArgumentException('argument not a valid ASC or DESC value');
 		}
 		$this->order = $ascOrDesc;
 		return $this;

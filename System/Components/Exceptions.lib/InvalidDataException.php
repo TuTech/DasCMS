@@ -7,11 +7,11 @@
  */
 /**
  * @package Bambus
- * @subpackage BaseClasses
+ * @subpackage Exceptions
  */
-abstract class BIOException extends Exception 
+class InvalidDataException extends Exception 
 {
-	public function __construct($message, $code = 0) 
+    public function __construct($message, $code = 0) 
     {
         parent::__construct($message, $code);
     }
@@ -20,6 +20,5 @@ abstract class BIOException extends Exception
     {
         return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
     }
-	
 }
 ?>

@@ -86,7 +86,7 @@ class View_UIElement_TextBox extends _View_UIElement
 	    	    $tpl = '<textarea class="%s %s-%s" type="text" name="%s" id="%s">%s</textarea>';
 	    		break;
 	    	default:
-	    		throw new XArgumentException('unknown type');
+	    		throw new ArgumentException('unknown type');
 	    }
 	    printf('<table class="%s-wrapper"><tr>', self::CLASS_NAME);
 	    if($this->label != null)

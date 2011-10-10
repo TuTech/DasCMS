@@ -183,7 +183,7 @@ class UCFileUpload
 	{
 	    if(!$this->templateCallable($function))
 	    {
-	        throw new XTemplateException('called undefined function');
+	        throw new TemplateException('called undefined function');
 	    }
         return $this->{$function}($namedParameters);
 	}

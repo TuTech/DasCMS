@@ -100,7 +100,7 @@ class Core_FileSystem
 		$this->restoreDir();
 		SErrorAndExceptionHandler::reportErrors();
 		if(!$fp){
-			throw new XFileLockedException('open failed ',$dataFile);
+			throw new Exception('open failed ',$dataFile);
 		}
     }
 
@@ -126,7 +126,7 @@ class Core_FileSystem
         }
         else
         {
-            throw new XFileNotFoundException('dir not found ',$dir,1);
+            throw new FileNotFoundException('dir not found ',$dir,1);
         }
         chdir($this->rootDir);
 		$this->restoreDir();

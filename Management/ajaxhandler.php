@@ -29,7 +29,7 @@ try
 {
     if(!PAuthorisation::has('org.bambuscms.login'))
     {
-        throw new XPermissionDeniedException("No bambus for you, hungry Panda!");
+        throw new AccessDeniedException("No bambus for you, hungry Panda!");
     }
     if(RURL::hasValue('controller'))
     {
@@ -38,7 +38,7 @@ try
         $controller = BObject::InvokeObjectByID($ctrlID);
         if(!$controller instanceof _Controller_Application && !$controller instanceof IAjaxAPI)
         {
-            throw new XPermissionDeniedException('controller is not an ajax handler');
+            throw new AccessDeniedException('controller is not an ajax handler');
         }
         if($controller instanceof _Controller_Application && RURL::has('edit'))
         {
@@ -61,7 +61,7 @@ try
     }
     else
     {
-        throw new XArgumentException('no arguments');
+        throw new ArgumentException('no arguments');
     }
 }
 catch(Exception $e)

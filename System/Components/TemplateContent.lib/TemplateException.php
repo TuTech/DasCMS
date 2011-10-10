@@ -2,14 +2,14 @@
 /**
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 2007-11-28
+ * @since 2008-10-09
  * @license GNU General Public License 3
  */
 /**
  * @package Bambus
  * @subpackage Exceptions
  */
-class XUndefinedException extends BDataException 
+class TemplateException extends Exception 
 {
     public function __construct($message, $code = 0) 
     {

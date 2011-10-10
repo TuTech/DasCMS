@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage Exceptions
  */
-class XDatabaseException extends BDataException
+class DatabaseException extends Exception
 {
     protected $sql;
 

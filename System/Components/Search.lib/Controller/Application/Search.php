@@ -160,13 +160,13 @@ class Controller_Application_Search
     /**
      * returns all data necessary for the open dialog
      * @return array
-     * @throws XPermissionDeniedException
+     * @throws AccessDeniedException
      */
     public function provideOpenDialogData(array $namedParameters)
     {
         if(!$this->isPermitted('view'))
         {
-            throw new XPermissionDeniedException('view');
+            throw new AccessDeniedException('view');
         }
         $idIndex = Controller_Content::getInstance()->contentIndex('CSearch');
         $items = array();

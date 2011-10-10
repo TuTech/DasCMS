@@ -88,7 +88,7 @@ class NTreeNavigationHelper
     {
     	if($this->content == null)
     	{
-    		throw new XUndefinedIndexException('not initialized');
+    		throw new UndefinedIndexException('not initialized');
     	}
     	return $this->currentAlias;
     }
@@ -141,7 +141,7 @@ class NTreeNavigationHelper
     {
     	if($this->content == null)
     	{
-    		throw new XUndefinedIndexException('not initialized');
+    		throw new UndefinedIndexException('not initialized');
     	}
     	return $tno->getAlias() == $this->getContentCMSID();
     }

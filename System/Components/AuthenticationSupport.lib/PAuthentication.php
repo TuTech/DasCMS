@@ -110,9 +110,9 @@ class PAuthentication
             {
                 $implementor = self::getInstance()->getImplementor();
             }
-            catch(XUndefinedException $e)
+            catch(Exception $e)
             {
-                throw new XPermissionDeniedException('no authentication class found');
+                throw new AccessDeniedException('no authentication class found');
             }
             
             //stop this from running again
@@ -124,7 +124,7 @@ class PAuthentication
             //check class
             if(!$relay instanceof IAuthenticate)
             {
-                throw new XPermissionDeniedException('authentication class failed');
+                throw new AccessDeniedException('authentication class failed');
             }
             
             //run class

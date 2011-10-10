@@ -36,7 +36,7 @@ class ULocations
     {
         if (!PAuthorisation::has($perm))
         {
-            throw new XPermissionDeniedException('action not allowed');
+            throw new AccessDeniedException('action not allowed');
         }
     }
     

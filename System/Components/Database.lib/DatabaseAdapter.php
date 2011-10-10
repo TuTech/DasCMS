@@ -81,7 +81,7 @@ class DatabaseAdapter
 
 		$alias = $class.'::'.$name;
 		if(!array_key_exists($alias, self::$aliases)){
-			throw new XUndefinedIndexException('statement not registered');
+			throw new UndefinedIndexException('statement not registered');
 		}
 		$id = self::$aliases[$alias];
 		$sql = $this->getStatementSQL($class, $name);
@@ -90,7 +90,7 @@ class DatabaseAdapter
 			self::$statements[$id] = $this->Database->prepare($sql);
 			//catch error
 			if(!self::$statements[$id]){
-				throw new XDatabaseException('could not prepare statement', 0, $sql);
+				throw new DatabaseException('could not prepare statement', 0, $sql);
 			}
 		}
 		return self::$statements[$id];
@@ -103,7 +103,7 @@ class DatabaseAdapter
 		self::$statements[$id] = $this->Database->prepare($sql);
 		//catch error
 		if(!self::$statements[$id]){
-			throw new XDatabaseException('could not prepare statement', 0, $sql);
+			throw new DatabaseException('could not prepare statement', 0, $sql);
 		}
 	}
 	
@@ -194,7 +194,7 @@ class DatabaseAdapter
 		//check for function template
 		$alias = $this->class.'::'.$function;
 		if(!array_key_exists($alias, self::$aliases)){
-			throw new XUndefinedIndexException('statement no registered');
+			throw new UndefinedIndexException('statement no registered');
 		}
 
 		//build new names
@@ -250,7 +250,7 @@ class DatabaseAdapter
 		}
 		if(strlen($parameterDefinition) != count($this->parameters)){
 
-			throw new XArgumentException('unexpected argument count');
+			throw new ArgumentException('unexpected argument count');
 		}
 
 		//bind params

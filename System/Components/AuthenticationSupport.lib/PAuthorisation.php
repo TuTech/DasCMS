@@ -80,15 +80,15 @@ class PAuthorisation
                 {
                     $implementor = self::getInstance()->getImplementor();
                 }
-                catch(XUndefinedException $e)
+                catch(Exception $e)
                 {
-                    throw new XPermissionDeniedException('no authentication class found');
+                    throw new AccessDeniedException('no authentication class found');
                 }
                 self::$active = true;
                 $relay = BObject::InvokeObjectByDynClass($implementor);
                 if(!$relay instanceof IAuthorize)
                 {
-                    throw new XPermissionDeniedException('authentication class failed');
+                    throw new AccessDeniedException('authentication class failed');
                 }
                 self::$permissions = $relay->getPermissions();//load perms of self and anonymous
                 self::$objectPermissions = $relay->getObjectPermissions();//load perms of self and anonymous
@@ -113,13 +113,13 @@ class PAuthorisation
      *  foo.*
      *  *
      * @return boolean
-     * @throws XArgumentException
+     * @throws ArgumentException
      */
     public static function has($permission, $object = null)
     {
         if(!preg_match('/[a-z]+\.[a-z0-9-]+\.[a-z0-9-\.]+/', $permission))
         {
-            throw new XArgumentException('invalid permission '.$permission);
+            throw new ArgumentException('invalid permission '.$permission);
         }
         
         self::load();
@@ -179,14 +179,14 @@ class PAuthorisation
     }
     
     /**
-     * this will fail with a XPermissionDeniedException if action is not permitted
-     * @throws XPermissionDeniedException
+     * this will fail with a AccessDeniedException if action is not permitted
+     * @throws AccessDeniedException
      */
     public static function requires($permission, $object = null)
     {
         if(!$this->has($permission, $object))
         {
-            throw new XPermissionDeniedException($permission.($object == null ? '' : ' for '.$object));
+            throw new AccessDeniedException($permission.($object == null ? '' : ' for '.$object));
         }
     }
     
@@ -218,7 +218,7 @@ class PAuthorisation
     {
         if(!isset(self::$roleStatus[$role]))
         {
-            throw new XArgumentException('invalid role');
+            throw new ArgumentException('invalid role');
         }
         return self::$roleStatus[self::getRole()] - self::$roleStatus[$role];
     }

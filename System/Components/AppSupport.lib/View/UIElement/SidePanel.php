@@ -61,7 +61,7 @@ class View_UIElement_SidePanel
 	{
 	    if(isset($this->object))
 	    {
-	        throw new XInvalidDataException('target object already set');
+	        throw new InvalidDataException('target object already set');
 	    }
 	    $this->object = $content;
 	    $this->mimetype = $content->getMimeType();
@@ -75,7 +75,7 @@ class View_UIElement_SidePanel
 	{
 	    if(isset($this->object))
 	    {
-	        throw new XInvalidDataException('target object already set');
+	        throw new InvalidDataException('target object already set');
 	    }
 	    $this->object = $name;
 	    $this->mimetype = $type;
@@ -89,7 +89,7 @@ class View_UIElement_SidePanel
 	{
 	    if(!isset($this->object))
 	    {
-	        throw new XInvalidDataException($failmessage);
+	        throw new InvalidDataException($failmessage);
 	    }
 	}
 

@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage Exceptions
  */
-class XArgumentException extends BDataException 
+class ArgumentException extends Exception 
 {
     public function __construct($message, $code = 0) 
     {

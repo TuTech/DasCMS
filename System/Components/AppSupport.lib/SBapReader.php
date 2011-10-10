@@ -56,7 +56,7 @@ class SBapReader
 		}
 		else
 		{
-			throw new XFileNotFoundException($appDefinition);
+			throw new FileNotFoundException($appDefinition);
 		}
 		return $result;
 	}

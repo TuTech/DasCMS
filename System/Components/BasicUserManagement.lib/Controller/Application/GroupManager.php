@@ -31,13 +31,13 @@ class Controller_Application_GroupManager
      * returns all data necessary for the open dialog
      * @param array $namedParameters
      * @return array
-     * @throws XPermissionDeniedException
+     * @throws AccessDeniedException
      */
     public function provideOpenDialogData(array $namedParameters)
     {
         if(!$this->isPermitted('view'))
         {
-            throw new XPermissionDeniedException('view');
+            throw new AccessDeniedException('view');
         }
         $items = array();
         $SUsersAndGroups = SUsersAndGroups::getInstance();
@@ -71,7 +71,7 @@ class Controller_Application_GroupManager
      * returns all data necessary for the open dialog
      * @param array $namedParameters
      * @return array
-     * @throws XPermissionDeniedException
+     * @throws AccessDeniedException
      */
     public function provideContentTags(array $namedParameters)
     {

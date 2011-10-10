@@ -37,7 +37,7 @@ class Model_Location
 	 */
 	protected function validateName($name){
 		if(empty ($name)){
-			throw new XArgumentException('name empty');
+			throw new ArgumentException('name empty');
 		}
 		if(self::exists($name))
 		{
@@ -208,7 +208,7 @@ class Model_Location
 	public function setAccuracy($newAccuracy){
 		$this->assertState();
 		if(!is_int($newAccuracy)){
-			throw new XArgumentException('accuracy not an int value');
+			throw new ArgumentException('accuracy not an int value');
 		}
 		$this->accuracy = $newAccuracy;
 		$this->changed = true;

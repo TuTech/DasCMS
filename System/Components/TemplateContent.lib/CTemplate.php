@@ -47,9 +47,9 @@ class CTemplate
 		
 	/**
 	 * @param string $id
-	 * @throws XFileNotFoundException
-	 * @throws XFileLockedException
-	 * @throws XInvalidDataException
+	 * @throws FileNotFoundException
+	 * @throws Exception
+	 * @throws InvalidDataException
 	 */
 	public function __construct($alias)
 	{
@@ -57,9 +57,9 @@ class CTemplate
 	    {
 	        $this->initBasicMetaFromDB($alias, self::CLASS_NAME);
 	    }
-	    catch (XUndefinedIndexException $e)
+	    catch (UndefinedIndexException $e)
 	    {
-	        throw new XArgumentException('content not found');
+	        throw new ArgumentException('content not found');
 	    }
 	}
 	
@@ -122,7 +122,7 @@ class CTemplate
 	
 	public function setContent($value)
 	{
-	    throw new XPermissionDeniedException('compiled templates are read only');
+	    throw new AccessDeniedException('compiled templates are read only');
 	}
 	
 	public function setRAWContent($value)

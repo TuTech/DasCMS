@@ -33,8 +33,8 @@ abstract class BObject
 	 *
 	 * @param string $id
 	 * @return object
-	 * @throws XPermissionDeniedException
-	 * @throws XUndefinedException
+	 * @throws AccessDeniedException
+	 * @throws Exception
 	 */
 	public static function InvokeObjectByID($id)
 	{
@@ -45,7 +45,7 @@ abstract class BObject
 		self::initIndex();
 		if(!array_key_exists($id, self::$_classIndex))
 	    {
-	        throw new XUndefinedIndexException('class id not indexed');
+	        throw new UndefinedIndexException('class id not indexed');
 	    }
 		return self::$_classIndex[$id];
 	}

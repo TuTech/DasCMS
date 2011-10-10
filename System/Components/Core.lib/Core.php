@@ -90,7 +90,7 @@ class Core
 	{
 		$className = (is_object($class)) ? get_class($class) : $class;
 		if(!Core::classExists($className)){
-			throw new XUndefinedIndexException('Class not found');
+			throw new UndefinedIndexException('Class not found');
 		}
 		return in_array($interface, class_implements($className, true));
 	}
@@ -198,10 +198,10 @@ class Core
 	public static function dataToFile($data, $file, $compress = false){
 		$compress = $compress && extension_loaded('zlib');
 		if(!is_dir(dirname($file))){
-			throw new XFileNotFoundException('missing parent dir', $file, 0);
+			throw new FileNotFoundException('missing parent dir', $file, 0);
 		}
 		if(file_exists($file) && !is_writeable($file)){
-			throw new XFileLockedException('file not writeable', $file, 1);
+			throw new Exception('file not writeable', $file, 1);
 		}
 		$t = tempnam(CMS_TEMP, 'Core_tmp_');
 		if($compress){

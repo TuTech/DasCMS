@@ -2,14 +2,14 @@
 /**
  * @copyright Lutz Selke/TuTech Innovation GmbH
  * @author Lutz Selke <selke@tutech.de>
- * @since 2008-10-09
+ * @since 2007-11-28
  * @license GNU General Public License 3
  */
 /**
  * @package Bambus
  * @subpackage Exceptions
  */
-class XTemplateException extends BDataException 
+class UndefinedIndexException extends Exception 
 {
     public function __construct($message, $code = 0) 
     {

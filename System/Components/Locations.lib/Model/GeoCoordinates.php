@@ -37,7 +37,7 @@ class Model_GeoCoordinates
     {
         if($type != self::LAT && $type != self::LONG)
         {
-            throw new XArgumentException('no valid type given');
+            throw new ArgumentException('no valid type given');
         }
         $pos = $dec >= 0;
         if(!$pos)
@@ -148,7 +148,7 @@ class Model_GeoCoordinates
         }
         else
         {
-            throw new XArgumentException('unknown coordinate format');
+            throw new ArgumentException('unknown coordinate format');
         }
         return $decimal;
     }

@@ -63,7 +63,7 @@ class DSQL_MySQL extends DSQL
 
 			if(mysqli_connect_errno() != 0)
 			{
-				throw new XDatabaseException(mysqli_connect_error(), mysqli_connect_errno());
+				throw new DatabaseException(mysqli_connect_error(), mysqli_connect_errno());
 				self::$DB = null;
 			}
 			$this->queryExecute("SET COLLATION_CONNECTION='utf8_unicode_ci', CHARACTER_SET_CLIENT='utf8',CHARACTER_SET_RESULTS='utf8';");
@@ -260,7 +260,7 @@ class DSQL_MySQL extends DSQL
     	$res = self::$DB->query($string);
     	if(self::$DB->errno != 0)
     	{
-    		throw new XDatabaseException(self::$DB->error, self::$DB->errno, $string);
+    		throw new DatabaseException(self::$DB->error, self::$DB->errno, $string);
     	}
     	$succ = self::$DB->affected_rows;
     	if(is_object($res))
@@ -286,7 +286,7 @@ class DSQL_MySQL extends DSQL
     	}
     	if(self::$DB->errno != 0)
     	{
-    		throw new XDatabaseException(self::$DB->error, self::$DB->errno, $string);
+    		throw new DatabaseException(self::$DB->error, self::$DB->errno, $string);
     	}
     	if(!$res instanceof mysqli_result)
     	{
@@ -303,7 +303,7 @@ class DSQL_MySQL extends DSQL
 	{
 		$res = self::$DB->prepare($statement);
 		if(!$res){
-			throw new XDatabaseException('prepare failed: '.self::$DB->error,self::$DB->errno,$statement);
+			throw new DatabaseException('prepare failed: '.self::$DB->error,self::$DB->errno,$statement);
 		}
 		return $res;
 	}

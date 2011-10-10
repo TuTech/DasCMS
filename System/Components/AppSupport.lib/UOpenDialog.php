@@ -40,7 +40,7 @@ class UOpenDialog
         }
         else
         {
-            throw new XInvalidDataException('ofd is not supported');
+            throw new InvalidDataException('ofd is not supported');
         }
     }
     

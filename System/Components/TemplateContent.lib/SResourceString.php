@@ -23,12 +23,12 @@ class SResourceString
             }
             else
             {
-                throw new XUndefinedIndexException('key not in resource file');
+                throw new UndefinedIndexException('key not in resource file');
             }
         }
         else
         {
-            throw new XFileNotFoundException('resource file not found');
+            throw new FileNotFoundException('resource file not found');
         }
     }
 }

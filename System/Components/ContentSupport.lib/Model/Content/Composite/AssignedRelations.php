@@ -99,7 +99,7 @@ class Model_Content_Composite_AssignedRelations
 				$c = Controller_Content::getInstance()->openContent($alias);
 				$html .= '<li>'.Controller_View::getInstance()->display($c, $formatter).'</li>';
 			}
-			catch(XFileNotFoundException $fnf){
+			catch(FileNotFoundException $fnf){
 				return '';
 			}
 			catch (Exception $e){

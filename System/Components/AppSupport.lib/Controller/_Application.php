@@ -19,7 +19,7 @@ abstract class _Controller_Application
      * returns all data necessary for the open dialog
      * @param array $namedParameters
      * @return array
-     * @throws XPermissionDeniedException
+     * @throws AccessDeniedException
      * @todo move to _Controller_Application_Content
      */
     public function provideContentTags(array $namedParameters)
@@ -35,7 +35,7 @@ abstract class _Controller_Application
     {
         if(!PAuthorisation::has($perm))
         {
-            throw new XPermissionDeniedException($perm);
+            throw new AccessDeniedException($perm);
         }
     }  
     
@@ -70,19 +70,19 @@ abstract class _Controller_Application
 	 *
 	 * @param string $appID
 	 * @return _Controller_Application
-	 * @throws XPermissionDeniedException
-	 * @throws XUndefinedException
+	 * @throws AccessDeniedException
+	 * @throws Exception
 	 */
 	public static function getControllerForID($appID)
 	{
 	    if(!PAuthorisation::has($appID))
 	    {
-	        throw new XPermissionDeniedException($appID);
+	        throw new AccessDeniedException($appID);
 	    }
 	    $appObject = BObject::InvokeObjectByID($appID);
 	    if (!$appObject instanceof _Controller_Application) 
 	    {
-	    	throw new XUndefinedException(get_class($appObject).' is not an app controller');
+	    	throw new Exception(get_class($appObject).' is not an app controller');
 	    }
 	    return $appObject;
 	}
