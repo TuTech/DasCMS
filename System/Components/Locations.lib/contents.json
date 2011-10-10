@@ -1,1 +1,1 @@
-{"classes":["Controller_Location","Controller_Locations","Model_GeoCoordinates","Model_Location"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}
+{"classes":["Content_Attribute_Location","Controller_Location","Controller_Locations","Model_Content_Composite_Location","Model_GeoCoordinates","Model_Location","Setup_LocationContentExtension","ULocations","View_Content_Location","View_Content_Map","View_UIElement_ContentGeoAttribute","View_UIElement_ContentLocation"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}
