@@ -55,25 +55,14 @@ class TCmdStats
     
     public function __toString()
     {
-        global $_SERVER;
-        list($a, $b, $c, $d) = explode('.', $_SERVER['REMOTE_ADDR']);
-        
-        $num = (sprintf('0x%02x%02x%02x%02x',$a, $b, $c, $d));
-        return sprintf("
-<!-- #Stats#
-	%12s%s
-	%12s%s
-	%12s%s
-	%12s%s
-	%12s%s
- -->
-"
-			,'Mem: ',Core::FileSystem()->formatFileSize(memory_get_usage())
-			,'Mem (real): ',Core::FileSystem()->formatFileSize(memory_get_usage(true))
-			,'Mem (peak): ',Core::FileSystem()->formatFileSize(memory_get_peak_usage(true))
-			,'ipadr: ', $num,
-			'gentime: ', round(microtime(true) - CMS_START_TIME, 5).'s'
-			);
+        return sprintf(
+			"\n<!-- #Stats#\n%12s%s\n%12s%s\n%12s%s\n%12s%s\n%12s%s\n-->\n",
+			'Mem: ',		Core::FileSystem()->formatFileSize(memory_get_usage()),
+			'Mem (real): ',	Core::FileSystem()->formatFileSize(memory_get_usage(true)),
+			'Mem (peak): ',	Core::FileSystem()->formatFileSize(memory_get_peak_usage(true)),
+			'ipadr: ',		RServer::getNumericRemoteAddress(),
+			'gentime: ',	round(microtime(true) - CMS_START_TIME, 5).'s'
+		);
     }
 }
 ?>
