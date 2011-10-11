@@ -41,10 +41,10 @@ org.bambuscms.wsettings.selectImage = function()
 	var dlg = org.bambuscms.app.dialog.create(_('select_preview_image'), '', div, false, 'Close');
 	dlg.id = 'wsetting_image_picker';
 	dlg.style.top = '150px';
-	dlg.style.left = '225px';
+	dlg.style.right = '150px';
+	dlg.style.bottom = '150px';
+	dlg.style.left = '150px';
 	org.bambuscms.wsettings.selector = dlg;
-	org.bambuscms.display.setAutosize('wsetting_image_picker', -100, -100, true);
-	org.bambuscms.display.setAutosize('wsettings_img_select', 0, -175, true);
 };
 org.bambuscms.wsettings.fillDialog = function (dataObject)
 {

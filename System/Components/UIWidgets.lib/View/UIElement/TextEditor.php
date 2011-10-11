@@ -119,18 +119,7 @@ class View_UIElement_TextEditor extends _View_UIElement
         {
             //assisting textarea
             $editorJS = 'org.bambuscms.wcodeeditor.run($(org.bambuscms.app.document.editorElementId));';
-        }
-
-        $out .= sprintf(
-            $script
-            ,'(function(){'.
-                'var h = ($(org.bambuscms.app.document.editorElementId).offsetTop) '.
-                    '? function(){return ($(org.bambuscms.app.document.editorElementId).offsetTop+5)*-1;} '.
-                    ': -190;'.
-                'org.bambuscms.display.setAutosize(org.bambuscms.app.document.editorElementId,0,h);'.
-            '})();'
-            ,$editorJS
-		);
+		}
 		return $out;
 	}
 

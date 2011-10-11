@@ -26,17 +26,3 @@ org.bambuscms.editor.wysiwyg.commitAll = function(){
 		ta.value = ta.bespin.editor.value;
 	}
 }
-org.bambuscms.display.addCallback(function(){
-    var ta = $('org_bambuscms_app_document_editorElementId');
-    if(ta){
-    	if(ta.bespin){
-    		ta.bespin.dimensionsChanged();
-    	}
-    	else{
-			window.onBespinLoad = function(){
-				var ta = $('org_bambuscms_app_document_editorElementId');
-				ta.bespin.dimensionsChanged();
-			};
-    	}
-    }
-});
