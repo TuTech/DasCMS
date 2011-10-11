@@ -4,8 +4,10 @@
 	background: #fff;
 	z-index: 5000;
 	position:absolute;
-	left:0px;
 	top:94px;
+	right:0px;
+	bottom:0px;
+	left:0px;
 	color: #2e3436;
 }
 #WOpenFileDialog-closer{
@@ -37,8 +39,11 @@
 
 #WOpenFileDialog-filecontainer{
 	background: #fff;
-	margin-right:221px;
-	height:100%;
+	position: absolute;
+	top: 46px;
+	right: 221px;
+	bottom: 0px;
+	left: 0px;
 	overflow: auto;
 }
 
@@ -76,7 +81,6 @@
 }
 #WOpenFileDialog-ItemWrapper{
 	margin:5px;
-	margin-top:46px;
 	padding-bottom: 10px;
 }
 .WOFD_item{

@@ -15,8 +15,6 @@ class TCmdStats
     implements 
         ITemplateCommand 
 {
-    private $request;
-    private $val;
     public $data = array();
     
     public function __construct(DOMNode $node)
@@ -32,24 +30,17 @@ class TCmdStats
         return $this;
     }
     
-    private function encode($val)
-    {
-        return String::htmlEncode(mb_convert_encoding($val,CHARSET,'iso-8859-1,utf-8,auto'));
-    }
-    
     public function tearDown()
     {
     }
 
     public function __sleep()
     {
-        //$this->data = array($this->request);
         return array();//'data'
     }
     
     public function __wakeup()
     {
-        //$this->request = $this->data[0];
         $this->data = array();
     }
     
