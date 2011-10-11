@@ -31,14 +31,10 @@ class Core_ManagementUpdate extends Core
 		foreach($ret as $abst){
 			list($abs, $t) = $abst;
 			$data = Core::dataFromFile($abs)."\n";
-			if($jsmin && $t == 'js'){
-				$data = JSMin::minify($data);
-			}
-			else{
-				$data = preg_replace('/[\n][ \t]+/mui', "\n", $data);
-				$data = preg_replace('/[ \t]+/mui', ' ', $data);
-				$data = preg_replace('/[\n]+/mui', "\n", $data);
-			}
+			$data = preg_replace('/[\n][ \t]+/mui', "\n", $data);
+			$data = preg_replace('/[ \t]+/mui', ' ', $data);
+			$data = preg_replace('/[\n]+/mui', "\n", $data);
+			
 
 			$types[$t] .= $data;
 			$version[$t] = max($version[$t], filemtime($abs));
@@ -79,7 +75,7 @@ class Core_ManagementUpdate extends Core
 
 	public static function run(){
 		//load css/js data
-		self::minifyer('System/ClientData', self::$content, self::$version, Core::classExists('JSMin') && class_exists('JSMin', true));
+		self::minifyer('System/ClientData', self::$content, self::$version, false);
 
 		//if has versioninfo read filenames
 		$oldVersionInfo = file_exists('Content/versioninfo.json') ? Core::dataFromJSONFile('Content/versioninfo.json') : array();
