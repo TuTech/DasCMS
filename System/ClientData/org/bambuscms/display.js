@@ -9,6 +9,8 @@ org.bambuscms.display = {
 	'_objects':{},
 	'_init':function()
 	{
+		return;
+		
 		if(window.addEventListener)
 			window.addEventListener('resize', org.bambuscms.display._resize, false);
 		else if(window.attachEvent)
@@ -34,6 +36,8 @@ org.bambuscms.display = {
 	},
 	'_resize':function()
 	{
+		return;
+		
 		for(element in org.bambuscms.display._objects)
 		{
 			if($(element))
@@ -61,6 +65,8 @@ org.bambuscms.display = {
 	},
 	'setAutosize':function(elementID, width, height, refreshNow)
 	{
+		return;
+		
 		org.bambuscms.display._objects[elementID] = {};
 		org.bambuscms.display._objects[elementID].width = width;
 		org.bambuscms.display._objects[elementID].height = height;
@@ -71,19 +77,20 @@ org.bambuscms.display = {
 	},
 	'getAutosize':function(elementID)
 	{
-		if(org.bambuscms.display._objects[elementID])
-		{
-			return {
-					'width':org.bambuscms.display._objects[elementID].width,
-					'height':org.bambuscms.display._objects[elementID].height
-				};
-		}
+//		
+//		if(org.bambuscms.display._objects[elementID])
+//		{
+//			return {
+//					'width':org.bambuscms.display._objects[elementID].width,
+//					'height':org.bambuscms.display._objects[elementID].height
+//				};
+//		}
 		return {'width':0,'height':0};
 	},
 	'getDocumentWidth':function(){return 0;},
 	'getDocumentHeight':function(){return 0;}
 };
-(function(){
-	org.bambuscms.autorun.register(org.bambuscms.display._init);
-})();
+//(function(){
+//	org.bambuscms.autorun.register(org.bambuscms.display._init);
+//})();
 

@@ -221,15 +221,7 @@ org.bambuscms.editor.wysiwyg.create = function(textarea, fillScreen)
 		}
 	}
 	//register in autosize as source
-	if(fillScreen)
-	{
-    	var h = -190;
-        if(elements.editor.offsetTop)
-        {
-    		h = function(){return (elements.editor.offsetTop+5)*-1;};
-    	}
-		org.bambuscms.display.setAutosize(elements.editor.id, 0, h, true);
-	}
+
 
 	//the wrapper will care for the command execution and browser compatibility
 	var wrapper = new org.bambuscms.editor.wysiwyg._editor(elements.editor);
