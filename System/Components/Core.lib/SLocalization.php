@@ -89,7 +89,7 @@ class SLocalization
 			'de-DE'
 		);
 		foreach ($langs as $lang){
-			if(file_exists('System/ClientData/org/bambuscms/localization/'.$lang.'.json')){
+			if(file_exists('System/ClientData/localization/'.$lang.'.json')){
 				return $lang;
 			}
 		}

@@ -27,11 +27,11 @@ foreach ($items as $item){
 		}
 
 		$jsData = 'org.bambuscms.localization = '.json_encode($translations).';';
-		$outPath = sprintf('System/ClientData/org/bambuscms/localization/%s.json', $lang);
+		$outPath = sprintf('System/ClientData/localization/%s.json', $lang);
 		Core::dataToFile($jsData, $outPath);
 	}
 }
 $jsData = 'org.bambuscms.localization = {};';
-$outPath = sprintf('System/ClientData/org/bambuscms/localization/nu_LL.json');
+$outPath = sprintf('System/ClientData/localization/nu_LL.json');
 Core::dataToFile($jsData, $outPath);
 ?>
