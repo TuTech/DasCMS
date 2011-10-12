@@ -1,5 +1,5 @@
 //COMPAT
-var org = {	bambuscms: { editor: { wysiwyg: {} }, wsidebar: { show: function(){} }, wopenfiledialog: { prepareLinks: function(){} }, app: { document: {}, hotkeys:{	register: function(){} } } } };
+var org = {bambuscms: {editor: {wysiwyg: {}}, wsidebar: {show: function(){}}, wopenfiledialog: {prepareLinks: function(){}}, app: {document: {}, hotkeys:{register: function(){}}}}};
 
 
 var CMS = {};
@@ -65,8 +65,11 @@ CMS.Sidebar = {
 		var oldElm, newElm;
 		newElm = event.currentTarget;
 		oldElm = $("#WSidebar-select .selectedWidget")[0];
-		newElm.className = "selectedWidget";
+
+		if(newElm.id == oldElm.id)return;
+
 		oldElm.className = "";
+		newElm.className = "selectedWidget";
 
 		this._getSidebarForSelector(oldElm).css("display", 'none');
 		this._getSidebarForSelector(newElm).css("display", 'block');
@@ -86,8 +89,11 @@ $(function(){
 CMS.Notification = {};
 
 CMS.Dialog = {
+	SRC: "Management/Dialogs/",
+	
 	_callback: null,
 	_form: null,
+	
 	
 	_informCallback: function(msg, params){
 		params = params || {};
@@ -104,18 +110,33 @@ CMS.Dialog = {
 	isActive:function(){},
 	
 	open: function(template, callback){
+		if(!callback)callback = null;
+		this._callback = callback;
+		
+		if(this.isActive()){
+			this._informCallback('dialogDenied');
+			return;
+		}
 		//load template via ajax
 		//jquery ajax foo
+		var self = this;
+		$.get(this.SRC + template + '.html', function(data) {
+			self.templateDidLoad(data);
+		});
 		
 		//replace translations
 		//replace all .translate and use id as key
-		$('#_cms_document_form .translate').each(function(i, element){
-			element.innerHTML = CMS.translate(element.id);
-		});
+		//
+		//$('#_cms_document_form .translate').each(function(i, element){
+		//	element.innerHTML = CMS.translate(element.id);
+		//});
 		
 		//callback handling
-		if(!callback)callback = null;
-		this._callback = callback;
+		//this._informCallback('formActivated');
+	},
+	
+	templateDidLoad: function(data){
+		$("#dialogues").html(data).removeClass('hide');
 		this._informCallback('formActivated');
 	},
 	
@@ -131,3 +152,8 @@ CMS.Dialog = {
 };
 
 //create form with GET[_action]
+
+
+
+
+

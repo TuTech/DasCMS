@@ -1,4 +1,5 @@
-<?php /*******************************************
+<?php 
+/*******************************************
 * Bambus CMS 
 * Created:     12.06.2006
 * License:     GNU GPL Version 2 or later (http://www.gnu.org/copyleft/gpl.html)
@@ -20,6 +21,7 @@ if(RURL::has('logout')){
 }
 
 PAuthentication::required();
+View_UIElement_Header::useScript('Content/jquery-1.6.4.min.js');
 $media = Core::dataFromJSONFile('Content/versioninfo.json');
 if(isset($media['js']))View_UIElement_Header::useScript($media['js']);
 if(isset($media['css']))View_UIElement_Header::useStylesheet($media['css']);
