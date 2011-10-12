@@ -114,7 +114,7 @@ CMS.Dialog = {
 		this._callback = callback;
 		
 		if(this.isActive()){
-			this._informCallback('dialogDenied');
+			this._informCallback('dialogDidFail');
 			return;
 		}
 		//load template via ajax
@@ -136,20 +136,57 @@ CMS.Dialog = {
 	},
 	
 	templateDidLoad: function(data){
-		$("#dialogues").html(data).removeClass('hide');
-		this._informCallback('formActivated');
+		$("#dialogues").html(data);
+		//add dialog functions close/cancel
+		
+		$("#dialogues").removeClass('hide');
+		this._informCallback('formDidShow');
 	},
 	
 	close:function(){
 		this._close();
-		this._informCallback('formClosed');
+		this._informCallback('formDidClose');
 	},
 	
 	cancel:function(){
 		this._close();
-		this._informCallback('formCanceled');
+		this._informCallback('formDidCancel');
 	}
 };
+
+CMS.OpenDialog = {	
+	TEMPLATE: "open_content",
+	
+	
+	
+	show:function(){
+		var self = this;
+		CMS.Dialog.open(this.TEMPLATE, this);
+	},
+	hide:function(){
+		
+	},
+	
+	select:function(){},
+	query:function(){},
+	
+	//callbacks
+	formDidShow:function(){
+		//load contents via ajax if not in cache
+	}
+};
+CMS.OpenDialog.Store = ({
+	_store:null,
+	
+	load:function(){},
+	_init:function(){return this;},
+	
+	contentsDidLoad:function(data){},
+	
+	get:function(){},
+	set:function(){}
+})._init();
+
 
 //create form with GET[_action]
 

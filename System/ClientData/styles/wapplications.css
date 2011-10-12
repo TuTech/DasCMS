@@ -15,8 +15,6 @@ border-spacing: 0px;
 	overflow: hidden;
 	width:1px;
 	margin-top:-1px;
-	border-right: 1px solid #98c10e;
-	border-left: 1px solid #98c10e;
 }
 #View_UIElement_Applications table, #View_UIElement_Applications tbody, #View_UIElement_Applications tr
 {
@@ -94,7 +92,7 @@ border-spacing: 0px;
 #View_UIElement_Applications a.active
 {
 	background: #fafcd5 url(../System/ClientData/Images/app_sel_bg.png) 50% 100% no-repeat;
-    border:1px solid #98c10e;
+    border:1px solid #fafcd5;
     border-bottom-width:0px;
     padding-top:1px;
 	width: 56px;
