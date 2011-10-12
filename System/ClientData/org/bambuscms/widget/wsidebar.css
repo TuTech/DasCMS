@@ -54,7 +54,7 @@
 	border:0px;
 	width:100%;
 }
-#WSidebar-select a{
+#WSidebar-select span{
 	display:block;
 	padding:2px;
 	background: #babdb6;
@@ -70,7 +70,7 @@
 	);
 	border-bottom: 1px solid #888a85;
 }
-#WSidebar-select a.selectedWidget{
+#WSidebar-select span.selectedWidget{
 	background: #eeeeec;
 	background: -webkit-gradient(
 		linear, 0% 0%, 0% 100%,

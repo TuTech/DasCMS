@@ -88,7 +88,7 @@ class View_UIElement_Applications extends _View_UIElement
         		    $meta = $this->apps[$app];
         			$name = SLocalization::get($meta['name']);
         			$html .= sprintf(
-        				"\t<td><a href=\"Management/?editor=%s\" onmousedown=\"return false;\" class=\"application%s\">\n".
+        				"\t<td><a href=\"Management/?editor=%s\" class=\"application%s\">\n".
         					"\t\t<img src=\"%s\" alt=\"%s\" />\n".
         					"\t\t<span class=\"application-info\">\n".
         					"\t\t\t<span class=\"application-name\">%s</span>\n".

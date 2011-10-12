@@ -232,9 +232,7 @@ class View_UIElement_SidePanel
     			foreach ($this->sidebarWidgets as $class => $object)
     			{
     		        $html .=  sprintf(
-    		        	"<td class=\"tab\"><a onmousedown=\"return org.bambuscms.wsidebar.show('%s'%s)\" href=\"javascript:nil();\" id=\"WSidebar-selector-%s\" title=\"%s\"%s>%s</a></td>\n"
-    		        	,$class
-    		        	,$object->associatedJSObject() == null ? '' : ", '".$object->associatedJSObject()."'"
+    		        	"<td class=\"tab\"><span id=\"WSidebar-selector-%s\" title=\"%s\"%s>%s</span></td>\n"
     		        	,$class
     		        	,SLocalization::get($object->getName())
     		        	,($class == $selectedWidget) ? ' class="selectedWidget"' : ''

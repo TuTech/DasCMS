@@ -60,18 +60,10 @@ class View_UIElement_ApplicationTaskBar
                 $html .= "\t</div>\n";
             }
         }
-        $html .= "\t<script type=\"text/javascript\">\n";
-        foreach ($this->hotkeys as $key => $action)
-        {
-            $html .= sprintf("\t\t".'org.bambuscms.app.hotkeys.register("CTRL-%s",function(){%s});%s',$key,$action,"\n");
-        }
-        $html .= "\t</script>\n";
         if($this->searchable)
         {
             $html .= "\t<div id=\"CommandBar_Search\">".
             	"\n\t\t<input type=\"text\" id=\"CommandBar_Search_Input\" ".
-            	"onkeyup=\"org.bambuscms.app.search(this.value);\" ".
-            	"onmouseup=\"org.bambuscms.app.search(this.value);\" />".
             	"\n\t</div>\n";
         }
         $html .= "</div>\n";
