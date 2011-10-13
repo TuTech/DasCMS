@@ -85,7 +85,7 @@ class View_UIElement_TextEditor extends _View_UIElement
 	public function __toString()
 	{
 	    $hidinp = '<input type="hidden" name="%s" id="%s" value="%s" />'."\n";
-        $textarea = '<textarea name="content" class="WCodeEditor%s" id="org_bambuscms_app_document_editorElementId"%s%s%s>%s</textarea>'."\n";
+        $textarea = '<div id="firefox-size-helper"><textarea name="content" class="WCodeEditor%s" id="org_bambuscms_app_document_editorElementId"%s%s%s>%s</textarea></div>'."\n";
 	    $script = '<script type="text/javascript">%s%s</script>'."\n";
         $sp = 'org_bambuscms_wcodeeditor_scrollpos';
         //scrollpos

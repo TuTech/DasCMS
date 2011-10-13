@@ -1,47 +1,41 @@
-//COMPAT
-var org = {bambuscms: {editor: {wysiwyg: {}}, wsidebar: {show: function(){}}, wopenfiledialog: {prepareLinks: function(){}}, app: {document: {}, hotkeys:{register: function(){}}}}};
-
-
-var CMS = {};
-
-$(document).keydown(function(event){
-	var key, target;
-	if(!event.ctrlKey)return;
-
-	key = String.fromCharCode(event.keyCode);
-	key = event.shiftKey ? key.toUpperCase() : key.toLowerCase();
-	target = $("#App-Hotkey-CTRL-" + key);
-
-	if(target.length){
-		$(target[0]).click();
-	}
-});
-
-CMS.Document = {
-	create: function(){
-		
-	},
-	open: function(){
-		
+var CMS = {
+	_localization: {},
+	_hotKeyLookup: {},
+	
+	handleHotKey: function(key){
+		if(this._hotKeyLookup[key]){
+			this._hotKeyLookup[key]();
+			return true;
+		}
+		return false;
 	},
 	
-	destroy: function(){
-		
-	},
-	create: function(){
-		
+	Model: {
+		_createMappedModel:function(data, map, converter){
+			converter = converter || {};
+			var model = {}, 
+				defCon = function(data){return data;}, 
+				conv;
+				
+			for(attr in map){
+				if(map.hasOwnProperty(attr)){
+					conv = converter[attr] || defCon;
+					model[attr] = conv(data[map[attr]]);
+				}
+			}
+			return model;
+		}
 	}
-	
-	//cms doc attrs
 };
 
+//translation functionality
 CMS.translate = function(phrase, options){
 	options = options || {};
 	
 	var translation = phrase;
 	
-	if(org.bambuscms.localization[phrase]){
-		translation = org.bambuscms.localization.phrase;
+	if(CMS._localization[phrase]){
+		translation = CMS._localization.phrase;
 		
 		for(key in options){
 			if(options.hasOwnProperty(key)){
@@ -54,141 +48,32 @@ CMS.translate = function(phrase, options){
 	}
 	
 	return translation;
-}
-
-CMS.Sidebar = {
-	_getSidebarForSelector: function(element){
-		return $('#' + element.id.replace(/WSidebar-selector-/, "WSidebar-child-"));
-	},
-	
-	switchTab:function(event){
-		var oldElm, newElm;
-		newElm = event.currentTarget;
-		oldElm = $("#WSidebar-select .selectedWidget")[0];
-
-		if(newElm.id == oldElm.id)return;
-
-		oldElm.className = "";
-		newElm.className = "selectedWidget";
-
-		this._getSidebarForSelector(oldElm).css("display", 'none');
-		this._getSidebarForSelector(newElm).css("display", 'block');
-	},
-	
-	//static handler function
-	switch_tab: function(event){
-		return CMS.Sidebar.switchTab(event);
-	}
 };
 
-$(function(){
-	$('#WSidebar-select span').click(CMS.Sidebar.switch_tab);
+//grab hotkeys
+$(document).keydown(function(event){
+	var key, target;
+	if(!event.ctrlKey)return;
+
+	key = String.fromCharCode(event.keyCode);
+	key = event.shiftKey ? key.toUpperCase() : key.toLowerCase();
+	
+	if(CMS.handleHotKey(key)){
+		console.log("canceling event");
+		event.preventDefault();
+		event.stopPropagation();
+		return false;
+	}
+	return true;
 });
 
 
-CMS.Notification = {};
-
-CMS.Dialog = {
-	SRC: "Management/Dialogs/",
-	
-	_callback: null,
-	_form: null,
-	
-	
-	_informCallback: function(msg, params){
-		params = params || {};
-
-		if(this._callback && this._callback[msg]){
-			this._callback.msg(params);
-		}
-	},
-	
-	_close:function(){
-		
-	},
-	
-	isActive:function(){},
-	
-	open: function(template, callback){
-		if(!callback)callback = null;
-		this._callback = callback;
-		
-		if(this.isActive()){
-			this._informCallback('dialogDidFail');
-			return;
-		}
-		//load template via ajax
-		//jquery ajax foo
-		var self = this;
-		$.get(this.SRC + template + '.html', function(data) {
-			self.templateDidLoad(data);
-		});
-		
-		//replace translations
-		//replace all .translate and use id as key
-		//
-		//$('#_cms_document_form .translate').each(function(i, element){
-		//	element.innerHTML = CMS.translate(element.id);
-		//});
-		
-		//callback handling
-		//this._informCallback('formActivated');
-	},
-	
-	templateDidLoad: function(data){
-		$("#dialogues").html(data);
-		//add dialog functions close/cancel
-		
-		$("#dialogues").removeClass('hide');
-		this._informCallback('formDidShow');
-	},
-	
-	close:function(){
-		this._close();
-		this._informCallback('formDidClose');
-	},
-	
-	cancel:function(){
-		this._close();
-		this._informCallback('formDidCancel');
-	}
-};
-
-CMS.OpenDialog = {	
-	TEMPLATE: "open_content",
-	
-	
-	
-	show:function(){
-		var self = this;
-		CMS.Dialog.open(this.TEMPLATE, this);
-	},
-	hide:function(){
-		
-	},
-	
-	select:function(){},
-	query:function(){},
-	
-	//callbacks
-	formDidShow:function(){
-		//load contents via ajax if not in cache
-	}
-};
-CMS.OpenDialog.Store = ({
-	_store:null,
-	
-	load:function(){},
-	_init:function(){return this;},
-	
-	contentsDidLoad:function(data){},
-	
-	get:function(){},
-	set:function(){}
-})._init();
 
 
-//create form with GET[_action]
+
+
+
+
 
 
 

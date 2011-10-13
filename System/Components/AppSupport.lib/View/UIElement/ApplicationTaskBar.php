@@ -87,33 +87,19 @@ class View_UIElement_ApplicationTaskBar
     {
         $atts = array('caption' => '' , 'icon' => '' , 'name' => '' , 'hotkey' => '', 'confirm' => '' , 'action' => '' , 'mode' => '');
         $atts = $this->getAtts($node, $xp, $atts);
-        $action = (strtolower($atts['mode']) == 'html') 
-            ? sprintf("{top.location = '%s';}", addslashes(SLink::link(array('_action' => $atts['action']))))
-            : $atts['action'];
-        if($atts['confirm'] != '')
-        {
-            $action = sprintf(
-            	"if(confirm(_('%s'))){%s}"
-            	,String::htmlEncode($atts['confirm'])
-            	,$action
-            );
-        }
-        $hotkeyID = '';
-        $hkttl = '';
-        if($atts['hotkey'] != '')
-        {
-            $hotkeyID = 'id="App-Hotkey-CTRL-'.$atts['hotkey'].'"';
-            $this->hotkeys[$atts['hotkey']] = $action;
-            $hkttl = ' ('.SLocalization::get('CTRL').'-'.$atts['hotkey'].')';
-        }
-        return sprintf(
-            "\t\t<a class=\"CommandBarPanelItem\" %stitle=\"%s%s\" href=\"javascript:nil();\" onmousedown=\"%s;return false;\">%s</a>\n"
-            ,$hotkeyID
-            ,SLocalization::get($atts['caption'])
-            ,$hkttl
-            ,$action
-            ,new View_UIElement_Icon($atts['icon'], SLocalization::get($atts['caption']).$hkttl)
-        );
+		
+		if(empty($atts['icon'])){
+			$atts['icon'] = 'action-document-'.$atts['action'];
+		}
+		
+		$caption = SLocalization::get($atts['caption']);
+		return sprintf(
+				"<span class=\"CommandBarPanelItem\" title=\"%s\" data-action=\"%s\" data-hotkey=\"%s\">%s</span>",
+				$caption,
+				String::htmlEncode($atts['action']),
+				String::htmlEncode($atts['hotkey']),
+				new View_UIElement_Icon($atts['icon'], $caption)
+		);
     }
     
     private function buildTaskSwitch(DOMNode $node)

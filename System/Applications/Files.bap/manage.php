@@ -14,11 +14,11 @@ if($File != null && $File instanceof CFile)
 	if(View_UIElement_Image::supportedMimeType($File->getMimeType()))
 	{
 	    $img = $File->getPreviewImage();
-	    printf('<div class="previewImage" ondblclick="org.bambuscms.wopenfiledialog.openAlias(\'\');">%s</div>',$img->scaled(640,480,View_UIElement_Image::MODE_SCALE_TO_MAX));
+	    printf('<div class="previewImage">%s</div>',$img->scaled(640,480,View_UIElement_Image::MODE_SCALE_TO_MAX));
 	}
 	else
 	{
-	    echo '<span ondblclick="org.bambuscms.wopenfiledialog.openAlias(\'\');">'.$File->getIcon().'</span>';
+	    echo '<span>'.$File->getIcon().'</span>';
 	}
 	printf(
 	    '<input type="checkbox" style="display:none;" name="select_%s" id="select_%s" checked="checked" />'

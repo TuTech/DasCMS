@@ -21,7 +21,6 @@ if(RURL::has('logout')){
 }
 
 PAuthentication::required();
-View_UIElement_Header::useScript('Content/jquery-1.6.4.min.js');
 $media = Core::dataFromJSONFile('Content/versioninfo.json');
 if(isset($media['js']))View_UIElement_Header::useScript($media['js']);
 if(isset($media['css']))View_UIElement_Header::useStylesheet($media['css']);
@@ -29,6 +28,7 @@ View_UIElement_Header::useScript('Management/localization.js.php');
 View_UIElement_Header::setBase(SLink::base());
 View_UIElement_Header::setTitle(BAMBUS_VERSION);
 View_UIElement_Header::meta('license', 'GNU General Public License/GPL 2 or newer');
+View_UIElement_Header::httpHeader("X-UA-Compatible: IE=edge");
 
 View_UIElement_Template::globalSet('bcms_version', BAMBUS_VERSION);
 View_UIElement_Template::globalSet('logout_text', SLocalization::get('logout'));
@@ -81,25 +81,20 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
             //execute function call
             _Controller_Application::callController(
                 $controller, 
-                RURL::get('_action'), 
+                RSent::get('_action'), 
                 RSent::data(CHARSET)
             );
             if ($controller instanceof ISupportsOpenDialog) 
             {
             	View_UIElement_Template::globalSet(
                 	'DocumentFormAction',  
-                    SLink::link(array(
-                    	'edit' => $controller->getOpenDialogTarget(), 
-                    	'_action' => 'save'))
-                );
+                    SLink::link(array('edit' => $controller->getOpenDialogTarget()))
+				);
                 View_UIElement_Template::globalSet('ContentAlias',$controller->getOpenDialogTarget());
             }
             else
             {
-                View_UIElement_Template::globalSet(
-                	'DocumentFormAction' 
-                    ,SLink::link(array('_action' => 'save'))
-                );
+                View_UIElement_Template::globalSet('DocumentFormAction' ,SLink::link());
             }
 	    }
 	    

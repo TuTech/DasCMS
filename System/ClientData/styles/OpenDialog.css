@@ -1,0 +1,100 @@
+#dialog-opencontent{
+	position:absolute;
+	top:0px;
+	right:0px;
+	bottom:0px;
+	left:0px;
+	background:#d3d7cf;
+}
+#dialog-opencontent-header{
+	position:absolute;
+	top:0px;
+	right:0px;
+	height:39px;
+	width:100%;
+	background: url(../System/ClientData/Images/header_background.png) 0px -58px;
+}
+#dialog-opencontent-sidebar{
+	position:absolute;
+	top:39px;
+	right:0px;
+	width:160px;
+	background: #4e9a06;
+}
+#dialog-opencontent-body{
+	position:absolute;
+	top:39px;
+	right:161px;
+	bottom:0px;
+	left:0px;
+	background: #ffffff;
+	padding:5px;
+	overflow: auto;
+	-moz-user-select:none;
+	-webkit-user-select:none;
+	user-select:none;
+}
+.open-item{
+	width:192px;
+	height:48px;
+	float:left;
+	margin:5px;
+	overflow: hidden;
+	background: #eeeeec;
+	border:1px solid #eeeeec;
+	cursor: pointer;
+}
+.open-item label{
+	font-size: 12px;
+	line-height: 14px;
+	height:28px;
+	overflow: hidden;
+	display: block;
+	padding:3px 3px 0px 3px;
+	text-shadow: 1px 1px 0px #d3d7cf;
+}
+.open-item small{
+	padding:3px 3px 0px 3px;
+	overflow: hidden;
+	line-height: 9px;
+	font-size: 9px;
+	display: block;
+	color: #888a85;
+	white-space: nowrap;
+}
+.open-item.selected{
+	border:1px solid #dcdcdc;
+	background: #fdfbe4;
+	color: #1f2c00;
+}
+input.instant-open{
+	background: #c8f0a2;
+}
+.instant-open .open-item{
+	background: #c8f0a2 !important;
+	border-color: #aede3c;
+}
+#dialog-opencontent-searchbox{
+	position: absolute;
+	top:8px;
+	right:7px;
+	background: #fff;
+	border: 1px solid #555753;
+	padding:0px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+#dialog-opencontent-search{
+	background: none;
+	border: none;
+	width: 175px;
+}
+#dialog-opencontent.loading #dialog-opencontent-indicator{
+	position: absolute;
+	top:5px;
+	left: 5px;
+	width:	22px;
+	height: 22px;
+	background: url(../System/ClientData/Images/loading.gif) 0px 0px no-repeat;
+}

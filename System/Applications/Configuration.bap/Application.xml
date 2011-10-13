@@ -14,7 +14,7 @@
 	<application>
 		<interface name="edit" src="edit.php">
 			<panel name="content_actions">
-				<task type="button" hotkey="s" caption="save" icon="action-document-save" action="org.bambuscms.app.document.save()" />
+				<task type="button" hotkey="s" caption="save" action="save" />
 			</panel>
 		</interface>
 		<sidebar>

@@ -38,14 +38,13 @@
 	right:0px;
 	top:96px;
 	padding: 0px;
-	background: #babdb6;
+	background: #EEEEEC;
 	border: 1px solid #888a85;
-	border-top-width:0px;
 	display:block;
 	width: 250px;
 	border-right-width: 0px;
 	border-bottom-width: 0px;
-	border-top: 1px solid #9fbc4a;
+	height: 39px;
 }
 #WSidebar-select{
 	border-spacing: 0px;
@@ -69,6 +68,10 @@
 		#babdb6 50%
 	);
 	border-bottom: 1px solid #888a85;
+	height: 33px;
+}
+#WSidebar-select img{
+	padding-top:6px;
 }
 #WSidebar-select span.selectedWidget{
 	background: #eeeeec;
@@ -119,12 +122,18 @@
 	border-width:0px;
 	border-top-width:1px;
 	border-style: solid;
-	border-color: #babdb6;
+	border-color: #fff;
 	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ffffff), color-stop(0.95, #eeeeec));
 	background: -moz-linear-gradient(center top, #ffffff 0%, #eeeeec 95%);
 	color: #9fbc4a;
 	font-size: 12px;
 	font-weight:100;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
 }
 #WSidebar-body dd{
 	margin-left:10px;
@@ -132,7 +141,7 @@
 	padding-bottom: 4px;
 }
 #WSidebar-body dt label{
-	padding:1px;
+	padding:1px 3px;
 	display: block;
 }
 #WSidebar-body dd input[type=text],

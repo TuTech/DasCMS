@@ -14,12 +14,12 @@
 	<application>
 		<interface name="edit" src="edit.php">
 			<panel name="content_actions">
-				<task caption="open" hotkey="o" icon="action-document-open" type="button" action="org.bambuscms.wopenfiledialog.toggle();" />
-				<task caption="save" hotkey="s" icon="action-document-save" type="button" action="org.bambuscms.app.document.save()" />
+				<task type="button" hotkey="o" caption="open" action="open" />
+				<task type="button" hotkey="s" caption="save" action="save" />
 			</panel>
 			<panel name="server_actions">
-				<task type="button" caption="new" hotkey="N" icon="action-document-new" action="Create()" />
-				<task type="button" caption="delete" hotkey="X" icon="action-edit-delete" action="Delete()" />
+				<task type="button" hotkey="N" caption="new" action="create" />
+				<task type="button" hotkey="X" caption="delete" action="destroy" />
 			</panel>
 		</interface>
 		<sidebar>

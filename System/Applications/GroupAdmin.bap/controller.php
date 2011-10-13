@@ -157,7 +157,7 @@ if(RSent::hasValue('action'))
 	
 }
 
-if(RURL::get('_action') == 'delete')
+if(RSent::get('_action') == 'delete')
 {
 	
 	////////////////

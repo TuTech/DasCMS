@@ -15,12 +15,12 @@
 		<controller>controller.php</controller>
 		<interface name="groups" src="group_settings.php">
 			<panel name="content_actions">
-				<task type="button" hotkey="o" caption="open" icon="action-document-open" action="org.bambuscms.wopenfiledialog.toggle();" />
-				<task type="button" hotkey="s" caption="save" icon="action-document-save" action="org.bambuscms.app.document.save()" />
+				<task type="button" hotkey="o" caption="open" action="open" />
+				<task type="button" hotkey="s" caption="save" action="save" />
 			</panel>
 			<panel name="server_actions">
-				<task type="button" hotkey="N" caption="new" icon="action-document-new" action="action_add_group()" />
-				<task type="button" hotkey="X" caption="delete" icon="action-edit-delete" action="delete" mode="html" confirm="do_you_really_want_to_delete_this_user" />
+				<task type="button" hotkey="N" caption="new" action="create" />
+				<task type="button" hotkey="X" caption="delete" action="destroy" />
 			</panel>
 		</interface>	
 		<sidebar>

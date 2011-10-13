@@ -59,12 +59,14 @@
     font-weight: bold;
     color:#2e3436;
     padding-right: 4px;
+	padding-top: 6px;
 }
 
 #BambusRightInfo
 {
     float:right;
     text-align: right;
+	margin-right: 5px;
 }
 
 #BambusVersionInfo 
@@ -89,16 +91,22 @@
     margin-right: 250px;
 }
 
-#org_bambuscms_app_document_editorElementId
+#firefox-size-helper
 {
-    border-width: 1px;
+	display:block;
 	position: absolute;
 	top: 170px;
 	right: 258px;
 	bottom: 10px;
 	left: 10px;
 }
-
+#org_bambuscms_app_document_editorElementId
+{
+	display:block;
+	border-width: 1px;
+	width: 100%;
+	height: 100%;
+}
 .clear 
 {
     clear:both;
@@ -169,7 +177,7 @@
 
 .side-scroll-body
 {
-    padding-top:97px;
+    padding: 100px 5px;
     padding-bottom: 12px;
 }
 

@@ -38,6 +38,7 @@ class View_UIElement_OpenDialog extends _View_UIElement implements Interface_Sin
     private $editor;
     private $autoload = false;
     private $source = null;
+	private $content;
     
     public function autoload($yn = true)
     {
@@ -57,9 +58,9 @@ class View_UIElement_OpenDialog extends _View_UIElement implements Interface_Sin
         $this->editor = $editor;
         if ($editor instanceof ISupportsOpenDialog) 
         {
-        	$_Content = $editor->getOpenDialogTarget();
+        	$this->content = $editor->getOpenDialogTarget();
         }
-        if($_Content == null)
+        if($this->content == null)
         {
             $this->autoload(true);
         }
@@ -71,17 +72,9 @@ class View_UIElement_OpenDialog extends _View_UIElement implements Interface_Sin
      */
     public function __toString()
     {
-        $script =
-            'org.bambuscms.wopenfiledialog.prepareLinks("'.
-                SLink::link(array('edit' => '')).
-             '","");';
-         if($this->autoload)
-         {
-            $script .= 
-                'org.bambuscms.wopenfiledialog.closable = false;'.
-                'org.bambuscms.wopenfiledialog.show();';
-         }   
-         return strval(new View_UIElement_Script($script));
+		return sprintf("<input type=\"hidden\" id=\"document-form-content\" name=\"_edit\" value=\"%s\">", String::htmlEncode($this->content))
+			.sprintf("<input type=\"hidden\" id=\"document-form-app\" name=\"_app\" value=\"%s\">", String::htmlEncode(RURL::get('editor')))
+			.sprintf("<input type=\"hidden\" id=\"document-form-data-source\" name=\"_src\" value=\"%s\">", String::htmlEncode($this->editor->getClassGUID()));
     }
     
     /**

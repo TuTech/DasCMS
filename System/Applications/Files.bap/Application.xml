@@ -14,13 +14,13 @@
 	<application>
 		<interface name="manage" src="manage.php">
 			<panel name="content_actions">
-				<task type="button" hotkey="o" caption="open" icon="action-document-open" action="org.bambuscms.wopenfiledialog.toggle();" />
-				<task type="button" hotkey="s" caption="save" icon="action-document-save" action="org.bambuscms.app.document.save()" />
+				<task type="button" hotkey="o" caption="open" action="open" />
+				<task type="button" hotkey="s" caption="save" action="save" />
 			</panel>
 			<panel name="server_actions">
-				<task type="button" hotkey="D" caption="download_selected" icon="action-transfer-download" action="downloadSelected('download');" />
-				<task type="button" hotkey="U" caption="upload" icon="action-transfer-upload" action="Upload();" />
-				<task type="button" hotkey="X" caption="delete_selected" icon="action-list-remove" action="Delete()" />
+				<task type="button" hotkey="D" caption="download_selected" action="download" />
+				<task type="button" hotkey="U" caption="upload" action="upload" />
+				<task type="button" hotkey="X" caption="delete_selected" action="destroy" />
 			</panel>
 		</interface>
 		<sidebar>
