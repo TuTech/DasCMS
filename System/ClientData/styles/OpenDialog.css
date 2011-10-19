@@ -1,6 +1,7 @@
 #dialog-opencontent{
 	position:absolute;
-	top:0px;
+	top:59px;
+	z-index: 100;
 	right:0px;
 	bottom:0px;
 	left:0px;
@@ -35,7 +36,7 @@
 	user-select:none;
 }
 .open-item{
-	width:192px;
+	width:198px;
 	height:48px;
 	float:left;
 	margin:5px;
@@ -43,6 +44,9 @@
 	background: #eeeeec;
 	border:1px solid #eeeeec;
 	cursor: pointer;
+	position:absolute;
+	left: 0px;
+	top: 0px;
 }
 .open-item label{
 	font-size: 12px;
@@ -97,4 +101,9 @@ input.instant-open{
 	width:	22px;
 	height: 22px;
 	background: url(../System/ClientData/Images/loading.gif) 0px 0px no-repeat;
+}
+#dialog-opencontent-wrapper{
+	position: absolute;
+	left: 5px;
+	top:5px;
 }

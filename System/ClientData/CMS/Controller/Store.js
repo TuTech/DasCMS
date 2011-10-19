@@ -62,15 +62,79 @@ CMS.Store = ({
 		}
 	},
 	
+	filter: function(filter){
+		return new CMS.Store.FilteredStoreRef(this, filter);
+	},
+	
 	each: function(cb){
 		for(i in this._store){
 			cb(i, this._store[i]);
 		}
 	},
 	
-	get:function(){},
+	get:function(ref){
+		return this._store[ref];
+	},
 	set:function(){}
 }).init();
+
+
+CMS.Store.FilteredStoreRef = CMS.extend(
+	function(store, filter){
+		var self = this;
+		this._store = store;
+		this._setFilter(filter);
+		_items = [];
+		store.each(function(ref, item){
+			//if item matches filter rules add to _items
+			if(self.matches(item)){
+				_items.push(ref);
+			}
+		});
+		this._items = _items;
+	}, 
+	{
+		_setFilter: function(filter){
+			this._filterRules = {
+				title: new RegExp(filter.title || '', 'gi')
+			};
+		},
+		
+		matches: function(item){
+			var match = true;
+			for(key in item){
+				if(key in this._filterRules && this._filterRules.hasOwnProperty(key)){
+					match = match && item[key].match(this._filterRules[key]);
+				}
+			}
+			return match;
+		},
+		
+		getItemCount: function(){
+			return this._items.length;
+		},
+		
+		each: function(cb){
+			var ref;
+			for(var i = 0; i <= this._items; i++){
+				ref = this._items[i];
+				cb(ref, this._store.get(ref))
+			}
+		},
+		
+		get: function(ref){
+			return this._store.get(ref)
+		},
+		
+		getNr: function(nr){
+			if(nr in this._items){
+				return this.get(this._items[nr]);
+			}
+			return null;
+		}
+		
+	}
+);
 //
 //{
 //	"title":"\u00d6ffnen",

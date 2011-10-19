@@ -25,6 +25,11 @@ var CMS = {
 			}
 			return model;
 		}
+	},
+	
+	extend: function(constructor, obj){
+		constructor.prototype = obj;
+		return constructor;
 	}
 };
 
