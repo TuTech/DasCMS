@@ -5,7 +5,7 @@
 	right:0px;
 	bottom:0px;
 	left:0px;
-	background:#d3d7cf;
+	background:#EEEEEC;
 }
 #dialog-opencontent-header{
 	position:absolute;
@@ -19,15 +19,16 @@
 	position:absolute;
 	top:39px;
 	right:0px;
-	width:160px;
+	width:250px;
 	background: #4e9a06;
 }
 #dialog-opencontent-body{
 	position:absolute;
 	top:39px;
-	right:161px;
+	right:250px;
 	bottom:0px;
 	left:0px;
+	border-right: 1px solid #888A85;
 	background: #ffffff;
 	padding:5px;
 	overflow: auto;
@@ -41,8 +42,8 @@
 	float:left;
 	margin:5px;
 	overflow: hidden;
-	border:1px solid #eeeeec;
-	border-width: 0px 0px 1px 0px;
+	border:1px solid #fff;
+	border-bottom-color: #eeeeec;
 	cursor: pointer;
 	position:absolute;
 	left: 0px;
@@ -63,9 +64,9 @@
 	line-height: 9px;
 	font-size: 9px;
 	display: block;
-	color: #888a85;
+	color: #BABDB6;
+	text-align: right;
 	white-space: nowrap;
-	text-shadow: 1px 1px 0px #fff;
 }
 .open-item.selected{
 	border:1px solid #dcdcdc;
@@ -75,7 +76,7 @@
 input.instant-open{
 	background: #c8f0a2;
 }
-.instant-open .open-item{
+.open-item.instant-open{
 	background: #c8f0a2 !important;
 	border-color: #aede3c;
 }

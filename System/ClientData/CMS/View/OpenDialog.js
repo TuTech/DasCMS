@@ -1,5 +1,5 @@
 CMS.OpenDialogView = {
-	SIDEBAR_OFFSET: 162,
+	SIDEBAR_OFFSET: 251,
 	ITEM_WIDTH: 200,
 	ITEM_MARGIN: 8,
 	ITEM_HEIGHT: 50,
@@ -84,10 +84,14 @@ CMS.OpenDialogView = {
 	
 	selectItem: function(ref){
 		this._selectedItems[ref] = true;
+		$('#ofd-item-'+ref).addClass("selected");
+		//add class
 	},
 	
 	deselectItem: function(ref){
 		this._selectedItems[ref] = false;
+		$('#ofd-item-'+ref).removeClass("selected");
+		//remove class
 	},
 	
 	isItemSelected: function(ref){
@@ -96,6 +100,7 @@ CMS.OpenDialogView = {
 	
 	toggleItemSelection: function(ref){
 		this._selectedItems[ref] = !this.isItemSelected(ref);
+		$('#ofd-item-'+ref).toggleClass("selected");
 	},
 	
 	getSelectedItems: function(){
@@ -155,10 +160,10 @@ CMS.OpenDialogView = {
 	//get the item that was clicked
 	_clickSource:function(event, callback){
 		var source = null;
-		if($(event.target).data('ref')){
+		if($(event.target).data('ref') != undefined){
 			source = event.target;
 		}
-		else if($(event.target.parentNode).data('ref')){
+		else if($(event.target.parentNode).data('ref') != undefined){
 			source = event.target.parentNode;
 		}
 		if(source && callback){
@@ -288,7 +293,8 @@ CMS.OpenDialogView = {
 					top: ( layout[ref].y * padded_item_height ) + 'px', 
 					left: ( layout[ref].x * padded_item_width ) + 'px'
 				});
-				if(ref in this._highlightedItems) item.addClass("selected");
+				if(ref in this._highlightedItems) item.addClass("instant-open");
+				if(ref in this._selectedItems)	  item.addClass("selected");
 			}
 		}
 	}

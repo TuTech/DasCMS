@@ -50,7 +50,7 @@ CMS.Store = ({
 		BC.setAttrMap(data.itemMap);
 		for(i in items){
 			model = BC.create(items[i]);
-			index = this._store.push(model);
+			index = this._store.push(model) - 1;
 			model.ref = index;
 			this._indexes.alias[model.alias] = index;
 			//TODO: tag index
