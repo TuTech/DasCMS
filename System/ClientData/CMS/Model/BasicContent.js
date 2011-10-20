@@ -8,6 +8,7 @@ CMS.Model.BasicContent = {
 	create: function(data){
 		return CMS.Model._createMappedModel(data, this._map, {
 			pubDate: function(date){ 
+				if(!date) return ' ';
 				var d = new Date(1000 * date);
 				return d.getFullYear() + "/" +
 					   d.getMonth() + "/" +

@@ -165,7 +165,7 @@ class Controller_Application_Templates
         foreach ($idIndex as $alias => $data)
         {
         	list($title, $pubdate) = $data;
-        	$items[] = array($title, $alias, 0, strtotime($pubdate));
+        	$items[] = array($title, $alias, 0, $pubdate);
         }
         $data = array(
             'title' => SLocalization::get('open'),

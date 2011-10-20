@@ -125,7 +125,7 @@ SELECT
 -- type: select
 SELECT
 		__PFX__Contents.title AS Title,
-		__PFX__Contents.pubDate AS PubDate,
+		unix_timestamp(__PFX__Contents.pubDate) AS PubDate,
 		__PFX__Aliases.alias AS Alias,
 		__PFX__Mimetypes.mimetype,
 		__PFX__Contents.contentID

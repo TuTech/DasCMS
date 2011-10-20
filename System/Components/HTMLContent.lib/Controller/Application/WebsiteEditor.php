@@ -170,7 +170,7 @@ class Controller_Application_WebsiteEditor
         foreach ($idIndex as $alias => $data)
         {
         	list($title, $pubdate, $type, $id) = $data;
-        	$items[] = array($title, $alias, 0, strtotime($pubdate), filesize('Content/CPage/'.$id.'.content.php'));
+        	$items[] = array($title, $alias, 0, $pubdate, filesize('Content/CPage/'.$id.'.content.php'));
         }
         $data = array(
             'title' => SLocalization::get('open'),

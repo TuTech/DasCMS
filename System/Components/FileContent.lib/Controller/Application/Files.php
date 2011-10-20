@@ -191,7 +191,7 @@ class Controller_Application_Files
         	{
         	    $types[$type] = $i++;
         	}
-        	$items[] = array($title, $alias, $types[$type], strtotime($pubdate), $type);
+        	$items[] = array($title, $alias, $types[$type], $pubdate, $type);
         }
         $xsi = array();
         $li = array();
