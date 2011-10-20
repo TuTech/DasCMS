@@ -18,6 +18,7 @@ CMS.OpenDialogView = {
 	_cols: -1,
 	_locked: false,
 	
+	_visibleRows: {from:0, to:0},
 	_renderedRows: {},
 	_selectedItems: {},
 	_highlightedItems:{},
@@ -48,7 +49,7 @@ CMS.OpenDialogView = {
 			this._mainFrame = $('#dialog-opencontent');
 			this._searchBox = $('#dialog-opencontent-search');
 			this._contentFrame = $('#dialog-opencontent-wrapper');
-			this._scrollView = $("dialog-opencontent-body");
+			this._scrollView = $("#dialog-opencontent-body");
 			if(this._locked){
 				this._mainFrame.addClass("locked");
 			}
@@ -142,7 +143,7 @@ CMS.OpenDialogView = {
 		
 		//capture scolls
 		this._scrollView.scroll(function(event){
-			self.viewportDidChange(event.target.scrollTop);
+			self.viewportDidChange();
 		});
 		
 		//capture resizes
@@ -180,7 +181,7 @@ CMS.OpenDialogView = {
 	},
 	
 	//scroll
-	viewportDidChange: function(top){
+	viewportDidChange: function(){
 		this._calculateVisibleRows();
 		this._fillVisibleRows();
 	},
@@ -224,6 +225,7 @@ CMS.OpenDialogView = {
 	//clear wrapper contents
 	_clearView: function(){
 		this._contentFrame.html('');
+		this._renderedRows = {};
 	},
 	
 	//calculate the new height of the wrapper
@@ -239,8 +241,21 @@ CMS.OpenDialogView = {
 	
 	//calculate which rows are visible
 	_calculateVisibleRows: function(){
-		//get scrollpos
-		//get window height - offset foo
+		//(this._rows * (this.ITEM_HEIGHT + this.ITEM_MARGIN)) + this.ITEM_MARGIN
+		//this._visibleRows: {from:0, to:0},
+		var top = $('#dialog-opencontent-body').scrollTop(),
+			height = $('#dialog-opencontent').height(),
+			rowHeight = this.ITEM_HEIGHT + this.ITEM_MARGIN,
+			firstRow,
+			nrOfRows;
+			
+		firstRow = Math.floor( top / rowHeight ) - 5;
+		firstRow = (firstRow < 0) ? 0 : firstRow;
+		
+		nrOfRows = Math.ceil( height / rowHeight ) + 5;
+		
+		this._visibleRows.from = firstRow;
+		this._visibleRows.to = firstRow + nrOfRows;
 	},
 	
 	//fill visible rows if they are empty
@@ -253,13 +268,16 @@ CMS.OpenDialogView = {
 		
 		//for each row
 
-		for(var y = 0; y < this._rows; y++){
-			for(var x = 0; x < this._cols; x++){
-				item = this._controller.getItemByNr( y * this._cols + x );
-				if(item){
-					layout[item.ref] = {"x": x, "y": y}
-					html.push(CMS.Templates.parse(this._itemTPL, item));
+		for(var y = this._visibleRows.from; y < this._visibleRows.to; y++){
+			if(!(y in this._renderedRows)){
+				for(var x = 0; x < this._cols; x++){
+					item = this._controller.getItemByNr( y * this._cols + x );
+					if(item){
+						layout[item.ref] = {"x": x, "y": y}
+						html.push(CMS.Templates.parse(this._itemTPL, item));
+					}
 				}
+				this._renderedRows[y] = true;
 			}
 		}
 		this._contentFrame.append(html.join(''));
