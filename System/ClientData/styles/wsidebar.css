@@ -39,12 +39,14 @@
 	top:96px;
 	padding: 0px;
 	background: #EEEEEC;
-	border: 1px solid #888a85;
 	display:block;
 	width: 250px;
 	border-right-width: 0px;
 	border-bottom-width: 0px;
 	height: 39px;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
 }
 #WSidebar-select{
 	border-spacing: 0px;
@@ -59,13 +61,13 @@
 	background: #babdb6;
 	background: -webkit-gradient(
 		linear, 0% 0%, 0% 100%,
-		from(#d3d7cf),
-		color-stop(0.5, #babdb6)
+		from(#ddd),
+		color-stop(0.5, #bbb)
 	);
 	background: -moz-linear-gradient(
 		center top,
-		#d3d7cf 0%,
-		#babdb6 50%
+		#ddd 0%,
+		#bbb 50%
 	);
 	border-bottom: 1px solid #888a85;
 	height: 33px;
@@ -125,15 +127,18 @@
 	border-color: #fff;
 	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ffffff), color-stop(0.95, #eeeeec));
 	background: -moz-linear-gradient(center top, #ffffff 0%, #eeeeec 95%);
-	color: #9fbc4a;
+	color: #888a85;
 	font-size: 12px;
-	font-weight:100;
+	font-weight:200;
 	-webkit-border-top-left-radius: 5px;
 	-webkit-border-top-right-radius: 5px;
 	-moz-border-radius-topleft: 5px;
 	-moz-border-radius-topright: 5px;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
 }
 #WSidebar-body dd{
 	margin-left:10px;

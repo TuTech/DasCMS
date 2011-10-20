@@ -15,26 +15,27 @@
 .View_UIElement_Table, .View_UIElement_Table td, .View_UIElement_Table th{
     border-style: solid;
     border-spacing: 0px;
-    border-color: #9fbc4a;
+    border-color: #aaa;
 }
 .View_UIElement_Table th
 {
-    background: #9fbc4a url(../System/ClientData/Images/header_background.png) 00% 00%;
+    background: #aaa url(../System/ClientData/Images/header_background.png) 00% 00%;
     padding:2px;
     color:white;
 }
 .View_UIElement_Table th[scope=row]
 {
-    background: #ecf0de;
+	background: #fff;
     font-weight:normal;
     padding-top:2px;
     padding-bottom:2px;
     color:black;
     width:15%;
+	text-shadow: 1px 1px #CCC;
 }
 .View_UIElement_Table tr.alt_a th[scope=row]
 {
-    background: #e4f0b8;
+    background: #EEEEEC;
 }
 .View_UIElement_Table tr
 {
@@ -46,7 +47,7 @@
 }
 .View_UIElement_Table tr.alt_a td
 {
-    background: #eff9cc;
+    background: #eeeeec;
 }
 .WPE_active
 {

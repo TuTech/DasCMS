@@ -1,7 +1,48 @@
 #View_UIElement_Applications{
-	z-index:500000;
-	display:block;
+	position:absolute;
+	top:0px;
+	left:0px;
+	width: 100%;
+	height:57px;
 }
+#View_UIElement_Applications .appGroup:first-child{
+	margin-left:24px;
+}
+#View_UIElement_Applications .application:last-child{
+	margin-right:24px;
+}
+
+#View_UIElement_Applications .application{
+	width: 56px;
+	height: 57px;
+	float:left;
+	background: url(../System/ClientData/Images/app_bg.png) 50% -2px no-repeat;
+}
+
+#View_UIElement_Applications .application img{
+	width: 32px;
+	height:32px;
+	padding: 12px;
+}
+
+#View_UIElement_Applications .application.active img{
+	width: 32px;
+	height:32px;
+	padding: 6px;
+	margin: 6px;
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	border-width: 0px 1px;
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+#CommandBar{
+	position: absolute;
+	top: 58px;
+	left: 0px;
+}
+
+
+/*
 #View_UIElement_Applications table, #View_UIElement_Applications tbody, #View_UIElement_Applications tr, #View_UIElement_Applications td, #View_UIElement_Applications th
 {
 height:50px;
@@ -9,7 +50,7 @@ border-spacing: 0px;
 }
 #View_UIElement_Applications th span
 {
-	background: #f0f9d7;
+	background: rgba(0,0,0,0.05);
 	height:58px !important;
 	display:block;
 	overflow: hidden;
@@ -44,32 +85,6 @@ border-spacing: 0px;
 	opacity:0.8;
 	white-space:nowrap;
 }
-#View_UIElement_Applications a:hover
-{
-	background: #eef7af url(../System/ClientData/Images/app_bg.png) 50% -2px no-repeat;
-}
-#View_UIElement_Applications a:hover span.application-info
-{
-	position:relative;
-	text-align:center;
-	top:2px;
-	left:0px;
-	margin-left:0px;
-	display:block;
-	padding:2px;
-	padding-left:0px;
-	padding-right:0px;
-	font-size: 11px;
-	color: #000;
-}
-#View_UIElement_Applications a.active:hover span.application-info
-{
-	top:-6px;
-}
-#View_UIElement_Applications a.active:hover span.application-info
-{
-	margin-left:-1px;
-}
 #View_UIElement_Applications a img
 {
 	margin-top:8px;
@@ -91,10 +106,11 @@ border-spacing: 0px;
 }
 #View_UIElement_Applications a.active
 {
-	background: #fafcd5 url(../System/ClientData/Images/app_sel_bg.png) 50% 100% no-repeat;
-    border:1px solid #fafcd5;
-    border-bottom-width:0px;
-    padding-top:1px;
+	background: rgba(0, 0, 0, 0.1);
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-top-color:rgba(0, 0, 0, 0);
+	border-bottom-width:0px;
+	padding-top:1px;
 	width: 56px;
 	height:55px;
 	display: block;
@@ -126,3 +142,4 @@ border-spacing: 0px;
 #View_UIElement_Applications th{
 	width:1px !important;
 }
+*/

@@ -1,8 +1,8 @@
 CMS.OpenDialogView = {
 	SIDEBAR_OFFSET: 251,
-	ITEM_WIDTH: 200,
-	ITEM_MARGIN: 8,
-	ITEM_HEIGHT: 50,
+	ITEM_WIDTH: 300,
+	ITEM_MARGIN: 10,
+	ITEM_HEIGHT: 80,
 
 	_mainTPL: '',
 	_itemTPL: '',

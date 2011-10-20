@@ -3,5 +3,6 @@
     margin:0px;
     padding:0px;
     background:#fff;
-	font-family: Monaco,monospace;
+	font-family: "Andale Mono","Monaco",monospace;
+	font-size: 12px;
 }

@@ -31,7 +31,7 @@ class View_UIElement_Applications extends _View_UIElement
 		$parts = explode('-', $name);
 		//specifyer in name
 		$type = array_shift($parts);
-		$path = Core::PATH_SYSTEM_ICONS.'/'.($active ? 'large' : 'medium').'/'.strtolower($type).'s/';
+		$path = Core::PATH_SYSTEM_ICONS.'/medium/'.strtolower($type).'s/';
 		if(ctype_alpha($type) && is_dir($path))
 		{
 			//valid path
@@ -73,14 +73,10 @@ class View_UIElement_Applications extends _View_UIElement
 		{
 		    $sortHelp[$app] = strtoupper(trim(SLocalization::get($meta['name'])));
 		}
-		$html .= '<table><tr>';
 		foreach ($groupHelp as $group => $locale)
 		{
-		    $html .= '<th class="appGroup appGroup-'.String::htmlEncode($group)."\" title=\"".$locale."\"><span>&nbsp;</span></th>";
+		    $html .= '<div class="appGroup appGroup-'.String::htmlEncode($group)."\" data-description=\"".String::htmlEncode($locale)."\">";
 		    
-		
-		    
-    		//asort($sortHelp, SORT_LOCALE_STRING);
     		foreach ($sortHelp as $app => $sortHelper) 
     		{
     		    if($this->apps[$app]['purpose'] == $group)
@@ -88,13 +84,9 @@ class View_UIElement_Applications extends _View_UIElement
         		    $meta = $this->apps[$app];
         			$name = SLocalization::get($meta['name']);
         			$html .= sprintf(
-        				"\t<td><a href=\"Management/?editor=%s\" class=\"application%s\">\n".
-        					"\t\t<img src=\"%s\" alt=\"%s\" />\n".
-        					"\t\t<span class=\"application-info\">\n".
-        					"\t\t\t<span class=\"application-name\">%s</span>\n".
-        					"\t\t\t<span class=\"application-description\">%s</span>\n".
-        					"\t\t</span>\n".
-        					"\t</a></td>\n"
+        				"<a href=\"Management/?editor=%s\" class=\"application%s\">".
+        					"<img src=\"%s\" alt=\"%s\" title=\"%s\" data-description=\"%s\"/>".
+        				"</a>"
         				,String::htmlEncode($app)
         				,($meta['active']) ? ' active' : ''
         				,$this->selectIcon($meta['icon'], $meta['active'])
@@ -105,9 +97,11 @@ class View_UIElement_Applications extends _View_UIElement
         			);
     		    }
     		}
+			
+			$html .= '</div>';
     		
-		}$html .= '</tr></table></div>';
-		#$html .= '</div>';
+		}
+		$html .= '</div>';
 		return $html;
 	}
 	

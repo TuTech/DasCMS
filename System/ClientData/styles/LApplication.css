@@ -14,12 +14,12 @@
 		linear,
 		left bottom,
 		left top,
-		color-stop(0, #d3d7cf),
+		color-stop(0, #ddd),
 		color-stop(0.5, #eeeeec)
 	);
 	background: -moz-linear-gradient(
 		center bottom,
-		#d3d7cf 0%,
+		#ddd 0%,
 		#eeeeec 50%
 	);
 	border-right:1px solid #babdb6;	
