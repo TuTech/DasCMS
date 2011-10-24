@@ -7,5 +7,7 @@
 			{ControllerData}
 			{OpenDialog}
 			<div id="document">
-				{TaskBar}
-				<div class="page-margin">
+				<div id="document-front" class="document-side">
+					<div class="document-flip"></div>
+					{TaskBar}
+					<div class="page-margin">

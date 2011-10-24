@@ -1,0 +1,148 @@
+/* APP Swicther */
+
+#View_UIElement_Applications{
+	position:absolute;
+	top:0px;
+	left:0px;
+	height: 100%;
+	width: 56px;
+	background: black;
+	overflow: auto;
+}
+
+#View_UIElement_Applications .application{
+	width: 56px;
+	height: 57px;
+	float:left;
+}
+
+#View_UIElement_Applications .application img{
+	width: 32px;
+	height:32px;
+	padding: 12px;
+}
+
+#View_UIElement_Applications .application.active img{
+	width: 32px;
+	height:32px;
+	background-color: white;
+}
+
+/**/
+
+#documentform{
+	-webkit-perspective: 1000;
+	display: block;
+	position: absolute;
+	top: 0px;
+	left: 56px;
+	right: 0px;
+	bottom: 0px;
+}
+/* Content Area */
+
+#document{
+	display: block;
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	right: 263px;
+	bottom: 10px;
+	border: 1px solid #ccc;
+	background: #F9F9F9;
+	-moz-box-shadow: 1px 2px 4px #aaa;
+	-webkit-box-shadow: 1px 2px 4px #aaa;
+	box-shadow: 1px 2px 4px #aaa;
+	
+	-webkit-transform-style: preserve-3d;
+	-webkit-transition-property: -webkit-transform;
+	-webkit-transition-duration: 0.8s;
+	-webkit-transition-timing-function: ease-out;
+}
+
+#document.flipped, #document-back{
+	-webkit-transform: rotateY(180deg);	
+}
+
+#document-front, .flipped #document-back{
+	opacity: 1;
+	visibility: visible;
+}
+#document-back, .flipped #document-front{
+	opacity: 0;
+	visibility: hidden;
+}
+.document-flip{
+	position:absolute;
+	top:10px;
+	right:10px;
+	width:22px;
+	height:22px;
+	background: url(../System/ClientData/Icons/tango/small/actions/document-settings.png) 0px 0px no-repeat;
+}
+#document-back .document-flip{
+	background-image: url(../System/ClientData/Icons/tango/small/actions/document-edit.png);
+}
+.document-side{
+	position: absolute;	
+	top:	0px;
+	left:	0px;
+	right:	0px;
+	bottom: 0px;
+	background-color: #F9F9F9;
+	-webkit-transition: opacity 0.5s ease-in;
+}
+
+#document textarea{
+	resize: none;
+}
+
+.page-margin{
+	position: absolute;
+	top:50px;
+	left:10px;
+	right:10px;
+	bottom:10px;
+	overflow: auto;
+	padding-right: 2px;
+}
+
+#CommandBar{
+	padding: 10px;
+}
+
+
+
+
+
+
+
+.open-filter{
+	float: left;
+	border: 1px solid #8F5902;
+	width: 150px;
+	margin: 8px 0px 0px 8px;
+	padding: 3px;
+	border-radius: 9px;
+	font-size: 11px;
+	background: #E9B96E;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.open-filter label{
+	display: block;
+	float: left;
+	color: #8F5902;
+	padding-left: 4px;
+	padding-right: 2px;
+}
+.open-filter label:after{	
+	content: ": ";
+}
+.open-filter span:after{
+	content: ", ";
+}
+.open-filter span:last-child:after{
+	content: "";
+}

@@ -72,7 +72,13 @@ $(document).keydown(function(event){
 	return true;
 });
 
-
+$(function(){
+	$('.document-flip').each(function(i, item){
+		$(item).click(function(e){
+			$('#document').toggleClass('flipped');
+		});
+	});
+});
 
 
 
