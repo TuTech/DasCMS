@@ -1,12 +1,7 @@
-body.login #BambusHeader{display: none;}
 body.login 
 {
 	background: #fff ;
 	color: #2e3436;
-}
-body.login #BambusHeader
-{
-	height:48px;
 }
 body.login .textinput
 {

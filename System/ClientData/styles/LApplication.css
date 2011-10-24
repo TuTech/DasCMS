@@ -1,38 +1,21 @@
-.CommandBarPanel
-{
-	float:left;
-	margin-left:10px;
-	background: #eeeeec;
-	border:1px solid #babdb6;	
-	border-right-width: 0px;
-	margin-top:3px;
-}
-.CommandBarPanel span 
-{
-	background: #eeeeec;
-	background: -webkit-gradient(
-		linear,
-		left bottom,
-		left top,
-		color-stop(0, #ddd),
-		color-stop(0.5, #eeeeec)
-	);
-	background: -moz-linear-gradient(
-		center bottom,
-		#ddd 0%,
-		#eeeeec 50%
-	);
-	border-right:1px solid #babdb6;	
-	width: 30px;
-	height:28px;
+.CommandBarPanel, .CommandBarPanel span{
+	background: #fff;
+	border-color: #ddd;
+	border-style: solid;
 	float:left;
 	display: block;
 }
-.CommandBarPanel span:hover
+.CommandBarPanel
 {
-	background: #eeeeec;
+	margin-right:10px;
+	border-width: 1px 0px 1px 1px;
 }
-
+.CommandBarPanel span 
+{
+	border-width: 0px 1px 0px 0px;
+	width: 30px;
+	height:28px;
+}
 .CommandBarPanel img{
 	padding:3px 4px 3px 4px;
 	

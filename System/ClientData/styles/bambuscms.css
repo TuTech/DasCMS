@@ -36,22 +36,6 @@
     display:block;
 }
 
-#BambusHeader 
-{
-    position:absolute;
-    top:0px;
-    left:0px;
-    display:block;
-    width:100%;
-    z-index:100;
-    height:96px;
-    overflow:hidden;
-    background: url(../System/ClientData/Images/header_background.png) 0% 0%;
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	user-select: none;
-}
-
 #BambusLogout 
 {
     font-size:12px;
@@ -92,12 +76,12 @@
 
 #firefox-size-helper
 {
-	display:block;
+	display: block;
 	position: absolute;
-	top: 170px;
-	right: 258px;
-	bottom: 10px;
-	left: 10px;
+	top: 70px;
+	right: 2px;
+	bottom: 2px;
+	left: 0px;
 }
 #org_bambuscms_app_document_editorElementId
 {
@@ -176,7 +160,7 @@
 
 .side-scroll-body
 {
-    padding: 100px 5px;
+    padding: 5px;
     padding-bottom: 12px;
 }
 
@@ -210,7 +194,7 @@ body
     font-size: 0.9em;
     font-family:"Helvetica Neue", "Helvetica", "Arial", "Sans-Serif";
 	text-rendering: optimizeLegibility;
-    background: #f9f9f9;
+    background: #fff;
 }
 
 form 

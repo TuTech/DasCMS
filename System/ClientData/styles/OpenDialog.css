@@ -1,40 +1,49 @@
 #dialog-opencontent{
-	position:absolute;
-	top:59px;
-	z-index: 100;
-	right:0px;
-	bottom:0px;
-	left:0px;
-	background:#EEEEEC;
+	display: block;
+	position: absolute;
+	top: 10px;
+	left: 68px;
+	right: 10px;
+	bottom: 10px;
+	border: 1px solid #8F5902;
+	box-shadow: 1px 2px 4px #8F5902;
+	
+	background: rgb(233,185,110);
+	background: -moz-linear-gradient(top, rgba(233,185,110,1) 0%, rgba(193,125,17,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(233,185,110,1)), color-stop(100%,rgba(193,125,17,1)));
+	background: -webkit-linear-gradient(top, rgba(233,185,110,1) 0%,rgba(193,125,17,1) 100%);
+	background: -o-linear-gradient(top, rgba(233,185,110,1) 0%,rgba(193,125,17,1) 100%);
+	background: -ms-linear-gradient(top, rgba(233,185,110,1) 0%,rgba(193,125,17,1) 100%);
+	background: linear-gradient(top, rgba(233,185,110,1) 0%,rgba(193,125,17,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e9b96e', endColorstr='#c17d11',GradientType=0 );
 }
 #dialog-opencontent-header{
 	position:absolute;
 	top:0px;
 	right:0px;
-	height:39px;
+	height:37px;
 	width:100%;
-	background: url(../System/ClientData/Images/header_background.png) 0px -58px;
+	border-bottom: 1px solid #8F5902;
+	background: #a76b03;
 }
 #dialog-opencontent-sidebar{
 	position:absolute;
 	top:39px;
 	right:0px;
 	width:250px;
-	background: #4e9a06;
+	display:none;
 }
 #dialog-opencontent-body{
-	position:absolute;
-	top:39px;
-	right:250px;
-	bottom:0px;
+	position: absolute;
+	top:38px;
 	left:0px;
-	border-right: 1px solid #888A85;
-	background: #ffffff;
-	padding:5px;
+	right:0px;
+	bottom:0px;
 	overflow: auto;
 	-moz-user-select:none;
 	-webkit-user-select:none;
 	user-select:none;
+	border: 1px solid rgba(255, 255, 255, 0.5);
 }
 .open-item{
 	width:298px;
@@ -44,6 +53,7 @@
 	overflow: hidden;
 	border:1px solid #fff;
 	border-bottom-color: #eeeeec;
+	background: white;
 	cursor: pointer;
 	position:absolute;
 	left: 0px;
@@ -79,9 +89,10 @@
 	right: 3px;
 }
 .open-item.selected{
-	border:1px solid #dcdcdc;
-	background: #fdffbf;
-	color: #1f2c00;
+	border: 1px solid #8F5902;
+	background: #FFFAD6;
+	color: #573600;
+	box-shadow: 0px 0px 7px #fce94f;
 }
 input.instant-open{
 	background: #c8f0a2;

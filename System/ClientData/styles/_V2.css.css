@@ -1,0 +1,62 @@
+/* APP Swicther */
+
+#View_UIElement_Applications{
+	position:absolute;
+	top:0px;
+	left:0px;
+	height: 100%;
+	width: 56px;
+	background: black;
+}
+
+#View_UIElement_Applications .application{
+	width: 56px;
+	height: 57px;
+	float:left;
+}
+
+#View_UIElement_Applications .application img{
+	width: 32px;
+	height:32px;
+	padding: 12px;
+}
+
+#View_UIElement_Applications .application.active img{
+	width: 32px;
+	height:32px;
+	background-color: white;
+}
+
+/* Content Area */
+
+#document{
+	display: block;
+	position: absolute;
+	top: 10px;
+	left: 68px;
+	right: 263px;
+	bottom: 10px;
+	border: 1px solid #EEEEEC;
+	background: #F9F9F9;
+	-moz-box-shadow: 1px 2px 4px #aaa;
+	-webkit-box-shadow: 1px 2px 4px #aaa;
+	box-shadow: 1px 2px 4px #aaa;
+}
+
+#document textarea{
+	resize: none;
+}
+
+.page-margin{
+	position: absolute;
+	top:50px;
+	left:10px;
+	right:10px;
+	bottom:10px;
+	overflow: auto;
+	padding-right: 2px;
+}
+
+#CommandBar{
+	padding: 10px;
+}
