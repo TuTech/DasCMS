@@ -46,7 +46,7 @@
 	position: absolute;
 	top: 10px;
 	left: 10px;
-	right: 263px;
+	right: 10px;
 	bottom: 10px;
 	border: 1px solid #ccc;
 	background: #F9F9F9;
@@ -106,6 +106,24 @@
 	overflow: auto;
 	padding-right: 2px;
 }
+
+/* Document back side */
+.document-options{
+	margin-bottom: 16px;
+}
+.document-options .system-icon{
+	width:22px;
+	height:22px;
+	float:left;
+	padding-right: 8px;
+}
+.document-options h2{
+	line-height: 22px;
+	font-size: 22px;
+}
+
+
+/* Command Bar */
 
 #CommandBar{
 	padding: 10px;

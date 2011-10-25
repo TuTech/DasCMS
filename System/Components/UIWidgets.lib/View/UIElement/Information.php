@@ -48,9 +48,8 @@ class View_UIElement_Information extends _View_UIElement implements ISidebarWidg
 		$html = '<div id="View_UIElement_Information">';
 		try{
     		//init values
-    		$Items = new View_UIElement_NamedList();
-    	    $MetaItems = new View_UIElement_NamedList();
-    	    $MetaItems->setTitleTranslation(true);
+    	    $MetaItems = new View_UIElement_Table(View_UIElement_Table::HEADING_LEFT);
+    	    $MetaItems->setHeaderTranslation(true);
     		$meta = array(
     			'Alias' => 'alias',
     			'GUID' => 'id', 
@@ -111,17 +110,12 @@ class View_UIElement_Information extends _View_UIElement implements ISidebarWidg
     		        }
     		        else
     		        {
-    		            $val = String::htmlEncode(wordwrap($subjectValue,15,'<wbr />',true));
-    		            $val = str_replace('&lt;wbr /&gt;', '<wbr />', $val);
+    		            $val = String::htmlEncode($subjectValue);
     		        }
     		    }
-    		    $MetaItems->add($name, $val);
+    		    $MetaItems->addRow(array($name, $val));
     		}
-    		$Items->add(   
-    		    sprintf("<label>%s</label>", SLocalization::get('meta_data')),
-    		    $MetaItems
-    	    );
-    		$html .= $Items;
+    		$html .= $MetaItems;
     		$html .= '</div>';
 		}
 		catch (Exception $e)

@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage Widget
  */
-class View_UIElement_ContentLocation extends _View_UIElement implements ISidebarWidget 
+class View_UIElement_ContentLocation extends _View_UIElement 
 {
 	private $targetObject = null;
 	/**

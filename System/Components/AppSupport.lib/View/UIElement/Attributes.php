@@ -9,7 +9,7 @@
  * @package Bambus
  * @subpackage Widget
  */
-class View_UIElement_Settings extends _View_UIElement implements ISidebarWidget
+class View_UIElement_Attributes extends _View_UIElement implements ISidebarWidget
 {
 	private $targetObject = null;
 	/**

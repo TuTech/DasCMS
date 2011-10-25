@@ -135,7 +135,7 @@ class View_UIElement_Icon extends _View_UIElement
     public function __toString()
     {
         return sprintf(
-            "<img src=\"%s\" alt=\"%s\" title=\"%s\" />"
+            "<img src=\"%s\" alt=\"%s\" title=\"%s\" class=\"system-icon\" />"
             ,$this->getPath()
             ,String::htmlEncode($this->text)
             ,String::htmlEncode($this->text)

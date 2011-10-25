@@ -11,7 +11,6 @@
  */
 class View_UIElement_AssignedRelations
     extends _View_UIElement
-    implements ISidebarWidget
 {
 	private $targetObject = null;
 	private static $retains = array();

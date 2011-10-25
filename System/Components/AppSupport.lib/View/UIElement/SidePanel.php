@@ -156,21 +156,6 @@ class View_UIElement_SidePanel
 	    return count($this->sidebarWidgets) > 0;
 	}
 
-	private function selectWidget()
-	{
-	    $widgets = array_keys($this->sidebarWidgets);
-		if(count($widgets) == 0)
-		{
-			return '';
-		}
-		if(RSent::has('WSidebar-selected') && in_array(RSent::get('WSidebar-selected'), $widgets))
-		{
-		    RSession::set('WSidebar-selected', RSent::get('WSidebar-selected'));
-		}
-		$selected = RSession::get('WSidebar-selected');
-		return (in_array($selected, $widgets)) ? $selected : $widgets[0];
-	}
-
 	public function setProcessMode($mode)
 	{
 	    switch($mode)
@@ -223,41 +208,17 @@ class View_UIElement_SidePanel
 			}
     		if(count($this->sidebarWidgets) > 0)
     		{
-    		    $selectedWidget = $this->selectWidget();
     			ksort($this->sidebarWidgets, SORT_LOCALE_STRING);
-    			$html = "<div id=\"WSidebar-head\">\n";
-    			//select
-    			$html .= sprintf('<input type="hidden" name="WSidebar-selected" id="WSidebar-selected" value="" />',String::htmlEncode($selectedWidget));
-    			$html .= '<table id="WSidebar-select"><tr>'."\n";
-    			foreach ($this->sidebarWidgets as $class => $object)
-    			{
-    		        $html .=  sprintf(
-    		        	"<td class=\"tab\"><span id=\"WSidebar-selector-%s\" title=\"%s\"%s>%s</span></td>\n"
-    		        	,$class
-    		        	,SLocalization::get($object->getName())
-    		        	,($class == $selectedWidget) ? ' class="selectedWidget"' : ''
-    		        	,$object->getIcon()
-    		        );
-    			}
-
-    			$html .= '<td class="spacer"></td></tr></table>';
-    			$html .= "\n\t</div>\n<div id=\"WSidebar\">\n\t<div class=\"side-scroll-body\">\n\t<div id=\"WSidebar-body\">\n";
-    			//widgets
+    			$html = "";
     			foreach ($this->sidebarWidgets as $class => $object)
     			{
     				$html .= sprintf(
-    					"\t\t<div class=\"WSidebar-child\" id=\"WSidebar-child-%s\"%s>%s</div>\n"
-    					, $class
-    					,($class != $selectedWidget) ? ' style="display:none;"' : ''
-    					, strval($object));
+    					"<div class=\"document-options\">%s<h2>%s</h2>%s</div>\n",
+						$object->getIcon(),
+						SLocalization::get($object->getName()),
+    					$object
+					);
     			}
-    			//show event for corresponding js-object
-			    $html .= sprintf(
-			    	'<script type="text/javascript">org.bambuscms.wsidebar.show(\'%s\'%s)</script>'
-			        ,$selectedWidget
-			        ,$this->sidebarWidgets[$selectedWidget]->associatedJSObject() == null ? '' : ", '".$this->sidebarWidgets[$selectedWidget]->associatedJSObject()."'"
-		        );
-    			$html .= "\t</div>\n</div>\n</div>";
     		}
 	    }
 	    catch (Exception $e)

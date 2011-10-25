@@ -3,7 +3,7 @@
 				<div id="document-back" class="document-side">
 					<div class="document-flip"></div>
 					<div class="page-margin">
-						Backside
+						{SideBar}
 					</div>
 				</div>
 			</div>
