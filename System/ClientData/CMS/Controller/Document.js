@@ -35,8 +35,6 @@ CMS.Document = {
 			this._setFormAction(action);
 		}
 		
-		alert($("#documentform").html());
-		
 		//submit form
 		$("#documentform").addClass("form-submitted").submit();
 	},
