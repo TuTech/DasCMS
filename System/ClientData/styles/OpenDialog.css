@@ -6,6 +6,9 @@
 	right: 0px;
 	bottom: 0px;
 	background: #fff;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
 }
 #dialog-opencontent-header{
 	position: absolute;
@@ -30,9 +33,6 @@
 	right: 0px;
 	bottom: 0px;
 	overflow: auto;
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	user-select: none;
 }
 .open-item{
 	width:298px;

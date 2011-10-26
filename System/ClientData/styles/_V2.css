@@ -55,11 +55,10 @@
 	left: 22px;
 	right: 22px;
 	bottom: 16px;
-	border: 1px solid #ccc;
-	background: #F9F9F9;
-	-moz-box-shadow: 1px 2px 4px #aaa;
-	-webkit-box-shadow: 1px 2px 4px #aaa;
-	box-shadow: 1px 2px 4px #aaa;
+	border: 1px solid white;
+	-moz-box-shadow:	1px 2px 5px #555;
+	-webkit-box-shadow: 1px 2px 5px #555;
+	box-shadow:			1px 2px 5px #555;
 	
 	-webkit-transform-style: preserve-3d;
 	-webkit-transition-property: -webkit-transform;
@@ -142,4 +141,24 @@
 
 textarea, input{
 	outline: none;
+}
+
+/* Document modes */
+#document.mode-config{
+	-moz-box-shadow:	1px 2px 5px #3465a4;
+	-webkit-box-shadow: 1px 2px 5px #3465a4;
+	box-shadow:			1px 2px 5px #3465a4;
+	border: 1px solid white;
+	background-color: #729FCF;
+}
+#document.mode-config .document-side{
+	background-color: #729fcf;
+}
+#document.mode-config h2,
+#document.mode-config h3{
+	color: white;
+}
+#document.mode-config .View_UIElement_Table th[scope="row"]{
+	color: #333;
+	text-shadow: 1px 1px 4px #3465A4;
 }

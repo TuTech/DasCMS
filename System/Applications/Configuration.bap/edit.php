@@ -26,10 +26,9 @@ foreach ($sorted as $section => $loc)
     $data = $settings[$section];
     if(count($data))
     {
-        $tbl = new View_UIElement_Table(View_UIElement_Table::HEADING_LEFT|View_UIElement_Table::HEADING_TOP);
+        $tbl = new View_UIElement_Table(View_UIElement_Table::HEADING_LEFT);
         $tbl->setHeaderTranslation(true);
         $tbl->setTitle($section, true);
-        $tbl->addRow(array('description', 'value'));
         foreach ($data as $key => $fieldconfig)
         {
             list($langKey, $value, $type, $options, $label) = $fieldconfig;

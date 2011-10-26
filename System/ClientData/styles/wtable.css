@@ -26,7 +26,7 @@
 .View_UIElement_Table tr.alt_a th[scope=row],
 .View_UIElement_Table tr.alt_a td
 {
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.8);;
 }
 .View_UIElement_Table tr
 {

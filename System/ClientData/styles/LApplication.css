@@ -1,6 +1,6 @@
 .CommandBarPanel, .CommandBarPanel span{
-	background: #fff;
-	border-color: #ddd;
+	background: rgba(255, 255, 255, 0.4);
+	border-color: rgba(0, 0, 0, 0.2);
 	border-style: solid;
 	float:left;
 	display: block;
