@@ -88,6 +88,7 @@ class Authenticate_LDAP
 				$bind = ldap_bind($con, $ldap_user, $password);
 				ldap_close($con);
 				$isAuthenticated = !!$bind;
+				$this->user = $ldap_user;
 			}
 		}
 		$this->attemptedUserID = $user;
