@@ -139,3 +139,7 @@
 #CommandBar{
 	padding: 10px;
 }
+
+textarea, input{
+	outline: none;
+}

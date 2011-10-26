@@ -1,60 +1,34 @@
 .View_UIElement_Table{
-    border-width:0px;
-    border-top-width: 1px;
-    border-left-width: 1px;
     width:100%;
     font-size: 0.9em;
     text-align:left;
     empty-cells: show;
 }
-.View_UIElement_Table td, .View_UIElement_Table th{
-    border-width:0px;
-    border-bottom-width: 1px;
-    border-right-width: 1px;
+.View_UIElement_Table td, 
+.View_UIElement_Table th{
+	padding: 10px;
 }
-.View_UIElement_Table, .View_UIElement_Table td, .View_UIElement_Table th{
+.View_UIElement_Table, 
+.View_UIElement_Table td, 
+.View_UIElement_Table th{
     border-style: solid;
+    border-width:0px;
     border-spacing: 0px;
-    border-color: #aaa;
-}
-.View_UIElement_Table th
-{
-    background: #aaa url(../System/ClientData/Images/header_background.png) 00% 00%;
-    padding:2px;
-    color:white;
 }
 .View_UIElement_Table th[scope=row]
 {
-	background: #fff;
-    font-weight:normal;
-    padding-top:2px;
-    padding-bottom:2px;
-    color:black;
-    width:15%;
-	text-shadow: 1px 1px #CCC;
+	font-weight: normal;
+	color: #555;
+	width: 15%;
+	text-shadow: 1px 1px 2px #AAA;
+	text-align: right;
 }
-.View_UIElement_Table tr.alt_a th[scope=row]
+.View_UIElement_Table tr.alt_a th[scope=row],
+.View_UIElement_Table tr.alt_a td
 {
-    background: #EEEEEC;
+    background: #ffffff;
 }
 .View_UIElement_Table tr
 {
 	vertical-align: top;
-}
-.View_UIElement_Table td
-{
-    background: #ffffff;
-}
-.View_UIElement_Table tr.alt_a td
-{
-    background: #eeeeec;
-}
-.WPE_active
-{
-	color: black;
-}
-.WPE_inactive
-{
-	color: #888a85;
-	font-style: italic;
 }

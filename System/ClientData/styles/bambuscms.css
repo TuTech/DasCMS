@@ -1,5 +1,5 @@
 #content_title, #content_subtitle{
-	border: 1px dashed #ddd;
+	border: 1px dotted #e0e0e0;
 	margin-bottom: 5px;
 	padding: 1px 0px 1px 0px;
 	display: block;
@@ -65,7 +65,7 @@
 
 #WSearch input, #WSearch textarea, #org_bambuscms_app_document_editorElementId 
 {
-    border-color: #888a85;
+    border-color: #ccc;
     border-style: solid;
     color: #2e3436;
     background-color: #fff;

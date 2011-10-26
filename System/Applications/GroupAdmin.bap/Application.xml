@@ -15,7 +15,6 @@
 		<controller>controller.php</controller>
 		<interface name="groups" src="group_settings.php">
 			<panel name="content_actions">
-				<task type="button" hotkey="o" caption="open" action="open" />
 				<task type="button" hotkey="s" caption="save" action="save" />
 			</panel>
 			<panel name="server_actions">
