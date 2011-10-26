@@ -1,49 +1,38 @@
 #dialog-opencontent{
 	display: block;
 	position: absolute;
-	top: 10px;
-	left: 68px;
-	right: 10px;
-	bottom: 10px;
-	border: 1px solid #8F5902;
-	box-shadow: 1px 2px 4px #8F5902;
-	
-	background: rgb(233,185,110);
-	background: -moz-linear-gradient(top, rgba(233,185,110,1) 0%, rgba(193,125,17,1) 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(233,185,110,1)), color-stop(100%,rgba(193,125,17,1)));
-	background: -webkit-linear-gradient(top, rgba(233,185,110,1) 0%,rgba(193,125,17,1) 100%);
-	background: -o-linear-gradient(top, rgba(233,185,110,1) 0%,rgba(193,125,17,1) 100%);
-	background: -ms-linear-gradient(top, rgba(233,185,110,1) 0%,rgba(193,125,17,1) 100%);
-	background: linear-gradient(top, rgba(233,185,110,1) 0%,rgba(193,125,17,1) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e9b96e', endColorstr='#c17d11',GradientType=0 );
+	top: 0px;
+	left: 56px;
+	right: 0px;
+	bottom: 0px;
+	background: #fff;
 }
 #dialog-opencontent-header{
-	position:absolute;
-	top:0px;
-	right:0px;
-	height:37px;
-	width:100%;
-	border-bottom: 1px solid #8F5902;
-	background: #a76b03;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	height: 37px;
+	width: 200px;
 }
 #dialog-opencontent-sidebar{
-	position:absolute;
-	top:39px;
-	right:0px;
-	width:250px;
-	display:none;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 200px;
+	box-shadow: 2px 0px 4px #ccc;
+	background: #EEE;
+	height: 100%;
 }
 #dialog-opencontent-body{
 	position: absolute;
-	top:38px;
-	left:0px;
-	right:0px;
-	bottom:0px;
+	top: 38px;
+	left: 204px;
+	right: 0px;
+	bottom: 0px;
 	overflow: auto;
-	-moz-user-select:none;
-	-webkit-user-select:none;
-	user-select:none;
-	border: 1px solid rgba(255, 255, 255, 0.5);
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
 }
 .open-item{
 	width:298px;
@@ -89,10 +78,10 @@
 	right: 3px;
 }
 .open-item.selected{
-	border: 1px solid #8F5902;
+	border: 1px solid white;
 	background-color: #FFFAD6;
-	color: #573600;
-	box-shadow: 0px 0px 7px #fce94f;
+	color: #555753;
+	box-shadow: 0px 0px 1px #fce94f;
 }
 input.instant-open{
 	background: #c8f0a2;

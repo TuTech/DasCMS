@@ -42,6 +42,7 @@ View_UIElement_Template::globalSet('OpenDialog','');
 View_UIElement_Template::globalSet('ControllerData','');
 View_UIElement_Template::globalSet('ContentAlias','');
 View_UIElement_Template::globalSet('DocumentFormAction',  SLink::link());
+View_UIElement_Template::globalSet('gentime','');
 
 if(PAuthorisation::has('org.bambuscms.login')) //login ok?
 {
@@ -144,7 +145,6 @@ else
         'translate:login' => SLocalization::get('login')
     ));
     $loginTpl->render();
-	View_UIElement_Template::globalSet('gentime','');
     View_UIElement_Template::renderOnce('footer', View_UIElement_Template::SYSTEM);
 }
 ?>

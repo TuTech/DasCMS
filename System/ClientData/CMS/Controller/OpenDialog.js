@@ -24,6 +24,7 @@ CMS.OpenDialog = ({
 			if(elm.length && !elm.attr('value')){
 				self.show();
 				self.lock();
+				$("#document").addClass("no-content");
 			}
 			CMS.Store.didFinishLoading(self);
 		});

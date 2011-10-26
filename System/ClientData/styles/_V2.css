@@ -8,6 +8,8 @@
 	width: 56px;
 	background: black;
 	overflow: auto;
+	box-shadow: 2px 0px 4px #ccc;
+	z-index: 11;
 }
 
 #View_UIElement_Applications .application{
@@ -22,7 +24,7 @@
 	padding: 12px;
 }
 
-#View_UIElement_Applications .application.active img{
+#View_UIElement_Applications .active img{
 	width: 32px;
 	height:32px;
 	background-color: white;
@@ -39,15 +41,20 @@
 	right: 0px;
 	bottom: 0px;
 }
+
+.open-file-mode #documentform{
+	display: none;
+}
+
 /* Content Area */
 
 #document{
 	display: block;
 	position: absolute;
-	top: 10px;
-	left: 10px;
-	right: 10px;
-	bottom: 10px;
+	top: 16px;
+	left: 22px;
+	right: 22px;
+	bottom: 16px;
 	border: 1px solid #ccc;
 	background: #F9F9F9;
 	-moz-box-shadow: 1px 2px 4px #aaa;
@@ -58,6 +65,10 @@
 	-webkit-transition-property: -webkit-transform;
 	-webkit-transition-duration: 0.8s;
 	-webkit-transition-timing-function: ease-out;
+}
+
+#document.no-content{
+	display: none;
 }
 
 #document.flipped, #document-back{
@@ -127,40 +138,4 @@
 
 #CommandBar{
 	padding: 10px;
-}
-
-
-
-
-
-
-
-.open-filter{
-	float: left;
-	border: 1px solid #8F5902;
-	width: 150px;
-	margin: 8px 0px 0px 8px;
-	padding: 3px;
-	border-radius: 9px;
-	font-size: 11px;
-	background: #E9B96E;
-	overflow: hidden;
-	white-space: nowrap;
-}
-
-.open-filter label{
-	display: block;
-	float: left;
-	color: #8F5902;
-	padding-left: 4px;
-	padding-right: 2px;
-}
-.open-filter label:after{	
-	content: ": ";
-}
-.open-filter span:after{
-	content: ", ";
-}
-.open-filter span:last-child:after{
-	content: "";
 }

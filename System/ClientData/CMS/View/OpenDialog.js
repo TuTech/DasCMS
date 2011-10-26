@@ -1,5 +1,5 @@
 CMS.OpenDialogView = {
-	SIDEBAR_OFFSET: 75,
+	SIDEBAR_OFFSET: 260,
 	ITEM_WIDTH: 300,
 	ITEM_MARGIN: 10,
 	ITEM_HEIGHT: 80,
@@ -45,7 +45,7 @@ CMS.OpenDialogView = {
 		if($('#dialog-opencontent').length == 0){
 			this._mainTPL = this._controller.getMainTemplate();
 			this._itemTPL = this._controller.getItemTemplate();		
-			$("body").append(this._mainTPL);
+			$("body").append(this._mainTPL).addClass("open-file-mode");
 			this._mainFrame = $('#dialog-opencontent');
 			this._searchBox = $('#dialog-opencontent-search');
 			this._contentFrame = $('#dialog-opencontent-wrapper');
@@ -59,12 +59,11 @@ CMS.OpenDialogView = {
 		}
 		
 		this._mainFrame.show();
-		$("#documentform").hide();
 		this._controller.viewDidShow(this);
 	},
 	
 	hide: function(){
-		$("#documentform").show();
+		$("body").removeClass("open-file-mode");
 		this._mainFrame.hide();
 	},
 	
