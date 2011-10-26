@@ -88,12 +88,11 @@ class Authenticate_LDAP
 				$bind = ldap_bind($con, $ldap_user, $password);
 				ldap_close($con);
 				$isAuthenticated = !!$bind;
-				$this->user = $ldap_user;
 			}
 		}
 		$this->attemptedUserID = $user;
-		if($isAuthenticated){
-			$this->userName = $user;
+		if($isAuthenticated && !empty($user)){
+			$this->user = $user;
             $this->status = $needsValidation ? (PAuthentication::VALID_USER) : (PAuthentication::CONTINUED_SESSION);
 		}
 		else{
