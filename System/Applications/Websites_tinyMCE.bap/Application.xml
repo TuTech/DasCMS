@@ -20,6 +20,10 @@
 				<task type="button" hotkey="N" caption="new" action="create" />
 				<task type="button" hotkey="X" caption="delete" action="destroy" />
 			</panel>
+			<panel name="meta_actions">
+				<task type="button" hotkey="L" caption="locate" action="locate" />
+				<task type="button" hotkey="A" caption="attach" action="attach" />
+			</panel>
 		</interface>
 		<sidebar>
 			<supported mode="RETAIN"/>
