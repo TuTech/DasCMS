@@ -51,7 +51,7 @@ class SAlias
 		        {
 		            break;
 		        }
-		        $insertAlias = substr($nice,0,58).'~'.$i;
+		        $insertAlias = substr($nice,0,58).'-'.$i;
 		    }
 		    $Db->call('setActive')
 				->withParameters($insertAlias, $insertAlias)
@@ -97,6 +97,8 @@ class SAlias
 	 */
 	private function getUnifiedAlias($title, $pubdate)
 	{
+		$title = strtolower(trim($title));
+		
 		//get format string
 		$dateFormat = Core::Settings()->getOrDefault('content.alias.format', '@-Y-m-d');
 		if(strpos($dateFormat, '@') === false){
@@ -104,14 +106,13 @@ class SAlias
 		}
 
 		//apply date to format string
-		$dated = date($dateFormat, $pubdate);
-		$dated = preg_replace('/[^a-zA-Z@0-9\._]+/i', '-',$dated);
+		$dated = strtolower(date($dateFormat, $pubdate));
+		$dated = preg_replace('/[^a-z0-9@]+/', '-',$dated);
 
 		//expand title chars
-		$dechars = array('ä' => 'ae', 'Ä' => 'Ae', 'ö' => 'oe',
-						'Ö' => 'Oe','ü' => 'ue', 'Ü' => 'Ue', 'ß' => 'ss');
+		$dechars = array('ä' => 'ae', 'ö' => 'oe', 'ü' => 'ue', 'ß' => 'ss');
 		$title = str_replace(array_keys($dechars), array_values($dechars), $title);
-		$title = preg_replace('/[^a-zA-Z0-9\._]+/i', '-',$title);
+		$title = preg_replace('/[^a-z0-9]+/', '-',$title);
 
 		//build alias
 		$titleLength = self::ALIAS_MAX_LENGTH - strlen($dated) + 1 /* 1 for the @ char */;
