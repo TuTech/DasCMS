@@ -76,3 +76,8 @@ foreach ($sorted as $section => $loc)
     }
 }
 ?><br />&nbsp;
+<script type="text/javascript">
+$(function(){
+	$('#document').addClass("mode-config");
+});
+</script>
