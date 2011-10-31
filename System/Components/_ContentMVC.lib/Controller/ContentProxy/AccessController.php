@@ -7,7 +7,7 @@ class ContentProxy_AccessController
 		$this->proxy = $proxy;
 		$this->content = $proxy->_content();
 	}
-	
+
 	/**
 	 * current alias
 	 * @return type 

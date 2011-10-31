@@ -15,8 +15,6 @@ class ContentProxyController
 		return self::$proxies[$id];
 	}
 	
-	private function __clone() {}
-	
 	//
 	// Object
 	//
