@@ -69,6 +69,14 @@ class DSQL_MySQL extends DSQL
 			$this->queryExecute("SET COLLATION_CONNECTION='utf8_unicode_ci', CHARACTER_SET_CLIENT='utf8',CHARACTER_SET_RESULTS='utf8';");
     	}
 	}
+		
+	public function  __destruct()
+	{
+		if(self::$DB != null)
+    	{
+			self::$DB->close();
+		}
+	}
 	
 	private function getCfgOrNull($key)
 	{
