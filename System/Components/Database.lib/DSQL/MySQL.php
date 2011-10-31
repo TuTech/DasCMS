@@ -70,6 +70,14 @@ class DSQL_MySQL extends DSQL
     	}
 	}
 	
+	public function  __destruct()
+	{
+		if(self::$DB != null)
+    	{
+			self::$DB->close();
+		}
+	}
+	
 	private function getCfgOrNull($key)
 	{
 		$dat = Core::Settings()->get($key);
