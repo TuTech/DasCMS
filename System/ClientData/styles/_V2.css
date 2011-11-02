@@ -99,7 +99,7 @@
 	left:	0px;
 	right:	0px;
 	bottom: 0px;
-	background-color: #F9F9F9;
+	background: #F9F9F9 url(../System/ClientData/Images/doc-bg.png);
 	-webkit-transition: opacity 0.5s ease-in;
 }
 
