@@ -1,17 +1,18 @@
 <?php
 class ContentProxy_CategorizationController
 {
-	protected $proxy;
+	protected $proxy, $content;
 
 	public function __construct(ContentProxyController $proxy) {
 		$this->proxy = $proxy;
+		$this->content = $proxy->_content();
 	}
 	
 	/**
 	 * get the tags
 	 */
 	public function tags(){
-		
+		return $this->content->getTags();
 	}
 	
 	/**
@@ -19,7 +20,7 @@ class ContentProxy_CategorizationController
 	 * @param type $newTags 
 	 */
 	public function setTags($newTags){
-		
+		$this->content->setTags($newTags);
 	}
 	
 	/**
@@ -27,7 +28,7 @@ class ContentProxy_CategorizationController
 	 * @param type $tags 
 	 */
 	public function hasTags($tags){
-		
+		//TODO: Content API => has tags
 	}
 }
 ?>

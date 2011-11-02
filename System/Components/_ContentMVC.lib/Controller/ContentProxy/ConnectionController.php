@@ -1,24 +1,25 @@
 <?php
 class ContentProxy_ConnectionController
 {
-	protected $proxy;
+	protected $proxy, $content;
 
 	public function __construct(ContentProxyController $proxy) {
 		$this->proxy = $proxy;
+		$this->content = $proxy->_content();
 	}
 	
 	/**
 	 * weak refernces
 	 */
 	public function references(){
-		
+		//TODO: Content API => references
 	}
 	
 	/**
 	 * strong references - preventing deletion
 	 */
 	public function bindings(){
-		
+		//TODO: Content API => bindings 
 	}
 	
 	/**
@@ -26,7 +27,7 @@ class ContentProxy_ConnectionController
 	 * @param type $other 
 	 */
 	public function addReference($other){
-		
+		//TODO: Content API => add reference
 	}
 	
 	/**
@@ -34,7 +35,7 @@ class ContentProxy_ConnectionController
 	 * @param type $other 
 	 */
 	public function addBinding($other){
-		
+		//TODO: Content API => add binding
 	}
 	
 	/**
@@ -42,7 +43,7 @@ class ContentProxy_ConnectionController
 	 * @param type $other 
 	 */
 	public function removeReference($other){
-		
+		//TODO: Content API => remove reference
 	}
 	
 	/**
@@ -50,7 +51,7 @@ class ContentProxy_ConnectionController
 	 * @param type $other 
 	 */
 	public function removeBinding($other){
-		
+		//TODO: Content API => remove binding
 	}
 	
 	/**
@@ -58,7 +59,7 @@ class ContentProxy_ConnectionController
 	 * to allow force-delete
 	 */
 	public function clearAllReferences(){
-		
+		//TODO: Content API => clear references
 	}
 }
 ?>

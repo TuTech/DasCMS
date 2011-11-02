@@ -1,17 +1,18 @@
 <?php
 class ContentProxy_ImageController
 {
-	protected $proxy;
+	protected $proxy, $content;
 
 	public function __construct(ContentProxyController $proxy) {
 		$this->proxy = $proxy;
+		$this->content = $proxy->_content();
 	}
 	
 	/**
 	 * the appropriate icon for this content
 	 */
 	public function icon(){
-		
+		$this->content->getIcon();
 	}
 	
 	/**
@@ -19,7 +20,7 @@ class ContentProxy_ImageController
 	 * (e.g. a pdf2png rendering)
 	 */
 	public function contentImage(){
-		
+		//TODO: Content API => content image
 	}
 	
 	/**
@@ -27,7 +28,15 @@ class ContentProxy_ImageController
 	 *  ==> old previewImage
 	 */
 	public function displayImage(){
-
+		//TODO: Content API => display image
+	}
+	
+	/**
+	 * set custom image for this content
+	 * @param type $alias 
+	 */
+	public function setDisplayImage($alias){
+		//TODO: Content API => set display image
 	}
 }
 ?>

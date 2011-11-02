@@ -20,29 +20,37 @@ class ContentProxy_AccessController
 	 * all aliases
 	 */
 	public function aliases(){
-		
+		//TODO: Content API => aliases 
 	}
-		
+	
 	/**
+	 * allow users to add custom alias
+	 * @param type $alias 
+	 */
+	public function addAlias($alias){
+		//TODO: Content API => add alias
+	}
+
+		/**
 	 * has this content this alias
 	 * @param type $alias 
 	 */
 	public function hasAlias($alias){
-		
+		//TODO: Content API => has alias
 	}
 
 	/**
 	 * date of publication
 	 */
 	public function pubDate(){
-		
+		return $this->content->getPubDate();
 	}
 
 	/**
 	 * date of revokation
 	 */
 	public function revokeDate(){
-		
+		return $this->content->getRevokeDate();
 	}
 
 	/**
@@ -50,7 +58,7 @@ class ContentProxy_AccessController
 	 * db public flag: isPublic != pubDate <= now < revokeDate 
 	 */
 	public function isPublic(){
-		
+		//TODO: Content API => is public
 	}
 
 	/**
@@ -58,7 +66,7 @@ class ContentProxy_AccessController
 	 * @param type $date 
 	 */
 	public function publish($date = null){
-
+		return $this->content->setPubDate($date);
 	}
 	
 	/**
@@ -66,7 +74,7 @@ class ContentProxy_AccessController
 	 * @param type $date 
 	 */
 	public function revoke($date = null){
-		
+		return $this->content->setRevokeDate($date);
 	}
 }
 ?>

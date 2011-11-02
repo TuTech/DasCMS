@@ -1,10 +1,11 @@
 <?php
 class ContentProxy_MetaController
 {
-	protected $proxy;
+	protected $proxy, $content;
 
 	public function __construct(ContentProxyController $proxy) {
 		$this->proxy = $proxy;
+		$this->content = $proxy->_content();
 	}
 	
 	/**
