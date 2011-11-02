@@ -15,6 +15,7 @@
 		<interface name="edit" src="edit.php">
 			<panel name="content_actions">
 				<task type="button" hotkey="s" caption="save" action="save" />
+				<task type="button" hotkey="p" caption="publish" action="publish" />
 			</panel>
 			<panel name="server_actions">
 				<task type="button" hotkey="N" caption="new" action="create" />
