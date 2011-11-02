@@ -31,6 +31,7 @@ class TaskScheduler implements Interface_Singleton
     {
 		$DB = Core::Database();
         $ok = true;
+		$jobId = -1;
 		$jobs = $DB->createQueryForClass($this)
 			->call('count')
 			->withoutParameters()
