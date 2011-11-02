@@ -1,1 +1,0 @@
-{cms_root}{seperator}{application}{seperator}{timestamp}{seperator}[{message_type}]{message}{seperator}{user}@{ip_address}{seperator}[{client_software}]{seperator}{working_dir}

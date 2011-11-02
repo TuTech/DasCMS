@@ -9,7 +9,7 @@
 $File = SApplication::getControllerContent();
 if($File != null && $File instanceof CFile)
 {
-    echo new View_UIElement_Script("var is_in_content_mode = true;");
+    echo "<script type=\"text/javascript\">var is_in_content_mode = true;</script>";
     echo new View_UIElement_ContentTitle($File);
 	if(View_UIElement_Image::supportedMimeType($File->getMimeType()))
 	{
@@ -46,13 +46,13 @@ if($File != null && $File instanceof CFile)
 	}
 	$tbl->render();
 	if(RSent::hasValue('reshow_upload_dialogue')){
-		echo new View_UIElement_Script(sprintf('org.bambuscms.autorun.register(function(){Upload(true, %s);});', RSent::hasValue('autopublish_upload')?'true':'false'));
+		echo sprintf('<script type=\"text/javascript\">org.bambuscms.autorun.register(function(){Upload(true, %s);});</script>', RSent::hasValue('autopublish_upload')?'true':'false');
 	}
 
 }
 else
 {
-    echo new View_UIElement_Script("
+    echo "<script type=\"text/javascript\">
     	$('App-Hotkey-CTRL-s').parentNode.removeChild($('App-Hotkey-CTRL-s'));
     	$('App-Hotkey-CTRL-D').parentNode.removeChild($('App-Hotkey-CTRL-D'));
     	$('App-Hotkey-CTRL-X').parentNode.removeChild($('App-Hotkey-CTRL-X'));
@@ -60,7 +60,7 @@ else
     	org.bambuscms.app.hotkeys.unregister('CTRL-D');
     	org.bambuscms.app.hotkeys.unregister('CTRL-X');
     	var is_in_content_mode = false;
-    	");
+    	</script>";
 }
 
 ?>
