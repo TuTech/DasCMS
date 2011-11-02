@@ -176,7 +176,7 @@ class SContentWatch
 			if(preg_match('/[\d]+.[\d]+.[\d]+.[\d]+/', $_SERVER['REMOTE_ADDR'])){
 				list($a, $b, $c, $d) = explode('.', $_SERVER['REMOTE_ADDR']);
 				$num = (sprintf('0x%02x%02x%02x%02x',$a, $b, $c, $d));
-				$num = hexdec($num);//FIXME anon here
+				$num = hexdec($num);
 			}
             //send to db
             if(!$o instanceof CError && Core::Settings()->get('log_page_accesses') != '')

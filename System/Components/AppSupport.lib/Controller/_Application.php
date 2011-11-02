@@ -20,7 +20,6 @@ abstract class _Controller_Application
      * @param array $namedParameters
      * @return array
      * @throws AccessDeniedException
-     * @todo move to _Controller_Application_Content
      */
     public function provideContentTags(array $namedParameters)
     {

@@ -54,12 +54,10 @@ abstract class DSQL
 	
 	public static function getEngines()
 	{
-	    //FIXME generate list from component index
 	    return array('MySQL', 'SQLite');
 	}
 	
 	/**
-	 * FIXME pipe all table names through this function to handle table pre-/suffixing
 	 * @param $name plain table name
 	 * @return string table name in the database
 	 */

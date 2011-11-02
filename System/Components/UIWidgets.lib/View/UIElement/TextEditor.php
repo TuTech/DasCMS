@@ -103,7 +103,7 @@ class View_UIElement_TextEditor extends _View_UIElement
         $out .= sprintf(
             $textarea
 			,$this->cssClass
-            ,' wrap="off"'//FIXME safari breaks links with saving generated word wraps //was: $this->wordWrap   ? ' wrap="on"' : ' wrap="off"'
+            ,' wrap="off"'
             ,$this->spellCheck ? ' spellcheck="true"' : ' spellcheck="false"'
 			,$customAtts
             ,$this->value

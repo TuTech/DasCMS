@@ -6,7 +6,6 @@ class Controller_SearchComponent_OrderBy
 	public function setRequest(Model_Search_Request $request) {
 		parent::setRequest($request);
 		$resolver = Controller_Search_LabelResolver::getInstance();
-		//FIXME score by all
 		$resolved = array();
 		$delegate = null;
 		//paginate after score

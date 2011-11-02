@@ -15,7 +15,6 @@ class View_Content_Location
 		throw new Exception('not implemented');
 	}
 
-	//TODO address formatting
 	public function toXHTML() {
 		$val = '';
 		if($this->shouldDisplay()){

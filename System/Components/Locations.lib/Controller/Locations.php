@@ -25,7 +25,6 @@ class Controller_Locations
 	}
 	
 	public function deleteLocation($name){
-		//TODO call delete
 	}
 
 	public function renameLocation($oldName, $newName){
@@ -52,10 +51,8 @@ class Controller_Locations
 	}
 
 	public function getLocationForAlias($alias){
-		//TODO resolve
 	}
 	public function setLocationForAlias($alias){
-		//TODO assign
 	}
 }
 ?>

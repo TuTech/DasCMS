@@ -110,15 +110,6 @@ class Model_Location
 	}
 
 	/**
-	 * get all aliases from contents located here
-	 * @return array
-	 */
-	public function getAliases(){
-		$this->assertState();
-		//TODO fetch list of aliases
-	}
-
-	/**
 	 * @return string
 	 */
 	public function getAddress(){

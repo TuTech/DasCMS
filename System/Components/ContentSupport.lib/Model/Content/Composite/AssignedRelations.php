@@ -49,7 +49,6 @@ class Model_Content_Composite_AssignedRelations
     		return ;
     	}
     	try{
-			//FIXME: bad access: missing formatter controller
 			$f = $this->getAssignedRelationsFormatter();
 			$Db = Core::Database()->createQueryForClass($this);
 			$Db->beginTransaction();

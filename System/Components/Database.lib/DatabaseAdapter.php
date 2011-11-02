@@ -6,7 +6,6 @@ class DatabaseAdapter
 		Interface_Database_ConfigurableQuery,
 		Interface_Database_FetchableQuery
 {
-	//@todo for cache class a config change MUST trigger a cache invalidate -- config changed event
 	const MAX_RETRY_PREPARE = 5;
 	protected static $use_query_fallback = false;
 

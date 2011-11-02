@@ -10,10 +10,6 @@ function log($str){
 function section($name){
 	printf("\n===[%s]===\n", $name);
 }
-function getApacheUserAndGroup(){
-	//FIXME load data from cms config and ask here if not present
-	return 'wwwrun:www';//SuSE defaults
-}
 
 section('GIT');
 	log('Pulling from Git Server');
@@ -28,8 +24,6 @@ section('Building CMS caches');
 		system('php -f buildCacheManifest.php');
 
 section('Setting permissions');
-	log('Group and owner');
-		system('chown -R '.getApacheUserAndGroup().' ../../');
 	log('Dir permissions');
 		system('find ../../ -type d ! -perm 755 -print0 | xargs -0 chmod 755');
 	log('File permissions');

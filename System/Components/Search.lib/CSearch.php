@@ -229,7 +229,6 @@ class CSearch
 		}
 		catch(Exception $e){
 			$out = sprintf('<b>%s</b>', $e->getMessage());
-			//TODO no formatter default to  "ul>li>a>[Title]"
 		}
 		if(empty ($out)){
 			$out = '<div class="CSearch-empty-result-message">'.$this->emptyResultMessage.'</div>';

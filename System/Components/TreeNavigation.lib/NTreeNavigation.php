@@ -138,8 +138,6 @@ class NTreeNavigation
     	return array_keys(self::$index);
     }
     
-    //FIXME split nav data - one file per nav 
-    
     public static function save()
     {
     	self::getInstance();

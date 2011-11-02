@@ -1,7 +1,4 @@
 <?php
-/**
- * @todo cleanup code
- */
 require_once 'System/main.php';
 PAuthentication::implied();
 $cache_1Day = 86400;

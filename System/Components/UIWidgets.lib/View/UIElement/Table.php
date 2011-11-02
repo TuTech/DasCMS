@@ -105,7 +105,6 @@ class View_UIElement_Table extends _View_UIElement
     
     public function sort($byColumn = 0, $ascending = true)
     {
-        //FIXME add wtable sorting
     }
     
     /**

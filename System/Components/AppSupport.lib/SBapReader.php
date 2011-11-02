@@ -16,7 +16,6 @@ class SBapReader
 	/**
 	 * return an array of reuested data
 	 * request can contain name, description, icon, priority, version, tabs
-	 * @todo Rewrite with proper xml 
 	 * @param string $appDefinition
 	 * @param array $requests
 	 */

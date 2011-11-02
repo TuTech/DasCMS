@@ -15,14 +15,6 @@ class Controller_Location
 	}
 
 	/**
-	 * getAll assigned contents
-	 * @return array
-	 */
-	public function getAliases(){
-		return $this->model->getAliases();
-	}
-
-	/**
 	 * get address
 	 * @return string
 	 */

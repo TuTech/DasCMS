@@ -35,7 +35,6 @@ class UOpenDialog
         $ctrl = _Controller_Application::getControllerForID($params['app']);
         if($ctrl instanceof ISupportsOpenDialog)
         {
-            //TODO: provide unified content info data from db here
             return $ctrl->provideOpenDialogData(array());
         }
         else

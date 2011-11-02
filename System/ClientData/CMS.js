@@ -46,7 +46,7 @@ CMS.translate = function(phrase, options){
 			if(options.hasOwnProperty(key)){
 				replace = "/{{" + key + "}}/";
 				
-				//TODO Regexp compile and replacing
+				//TODO: OpenDialog => Regexp compile and replacing
 				
 			}
 		}

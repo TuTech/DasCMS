@@ -1,8 +1,4 @@
 <?php
-/***
- * @todo remove db bindng from core and use a json file for objects class index
- * @todo move classes table to Database.lib
- */
 class Setup_Core 
 	extends _Setup
 	implements 
