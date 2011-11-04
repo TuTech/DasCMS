@@ -1,11 +1,7 @@
 <?php
-class ContentProxy_AccessController extends Content_AccessController
+class Content_AccessController
 {
-	protected $proxy, $content;
-
-	public function __construct(ContentProxyController $proxy) {
-		$this->proxy = $proxy;
-		$this->content = $proxy->_content();
+	public function __construct(ContentController $content) {
 	}
 
 	/**
@@ -13,7 +9,6 @@ class ContentProxy_AccessController extends Content_AccessController
 	 * @return type 
 	 */
 	public function alias(){
-		return $this->content->getAlias();
 	}
 	
 	/**
@@ -43,14 +38,12 @@ class ContentProxy_AccessController extends Content_AccessController
 	 * date of publication
 	 */
 	public function pubDate(){
-		return $this->content->getPubDate();
 	}
 
 	/**
 	 * date of revokation
 	 */
 	public function revokeDate(){
-		return $this->content->getRevokeDate();
 	}
 
 	/**
@@ -66,7 +59,6 @@ class ContentProxy_AccessController extends Content_AccessController
 	 * @param type $date 
 	 */
 	public function publish($date = null){
-		return $this->content->setPubDate($date);
 	}
 	
 	/**
@@ -74,7 +66,6 @@ class ContentProxy_AccessController extends Content_AccessController
 	 * @param type $date 
 	 */
 	public function revoke($date = null){
-		return $this->content->setRevokeDate($date);
 	}
 }
 ?>

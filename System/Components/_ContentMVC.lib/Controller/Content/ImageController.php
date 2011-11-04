@@ -1,18 +1,13 @@
 <?php
-class ContentProxy_ImageController extends Content_ImageController
+class Content_ImageController
 {
-	protected $proxy, $content;
-
-	public function __construct(ContentProxyController $proxy) {
-		$this->proxy = $proxy;
-		$this->content = $proxy->_content();
+	public function __construct(ContentController $content) {
 	}
-	
+
 	/**
 	 * the appropriate icon for this content
 	 */
 	public function icon(){
-		$this->content->getIcon();
 	}
 	
 	/**

@@ -1,13 +1,9 @@
 <?php
-class ContentProxy_ConnectionController extends Content_ConnectionController
+class Content_ConnectionController
 {
-	protected $proxy, $content;
-
-	public function __construct(ContentProxyController $proxy) {
-		$this->proxy = $proxy;
-		$this->content = $proxy->_content();
+	public function __construct(ContentController $content) {
 	}
-	
+
 	/**
 	 * weak refernces
 	 */

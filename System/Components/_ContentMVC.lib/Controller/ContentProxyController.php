@@ -1,5 +1,5 @@
 <?php
-class ContentProxyController
+class ContentProxyController extends ContentController
 {
 	//
 	// Static
@@ -24,7 +24,7 @@ class ContentProxyController
 	protected $content;
 	protected $access, $description, $meta, $connection, $categorization, $image;
 
-	private function __construct(Interface_Content $content) {	
+	public function __construct(Interface_Content $content) {	
 		$this->content = $content;
 	}
 	

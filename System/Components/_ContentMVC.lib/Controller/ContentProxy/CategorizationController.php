@@ -1,5 +1,5 @@
 <?php
-class ContentProxy_CategorizationController
+class ContentProxy_CategorizationController extends Content_CategorizationController
 {
 	protected $proxy, $content;
 

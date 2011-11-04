@@ -1,13 +1,9 @@
 <?php
-class ContentProxy_MetaController extends Content_MetaController
+class Content_MetaController
 {
-	protected $proxy, $content;
-
-	public function __construct(ContentProxyController $proxy) {
-		$this->proxy = $proxy;
-		$this->content = $proxy->_content();
+	public function __construct(ContentController $content) {
 	}
-	
+
 	/**
 	 * create date
 	 */

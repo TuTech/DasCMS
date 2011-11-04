@@ -1,5 +1,5 @@
 <?php
-class ContentProxy_DataController
+class ContentProxy_DataController extends Content_DataController
 {
 	protected $proxy, $content;
 

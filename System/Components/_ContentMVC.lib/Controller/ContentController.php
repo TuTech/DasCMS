@@ -1,11 +1,16 @@
 <?php
-class ContentProxy_DescriptionController
+class ContentController
 {
-	protected $proxy, $content;
-
-	public function __construct(ContentProxyController $proxy) {
-		$this->proxy = $proxy;
-		$this->content = $proxy->_content();
+	public function __construct($alias) {
+		
+	}
+	
+	public function id(){
+		
+	}
+		
+	public function guid(){
+		
 	}
 	
 	/**
@@ -13,7 +18,6 @@ class ContentProxy_DescriptionController
 	 * @return type 
 	 */
 	public function title(){
-		return $this->content->getTitle();
 	}
 	
 	/**
@@ -21,7 +25,6 @@ class ContentProxy_DescriptionController
 	 * @return type 
 	 */
 	public function subtitle(){
-		return $this->content->getSubTitle();
 	}
 	
 	/**
@@ -29,7 +32,6 @@ class ContentProxy_DescriptionController
 	 * @return type 
 	 */
 	public function description(){
-		return $this->content->getDescription();
 	}
 	
 	/**
@@ -37,7 +39,6 @@ class ContentProxy_DescriptionController
 	 * @param type $newTitle 
 	 */
 	public function setTitle($newTitle){
-		$this->content->setTitle($newTitle);
 	}
 	
 	/**
@@ -45,7 +46,6 @@ class ContentProxy_DescriptionController
 	 * @param type $newSubtitle 
 	 */
 	public function setSubtitle($newSubtitle){
-		$this->content->setSubTitle($newSubtitle);
 	}
 	
 	/**
@@ -53,7 +53,7 @@ class ContentProxy_DescriptionController
 	 * @param type $newDescription 
 	 */
 	public function setDescription($newDescription){
-		$this->content->setDescription($newDescription);
 	}
+
 }
 ?>
