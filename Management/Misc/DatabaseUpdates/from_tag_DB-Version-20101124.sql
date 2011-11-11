@@ -1,3 +1,0 @@
-ALTER TABLE `Locations`
-	ADD COLUMN accuracy INT NOT NULL DEFAULT 0
-		AFTER address

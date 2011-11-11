@@ -1,3 +1,0 @@
-ALTER TABLE 
-ChangedByUsers
-MODIFY login VARCHAR(64);
