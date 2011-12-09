@@ -103,13 +103,14 @@ if(PAuthorisation::has('org.bambuscms.login')) //login ok?
 	    
 		View_UIElement_Template::globalSet('TaskBar',$App->getTaskBar());//
 		View_UIElement_Template::globalSet('OpenDialog',$App->getOpenDialog());
-		View_UIElement_Template::globalSet('SideBar',View_UIElement_SidePanel::getInstance());
-		View_UIElement_Template::renderOnce('header', View_UIElement_Template::SYSTEM);
+		View_UIElement_SidePanel::getInstance()->processInputs();
 		//do savings here - wsidebar might have done something
     	if(count(RSent::data()) > 0)
     	{
     	    SApplication::appController()->commit();
     	}
+			View_UIElement_Template::globalSet('SideBar',View_UIElement_SidePanel::getInstance());
+			View_UIElement_Template::renderOnce('header', View_UIElement_Template::SYSTEM);
     	
     	$erg = $App->getInterface();
     	if($erg !== true && (!file_exists($erg) || !include($erg)))
