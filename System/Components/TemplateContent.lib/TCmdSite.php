@@ -84,13 +84,12 @@ class TCmdSite
 		}
 		$favicon .= $apple_default_icon;
 		//generate header
+		$this->addMeta($this->title, 'DC.title');
 		$out = $doctype;
         $out .=	"\n<html".$lang.$ns."><head>".
 				"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n".
-				"<title>".$this->title."</title>\n";
-		if($niceURLS){
-			$out .= sprintf("<base href=\"%s\" />\n", SLink::base());
-		}
+				"<title>".$this->encode($this->title)."</title>\n";
+		$out .= sprintf("<base href=\"%s\" />\n", SLink::base());
 		$out .=	$favicon."\n";
 		foreach(array($this->metaTags, $this->linkTags) as $tag){
 			if(count($tag)){
@@ -171,8 +170,7 @@ class TCmdSite
 
 	public function setTitle($title)
     {
-        $this->title = $this->encode($title);
-        $this->addMeta($title, 'DC.title');
+        $this->title = $title;
     }
 
     public function addLink($charset = null, $href = null, $hreflang = null, $type = null, $title = null, $rel = null, $rev = null, $media = null)
