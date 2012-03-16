@@ -85,10 +85,16 @@ class TCmdSite
 		$favicon .= $apple_default_icon;
 		//generate header
 		$this->addMeta($this->title, 'DC.title');
-		$out = $doctype;
-        $out .=	"\n<html".$lang.$ns."><head>".
-				"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n".
-				"<title>".$this->encode($this->title)."</title>\n";
+		$out = $doctype."\n";
+		$out .=	"<!--[if lt IE 7]><html".$lang.$ns." class=\"ie lt-ie9 lt-ie8 lt-ie7\"> <![endif]-->\n";
+		$out .=	"<!--[if IE 7]>   <html".$lang.$ns." class=\"ie lt-ie9 lt-ie8\"> <![endif]-->\n";
+		$out .=	"<!--[if IE 8]>   <html".$lang.$ns." class=\"ie lt-ie9\"> <![endif]-->\n";
+		$out .=	"<!--[if gt IE 8]><html".$lang.$ns." class=\"ie gt-ie8\"> <![endif]-->\n";
+		$out .=	"<!--[if !IE]> --><html".$lang.$ns."><!-- <![endif]-->\n";
+			
+		$out .=	"<head>";
+		$out .=	"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n";
+		$out .=	"<title>".$this->encode($this->title)."</title>\n";
 		$out .= sprintf("<base href=\"%s\" />\n", SLink::base());
 		$out .=	$favicon."\n";
 		foreach(array($this->metaTags, $this->linkTags) as $tag){
