@@ -26,7 +26,8 @@ class UBasicSettings
         'website_rendering' => array(
             'template_for_page_rendering' => 'generator_content',
             'login_template' => 'login_template',
-            'path_style_urls' => 'wellformed_urls'
+            'path_style_urls' => 'wellformed_urls',
+						'alias_format' => 'content.alias.format'
         ),
         'management' => array(
             'enable_management_cache_manifest' => 'enable_management_cache_manifest'
@@ -54,7 +55,13 @@ class UBasicSettings
                         }
                         $data[$mk] = array(Core::Settings()->get($cc), Settings::TYPE_SELECT, $options, $cc);
                         break;
-                       
+										case 'content.alias.format';
+                       	$data[$mk] = array(Core::Settings()->get($cc), Settings::TYPE_SELECT, array(
+                       		'title_before_date' => '@-Y-m-d',
+                       		'date_before_title' => 'Y-m-d-@',
+                       		'title_only' => '@'
+                       	), $cc);
+												break;
                     case 'wellformed_urls':
                     case 'enable_management_cache_manifest':
                         $data[$mk] = array(Core::Settings()->get($cc), Settings::TYPE_CHECKBOX, null, $cc);
