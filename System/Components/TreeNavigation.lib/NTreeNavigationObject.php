@@ -179,6 +179,7 @@ class NTreeNavigationObject
 	private function renderLegacyNodeString($selected)
 	{
 		$pfx = '';
+		$html = '';
 		if($this->Navigation->isAccessable($this))//$this->accessable)
 		{
 			$html = sprintf(
