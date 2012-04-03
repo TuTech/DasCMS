@@ -151,8 +151,9 @@ class NTreeNavigationObject
 	 */
 	private function rootString()
 	{
+		$class = Core::Settings()->get('navigation.render_full') ? 'navigation' : 'NavigationRoot';
 		return $this->hasChildren()  
-		        ? sprintf("<div class=\"NavigationRoot\">%s</div>" ,strval($this->firstChild) )
+		        ? sprintf("<div class=\"%s\">%s</div>", $class, strval($this->firstChild))
 		        : '';
 	}
 	
@@ -167,11 +168,19 @@ class NTreeNavigationObject
 		{
 			throw new XInvalidDataException('no NTreeNavigation assigned');
 		}
-		$html = '';
+		$selected = $this->Navigation->isSelectedElement($this);
+		if (Core::Settings()->get('navigation.render_full')) {
+			return $this->renderNodeString($selected);
+		} else {
+			return $this->renderLegacyNodeString($selected);
+		}
+	}
+	
+	private function renderLegacyNodeString($selected)
+	{
 		$pfx = '';
 		if($this->Navigation->isAccessable($this))//$this->accessable)
 		{
-		    $selected = $this->Navigation->isSelectedElement($this);
 			$html = sprintf(
 				"%s<div class=\"NavigationObject%s%s%s\">%s<a%s href=\"%s\">%s</a>"
 				,$pfx
@@ -202,6 +211,34 @@ class NTreeNavigationObject
 		return $html;
 	}
 	
+	private function renderNodeString($selected)
+	{
+		$html = sprintf(
+			"<div class=\"item%s%s%s\"><a%s href=\"%s\">%s</a>"
+			,($this->hasChildren())
+				?' tree'
+				:''
+			,($selected) 
+				? ' selected' 
+				: ''
+			,' _'.preg_replace('/[^a-zA-Z0-9_-]/', '_', $this->Navigation->getAlias($this))
+			,($selected) 
+				? ' class="selected"' 
+				: ''
+			,strval($this->Navigation->linkTo($this))
+			,String::htmlEncode(strval($this->Navigation->getTitle($this)))
+		);		
+		$html .= ($this->hasChildren())
+			? sprintf("<div class=\"children\">%s</div>", strval($this->firstChild))
+			: '';
+		$html .= "</div>";
+
+		$html .= ($this->hasNext())
+			? strval($this->next)
+			: '';
+		return $html;
+	}
+	
 	public function __toString()
 	{
 		return ($this->isRoot())
@@ -218,9 +255,10 @@ class NTreeNavigationObject
 	public function initTree(NTreeNavigationHelper $nav)
 	{
 		$this->Navigation = $nav;
-		if($this->alias == $nav->getContentCMSID())
-		//report all directly accessed nodes
-		$this->reportVisibility();
+		if($this->alias == $nav->getContentCMSID() || Core::Settings()->get('navigation.render_full')){
+			//report all directly accessed nodes
+			$this->reportVisibility();
+		}
 		if($this->hasChildren())
 		{
 			$this->firstChild->initTree($nav);

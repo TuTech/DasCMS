@@ -1,1 +1,1 @@
-{"classes":["Controller_Application_TreeNavigationEditor","NTreeNavigation","NTreeNavigationHelper","NTreeNavigationObject","Setup_TreeNavigation"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}
+{"classes":["TreeNavigationSettings","Controller_Application_TreeNavigationEditor","NTreeNavigation","NTreeNavigationHelper","NTreeNavigationObject","Setup_TreeNavigation"],"interfaces":[],"undefined":[],"invokeOnLaunch":[],"invokeOnEvent":[]}
